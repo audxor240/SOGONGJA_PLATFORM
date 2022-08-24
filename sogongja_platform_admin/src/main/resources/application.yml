@@ -7,18 +7,29 @@ spring:
       max-file-size: 500MB
       max-request-size: 900MB
     
-  cache:    type: none
+  cache:
+    type: none
     
   thymeleaf:
     mode: HTML5
     cache: false
-      web:    resources:      chain:        strategy:          fixed:            enabled: true   
+    
+  web:
+    resources:
+      chain:
+        strategy:
+          fixed:
+            enabled: true
+   
 server:
   servlet:
     session:
-      timeout: 120m      cookie:        name: SOGONGJA_ADMIN_JSESSIONID
+      timeout: 120m
+      cookie:
+        name: SOGONGJA_ADMIN_JSESSIONID
     encoding:
-      charset: UTF-8      force: true
+      charset: UTF-8
+      force: true
   error:
     whitelabel:
       enabled: false
@@ -32,14 +43,17 @@ system:
 ---
     
 spring:
-  config:    activate:      on-profile: local
+  config:
+    activate:
+      on-profile: local
   output:
     ansi:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://nfm.stoneitgt.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja      password: sogongja@2021!
+      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: sogongja
+      password: sogongja@2021!
 
 system:
   slack-send: false
@@ -73,11 +87,14 @@ logging:
 ---
 
 spring:
-  config:    activate:      on-profile: dev
+  config:
+    activate:
+      on-profile: dev
   primary:
     datasource:
       jdbc-url: jdbc:log4jdbc:mariadb://nfm.stoneitgt.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja      password: sogongja@2021!
+      username: sogongja
+      password: sogongja@2021!
       
 system:
   slack-send: false
@@ -86,7 +103,8 @@ system:
 
 server:
   port: 12081
-  servlet:    context-path: /sogongja_admin
+  servlet:
+    context-path: /sogongja_admin
 
 logging:
   file: 
@@ -110,11 +128,14 @@ logging:
 ---
 
 spring:
-  config:    activate:      on-profile: prod
+  config:
+    activate:
+      on-profile: prod
   primary:
     datasource:
       jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja      password: sogongja@2021!
+      username: sogongja
+      password: sogongja@2021!
       
 system:
   slack-send: false
