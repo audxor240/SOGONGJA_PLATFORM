@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>교육 및 컨설팅 질문</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 교육 및 컨설팅 질문">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 교육 및 컨설팅 서비스 매칭을 위한 질문">
+    <meta name="keywords" content="소공자 플랫폼, 교육, 컨설팅 서비스 매칭, 창업, 사업, 폐업, 상권">
+    <meta name="description" content="소공자 플랫폼 교육 및 컨설팅 서비스 매칭을 위한 질문">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">소공자 과외방</h2>
+                <p>입력한 정보를 기반으로 나에게 필요한 교육 및 컨설팅 콘텐츠를 맞춤형으로 제공해드립니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li class="active"><a th:href="@{/solution/education}">맞춤형 교육</a></li>
+                    <li><a th:href="@{/solution/consulting}">맞춤형 컨설팅</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container question">
+                <h3>교육 및 컨설팅 서비스 매칭을 위한 질문</h3>
+                <p>김나모님께 적합한 교육 또는 컨설팅 서비스를 제공해 드리기위해 몇가지 질문을 드립니다.<br>김나모님의 상황에 맞는 적절한 답변을 선택해 주세요.</p>
+                <div class="question_div">
+                    <div class="question_800">
+                        <ul>
+                            <li class="">
+                                <p><span>01.</span>현재 어떤 과정이신가요?</p>
+                                <div>
+                                    <ul>
+                                        <li>
+                                            <input type="radio" class="radio_style" id="q1" checked="" name="q">
+                                            <label for="q1">창업 준비중</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" class="radio_style" id="q2" name="q">
+                                            <label for="q2">사업 준비중</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" class="radio_style" id="q3" name="q">
+                                            <label for="q3">폐업(예정)중</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="hide">
+                                <p><span>02.</span>현재 업종을 알려주세요. (복수 선택 가능)</p>
+                                <div>
+                                    <table class="ques_table">
+                                        <caption>현재 업종을 알려주세요. </caption>
+                                        <tr>
+                                            <th>대분류</th>
+                                            <td>
+                                                <select name="" id="">
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>업종</th>
+                                            <td>
+                                                <select name="" id="">
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>세분류</th>
+                                            <td>
+                                                <select name="" id="">
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                    <option value="">선택해주세요.</option>
+                                                </select>
+                                                <ul>
+                                                    <li>
+                                                        <select name="" id="">
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                        </select>
+                                                        <button class="minus">삭제</button>
+                                                    </li>
+                                                    <li>
+                                                        <select name="" id="">
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                        </select>
+                                                        <button class="minus">삭제</button>
+                                                    </li>
+                                                    <li>
+                                                        <select name="" id="">
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                            <option value="">56111 한식 음식점업.</option>
+                                                        </select>
+                                                        <button class="plus">추가</button>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </li>
+                            <li class="hide">
+                                <p><span>03.</span>어떤 상권에서 사업 실행 중인가요?</p>
+                                <div>
+                                    <ul class="ul_3">
+                                        <li>
+                                            <input type="radio" id="w1" name="w" class="radio_style radio_style2" checked="">
+                                            <label for="w1"><span>1</span>창업 준비중</label>
+                                            <div class="info_b">
+                                                <button class="ques_info_btn">info</button>
+                                                <div class="ques_tooltip">누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="w2" name="w" class="radio_style radio_style2">
+                                            <label for="w2"><span>2</span>발달상권</label>
+                                            <div class="info_b">
+                                                <button class="ques_info_btn">info</button>
+                                                <div class="ques_tooltip">누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="w3" name="w" class="radio_style radio_style2">
+                                            <label for="w3"><span>3</span>전통시장 상권</label>
+                                            <div class="info_b">
+                                                <button class="ques_info_btn">info</button>
+                                                <div class="ques_tooltip">누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="w4" name="w" class="radio_style radio_style2">
+                                            <label for="w4"><span>4</span>관광특구상권</label>
+                                            <div class="info_b">
+                                                <button class="ques_info_btn">info</button>
+                                                <div class="ques_tooltip">누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. </div>
+                                            </div>
+                                        </li>
+                                        <li class="other">
+                                            <input type="radio" id="w5" name="w" class="radio_style radio_style2">
+                                            <label for="w5"><span>5</span>기타</label>
+                                            <input type="text" placeholder="기타상권을 입력해주세요." id="other_input" disabled="true" title="기타상권 입력">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="hide">
+                                <p><span>04.</span>사업 성장을 위한 길! 관심있는 분야의 순위를 매겨주세요 (복수 선택 시 순위)</p>
+                                <div>
+                                    <ul class="ul_3">
+                                        <li>
+                                            <input type="checkbox" id="e1" name="e" class="radio_style radio_style2" checked="">
+                                            <label for="e1"><span>1</span><p>경영</p></label>
+                                            <span class="ranking">1순위</span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e2" name="e" class="radio_style radio_style2">
+                                            <label for="e2"><span>2</span><p>법무</p></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e3" name="e" class="radio_style radio_style2">
+                                            <label for="e3"><span>3</span><p>세무/노무</p></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e4" name="e" class="radio_style radio_style2">
+                                            <label for="e4"><span>4</span><p>마케팅</p></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e5" name="e" class="radio_style radio_style2">
+                                            <label for="e5"><span>5</span><p>IT</p></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e6" name="e" class="radio_style radio_style2">
+                                            <label for="e6"><span>6</span><p>유통/판매</p></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="e7" name="e" class="radio_style radio_style2">
+                                            <label for="e7"><span>7</span><p>상권정보</p></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!--숨기고 싶을 때 li에 class hide 추가해주세요-->
+                            <li class="hide">
+                                <p><span>05.</span>상권관리조직에 관심이 있거나 참여하고 있나요? (상연회, 협동조합 등)</p>
+                                <div>
+                                    <ul class="ul_3">
+                                        <li>
+                                            <input type="radio" id="r1" name="r" class="radio_style radio_style2" checked="">
+                                            <label for="r1"><span>1</span>관심 없음</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="r2" name="r" class="radio_style radio_style2" >
+                                            <label for="r2"><span>2</span>관심 있음</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="r3" name="r" class="radio_style radio_style2" >
+                                            <label for="r3"><span>3</span>참여중 (회원, 조합원 등)</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="r4" name="r" class="radio_style radio_style2" >
+                                            <label for="r4"><span>4</span>운영중 (간부) </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn_wrap">
+                 <button class="prev_btn">이전</button>
+                 <button class="next_btn">다음</button>
+                </div>
+            </div>
+            <!--알림 모달-->
+            <div class="modal" style="display:none">
+                <div class="dim"></div>
+                <div class="modal_inner">
+                    <h4>알림</h4>
+                    <p>답변을 선택하지 않았습니다. <br>질문에 대한 답변을 선택해 주세요.</p>
+                    <button class="check">확인</button>
+                    <button class="close">닫기</button>
+                </div>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+     <script th:src="@{/js/pages/user/sub.js}"></script>
+    </th:block>
+</body>
+
+</html>

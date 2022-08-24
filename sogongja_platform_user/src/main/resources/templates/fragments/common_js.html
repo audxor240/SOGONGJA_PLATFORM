@@ -1,0 +1,6 @@
+<!--/* plugin js for this page */-->
+<script th:src="@{/js/libs/jquery-3.5.1.min.js}"></script>
+<!--/* inject:js */-->
+<th:block th:with="ver=${@environment.getProperty('system.version')}">
+    <script th:src="@{/js/common.js(ver=${ver})}"></script>
+</th:block>

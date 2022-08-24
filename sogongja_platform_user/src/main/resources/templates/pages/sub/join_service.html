@@ -1,0 +1,145 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+<body>
+	<article layout:fragment="content">
+		<section class="sub_visual user_visual">
+			<div class="container">
+				<h2>회원가입</h2>
+				<p>회원가입을 하여 다양한 서비스를 이용해 보세요.</p>
+				<ul class="bread_crumbs">
+					<li><a href="/">홈</a></li>
+					<li><a href="#n">회원가입</a></li>
+				</ul>
+			</div>
+		</section>
+		<div class="wrap">
+			<div class="container ">
+				<section class="sub_title sub_container">
+					<ul>
+						<li>01 약관동의</li>
+						<li>02 정보입력</li>
+						<li>03 관심지역</li>
+						<li>04 관심분야</li>
+						<li><h3>05 서비스 매칭 질문</h3></li>
+					</ul>
+				</section>
+				<div class="join_service sub_container">
+					<div class="service_Q">
+						<p><span>공통</span>현재 어떤 과정인가요?</p>
+						<ul class="flex_box">
+							<li>
+								<input type="radio" name="cate" id="cate1" class="radio_style" checked="">
+								<label for="cate1">창업준비중</label>
+							</li>
+							<li>
+								<input type="radio" name="cate" id="cate2" class="radio_style">
+								<label for="cate2">사업 실행중</label>
+							</li>
+							<li>
+								<input type="radio" name="cate" id="cate3" class="radio_style">
+								<label for="cate3">폐업(예정)중</label>
+							</li>
+						</ul>
+					</div>
+					<div class="service_Q">
+						<p><span>창업 준비중</span>창업 준비 중인 경우 아래 항목에 체크 해주세요(중복 체크 가능)</p>
+						<ul>
+							<li>
+								<input type="checkbox" id="cate4" class="checkbox_style">
+								<label for="cate4">창업에 대한 전반적인 정보를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate5" class="checkbox_style">
+								<label for="cate5">사업타당성을 분석 및 사업 계획 방법을 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate6" class="checkbox_style">
+								<label for="cate6">창업에 대한 지원 및 제도를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate7" class="checkbox_style">
+								<label for="cate7">상권 분석 방법을 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate8" class="checkbox_style">
+								<label for="cate8">상권을 관리하는 조직에 대해 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate9" class="checkbox_style">
+								<label for="cate4">창전통시장에 대한 상권 정보를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate4" class="checkbox_style">
+								<label for="cate9">성공적인 장사에 대한 사례를 알고 싶다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate10" class="checkbox_style">
+								<label for="cate10">사업 실행 단계의 강좌를 추천 받으시겠습니까?</label>
+							</li>
+						</ul>
+					</div>
+					<div class="service_Q">
+						<p><span>사업 실행중</span>사업 준비 중인 경우 아래 항목에 체크 해주세요(중복 체크 가능)</p>
+						<ul>
+							<li>
+								<input type="checkbox" id="cate4" class="checkbox_style">
+								<label for="cate4">창업에 대한 전반적인 정보를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate5" class="checkbox_style">
+								<label for="cate5">사업타당성을 분석 및 사업 계획 방법을 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate6" class="checkbox_style">
+								<label for="cate6">창업에 대한 지원 및 제도를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate7" class="checkbox_style">
+								<label for="cate7">상권 분석 방법을 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate10" class="checkbox_style">
+								<label for="cate10">사업 실행 단계의 강좌를 추천 받으시겠습니까?</label>
+							</li>
+						</ul>
+					</div>
+					<div class="service_Q">
+						<p><span>사업 실행중</span>사업 준비 중인 경우 아래 항목에 체크 해주세요(중복 체크 가능)</p>
+						<ul>
+							<li>
+								<input type="checkbox" id="cate4" class="checkbox_style">
+								<label for="cate4">창업에 대한 전반적인 정보를 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate5" class="checkbox_style">
+								<label for="cate5">사업타당성을 분석 및 사업 계획 방법을 알고 있다</label>
+							</li>
+							<li>
+								<input type="checkbox" id="cate6" class="checkbox_style">
+								<label for="cate6">창업에 대한 지원 및 제도를 알고 있다</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+					<div class="btn_box">
+						<a class="btn btn_grey" href="join_field">이전</a>
+						<a class="btn" href="#nhtml">완료</a>
+					</div>
+			</div>
+		</div>
+	</article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/selectBox.js}"></script>
+    </th:block>
+</body>
+</html>

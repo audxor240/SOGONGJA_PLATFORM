@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>보도자료</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 게시판">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 게시판">
+    <meta name="keywords" content="소공자 플랫폼, 게시판, 첨부파일, 제목, 작성일, 보도자료, 공지사항">
+    <meta name="description" content="소공자 플랫폼 게시판">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">소공자 물어방</h2>
+            </div>
+            <th:block th:include="pages/board/board_nav"></th:block>
+            <section class="wrap">
+                <div class="sub_container">
+                    <div class="view">
+                        <div class="view_title">
+                            <h3 th:text="${data.subject}">소상공인 불공정 피해 상담센터 운영</h3>
+                            <p>
+                                작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
+                            </p>
+                        </div>
+                        <div class="view_text" id="viewer"></div>
+                        <ul class="file_list" th:if="${not #lists.isEmpty(fileList)}">
+                            <li th:each="item : ${fileList}">
+                                <a th:href="@{|/file/download/${item.file_seq}|}" th:text="${item.file_name}" download="">(Q&A)2021년 온라인미디어 예술활동 지원 주요 문의사항.pdf</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn_box">
+                    <a class="btn btn_grey" th:href="@{|/board/${boardType}|}">목록으로</a>
+                </div>
+                </div>
+    </article>
+    <th:block layout:fragment="custom_css">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/toastui-editor-viewer.css}">
+    </th:block>
+    <th:block layout:fragment="custom_js">
+        <script th:inline="javascript">
+        var tui_content = /*[[${data.content}]]*/ '';
+        </script>
+        <script th:src="@{/js/libs/codemirror.js}"></script>
+        <script th:src="@{/js/libs/toastui-editor-viewer.js}"></script>
+        <script th:src="@{/js/pages/board/board_view.js}"></script>
+    </th:block>
+</body>
+
+</html>

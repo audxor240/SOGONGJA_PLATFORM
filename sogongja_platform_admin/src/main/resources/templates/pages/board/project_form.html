@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">게시판관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <form name="editForm" th:action="@{/board/project/form}" th:object="${project}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+        <input type="hidden" th:field="*{projectSeq}">
+        <input type="hidden" th:field="*{content}">
+        <input type="hidden" name="menuCode" th:value="${menuCode}">
+        <input type="hidden" name="pageParams" th:value="${pageParams}">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label required">지원사업분류</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" th:field="*{projectType}" required="required">
+                                            <option th:each="item : ${projectType}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        </select>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('projectType')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label required">사업년도</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{projectYear}" maxlength="4" class="form-control number_only" required="required">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('projectYear')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label required">사업지역</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" th:field="*{place}" required="required">
+                                            <option th:each="item : ${place}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        </select>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('place')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">지원사업명</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">내용</label>
+                                    <div class="col-sm-10">
+                                        <div id="editor" style="height: 500px;"></div>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <label class="col-form-label">첨부파일</label><br>
+                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file">추가</button>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
+                                            <div class="pt-2 attach-file">
+                                                <div class="input-group">
+                                                    <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-1 mr-2" th:text="${item.file_name}">파일명</a>
+                                                    <span class="input-group-append">
+                                                        <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                        <div class="attach-file-group">
+                                            <div class="pt-2 attach-file" th:if="${#lists.isEmpty(fileList) || #lists.size(fileList) < 5}">
+                                                <input type="file" name="attachFiles" class="file-upload-default">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control file-upload-title" disabled="disabled" placeholder="">
+                                                    <span class="input-group-append">
+                                                        <button type="button" class="file-upload-browse btn btn-primary">파일선택</button>
+                                                        <button type="button" class="btn btn-danger btn-delete-upload ml-3">삭제</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger mt-2">
+                                            첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{projectSeq == 0}">
+                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                </button>
+                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{projectSeq == 0}">
+                    <i class="btn-icon-prepend" data-feather="edit"></i>수정
+                </button>
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/project?${pageParams}|}">
+                    <i class="btn-icon-prepend" data-feather="list"></i>목록
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block layout:fragment="custom_css">
+    <link rel="stylesheet" th:href="@{/assets/css/codemirror.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/tui-color-picker.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/toastui-editor.css}" />
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+    var tui_content = /*[[${project.content}]]*/ '';
+    var editor;
+    </script>
+    <script th:src="@{/assets/js/libs/codemirror.js}"></script>
+    <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
+    <script th:src="@{/assets/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
+    <script th:src="@{/assets/js/file-upload.js}"></script>
+    <script th:src="@{/assets/js/pages/board/board_form.js}"></script>
+</th:block>
+
+</html>

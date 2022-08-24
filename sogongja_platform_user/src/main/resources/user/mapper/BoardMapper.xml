@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.BoardMapper">
+
+	<select id="getBoardList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getBoardList */
+		  SELECT A.*
+		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		       , U.USERNAME                          AS REG_USERNAME
+		       , (SELECT COUNT(1)
+		            FROM ST_FILES F
+		           WHERE F.DEL_FLAG = 0
+		             AND F.REF_TYPE = 'BOARD'
+		             AND F.REF_SEQ  = A.BOARD_SEQ
+		         ) AS FILE_CNT
+		    FROM ST_BOARD A
+		       INNER JOIN ST_USER U
+		               ON A.REG_USER_SEQ = U.USER_SEQ
+		   WHERE A.DEL_FLAG              = 0
+		     AND A.BOARD_TYPE            = #{board_type}
+		<if test="keyword != null and keyword != ''">
+		     AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC
+	/*||ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC||*/
+	</select>
+
+	<select id="getBoardCategoryCount" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardCategoryCount */
+		SELECT MAX(IF(T.CATEGORY = 'CON', T.CNT, 0))   AS CON_CNT
+		     , MAX(IF(T.CATEGORY = 'EDU', T.CNT, 0))   AS EDU_CNT
+		     , MAX(IF(T.CATEGORY = 'USER', T.CNT, 0))  AS USER_CNT
+		     , MAX(IF(T.CATEGORY = 'GUIDE', T.CNT, 0)) AS GUIDE_CNT
+		     , SUM(CNT)                                AS TOTAL_CNT
+		  FROM (  SELECT A.CATEGORY
+		              , COUNT(*) AS CNT
+		           FROM ST_BOARD A
+		          WHERE A.DEL_FLAG   = 0
+		            AND A.BOARD_TYPE = #{board_type}
+		        <if test="keyword != null and keyword != ''">
+	                AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+		        </if>
+		       GROUP BY A.CATEGORY
+		       ) T
+    </select>
+
+	<insert id="insertBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : insertBoard */
+		INSERT
+		  INTO ST_BOARD (
+		              BOARD_SEQ
+		            , BOARD_TYPE
+		            , SUBJECT
+		            , CONTENT
+		            , CATEGORY
+		            , NOTICE_FLAG
+		            , POPUP_FLAG
+		            , FROM_DT
+		            , TO_DT
+		            , TAGS
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{boardSeq}
+		            , #{boardType}
+		            , #{subject}
+		            , #{content}
+		            , #{category}
+		            , #{noticeFlag}
+		            , #{popupFlag}
+		            , #{fromDt}
+		            , #{toDt}
+		            , #{tags}
+		            , #{loginUserSeq})
+
+		<selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : updateBoard */
+		UPDATE ST_BOARD
+		   SET BOARD_TYPE   = #{boardType}
+		     , SUBJECT      = #{subject}
+		     , CONTENT      = #{content}
+		     , CATEGORY     = #{category}
+		     , NOTICE_FLAG  = #{noticeFlag}
+		     , POPUP_FLAG   = #{popupFlag}
+		     , FROM_DT      = #{fromDt}
+		     , TO_DT        = #{toDt}
+		     , TAGS         = #{tags}
+		     , MOD_USER_SEQ = #{loginUserSeq}
+		     , MOD_DATE     = CURRENT_TIMESTAMP()
+		 WHERE BOARD_SEQ    = #{boardSeq}
+	</update>
+
+	<update id="deleteBoard" parameterType="map" >
+		/* file : BoardMapper.xml, id : deleteBoard */
+		  UPDATE ST_BOARD
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE BOARD_SEQ    = #{board_seq}
+	</update>
+
+	<select id="getBoard" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getBoard */
+		SELECT A.*
+		     , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		     , B.USERNAME                          AS REG_USERNAME
+		  FROM ST_BOARD A
+		   INNER JOIN ST_USER B
+		           ON A.REG_USER_SEQ = B.USER_SEQ
+		 WHERE A.DEL_FLAG            = 0
+		   AND A.BOARD_SEQ           = #{boardSeq}
+	</select>
+
+	<update id="updateBoardReadCnt" parameterType="int">
+		/* file : BoardMapper.xml, id : updateBoardReadCnt */
+		UPDATE ST_BOARD
+		   SET READ_CNT  = IFNULL(READ_CNT, 0) + 1
+		 WHERE BOARD_SEQ = #{boardSeq}
+	</update>
+
+	<select id="getPopNoticeBoard" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getPopNoticeBoard */
+		SELECT
+			*
+		FROM ST_BOARD
+		WHERE del_flag = 0
+		AND   notice_flag = 1
+		AND   popup_flag = 1
+		AND   BOARD_TYPE = 'notice'
+		<![CDATA[
+		AND   from_dt <= DATE_FORMAT(NOW(), '%Y%m%d')
+		AND   to_dt >= DATE_FORMAT(NOW(), '%Y%m%d')
+		]]>
+	</select>
+
+	<select id="getBoardLawList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardLawList */
+		  SELECT L.*
+		       , DATE_FORMAT(L.REG_DATE, '%Y-%m-%d')     AS REG_DT
+		       , LAW_TYPE.CODE_NAME                      AS LAW_TYPE_NAME
+		       , LAW_CLASS.CODE_NAME                     AS LAW_CLASS_NAME
+		       , DATE_FORMAT(L.LAW_DATE, '%Y.%c.%e')     AS LAW_DT
+               , DATE_FORMAT(L.ENFORCE_DATE, '%Y.%c.%e') AS ENFORCE_DT
+		    FROM ST_LAW L
+		       INNER JOIN ST_CODE_DTL LAW_TYPE
+		               ON LAW_TYPE.GRP_CODE = 'LAW_TYPE'
+		              AND LAW_TYPE.CODE     = L.LAW_TYPE
+		       INNER JOIN ST_CODE_DTL LAW_CLASS
+		               ON LAW_CLASS.GRP_CODE = 'LAW_CLASS'
+		              AND LAW_CLASS.CODE     = L.LAW_CLASS
+		   WHERE L.DEL_FLAG                  = 0
+        <if test="keyword != null and keyword != ''">
+             AND L.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		ORDER BY LAW_SEQ DESC
+    /*||ORDER BY LAW_SEQ DESC||*/
+    </select>
+
+	<select id="getBoardProjectList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardProjectList */
+		  SELECT P.*
+		       , DATE_FORMAT(P.REG_DATE, '%Y-%m-%d') AS REG_DT
+		       , PROJECT_TYPE.CODE_NAME              AS PROJECT_TYPE_NAME
+		       , SIDO.CODE_NAME                      AS PLACE_NAME
+		    FROM ST_PROJECT P
+		       INNER JOIN ST_CODE_DTL PROJECT_TYPE
+		               ON PROJECT_TYPE.GRP_CODE = 'PROJECT_TYPE'
+		              AND PROJECT_TYPE.CODE     = P.PROJECT_TYPE
+		       INNER JOIN ST_CODE_DTL SIDO
+		               ON SIDO.GRP_CODE = 'SIDO'
+		              AND SIDO.CODE     = P.PLACE
+		   WHERE P.DEL_FLAG             = 0
+        <if test="keyword != null and keyword != ''">
+             AND P.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		ORDER BY PROJECT_SEQ DESC
+    /*||ORDER BY PROJECT_SEQ DESC||*/
+    </select>
+
+    <select id="getProject" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getProject */
+          SELECT A.*
+               , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+            FROM ST_PROJECT A
+           WHERE A.DEL_FLAG    = 0
+             AND A.PROJECT_SEQ = #{projectSeq}
+    </select>
+
+    <select id="getLaw" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getLaw */
+          SELECT A.*
+               , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+            FROM ST_LAW A
+           WHERE A.DEL_FLAG = 0
+             AND A.LAW_SEQ  = #{lawSeq}
+    </select>
+
+    <update id="updateProjectReadCnt" parameterType="int">
+        /* file : BoardMapper.xml, id : updateProjectReadCnt */
+        UPDATE ST_PROJECT
+           SET READ_CNT    = IFNULL(READ_CNT, 0) + 1
+         WHERE PROJECT_SEQ = #{projectSeq}
+    </update>
+
+    <update id="updateLawReadCnt" parameterType="int">
+        /* file : BoardMapper.xml, id : updateLawReadCnt */
+        UPDATE ST_LAW
+           SET READ_CNT = IFNULL(READ_CNT, 0) + 1
+         WHERE LAW_SEQ  = #{lawSeq}
+    </update>
+
+</mapper>

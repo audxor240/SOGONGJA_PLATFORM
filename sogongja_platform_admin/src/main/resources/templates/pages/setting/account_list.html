@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">사용자관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form name="searchForm" th:action="@{/setting/account(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <select th:field="*{field}" class="form-control">
+                                            <option value="account_no">계좌번호</option>
+                                            <option value="account_user_name">예금주</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
+                                    <i class="btn-icon-prepend" data-feather="search"></i>조회
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-icon-text btn-add-account">
+                                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-description">
+                        <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
+                    </p>
+                    <p class="card-description"></p>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 5%;">
+                                <col style="width: 15%;">
+                                <col style="width: 20%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                                <col style="width: 15%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>입금은행</th>
+                                    <th>입금계좌번호</th>
+                                    <th>예금주</th>
+                                    <th>비고</th>
+                                    <th>등록일</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                    <td th:text="${paging.total - item.rnum + 1}">1</td>
+                                    <td th:text="${item.bank_name}">bank</td>
+                                    <td th:text="${item.account_no}">account_no</td>
+                                    <td th:text="${item.account_user_name}">account_user_name</td>
+                                    <td th:text="${item.description}">description</td>
+                                    <td th:text="${item.reg_dt}">등록일</td>
+                                    <td class="text-right">
+                                    	<button type="button" class="btn btn-outline-primary btn-sm mr-2 btn-modify" th:data-account-seq="${item.account_seq}">수정</button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-account-seq="${item.account_seq}">삭제</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="modal-account" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">계좌관리</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <form id="editForm" method="post">
+                            	<input type="hidden" id="account_seq" >
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label required">입금은행</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="bank" required="required">
+                                        	<option th:each="item : ${bankList}" th:value="${item.code}" th:text="${item.code_name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label required">입금계좌번호</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="account_no" maxlength="30" placeholder="" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label required">예금주</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="account_user_name" maxlength="50" placeholder="" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">비고</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="description" maxlength="100" placeholder="" required="required">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark btn-icon-text mr-2 btn-register">
+                        <i class="btn-icon-prepend" data-feather="edit"></i>저장
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-icon-text" data-dismiss="modal">
+                        <i class="btn-icon-prepend" data-feather="x-square"></i>닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- // modal -->
+</div>
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/assets/js/pages/setting/account_list.js}"></script>
+</th:block>
+
+</html>

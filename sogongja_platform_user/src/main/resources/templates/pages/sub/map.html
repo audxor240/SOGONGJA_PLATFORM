@@ -1,0 +1,396 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+    <head>
+        <title>소공자플랫폼 상권분석</title>
+        <meta property="og:url" content="">
+        <meta property="og:title" content="">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <style>
+        header,
+        footer{display: none;}
+        </style>
+    </head>
+    <body>
+        <article layout:fragment="content">
+            <div class="map_header">
+                <div class="left_hd">
+                    <h1><a href="/">소공자플랫폼 상권분석</a></h1>
+                    <ul>
+                        <li>
+                            <div class="custom-select">
+                                <select name="" id="">
+                                    <option value="">서울시</option>
+                                    <option value="">서울시</option>
+                                    <option value="">서울시</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-select">
+                                <select name="" id="">
+                                    <option value="">송파구</option>
+                                    <option value="">송파구</option>
+                                    <option value="">송파구</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="map_search">
+                        <form action="">
+                            <legend>상권 지도 검색</legend>
+                            <label for="map_s">상권 지도검색</label>
+                            <input type="text" id="map_s" placeholder="상권 지도 검색">
+                            <button>검색</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="right_hd">
+                    <ul>
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="certification">회원가입</a></li>
+                        <li><a href="#">마이페이지</a></li>
+                        <li><a href="#">사용자가이드</a></li>
+                        <li class="map_menu"><a href="#">메뉴</a></li>
+                    </ul>
+                    <div class="menu">
+                        <ul>
+                            <li>
+                                <h2>소공자 서비스</h2>
+                                <ul>
+                                    <li><a href="service_edu">소공자 교육</a></li>
+                                    <li><a href="service_consulting">소공자 컨설팅</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h2>소공자 상권</h2>
+                                <ul>
+                                    <li><a href="#n">상권정보</a></li>
+                                     <li><a href="map">상권분석</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h2>마이솔루션</h2>
+                                <ul>
+                                    <li><a href="solution_edu">맞춤형 교육</a></li>
+                                    <li><a href="solution_consulting">맞춤형 컨설팅</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h2>알림마당</h2>
+                                <ul>
+                                    <li><a href="board_data">보도자료</a></li>
+                                    <li><a href="board_notice">공지사항</a></li>
+                                    <li><a href="board_faq">자주하는 질문</a></li>
+                                    <li><a href="#n">커뮤니티</a></li>
+                                    <li><a href="board_public">공공지원사업 및 정책</a></li>
+                                    <li><a href="board_statute">법령 및 조례</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap">
+                <div id="map_wrap">
+                   <div id="map" style="width:100%;height:100%;"></div>
+
+                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
+
+                    <div class="map_tab">
+                        <div class="tab_top">
+                            <a href="#n" id="setCenter">상권영역</a>
+                            <ul class="map_tab_list">
+                                <li class="active">
+                                    <a href="#n" id="panTo" >발달상권</a>
+                                </li>
+                                <li>
+                                    <a href="#n" >골목상권</a>
+                                </li>
+                                <li>
+                                    <a href="#n" >전통시장</a>
+                                </li>
+                                <li>
+                                    <a href="#n">관광특구</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab_a tab_a1">
+                            <ul class="accordion">
+                                <li>
+                                    <p><a href="#n">상권분석정보</a></p>
+                                    <div class="accordion_cont tab_a1_div">
+                                        <ul class="tooltip_box">
+                                            <li class="blue">
+                                                <p>상권활성화지수 <span>2,456</span></p>
+                                                <div class="tooltip">
+                                                    <p>상권활성화지수 <span> 2,567</span></p>
+                                                    <div>
+                                                        <p>해당 상권은 지속적으로 활성화되고 있습니다. </p>
+                                                        <p>해당 상권은 현재 활성화정도를 유지하기 위해 노력해야 합니다.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="orange">
+                                                <p>상권활성화 예측지수 <span>2,456</span></p>
+                                                <div class="tooltip">
+                                                    <p>상권활성화 예측지수 <span> 2,567</span></p>
+                                                    <div>
+                                                        <p>해당 상권은 지속적으로 활성화되고 있습니다. </p>
+                                                        <p>해당 상권은 현재 활성화정도를 유지하기 위해 노력해야 합니다.</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="tab_style1 tab_style">
+                                            <ul class="tab2 tab_li">
+                                                <li class="active"><a href="#n">상권활설화지수 년도별</a></li>
+                                                <li><a href="#n">상권활설화지수 분기별</a></li>
+                                            </ul>
+                                            <div class="tab_b tab_b1">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b2">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style">
+                                            <ul class="tab_li w100">
+                                                <li class="active"><a href="#n">매출/임대 상승률</a></li>
+                                            </ul>
+                                            <div class="">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p><a href="#n">상권특성정보</a></p>
+                                    <div class="accordion_cont tab_a1_div">
+                                        <div class="tab_style1 tab_style_grey">
+                                            <ul class="tab2 tab_li2">
+                                                <li class="active"><a href="#n">개업률</a></li>
+                                                <li><a href="#n">영업기간</a></li>
+                                                <li><a href="#n">매출액</a></li>
+                                                <li><a href="#n">임대시세</a></li>
+                                            </ul>
+                                            <div class="tab_b tab_b1">
+                                                <div>
+                                                    <img th:src="@{/images/temp2.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b2">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b3">
+                                                <div>
+                                                    <img th:src="@{/images/temp2.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b4">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style1 tab_style">
+                                            <ul class="tab2 tab_li">
+                                                <li class="active"><a href="#n">개업률</a></li>
+                                                <li><a href="#n">폐업률</a></li>
+                                            </ul>
+                                            <div class="tab_b tab_b1">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                                <div class="bt">
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b2">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                                <div class="bt">
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style">
+                                            <ul class="tab_li w100">
+                                                <li class="active"><a href="#n">업종별 평균 개•폐업률 순위</a></li>
+                                            </ul>
+                                            <div class="">
+                                                <table class="tab_table">
+                                                    <caption>업종별 평균 개폐업률 순위</caption>
+                                                    <tr>
+                                                        <th>미용실</th>
+                                                        <td class="first">1위</td>
+                                                        <th>어린이집</th>
+                                                        <td>2위</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>애견샵</th>
+                                                        <td>3위</td>
+                                                        <th>주점</th>
+                                                        <td>4위</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>패스트푸드점</th>
+                                                        <td>5위</td>
+                                                        <th>화장품  점포</th>
+                                                        <td>6위</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>카페</th>
+                                                        <td>7위</td>
+                                                        <th>어린이집</th>
+                                                        <td>8위</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>서점</th>
+                                                        <td>9위</td>
+                                                        <th>종합학원</th>
+                                                        <td>10위</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p> <a href="#n">지역특성정보</a></p>
+                                    <div class="accordion_cont tab_a1_div">
+                                        <div class="blue_label"><p>상주인구 </p><span>2,456</span></div>
+                                        <div class="tab_style1 tab_style">
+                                            <ul class="tab2 tab_li">
+                                                <li class="active"><a href="#n">상주인구 연령대별</a></li>
+                                                <li><a href="#n">상주인구 성별별</a></li>
+                                            </ul>
+                                            <div class="tab_b tab_b1">
+                                                <div>
+                                                    <img th:src="@{/images/temp3.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b2">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style1 tab_style">
+                                            <ul class="tab2 tab_li tab_li4">
+                                                <li class="active"><a href="#n">유동인구 연령대별</a></li>
+                                                <li><a href="#n">상주인구 성별별</a></li>
+                                                <li><a href="#n">상주인구 요일별</a></li>
+                                                <li><a href="#n">상주인구 시간대별</a></li>
+                                            </ul>
+                                            <div class="tab_b tab_b1">
+                                                <div>
+                                                    <img th:src="@{/images/temp3.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b2">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b3">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="tab_b tab_b4">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style">
+                                            <ul class="tab_li w100">
+                                                <li class="active"><a href="#n">집객시설 <span>2,321,751</span></a></li>
+                                            </ul>
+                                            <div class="">
+                                                <table class="tab_table">
+                                                    <caption>업종별 평균 개폐업률 순위</caption>
+                                                    <tr>
+                                                        <th>미용실</th>
+                                                        <td class="">234,545개</td>
+                                                        <th>어린이집</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>애견샵</th>
+                                                        <td>14,547개</td>
+                                                        <th>주점</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>패스트푸드점</th>
+                                                        <td>14,547개</td>
+                                                        <th>화장품  점포</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>카페</th>
+                                                        <td>14,547개</td>
+                                                        <th>어린이집</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>서점</th>
+                                                        <td>14,547개</td>
+                                                        <th>종합학원</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>서점</th>
+                                                        <td>14,547개</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style">
+                                            <ul class="tab_li w100">
+                                                <li class="active"><a href="#n">전체 점포수</a></li>
+                                            </ul>
+                                            <div class="">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab_style">
+                                            <ul class="tab_li w100">
+                                                <li class="active"><a href="#n">업종별 점포수</a></li>
+                                            </ul>
+                                            <div class="">
+                                                <div>
+                                                    <img th:src="@{/images/temp1.png}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <th:block layout:fragment="custom_js">
+            <script th:src="@{/js/pages/user/selectBox.js}"></script>
+            <script th:src="@{/js/pages/user/map.js}"></script>
+            <script th:src="@{/js/pages/user/tab.js}"></script>
+        </th:block>
+    </body>
+</html>

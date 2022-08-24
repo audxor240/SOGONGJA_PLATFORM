@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 회원가입">
+    <meta property="og:image" content="../images/img-logo-black.png">
+    <meta property="og:description" content="소공자 플랫폼 회원가입">
+    <meta name="keywords" content="소공자 플랫폼, 회원가입, 약관동의, 관심지역, 상권, 건물, 임대">
+    <meta name="description" content="소공자 플랫폼 회원가입">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">회원가입</h2>
+                <p>아직 계정이 없으신가요? 간단한 가입 후 더 많은 정보를 을 수 있습니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a th:href="@{/login}">로그인</a></li>
+                    <li class="active"><a th:href="@{/signup}">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container signup_info">
+                <ul class="info_stage">
+                    <li class="complete">01 약관동의</li>
+                    <li class="complete">02 정보입력</li>
+                    <li class="active">03 관심지역</li>
+                </ul>
+                <div class="stage_03 mypage_info ">
+                    <p>관심지역 추가</p>
+                    <table>
+                        <caption>관심지역 추가</caption>
+                        <tr>
+                            <th style="width: 25%;">유형</th>
+                            <td style="width: 75%;">
+                                <ul>
+                                    <li>
+                                        <input type="radio" checked="" class="radio_style radio_style3" id="z1" name="z">
+                                        <label for="z1">임대인</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" id="z2" name="z">
+                                        <label for="z2">임차인</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" id="z3" name="z">
+                                        <label for="z3">관계없음</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr class="border-bottom">
+                            <th>선택된 상권의 <br>젠트리피케이션 발생 유무</th>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <input type="radio" checked="" class="radio_style radio_style3" id="c1" name="c">
+                                        <label for="c1">발생전</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" id="c2" name="c">
+                                        <label for="c2">발생중</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" id="c3" name="c">
+                                        <label for="c3">발생됨</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>입지 및 관심지역</th>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" checked="" id="x1" name="x">
+                                        <label for="x1">건물</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style radio_style3" id="x2" name="x">
+                                        <label for="x2">관심지역</label>
+                                    </li>
+                                </ul>
+                                <div class="find_ad">
+                                    <input type="text" title="관심지역 입력" placeholder="관심지역을 입력해 주세요.">
+                                    <button class="ad">주소찾기</button>
+                                    <button class="plus">추가</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table2">
+                        <caption>건물/임대/발생</caption>
+                        <tbody>
+                            <tr class="border-top">
+                                <th style="width: 20%;">건물/임대/발생전</th>
+                                <td style="width: 80%;">
+                                    <div class="table_list">
+                                        <input type="text" title="건물">
+                                        <select name="" id="">
+                                            <option value="">단독</option>
+                                            <option value="">단독</option>
+                                        </select>
+                                        <select name="" id="">
+                                            <option value="">단독</option>
+                                            <option value="">단독</option>
+                                        </select>
+                                        <button type="button">삭제</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn_box">
+                    <a th:href="@{/signup/info}" class="btn">이전</a>
+                    <button type="button" class="btn blue" id="join_complete">완료</button>
+                </div>
+            </div>
+            <!--완료모달-->
+            <div class="modal" style="display:none">
+                <div class="dim"></div>
+                <div class="modal_inner modal_inner_signup">
+                    <h4>회원가입 완료</h4>
+                    <p><span>namowebiz</span>님의 회원가입이 완료되었습니다!</p>
+                    <a class="check blue" th:href="@{/login}">로그인 페이지로 이동</a>
+                    <button class="close">닫기</button>
+                </div>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/sub.js}"></script>
+    </th:block>
+</body>
+
+</html>

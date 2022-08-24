@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.FilesMapper">
+
+	<select id="getFileList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : FilesMapper.xml, id : getFileList */
+		SELECT *
+		  FROM ST_FILES
+		 WHERE DEL_FLAG = 0
+		   AND REF_TYPE = #{ref_type}
+		   AND REF_SEQ  = #{ref_seq}
+	</select>
+
+	<select id="getFile" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Files">
+		/* file : FilesMapper.xml, id : getFile */
+		SELECT *
+		  FROM ST_FILES
+		 WHERE DEL_FLAG = 0
+		   AND FILE_SEQ = #{file_seq}
+	</select>
+
+	<insert id="insertFile" parameterType="com.stoneitgt.sogongja.domain.Files">
+		/* file : FilesMapper.xml, id : insertFile */
+		INSERT
+		  INTO ST_FILES (
+		              FILE_SEQ
+		            , REF_TYPE
+		            , REF_SEQ
+		            , FILE_TYPE
+		            , FILE_NAME
+		            , FILE_PATH
+		            , FILE_EXT
+		            , FILE_BYTE
+		            , FILE_SIZE
+		            , FILE_CONTENT_TYPE
+		            , THUMBNAIL_PATH
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{fileSeq}
+		            , #{refType}
+		            , #{refSeq}
+		            , #{fileType}
+		            , #{fileName}
+		            , #{filePath}
+		            , #{fileExt}
+		            , #{fileByte}
+		            , #{fileSize}
+		            , #{fileContentType}
+		            , #{thumbnailPath}
+		            , #{loginUserSeq} )
+
+		<selectKey resultType="int" keyProperty="fileSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateFile" parameterType="com.stoneitgt.sogongja.domain.Files">
+		/* file : FilesMapper.xml, id : updateFile */
+		UPDATE ST_FILES
+		   SET FILE_PATH         = #{filePath}
+		     , FILE_CONTENT_TYPE = #{fileContentType}
+		     , THUMBNAIL_PATH    = #{thumbnailPath}
+		 WHERE FILE_SEQ          = #{fileSeq}
+	</update>
+
+	<update id="deleteFile" parameterType="map">
+		/* file : FilesMapper.xml, id : deleteFile */
+		UPDATE ST_FILES
+		   SET DEL_FLAG     = 1
+		     , DEL_USER_SEQ = #{login_user_seq}
+		     , DEL_DATE     = CURRENT_TIMESTAMP()
+		 WHERE FILE_SEQ     = #{file_seq}
+	</update>
+
+	<update id="deleteFileAll" parameterType="map">
+		/* file : FilesMapper.xml, id : deleteFile */
+		UPDATE ST_FILES
+		   SET DEL_FLAG     = 1
+		     , DEL_USER_SEQ = #{login_user_seq}
+		     , DEL_DATE     = CURRENT_TIMESTAMP()
+		 WHERE REF_TYPE     = #{ref_type}
+		   AND REF_SEQ      = #{ref_seq}
+	</update>
+</mapper>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>아주대병원 권역외상센터 - 404</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="shortcut icon" th:href="@{/images/favicon_search.ico}">
+    <style type="text/css">
+    @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,900&subset=korean");
+
+    body * {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 0.625rem;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    ul,
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    /*.page-500-full-page  */
+    .page-500-full-page {
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-500-full-page .message-wrapper {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        padding: 0 20px;
+    }
+
+    .message-wrapper .obj {
+        width: 390px;
+    }
+
+    .error-cont {
+        text-align: center;
+    }
+
+    .error-cont h1 {
+        font-size: 2.4em;
+        font-weight: 500;
+        color: #222;
+        letter-spacing: -0.04em;
+        line-height: 1.5;
+        padding: 1.5rem 0 .5rem 0;
+    }
+
+    .error-cont p {
+        font-size: 1.8em;
+        font-weight: 300;
+        color: #666;
+        letter-spacing: -0.04em;
+        line-height: 1.5;
+    }
+
+    .error-cont .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+    }
+
+    .error-cont .button li {
+        margin: 6px;
+        width: 180px;
+    }
+
+    .error-cont .button li a {
+        display: block;
+        font-size: 1.8em;
+        text-decoration: none;
+        border: 1px solid #2c4066;
+        color: #2c4066;
+        padding: .4em 2em;
+    }
+
+    @media screen and (max-width:768px) {
+        body * {
+            font-size: .4rem;
+        }
+
+        .message-wrapper .obj {
+            width: 200px;
+        }
+
+        .error-cont .button li {
+            width: 150px;
+        }
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        document.getElementById("back-button").addEventListener("click", function() {
+            history.back(-1);
+        });
+    };
+    </script>
+</head>
+
+<body class="page-500-full-page">
+    <div class="message-wrapper">
+        <div class="obj">
+            <img th:src="@{/images/error.png}" alt="페이지를 찾을 수 없습니다." />
+        </div>
+        <div class="error-cont">
+            <h1>죄송합니다. 페이지를 찾을 수 없습니다.</h1>
+            <p>
+                존재하지 않는 주소를 입력하셨거나,<br />요청하신 페이지의 주소가 변경 또는 삭제되어 찾을 수 없습니다.
+            </p>
+            <ul class="button">
+                <li><a href="#back" id="back-button">이전 페이지</a></li>
+                <li><a th:href="@{/}">Home</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

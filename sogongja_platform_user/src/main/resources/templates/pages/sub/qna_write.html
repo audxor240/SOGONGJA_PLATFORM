@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+    <head>
+        <title>문의하기</title>
+        <meta property="og:url" content="">
+        <meta property="og:title" content="">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+    </head>
+    <body>
+        <article layout:fragment="content">
+            <section class="sub_visual user_visual">
+                <div class="container">
+                    <h2>문의 및 답변</h2>
+                    <ul class="bread_crumbs">
+                        <li><a href="/">홈</a></li>
+                        <li class="active"><a href="#n">문의 및 답변</a></li>
+                    </ul>
+                </div>
+            </section>
+            <div class="wrap">
+                <div class="container">
+                    <div class="sub_container">
+                        <div class="qna_list">
+                            <table class="table_style table_bt mt0">
+                                <caption>문의 및 답변</caption>
+                                <tr>
+                                    <th>제목</th>
+                                    <td>
+                                        <input type="text" title="제목" placeholder="제목을 입력하세요">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>내용</th>
+                                    <td>
+                                        <textarea name="" id="" title="내용" placeholder="내용을 입력하세요"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>첨부파일</th>
+                                    <td>
+                                        <div class="file_search">
+                                            <input class="upload-name c000" placeholder="파일을 선택해주세요" disabled="disabled">
+                                            <label for="ex_filename" class="btn_circle">파일 업로드</label>
+                                            <input type="file" id="ex_filename" class="upload-hidden">
+                                        </div>
+                                        <ul class="file_list">
+                                            <li>
+                                                <p>(Q&A)2021년 온라인미디어 예술활동 지원 주요 문의사항.pdf</p>
+                                                <button>삭제</button>
+                                            </li>
+                                            <li>
+                                                <p>(Q&A)2021년 온라인미디어 예술활동 지원 주요 문의사항.pdf</p>
+                                                <button>삭제</button>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn_box">
+                        <a class="btn" href="#n">문의하기</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <th:block layout:fragment="custom_js">
+            <script th:src="@{/js/pages/user/inputfile.js}"></script>
+        </th:block>
+    </body>
+</html>

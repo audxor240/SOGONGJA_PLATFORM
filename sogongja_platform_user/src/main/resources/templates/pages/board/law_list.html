@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>법령 및 조례</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 법령 및 조례">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 법령 및 조례">
+    <meta name="keywords" content="소공자 플랫폼, 법령 및 조례, 해당년도, 분류">
+    <meta name="description" content="소공자 플랫폼 법령 및 조례">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">소공자 물어방</h2>
+            </div>
+            <th:block th:include="pages/board/board_nav"></th:block>
+        </section>
+        <section class="wrap">
+            <div class="sub_container">
+                <form name="searchForm" th:action="@{/board/law}" th:object="${params}">
+                    <th:block th:include="fragments/search_hidden"></th:block>
+                    <h3 class="h3_title">법령 및 법규/규칙 선택항목</h3>
+                    <div class="checkbox_wrap checkbox_wrap_baord">
+                        <ul class="check_list check_list50">
+                            <li>
+                                <h4>법령 및 법규/규칙 구분</h4>
+                                <ul class="check_list_li50">
+                                    <li th:each="item, row : ${lawType}">
+                                        <input type="checkbox" name="lawType" th:id="|lawType${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
+                                        <label th:for="|lawType${row.index}|" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>법령 및 법규/규칙 종류</h4>
+                                <ul class="check_list_li50">
+                                    <li th:each="item, row : ${lawClass}">
+                                        <input type="checkbox" name="lawClass" th:id="|lawClass${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
+                                        <label th:for="|lawClass${row.index}|" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="check_keyword">
+                            <legend>법령/규칙명</legend>
+                            <label for="keyword_search">법령/규칙명</label>
+                            <div>
+                                <input type="text" th:field="*{keyword}" placeholder="키워드 검색">
+                                <button type="submit">검색</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="edu_list_wrap">
+                    <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                    <table class="table_style">
+                        <caption>법령</caption>
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">구분</th>
+                                <th class="txl">법령/규칙명</th>
+                                <th style="width: 10%;">종류</th>
+                                <th style="width: 15%;">공포일자</th>
+                                <th style="width: 15%;">공포번호</th>
+                                <th style="width: 15%;">소관부처</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:unless="${#lists.isEmpty(list)}">
+                                <tr th:each="item : ${list}">
+                                    <td class="cate" th:text="${item.law_type_name}">법률</td>
+                                    <td class="txl">
+                                        <a th:href="@{|/board/law/${item.law_seq}|}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
+                                    </td>
+                                    <td th:text="${item.law_class_name}">대통령령</td>
+                                    <td th:text="${item.law_dt}">2021.02.02</td>
+                                    <td th:text="${item.law_no}">제1234호</td>
+                                    <td th:text="${item.law_department}">중소벤처기업부</td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <th:block th:include="fragments/paging"></th:block>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/board/law_list.js}"></script>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,354 @@
+@import "_var"
+.header
+	height: rem(105)
+	padding: 0 rem(78) 0 rem(40)
+	+flex_type(space-between, center)
+	+positionAt(absolute, $top: 0, $left: 0)
+	width: 100%
+	+transition3
+	background: #fff
+	z-index: 2
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12)
+	*
+		color: #181818
+	h1
+		width: rem(173)
+		height: rem(39)
+		a
+			display: block
+			height: 100%
+			text-indent: $hideFont
+			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
+	nav > ul
+		+flex_type(center, center)
+		> li
+			height: rem(105)
+			+flex_type(center, center)
+			&.active
+				h2 a
+					border-bottom: 1px solid #1540bf
+					color: #1540bf
+			h2
+				padding: 0 rem(42)
+				a
+					font-size: rem(18)
+					font-weight: 700
+					border-bottom: 1px solid transparent
+			ul
+				+positionAt(absolute, $top: rem(105), $left: 0)
+				width: 100%
+				background: #709bff
+				height: rem(80)
+				z-index: 2
+				display: none
+				text-align: center
+				li
+					padding: rem(27) rem(30)
+					display: inline-block
+					a
+						font-size: rem(18)
+						color: #fff
+	.user
+		+flex_type(center, center)
+		a
+			font-size: rem(16)
+			color: #606060
+			vertical-align: 0
+			padding: 0 rem(16)
+			position: relative
+			height: 24px
+			display: inline-block
+			&:before
+				+before($widthB: 1px, $heightB: 17px, $topB: 50%, $leftB: 0, $bgB : #606060)
+				margin-top: rem(-9)
+		.search_btn
+			a
+				text-indent: $hideFont
+				width: rem(18)
+				height: rem(18)
+				box-sizing: content-box
+				display: block
+				background: url(#{$assetPath}/icon-search.png) no-repeat 50%
+				&:before
+					display: none
+			.search
+				+positionAt(absolute, $top: rem(105),  $left: 0)
+				background: #709bff
+				width: 100%
+				padding: rem(19) 0
+				div
+					max-width: 600px
+					margin: 0 auto
+					position: relative
+					label
+						position: absolute
+						visibility: hidden
+					input
+						border: none
+						background: transparent
+						border-bottom: 2px solid #fff
+						font-weight: 300
+						padding: 0 rem(12)
+						color: #fff
+						height: 42px
+						border-radius: 0
+						&:-ms-input-placeholder
+							color: rgba(255,255,255,0.6)
+						&::placeholder
+							color: rgba(255,255,255,0.6)
+					button
+						+positionAt(absolute, $top: rem(12),  $right: rem(12))
+						background: url(#{$assetPath}/icon-search_2.png) no-repeat 50%
+						text-indent : $hideFont
+						width: rem(18)
+						height: rem(18)
+		.login_btn
+			a
+				&:after
+					+before($widthB: 26px, $heightB: 26px, $topB: 50%, $bgB : url(#{$assetPath}/icon-arrow-down.png) no-repeat 50%)
+					right: rem(-10)
+					margin-top: rem(-12)
+			.login_popup
+				+positionAt(absolute, $top: rem(90),  $right: rem(50))
+				width: rem(210)
+				background: #fff
+				text-align: center
+				box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16)
+				display: none
+				&.on
+					display: block
+				&:before
+					+before($topB: -10px, $leftB: rem(147))
+					border-top: 0px solid transparent
+					border-left: 10px solid transparent
+					border-right: 10px solid transparent
+					border-bottom: 10px solid #fff
+				p
+					font-size: rem(14)
+					font-weight: 300
+					line-height: 1.29
+					color: #606060
+					padding: rem(20)  rem(12)
+					&.name
+						padding: rem(20) rem(15) rem(12)
+					span
+						font-weight: 500
+						color: #000
+						vertical-align: 0
+				.logout
+					font-size: rem(14)
+					color: #709bff
+					font-weight: 500
+					border-bottom: 1px solid #709bff
+					padding: 0
+					display: inline-block
+					margin-bottom: rem(18)
+					&:after,
+					&:before
+						display: none
+					span
+						vertical-align: -5px
+						width: rem(20)
+						height: rem(20)
+						margin-left: 4px
+						display: inline-block
+						background: url(#{$assetPath}/icon-gopage.png) no-repeat 50%
+				ul
+					+flex_type(center, center)
+					li
+						width: 50%
+						background: #709bff
+						&:last-child
+							background: #1540bf
+						a
+							color: #fff
+							padding: rem(19) 0
+							height: auto
+							display: inline-block
+							&:before,
+							&:after
+								display: none
+
+.main .header
+		background: transparent
+		box-shadow: none
+		nav > ul > li h2 a
+			color: #fff
+		.user
+			a
+				color: #fff
+				&:before
+					background: #fff
+			.search_btn
+				a
+					background: url(#{$assetPath}/icon-search_2.png) no-repeat 50%
+		h1 a
+			background: url(#{$assetPath}/img-logo.png) no-repeat center
+		.login_btn a
+			&:after
+				background:  url(#{$assetPath}/icon-arrow-down-w.png) no-repeat 50%
+		&.over,
+		&.over2
+			background: #fff
+			nav > ul > li h2 a
+				color: #181818
+			.user
+				a
+					color: #606060
+					&:before
+						background: #606060
+				.search_btn
+					a
+						background: url(#{$assetPath}/icon-search.png) no-repeat 50%
+			h1 a
+				background: url(#{$assetPath}/img-logo-black.png) no-repeat center
+			.login_btn a
+				&:after
+					background:  url(#{$assetPath}/icon-arrow-down.png) no-repeat 50%
+
+
+.hd_dim
+	background: #fff
+	display: none
+	+positionAt(absolute, $top: rem(105), $left: 0)
+	height: rem(306)
+	width: 100%
+	z-index: 1
+/*map*/
+.map_header
+	height: rem(80)
+	+positionAt(absolute, $top: 0, $left: 0)
+	width: 100%
+	+flex_type(space-between, center)
+	z-index: 1
+	.flex_between
+		+flex_type(space-between, center)
+		width: 78%
+	.hd
+		+flex_type(space-between, center)
+		padding-left: rem(36)
+		width: 100%
+		height: 100%
+		background: #fff url(#{$assetPath}/bg_search.png) no-repeat
+		h1
+			width: rem(224)
+			height: 100%
+			margin-right: 8%
+			a
+				text-indent: $hideFont
+				display: block
+				height: 100%
+				background: url(#{$assetPath}/icon-place-logo.png) no-repeat 50%
+		.map_tab_list
+			+flex_type(center, center)
+			height: 100%
+			margin-left: 12%
+			li
+				height: rem(80)rem(80)
+				+flex_type(center, center)
+				a
+					color: rgba(0,0,0,0.4)
+					font-size: rem(20)
+					padding: 0 rem(44)
+				&.active
+					border-bottom: 2px solid #1540bf
+					a
+						color: #1540bf
+						font-weight: 700
+						line-height: rem(80)
+		.right_hd
+			> ul
+				+flex_type(flex-end, center)
+				li
+					line-height: 1
+					a
+						color: rgba(0,0,0,0.4)
+						padding: 0 rem(12)
+						border-right: 1px solid #e3e3e3
+						line-height: 1
+					&:last-child a,
+					&:nth-child(3) a
+						border-right: none
+					&.map_menu
+						text-indent: -9999px
+						width: rem(80)
+						height: rem(80)
+						margin-left: rem(28)
+						background: #1540bf url(#{$assetPath}/icon-menu.png) no-repeat 50% 50%
+						a
+							display: block
+							width: 100%
+							height: 100%
+		.map_search
+			position: relative
+			height: 100%
+			width: 46%
+			form
+				height: 100%
+			label
+				position: absolute
+				text-indent: $hideFont
+			input
+				height: 100%
+				background: transparent
+				border: none
+				padding: 0 rem(26)
+				color: 	#fff
+				&::placeholder
+					opacity: 0.6
+					color: #fff
+				&:-ms-input-placeholder
+					opacity: 0.6
+					color: #fff
+			button
+				+positionAt(absolute, $top: 0, $right: rem(25))
+				width: rem(25)
+				height: 100%
+				text-indent: $hideFont
+				background: url(#{$assetPath}/icon-search.png) no-repeat 50%
+
+	.right_hd
+		&.open  > ul li.map_menu
+			background: #1540bf url(#{$assetPath}/icon-close2.png) no-repeat 50% 50%
+		&.open .menu
+			display: block
+		> ul
+			+flex_type(flex-start, center)
+			> li
+					a
+						color: #777
+						padding: 0 rem(24)
+						line-height: rem(70)
+		.menu
+			display: none
+			+positionAt(absolute, $top: rem(80), $right: 0)
+			max-width: 320px
+			width: 100%
+			background: #fff
+			height: calc(100vh - 5rem)
+			box-shadow: -12px 0 24px 0 rgba(0, 0, 0, 0.32)
+			z-index: 2
+			overflow-y: auto
+			ul
+				li
+					h2
+						background-color: #e5f1f9
+						padding: rem(16) rem(40)
+					ul
+						li
+							position: relative
+							border-bottom: 1px solid #d5d5d5
+							padding: rem(12) 0 rem(12) rem(56)
+							background: #fff
+							&:before
+								+before($widthB: 6px, $heightB: 6px, $topB: 50%, $leftB: rem(34), $bgB : #1540bf)
+								margin-top: -3px
+							a
+								color: #606060
+
+/*익스에서만 적용*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+	.map_header .right_hd > ul > li a
+		padding: rem(0) rem(20)
+	.header .user .login_btn a::after
+		margin-top: rem(-13)

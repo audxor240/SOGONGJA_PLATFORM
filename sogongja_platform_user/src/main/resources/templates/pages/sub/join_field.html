@@ -1,0 +1,118 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual user_visual">
+            <div class="container">
+                <h2>회원가입</h2>
+                <p>회원가입을 하여 다양한 서비스를 이용해 보세요.</p>
+                <ul class="bread_crumbs">
+                    <li><a href="/">홈</a></li>
+                    <li><a href="#n">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <div class="wrap">
+            <div class="container ">
+                <section class="sub_title sub_container">
+                    <ul>
+                        <li>01 약관동의</li>
+                        <li>02 정보입력</li>
+                        <li>03 관심지역</li>
+                        <li>
+                            <h3>04 관심분야</h3>
+                        </li>
+                        <li>05 서비스 매칭 질문</li>
+                    </ul>
+                </section>
+                <div class="join_field sub_container">
+                    <table class="table_style table_bt">
+                        <caption>관심분여 정보입력</caption>
+                        <tr>
+                            <th>관심분야</th>
+                            <td>
+                                <div class="field">
+                                    <ul>
+                                        <li>
+                                            <p>대분류</p>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        <input type="radio" class="text_input" name="bic" id="bic1">
+                                                        <label for="bic1">창업</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" class="text_input" name="bic" id="bic2">
+                                                        <label for="bic2">창업</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>중분류</p>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        <input type="radio" class="text_input" name="mid" id="mid1">
+                                                        <label for="mid1">창업일반</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" class="text_input" name="mid" id="mid2">
+                                                        <label for="mid2">창업일반</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p>키워드</p>
+                                            <div>
+                                                <ul class="flex_box">
+                                                    <li>
+                                                        <input type="checkbox" class="text_input" id="key1">
+                                                        <label for="key1">사업타당성분석</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="keywords flex_box">
+                                    <p>키워드</p>
+                                    <ul>
+                                        <li>
+                                            <p>키워드</p>
+                                            <button>키워드 삭제</button>
+                                        </li>
+                                        <li>
+                                            <p>점포운영</p>
+                                            <button>키워드 삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btn_box">
+                    <a class="btn btn_grey" href="join_area">이전</a>
+                    <a class="btn" href="join_service">다음</a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <th:block layout:fragment="custom_js">
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:4.0.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+    implementation 'org.simplejavamail:simple-java-mail:6.6.1'
+    implementation 'org.simplejavamail:batch-module:6.6.1'
+    implementation 'org.simplejavamail:spring-module:6.6.1'
+    implementation 'eu.bitwalker:UserAgentUtils:1.21'
+    implementation 'org.json:json:20200518'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.konghq:unirest-java:3.11.12'
+    implementation 'org.apache.tika:tika-core:2.0.0'
+    implementation 'org.apache.tika:tika-parsers:2.0.0'
+    implementation 'org.passay:passay:1.6.1'
+    implementation 'org.jsoup:jsoup:1.14.1'
+    implementation 'com.github.ua-parser:uap-java:1.5.2'
+    implementation 'com.atlassian.commonmark:commonmark:0.17.0'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
+
+    implementation fileTree(dir:'libs', include:['*.jar'])
+}

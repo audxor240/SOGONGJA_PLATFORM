@@ -1,0 +1,107 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual user_visual">
+            <div class="container">
+                <h2>회원가입</h2>
+                <p>회원가입을 하여 다양한 서비스를 이용해 보세요.</p>
+                <ul class="bread_crumbs">
+                    <li><a href="/">홈</a></li>
+                    <li><a href="#n">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <div class="wrap">
+            <div class="container ">
+                <section class="sub_title sub_container">
+                    <ul>
+                        <li>01 약관동의</li>
+                        <li>
+                            <h3>02 정보입력</h3>
+                        </li>
+                        <li>03 관심지역</li>
+                    </ul>
+                    <p><span class="required">필수항목</span>는 필수 항목 입니다.</p>
+                </section>
+                <div class="join_info sub_container">
+                    <table class="table_style table_bt">
+                        <caption>회원가입 정보입력</caption>
+                        <tr>
+                            <th><span class="required">필수입력</span>이름</th>
+                            <td>
+                                <input type="text" class="w240" title="이름을 입력하세요." placeholder="이름을 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required">필수입력</span>아이디</th>
+                            <td>
+                                <div class="flex_box">
+                                    <input type="text" class="w240" title="아이디를 입력하세요." placeholder="아이디를 입력하세요.">
+                                    <div class="input_rightBox">
+                                        <input type="checkbox" id="psd_change" class="checkbox_style fz18">
+                                        <label for="psd_change">비밀번호 변경</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required">필수입력</span>비밀번호</th>
+                            <td>
+                                <input type="password" class="w240" title="현재 비밀번호를 입력하세요." placeholder="현재 비밀번호를 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required">필수입력</span>비밀번호 확인</th>
+                            <td>
+                                <input type="password" class="w240" title="새로운 비밀번호를 입력하세요." placeholder="새로운 비밀번호를 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required">필수입력</span>이메일</th>
+                            <td>
+                                <ul class="ul_list email_list">
+                                    <li>
+                                        <input type="text" class="">
+                                        <span class="email ">@</span>
+                                    </li>
+                                    <li>
+                                        <input type="text" class="">
+                                    </li>
+                                    <li>
+                                        <div class="custom-select">
+                                            <select name="" id="">
+                                                <option value="">직접입력</option>
+                                                <option value="">naver.com</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btn_box">
+                    <a class="btn btn_grey" href="join_agree">이전</a>
+                    <a class="btn" href="join_area">다음</a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/selectBox.js}"></script>
+    </th:block>
+</body>
+
+</html>

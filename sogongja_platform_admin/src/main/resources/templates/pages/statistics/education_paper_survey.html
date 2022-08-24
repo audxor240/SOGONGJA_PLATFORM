@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">사용자관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 th:text="${education.subject}"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    	<input type="hidden" id="type" name="type" th:value="${type}">
+		<input type="hidden" id="educSeq" name="educSeq" th:value="${educSeq}">
+		<input type="hidden" id="paperSeq" name="paperSeq" th:value="${paperSeq}">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+            	<div class="card-header d-flex justify-content-between">
+            		<strong></strong>
+                    <div>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm mr-2 btn-icon-text" id="btn-excel">
+                            <i class="btn-icon-prepend" data-feather="download"></i>엑셀
+                        </button>
+                    </div>
+            	</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 35%;">
+                                <col style="width: 20%;">
+                                <col style="width: 30%;">
+                                <col style="width: 15%;">
+                            </colgroup>
+                            <!-- <thead>
+                                <tr>
+                                    <th>문항</th>
+                                    <th>보기</th>
+                                    <th>차트</th>
+                                </tr>
+                            </thead> -->
+                            <tbody>
+                                <th:block th:include="fragments/table_empty:: table_empty(10)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <th:block th:unless="${#lists.isEmpty(list)}" th:each="item, rows : ${list}">
+                                    <tr>
+                                        <td th:text="|${item.item_no}. ${item.item_name}|">item_name</td>
+                                        <td>
+                                            <ul class="question">
+                                                <li th:text="|① ${item.question_1} (${#numbers.formatInteger(item.item_1,0,'COMMA')}명/${item.item_1_rate}%)|"></li>
+                                                <li th:if="${not #strings.isEmpty(item.question_2)}" th:text="|② ${item.question_2} (${#numbers.formatInteger(item.item_2,0,'COMMA')}명/${item.item_2_rate}%)|"></li>
+                                                <li th:if="${not #strings.isEmpty(item.question_3)}" th:text="|③ ${item.question_3} (${#numbers.formatInteger(item.item_3,0,'COMMA')}명/${item.item_3_rate}%)|"></li>
+                                                <li th:if="${not #strings.isEmpty(item.question_4)}" th:text="|④ ${item.question_4} (${#numbers.formatInteger(item.item_4,0,'COMMA')}명/${item.item_4_rate}%)|"></li>
+                                                <li th:if="${not #strings.isEmpty(item.question_5)}" th:text="|⑤ ${item.question_5} (${#numbers.formatInteger(item.item_5,0,'COMMA')}명/${item.item_5_rate}%)|"></li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <canvas th:id="|chart_${rows.index}|" height="37vh" width="80vw"></canvas>
+                                        </td>
+                                        <td>
+                                            <div th:id="|chart_legend_${rows.index}|" class="chart-legend"></div>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/statistics/survey?${pageParams}|}">
+                <i class="btn-icon-prepend" data-feather="list"></i>목록
+            </a>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+    var type = /*[[${type}]]*/ '';
+    var list = /*[[${list}]]*/ [];
+    </script>
+    <script th:src="@{/assets/js/libs/chartjs/Chart.min.js}"></script>
+    <script th:src="@{/assets/js/pages/statistics/education_paper.js}"></script>
+</th:block>
+
+</html>
