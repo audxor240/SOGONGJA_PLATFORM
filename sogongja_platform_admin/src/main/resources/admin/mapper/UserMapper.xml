@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.UserMapper">
+
+	<select id="findByUserId" parameterType="string" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : findByUserId */
+		SELECT *
+		  FROM ST_USER
+		 WHERE ID            = #{id}
+		   AND WITHDRAW_FLAG = 0
+		   AND DEL_FLAG      = 0
+		   AND USER_TYPE     = 'A'
+	</select>
+
+	<update id="updateLastLoginDate" parameterType="int">
+		/* file : UserMapper.xml, id : updateLastLoginDate */
+		UPDATE ST_USER
+		   SET LAST_LOGIN_DATE = CURRENT_TIMESTAMP
+		     , LOCK_CNT        = 0
+		 WHERE USER_SEQ        = #{userSeq}
+	</update>
+
+	<select id="getUserList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : UserMapper.xml, id : getUserList */
+		  SELECT U.*
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'EDUC_TYPE' AND D.CODE = U.USER_TYPE) AS USER_TYPE_NAME
+		       , DATE_FORMAT(U.REG_DATE, '%Y-%m-%d')           AS REG_DT
+		       , DATE_FORMAT(U.LAST_LOGIN_DATE, '%Y-%m-%d %T') AS LOGIN_DATE
+		       , DATE_FORMAT(U.WITHDRAW_DATE, '%Y-%m-%d')  AS WITHDRAW_DT
+		       , case when WITHDRAW_FLAG = 1 then '탈퇴'
+		       		else '사용중' end as WITHDRAW_FLAG_NAME
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'AUTH' AND D.CODE = U.AUTH)           AS AUTH_NM
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'COMPANY' AND D.CODE = U.COMPANY)     AS COMPANY_NM
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'POSITION' AND D.CODE = U.POSITION)   AS POSITION_NM
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		  <choose>
+		  	<when test='user_type == "A"'>
+		     AND U.USER_TYPE = 'A'
+		  	</when>
+		  	<otherwise>
+		     AND U.USER_TYPE IN ('I', 'O')
+		  	</otherwise>
+		  </choose>
+		  <if test="field != null and field != '' and keyword != null and keyword != ''">
+		     AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
+		  </if>
+		ORDER BY USER_SEQ DESC
+	/*||ORDER BY USER_SEQ DESC||*/
+	</select>
+
+	<select id="getUserInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : getUserList */
+		  SELECT U.*
+		   		, DATE_FORMAT(U.WITHDRAW_DATE, '%Y-%m-%d')  AS WITHDRAW_DT
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		     AND U.USER_SEQ = #{userSeq}
+	</select>
+
+	<select id="existedUserId" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserId */
+		  SELECT COUNT(*) AS CNT
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		     AND U.ID       = LOWER(#{id})
+	</select>
+
+	<insert id="saveUser" parameterType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : saveUser */
+		INSERT
+		  INTO ST_USER (
+		              USER_SEQ
+		            , ID
+		            , PASSWORD
+		            , USERNAME
+		            , USERNAME_ENG
+		            , EMAIL
+		            , TEL
+		            , HP
+		            , COMPANY
+		            , COMPANY_NAME
+		            , DEPT
+		            , POSITION
+		            , USER_TYPE
+		            , BIRTH_DAY
+		            , LICENSE_NO
+		            , BANK
+		            , ACCOUNT_NO
+		            , DESCRIPTION
+		            , AUTH
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{userSeq}
+		            , LOWER(#{id})
+		            , #{password}
+		            , #{username}
+		            , #{usernameEng}
+		            , #{email}
+		            , #{tel}
+		            , #{hp}
+		            , #{company}
+		            , #{companyName}
+		            , #{dept}
+		            , #{position}
+		            , #{userType}
+		            , #{birthDay}
+		            , #{licenseNo}
+		            , #{bank}
+		            , #{accountNo}
+		            , #{description}
+		            , #{auth}
+		            , #{loginUserSeq})
+		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
+		     , USERNAME_ENG                  = #{usernameEng}
+		     , EMAIL                         = #{email}
+		     , TEL                           = #{tel}
+		     , HP                            = #{hp}
+		     , COMPANY                       = #{company}
+		     , COMPANY_NAME                  = #{companyName}
+		     , DEPT                          = #{dept}
+		     , POSITION                      = #{position}
+		     , USER_TYPE                     = #{userType}
+		     , BIRTH_DAY                     = #{birthDay}
+		     , LICENSE_NO                    = #{licenseNo}
+		     , BANK                          = #{bank}
+		     , ACCOUNT_NO                    = #{accountNo}
+		     , DESCRIPTION                   = #{description}
+		     , AUTH                          = #{auth}
+		     , DEL_FLAG                      = 0
+		     , MOD_USER_SEQ                  = #{loginUserSeq}
+		     , MOD_DATE                      = CURRENT_TIMESTAMP()
+	</insert>
+
+	<update id="deleteUser" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteUser */
+		  UPDATE ST_USER
+		     SET DEL_FLAG         = 1
+		       , DEL_USER_SEQ     = #{login_user_seq}
+		       , DEL_DATE         = CURRENT_TIMESTAMP()
+		   WHERE USER_SEQ         = #{user_seq}
+	</update>
+
+</mapper>

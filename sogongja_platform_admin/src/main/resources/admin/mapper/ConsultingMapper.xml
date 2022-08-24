@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.ConsultingMapper">
+
+	<select id="getConsultingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : ConsultingMapper.xml, id : getConsultingList */
+		  SELECT C.*
+		       , CON_TYPE.CODE_NAME                  AS CON_TYPE_NAME
+		       , CON_CLASS.CODE_NAME                 AS CON_CLASS_NAME
+		       , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
+		       , U.USERNAME                          AS REG_USERNAME
+		    FROM ST_CONSULTING C
+		       INNER JOIN ST_CODE_DTL CON_TYPE
+		               ON CON_TYPE.GRP_CODE = 'CON_TYPE'
+		              AND CON_TYPE.CODE     = C.CON_TYPE
+		       INNER JOIN ST_CODE_DTL CON_CLASS
+		               ON CON_CLASS.GRP_CODE = 'CON_CLASS'
+		              AND CON_CLASS.CODE     = C.CON_CLASS
+		       INNER JOIN ST_CODE_DTL SUPPORT_ORG
+		               ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
+		              AND SUPPORT_ORG.CODE     = C.SUPPORT_ORG
+		       INNER JOIN ST_USER U
+                       ON C.REG_USER_SEQ = U.USER_SEQ
+		   WHERE C.DEL_FLAG                    = 0
+		<if test="keyword != null and keyword != ''">
+             AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		ORDER BY CON_SEQ DESC
+	/*||ORDER BY CON_SEQ DESC||*/
+	</select>
+
+	<insert id="insertConsulting" parameterType="com.stoneitgt.sogongja.domain.Consulting">
+		/* file : ConsultingMapper.xml, id : insertConsulting */
+		INSERT
+		  INTO ST_CONSULTING (
+		              CON_TYPE
+		            , CON_CLASS
+		            , SUBJECT
+		            , CONTENT
+		            , SUPPORT_ORG
+		            , CON_URL
+		            , RECOMMEND_FLAG
+		            , TAGS
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{conType}
+		            , #{conClass}
+		            , #{subject}
+		            , #{content}
+		            , #{supportOrg}
+		            , #{conUrl}
+		            , #{recommendFlag}
+		            , #{tags}
+		            , #{loginUserSeq})
+
+		<selectKey resultType="int" keyProperty="conSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateConsulting" parameterType="com.stoneitgt.sogongja.domain.Consulting">
+		/* file : ConsultingMapper.xml, id : updateConsulting */
+		UPDATE ST_CONSULTING
+		   SET CON_TYPE       = #{conType}
+		     , CON_CLASS      = #{conClass}
+		     , SUBJECT        = #{subject}
+		     , CONTENT        = #{content}
+		     , SUPPORT_ORG    = #{supportOrg}
+		     , CON_URL        = #{conUrl}
+		     , RECOMMEND_FLAG = #{recommendFlag}
+		     , TAGS           = #{tags}
+		     , MOD_USER_SEQ   = #{loginUserSeq}
+		     , MOD_DATE       = CURRENT_TIMESTAMP()
+		 WHERE CON_SEQ        = #{conSeq}
+	</update>
+
+	<update id="deleteConsulting" parameterType="map" >
+		/* file : ConsultingMapper.xml, id : deleteConsulting */
+		  UPDATE ST_CONSULTING
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE CON_SEQ      = #{con_seq}
+	</update>
+
+	<select id="getConsulting" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Consulting">
+		/* file : ConsultingMapper.xml, id : getConsulting */
+		  SELECT A.*
+		    FROM ST_CONSULTING A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.CON_SEQ  = #{conSeq}
+	</select>
+
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.CodeMapper">
+
+	<select id="getCodeList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeList */
+		  SELECT CODE
+		       , CODE_NAME
+		       , REF_CODE
+		       , REF_CLASS
+		       , REF_VALUE
+		    FROM ST_CODE_DTL
+		   WHERE GRP_CODE = #{groupCode}
+		     AND DEL_FLAG = 0
+		     AND USE_FLAG = 1
+		ORDER BY ORDBY, CODE_NAME
+	</select>
+
+	<select id="getCodeRefList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeRefList */
+		  SELECT CODE
+		       , CODE_NAME
+		       , REF_CODE
+		       , REF_CLASS
+		       , REF_VALUE
+		    FROM ST_CODE_DTL
+		   WHERE GRP_CODE = #{groupCode}
+		     AND REF_CODE = #{refCode}
+		     AND DEL_FLAG = 0
+		     AND USE_FLAG = 1
+		ORDER BY ORDBY, CODE_NAME
+	</select>
+
+	<select id="getCodeMasterList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeMasterList */
+		  SELECT A.*
+		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		    FROM ST_CODE_MST A
+		   WHERE A.DEL_FLAG = 0
+		<if test="grp_code != null and grp_code != ''">
+		     AND A.GRP_CODE = #{grp_code}
+		</if>
+		ORDER BY GRP_CODE
+	/*||ORDER BY GRP_CODE||*/
+	</select>
+
+	<select id="getCodeMaster" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeMaster */
+		  SELECT A.*
+		    FROM ST_CODE_MST A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.GRP_CODE = #{grp_code}
+	</select>
+
+	<insert id="saveCodeMaster" parameterType="map">
+		/* file : CodeMapper.xml, id : saveCodeMaster */
+		INSERT
+		  INTO ST_CODE_MST (
+		              GRP_CODE
+		            , GRP_CODE_NAME
+		            , REG_USER_SEQ)
+		       VALUES (
+		              UPPER( #{grp_code} )
+		            , #{grp_code_name}
+		            , #{login_user_seq})
+		    ON DUPLICATE KEY UPDATE GRP_CODE_NAME = #{grp_code_name}
+		     , DEL_FLAG                           = 0
+		     , MOD_USER_SEQ                       = #{login_user_seq}
+		     , MOD_DATE                           = CURRENT_TIMESTAMP()
+	</insert>
+
+	<update id="deleteCodeMaster" parameterType="map" >
+		/* file : CodeMapper.xml, id : deleteCodeMaster */
+		  UPDATE ST_CODE_MST
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE GRP_CODE     = #{grp_code}
+	</update>
+
+	<update id="deleteCodeMasterDetail" parameterType="map" >
+		/* file : CodeMapper.xml, id : deleteCodeMasterDetail */
+		  UPDATE ST_CODE_DTL
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE GRP_CODE     = #{grp_code}
+	</update>
+
+	<select id="getCodeDetailList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeDetailList */
+		  SELECT A.*
+		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		    FROM ST_CODE_DTL A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.GRP_CODE = #{grp_code}
+		ORDER BY ORDBY
+	/*||ORDER BY ORDBY||*/
+	</select>
+
+	<select id="getCodeDetail" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeDetail */
+		  SELECT A.*
+		    FROM ST_CODE_DTL A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.GRP_CODE = #{grp_code}
+		     AND A.CODE     = #{code}
+	</select>
+
+	<insert id="saveCodeDetail" parameterType="map">
+		/* file : CodeMapper.xml, id : saveCodeDetail */
+		INSERT
+		  INTO ST_CODE_DTL (
+		              GRP_CODE
+		            , CODE
+		            , CODE_NAME
+		            , ORDBY
+		            , USE_FLAG
+		            , REG_USER_SEQ)
+		       VALUES (
+		              UPPER( #{grp_code} )
+		            , UPPER( #{code} )
+		            , #{code_name}
+		            , #{ordby}
+		            , #{use_flag}
+		            , #{login_user_seq})
+		    ON DUPLICATE KEY UPDATE CODE_NAME = #{code_name}
+		     , ORDBY                          = #{ordby}
+		     , USE_FLAG                       = #{use_flag}
+		     , DEL_FLAG                       = 0
+		     , MOD_USER_SEQ                   = #{login_user_seq}
+		     , MOD_DATE                       = CURRENT_TIMESTAMP()
+	</insert>
+
+	<update id="deleteCodeDetail" parameterType="map" >
+		/* file : CodeMapper.xml, id : deleteCodeDetail */
+		  UPDATE ST_CODE_DTL
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE GRP_CODE     = #{grp_code}
+		     AND CODE         = #{code}
+	</update>
+
+</mapper>

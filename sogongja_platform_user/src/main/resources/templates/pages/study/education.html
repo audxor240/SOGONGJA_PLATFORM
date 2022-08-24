@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>소공자 교육</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 소공자 교육">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 소공자 교육">
+    <meta name="keywords" content="소공자 플랫폼, 소공자 교육, 교육, 창업, 경영">
+    <meta name="description" content="소공자 플랫폼 소공자 교육">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">소공자 교육</h2>
+                <p>관련 기관에서 제공하는 교육 및 컨설팅 서비스, 콘텐츠를 연계 제공해드립니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li class="active"><a th:href="@{/study/education}">소공자 교육</a></li>
+                    <li class=""><a th:href="@{/study/counseling}">소공자 컨설팅</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container service_edu">
+                <form name="searchForm" th:action="@{/study/education}" th:object="${params}">
+                    <th:block th:include="fragments/search_hidden"></th:block>
+                    <h3 class="h3_title">교육 선택 항목</h3>
+                    <div class="checkbox_wrap">
+                        <ul class="check_list">
+                            <li>
+                                <h4>대분류</h4>
+                                <ul id="rdoCategory1">
+                                    <li th:each="item : ${category1}">
+                                        <input type="radio" th:field="*{category1}" class="checkbox_style" th:value="${item.code}">
+                                        <label th:for="${#ids.prev('category1')}" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>중분류</h4>
+                                <ul id="rdoCategory2">
+                                    <li th:each="item : ${category2}">
+                                        <input type="radio" th:field="*{category2}" class="checkbox_style" th:value="${item.code}">
+                                        <label th:for="${#ids.prev('category2')}" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>세분류</h4>
+                                <ul id="rdoCategory3">
+                                    <li th:each="item : ${category3}">
+                                        <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.code}">
+                                        <label th:for="${#ids.prev('category3')}" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>지원기관</h4>
+                                <ul id="rdoSupportOrg">
+                                    <li th:each="item : ${supportOrg}">
+                                        <input type="radio" th:field="*{supportOrg}" class="checkbox_style" th:value="${item.code}">
+                                        <label th:for="${#ids.prev('supportOrg')}" th:text="${item.code_name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="check_keyword">
+                            <legend>키워드 검색</legend>
+                            <label for="keyword_search">키워드 검색</label>
+                            <div>
+                                <input type="text" th:field="*{keyword}" placeholder="키워드 검색">
+                                <button type="submit">검색</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="edu_list_wrap">
+                    <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                    <ul class="edu_list af empty" th:if="${#lists.isEmpty(list)}">
+                        <li>컨텐츠가 존재하지 않습니다.</li>
+                    </ul>
+                    <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
+                        <th:block th:each="item : ${list}">
+                            <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
+                                <li>
+                                    <div class="view_favorite">
+                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                        <span class="view" th:text="${item.read_cnt}">12</span>
+                                    </div>
+                                    <h4>
+                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                    </h4>
+                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">
+                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">
+                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>
+                                        </th:block>
+                                    </ul>
+                                </li>
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(item.thumbnail_path)}">
+                                <li class="thumnail" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                    <div class="view_favorite">
+                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                        <span class="view" th:text="${item.read_cnt}">12</span>
+                                    </div>
+                                    <h4>
+                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                    </h4>
+                                </li>
+                            </th:block>
+                        </th:block>
+                    </ul>
+                </div>
+                <th:block th:include="fragments/paging"></th:block>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/study/education_list.js}"></script>
+    </th:block>
+</body>
+
+</html>

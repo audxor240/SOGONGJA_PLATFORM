@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="paging">
+    <div class="list_info" th:if="${paging.total > 0}">
+        <ul class="pagination">
+            <li class="start"><a href="#" class="page-link" th:data-page="${paging.first}">처음으로</a></li>
+            <li class="prev"><a href="#" class="page-link" th:data-page="${paging.prev}">이전</a></li>
+            <th:block th:each="page : ${#numbers.sequence(paging.begin, paging.end)}">
+                <li th:classappend="${page == paging.page} ? 'active'">
+                    <a href="#" class="page-link" th:title="${page}" th:text="${page}" th:data-page="${page}">1</a>
+                </li>
+            </th:block>
+            <li class="next"><a href="#" class="page-link" th:data-page="${paging.next}">다음</a></li>
+            <li class="last"><a href="#" class="page-link" th:data-page="${paging.last}">끝으로</a></li>
+        </ul>
+    </div>
+</th:block>
+
+</html>

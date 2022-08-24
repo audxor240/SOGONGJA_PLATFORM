@@ -1,0 +1,151 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual user_visual">
+            <div class="container">
+                <h2>회원가입</h2>
+                <p>회원가입을 하여 다양한 서비스를 이용해 보세요.</p>
+                <ul class="bread_crumbs">
+                    <li><a href="/">홈</a></li>
+                    <li><a href="#n">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <div class="wrap">
+            <div class="container ">
+                <section class="sub_title sub_container">
+                    <h3>본인인증</h3>
+                    <p>본인 확인을 위해 인증해주시기 바랍니다.</p>
+                </section>
+                <div class="certification">
+                    <ul class="sub_container tab">
+                        <li class="active"><a href="#n">휴대폰 인증</a></li>
+                        <li><a href="#n">이메일 인증</a></li>
+                    </ul>
+                    <div class="tab_a tab_a1 sub_container">
+                        <form action="">
+                            <table class="table_style">
+                                <caption>휴대폰 인증</caption>
+                                <tr>
+                                    <th>사용자 명</th>
+                                    <td>
+                                        <input type="text" class="w240" placeholder="이름을 입력하세요" title="이름을 입력하세요.">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>휴대폰 번호</th>
+                                    <td>
+                                        <ul class="ul_list">
+                                            <li>
+                                                <div class="custom-select">
+                                                    <select name="" id="">
+                                                        <option value="">010</option>
+                                                        <option value="">011</option>
+                                                    </select>
+                                                </div>
+                                                <span class="hyphen ">-</span>
+                                            </li>
+                                            <li>
+                                                <input type="text" class="">
+                                                <span class="hyphen ">-</span>
+                                            </li>
+                                            <li>
+                                                <input type="text" class="">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="agr_box">
+                                <input type="checkbox" class="checkbox_style" id="agree">
+                                <label for="agree">개인정보 수집에 동의 합니다.</label>
+                            </div>
+                            <!-- 휴대폰 인증시 인증번호 -->
+                            <table class="table_style table_bt">
+                                <caption>휴대폰 인증번호</caption>
+                                <tr>
+                                    <th>인증번호</th>
+                                    <td>
+                                        <input type="text" class="w240" title="인증번호를 입력하세요.">
+                                        <button class="btn_circle">재 발송</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="tab_a tab_a2 sub_container">
+                        <form action="">
+                            <table class="table_style">
+                                <caption>이메일 인증</caption>
+                                <tr>
+                                    <th>사용자 명</th>
+                                    <td>
+                                        <input type="text" class="w240" placeholder="이름을 입력하세요" title="이름을 입력하세요.">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>이메일 주소</th>
+                                    <td>
+                                        <ul class="ul_list email_list">
+                                            <li>
+                                                <input type="text" class="">
+                                                <span class="email ">@</span>
+                                            </li>
+                                            <li>
+                                                <input type="text" class="">
+                                            </li>
+                                            <li>
+                                                <div class="custom-select">
+                                                    <select name="" id="">
+                                                        <option value="">직접입력</option>
+                                                        <option value="">naver.com</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="agr_box">
+                                <input type="checkbox" class="checkbox_style" id="agree2">
+                                <label for="agree2">개인정보 수집에 동의 합니다.</label>
+                            </div>
+                            <!-- 이메일 인증시 인증번호 -->
+                            <table class="table_style table_bt">
+                                <caption>이메일 인증번호</caption>
+                                <tr>
+                                    <th>인증번호</th>
+                                    <td>
+                                        <input type="text" class="w240" title="인증번호를 입력하세요.">
+                                        <button class="btn_circle">재 인증 요청</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="btn_box">
+                        <button class="btn">인증요청</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/tab.js}"></script>
+        <script th:src="@{/js/pages/user/selectBox.js}"></script>
+    </th:block>
+</body>
+
+</html>

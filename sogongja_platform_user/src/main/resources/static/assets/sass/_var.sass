@@ -1,0 +1,50 @@
+$base-size: 16
+@function rem($target, $context: $base-size)
+	@return ($target / $context) * 1rem
+
+$assetPath : "../images"
+$hideFont : -9999px
+$mainColor : #1001d9
+
+=transition3
+	transition: .3s
+
+=flex_type($justify: null, $align: null)
+	display : flex
+	justify-content: $justify
+	align-items: $align
+
+=flex_wrap
+	flex-wrap: wrap
+	-webkit-flex-wrap: wrap
+	-ms-flex-flow: row wrap
+
+=before($widthB: null, $heightB: null, $topB: null, $leftB: null, $bgB : null)
+	content: ''
+	position: absolute
+	width: $widthB
+	height: $heightB
+	top: $topB
+	left: $leftB
+	background: $bgB
+
+=positionAt($position, $top: null, $right: null, $bottom: null, $left: null)
+	position: $position
+	top: $top
+	right: $right
+	bottom: $bottom
+	left: $left
+
+=textnowrap
+	white-space: nowrap
+	text-overflow: ellipsis
+	overflow: hidden
+
+=textVertical($line_clamp)
+	display: -webkit-box
+	-webkit-line-clamp: $line_clamp
+	-webkit-box-orient: vertical
+	overflow: hidden
+=bgDefault($size)
+	background-size: $size
+	background-repeat: no-repeat

@@ -1,0 +1,4 @@
+<!--/* Layout styles */-->
+<th:block th:with="ver=${@environment.getProperty('system.version')}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css(ver=${ver})}">
+</th:block>

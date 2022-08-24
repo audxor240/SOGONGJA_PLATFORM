@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.EducationMapper">
+
+	<select id="getEducationList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : EducationMapper.xml, id : getEducationList */
+		SELECT E.*
+		     , CATE1.CODE_NAME                     AS CATEGORY_1_NAME
+		     , CATE2.CODE_NAME                     AS CATEGORY_2_NAME
+		     , CATE3.CODE_NAME                     AS CATEGORY_3_NAME
+		     , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+		     , DATE_FORMAT(E.REG_DATE, '%Y-%m-%d') AS REG_DT
+		     , U.USERNAME                          AS REG_USERNAME
+		     , F.FILE_SEQ
+		     , F.FILE_PATH
+		     , F.THUMBNAIL_PATH
+		  FROM ST_EDUCATION E
+		   INNER JOIN ST_CODE_DTL SUPPORT_ORG
+		           ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
+		          AND SUPPORT_ORG.CODE     = E.SUPPORT_ORG
+		   INNER JOIN ST_USER U
+		           ON E.REG_USER_SEQ = U.USER_SEQ
+		   INNER JOIN ST_CODE_DTL CATE1
+		           ON CATE1.GRP_CODE = 'CATEGORY_1'
+		          AND CATE1.CODE     = E.CATEGORY_1
+		LEFT OUTER JOIN ST_CODE_DTL CATE2
+		           ON CATE2.GRP_CODE = 'CATEGORY_2'
+		          AND CATE2.CODE     = E.CATEGORY_2
+		LEFT OUTER JOIN ST_CODE_DTL CATE3
+		           ON CATE3.GRP_CODE = 'CATEGORY_3'
+		          AND CATE3.CODE     = E.CATEGORY_3
+		LEFT OUTER JOIN ST_FILES F
+		           ON F.REF_TYPE = 'EDUCATION_IMAGE'
+		          AND F.REF_SEQ  = E.EDU_SEQ
+		          AND F.DEL_FLAG = 0
+		 WHERE E.DEL_FLAG        = 0
+		   AND E.EDU_URL        != ''
+		<if test="keyword != null and keyword != ''">
+             AND E.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		<if test='recommend == "Y"'>
+             AND E.RECOMMEND_FLAG    = 1
+        </if>
+        <if test="category1 != null and category1 != ''">
+	         AND E.CATEGORY_1 = #{category1}
+        </if>
+        <if test="category2 != null and category2 != ''">
+	         AND E.CATEGORY_2 = #{category2}
+        </if>
+        <if test="category3 != null and category3 != ''">
+	         AND E.CATEGORY_3 = #{category2}
+        </if>
+        <if test="support_org != null and support_org != ''">
+	         AND E.SUPPORT_ORG = #{support_org}
+        </if>
+        <choose>
+		<when test="order == 'read_cnt'">
+		ORDER BY READ_CNT DESC, EDU_SEQ DESC
+	/*||ORDER BY READ_CNT DESC, EDU_SEQ DESC||*/
+        </when>
+		<when test="order == 'rand'">
+		ORDER BY RAND()
+        </when>
+        <otherwise>
+		ORDER BY EDU_SEQ DESC
+	/*||ORDER BY EDU_SEQ DESC||*/
+        </otherwise>
+        </choose>
+	</select>
+
+	<select id="getEducation" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : EducationMapper.xml, id : getEducation */
+		  SELECT A.*
+		    FROM ST_EDUCATION A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.EDU_SEQ  = #{eduSeq}
+	</select>
+
+	<update id="updateEducationReadCnt" parameterType="map" >
+        /* file : EducationMapper.xml, id : updateEducationReadCnt */
+          UPDATE ST_EDUCATION
+             SET DEL_FLAG     = 1
+               , DEL_USER_SEQ = #{login_user_seq}
+               , DEL_DATE     = CURRENT_TIMESTAMP()
+           WHERE EDU_SEQ      = #{edu_seq}
+    </update>
+
+</mapper>
