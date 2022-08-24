@@ -1,0 +1,287 @@
+@import "_var"
+/* ajax loading image */
+.wrap-loading
+	z-index: 1060
+	+positionAt(fixed, $top: 0, $right: 0, $bottom: 0, $left: 0)
+	background: rgba(0, 0, 0, 0.2)
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000')  /* ie */
+	div
+		+positionAt(fixed, $top: 50%, $left: 50%)
+		margin-left: -200px
+		margin-top: -200px
+.display-block
+	display: block
+.display-none
+	display: none
+.container
+	max-width: 1400px
+	margin: 0 auto
+.main_visual
+	overflow: hidden
+	height: rem(1080)
+.mySwiper
+	height: 100%
+	.mv_text1
+		padding-top: rem(275)
+		*
+			color: #fff
+		> span
+			font-size: rem(22)
+			font-weight: 500
+			background: #1540bf
+			border-radius: 30px
+			text-align: center
+			display: inline-block
+			padding: 0px 5px
+		p
+			font-size: rem(48)
+			line-height: 1.42
+			font-weight: 300
+			text-shadow: 0 0 8px #1540bf
+			& + p
+				font-size: rem(19)
+				margin-top: rem(35)
+				line-height: 1.68
+				text-shadow: 0 0 12px rgba(0, 0, 0, 0.35)
+			strong
+				font-weight: 700
+	.mv_text2
+		max-width: 600px
+		padding-top: 14.25rem
+		li
+			+flex_type($justify: flex-start, $align: flex-start)
+			border-bottom: 1px solid rgba(255,255,255,0.6)
+			padding: rem(40) 0
+			span
+				font-size: rem(48)
+				line-height: 1.42
+				font-weight: 700
+				color: #fff
+				text-shadow: 0 0 12px rgba(21, 100, 191, 0.22)
+			p
+				font-size: rem(20)
+				font-weight: 300
+				line-height: 2.2
+				color: #fff
+				margin-left: rem(70)
+				text-shadow: 0 0 12px rgba(21, 100, 191, 0.22)
+			&:last-child
+				border-bottom: none
+	.swiper-pagination
+		text-align: right
+		right: rem(280)
+		left: auto !important
+		width: auto !important
+		bottom: 29% !important
+		p
+			width: 80px
+			margin: 0 !important
+			border-radius: 0
+			height: 2px
+			background: rgba(255,255,255,0.6) !important
+			opacity: 1
+			font-weight: 700
+			&.swiper-pagination-bullet-active
+				background: #fff !important
+			&:first-child span
+				+positionAt(absolute, $top: 2px, $left: -22px)
+				display: block
+			&:last-child span
+				+positionAt(absolute, $top: 2px, $right: -22px)
+				display: block
+			span
+				color: #fff
+				display: none
+				font-size: rem(16)
+.main_tab
+	background: #f6f8f9
+	.main_tab_ul
+		display: flex
+		position: relative
+		margin-top: -16.6rem
+		z-index: 2
+		li
+			background: #fff
+			height: rem(334)
+			width: 25%
+			position: relative
+			top: 0
+			+transition3
+			&:first-child
+				background: #fff url(#{$assetPath}/img-main-icon01.png) no-repeat 16% 16%
+			&:nth-child(2)
+				background: #fff url(#{$assetPath}/img-main-icon02.png) no-repeat 16% 16%
+			&:nth-child(3)
+				background: #fff url(#{$assetPath}/img-main-icon03.png) no-repeat 16% 16%
+			&:last-child
+				background: #fff url(#{$assetPath}/img-main-icon04.png) no-repeat 16% 16%
+			&:before
+				+before($leftB: 50%)
+				bottom: -24px
+				border-top: 24px solid #1540bf
+				border-left: 24px solid transparent
+				border-right: 24px solid transparent
+				margin-left: -24px
+				border-bottom: 0px solid  transparent
+				opacity: 0
+			*
+				color: #606060
+			a
+				display: block
+				width: 100%
+				height: 100%
+				padding: rem(191) rem(0) rem(57) rem(39)
+				h2
+					font-size: rem(24)
+					font-weight: 700
+					margin-bottom: rem(5)
+				p
+					font-weight: 300
+					line-height: 1.25
+			&.active
+				box-shadow: 0 0 60px 0 #1540bf
+				background-color: #1540bf
+				position: relative
+				top: rem(-12)
+				&:before
+					opacity: 1
+				&:first-child
+					background: #1540bf url(#{$assetPath}/img-main-icon01-active.png) no-repeat 16% 16%
+				&:nth-child(2)
+					background: #1540bf url(#{$assetPath}/img-main-icon02-active.png) no-repeat 16% 16%
+				&:nth-child(3)
+					background: #1540bf url(#{$assetPath}/img-main-icon03-active.png) no-repeat 16% 16%
+				&:last-child
+					background: #1540bf url(#{$assetPath}/img-main-icon04-active.png) no-repeat 16% 16%
+				h2
+					color: #fff
+				p
+					color: rgba(255,255,255,0.8)
+	.tab_cont
+		padding-bottom: rem(160)
+		padding-top: 8rem
+		.tab_cont_a
+			display: none
+			&.active
+				display: block
+			> div
+				+flex_type($justify: space-between)
+		.tab_text
+			width: 50%
+			a
+				margin-bottom: rem(20)
+				display: inline-block
+			p
+				font-size: rem(20)
+				color: #606060
+				font-weight: 500
+				line-height: 1.6
+			ul
+				margin-top: rem(50)
+				display: flex
+				+flex_wrap
+				li
+					font-size: rem(20)
+					margin-bottom: rem(12)
+					color: #606060
+					font-weight: 300
+					text-decoration: underline
+					width: 50%
+					position: relative
+					padding-left: rem(24)
+					&:before
+						+before($widthB: 6px, $heightB: 6px, $topB: 13px, $leftB: 0, $bgB : #1540bf)
+			.w100
+				li
+					width: 100%
+					span
+						font-weight: 700
+						vertical-align: 0
+						color: #606060
+
+		.tab_img
+			width: 50%
+			position: relative
+			.img
+				background-position: 50%
+				height: rem(420)
+				width: 100%
+				text-indent: -9999px
+			a
+				box-shadow: 4px 0 8px 0 #00185e
+				background-color: #1540bf
+				color: #fff
+				text-align: center
+				font-size: rem(20)
+				font-weight: 500
+				width: 200px
+				+positionAt(absolute, $bottom: rem(24), $left: rem(-36))
+				padding: rem(24) 0
+				&:before
+					+before($widthB: 36px, $heightB: 21px, $topB: -20px, $leftB: 0, $bgB : url(#{$assetPath}/img-triangle.png) no-repeat )
+
+.border_title
+		font-size: rem(48)
+		font-weight: 700
+		color: #000
+		line-height: 1
+		position: relative
+		z-index: 0
+		&:before
+			+before($widthB: 100%, $heightB: 12px, $topB: 85%, $leftB: 0, $bgB : #709bff)
+			opacity: 0.6
+			z-index: -1
+.main_support
+	background: #1540bf url(#{$assetPath}/bg-maintext.png) no-repeat 50%
+	padding: rem(162) 0 rem(200)
+	*
+		color: #fff
+	.container
+		div
+			+flex_type($justify: flex-start)
+			h3
+				font-size: rem(46)
+				font-weight: 700
+				margin-top: -7px
+			p
+				margin-left: rem(82)
+				color: rgba(255,255,255,0.8)
+				font-weight: 300
+				font-size: rem(20)
+				line-height: 1.8
+		ul
+			margin-top: rem(140)
+			+flex_type($justify: center)
+			li
+				width: 33.333%
+				padding: rem(40)
+				+transition3
+				*
+					+transition3
+				span
+					color: rgba(255,255,255,0.6)
+					display: inline-block
+				h4
+					margin-top: rem(8)
+					height: rem(74)
+					margin-bottom: rem(43)
+					+textVertical(2)
+					width: 100%
+					a
+						font-size: rem(24)
+						line-height: 1.5
+						font-weight: 700
+				p
+					height: rem(92)
+					margin-bottom: rem(60)
+					width: 100%
+					+textVertical(3)
+					a
+						color: rgba(255,255,255,0.6)
+						font-size: rem(18)
+						line-height: 1.78
+				span.hashtag
+					font-weight: 300
+					padding: 8px 12px
+					background: rgba(255,255,255,0.12)
+

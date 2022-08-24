@@ -1,0 +1,149 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+plugins {
+    id 'org.hidetake.ssh' version '2.10.1'
+}
+
+dependencies {
+    implementation project(path: ':sogongja_platform_core', configuration: 'default')
+    implementation ('org.springframework.boot:spring-boot-starter-web') {
+    // undertow 사용
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    // undertow 사용
+    implementation ('org.springframework.boot:spring-boot-starter-undertow') {
+        exclude module: 'undertow-websockets-jsr'
+        exclude module: 'tomcat-embed-el'
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.3'
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
+
+    // 디렉토리
+    implementation fileTree(dir:'libs', include:['*.jar'])
+}
+
+ext {
+    fileName = project.name + '-' + project.version
+    jarName = fileName + '.jar'
+    jarPath = 'build/libs/' + jarName
+    finalFileName = 'spring-boot-sogongja-admin'
+    finalJarName = finalFileName + '.jar'
+    finalJarPath = 'build/libs/' + finalJarName
+    slackWebhookUrl = 'https://hooks.slack.com/services/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'
+    gitUrl = 'https://api.github.com/repos/STONE-INTEGRITY/SOGONGJA_PLATFORM/releases'
+    pivotalUrl = 'https://www.pivotaltracker.com/services/v5/projects/2526817/stories'
+}
+
+// gradle wrapper 설정
+task wrapper(type: Wrapper) {
+    description = 'Gradle wrapper install'
+    gradleVersion = '7.0.2' // 원하는 Gradle 버전 명시
+}
+
+// 배포용 jar 파일명 변경
+task renameArtifacts (type: Copy, dependsOn: 'build') {
+    description = 'Rename deploy jar file'
+    group = 'build'
+    from ('build/libs/')
+    include "${jarName}"
+    destinationDir file('build/libs/')
+    rename "${jarName}", "${finalJarName}"
+}
+
+// 개발서버 배포
+task deployDev(dependsOn: 'renameArtifacts') {
+    description = 'Deploy Dev Server'
+    group = 'deploy'
+    doLast {
+        deploy('dev', false)
+    }
+}
+
+// 운영서버 배포
+task deployProd(dependsOn: 'renameArtifacts') {
+    description = 'Deploy Prod Server'
+    group = 'deploy'
+    doLast {
+        deploy('prod', false)
+    }
+}
+
+// 배포
+def deploy(type) {
+    deploy(type, false)
+}
+
+// 서버 접속 정보
+remotes {
+    dev {
+        host = project.properties['dev.host']
+        port = Integer.parseInt(project.properties['dev.port'])
+        user = project.properties['dev.user']
+        password = project.properties['dev.password']
+        knownHosts = allowAnyHosts
+    }
+    prod {
+        host = project.properties['prod.host']
+        port = Integer.parseInt(project.properties['prod.port'])
+        user = project.properties['prod.user']
+        knownHosts = allowAnyHosts
+        identity = file('LightsailDefaultKey-SOGONGJA.pem')
+    }
+}
+
+// 서버 배포
+def deploy(type, isCopy) {
+    println 'Deploy Type : ' + type + ' / BackUp : ' + isCopy
+    ssh.run {
+        session(remotes[type]) {
+            // 기존 jar 파일 백업할 경우에만
+            //println 'host: ' + project.properties['prod.host']
+            //println 'user: ' + project.properties['prod.user']
+            if(isCopy){
+                def backupFileName = getBackupFilePath(type, "${finalFileName}")
+                println 'backup file : ' + backupFileName
+                println 'backup file copy start...'
+                try {
+                    execute 'cp ' + project.properties[type + '.dir'] + '/' + "${finalJarName}" + ' ' + backupFileName
+                } catch(Exception e) {
+                    println 'backup error'
+                }
+                println 'backup file copy complete...'
+            }
+            println 'file name : ' + "${finalJarName}"
+            println 'file path : ' + "${finalJarPath}"
+            println 'file transfer start...'
+            // jar 파일 전송
+            put from: project.file("${finalJarPath}"), into: project.properties[type + '.dir']
+            println 'file transfer complete...'
+
+            if(type == "prod") {
+                execute '/app/web/deploy_admin.sh'
+            } else {
+                // 서버 재시작
+                execute 'service sogongja-admin restart'
+            }
+
+            println 'Deploy ' + type + ' complete...'
+        }
+    }
+}
+
+// 백업 파일 경로
+def getBackupFilePath(type, filename) {
+    Date today = new Date()
+    String pattern = 'yyyyMMddHHmmss'
+    SimpleDateFormat sdf = new SimpleDateFormat(pattern)
+    return project.properties[type + '.dir'] + '/backup/' + filename + '.' + sdf.format(today) + '.jar'
+}
+
+// 날짜 포맷
+def getToday(pattern) {
+    Date today = new Date()
+    SimpleDateFormat sdf = new SimpleDateFormat(pattern)
+    return sdf.format(today)
+}

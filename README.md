@@ -1,3 +1,6 @@
+
+SOGONGJA_PLATFORM
+
 # sogongja
 
 

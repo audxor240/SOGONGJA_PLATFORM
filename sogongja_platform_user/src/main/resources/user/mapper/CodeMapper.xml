@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.CodeMapper">
+
+	<select id="getCodeList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeList */
+		  SELECT CODE
+		       , CODE_NAME
+		       , REF_CODE
+		       , REF_CLASS
+		       , REF_VALUE
+		    FROM ST_CODE_DTL
+		   WHERE GRP_CODE = #{groupCode}
+		     AND DEL_FLAG = 0
+		     AND USE_FLAG = 1
+		ORDER BY ORDBY, CODE_NAME
+	</select>
+
+	<select id="getCodeRefList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CodeMapper.xml, id : getCodeRefList */
+          SELECT CODE
+               , CODE_NAME
+               , REF_CODE
+               , REF_CLASS
+               , REF_VALUE
+            FROM ST_CODE_DTL
+           WHERE GRP_CODE = #{groupCode}
+             AND REF_CODE = #{refCode}
+             AND DEL_FLAG = 0
+             AND USE_FLAG = 1
+        ORDER BY ORDBY, CODE_NAME
+    </select>
+
+	<select id="getCodeClassList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : CodeMapper.xml, id : getCodeClassList */
+		  SELECT CODE
+		       , CODE_NAME
+		       , REF_CODE
+		       , REF_CLASS
+		       , REF_VALUE
+		    FROM ST_CODE_DTL
+		   WHERE GRP_CODE = #{groupCode}
+		     AND DEL_FLAG = 0
+		     AND USE_FLAG = 1
+		     AND REF_CLASS IS NOT NULL
+		ORDER BY ORDBY, CODE_NAME
+	</select>
+
+</mapper>

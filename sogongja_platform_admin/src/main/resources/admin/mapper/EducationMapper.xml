@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.EducationMapper">
+
+    <!-- 교육리스트 -->
+	<select id="getEducationList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : EducationMapper.xml, id : getEducationList */
+		SELECT E.*
+		     , CATE1.CODE_NAME                     AS CATEGORY_1_NAME
+		     , CATE2.CODE_NAME                     AS CATEGORY_2_NAME
+		     , CATE3.CODE_NAME                     AS CATEGORY_3_NAME
+		     , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+		     , DATE_FORMAT(E.REG_DATE, '%Y-%m-%d') AS REG_DT
+		     , U.USERNAME                          AS REG_USERNAME
+		  FROM ST_EDUCATION E
+		   INNER JOIN ST_CODE_DTL SUPPORT_ORG
+		           ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
+		          AND SUPPORT_ORG.CODE     = E.SUPPORT_ORG
+		   INNER JOIN ST_USER U
+		           ON E.REG_USER_SEQ = U.USER_SEQ
+		   INNER JOIN ST_CODE_DTL CATE1
+		           ON CATE1.GRP_CODE = 'CATEGORY_1'
+		          AND CATE1.CODE     = E.CATEGORY_1
+		LEFT OUTER JOIN ST_CODE_DTL CATE2
+		           ON CATE2.GRP_CODE = 'CATEGORY_2'
+		          AND CATE2.CODE     = E.CATEGORY_2
+		LEFT OUTER JOIN ST_CODE_DTL CATE3
+		           ON CATE3.GRP_CODE = 'CATEGORY_3'
+		          AND CATE3.CODE     = E.CATEGORY_3
+		 WHERE E.DEL_FLAG            = 0
+		<if test="keyword != null and keyword != ''">
+             AND E.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		<if test="category1 != null and category1 != ''">
+             AND E.CATEGORY_1        = #{category1}
+        </if>
+		<if test="support_org != null and support_org != ''">
+             AND E.SUPPORT_ORG       = #{support_org}
+        </if>
+		ORDER BY EDU_SEQ DESC
+	/*||ORDER BY EDU_SEQ DESC||*/
+	</select>
+
+    <!-- 교육등록 -->
+	<insert id="insertEducation" parameterType="com.stoneitgt.sogongja.domain.Education">
+		/* file : EducationMapper.xml, id : insertEducation */
+		INSERT
+		  INTO ST_EDUCATION (
+		              CATEGORY_1
+		            , CATEGORY_2
+		            , CATEGORY_3
+		            , SUBJECT
+		            , CONTENT
+		            , SUPPORT_ORG
+		            , EDU_URL
+		            , BIZ_TYPE
+		            , RECOMMEND_FLAG
+		            , TAGS
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{category1}
+		            , #{category2}
+		            , #{category3}
+		            , #{subject}
+		            , #{content}
+		            , #{supportOrg}
+		            , #{eduUrl}
+		            , #{bizType}
+		            , #{recommendFlag}
+		            , #{tags}
+		            , #{loginUserSeq})
+
+		<selectKey resultType="int" keyProperty="eduSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+    <!-- 교육수정 -->
+	<update id="updateEducation" parameterType="com.stoneitgt.sogongja.domain.Education">
+		/* file : EducationMapper.xml, id : updateEducation */
+		UPDATE ST_EDUCATION
+		   SET CATEGORY_1     = #{category1}
+		     , CATEGORY_2     = #{category2}
+		     , CATEGORY_3     = #{category3}
+		     , SUBJECT        = #{subject}
+		     , CONTENT        = #{content}
+		     , SUPPORT_ORG    = #{supportOrg}
+		     , EDU_URL        = #{eduUrl}
+		     , BIZ_TYPE       = #{bizType}
+		     , RECOMMEND_FLAG = #{recommendFlag}
+		     , TAGS           = #{tags}
+		     , MOD_USER_SEQ   = #{loginUserSeq}
+		     , MOD_DATE       = CURRENT_TIMESTAMP()
+		 WHERE EDU_SEQ        = #{eduSeq}
+	</update>
+
+    <!-- 교육삭제 -->
+	<update id="deleteEducation" parameterType="map" >
+		/* file : EducationMapper.xml, id : deleteEducation */
+		  UPDATE ST_EDUCATION
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE EDU_SEQ      = #{edu_seq}
+	</update>
+
+    <!-- 교육조회 -->
+	<select id="getEducation" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Education">
+		/* file : EducationMapper.xml, id : getEducation */
+		  SELECT A.*
+		    FROM ST_EDUCATION A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.EDU_SEQ  = #{eduSeq}
+	</select>
+
+</mapper>

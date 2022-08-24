@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.BoardMapper">
+
+	<select id="getBoardList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getBoardList */
+		  SELECT A.*
+		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		       , U.USERNAME                          AS REG_USERNAME
+		<choose>
+		  <when test="board_type == 'faq'">
+		       , C.CODE_NAME  AS CATEGORY_NAME
+		       , C.REF_CLASS  AS CATEGORY_CLASS
+		  </when>
+		  <otherwise>
+		       , (SELECT COUNT(1)
+		            FROM ST_FILES F
+		           WHERE F.DEL_FLAG = 0
+		             AND F.REF_TYPE = 'BOARD'
+		             AND F.REF_SEQ  = A.BOARD_SEQ
+		         ) AS FILE_CNT
+		  </otherwise>
+		</choose>
+		    FROM ST_BOARD A
+		       INNER JOIN ST_USER U
+		               ON A.REG_USER_SEQ = U.USER_SEQ
+		<if test="board_type == 'faq'">
+		       INNER JOIN ST_CODE_DTL C
+		               ON C.GRP_CODE     = 'FAQ_TYPE'
+		              AND C.CODE         = A.CATEGORY
+		</if>
+		   WHERE A.DEL_FLAG              = 0
+		     AND A.BOARD_TYPE            = #{board_type}
+		<if test="category != null and category != ''">
+		     AND A.CATEGORY              = #{category}
+		</if>
+		<if test="keyword != null and keyword != ''">
+             AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+		ORDER BY BOARD_SEQ DESC
+	/*||ORDER BY BOARD_SEQ DESC||*/
+	</select>
+
+	<insert id="insertBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : insertBoard */
+		INSERT
+		  INTO ST_BOARD (
+		              BOARD_TYPE
+		            , SUBJECT
+		            , CONTENT
+		            , CATEGORY
+		            , NOTICE_FLAG
+		            , POPUP_FLAG
+		            , FROM_DT
+		            , TO_DT
+		            , TAGS
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{boardType}
+		            , #{subject}
+		            , #{content}
+		            , #{category}
+		            , #{noticeFlag}
+		            , #{popupFlag}
+		            , #{fromDt}
+		            , #{toDt}
+		            , #{tags}
+		            , #{loginUserSeq})
+
+		<selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : updateBoard */
+		UPDATE ST_BOARD
+		   SET BOARD_TYPE   = #{boardType}
+		     , SUBJECT      = #{subject}
+		     , CONTENT      = #{content}
+		     , CATEGORY     = #{category}
+		     , NOTICE_FLAG  = #{noticeFlag}
+		     , POPUP_FLAG   = #{popupFlag}
+		     , FROM_DT      = #{fromDt}
+		     , TO_DT        = #{toDt}
+		     , TAGS         = #{tags}
+		     , MOD_USER_SEQ = #{loginUserSeq}
+		     , MOD_DATE     = CURRENT_TIMESTAMP()
+		 WHERE BOARD_SEQ    = #{boardSeq}
+	</update>
+
+	<update id="deleteBoard" parameterType="map" >
+		/* file : BoardMapper.xml, id : deleteBoard */
+		  UPDATE ST_BOARD
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE BOARD_SEQ    = #{board_seq}
+	</update>
+
+	<update id="modPopupFlagToZero" parameterType="map" >
+		/* file : BoardMapper.xml, id : modPopupFlagToZero */
+		  UPDATE ST_BOARD
+		     SET POPUP_FLAG     = 0
+		   WHERE BOARD_SEQ   != #{boardSeq}
+		   and   POPUP_FLAG     = 1
+	</update>
+
+	<select id="getBoard" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : getBoard */
+		  SELECT A.*
+		    FROM ST_BOARD A
+		   WHERE A.DEL_FLAG  = 0
+		     AND A.BOARD_SEQ = #{boardSeq}
+	</select>
+
+	<select id="getBoardLawList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardLawList */
+          SELECT L.*
+               , DATE_FORMAT(L.REG_DATE, '%Y-%m-%d')     AS REG_DT
+               , LAW_TYPE.CODE_NAME                      AS LAW_TYPE_NAME
+               , LAW_CLASS.CODE_NAME                     AS LAW_CLASS_NAME
+               , U.USERNAME                              AS REG_USERNAME
+               , DATE_FORMAT(L.LAW_DATE, '%Y.%c.%e')     AS LAW_DT
+               , DATE_FORMAT(L.ENFORCE_DATE, '%Y.%c.%e') AS ENFORCE_DT
+               , (SELECT COUNT(1)
+                    FROM ST_FILES F
+                   WHERE F.DEL_FLAG = 0
+                     AND F.REF_TYPE = 'LAW'
+                     AND F.REF_SEQ  = L.LAW_SEQ
+                 ) AS FILE_CNT
+            FROM ST_LAW L
+               INNER JOIN ST_USER U
+                       ON L.REG_USER_SEQ = U.USER_SEQ
+               INNER JOIN ST_CODE_DTL LAW_TYPE
+                       ON LAW_TYPE.GRP_CODE = 'LAW_TYPE'
+                      AND LAW_TYPE.CODE     = L.LAW_TYPE
+               INNER JOIN ST_CODE_DTL LAW_CLASS
+                       ON LAW_CLASS.GRP_CODE = 'LAW_CLASS'
+                      AND LAW_CLASS.CODE     = L.LAW_CLASS
+           WHERE L.DEL_FLAG                  = 0
+        <if test="keyword != null and keyword != ''">
+             AND L.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY LAW_SEQ DESC
+    /*||ORDER BY LAW_SEQ DESC||*/
+    </select>
+
+    <select id="getBoardProjectList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardProjectList */
+          SELECT P.*
+               , DATE_FORMAT(P.REG_DATE, '%Y-%m-%d') AS REG_DT
+               , PROJECT_TYPE.CODE_NAME              AS PROJECT_TYPE_NAME
+               , SIDO.CODE_NAME                      AS PLACE_NAME
+               , U.USERNAME                          AS REG_USERNAME
+               , (SELECT COUNT(1)
+                    FROM ST_FILES F
+                   WHERE F.DEL_FLAG = 0
+                     AND F.REF_TYPE = 'PROJECT'
+                     AND F.REF_SEQ  = P.PROJECT_SEQ
+                 ) AS FILE_CNT
+            FROM ST_PROJECT P
+               INNER JOIN ST_USER U
+                       ON P.REG_USER_SEQ = U.USER_SEQ
+               INNER JOIN ST_CODE_DTL PROJECT_TYPE
+                       ON PROJECT_TYPE.GRP_CODE = 'PROJECT_TYPE'
+                      AND PROJECT_TYPE.CODE     = P.PROJECT_TYPE
+               INNER JOIN ST_CODE_DTL SIDO
+                       ON SIDO.GRP_CODE = 'SIDO'
+                      AND SIDO.CODE     = P.PLACE
+           WHERE P.DEL_FLAG             = 0
+        <if test="keyword != null and keyword != ''">
+             AND P.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY PROJECT_SEQ DESC
+    /*||ORDER BY PROJECT_SEQ DESC||*/
+    </select>
+
+    <insert id="insertProject" parameterType="com.stoneitgt.sogongja.domain.Project">
+        /* file : BoardMapper.xml, id : insertProject */
+        INSERT
+          INTO ST_PROJECT (
+                      PROJECT_TYPE
+                    , PROJECT_YEAR
+                    , SUBJECT
+                    , CONTENT
+                    , PLACE
+                    , TAGS
+                    , REG_USER_SEQ)
+               VALUES (
+                      #{projectType}
+                    , #{projectYear}
+                    , #{subject}
+                    , #{content}
+                    , #{place}
+                    , #{tags}
+                    , #{loginUserSeq})
+
+        <selectKey resultType="int" keyProperty="projectSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateProject" parameterType="com.stoneitgt.sogongja.domain.Project">
+        /* file : BoardMapper.xml, id : updateProject */
+        UPDATE ST_PROJECT
+           SET PROJECT_TYPE = #{projectType}
+             , PROJECT_YEAR = #{projectYear}
+             , SUBJECT      = #{subject}
+             , CONTENT      = #{content}
+             , PLACE        = #{place}
+             , TAGS         = #{tags}
+             , MOD_USER_SEQ = #{loginUserSeq}
+             , MOD_DATE     = CURRENT_TIMESTAMP()
+         WHERE PROJECT_SEQ  = #{projectSeq}
+    </update>
+
+    <update id="deleteProject" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteProject */
+          UPDATE ST_PROJECT
+             SET DEL_FLAG     = 1
+               , DEL_USER_SEQ = #{login_user_seq}
+               , DEL_DATE     = CURRENT_TIMESTAMP()
+           WHERE PROJECT_SEQ  = #{project_seq}
+    </update>
+
+    <select id="getProject" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Project">
+        /* file : BoardMapper.xml, id : getProject */
+          SELECT A.*
+            FROM ST_PROJECT A
+           WHERE A.DEL_FLAG    = 0
+             AND A.PROJECT_SEQ = #{projectSeq}
+    </select>
+
+    <insert id="insertLaw" parameterType="com.stoneitgt.sogongja.domain.Law">
+        /* file : BoardMapper.xml, id : insertLaw */
+        INSERT
+          INTO ST_LAW (
+                      SUBJECT
+                    , CONTENT
+                    , LAW_TYPE
+                    , LAW_CLASS
+                    , LAW_CLASS_ETC
+                    , LAW_DIV
+                    , LAW_DATE
+                    , ENFORCE_DATE
+                    , LAW_NO
+                    , LAW_DEPARTMENT
+                    , TAGS
+                    , REG_USER_SEQ)
+               VALUES (
+                      #{subject}
+                    , #{content}
+                    , #{lawType}
+                    , #{lawClass}
+                    , #{lawClassEtc}
+                    , #{lawDiv}
+                    , #{lawDate}
+                    , #{enforceDate}
+                    , #{lawNo}
+                    , #{lawDepartment}
+                    , #{tags}
+                    , #{loginUserSeq})
+
+        <selectKey resultType="int" keyProperty="lawSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateLaw" parameterType="com.stoneitgt.sogongja.domain.Law">
+        /* file : BoardMapper.xml, id : updateLaw */
+        UPDATE ST_LAW
+           SET SUBJECT        = #{subject}
+             , CONTENT        = #{content}
+             , LAW_TYPE       = #{lawType}
+             , LAW_CLASS      = #{lawClass}
+             , LAW_CLASS_ETC  = #{lawClassEtc}
+             , LAW_DIV        = #{lawDiv}
+             , LAW_DATE       = #{lawDate}
+             , ENFORCE_DATE   = #{enforceDate}
+             , LAW_NO         = #{lawNo}
+             , LAW_DEPARTMENT = #{lawDepartment}
+             , TAGS           = #{tags}
+             , MOD_USER_SEQ   = #{loginUserSeq}
+             , MOD_DATE       = CURRENT_TIMESTAMP()
+         WHERE LAW_SEQ        = #{lawSeq}
+    </update>
+
+    <update id="deleteLaw" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteLaw */
+          UPDATE ST_LAW
+             SET DEL_FLAG     = 1
+               , DEL_USER_SEQ = #{login_user_seq}
+               , DEL_DATE     = CURRENT_TIMESTAMP()
+           WHERE LAW_SEQ      = #{law_seq}
+    </update>
+
+    <select id="getLaw" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Law">
+        /* file : BoardMapper.xml, id : getLaw */
+          SELECT A.*
+            FROM ST_LAW A
+           WHERE A.DEL_FLAG = 0
+             AND A.LAW_SEQ  = #{lawSeq}
+    </select>
+
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.UserMapper">
+
+	<select id="findByUserId" parameterType="string" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : findByUserId */
+		SELECT *
+		  FROM ST_USER
+		 WHERE ID            = #{id}
+		   AND WITHDRAW_FLAG = 0
+		   AND DEL_FLAG      = 0
+	</select>
+
+	<update id="updateLastLoginDate" parameterType="int">
+		/* file : UserMapper.xml, id : updateLastLoginDate */
+		UPDATE ST_USER
+		   SET LAST_LOGIN_DATE = CURRENT_TIMESTAMP
+		     , LOCK_CNT        = 0
+		 WHERE USER_SEQ        = #{userSeq}
+	</update>
+
+	<select id="getUserList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : UserMapper.xml, id : getUserList */
+		  SELECT U.*
+		       , DATE_FORMAT(U.REG_DATE, '%Y-%m-%d')           AS REG_DT
+		       , DATE_FORMAT(U.LAST_LOGIN_DATE, '%Y-%m-%d %T') AS LOGIN_DATE
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'AUTH' AND D.CODE = U.AUTH) AS AUTH_NM
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'COMPANY' AND D.CODE = U.COMPANY) AS COMPANY_NM
+		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'POSITION' AND D.CODE = U.POSITION) AS POSITION_NM
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		  <if test="field != null and field != '' and keyword != null and keyword != ''">
+		     AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
+		  </if>
+		ORDER BY USER_SEQ DESC
+	/*||ORDER BY USER_SEQ DESC||*/
+	</select>
+
+	<select id="getUserInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : getUserList */
+		  SELECT U.*
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		     AND U.USER_SEQ = #{userSeq}
+	</select>
+
+	<select id="getUserPassword" parameterType="int" resultType="string">
+		/* file : UserMapper.xml, id : getUserList */
+		  SELECT U.PASSWORD
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		     AND U.USER_SEQ = #{userSeq}
+	</select>
+
+	<select id="existedUserId" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserId */
+		  SELECT COUNT(*) AS CNT
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG = 0
+		     AND U.ID       = LOWER(#{id})
+	</select>
+
+	<insert id="saveUser" parameterType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : saveUser */
+		INSERT
+		  INTO ST_USER (
+		              USER_SEQ
+		            , ID
+		            , PASSWORD
+		            , USERNAME
+		            , EMAIL
+		            , TEL
+		            , HP
+		            , COMPANY
+		            , COMPANY_NAME
+		            , DEPT
+		            , POSITION
+		            , USER_TYPE
+		            , BIRTH_DAY
+		            , GENDER
+		            , DESCRIPTION
+		            , CATEGORY
+		            , AUTH
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{userSeq}
+		            , LOWER(#{id})
+		            , #{password}
+		            , #{username}
+		            , #{email}
+		            , #{tel}
+		            , #{hp}
+		            , #{company}
+		            , #{companyName}
+		            , #{dept}
+		            , #{position}
+		            , #{userType}
+		            , #{birthDay}
+		            , #{gender}
+		            , #{description}
+		            , #{category}
+		            , #{auth}
+		            , #{loginUserSeq})
+		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
+		     , EMAIL                         = #{email}
+		     , TEL                           = #{tel}
+		     , HP                            = #{hp}
+		     , COMPANY                       = #{company}
+		     , COMPANY_NAME                  = #{companyName}
+		     , DEPT                          = #{dept}
+		     , POSITION                      = #{position}
+		     , BIRTH_DAY                     = #{birthDay}
+		     , GENDER                        = #{gender}
+		     , DESCRIPTION                   = #{description}
+		     , CATEGORY                      = #{category}
+		     , DEL_FLAG                      = 0
+		     , MOD_USER_SEQ                  = #{loginUserSeq}
+		     , MOD_DATE                      = CURRENT_TIMESTAMP()
+	</insert>
+
+	<update id="deleteUser" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteUser */
+		  UPDATE ST_USER
+		     SET DEL_FLAG         = 1
+		       , DEL_USER_SEQ     = #{login_user_seq}
+		       , DEL_DATE         = CURRENT_TIMESTAMP()
+		   WHERE USER_SEQ         = #{user_seq}
+	</update>
+
+
+	<update id="withdrawUser" parameterType="int" >
+		/* file : UserMapper.xml, id : withdrawUser */
+		  UPDATE ST_USER
+		     SET WITHDRAW_FLAG         = 1
+		       , WITHDRAW_DATE         = CURRENT_TIMESTAMP()
+		       , MOD_USER_SEQ                  = #{userSeq}
+		       , MOD_DATE                      = CURRENT_TIMESTAMP()
+		   WHERE USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="updatePassword" parameterType="com.stoneitgt.sogongja.domain.User" >
+		/* file : UserMapper.xml, id : updatePassword */
+		  UPDATE ST_USER
+		     SET PASSWORD         = #{newPassword}
+		       , LOCK_CNT         = 0
+		       , LOCK_FLAG        = 0
+		       , LOCK_DATE        = NULL
+		       , PW_MOD_DATE      = CURRENT_TIMESTAMP()
+		       , MOD_USER_SEQ     = #{loginUserSeq}
+		       , MOD_DATE         = CURRENT_TIMESTAMP()
+		   WHERE USER_SEQ         = #{userSeq}
+	</update>
+
+	<select id="findUserId" parameterType="com.stoneitgt.sogongja.domain.User" resultType="string">
+		/* file : UserMapper.xml, id : findUserId */
+		  SELECT U.ID
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG   = 0
+		     AND U.USERNAME   = #{username}
+		     AND U.HP         = #{hp}
+		     AND U.LICENSE_NO = #{licenseNo}
+		     AND U.AUTH       = #{auth}
+	</select>
+
+	<select id="findUserPassword" parameterType="com.stoneitgt.sogongja.domain.User" resultType="int">
+		/* file : UserMapper.xml, id : findUserPassword */
+		  SELECT U.USER_SEQ
+		    FROM ST_USER U
+		   WHERE U.DEL_FLAG   = 0
+		     AND U.ID         = #{id}
+		     AND U.USERNAME   = #{username}
+		     AND U.HP         = #{hp}
+		     AND U.LICENSE_NO = #{licenseNo}
+		     AND U.AUTH       = #{auth}
+	</select>
+
+</mapper>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>문의 및 답변</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 문의 및 답변">
+    <meta property="og:image" content="../images/bg-maintext.png">
+    <meta property="og:description" content="소공자 플랫폼 문의 및 답변">
+    <meta name="keywords" content="소공자 플랫폼, 문의 및 답변">
+    <meta name="description" content="소공자 플랫폼 문의 및 답변">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual mypage_visual">
+            <div class="container">
+                <h2 class="border_title"><span th:text="|${session.ss_user.username}님|">김나모님</span> 반갑습니다.</h2>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a th:href="@{/mypage}">마이서비스</a></li>
+                    <li class="active"><a th:href="@{/mypage/qna}">문의 및 답변</a></li>
+                    <li><a th:href="@{/mypage/info}">회원정보 변경</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container ">
+                <div class="search_list">
+                    <p>전체 510건, 현재페이지 1/43</p>
+                    <div>
+                        <form action="">
+                            <legend>문의 및 답변</legend>
+                            <select name="" id="">
+                                <option value="">제목</option>
+                                <option value="">제목</option>
+                                <option value="">제목 + 내용</option>
+                            </select>
+                            <input type="text" name="topKeyword" id="topKeyword" title="검색" placeholder="검색어를 입력하세요">
+                            <button type="button">검색</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="qna_list">
+                    <table class="table_style">
+                        <caption>문의 및 답변</caption>
+                        <thead>
+                            <tr>
+                                <th style="width: 11.5%;">NO.</th>
+                                <th class="title txl">제목</th>
+                                <th style="width: 11.5%;">답변여부</th>
+                                <th style="width: 11.5%;">첨부파일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="color_606060">3</td>
+                                <td class="txl"><a th:href="@{/mypage/qna/view}">창업 정보 제공 및 상담</a></td>
+                                <td>답변완료</td>
+                                <td><span class="file">파일</span></td>
+                            </tr>
+                            <tr>
+                                <td class="color_606060">2</td>
+                                <td class="txl"><a th:href="@{/mypage/qna/view}">창업 정보 제공 및 상담</a></td>
+                                <td>답변완료</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="color_606060">1</td>
+                                <td class="txl"><a th:href="@{/mypage/qna/view}">'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요</a></td>
+                                <td>답변완료</td>
+                                <td><span class="file">파일</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="list_info">
+                        <ul class="pagination">
+                            <li class="start"><a href="#n">처음으로</a></li>
+                            <li class="prev"><a href="#n">이전</a></li>
+                            <li class="active"><a href="#n">1</a></li>
+                            <li><a href="#n">2</a></li>
+                            <li><a href="#n">3</a></li>
+                            <li><a href="#n">4</a></li>
+                            <li><a href="#n">5</a></li>
+                            <li class="next"><a href="#n">다음</a></li>
+                            <li class="last"><a href="#n">끝으로</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn_box">
+                        <a class="btn btn_grey" th:href="@{/mypage/qna/write}">문의하기</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+    </th:block>
+</body>
+
+</html>

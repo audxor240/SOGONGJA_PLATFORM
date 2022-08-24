@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>마이페이지</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual mypage_visual">
+            <div class="container">
+                <h2 class="border_title"><span th:text="|${session.ss_user.username}님|">김나모님</span> 반갑습니다.</h2>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li class="active"><a th:href="@{/mypage}">마이서비스</a></li>
+                    <li><a th:href="@{/mypage/qna}">문의 및 답변</a></li>
+                    <li><a th:href="@{/mypage/info}">회원정보 변경</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container ">
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+    </th:block>
+</body>
+
+</html>

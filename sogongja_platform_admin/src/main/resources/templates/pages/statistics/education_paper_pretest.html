@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">사용자관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 th:text="${education.subject}"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+		<input type="hidden" id="type" name="type" th:value="${type}">
+		<input type="hidden" id="educSeq" name="educSeq" th:value="${educSeq}">
+		<input type="hidden" id="paperSeq" name="paperSeq" th:value="${paperSeq}">
+		<input type="hidden" id="educSubject" name="educSubject" th:value="${education.subject}">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+            	<div class="card-header d-flex justify-content-between">
+            		<strong></strong>
+                    <div>
+                        <button type="button" class="btn btn-success btn-sm mr-2 btn-icon-text" id="btn-excel">
+                            <i class="btn-icon-prepend" data-feather="download"></i>엑셀
+                        </button>
+                    </div>
+            	</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">문제번호</th>
+                                    <th rowspan="2">정답</th>
+                                    <th colspan="5">선택</th>
+                                    <th rowspan="2">정답률</th>
+                                    <th rowspan="2">정답인원</th>
+                                    <th rowspan="2">총 응시인원</th>
+                                </tr>
+                                <tr>
+                                    <th>①</th>
+                                    <th>②</th>
+                                    <th>③</th>
+                                    <th>④</th>
+                                    <th>⑤</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:include="fragments/table_empty:: table_empty(10)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <tr th:each="item, rows : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                    <td th:text="${item.item_no}">문항</td>
+                                    <td th:text="${item.solution}">정답</td>
+                                    <td th:text="|${item.item_1}명/${item.item_1_rate}%|" th:class="${item.solution == '1' ? 'sol-text' : ''}">1</td>
+                                    <td th:text="|${item.item_2}명/${item.item_2_rate}%|" th:class="${item.solution == '2' ? 'sol-text' : ''}">2</td>
+                                    <td th:text="|${item.item_3}명/${item.item_3_rate}%|" th:class="${item.solution == '3' ? 'sol-text' : ''}">3</td>
+                                    <td th:text="|${item.item_4}명/${item.item_4_rate}%|" th:class="${item.solution == '4' ? 'sol-text' : ''}">4</td>
+                                    <td th:text="|${item.item_5}명/${item.item_5_rate}%|" th:class="${item.solution == '5' ? 'sol-text' : ''}">5</td>
+                                    <td th:text="|${item.solution_rate}%|">정답률</td>
+                                    <td th:text="|${#numbers.formatInteger(item.solution_cnt,0,'COMMA')}명|">정답인원</td>
+                                    <td th:text="|${#numbers.formatInteger(item.answer_cnt,0,'COMMA')}명|">총 응시인원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chart_pretest" height="25vh" width="80vw"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/statistics/pretest?${pageParams}|}">
+                <i class="btn-icon-prepend" data-feather="list"></i>목록
+            </a>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+    var type = /*[[${type}]]*/ '';
+    var list = /*[[${list}]]*/ [];
+    </script>
+    <script th:src="@{/assets/js/libs/chartjs/Chart.min.js}"></script>
+    <script th:src="@{/assets/js/pages/statistics/education_paper.js}"></script>
+</th:block>
+
+</html>

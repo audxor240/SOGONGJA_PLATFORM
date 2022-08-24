@@ -1,0 +1,1569 @@
+@import "_var"
+.wrap
+	padding: rem(80) 0 rem(200)
+	background: #f6f8f9
+	&.pt0
+		padding-top: 0
+.sub_visual
+	margin-top: rem(105)
+	&.mypage_visual
+		h2 span
+			color: #1540bf
+			vertical-align: 0
+	> div
+		padding: rem(100) 0 rem(64)
+		text-align: center
+		h2
+			display: inline-block
+			margin-bottom: rem(20)
+		p
+			color: #8b8b8b
+			font-size: rem(18)
+	.lnb
+		background-color: #eceff1
+		padding: 0
+		ul
+			+flex_type($justify: center, $align: center)
+			li
+				border-bottom: 2px solid transparent
+				a
+					color: rgba(0,0,0,0.4)
+					font-size: rem(18)
+					font-weight: 700
+					padding: rem(20) rem(52)
+					display: inline-block
+				&.active
+					border-bottom: 2px solid #1540bf
+					a
+						color: #1540bf
+.table_style
+	width: 100%
+	table-layout: fixed
+	thead
+		border-top: 4px solid #1540bf
+	tr
+		background: #fff
+		border-bottom: 1px solid #ddd
+		th
+			font-size: rem(18)
+			color: #000
+			font-weight: 700
+			padding: 0 rem(40)
+			height: rem(72)
+			border-right: 1px solid #ddd
+			&:last-child
+				border-right: none
+		td
+			border-right: 1px solid #ddd
+			height: rem(72)
+			text-align: center
+			&:last-child
+				border-right: none
+			&.cate
+				color: #1001d9
+			&.cate2
+				color: #1540bf
+			&.color_606060
+				color: #606060
+			&.txl
+				text-align: left
+				a
+					color: #000
+					+textnowrap
+					max-width: 100%
+					display: inline-block
+					padding: 0 rem(40)
+			.file
+				width: rem(24)
+				text-indent: -9999px
+				height: rem(24)
+				display: inline-block
+				background: url(#{$assetPath}/icon-file.png) no-repeat 50%
+				text-indent: -9999px
+			a.more_a
+				color: #709bff
+				padding-right: rem(20)
+				border-bottom: 1px solid #709bff
+				background: url(#{$assetPath}/icon-gopage.png) no-repeat 100% 50%
+	tbody tr:nth-child(even)
+		background: #f9f9f9
+	&.table_style_noth
+		table-layout: inherit
+		tr:first-child
+			border-top: 4px solid #1540bf
+		.cate
+			width: 11.5%
+		.title
+			width: 70%
+		.date
+			width: 15%
+// .table_wrap
+// 	height: rem(290)
+// 	overflow: hidden
+.table_more,
+.edu_more
+	width: 100%
+	text-align: center
+	background: #fff
+	border-bottom: 1px solid #ddd
+	a
+		line-height: rem(72)
+		font-size: rem(18)
+		font-weight: 700
+		span
+			width: rem(25)
+			height: rem(25)
+			margin-left: 8px
+			display: inline-block
+			text-indent: -9999px
+			background: url(#{$assetPath}/icon-arrow-down.png) no-repeat
+			vertical-align: 0
+.edu_more
+	border-bottom: none
+	border-top: 1px solid #d2d2d2
+	margin-top: rem(32)
+.btn_box
+	+flex_type($justify: center, $align: center)
+	margin-top: rem(80)
+	.btn
+		text-align: center
+		margin: 0 rem(12)
+		padding: 0 rem(90)
+		line-height: rem(70)
+		border: solid 2px #1540bf
+		background-color: rgba(255, 255, 255, 0.4)
+		color: #1540bf
+		font-size: rem(18)
+		&.blue
+			background-color: #1540bf
+			color: #fff
+.more_view
+	text-align: center
+	margin-top: rem(60)
+	a
+		display: inline-block
+		background-color: #1540bf
+		line-height: rem(72)
+		padding: 0 rem(90)
+		color: #fff
+.txl
+	text-align: left
+.sub_container
+	max-width: 1400px
+	margin: 0 auto
+	.h3_title
+		font-size: rem(24)
+		color: #000
+		margin-bottom: rem(22)
+		font-weight: 700
+	.h3_title_wrap
+		h3
+			display: inline-block
+		p
+			display: inline-block
+			font-size: 	rem(18)
+			color: 	#606060
+			margin-left: 8px
+			margin-bottom: 	rem(19)
+			&.total
+				font-size: rem(16)
+				color: #777
+	.h3_flex
+		+flex_type($justify: space-between, $align:  center)
+	.checkbox_wrap
+		background: #fff
+		border: solid 1px #d2d2d2
+		border-top: 4px solid #1540bf
+		margin-bottom: rem(60)
+		&.checkbox_wrap_baord
+			.check_list > li ul
+				max-height: 273px
+				height: 273px
+		.check_list
+			+flex_type
+			> li
+				width: 25%
+				border-right: 1px solid #d2d2d2
+				&:last-child
+					background-repeat: none
+				h4
+					font-size: rem(24)
+					font-weight: 700
+					color: #000
+					padding: rem(19) rem(40)
+				ul
+					border-top: 1px solid #d2d2d2
+					padding: rem(40)
+					max-height: 367px
+					height: 367px
+					overflow-y: auto
+					li
+						margin-bottom: rem(16)
+			&.check_list50
+				> li
+					width: 	50%
+					ul.check_list_li50 li
+						width: 	49%
+						display: inline-block
+			&.check_list30
+				> li
+					width: 	33.33%
+
+		.check_keyword
+			border-top: 1px solid #d2d2d2
+			padding: rem(30) rem(40)
+			width: 100%
+			+flex_type($justify: space-between, $align: center)
+			label
+				font-size: rem(24)
+				font-weight: 700
+				color: #000
+			div
+				width: 88%
+				height: 50px
+				+flex_type($justify: space-between, $align: center)
+				input
+					border: solid 1px #d2d2d2
+					background-color: #fff
+					height: 100%
+					padding: 0 rem(16)
+					&:-ms-input-placeholder
+						color: #e2e2e2
+					&::placeholder
+						color: #e2e2e2
+				button
+					height: 100%
+					background: #1540bf
+					color: #fff
+					text-align: center
+					width: 99px
+	.total
+		color: #777
+		margin-bottom: rem(24)
+	.edu_list,
+	.solution_edu_recommend > ul
+		> li
+			width: 31.42%
+			margin-right: 2.87%
+			background: #fff
+			height: rem(439)
+			float: left
+			padding: rem(40)
+			position: relative
+			margin-top: rem(40)
+			&:nth-child(1),
+			&:nth-child(2),
+			&:nth-child(3)
+				margin-top: 0
+			&.thumnail
+				background-size: cover
+				position: relative
+				box-shadow: 0 0 20px 0 rgba(21, 64, 191, 0.72)
+				&:before
+					+before($widthB: 100%, $heightB: 100%, $topB: 0, $leftB: 0, $bgB : #1540bf)
+					opacity: 0.8
+				.view_favorite
+					.view
+						background: url(#{$assetPath}/icon-saw-w.png) no-repeat 0 50%
+						color: #fff
+				h4
+					+positionAt(absolute,$left: 0)
+					bottom: rem(40)
+					padding: 0 rem(40)
+					font-size: rem(24)
+					line-height: 1.5
+					height: rem(80)
+					a
+						color: #fff
+			&:nth-child(3n+3)
+				margin-right: 0
+			.view_favorite
+				position: relative
+				z-index: 3
+				+flex_type($justify: space-between, $align: center)
+				margin-bottom: rem(12)
+				.favorite
+					width: rem(36)
+					height: rem(36)
+					background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
+					display: inline-block
+					text-indent: -9999px
+					&.on
+						background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+				.view
+					display: inline-block
+					font-size: rem(14)
+					color: #5e5e5e
+					line-height: 20px
+					padding-left: rem(25)
+					background: url(#{$assetPath}/icon-saw.png) no-repeat 0 50%
+			h4
+				height: rem(72)
+				+textVertical(2)
+				a
+					font-size: rem(24)
+					color: #181818
+					line-height: 1.5
+					font-weight: 700
+			.hashtag
+				+positionAt(absolute, $bottom: rem(40), $left: rem(40))
+				li
+					display: inline-block
+					padding: rem(8) rem(12)
+					background-color: #e7eaec
+					margin-bottom: 4px
+					margin-right: 1px
+					&.active
+						background-color: #1540bf
+						a
+							color: #fff
+							vertical-align: top
+					a
+						color: #000
+						font-weight: 300
+						display: inline-block
+						vertical-align: top
+		&.empty
+			> li
+				width: 100%
+				margin-right: 0
+				background: url(#{$assetPath}/img-empty.png) no-repeat 50% 0
+				height: auto
+				float: none
+				padding-top: rem(160)
+				position: relative
+				margin-top: rem(104)
+				font-size: rem(24)
+				color: #606060
+				text-align: center
+	.solution_edu_recommend
+		background: #fff
+		border-top: 4px solid #1540bf
+		margin-bottom: rem(54)
+		&.more
+			> ul
+				height: auto
+			.edu_more
+				margin-top: 2.5rem
+				a span
+					background: url(../images/icon-arrow-up.png) no-repeat
+		&.more_recommend
+			.edu_more
+				display: block
+		.edu_more
+			display: none
+			margin-top: 0
+			a
+				display: block
+				width: 100%
+				height: 100%
+		> ul
+			padding: rem(34) rem(32)
+			padding-bottom: 0
+			height: rem(373)
+			overflow: hidden
+			> li
+				height: rem(300)
+				background: #f3f3f3
+			.edu_flex
+				+flex_type($justify: space-between, $align: center)
+				+positionAt(absolute, $bottom: rem(40), $left:  rem(0))
+				padding-left: rem(40)
+				padding-right: rem(40)
+				width: 100%
+				.hashtag
+					position: static
+				button
+					width: rem(24)
+					height: rem(24)
+					background: url(#{$assetPath}/icon-vert.png) no-repeat 100% 50%
+					text-indent: -9999px
+					+positionAt(absolute, $right: rem(40))
+					top: 50%
+					margin-top: rem(-12)
+					&.active
+						background: url(#{$assetPath}/icon-vert-blue.png) no-repeat 100% 50%
+				.edu_more_box2
+					display: none
+					box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08)
+					border: solid 2px #e2e2e2
+					max-width: 140px
+					width: 100%
+					+positionAt(absolute, $top: -170%, $left: 92%)
+					z-index: 1
+					&.on
+						display: block
+					li
+						background: #fff
+						border-bottom: 1px solid #e8e8ec
+						&:last-child
+							border-bottom: none
+						&:nth-child(3),
+						&:nth-child(4)
+							background: #f3f3f3
+						a
+							padding: rem(12) 0 rem(12) rem(24)
+							display: inline-block
+							font-size: rem(14)
+							color: #181818
+.pagination
+	+flex_type($justify: center, $align: center)
+	margin-top: rem(80)
+	li
+		margin: 0 2px
+		a
+			width: rem(47)
+			height: rem(47)
+			color: #777
+			font-weight: 500
+			text-align: center
+			display: block
+			line-height: rem(47)
+			font-size: rem(20)
+		&.active
+			background-color: #1540bf
+			a
+				color: #fff
+		&.start
+			width: rem(32)
+			height: rem(32)
+			text-indent: $hideFont
+			background: url(#{$assetPath}/icon-aarrow-left.png) no-repeat 50%
+		&.prev
+			width: rem(32)
+			height: rem(32)
+			text-indent: $hideFont
+			background: url(#{$assetPath}/icon-arrow-left.png) no-repeat 50%
+			margin-right: rem(15)
+		&.next
+			width: rem(32)
+			height: rem(32)
+			text-indent: $hideFont
+			background: url(#{$assetPath}/icon-arrow-right.png) no-repeat 50%
+			margin-left: rem(15)
+		&.last
+			width: rem(32)
+			height: rem(32)
+			text-indent: $hideFont
+			background: url(#{$assetPath}/icon-aarrow-right.png) no-repeat 50%
+.view
+	.view_title
+		border-bottom: 1px solid #d5d5d5
+		padding: rem(24)
+		text-align: center
+		padding-top: 0
+		div
+			+flex_type($justify: center,$align: center)
+			margin-bottom: rem(24)
+			p
+				padding: 0 8px
+				position: relative
+				&.point
+					color: $mainColor
+					font-weight: 700
+				&.point:before,
+				&.before_none:before
+					display: none
+				&:before
+					margin-top: -8px
+					+before($widthB: 8px, $heightB: 16px, $topB: 50%, $leftB: -4px, $bgB : url(#{$assetPath}/slash.png) no-repeat 0 50%)
+
+		h3
+			font-size: rem(24)
+			font-weight: 500
+			margin-bottom: 4px
+		p
+			color: #767676
+			line-height: 1.5
+	.view_text
+		padding: rem(36)
+		color: #767676
+		line-height: 1.5
+		border-bottom: 1px solid #d5d5d5
+	.consulting_more
+		margin-top: rem(46)
+		.sub_t
+			font-size: rem(24)
+			font-weight: 700
+			color: #1540bf
+			margin-bottom: rem(18)
+.file_list
+	background: #fff
+	padding: rem(24) rem(32)
+	border-bottom: 1px solid #e2e2e2
+	li
+		padding: rem(4.5) 0 rem(4.5) rem(32)
+		background: url(#{$assetPath}/icon-file.png) no-repeat 0 50%
+		a
+			color: #000
+/*map*/
+#map
+	height: 100%
+	z-index: 0
+.area .wrap
+	padding-bottom: 0
+	overflow: hidden
+#map_wrap
+	position: relative
+	background: transparent
+	box-shadow: none
+	padding: 0
+	margin-bottom: 0
+	height: calc(100vh - 5rem)
+	display: flex
+	justify-content: space-between
+	flex-direction: row-reverse
+	.map_tab
+		//+positionAt(absolute, $top: rem(0), $left: 0)
+		height: calc(100vh - 5rem)
+		background: #fff
+		width: 26.5%
+		box-shadow: 12px 0 16px 0 rgba(0, 0, 0, 0.12)
+		.map_search
+			box-shadow: 4px 3px 8px 0 rgba(0, 0, 0, 0.1)
+			background-color: #eceff1
+			padding: rem(12) rem(25)
+			position: relative
+
+			input
+				height: rem(48)
+				background: #fff
+				width: 100%
+			button
+				width: rem(18)
+				height: rem(18)
+				position: absolute
+				right: rem(41)
+				top: 50%
+				margin-top: rem(-9)
+				text-indent: -9999px
+				background: url(#{$assetPath}/icon-search_bk.png) no-repeat 50%
+			legend,
+			label
+				position: absolute
+				visibility: hidden
+		.map_list
+			> ul
+				+flex_type($justify: center, $align: center)
+				> li
+					width: 33.33%
+					text-align: center
+					background: #fff
+					&.active
+						background-color: #f6f8f9
+						a
+							color: #1540bf
+							font-weight: 500
+							text-decoration: underline
+					a
+						font-weight: 300
+						color: #b7b4b4
+						padding: rem(18) 0
+						display: block
+			.tab_a1
+				display: block
+	.selectbox
+		+positionAt(absolute, $top: rem(20), $left: 22%)
+		display: none
+		max-width: 486px
+		width: 100%
+		border: solid 1px #e2e2e2
+		border-right: none
+		ul
+			+flex_type($justify: center, $align: center)
+			li
+				width: 33.333%
+				text-align: left
+				.select-selected
+					border-right: 1px solid #e2e2e2
+
+	.tab_a1_div
+		padding: rem(5) 0 rem(21) 0
+		background: #f6f8f9
+		overflow-y: auto
+		height: calc(100vh - 72px - 58px - 5rem)
+		&.pb0
+			padding-bottom: 0
+		.bgeceff1
+			background: #eceff1
+			padding: rem(20)
+			margin-top: rem(24)
+			padding-left: 0
+		.mt0
+			margin-top: 0
+		> ul
+			> li
+				padding-right: rem(21)
+				> div.tab_top
+					position: relative
+					> div.tab_title
+						margin-top: rem(16)
+						border-radius: 0 29px 29px 0
+						background-color: #eceff1
+						padding: rem(15) rem(24)
+						position: relative
+						&.mt44
+							margin-top: rem(44)
+						*
+							font-size: rem(14)
+							color: #000
+							display: inline-block
+						p
+							line-height: 1
+							span
+								border-left: 1px solid rgba(0, 0, 0, 0.4)
+								padding-left: rem(15)
+								margin-left: rem(15)
+								font-weight: 700
+								vertical-align: 0
+						button
+							background: url(#{$assetPath}/icon-info-blue.png) no-repeat 50%
+							width: rem(20)
+							height: rem(20)
+							text-indent: -9999px
+							+positionAt(absolute, $top: 50%, $right: rem(20))
+							margin-top: rem(-10)
+					> .tooltip
+						display: none
+						box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.16)
+						background-color: #f3f3f3
+						max-width: 286px
+						width: 100%
+						+positionAt(absolute, $top: 85%, $right: 0)
+						padding: rem(21) rem(24)
+						text-align: center
+						> p
+							display: inline-block
+							margin-bottom: rem(27)
+							position: relative
+							z-index: 1
+							&:before
+								+before($widthB: 100%, $heightB: 4px,$leftB: 0, $bgB : #ff4600)
+								bottom: 2px
+								opacity: 0.8
+								z-index: -1
+							span
+								display: inline-block
+								font-weight: 700
+								vertical-align: 0
+						div
+							text-align: left
+							p
+								font-size: rem(14)
+								color: #767676
+								margin-bottom: 1rem
+								position: relative
+								padding-left: rem(10)
+								&:last-child
+									margin-bottom: 0
+								&:before
+									+before($widthB: 4px, $heightB: 4px, $topB: 9px, $leftB: 0, $bgB : #767676)
+				div.tab_style
+					margin-left: rem(20)
+					margin-top: rem(16)
+					background: #fff
+					padding: rem(20)
+					&.p0
+						margin-top: 0
+						padding: 0
+					.tab_sub_t
+						text-align: center
+						color: #000
+						font-weight: 700
+						font-size: 14px
+						margin-bottom: 1rem
+					.tab_li
+						max-width: 276px
+						width: 100%
+						justify-content: space-around
+						+flex_type($align: center)
+						border: solid 1px #eceff1
+						+flex_wrap
+						margin: 0 auto
+						margin-bottom: rem(30)
+						li
+							background: #fff
+							text-align: center
+							width: 50%
+							height: rem(32)
+							border-right: solid 1px #eceff1
+							border-bottom: solid 1px #eceff1
+							&:nth-child(2n+2)
+								border-right: none
+							a
+								font-size: 12px
+								color: #777
+							&.active
+								background: #1540bf
+								box-shadow: 0 0 8px 0 rgba(21, 64, 191, 0.4)
+								a
+									color: #fff
+									display: inline-block
+					.tab_b
+						div
+							padding: rem(0)
+							background: #fff
+					img
+						max-width: 100%
+					.bb_bottom
+						border-bottom: 1px solid #eceff1
+.bt_fff
+	border-top: 1px solid #fff
+	&.pb58
+		padding-bottom: rem(58) !important
+	&.p20
+		margin-top: rem(21)
+.tab_table
+	.tab_sub_t
+		padding: rem(20)
+		padding-bottom: rem(10)
+	table
+		width: 100%
+		border-top: 1px solid #f6f8f9
+		tr
+			border-bottom: 1px solid #f6f8f9
+			*
+				font-size: rem(14)
+				padding: rem(10) 0
+			th
+				text-align: left
+				padding-left: rem(20)
+			td
+				text-align: right
+				padding-right: rem(20)
+				font-weight: 700
+				&.first
+					color: #ff4600
+.map_tooltip
+	background-color: #eceff1
+	text-align: center
+	position: relative
+	// &:before
+	// 	border-top: 20px solid transparent
+	// 	border-right: 20px solid #fff
+	// 	+before($widthB: 0, $heightB: 0, $leftB: -20px, )
+	// 	bottom: 0
+	// &:after
+	// 	+before($widthB: 100%, $heightB: 100%, $leftB: -1px,$topB: -1px)
+	// 	border: 2px solid #fff
+	h3
+		padding: rem(15) 0
+		width: 192px
+		font-weight: 500
+		span
+			font-size: 12px
+			vertical-align: 0
+			margin-left: 6px
+			display: inline-block
+	.close
+		+positionAt(absolute, $top: 4px, $right: 5px)
+		background: transparent
+		padding: 0
+		background: url(#{$assetPath}/mobile_open_button.png) no-repeat 50%
+		width: 20px
+		background-size: contain
+		cursor: pointer
+		height: 20px
+	div
+		background: #fff
+		padding: rem(16) rem(24)
+		*
+			font-size: 12px
+		ul
+			li
+				+flex_type($justify: space-between, $align: center)
+				margin-bottom: 4px
+				p
+					color: #181818
+					margin-left: 13px
+					width: 60%
+					text-align: left
+				span
+					color: #777
+					display: inline-block
+					text-align: right
+					width: 35%
+.question
+	text-align: center
+	h3
+		font-size: rem(24)
+		font-weight: 700
+		margin-bottom: rem(16)
+	> p
+		color: #606060
+		font-size: rem(18)
+		line-height: 1.5
+		margin-bottom: rem(20)
+	.question_div
+		border-top: 4px solid #1540bf
+		padding: 0 rem(0) rem(60) 0
+		border-bottom: 1px solid #e2e2e2
+		text-align: left
+		.question_800
+			max-width: 800px
+			width: 100%
+			margin: 0 auto
+			> ul
+				> li
+					padding-top: rem(40)
+					&.hide
+						display: none
+					> p
+						font-size: rem(20)
+						font-weight: 700
+						margin-bottom: rem(40)
+						span
+							display: inline-block
+							font-size: rem(20)
+							font-weight: 700
+							color: #1540bf
+							vertical-align: 0
+							margin-right: rem(12)
+					div
+						> ul
+							+flex_type($justify: space-around, $align: center)
+							> li
+								width: 100%
+								text-align: center
+								input
+									width: 100%
+								label
+									width: 100%
+								.radio_style[type="radio"] + label
+									border-left: none
+								&:first-child .radio_style[type="radio"] + label
+									border-left: 1px solid  #d5d5d5
+							&.ul_3
+								display: block
+								li
+									position: relative
+									text-align: left
+									margin-bottom: rem(12)
+									&.other
+										+flex_type($justify: space-between, $align: center)
+										label
+											width: 22.5%
+										input[type="text"]
+											width: 77%
+									label
+										span
+											width: rem(30)
+											height: rem(30)
+											display: inline-block
+											margin-right: rem(12)
+											border: 1px solid #d5d5d5
+											color: #d5d5d5
+											border-radius: 50%
+											text-align: center
+											line-height: rem(26)
+											margin-left: rem(24)
+										p
+											display: inline-block
+											vertical-align: 0
+											color: #d5d5d5
+									.radio_style2[type="checkbox"]:checked + label
+										p
+											background: #e8efff
+											padding-right: 1rem
+											z-index: 1
+											position: relative
+											color: #1540bf
+									.ranking
+										color: #1540bf
+										font-weight: 700
+										text-align: right
+										width: 100%
+										+positionAt(absolute, $top: 30%, $right: rem(24))
+										&:before
+											+before($widthB: 80%, $heightB: 1px, $topB: 50%,)
+											border-top: 1px dashed  #709bff
+											right: rem(58)
+									.ques_info_btn
+										+positionAt(absolute, $top: 50%, $right: rem(24))
+										width: rem(24)
+										text-indent: -9999px
+										height: rem(24)
+										margin-top: rem(-12)
+										background: url(#{$assetPath}/icon-info_blue.png) no-repeat 50%
+									.ques_tooltip
+										display: none
+										+positionAt(absolute, $top: -200%, $right: -55%)
+										max-width: 445px
+										width: 100%
+										line-height: 1.5
+										color: #767676
+										background: #fff
+										padding: rem(24)
+										box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08)
+										border: solid 2px #e2e2e2
+						.ques_table
+							width: 100%
+							tr
+								th
+									color: #000
+									width: 19%
+									vertical-align: top
+									padding-top: 1.6rem
+								td
+									width: 81%
+									padding: rem(12) 0
+									select
+										border: solid 1px #d5d5d5
+										background: #fff url(#{$assetPath}/icon-arrow-down.png) no-repeat 99% 50%
+									ul
+										li
+											+flex_type($justify: space-between, $align: center)
+											margin-top: rem(12)
+											button
+												width: rem(50)
+												height: rem(50)
+												text-indent: -9999px
+												display: inline-block
+												&.minus
+													background: #f63c3c url(#{$assetPath}/icon-minus-w.png) no-repeat 50%
+												&.plus
+													background: #709bff url(#{$assetPath}/icon-plus-w.png) no-repeat 50%
+.btn_wrap
+	margin-top: rem(80)
+	text-align: center
+	&.bt
+		border-top: 1px solid #e2e2e2
+		max-width: 1400px
+		margin: 0 auto
+		width: 100%
+		padding-top: rem(60)
+		margin-top: rem(80)
+	*
+		font-size: rem(18)
+		display: inline-block
+		padding: rem(22) rem(104)
+		margin: 0 4px
+	.next_btn
+		background: #1540bf
+		color: #fff
+	.prev_btn
+		border: solid 2px #1540bf
+		background-color: #fff
+		color: #1540bf
+		padding: rem(20) rem(104)
+.modal
+	+positionAt(fixed, $top: 0, $left: 0)
+	width: 100%
+	height: 100%
+	z-index: 2
+	.dim
+		background: rgba(0,0,0,0.4)
+		height: 100%
+	.modal_inner
+		max-width: 640px
+		width: 100%
+		text-align: center
+		background: #fff
+		+positionAt(absolute, $top: rem(160), $left: 50%)
+		margin-left: -320px
+		box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.16)
+		padding: rem(46) 0 rem(60) 0
+		&.modal_inner_pas
+			padding: rem(46) rem(120) rem(60) rem(120)
+			text-align: left
+			li
+				margin-bottom: rem(12)
+			li.pas_btn
+				position: relative
+				button
+					background: #709bff
+					padding: rem(8) rem(12)
+					color: #fff
+					+positionAt(absolute, $top: 50%, $right: 8px)
+					margin-top: rem(-19)
+					font-size: rem(14)
+			.check
+				width: 100%
+				background: #1001d9
+				color: #fff
+				border: none
+				margin-top: rem(28)
+		&.modal_inner_pas2
+			padding: rem(46) rem(170) rem(60) rem(170)
+			div
+				p
+					color: #8b8b8b
+					font-size: rem(18)
+					line-height: 1.5
+					margin-bottom: 0
+					span
+						font-weight: 700
+						display: inline-block
+						color: #8b8b8b
+						font-size: rem(18)
+						line-height: 1.5
+						vertical-align: 0
+				> span
+					padding: rem(14) rem(61)
+					background: #f3f3f3
+					color: #1540bf
+					font-weight: 700
+					font-size: rem(36)
+					margin: rem(12) 0
+					display: inline-block
+		&.modal_inner_signup
+			padding: rem(46) rem(120) rem(60) rem(120)
+			p
+				color: #8b8b8b
+				font-size: rem(18)
+				line-height: 1.5
+				margin-bottom: rem(32)
+				span
+					font-weight: 700
+					display: inline-block
+					color: #8b8b8b
+					font-size: rem(18)
+					line-height: 1.5
+					vertical-align: 0
+			.blue
+				background: #1540bf
+				border: none
+				color: #fff
+				width: 100%
+		h4
+			font-size: rem(36)
+			font-weight: 700
+			color: #000
+			text-align: center
+			margin-bottom: rem(24)
+		p
+			font-size: rem(18)
+			line-height: 1.5
+			color: #8b8b8b
+			margin-bottom: rem(32)
+		.check
+			border: solid 2px #1540bf
+			color: #1540bf
+			font-size: rem(18)
+			padding: rem(22) rem(63)
+			display: inline-block
+			background: #fff
+		.close
+			+positionAt(absolute, $top: rem(0), $right: rem(-70))
+			width: rem(60)
+			height: rem(60)
+			text-indent: -9999px
+			background: url(#{$assetPath}/img-closebtn.png) no-repeat
+.search_list
+	+flex_type($justify: space-between, $align: center)
+	margin-bottom: rem(24)
+	p
+		color: #777
+	> div
+		width: 42%
+		form
+			width: 100%
+			+flex_type($justify: space-between, $align: center)
+		select
+			width: 25%
+			border: 1px solid #d5d5d5
+			border-right: none
+		input
+			width: 77.7%
+		button
+			width: 21.5%
+			height: 50px
+			background: #1540bf
+			color: #fff
+			text-align: center
+.faq_search
+	width: 100%
+	box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.04)
+	background-color: #709bff
+	padding: rem(20) 0
+	margin-bottom: rem(40)
+	.sc_input
+		max-width: 600px
+		width: 100%
+		margin: 0 auto
+		border-bottom: 2px solid #fff
+		position: relative
+		input
+			background: transparent
+			border: none
+			color: #fff
+			width: 100%
+			&::placeholder
+				color: #fff
+				opacity: 0.6
+			&:-ms-input-placeholder
+				color: #fff
+				opacity: 0.6
+		button
+			+positionAt(absolute, $top: 50%, $right: rem(13))
+			margin-top: rem(-9)
+			background: url(#{$assetPath}/icon-search_2.png) no-repeat 50%
+			width: rem(18)
+			height: rem(18)
+			text-indent: -9999px
+.faq_tab_box
+	+flex_type($justify: center, $align: center)
+	margin-bottom: rem(40)
+	li
+		width: 	14.28%
+		background: #fff
+		border: 1px solid #d5d5d5
+		border-right: none
+		text-align: center
+		&:last-child
+			border-right: 1px solid #d5d5d5
+		a
+			padding: rem(18) 0
+			color: #d5d5d5
+			display: block
+		&.active
+			border: solid 1px #1540bf
+			background-color: #e8efff
+			a
+				color: #1540bf
+.faq_list_wrap
+	.faq_list
+		ul
+			border-top: 1px solid #e2e2e2
+			li
+				background: #fff
+				border-bottom: 1px solid #e2e2e2
+				&.active
+					a
+						color: #1540bf
+						text-decoration: underline
+						&:before
+							background: url(#{$assetPath}/icon-arrow-down-big-active.png) no-repeat 50%
+				a
+					padding: rem(35) rem(32)
+					position: relative
+					display: block
+					font-size: 	rem(20)
+					&:before
+						+before($widthB: rem(36), $heightB:  rem(36), $topB: 50%, $bgB : url(#{$assetPath}/icon-arrow-down-big.png) no-repeat 50%)
+						right: rem(32)
+						margin-top: rem(-18)
+				div
+					background: #f3f3f3
+					display: none
+					padding: rem(32)
+					color: #767676
+					line-height: 1.5
+.qna_write
+	.form_ul
+		> li
+			margin-bottom: rem(22)
+			input[type="text"]
+				height: rem(68)
+				font-size: rem(20)
+				padding: 0 rem(24)
+				&::placeholder
+					font-size: rem(20)
+			textarea
+				max-height: rem(400)
+				height: rem(400)
+				padding: rem(32)
+				resize: none
+				font-size: rem(16)
+			&.mb0
+				margin-bottom: 0
+	.file_list
+		li
+			button
+				color: #f63c3c
+				border-left: 1px solid #e2e2e2
+				background: none
+				padding-left: rem(12)
+				margin-left: rem(12)
+				display: inline-block
+.qna_answer
+	background-color: #e2e2e2
+	padding: rem(32)
+	margin-top: rem(36)
+	h4
+		font-size: rem(24)
+		font-weight: 500
+		color: #000
+		margin-bottom: rem(18)
+		span
+			display: inline-block
+			vertical-align: 0
+			width: rem(24)
+			height: rem(24)
+			margin-right: rem(12)
+			background: url(#{$assetPath}/icon-answer.png) no-repeat 50%
+	p
+		padding-left: rem(36)
+		color: #767676
+		line-height: 1.5
+.mypage_info
+	max-width: 800px
+	margin: 0 auto
+	width: 100%
+	table
+		width: 100%
+		tr
+			&.tr_id
+				td
+					display: flex
+					+flex_wrap
+					input
+						width: 80%
+					button
+						width: 20%
+						display: inline-block
+						text-align: center
+						color: #fff
+						background: #1540bf
+			th
+				font-size: rem(18)
+				color: #000
+				vertical-align: middle
+				text-align: left
+				padding-top: 1rem
+				padding-bottom: 1rem
+				span
+					font-size: rem(18)
+					color: #1540bf
+					text-align: left
+					vertical-align: 0
+			td
+				padding: rem(12) 0
+				input
+					width: 100%
+					font-size: rem(16)
+				.checkbox_style_small[type="checkbox"] + label
+					margin-right: 0.5rem
+				.tel_ul
+					+flex_type($justify: flex-start, $align: center)
+					li
+						width: 20%
+						margin-right: rem(30)
+						position: relative
+						&:before
+							+before($widthB: null, $heightB: null, $topB: 50%)
+							content: '-'
+							right: rem(-19)
+							margin-top: rem(-11)
+							font-size: rem(16)
+							color: #606060
+						&:last-child
+							margin-right: 0
+							&:before
+								display: none
+						input
+							text-align: center
+						select
+							border: 1px solid #d5d5d5
+				.email_ul
+					+flex_type($justify: flex-start, $align: center)
+					li
+						margin-right: rem(40)
+						width: 26.6%
+						position: relative
+						&:before
+							+before($topB: 50%)
+							content: '@'
+							right: rem(-28)
+							margin-top: rem(-12.6)
+							font-size: rem(18)
+							color: #000
+						&:nth-child(2)
+							width: 37.8%
+							margin-right: rem(12)
+							&:before
+								display: none
+						&:last-child
+							margin-right: 0
+							&:before
+								display: none
+						select
+							border: 1px solid #d5d5d5
+.signup_info .stage_03.signup_completion
+	border-bottom: none
+	padding-bottom: 0
+	> p
+		text-align: center
+		margin-bottom: 0
+		padding-bottom: 2rem
+		font-size: 1.5rem
+		color: rgba(0,0,0,0.4)
+		span
+			color: #1540bf
+			vertical-align: 0
+	table
+		border-top: 1px solid #222
+		tr
+			border-bottom: 1px solid #ddd
+			th
+				text-align: center
+				font-weight: 500
+				border-right: 1px solid #ddd
+				padding-top: 1rem
+				background: #f5f5f5
+				line-height: 1
+				font-size: 1rem
+			td
+				color: #666
+				padding: 1rem
+
+.warning
+	font-size: rem(14)
+	color: #f63c3c
+	margin-top: 4px
+.loginForm
+	max-width: 400px
+	width: 100%
+	margin: 0 auto
+	ul
+		li
+			margin-bottom: rem(12)
+			input
+				font-size: rem(14)
+			&:last-child
+				margin-bottom: rem(4)
+	.login_chaeck
+		+flex_type($justify: space-between, $align: center)
+		margin-top: rem(20)
+		div
+			.checkbox_style[type="checkbox"] + label
+				padding-left: rem(32)
+				line-height: rem(29)
+			.checkbox_style[type="checkbox"] + label::before
+				width: rem(24)
+				height: rem(24)
+		a
+			font-size: rem(14)
+			color: #606060
+			text-decoration: underline
+	.login_btns
+		margin-top: rem(34)
+		text-align: center
+		&.mt0
+			margin-top: 0
+		*,
+		.blue_btn
+			padding: rem(23) 0
+			font-size: rem(18)
+			width: 100%
+			display: block
+			background-color: #1001d9
+			color: #fff
+		button,
+		.blue_btn
+			margin-bottom: rem(12)
+		a
+			color: #1540bf
+			border: 2px solid #1540bf
+			background: #fff
+	.login_sns
+		text-align: center
+		margin-top: rem(32)
+		p
+			position: relative
+			&:before
+				+before($widthB: 100%, $heightB: 1px, $topB: 50%, $leftB: 0, $bgB : #b1b1b1)
+			span
+				background: #f6f8f9
+				padding: 0 rem(14.5)
+				display: inline-block
+				position: relative
+				font-size: rem(18)
+				font-weight: 300
+				color: #606060
+		ul
+			margin-top: rem(19)
+			li
+				margin-bottom: rem(12)
+				a
+					padding: rem(18) 0
+					display: block
+					font-size: rem(18)
+					span
+						width: rem(36)
+						height: rem(36)
+						display: inline-block
+						margin-right: rem(8)
+						vertical-align: -10px
+				&.kakao
+					background: #f9e000
+					a
+						color: #3b1c1c
+						span
+							background: url(#{$assetPath}/icon-sns01.png) no-repeat
+				&.naver
+					background: #00c73c
+					a
+						color: #fff
+						span
+							background: url(#{$assetPath}/icon-sns02.png) no-repeat
+				&.google
+					border: solid 2px #e2e2e2
+					background: #fff
+					a
+						color: #606060
+						span
+							background: url(#{$assetPath}/icon-sns03.png) no-repeat
+.max_width800
+	max-width: 800px
+	width: 100%
+	margin: 0 auto
+.signup_info
+	.hide
+		display: none
+	.info_stage
+		+flex_type($justify: center, $align: center)
+		margin-bottom: rem(40)
+		li
+			font-size: rem(24)
+			color: #d5d5d5
+			font-weight: 700
+			padding: 0 rem(13)
+			&.active
+				color: #1540bf
+				text-decoration: underline
+			&.complete
+				color: #709bff
+	.stage_01
+		ul
+			li
+				margin-bottom: rem(32)
+				.check_wrap
+					+flex_type($justify: space-between, $align: center)
+					margin-bottom: rem(15)
+					p
+						color: #000
+						font-size: rem(18)
+						span
+							color: #1540bf
+							font-size: rem(18)
+							display: inline-block
+							vertical-align: 0
+				.check_text
+					background: #fff
+					padding: rem(24)
+					color: #666
+					font-size: rem(14)
+					line-height: 1.43
+					max-height: 360px
+					height: 360px
+					overflow-y: auto
+					border-top: 1px solid #e2e2e2
+		.stage_all_agree
+			margin-top: rem(59)
+			border-top: 1px solid #e2e2e2
+			padding-top: rem(40)
+			text-align: center
+			label
+				font-size: rem(18)
+				line-height: rem(39)
+	.stage_02
+		border-bottom: 1px solid #e2e2e2
+		padding-bottom: rem(80)
+	.btn_box
+		button,
+		a
+			max-width: 250px
+			width: 100%
+	.stage_03
+		border-bottom: 1px solid #e2e2e2
+		padding-bottom: rem(80)
+		> p
+			font-size: rem(20)
+			color: #1540bf
+			font-weight: 700
+			padding-bottom: rem(16)
+			border-bottom: 1px solid #e2e2e2
+			margin-bottom: rem(18)
+		table
+			tr
+				th
+					padding-top: rem(10)
+				td
+					ul
+						+flex_type($justify: flex-start, $align: center)
+						li
+							width: 33.333%
+							label
+								border-right: none
+							&:last-child label
+								border-right: 1px solid #d5d5d5
+							&:last-child input:checked + label
+								border-right: 1px solid #1540bf
+					.find_ad
+						margin-top: 8px
+						+flex_type($justify: flex-start, $align: center)
+						input
+							width: 71.7%
+						.ad
+							width: 20%
+							text-align: center
+							color: #fff
+							background: #1540bf
+							height: 50px
+						.plus
+							height: 50px
+							width: 8.3%
+							background: #709bff url(#{$assetPath}/icon-plus-w.png) no-repeat 50%
+							text-indent: -9999px
+					.table_list
+						+flex_type($justify: space-between, $align: center)
+						input
+							width: 55.6%
+						select
+							width: 18.4%
+							border: 1px solid #d5d5d5
+							border-left: none
+						button
+							height: 50px
+							width: 7.6%
+							background: #f63c3c url(#{$assetPath}/icon-minus-w.png) no-repeat 50%
+							text-indent: -9999px
+					.table_list2
+						input
+							width: 92.3%
+				&.border-bottom
+					th
+						word-break: keep-all
+					td
+						padding-bottom: rem(40)
+			&.table2
+				tr
+					th
+						padding-top: rem(22)
+					&.border-top
+						border-top: 2px dashed #e2e2e2
+						td
+							padding-top: rem(40)
+						th
+							padding-top: rem(49)
+.stacked_wrap
+	+flex_type($justify: space-between)
+	canvas
+		width: 35.3% !important
+	.stacked_bar
+		width: 64.7%
+		ul
+			width: 100%
+			height: 100%
+			li
+				+flex_type($justify: space-between)
+				&:first-child
+					height: 40%
+				&:nth-child(2)
+					height: 30%
+				&:nth-child(3)
+					height: 20%
+				&:nth-child(4)
+					height: 10%
+				> div
+					font-size: 14px
+					font-weight: 700
+				> div.div2
+					*
+						font-size: 12px
+						font-weight: 400
+					p
+						span
+							vertical-align: 0
+							color: #1540bf

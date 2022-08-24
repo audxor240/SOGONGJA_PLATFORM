@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>맞춤형 컨설팅</title>
+    <meta property="og:url" content="">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 맞춤형 컨설팅">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 맞춤형 컨설팅">
+    <meta name="keywords" content="소공자 플랫폼, 소공자 과외방, 맞춤형 컨설팅, 교육, 추천교육">
+    <meta name="description" content="소공자 플랫폼 맞춤형 컨설팅">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">소공자 과외방</h2>
+                <p>입력한 정보를 기반으로 나에게 필요한 교육 및 컨설팅 콘텐츠를 맞춤형으로 제공해드립니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a th:href="@{/solution/education}">맞춤형 교육</a></li>
+                    <li class="active"><a th:href="@{/solution/consulting}">맞춤형 컨설팅</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container solution_edu_wrap">
+                <div class="solution_edu">
+                    <div class="h3_title_wrap h3_flex">
+                        <h3 class="h3_title">추천교육</h3>
+                        <div>
+                            <input type="checkbox" id="edu_hide" class="checkbox_style c181818">
+                            <label for="edu_hide">이미 수강한 교육 감추기</label>
+                        </div>
+                    </div>
+                    <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
+                        <ul class="af">
+                            <li th:each="item : ${recommendList}">
+                                <div class="view_favorite">
+                                    <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                    <span class="view" th:text="${item.read_cnt}">12</span>
+                                </div>
+                                <h4>
+                                    <a href="#n" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                </h4>
+                                <div class="edu_flex">
+                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">
+                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">
+                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>
+                                        </th:block>
+                                    </ul>
+                                    <button type="button" class="edu_more_box" th:data-edu-seq="${item.edu_seq}">더보기</button>
+                                    <ul class="edu_more_box2">
+                                        <li><a href="#n">수강완료</a></li>
+                                        <li><a href="#n">수강하기</a></li>
+                                        <li><a href="#n">관심교육 해제</a></li>
+                                        <li><a href="#n">관심교육 등록</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="edu_more">
+                            <a href="#n">더보기<span>더보기</span></a>
+                        </div>
+                    </div>
+                    <div class="edu_list_wrap">
+                        <div class="h3_title_wrap">
+                            <h3 class="h3_title">다른 사용자가 자주 찾는 컨설팅</h3>
+                            <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                        </div>
+                        <table class="table_style">
+                            <caption>다른 사용자가 자주 찾는 컨설팅</caption>
+                            <thead>
+                                <tr>
+                                    <th style="width: 11%;">구분</th>
+                                    <th style="width: 11%;">지원내용</th>
+                                    <th class="txl">컨설팅명</th>
+                                    <th style="width: 15%;">지원대상</th>
+                                    <th style="width: 11%;">지역</th>
+                                    <th style="width: 11%;">바로가기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <th:block th:unless="${#lists.isEmpty(list)}">
+                                    <tr th:each="item : ${list}">
+                                        <td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>
+                                        <td class="color_606060">창업전 컨설팅</td>
+                                        <td class="txl">
+                                            <a th:href="@{/study/consulting/view}" th:text="${item.subject}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
+                                        </td>
+                                        <td>서울시 소재 예비 창업자</td>
+                                        <td>서울시</td>
+                                        <td><a class="more_a" th:if="${not #strings.isEmpty(item.con_url)}" th:href="${item.con_url}" target="_blank">바로가기</a></td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
+                </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/solution/education_list.js}"></script>
+    </th:block>
+</body>
+
+</html>

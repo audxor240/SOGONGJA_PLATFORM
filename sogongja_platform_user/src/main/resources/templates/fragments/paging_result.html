@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="paging_result(className)">
+    <p th:class="${className}" th:text="|전체 ${#numbers.formatInteger(paging.total,0,'COMMA')}건  현재 페이지 ${paging.page}/${paging.lastPage}|">전체 510건, 현재페이지 1/43</p>
+</th:block>
+
+</html>

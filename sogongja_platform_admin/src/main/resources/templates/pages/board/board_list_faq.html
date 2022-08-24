@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">게시판관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <select th:field="*{field}" class="form-control">
+                                            <option value="subject">제목</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-2 col-form-label">유형</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select th:field="*{category}" class="form-control">
+                                            <option th:each="item : ${category}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
+                                    <i class="btn-icon-prepend" data-feather="search"></i>조회
+                                </button>
+                                <a th:href="@{|/board/${boardType}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
+                                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-description">
+                        <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
+                    </p>
+                    <p class="card-description"></p>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 5%;">
+                                <col style="width: 15%;">
+                                <col style="width: 44%;">
+                                <col style="width: 12%;">
+                                <col style="width: 12%;">
+                                <col style="width: 12%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>유형</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성일</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                    <td th:text="${paging.total - item.rnum + 1}">1</td>
+                                    <td>
+                                        <span class="badge" th:classappend="|badge-${item.category_class}|" th:text="${item.category_name}">유형</span></td>
+                                    <td>
+                                        <a th:href="@{|/board/${boardType}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    </td>
+                                    <td th:text="${item.reg_username}">작성자</td>
+                                    <td th:text="${item.reg_dt}">작성일</td>
+                                    <td class="text-right">
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form name="deleteForm" th:action="@{/board/delete}" method="post">
+        <input type="hidden" name="boardSeq">
+        <input type="hidden" name="boardType" th:value="${boardType}">
+        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    </form>
+</div>
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/assets/js/pages/board/board_list.js}"></script>
+</th:block>
+
+</html>

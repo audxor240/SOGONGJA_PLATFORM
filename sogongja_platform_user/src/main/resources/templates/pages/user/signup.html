@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 회원가입">
+    <meta property="og:image" content="../images/img-logo-black.png">
+    <meta property="og:description" content="소공자 플랫폼 회원가입">
+    <meta name="keywords" content="소공자 플랫폼, 회원가입, 이메일 회원가입">
+    <meta name="description" content="소공자 플랫폼 회원가입">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">회원가입</h2>
+                <p>아직 계정이 없으신가요? 간단한 가입 후 더 많은 정보를 을 수 있습니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a th:href="@{/login}">로그인</a></li>
+                    <li class="active"><a th:href="@{/signup}">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container ">
+                <div class="loginForm">
+                    <div class="login_btns mt0">
+                      <a th:href="@{/login}" class="blue_btn">로그인</a>
+                      <a th:href="@{/signup/agree}">회원가입</a>
+                    </div>
+                    <!-- <div class="login_sns">
+                        <p><span>SNS 로그인</span></p>
+                        <ul>
+                            <li class="kakao"><a href="#n"><span></span>카카오 로그인</a></li>
+                            <li class="naver"><a href="#n"><span></span>네이버 로그인</a></li>
+                            <li class="google"><a href="#n"><span></span>Google 로그인</a></li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+     <script th:src="@{/js/pages/user/sub.js}"></script>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual user_visual">
+            <div class="container">
+                <h2>회원가입</h2>
+                <p>회원가입을 하여 다양한 서비스를 이용해 보세요.</p>
+                <ul class="bread_crumbs">
+                    <li><a href="/">홈</a></li>
+                    <li><a href="#n">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <div class="wrap">
+            <div class="container ">
+                <section class="sub_title sub_container">
+                    <ul>
+                        <li>01 약관동의</li>
+                        <li>02 정보입력</li>
+                        <li>
+                            <h3>03 관심지역</h3>
+                        </li>
+                    </ul>
+                    <p><span class="required">필수항목</span>는 필수 항목 입니다.</p>
+                </section>
+                <div class="join_area sub_container">
+                    <table class="table_style table_bt">
+                        <caption>관심지역 정보입력</caption>
+                        <tr>
+                            <th>유형</th>
+                            <td>
+                                <ul class="flex_box radio_ul">
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type" id="rental" checked="">
+                                        <label for="rental">임대인</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type" id="lessor">
+                                        <label for="lessor">임차인</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type" id="public">
+                                        <label for="public">일반인</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>입지 및 관심지역</th>
+                            <td>
+                                <ul class="flex_box radio_ul">
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type2" id="building" checked="">
+                                        <label for="building">건물</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type2" id="interest">
+                                        <label for="interest">관심지역</label>
+                                    </li>
+                                </ul>
+                                <div class="adr">
+                                    <div class="adr_search">
+                                        <input type="text" class="c000" title="관심지역을 입력해 주세요." placeholder="관심지역을 입력해 주세요.">
+                                        <button class="btn_circle">주소찾기</button>
+                                        <butto class="plus_btn">+</button>
+                                    </div>
+                                    <ul class="adr_plus">
+                                        <li>
+                                            <button class="minus_btn">-</button>
+                                            <ul class="flex_box area_ul">
+                                                <li><input type="text"></li>
+                                                <li>
+                                                    <div class="custom-select">
+                                                        <select name="" id="">
+                                                            <option value="">단독</option>
+                                                            <option value="">단독</option>
+                                                            <option value="">단독</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-select">
+                                                        <select name="" id="">
+                                                            <option value="">1층</option>
+                                                            <option value="">1층</option>
+                                                            <option value="">1층</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="flex_box">
+                                                <p>건물</p>
+                                                <p>임대</p>
+                                                <p>발생전</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <button class="minus_btn">-</button>
+                                            <ul class="flex_box area_ul">
+                                                <li><input type="text"></li>
+                                                <li>
+                                                    <div class="custom-select">
+                                                        <select name="" id="">
+                                                            <option value="">단독</option>
+                                                            <option value="">단독</option>
+                                                            <option value="">단독</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-select">
+                                                        <select name="" id="">
+                                                            <option value="">1층</option>
+                                                            <option value="">1층</option>
+                                                            <option value="">1층</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="flex_box">
+                                                <p>지역</p>
+                                                <p>일반</p>
+                                                <p>발생됨</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>생각하고 있거나 입지한 상권의 젠트리피케이션 발생 유무</th>
+                            <td>
+                                <ul class="flex_box radio_ul">
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type3" id="before" checked="">
+                                        <label for="before">발생전</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type3" id="ing">
+                                        <label for="ing">발생중</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" name="type3" id="after">
+                                        <label for="after">발생됨</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btn_box">
+                    <a class="btn btn_grey" href="join_info">이전</a>
+                    <a class="btn" href="join_field">다음</a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/selectBox.js}"></script>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <th:block th:include="fragments/common_meta"></th:block>
+    <title layout:title-pattern="$LAYOUT_TITLE :: $CONTENT_TITLE">소공자플랫폼</title>
+    <!--/* Common css */-->
+    <th:block th:include="fragments/common_css"></th:block>
+    <!--/* Custom or page css */-->
+    <th:block layout:fragment="custom_css"></th:block>
+</head>
+
+<body>
+    <!--/* Header */-->
+    <header th:replace="fragments/header"></header>
+    <!--/* Page Content */-->
+    <article layout:fragment="content"></article>
+    <!--/* Footer */-->
+    <footer th:replace="fragments/footer"></footer>
+    <div class="wrap-loading display-none">
+        <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
+    </div>
+    <!--/* Common javascript */-->
+    <th:block th:include="fragments/common_js"></th:block>
+    <!--/* Custom or page javascript */-->
+    <th:block layout:fragment="custom_js"></th:block>
+</body>
+
+</html>

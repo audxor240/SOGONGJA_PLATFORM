@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.MenuMapper">
+
+	<select id="getBreadcrumb" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getBreadcrumb */
+		SELECT A.MENU_CODE
+		     , A.MENU_NAME
+		     , (SELECT MENU_NAME
+		          FROM ST_MENU B
+		         WHERE B.MENU_CODE = A.PARENT_MENU_CODE
+		       ) AS PARENT_MENU_NAME
+		  FROM ST_MENU A
+		 WHERE A.MENU_CODE = #{menuCode}
+		   AND A.DEL_FLAG  = 0
+	</select>
+
+	<select id="getUserMenuList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getUserMenuList */
+		  SELECT A.*
+		    FROM ST_MENU A
+		       INNER JOIN ST_MENU_AUTH B
+		               ON A.MENU_CODE = B.MENU_CODE
+		   WHERE A.DEL_FLAG           = 0
+		     AND B.DEL_FLAG           = 0
+		     AND B.AUTH               = #{auth}
+		ORDER BY A.ORDBY
+	</select>
+
+	<select id="getMenuList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getMenuList */
+		WITH RECURSIVE CTE AS
+		( SELECT MENU_CODE
+		      , MENU_NAME
+		      , PARENT_MENU_CODE
+		      , MENU_LINK
+		      , 1 AS LEVEL
+		      , ORDBY
+		      , DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DT
+		   FROM ST_MENU
+		  WHERE PARENT_MENU_CODE = 'TOP'
+		    AND DEL_FLAG         = 0
+
+		UNION ALL
+
+		SELECT M.MENU_CODE
+		     , M.MENU_NAME
+		     , M.PARENT_MENU_CODE
+		     , M.MENU_LINK
+		     , 1 + CTE.LEVEL AS LEVEL
+		     , M.ORDBY
+		     , DATE_FORMAT(M.REG_DATE, '%Y-%m-%d') AS REG_DT
+		  FROM ST_MENU M
+		   INNER JOIN CTE
+		           ON M.PARENT_MENU_CODE = CTE.MENU_CODE
+		 WHERE M.DEL_FLAG                = 0
+		)
+		  SELECT MENU_CODE
+		       , MENU_NAME
+		       , PARENT_MENU_CODE
+		       , MENU_LINK
+		       , LEVEL
+		       , ORDBY
+		       , REG_DT
+		    FROM CTE
+		   WHERE 1 = 1
+		<if test="field != null and field != '' and keyword != null and keyword != ''">
+			AND  ${field} LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		ORDER BY MENU_CODE
+	/*||ORDER BY MENU_CODE||*/
+	</select>
+
+	<select id="getAuthMenuList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getAuthMenuList */
+		WITH RECURSIVE CTE AS
+		( SELECT MENU_CODE
+		      , MENU_NAME
+		      , PARENT_MENU_CODE
+		      , 1 AS LEVEL
+		   FROM ST_MENU
+		  WHERE PARENT_MENU_CODE = 'TOP'
+		    AND DEL_FLAG         = 0
+
+		UNION ALL
+
+		SELECT M.MENU_CODE
+		     , M.MENU_NAME
+		     , M.PARENT_MENU_CODE
+		     , 1 + CTE.LEVEL AS LEVEL
+		  FROM ST_MENU M
+		   INNER JOIN CTE
+		           ON M.PARENT_MENU_CODE = CTE.MENU_CODE
+		 WHERE M.DEL_FLAG                = 0
+		)
+		  SELECT A.MENU_CODE        AS ID
+		       , A.MENU_NAME        AS TEXT
+		       , A.PARENT_MENU_CODE AS PARENT_ID
+		       , LEVEL
+		       , IFNULL(B.READ_FLAG, 0) AS VALUE
+		    FROM CTE A
+		  LEFT OUTER JOIN ST_MENU_AUTH B
+		               ON A.MENU_CODE = B.MENU_CODE
+		              AND B.AUTH      = #{auth}
+		ORDER BY A.MENU_CODE
+	</select>
+
+	<update id="deleteAuthMenu" parameterType="map">
+		/* file : MenuMapper.xml, id : deleteAuthMenu */
+		UPDATE ST_MENU_AUTH
+		   SET DEL_FLAG     = 1
+		     , DEL_USER_SEQ = #{login_user_seq}
+		     , DEL_DATE     = CURRENT_TIMESTAMP()
+		 WHERE AUTH         = #{auth}
+	</update>
+
+	<insert id="saveAuthMenu" parameterType="map">
+		/* file : MenuMapper.xml, id : saveAuthMenu */
+		INSERT
+		  INTO ST_MENU_AUTH (
+		              AUTH
+		            , MENU_CODE
+		            , READ_FLAG
+		            , REG_USER_SEQ)
+		       VALUES (
+		              #{auth}
+		            , #{menu_code}
+		            , 1
+		            , #{login_user_seq})
+		    ON DUPLICATE KEY UPDATE READ_FLAG = 1
+		     , DEL_FLAG                       = 0
+		     , MOD_USER_SEQ                   = #{login_user_seq}
+		     , MOD_DATE                       = CURRENT_TIMESTAMP()
+		     , DEL_USER_SEQ                   = NULL
+		     , DEL_DATE                       = NULL
+	</insert>
+
+	<select id="getAuthMenuParent" parameterType="string" resultType="string">
+		/* file : MenuMapper.xml, id : getAuthMenuParent */
+		SELECT PARENT_MENU_CODE
+		  FROM (  SELECT PARENT_MENU_CODE
+		           FROM ST_MENU
+		          WHERE DEL_FLAG = 0
+		            AND MENU_CODE IN
+		                ( SELECT MENU_CODE
+		                   FROM ST_MENU_AUTH
+		                  WHERE DEL_FLAG = 0
+		                    AND AUTH     = #{auth}
+		                )
+		       GROUP BY PARENT_MENU_CODE
+		       ) P
+		 WHERE PARENT_MENU_CODE != 'TOP'
+	</select>
+
+	<select id="getParentMenuList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getParentMenuList */
+		  SELECT MENU_CODE AS CODE
+		       , MENU_NAME AS CODE_NAME
+		    FROM ST_MENU
+		   WHERE DEL_FLAG         = 0
+		     AND PARENT_MENU_CODE = 'TOP'
+		ORDER BY ORDBY
+	</select>
+
+	<insert id="saveMenu" parameterType="map">
+		/* file : MenuMapper.xml, id : saveMenu */
+		INSERT
+		  INTO ST_MENU (
+		              MENU_CODE
+		            , MENU_NAME
+		            , PARENT_MENU_CODE
+		            , MENU_LINK
+		            , MENU_ICON
+		            , ORDBY
+		            , REG_USER_SEQ)
+		       VALUES (
+		              UPPER( #{menu_code} )
+		            , #{menu_name}
+		            , #{parent_menu_code}
+		            , #{menu_link}
+		            , #{menu_icon}
+		            , #{ordby}
+		            , #{login_user_seq})
+		    ON DUPLICATE KEY UPDATE MENU_NAME = #{menu_name}
+		     , PARENT_MENU_CODE               = #{parent_menu_code}
+		     , MENU_LINK                      = #{menu_link}
+		     , MENU_ICON                      = #{menu_icon}
+		     , ORDBY                          = #{ordby}
+		     , DEL_FLAG                       = 0
+		     , MOD_USER_SEQ                   = #{login_user_seq}
+		     , MOD_DATE                       = CURRENT_TIMESTAMP()
+	</insert>
+
+	<update id="deleteMenu" parameterType="map" >
+		/* file : MenuMapper.xml, id : deleteMenu */
+		  UPDATE ST_MENU
+		     SET DEL_FLAG     = 1
+		       , DEL_USER_SEQ = #{login_user_seq}
+		       , DEL_DATE     = CURRENT_TIMESTAMP()
+		   WHERE MENU_CODE    = #{menu_code}
+	</update>
+
+	<update id="deleteMenuParent" parameterType="map" >
+		/* file : MenuMapper.xml, id : deleteMenuParent */
+		  UPDATE ST_MENU
+		     SET DEL_FLAG         = 1
+		       , DEL_USER_SEQ     = #{login_user_seq}
+		       , DEL_DATE         = CURRENT_TIMESTAMP()
+		   WHERE PARENT_MENU_CODE = #{menu_code}
+	</update>
+
+	<select id="getMenu" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : MenuMapper.xml, id : getMenu */
+		SELECT A.*
+		  FROM ST_MENU A
+		 WHERE A.MENU_CODE = #{menuCode}
+		   AND A.DEL_FLAG  = 0
+	</select>
+
+</mapper>

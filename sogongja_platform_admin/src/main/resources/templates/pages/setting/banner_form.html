@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">배너관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <form name="editForm" th:action="@{/setting/banner/form}" th:object="${banner}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+        <input type="hidden" th:field="*{bannerSeq}">
+        <input type="hidden" th:field="*{pcFilePath}" >
+        <input type="hidden" th:field="*{pcFileName}" >
+        <input type="hidden" name="menuCode" th:value="${menuCode}">
+        <input type="hidden" name="pageParams" th:value="${pageParams}">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">제목</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
+                                         <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">내용</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{content}" maxlength="100" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">배너 링크</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{linkUrl}" maxlength="100" class="form-control" required="required">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('linkUrl')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">링크 방법</label>
+                                    <!-- <div class="col-sm-2">
+                                    	<select class="select" th:field="*{linkTarget}" required="required">
+                                            <option th:each="item : ${targetList}" th:value="${item.code}" th:text="${item.code_name}"></option>
+                                        </select>
+                                    </div> -->
+                                    <div class="col-sm-9">
+	                                    <div class="form-check form-check-inline" th:each="item : ${targetList}">
+	                                        <label class="form-check-label">
+	                                            <input type="radio" class="form-check-input" name="linkTarget" th:value="${item.code}" th:data-label="${item.code_name}" th:text="${item.code_name}" th:checked="${#strings.equals(item.code, #strings.isEmpty(banner.linkTarget) ? '_BLANK':banner.linkTarget )}">
+	                                            <i class="input-frame"></i>
+	                                        </label>
+	                                    </div>
+	                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <label class="col-form-label required">베너이미지</label><br>
+                                    </div>
+                                    <div class="col-sm-5">
+                                    	<th:block th:if="${not #strings.isEmpty(banner.pcFilePath)}">
+                                            <div class="attach-file-group">
+	                                            <div class="pt-2 attach-file">
+	                                                <div class="input-group">
+	                                                    <a th:href="@{|/setting/banner/downloadPcFile/${banner.bannerSeq}|}" class="file-download mt-1 mr-2" th:text="${banner.pcFileName}">파일명</a>
+	                                                    <span class="input-group-append">
+	                                                        <button type="button" class="btn btn-danger btn-delete-upload">삭제</button>
+	                                                    </span>
+	                                                </div>
+	                                            </div>
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${not #strings.isEmpty(banner.pcFilePath)}">
+	                                        <div class="attach-file-group">
+	                                            <div class="pt-2 attach-file">
+	                                                <input type="file" id="attachFiles" name="attachFiles" class="file-upload-default" accept="image/gif,image/jpeg,image/png">
+	                                                <div class="input-group">
+	                                                    <input type="text" id="uploadFile" class="form-control file-upload-title" disabled="disabled" placeholder="" th:value="${banner.pcFileName}" >
+	                                                    <span class="input-group-append">
+	                                                        <button type="button" class="file-upload-browse btn btn-primary">파일선택</button>
+	                                                        <button type="button" class="btn btn-danger btn-delete-upload ml-3">삭제</button>
+	                                                    </span>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                     </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="preViewImgRow">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-9">
+                                        <!-- 첨부파일 미리보기 -->
+	                                     <th:block th:if="${not #strings.isEmpty(banner.pcFilePath)}">
+	                                     		<img id="addfileView" th:src="|/setting/banner/downloadPcFile/${banner.bannerSeq}|" style="max-width:100%; cursor: pointer;">
+	                                     </th:block>
+	                                     <th:block th:unless="${not #strings.isEmpty(banner.pcFilePath)}">
+	                                     		<img id="addfileView" style="display:none; max-width:100%; cursor: pointer;" >
+	                                     </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">정렬순서</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" th:field="*{ordby}" placeholder="" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">사용여부</label>
+                                    <div class="col-sm-9">
+	                                    <div class="form-check form-check-inline">
+	                                        <label class="form-check-label">
+	                                            <input type="radio" class="form-check-input" name="useFlag" value="0" data-label="미사용" th:checked="*{useFlag == 0}">미사용
+	                                            <i class="input-frame"></i>
+	                                        </label>
+	                                    </div>
+	                                    <div class="form-check form-check-inline">
+	                                        <label class="form-check-label">
+	                                            <input type="radio" class="form-check-input" name="useFlag" value="1" data-label="사용" th:checked="*{useFlag == 1}">사용
+	                                            <i class="input-frame"></i>
+	                                        </label>
+	                                    </div>
+	                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{bannerSeq == 0}">
+                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                </button>
+                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{bannerSeq == 0}">
+                    <i class="btn-icon-prepend" data-feather="edit"></i>수정
+                </button>
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/setting/banner?${pageParams}|}">
+                    <i class="btn-icon-prepend" data-feather="list"></i>목록
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block layout:fragment="custom_css">
+    <link rel="stylesheet" th:href="@{/assets/css/codemirror.css}" />
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+    	var ordby = /*[[${banner.ordby}]]*/0;
+    	var isDownImage = true;
+    </script>
+    <script th:src="@{/assets/js/libs/codemirror.js}"></script>
+    <script th:src="@{/assets/js/file-upload.js}"></script>
+    <script th:src="@{/assets/js/pages/setting/banner_form.js}"></script>
+</th:block>
+
+</html>

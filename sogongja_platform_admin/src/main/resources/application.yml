@@ -1,0 +1,169 @@
+spring:
+  profiles:
+    active: local
+    
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 900MB
+    
+  cache:
+    type: none
+    
+  thymeleaf:
+    mode: HTML5
+    cache: false
+    
+  web:
+    resources:
+      chain:
+        strategy:
+          fixed:
+            enabled: true
+   
+server:
+  servlet:
+    session:
+      timeout: 120m
+      cookie:
+        name: SOGONGJA_ADMIN_JSESSIONID
+    encoding:
+      charset: UTF-8
+      force: true
+  error:
+    whitelabel:
+      enabled: false
+    
+system:
+  slack-bot-url: https://hooks.slack.com/services/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
+  slack-bot-channel-url: https://hooks.slack.com/services/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
+  api-key: UE110X25S8Z6mmc4EEk1Ag==
+  version: 202104071900
+    
+---
+    
+spring:
+  config:
+    activate:
+      on-profile: local
+  output:
+    ansi:
+      enabled: detect
+  primary:
+    datasource:
+      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: sogongja
+      password: sogongja@2021!
+
+system:
+  slack-send: false
+  upload-file-path: Z:\SOGONGJA\upload
+  thumbnail-file-path: Z:\SOGONGJA\upload\thumb
+    
+server:
+  port: 2081
+
+logging:
+  file: 
+    max-history: 20
+    max-size: 10MB
+    name: logs/logback.log
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+#    file: "%d %-5level [%thread] %logger : %msg%n" 
+  level:
+    root: info
+    jdbc:
+      sqlonly: off
+      sqltiming: debug
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off
+    org:
+      thymeleaf: off
+ 
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  primary:
+    datasource:
+      jdbc-url: jdbc:log4jdbc:mariadb://nfm.stoneitgt.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: sogongja
+      password: sogongja@2021!
+      
+system:
+  slack-send: false
+  upload-file-path: /www/sogongja/upload
+  thumbnail-file-path: /www/sogongja/upload/thumb
+
+server:
+  port: 12081
+  servlet:
+    context-path: /sogongja_admin
+
+logging:
+  file: 
+    max-history: 20
+    max-size: 10MB
+    name: /www/sogongja/logs/admin/logback.log
+  pattern:
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+  level:
+    root: info
+    jdbc:
+      sqlonly: off
+      sqltiming: debug
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off
+    org:
+      thymeleaf: off
+    
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  primary:
+    datasource:
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: sogongja
+      password: sogongja@2021!
+      
+system:
+  slack-send: false
+  upload-file-path: /app/upload
+  thumbnail-file-path: /app/upload/thumb
+  
+server:
+  port: 8081
+  undertow:
+    accesslog:
+      enabled: true
+      dir: /app/logs/admin
+
+logging:
+  file: 
+    max-history: 180
+    max-size: 10MB
+    name: /app/logs/admin/logback.log
+  pattern:
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+  level:
+    root: info
+    jdbc:
+      sqlonly: off
+      sqltiming: debug
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off
+    org:
+      thymeleaf: off

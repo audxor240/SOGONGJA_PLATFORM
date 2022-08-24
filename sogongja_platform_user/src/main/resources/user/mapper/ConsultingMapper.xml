@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.ConsultingMapper">
+
+	<select id="getConsultingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : ConsultingMapper.xml, id : getConsultingList */
+		  SELECT C.*
+		       , CON_TYPE.CODE_NAME                  AS CON_TYPE_NAME
+		       , CON_CLASS.CODE_NAME                 AS CON_CLASS_NAME
+		       , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
+		       , U.USERNAME                          AS REG_USERNAME
+		    FROM ST_CONSULTING C
+		       INNER JOIN ST_CODE_DTL CON_TYPE
+		               ON CON_TYPE.GRP_CODE = 'CON_TYPE'
+		              AND CON_TYPE.CODE     = C.CON_TYPE
+		       INNER JOIN ST_CODE_DTL CON_CLASS
+		               ON CON_CLASS.GRP_CODE = 'CON_CLASS'
+		              AND CON_CLASS.CODE     = C.CON_CLASS
+		       INNER JOIN ST_CODE_DTL SUPPORT_ORG
+		               ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
+		              AND SUPPORT_ORG.CODE     = C.SUPPORT_ORG
+		       INNER JOIN ST_USER U
+                       ON C.REG_USER_SEQ = U.USER_SEQ
+		   WHERE C.DEL_FLAG                    = 0
+		<if test="keyword != null and keyword != ''">
+             AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <choose>
+        <when test='read_cnt == "Y"'>
+        ORDER BY READ_CNT DESC, CON_SEQ DESC
+    /*||ORDER BY READ_CNT DESC, CON_SEQ DESC||*/
+        </when>
+        <otherwise>
+		ORDER BY CON_SEQ DESC
+	/*||ORDER BY CON_SEQ DESC||*/
+        </otherwise>
+        </choose>
+	</select>
+
+	<select id="getConsulting" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : ConsultingMapper.xml, id : getConsulting */
+		  SELECT A.*
+		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		    FROM ST_CONSULTING A
+		   WHERE A.DEL_FLAG = 0
+		     AND A.CON_SEQ  = #{conSeq}
+	</select>
+
+	<update id="updateConsultingReadCnt" parameterType="map" >
+        /* file : ConsultingMapper.xml, id : updateConsultingReadCnt */
+        UPDATE ST_CONSULTING
+           SET READ_CNT = IFNULL(READ_CNT, 0) + 1
+         WHERE CON_SEQ  = #{conSeq}
+    </update>
+
+</mapper>

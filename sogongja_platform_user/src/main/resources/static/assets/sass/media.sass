@@ -1,0 +1,109 @@
+@import "_var"
+
+@media screen and (min-width: 800px)
+	.header nav > ul > li:hover h2 a,
+	.main .header.over nav > ul > li:hover h2 a,
+	.main .header.over2 nav > ul > li:hover h2 a
+		border-bottom: 1px solid #1540bf
+		color: #1540bf
+	.header nav > ul > li ul li:hover a,
+	.header .user a:hover,
+	.map_header .hd .right_hd > ul li:hover a
+		text-decoration: underline
+	.map_header .hd .right_hd > ul li.map_menu:hover
+		opacity: 0.8
+	/*메인*/
+	.main_tab .main_tab_ul li:hover
+		box-shadow: 0 0 60px 0 #1540bf
+		background-color: #1540bf
+		position: relative
+		&:before
+			opacity: 1
+		h2
+			color: #fff
+		p
+			color: rgba(255,255,255,0.8)
+		&:first-child
+			background: #1540bf url(#{$assetPath}/img-main-icon01-active.png) no-repeat 16% 16%
+		&:nth-child(2)
+			background: #1540bf url(#{$assetPath}/img-main-icon02-active.png) no-repeat 16% 16%
+		&:nth-child(3)
+			background: #1540bf url(#{$assetPath}/img-main-icon03-active.png) no-repeat 16% 16%
+		&:last-child
+			background: #1540bf url(#{$assetPath}/img-main-icon04-active.png) no-repeat 16% 16%
+	.main_tab .tab_cont .tab_img a:hover
+		text-decoration: underline
+	.main_support .container ul li.over
+		background: #fff
+		span,
+		p a
+			color: rgba(0,0,0,0.6)
+		h4 a
+			color: #1540bf
+		.hashtag
+			background: #1540bf
+			color: #fff
+	.edu_list > li .hashtag li:hover,
+	.solution_edu_recommend > ul > li .hashtag li:hover
+		background-color: #1540bf
+		a
+			color: #fff
+	footer .ft_top .ft_menu > ul > li ul li:hover a
+		text-decoration: underline
+		font-weight: 700
+	/*서브*/
+	.pagination li:hover a,
+	footer .ft_bottom .privacy li:hover a
+		text-decoration: underline
+	.sub_visual .lnb ul li:hover
+		border-bottom: 2px solid #1540bf
+		a
+			color: #1540bf
+	.table_style tr td.txl a:hover,
+	.edu_list > li h4 a:hover,
+	.solution_edu_recommend > ul > li h4 a:hover,
+	.table_more a:hover,
+	.edu_more a:hover,
+	.btn_box .btn:hover
+		text-decoration: underline
+	.checkbox_style[type="checkbox"] + label:hover
+		color: #000
+	.checkbox_wrap .check_keyword div button:hover,
+	.loginForm .login_btn button:hover,
+	.loginForm .login_btn .blue_btn:hover,
+	.loginForm .login_btn a:hover,
+	.loginForm .login_sns ul li a:hover,
+	.signup_info .stage_03 table tr td button:hover,
+	footer .ft_top .ft_address div a:hover
+		opacity: 0.8
+		text-decoration: underline
+	.solution_edu_recommend > ul .edu_flex button:hover
+		background: url(#{$assetPath}/icon-vert-blue.png) no-repeat 100% 50%
+	.edu_list > li .view_favorite .favorite:hover,
+	.solution_edu_recommend > ul > li .view_favorite .favorite:hover
+		background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 100% 50%
+	.faq_list_wrap .faq_list ul li:hover a
+		color: #1540bf
+		text-decoration: underline
+	.faq_tab_box li:hover
+		border: solid 1px #1540bf
+		background-color: #e8efff
+		a
+			color: #1540bf
+	.loginForm .login_chaeck a:hover
+		font-weight: 700
+	#map_wrap .map_tab .map_list > ul > li:hover a
+		color: #1540bf
+		font-weight: 500
+		text-decoration: underline
+	#map_wrap .tab_a1_div > ul > li div.tab_style .tab_li li:hover
+		background: #1540bf
+		box-shadow: 0 0 8px 0 rgba(21, 64, 191, 0.4)
+		a
+			color: #fff
+	.map_header .hd .map_tab_list li:hover
+		border-bottom: 2px solid #1540bf
+		a
+			color: #1540bf
+			font-weight: 700
+			line-height: 5rem

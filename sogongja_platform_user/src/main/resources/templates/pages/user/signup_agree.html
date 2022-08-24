@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>회원가입</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 회원가입">
+    <meta property="og:image" content="../images/img-logo-black.png">
+    <meta property="og:description" content="소공자 플랫폼 회원가입">
+    <meta name="keywords" content="소공자 플랫폼, 회원가입, 약관동의, 관심지역, 상권, 건물, 임대">
+    <meta name="description" content="소공자 플랫폼 회원가입">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">회원가입</h2>
+                <p>아직 계정이 없으신가요? 간단한 가입 후 더 많은 정보를 을 수 있습니다.</p>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a th:href="@{/login}">로그인</a></li>
+                    <li class="active"><a th:href="@{/signup}">회원가입</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="wrap">
+            <div class="sub_container signup_info">
+                <ul class="info_stage">
+                    <li class="active">01 약관동의</li>
+                    <li class="">02 정보입력</li>
+                    <li class="">03 가입완료</li>
+                </ul>
+                <form name="joinForm" th:action="@{/signup/info}" method="POST" onsubmit="return validationForm();">
+                    <div class="stage_01">
+                        <ul class="max_width800">
+                            <li>
+                                <div class="check_wrap">
+                                    <p>이용약관 동의 <span>(필수)</span></p>
+                                    <div>
+                                        <input type="checkbox" class="checkbox_style checkbox_style_small" id="agree1" name="agree1" value="Y">
+                                        <label for="agree1">동의합니다</label>
+                                    </div>
+                                </div>
+                                <div class="check_text">
+                                    제1장 총칙<br><br>
+                                    제1조 (목적)<br>
+                                    이 약관은 소상공인의 공생・자생을 위한 교육・컨설팅 통합 플랫폼 (이하 "소공자"라 합니다) 홈페이지가 제공하는 통합회원 서비스(이하 "서비스"라 합니다)를 이용함에 있어 이용자와 서울시간의 권리·의무 및 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.<br>
+                                    <br>
+                                    제2조 (약관의 효력 및 변경)<br>
+                                    ① 이 약관은 서비스 화면에 게시하거나 기타의 방법으로 공지함으로써 이용자에게 공시하고, 이에 동의한 이용자가 서비스에 가입함으로써 효력이 발생합니다.<br>
+                                    ② 서울시는 필요하다고 인정되는 경우 이 약관의 내용을 변경할 수 있으며, 변경된 약관은 서비스 화면에 공지함으로써 이용자가 직접 확인할 수 있도록 할 것입니다.<br>
+                                    ③ 이용자는 변경된 약관에 동의하지 않으실 경우 서비스 이용을 중단하고 본인의 회원등록을 취소할 수 있으며, 계속 사용하시는 경우에는 약관 변경에 동의한 것으로 간주되며 변경된 약관은 전항과 같은 방법으로 효력이 발생합니다.<br>
+                                    ④ 이용자가 이 약관의 내용에 동의하는 경우 서울시의 서비스 제공행위 및 이용자의 서비스 이용행위에는 이 약관이 우선적으로 적용될 것입니다. 이 약관에 명시되지 않은 사항에 대해서는 전기통신기본법, 전기통신사업법, 정보통신망이용촉진및정보보호등에관한법률, 방송통신심의위원회 심의규정, 정보통신 윤리강령, 프로그램 보호법 등 기타 대한민국의 관련법령과 상관습에 의합니다.<br>
+                                    <br>
+                                    제3조 (용어의 정의)<br>
+                                    ① 이 약관에서 사용하는 용어의 정의는 다음과 같습니다.<br>
+                                    1. 이용자 : 서비스에 접속하여 서울시가 제공하는 서비스를 받는 회원 및 비회원<br>
+                                    2. 회원 : 서비스에 접속하여 이 약관에 동의하고, ID(고유번호)와 PASSWORD(비밀번호)를 발급 받아 문자 인증 등 확인 절차를 거친 자<br>
+                                    3. 비회원 : 회원가입을 하지 않고 서울시가 제공하는 서비스를 이용하는 자<br>
+                                    4. ID(고유번호) : 회원 식별과 회원의 서비스 이용을 위하여 이용자가 선정하고 소공자가 승인하는 영문자와 숫자의 조합<br>
+                                    5. PASSWORD(비밀번호) : 회원의 정보 보호를 위해 이용자 자신이 설정한 문자와 숫자의 조합<br>
+                                    6. 이용해지 : 소공자 또는 회원이 서비스 이용 이후 그 이용계약을 종료시키는 의사표시<br>
+                                    ② 이 약관에서 사용하는 용어의 정의는 제1항에서 정하는 것을 제외하고는 관계법령 및 서비스별 안내에서 정하는 바에 의합니다.<br>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="check_wrap">
+                                    <p>개인정보 수집 및 이용동의 <span>(필수)</span></p>
+                                    <div>
+                                        <input type="checkbox" class="checkbox_style checkbox_style_small" id="agree2" name="agree2" value="Y">
+                                        <label for="agree2">동의합니다</label>
+                                    </div>
+                                </div>
+                                <div class="check_text">
+                                    1. 개인정보의 수집항목 및 수집방법<br><br>
+                                    소공자 홈페이지에서는 기본적인 회원 서비스 제공을 위한 필수정보와 정보주체 각각의 기호와 필요에 맞는 서비스를 제공하기 위한 선택정보로 구분하여 다음의 정보를 수집하고 있습니다. 가입정보에 대한 선택정보를 입력하지 않은 경우에도 서비스 이용에는 제한이 없습니다.(단 실명인증이 필요한 서비스에서는 실명인증을 하지 않을시 서비스 이용에 제한이 있을 수 있습니다)<br>
+                                    가. 수집하는 개인정보의 항목<br>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="stage_all_agree">
+                            <input type="checkbox" class="checkbox_style " id="agree_all">
+                            <label for="agree_all">전체 이용 약관 및 개인정보 수집 및 이용에 동의 합니다.</label>
+                        </div>
+                    </div>
+                    <div class="btn_box">
+                        <button type="submit" class="btn blue">다음</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </article>
+    <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/user/signup_agree.js}"></script>
+    </th:block>
+</body>
+
+</html>
