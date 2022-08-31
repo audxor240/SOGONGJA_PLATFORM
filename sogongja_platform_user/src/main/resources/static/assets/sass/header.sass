@@ -109,7 +109,7 @@
 					right: rem(-10)
 					margin-top: rem(-12)
 			.login_popup
-				+positionAt(absolute, $top: rem(90),  $right: rem(50))
+				+positionAt(absolute, $top: rem(90),  $right: rem(210))
 				width: rem(210)
 				background: #fff
 				text-align: center
@@ -168,6 +168,12 @@
 							&:before,
 							&:after
 								display: none
+		.urban
+			width: 140px
+			height: 40px
+			margin-left: 20px
+			background: #001658
+			color: #fff
 
 .main .header
 		background: transparent
@@ -178,7 +184,7 @@
 			a
 				color: #fff
 				&:before
-					background: #fff
+					background: #ccc
 			.search_btn
 				a
 					background: url(#{$assetPath}/icon-search_2.png) no-repeat 50%
@@ -205,7 +211,6 @@
 			.login_btn a
 				&:after
 					background:  url(#{$assetPath}/icon-arrow-down.png) no-repeat 50%
-
 
 .hd_dim
 	background: #fff
