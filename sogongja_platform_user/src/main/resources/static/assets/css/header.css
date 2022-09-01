@@ -256,6 +256,9 @@
 .main .header .user a:before {
   background: #ccc;
 }
+.main .header .user .guide:before {
+  display: none;
+}
 .main .header .user .search_btn a {
   background: url(../images/icon-search_2.png) no-repeat 50%;
 }
@@ -270,6 +273,9 @@
 }
 .main .header.over nav > ul > li h2 a, .main .header.over2 nav > ul > li h2 a {
   color: #181818;
+}
+.main .header.over .user .guide:before, .main .header.over2 .user .guide:before {
+  display: none;
 }
 .main .header.over .user a, .main .header.over2 .user a {
   color: #606060;
