@@ -1714,6 +1714,26 @@
 .mypage_info table tr td .email_ul li select {
   border: 1px solid #d5d5d5;
 }
+.mypage_info table tr td .radio_depth01 {
+  display: flex;
+}
+.mypage_info table tr td .radio_depth01 li {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.mypage_info table tr td .radio_depth01 li input[type=radio] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.mypage_info table tr td .radio_depth01 li .radio_depth02 {
+  display: none;
+}
+.mypage_info table tr td .radio_depth01 li .radio_depth02.on {
+  display: block;
+}
 
 .signup_info .stage_03.signup_completion {
   border-bottom: none;
