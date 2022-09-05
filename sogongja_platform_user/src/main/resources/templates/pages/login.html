@@ -18,12 +18,12 @@
                 <h2 class="border_title">로그인</h2>
                 <p>소공자플랫폼의 다양한 서비스를 이용해 보세요.</p>
             </div>
-            <!-- <div class="lnb">
+             <div class="lnb">
                 <ul class="container">
                     <li class="active"><a th:href="@{/login}">로그인</a></li>
-                    <li><a th:href="@{/signup}">회원가입</a></li>
+                    <li><a th:href="@{/signup/agree}">회원가입</a></li>
                 </ul>
-            </div> -->
+            </div>
         </section>
         <section class="wrap">
             <div class="sub_container ">
@@ -47,17 +47,26 @@
                         </div>
                         <div class="login_btns">
                             <button type="submit">로그인</button>
-                            <a th:href="@{/signup/agree}">회원가입</a>
+                        </div>
+                        <div class="login_sns">
+                            <p><span>또는</span></p>
+                            <ul>
+                                <li class="kakao"><a href="#n"><span></span>카카오</a></li>
+                                <li class="naver"><a href="#n"><span></span>네이버</a></li>
+                                <li class="google"><a href="#n"><span></span>Google</a></li>
+                            </ul>
+                        </div>
+                        <div class="login_ex">
+                            <p>
+                                아직 계정이 없으신가요? <br>
+                                간단한 가입 후 더 많은 정보를 얻을 수 있습니다.
+                            </p>
+                        </div>
+                        <div class="login_btns">
+                            <a th:href="@{/signup/agree}">이메일 회원가입</a>
                         </div>
                     </form>
-                    <!-- <div class="login_sns">
-                        <p><span>SNS 로그인</span></p>
-                        <ul>
-                            <li class="kakao"><a href="#n"><span></span>카카오 로그인</a></li>
-                            <li class="naver"><a href="#n"><span></span>네이버 로그인</a></li>
-                            <li class="google"><a href="#n"><span></span>Google 로그인</a></li>
-                        </ul>
-                    </div> -->
+
                 </div>
             </div>
             <!--비밀번호 찾기 모달-->

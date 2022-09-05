@@ -1279,6 +1279,21 @@
 								display: none
 						select
 							border: 1px solid #d5d5d5
+				.radio_depth01
+					display: flex
+					li
+						min-width: 100px
+						display: flex
+						align-items: center
+						margin-right: 10px
+						input[type="radio"]
+							width: 20px
+							height: 20px
+							margin-right: 10px
+						.radio_depth02
+							display: none
+						.radio_depth02.on
+							display: block
 .signup_info .stage_03.signup_completion
 	border-bottom: none
 	padding-bottom: 0
@@ -1373,15 +1388,22 @@
 				color: #606060
 		ul
 			margin-top: rem(19)
+			display: flex
+			margin-bottom: rem(30)
 			li
-				margin-bottom: rem(12)
+				width: calc(100%/3)
+				margin: 0 10px 0 0
+				&:last-child
+					margin: 0
 				a
-					padding: rem(18) 0
-					display: block
+					padding: rem(18)
 					font-size: rem(18)
+					display: flex
+					justify-content: center
 					span
-						width: rem(36)
-						height: rem(36)
+						background-size: rem(26) !important
+						width: rem(26)
+						height: rem(26)
 						display: inline-block
 						margin-right: rem(8)
 						vertical-align: -10px
@@ -1404,6 +1426,13 @@
 						color: #606060
 						span
 							background: url(#{$assetPath}/icon-sns03.png) no-repeat
+	.login_ex
+		padding: 30px 0 0
+		border-top: solid 1px #b1b1b1
+		p
+			color: #606060
+			font-size: rem(18)
+
 .max_width800
 	max-width: 800px
 	width: 100%
