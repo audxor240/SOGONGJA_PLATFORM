@@ -48,10 +48,10 @@
         $('.close').on('click', function() {
             $('.modal').hide();
         });
-
     });
-
 })();
+
+
 
 function validationForm() {
 
@@ -67,3 +67,4 @@ function validationForm() {
 
     return true;
 }
+

@@ -2,27 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="header">
     <div class="header">
-        <h1><a th:href="@{/}">소공자플랫폼</a></h1>
+        <h1>
+            <a th:href="@{/}">소공자플랫폼</a>
+        </h1>
         <nav>
             <ul th:replace="fragments/menu"></ul>
         </nav>
         <div class="user">
-            <div class="search_btn">
-                <a href="#n" id="sc_btn">검색</a>
-                <div class="search" style="display: none;">
-                    <div>
-                        <form action="">
-                            <legend>통합검색</legend>
-                            <label for="topKeyword">검색</label>
-                            <input type="text" name="topKeyword" id="topKeyword" title="검색어 입력" placeholder="검색어 입력">
-                            <button type="button">검색</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="search_btn">-->
+<!--                <a href="#n" id="sc_btn">검색</a>-->
+<!--                <div class="search" style="display: none;">-->
+<!--                    <div>-->
+<!--                        <form action="">-->
+<!--                            <legend>통합검색</legend>-->
+<!--                            <label for="topKeyword">검색</label>-->
+<!--                            <input type="text" name="topKeyword" id="topKeyword" title="검색어 입력" placeholder="검색어 입력">-->
+<!--                            <button type="button">검색</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <a href="#n" class="guide">이용가이드</a>
             <div class="login_btn">
-                <a href="#n" sec:authorize="!isAuthenticated()">로그인</a>
+                <a href="#n" sec:authorize="!isAuthenticated()">회원가입/로그인</a>
                 <a href="#n" sec:authorize="isAuthenticated()">로그아웃</a>
                 <div class="login_popup">
                     <th:block sec:authorize="!isAuthenticated()">
@@ -43,6 +45,9 @@
                         </th:block>
                     </ul>
                 </div>
+            </div>
+            <div class="urban">
+                <img src="" alt="" onclick="location.href='#none'">
             </div>
         </div>
     </div>

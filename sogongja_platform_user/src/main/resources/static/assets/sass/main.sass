@@ -19,6 +19,49 @@
 .main_visual
 	overflow: hidden
 	height: rem(1080)
+.main_section
+	height: 100%
+	position: relative
+	.sectionBtn
+		position: absolute
+		top: 0
+		left: 95px
+		ul
+			li
+				background-color: #709bff
+				border: solid 1px #709bff
+				width: 16px
+				height: 16px
+				border-radius: 50%
+				margin-bottom: 10px
+			li.on
+				background-color: #1540bf
+	.mv_text1
+		padding-top: rem(275)
+		*
+			color: #fff
+		> span
+			font-size: rem(22)
+			font-weight: 500
+			background: #1540bf
+			border-radius: 30px
+			text-align: center
+			display: inline-block
+			padding: 0px 5px
+		p
+			font-size: rem(48)
+			line-height: 1.42
+			font-weight: 300
+			text-shadow: 0 0 8px #1540bf
+			& + p
+				font-size: rem(19)
+				margin-top: rem(35)
+				line-height: 1.68
+				text-shadow: 0 0 12px rgba(0, 0, 0, 0.35)
+			strong
+				font-weight: 700
+		.left
+
 .mySwiper
 	height: 100%
 	.mv_text1
