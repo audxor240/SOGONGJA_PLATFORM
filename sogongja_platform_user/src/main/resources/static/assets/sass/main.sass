@@ -17,14 +17,17 @@
 	max-width: 1400px
 	margin: 0 auto
 .main_visual
+	position: relative
+.slide_video
 	overflow: hidden
-	height: rem(1080)
+	position: relative
+	background-color: #1540bf
 .main_section
 	height: 100%
 	position: relative
 	.sectionBtn
 		position: absolute
-		top: 0
+		top: calc(50% - 90px)
 		left: 95px
 		ul
 			li
@@ -33,34 +36,212 @@
 				width: 16px
 				height: 16px
 				border-radius: 50%
-				margin-bottom: 10px
+				margin-bottom: 16px
 			li.on
 				background-color: #1540bf
 	.mv_text1
-		padding-top: rem(275)
-		*
-			color: #fff
-		> span
-			font-size: rem(22)
-			font-weight: 500
-			background: #1540bf
-			border-radius: 30px
+		height: 100vh
+		position: relative
+		> p
 			text-align: center
-			display: inline-block
-			padding: 0px 5px
-		p
-			font-size: rem(48)
-			line-height: 1.42
-			font-weight: 300
-			text-shadow: 0 0 8px #1540bf
-			& + p
-				font-size: rem(19)
-				margin-top: rem(35)
-				line-height: 1.68
-				text-shadow: 0 0 12px rgba(0, 0, 0, 0.35)
-			strong
-				font-weight: 700
+			color: #c8d9ff
+			font-size: rem(24)
+			font-weight: 200
+			margin-top: 60px
+		.title_main
+			padding-top: rem(275)
+			display: flex
+			justify-content: center
+			*
+				color: #fff
+			//> span
+			//	font-size: rem(22)
+			//	font-weight: 500
+			//	background: #1540bf
+			//	border-radius: 30px
+			//	text-align: center
+			//	display: inline-block
+			//	padding: 0px 5px
+			p
+				font-size: rem(48)
+				line-height: 1.42
+				font-weight: 300
+				text-shadow: 0 0 8px #1540bf
+				& + p
+					font-size: rem(19)
+					margin-top: rem(35)
+					line-height: 1.68
+					text-shadow: 0 0 12px rgba(0, 0, 0, 0.35)
+				strong
+					font-size: rem(84)
+					font-weight: 700
+			.left
+				font-size: 1.375rem
+				font-weight: 500
+				background-color: none
+				border-radius: none
+				text-align: center
+				display: inline-block
+				padding: 0 5px
+				width: 36px
+				border: solid 4px #fff
+				border-right: 0
+				margin-right: 40px
+			.right
+				font-size: 1.375rem
+				font-weight: 500
+				background-color: none
+				border-radius: none
+				text-align: center
+				display: inline-block
+				padding: 0 5px
+				width: 36px
+				border: solid 4px #fff
+				border-left: 0
+				margin-left: 40px
+	.mv_text3
+		height: 100vh
+		position: relative
+		display: flex
+		padding-top: rem(275)
 		.left
+			width: 44%
+			p
+				font-size: rem(52)
+				font-weight: 300
+				strong
+					font-weight: bold
+					span
+						display: inline-block
+						font-size: rem(52)
+						font-weight: 300
+						vertical-align: baseline
+			span
+				display: inline-block
+				font-size: rem(22)
+				color: #606060
+				line-height: 1.8
+				margin-top: 40px
+				margin-bottom: 20px
+			div
+				a
+					display: flex
+					align-items: center
+					justify-content: center
+					width: 180px
+					height: 60px
+					margin-top: 20px
+					padding: 16px 29px 15px 30px
+					box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
+					color: #1540bf
+					font-size: rem(20)
+					font-weight: bold
+					&:after
+						content: ""
+						display: block
+						background: url(#{$assetPath}/new/main/arrow_blue_right.png) no-repeat
+						width: 16px
+						height: 16px
+						margin-left: 5px
+		.right
+			width: 56%
+			position: relative
+			margin-top: rem(-54)
+			div
+				background: url(../images/new/main/img_main01.png) no-repeat
+				width: 700px
+				height: 100%
+				background-size: contain
+				margin-left: 5px
+				z-index: 99
+		.right02
+			width: 56%
+			position: relative
+
+	.mv_text4
+		height: 100vh
+		position: relative
+		display: flex
+		padding-top: rem(275)
+		.left
+			width: 50%
+			p
+				font-size: rem(52)
+				font-weight: 300
+				strong
+					font-weight: bold
+			span
+				display: inline-block
+				font-size: rem(22)
+				color: #606060
+				line-height: 1.8
+				margin-top: 40px
+				margin-bottom: 20px
+			div
+				a
+					display: flex
+					align-items: center
+					justify-content: center
+					width: 180px
+					height: 60px
+					margin-top: 20px
+					padding: 16px 29px 15px 30px
+					box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
+					color: #1540bf
+					font-size: rem(20)
+					font-weight: bold
+					&:after
+						content: ""
+						display: block
+						background: url(#{$assetPath}/new/main/arrow_blue_right.png) no-repeat
+						width: 16px
+						height: 16px
+						margin-left: 5px
+		.right
+			width: 50%
+			position: relative
+			margin-top: rem(-54)
+			div
+				background: url(../images/new/main/img_main01.png) no-repeat
+				width: 700px
+				height: 100%
+				background-size: contain
+				margin-left: 5px
+				z-index: 99
+	.back_img01
+		position: absolute
+		overflow: hidden
+		width: 100%
+		height: 387px
+		bottom: 0
+		left: 0
+		z-index: -1
+		div
+			position: absolute
+			top: 0
+			left: 0
+			width: 120%
+			height: 370px
+			margin: 80.3px 0 0
+			background-image: linear-gradient(to bottom, #c8d9ff, #c8d9ff 36%, #fbfcfe)
+			transform: rotate(-5deg)
+.linkedMain
+	background-color: #e9f0ff
+	.mv_text5
+		height: 100vh
+		position: relative
+		padding-top: rem(275)
+		.mv_title
+			width: 100%
+			p
+				text-align: center
+		.flex_wrap
+			display: flex
+			.left
+				width: 50%
+			.right
+				width: 50%
+
 
 .mySwiper
 	height: 100%
@@ -141,32 +322,12 @@
 	.main_tab_ul
 		display: flex
 		position: relative
-		margin-top: -16.6rem
 		z-index: 2
 		li
 			background: #fff
-			height: rem(334)
 			width: 25%
 			position: relative
 			top: 0
-			+transition3
-			&:first-child
-				background: #fff url(#{$assetPath}/img-main-icon01.png) no-repeat 16% 16%
-			&:nth-child(2)
-				background: #fff url(#{$assetPath}/img-main-icon02.png) no-repeat 16% 16%
-			&:nth-child(3)
-				background: #fff url(#{$assetPath}/img-main-icon03.png) no-repeat 16% 16%
-			&:last-child
-				background: #fff url(#{$assetPath}/img-main-icon04.png) no-repeat 16% 16%
-			&:before
-				+before($leftB: 50%)
-				bottom: -24px
-				border-top: 24px solid #1540bf
-				border-left: 24px solid transparent
-				border-right: 24px solid transparent
-				margin-left: -24px
-				border-bottom: 0px solid  transparent
-				opacity: 0
 			*
 				color: #606060
 			a
@@ -274,57 +435,4 @@
 			+before($widthB: 100%, $heightB: 12px, $topB: 85%, $leftB: 0, $bgB : #709bff)
 			opacity: 0.6
 			z-index: -1
-.main_support
-	background: #1540bf url(#{$assetPath}/bg-maintext.png) no-repeat 50%
-	padding: rem(162) 0 rem(200)
-	*
-		color: #fff
-	.container
-		div
-			+flex_type($justify: flex-start)
-			h3
-				font-size: rem(46)
-				font-weight: 700
-				margin-top: -7px
-			p
-				margin-left: rem(82)
-				color: rgba(255,255,255,0.8)
-				font-weight: 300
-				font-size: rem(20)
-				line-height: 1.8
-		ul
-			margin-top: rem(140)
-			+flex_type($justify: center)
-			li
-				width: 33.333%
-				padding: rem(40)
-				+transition3
-				*
-					+transition3
-				span
-					color: rgba(255,255,255,0.6)
-					display: inline-block
-				h4
-					margin-top: rem(8)
-					height: rem(74)
-					margin-bottom: rem(43)
-					+textVertical(2)
-					width: 100%
-					a
-						font-size: rem(24)
-						line-height: 1.5
-						font-weight: 700
-				p
-					height: rem(92)
-					margin-bottom: rem(60)
-					width: 100%
-					+textVertical(3)
-					a
-						color: rgba(255,255,255,0.6)
-						font-size: rem(18)
-						line-height: 1.78
-				span.hashtag
-					font-weight: 300
-					padding: 8px 12px
-					background: rgba(255,255,255,0.12)
 

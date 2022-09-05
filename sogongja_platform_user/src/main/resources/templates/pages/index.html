@@ -15,50 +15,29 @@
 <body>
     <article layout:fragment="content">
         <main>
-            <section class="main_visual">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" th:style="|background: url('@{/images/img-main01.png}'), linear-gradient(#1540bf 41%, #031a5c);|">
-                            <div class="container mv_text1">
-                                <span>소공자란?</span>
-                                <p>임대인과 임차인이 함께 <Br>소규모 상권의 <Br>공생과 자생을 꿈꾸는 <strong>'플랫폼'</strong></p>
-                                <p>장사가 잘되고 빈 상점이 없는 상권을 위해 누구나 쉽게 상권의 문제 <br>모두가 빠르게 상권의 문제를 예측하여 문제를 스스로 해결할 수 있는 종합 서비스 플랫폼</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide" th:style="|background: url('@{/images/img-main02.png}'), linear-gradient(#709bff 41%, #384b82)|">
-                            <div class="container ">
-                                <ul class="mv_text2">
-                                    <li>
-                                        <span>임차인</span>
-                                        <p>공공기관 교육, 컨설팅 맞춤형 서비스 제공<br>상권 분석 및 활성화 예측 정보 제공<br>조건에 맞는 임대인/상점 매칭<br>맞춤형 상점 특화 서비스 제공</p>
-                                    </li>
-                                    <li>
-                                        <span>임대인</span>
-                                        <p>임대차 문제 해결 맞춤형 솔루션 제공<br>상권 분석 및 상권 활성화 예측 정보 제공<br>공실에 대한 상권 맞춤형 임차인 매칭</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                </div>
-            </section>
+
+            <!--메인이미지-->
             <section class="main_visual">
                 <div class="main_section">
                     <div class="wrap_img" th:style="|background: url('@{/images/img-main01.png}'), linear-gradient(#1540bf 41%, #031a5c);|">
-                        <div class="container mv_text1">
-                            <span class="left"></span>
+                        <div class="container mv_text1 " >
+                            <div class="title_main">
+                                <span class="left"></span>
+                                <p>
+                                    <strong>
+                                        소규모 상점의 <br>
+                                        공생과 자생을 <br>
+                                        꿈꾸는 플랫폼
+                                    </strong>
+                                </p>
+                                <span class="right"></span>
+                            </div>
                             <p>
-                                <strong>
-                                    소규모 상점의 <br>
-                                    공생과 자생을 <br>
-                                    꿈꾸는 플랫폼
-                                </strong>
+                                모두가 빠르게 상권의 문제를 예측하고 스스로 해결할 수 있는 사업단계별 맞춤형 서비스!! <br>
+                                땀 흘려 일하는 사장님들의 열정을 응원합니다.
                             </p>
-                            <span class="right"></span>
+                            <div class="scrollDwon"></div>
                         </div>
-                        <p></p>
-                        <div class="scrollDwon"></div>
                     </div>
                     <div class="sectionBtn">
                         <ul>
@@ -71,136 +50,214 @@
                     </div>
                 </div>
             </section>
-            <section class="main_tab">
-                <ul class="main_tab_ul container">
-                    <li class="active main_tab_li" data-tab="tab-1">
-                        <a href="#n">
-                            <h2>상권 연구소</h2>
-                            <p>각 지역 및 상권 내 특성정보와 분석정보를<br>제공</p>
-                        </a>
-                    </li>
-                    <li class="main_tab_li" data-tab="tab-2">
-                        <a href="#n">
-                            <h2>소공자 과외방</h2>
-                            <p>나에게 필요한 교육 및 컨설팅 콘텐츠<br>맞춤형으로 제공</p>
-                        </a>
-                    </li>
-                    <li class="main_tab_li" data-tab="tab-3">
-                        <a href="#n">
-                            <h2>소공자 공부방</h2>
-                            <p>소상공인 관련 공공기관에서 제공하는<br>다양한 교육 및 컨설팅 콘텐츠 연계 제공</p>
-                        </a>
-                    </li>
-                    <li class="main_tab_li" data-tab="tab-4">
-                        <a href="#n">
-                            <h2>소공자 솔루션</h2>
-                            <p>맞춤형 교육 및 컨설팅 콘텐츠<br>상권 및 상점 활성화를 위한 솔루션 제공</p>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab_cont">
-                    <div class="tab_cont_a container active" id="tab-1">
-                        <div>
-                            <div class="tab_text">
-                                <a href="#n" class="border_title">상권 분석정보</a>
-                                <p>각 지역 및 상권 내 특성정보와 분석정보를 제공하고 상권 활성화 정도를 <br>예측해 드립니다.</p>
-                                <ul>
-                                    <li>상권 비교 서비스</li>
-                                    <li>업종별 순위 서비스</li>
-                                    <li>상권별 집객시설 현황</li>
-                                    <li>지역특성 정보 서비스</li>
-                                </ul>
-                            </div>
-                            <div class="tab_img">
-                                <div class="img" th:style="|background-image: url('@{/images/img-scroll01.png}');|">
-                                    상권분석정보 관련 이미지
+
+            <!--컨설팅-->
+            <section class="educationMain">
+                <div class="main_section">
+                    <div class="wrap_img">
+                        <div class="container mv_text3">
+                            <div class="left">
+                                <p>
+                                    <strong>
+                                        꼭맞는 교육과 컨설팅, <br>
+                                        한눈에 확인
+                                    </strong>
+                                    할 수 있을까?
+                                </p>
+                                <span>
+                                    상점 진입부터 재도전까지 단계별 관심과 요구에 맞는 <br>
+                                    교육과 컨설팅을 연계 제공합니다.
+                                </span>
+                                <div>
+                                    <a href="#none">
+                                        더 알아보기
+                                    </a>
                                 </div>
-                                <a th:href="@{/trading-area/analysis}">알아보기</a>
+                            </div>
+                            <div class="right">
+                                <div></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab_cont_a container" id="tab-2">
-                        <div>
-                            <div class="tab_text">
-                                <a href="#n" class="border_title">매칭 알고리즘 시스템</a>
-                                <p>입력한 정보를 기반으로 나에게 필요한 교육 및 컨설팅 콘텐츠를<br>맞춤형으로 제공해드립니다.</p>
-                            </div>
-                            <div class="tab_img">
-                                <div class="img" th:style="|background-image: url('@{/images/img-scroll03.png}');|">
-                                    매칭 알고리즘 시스템 관련 이미지
-                                </div>
-                                <a th:href="@{/solution/education}">알아보기</a>
-                            </div>
+                        <div class="sectionBtn">
+                            <ul>
+                                <li></li>
+                                <li class="on"></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="tab_cont_a container" id="tab-3">
-                        <div>
-                            <div class="tab_text">
-                                <a href="#n" class="border_title">다양한 교육/컨설팅 콘텐츠</a>
-                                <p>관련 기관에서 제공하는 교육 및 컨설팅 서비스, 콘텐츠를 <br>연계 제공해드립니다.</p>
-                                <ul class="w100">
-                                    <li><span>소공자 교육</span> : 상권 특성, 업종, 나의 관심 및 요구에 맞는 맞춤형 교육</li>
-                                    <li><span>소공자 컨설팅</span> : 문제해결, 경영개선을 위한 소공자만의 맞춤형 컨설팅</li>
-                                </ul>
-                            </div>
-                            <div class="tab_img">
-                                <div class="img" th:style="|background-image: url('@{/images/img-scroll04.png}');|">
-                                    다양한 교육/컨설팅 콘텐츠 관련 이미지
+                    <div class="back_img01">
+                        <div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!--경영환경 - slide/ 동영상-->
+            <section class="slide_video">
+                <div class="wrap_img">
+                    <div class="mv_text4">
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" th:style="|background: url('@{/images/img-main01.png}'), linear-gradient(#1540bf 41%, #031a5c);|">
+                                    <div class="container mv_text1">
+                                        <span>소공자란?</span>
+                                        <p>임대인과 임차인이 함께 <Br>소규모 상권의 <Br>공생과 자생을 꿈꾸는 <strong>'플랫폼'</strong></p>
+                                        <p>장사가 잘되고 빈 상점이 없는 상권을 위해 누구나 쉽게 상권의 문제 <br>모두가 빠르게 상권의 문제를 예측하여 문제를 스스로 해결할 수 있는 종합 서비스 플랫폼</p>
+                                    </div>
                                 </div>
-                                <a th:href="@{/study/education}">알아보기</a>
+                                <div class="swiper-slide" th:style="|background: url('@{/images/img-main02.png}'), linear-gradient(#709bff 41%, #384b82)|">
+                                    <div class="container ">
+                                        <ul class="mv_text2">
+                                            <li>
+                                                <span>임차인</span>
+                                                <p>공공기관 교육, 컨설팅 맞춤형 서비스 제공<br>상권 분석 및 활성화 예측 정보 제공<br>조건에 맞는 임대인/상점 매칭<br>맞춤형 상점 특화 서비스 제공</p>
+                                            </li>
+                                            <li>
+                                                <span>임대인</span>
+                                                <p>임대차 문제 해결 맞춤형 솔루션 제공<br>상권 분석 및 상권 활성화 예측 정보 제공<br>공실에 대한 상권 맞춤형 임차인 매칭</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="swiper-pagination"></div>
                         </div>
                     </div>
-                    <div class="tab_cont_a container" id="tab-4">
-                        <div>
-                            <div class="tab_text">
-                                <a href="#n" class="border_title">커뮤니티 서비스</a>
-                                <p>상권 내 임대인-임차인, 임차인-임차인 간 소통의 장을 마련하고, <br>상권(상점) 활성화를 위한 컨설팅 및 연계서비스를 통해<br>자생 기반 마련에 도움을 드립니다.</p>
-                            </div>
-                            <div class="tab_img">
-                                <div class="img" th:style="|background-image: url('@{/images/img-scroll06.png}');|">
-                                    소공자 솔루션 시스템 관련 이미지
+                    <div class="sectionBtn">
+                        <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li class="on"></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <!--솔루션-->
+            <section class="solutionMain">
+                <div class="main_section">
+                    <div class="wrap_img">
+                        <div class="container mv_text3">
+                            <div class="left">
+                                <p>
+                                    <strong>
+                                        상점을 위한 솔루션, <br>
+                                        맞춤형 피드백<span>을</span>
+                                    </strong><br>
+                                    받을 수 있을까?
+                                </p>
+                                <span>
+                                    이용자 DATA + 공간 DATA + 맞춤형 전문 연계로 <br>
+                                    상점 활성화를 지원합니다.
+                                </span>
+                                <div>
+                                    <a href="#none">
+                                        더 알아보기
+                                    </a>
                                 </div>
-                                <a th:href="@{/board/news}">알아보기</a>
                             </div>
+                            <div class="right02">
+                                <div class="list_solution_wrap">
+                                    <ul>
+                                        <li>
+                                            <div class="list_title">
+                                                <p>소공자 솔루션 유형</p>
+                                                <span></span>
+                                            </div>
+                                            <div class="list_text">
+                                                <div class="list_sub_title">소공자 솔루션 이용방법</div>
+                                                <div class="list_sub_text">
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="list_title">
+                                                <p>업종과 입지의 선정방법 솔루션</p>
+                                                <span></span>
+                                            </div>
+                                            <div class="list_text">
+                                                <div class="list_sub_title"></div>
+                                                <div class="list_sub_text"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sectionBtn">
+                            <ul>
+                                <li></li>
+                                <li ></li>
+                                <li></li>
+                                <li class="on"></li>
+                                <li></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </section>
-            <section class="main_support">
-                <div class="container">
-                    <div>
-                        <h3>정책 및 지원사업</h3>
-                        <p>소상공인의 준비된 창업, 안정적 성장과 원활한 재기를 위해 소상공인 정책자금(융자), <br>소상공인 생애주기별(창업-성장-재기), 소공인 특화 등을 지원하는 사업 정보</p>
+
+            <!--연계서비스-->
+            <section class="linkedMain">
+                <div class="main_section">
+                    <div class="wrap_img">
+                        <div class="container mv_text5">
+                            <div class="mv_title">
+                                <p>
+                                    소공자플랫폼
+                                    <strong>
+                                        연계 서비스
+                                    </strong>
+                                </p>
+                            </div>
+                            <div class="flex_wrap">
+                                <div class="left">
+                                    <div class="linked_img"></div>
+                                    <div class="linked_title">
+                                        <p></p>
+                                        <span></span>
+                                    </div>
+                                    <div class="linked_btn">
+                                        <a href="#none">
+                                            게임 하러가기
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="linked_img"></div>
+                                    <div class="linked_title">
+                                        <p></p>
+                                        <span></span>
+                                    </div>
+                                    <div class="linked_btn">
+                                        <a href="#none">
+                                            출시예정
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sectionBtn">
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li class="on"></li>
+                            </ul>
+                        </div>
                     </div>
-                    <ul>
-                        <li>
-                            <span>2021.02.03</span>
-                            <h4>
-                                <a href="#n">2021년 해외 온라인 참가기업 모집 (파세대 재활복지 의료기기 산업 육성)</a>
-                            </h4>
-                            <p><a href="#n">법관이 중대한 심신상의 장해로 직무를 수행할 수 없을 때에는 법률이 정하는 바에 의하여 퇴직하게 할 수 있다. 이 헌법중 공무원의 임기 또는 중임제한에 관한 규정은</a> </p>
-                            <span class="hashtag">#정책자금</span>
-                        </li>
-                        <li>
-                            <span>2021.02.03</span>
-                            <h4>
-                                <a href="#n">수출 상담회 참가기업 모집 공고</a>
-                            </h4>
-                            <p><a href="#n">법관이 중대한 심신상의 장해로 직무를 수행할 수 없을 때에는 법률이 정하는 바에 의하여 퇴직하게 할 수 있다. 이 헌법중 공무원의 임기 또는 중임</a></p>
-                            <span class="hashtag">#성장지원</span>
-                        </li>
-                        <li>
-                            <span>2021.02.03</span>
-                            <h4>
-                                <a href="#n">2021년 해외 온라인 수출 상담회 (파세대 재활복지 의료기기 산업 육성)</a>
-                            </h4>
-                            <p><a href="#n">법관이 중대한 심신상의 장해로 직무를 수행할 수 없을 때에는 법률이 정하는 바에 의하여 퇴직하게 할 수 있다. 이 헌법중 공무원의 임기 또는 중임제 </a></p>
-                            <span class="hashtag">#보증지원</span>
-                        </li>
-                    </ul>
                 </div>
             </section>
+
+
+
         </main>
     </article>
     <th:block layout:fragment="custom_js">
