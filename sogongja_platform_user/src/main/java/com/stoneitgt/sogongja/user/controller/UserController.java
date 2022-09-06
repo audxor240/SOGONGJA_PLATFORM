@@ -6,16 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
+import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.stoneitgt.common.GlobalConstant;
@@ -26,15 +24,19 @@ import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
 
+	private final SocialLoginSupport socialLoginSupport;
+
 	@GetMapping("/signup")
-	public String signup(Model model) {
+	public String signup(Model model,HttpServletRequest request) {
 		User user = new User();
 		user.setUserType("I");
+		socialLoginSupport.setSocialOauthUrl(request, model);
 		model.addAttribute("user", user);
 		model.addAttribute("bankList", getCodeList("BANK"));
 		model.addAttribute("companyList", getCodeList("COMPANY"));
@@ -136,14 +138,34 @@ public class UserController extends BaseController {
 	// <<추가//
 	// 회원가입 1
 	@GetMapping("/signup/agree")
-	public String signupAgree(Model model) {
+	public String signupAgree(@RequestParam(value = "uniqueId" , required = false) String uniqueId,
+							  @RequestParam(value = "email" , required = false) String email,
+							  @RequestParam(value = "name" , required = false) String name,
+							  @RequestParam(value = "type" , required = false) String type,
+							  Model model) {
+
 		return "pages/user/signup_agree";
 	}
 
 	// 회원가입 2
 	@PostMapping("/signup/info")
-	public String signupInfo(@ModelAttribute User user, Model model) {
+	public String signupInfo(@ModelAttribute User user, Model model,@RequestParam String type,
+							 @RequestParam String uniqueId,
+							 @RequestParam String email,
+							 @RequestParam String name) {
+
+		System.out.println("type >>>> "+type);
+		if(!type.equals("")) {
+
+			String[] email_arr = email.split("@");
+			model.addAttribute("type", type);
+			model.addAttribute("uniqueId", uniqueId);
+			model.addAttribute("email1", email_arr[0]);
+			model.addAttribute("email2", email_arr[1]);
+			model.addAttribute("name", name);
+		}
 		model.addAttribute("user", user);
+
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		return "pages/user/signup_info";
 	}

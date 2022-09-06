@@ -33,6 +33,10 @@
 <!--                    <li class="">03 가입완료</li>-->
 <!--                </ul>-->
                 <form name="joinForm" th:action="@{/signup/info}" method="POST" onsubmit="return validationForm();">
+                    <input type="hidden" th:value="${param.uniqueId != ''?param.uniqueId:''}" name="uniqueId"/>
+                    <input type="hidden" th:value="${param.email != ''?param.email:''}" name="email" />
+                    <input type="hidden" th:value="${param.name != ''?param.name:''}" name="name" />
+                    <input type="hidden" th:value="${param.type != ''?param.type:''}" name="type" />
                     <div class="stage_01">
                         <ul class="max_width800">
                             <li>

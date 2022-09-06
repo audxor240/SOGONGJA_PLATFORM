@@ -83,7 +83,14 @@ logging:
       connection: off
     org:
       thymeleaf: off
- 
+
+app:
+  ########### KAKAO
+  kakao-client-id: ca030a4f9bf9d299095948d15d0982d2
+  kakao-request-token-uri: https://kauth.kakao.com/oauth/authorize
+  kakao-access-token-uri: https://kauth.kakao.com/oauth/token
+  kakao-api-uri: https://kapi.kakao.com/v2
+  host: http://localhost:2082
 ---
 
 spring:

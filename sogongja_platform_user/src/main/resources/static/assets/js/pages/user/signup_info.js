@@ -55,16 +55,18 @@
 
 function validationForm() {
 
-    if ($('#checkedId').val() !== $('#id').val()) {
-        alert('아이디 중복확인을 하세요');
-        return false;
-    }
+    var type = $("#type").val();
+    if(type == '') {
+        if ($('#checkedId').val() !== $('#id').val()) {
+            alert('아이디 중복확인을 하세요');
+            return false;
+        }
 
-    if ($('#password').val() !== $('#passwordConfirm').val()) {
-        alert('비밀번호와 비밀번호 확인이 다릅니다');
-        return false;
+        if ($('#password').val() !== $('#passwordConfirm').val()) {
+            alert('비밀번호와 비밀번호 확인이 다릅니다');
+            return false;
+        }
     }
-
     return true;
 }
 

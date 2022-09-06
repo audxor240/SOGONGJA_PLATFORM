@@ -43,31 +43,34 @@
                             </div>
                             <table class="">
                                 <caption>기본 정보 입력</caption>
-                                <tr class="tr_id">
-                                    <th style="width: 25%;">아이디 <span class="required">(필수)</span></th>
-                                    <td>
-                                        <input type="text" th:field="*{id}" title="아이디" required placeholder="아이디를 입력해주세요." autocomplete="new-password" maxlength="15">
-                                        <button type="button" id="btn-checked-id">중복확인</button>
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>비밀번호 <span class="required">(필수)</span></th>
-                                    <td style="width: 75%;">
-                                        <input type="password" th:field="*{password}" required title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>비밀번호 확인 <span class="required">(필수)</span></th>
-                                    <td>
-                                        <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
-                                    </td>
-                                </tr>
+                                <input type="hidden" id="type" name="type" th:value="${type}">
+                                <th:block th:if="${type eq null}"><!-- 이메일 회원가입일 경우 출력 -->
+                                    <tr class="tr_id">
+                                        <th style="width: 25%;">아이디 <span class="required">(필수)</span></th>
+                                        <td>
+                                            <input type="text" th:field="*{id}" title="아이디" required placeholder="아이디를 입력해주세요." autocomplete="new-password" maxlength="15">
+                                            <button type="button" id="btn-checked-id">중복확인</button>
+                                            <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>비밀번호 <span class="required">(필수)</span></th>
+                                        <td style="width: 75%;">
+                                            <input type="password" th:field="*{password}" required title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
+                                            <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>비밀번호 확인 <span class="required">(필수)</span></th>
+                                        <td>
+                                            <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
+                                        </td>
+                                    </tr>
+                                </th:block>
                                 <tr>
                                     <th>이름 <span class="required">(필수)</span></th>
                                     <td>
-                                        <input type="text" th:field="*{username}" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20">
+                                        <input type="text" name="username" id="username" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" th:value="${param.name}">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                     </td>
                                 </tr>
@@ -90,8 +93,8 @@
                                     <th>Email <span class="required">(필수)</span></th>
                                     <td>
                                         <ul class="email_ul">
-                                            <li><input type="text" th:field="*{email1}" required placeholder="이메일" title="email" maxlength="30"></li>
-                                            <li><input type="text" th:field="*{email2}" required placeholder="이메일" title="email" maxlength="30"></li>
+                                            <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}"></li>
+                                            <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}"></li>
                                             <li>
                                                 <select th:field="*{email3}">
                                                     <option value="">직접입력</option>
