@@ -23,6 +23,12 @@ dependencies {
 
     // 디렉토리
     implementation fileTree(dir:'libs', include:['*.jar'])
+
+    // oauth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // Json
+    implementation group: 'org.json', name: 'json', version: '20211205'
+    implementation group: 'net.sf.json-lib', name: 'json-lib-ext-spring', version: '1.0.2'
 }
 
 ext {

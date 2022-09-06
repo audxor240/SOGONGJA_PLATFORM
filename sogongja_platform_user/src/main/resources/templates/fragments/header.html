@@ -37,7 +37,7 @@
                     <ul>
                         <th:block sec:authorize="!isAuthenticated()">
                             <li><a th:href="@{/login}">로그인</a></li>
-                            <li><a th:href="@{/signup/agree}">회원가입</a></li>
+                            <li><a th:href="@{/signup}">회원가입</a></li>
                         </th:block>
                         <th:block sec:authorize="isAuthenticated()">
                             <li><a th:href="@{/mypage}">마이솔루션</a></li>
