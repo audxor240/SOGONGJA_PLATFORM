@@ -17,7 +17,7 @@
         <main>
 
             <!--메인이미지-->
-            <section class="main_visual">
+            <section class="main_visual" id="section1">
                 <div class="main_section">
                     <div class="wrap_img" th:style="|background: url('@{/images/img-main01.png}'), linear-gradient(#1540bf 41%, #031a5c);|">
                         <div class="container mv_text1 " >
@@ -41,18 +41,18 @@
                     </div>
                     <div class="sectionBtn">
                         <ul>
-                            <li class="on"></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            <li onclick="fnMove('1')" class="on"></li>
+                            <li onclick="fnMove('2')"></li>
+                            <li onclick="fnMove('3')"></li>
+                            <li onclick="fnMove('4')"></li>
+                            <li onclick="fnMove('5')"></li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <!--컨설팅-->
-            <section class="educationMain">
+            <section class="educationMain" id="section2">
                 <div class="main_section">
                     <div class="wrap_img">
                         <div class="container mv_text3">
@@ -80,11 +80,11 @@
                         </div>
                         <div class="sectionBtn">
                             <ul>
-                                <li></li>
-                                <li class="on"></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
+                                <li onclick="fnMove('1')"></li>
+                                <li onclick="fnMove('2')" class="on"></li>
+                                <li onclick="fnMove('3')"></li>
+                                <li onclick="fnMove('4')"></li>
+                                <li onclick="fnMove('5')"></li>
                             </ul>
                         </div>
                     </div>
@@ -95,51 +95,101 @@
             </section>
 
             <!--경영환경 - slide/ 동영상-->
-            <section class="slide_video">
+            <section class="slide_video" id="section3">
                 <div class="wrap_img">
-                    <div class="mv_text4">
-                        <div class="swiper mySwiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide" th:style="|background: url('@{/images/img-main01.png}'), linear-gradient(#1540bf 41%, #031a5c);|">
-                                    <div class="container mv_text1">
-                                        <span>소공자란?</span>
-                                        <p>임대인과 임차인이 함께 <Br>소규모 상권의 <Br>공생과 자생을 꿈꾸는 <strong>'플랫폼'</strong></p>
-                                        <p>장사가 잘되고 빈 상점이 없는 상권을 위해 누구나 쉽게 상권의 문제 <br>모두가 빠르게 상권의 문제를 예측하여 문제를 스스로 해결할 수 있는 종합 서비스 플랫폼</p>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide" th:style="|background: url('@{/images/img-main02.png}'), linear-gradient(#709bff 41%, #384b82)|">
-                                    <div class="container ">
-                                        <ul class="mv_text2">
-                                            <li>
-                                                <span>임차인</span>
-                                                <p>공공기관 교육, 컨설팅 맞춤형 서비스 제공<br>상권 분석 및 활성화 예측 정보 제공<br>조건에 맞는 임대인/상점 매칭<br>맞춤형 상점 특화 서비스 제공</p>
-                                            </li>
-                                            <li>
-                                                <span>임대인</span>
-                                                <p>임대차 문제 해결 맞춤형 솔루션 제공<br>상권 분석 및 상권 활성화 예측 정보 제공<br>공실에 대한 상권 맞춤형 임차인 매칭</p>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    <div class="mv_text4 container">
+                        <div class="swiper_text_wrap">
+                            <div class="swiper_text" id="swiper1">
+                                <p>
+                                    1달라진 경영 환경, <br>
+                                    <strong>
+                                        잘 대응할 수 있을까?
+                                    </strong>
+
+                                </p>
+                                <span>
+                                            상점, 상권, 지역 단위 빅데이터 분석 정보를 기반으로 <br>
+                                            상점의 문제를 상세하게 진단합니다.
+                                        </span>
+                                <div>
+                                    <a href="#none">
+                                        더 알아보기
+                                    </a>
                                 </div>
                             </div>
-                            <div class="swiper-pagination"></div>
+                            <div class="swiper_text" id="swiper2">
+                                <p>
+                                    2달라진 경영 환경, <br>
+                                    <strong>
+                                        잘 대응할 수 있을까?
+                                    </strong>
+
+                                </p>
+                                <span>
+                                            상점, 상권, 지역 단위 빅데이터 분석 정보를 기반으로 <br>
+                                            상점의 문제를 상세하게 진단합니다.
+                                        </span>
+                                <div>
+                                    <a href="#none">
+                                        더 알아보기
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper_text" id="swiper3">
+                                <p>
+                                    3달라진 경영 환경, <br>
+                                    <strong>
+                                        잘 대응할 수 있을까?
+                                    </strong>
+
+                                </p>
+                                <span>
+                                            상점, 상권, 지역 단위 빅데이터 분석 정보를 기반으로 <br>
+                                            상점의 문제를 상세하게 진단합니다.
+                                        </span>
+                                <div>
+                                    <a href="#none">
+                                        더 알아보기
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="sectionBtn">
                         <ul>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li class="on"></li>
-                            <li></li>
+                            <li onclick="fnMove('1')"></li>
+                            <li onclick="fnMove('2')"></li>
+                            <li onclick="fnMove('3')" class="on"></li>
+                            <li onclick="fnMove('4')"></li>
+                            <li onclick="fnMove('5')"></li>
                         </ul>
                     </div>
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="right">
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="right">
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="right">
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </section>
 
 
             <!--솔루션-->
-            <section class="solutionMain">
+            <section class="solutionMain" id="section4">
                 <div class="main_section">
                     <div class="wrap_img">
                         <div class="container mv_text3">
@@ -163,7 +213,7 @@
                             </div>
                             <div class="right02">
                                 <div class="list_solution_wrap">
-                                    <ul>
+                                    <ul class="list_solution">
                                         <li>
                                             <div class="list_title">
                                                 <p>소공자 솔루션 유형</p>
@@ -172,7 +222,29 @@
                                             <div class="list_text">
                                                 <div class="list_sub_title">소공자 솔루션 이용방법</div>
                                                 <div class="list_sub_text">
-
+                                                    <div class="sub_text_info">
+                                                        <div>
+                                                            <span class="num">01</span>
+                                                            <p>이용자별 자료제공</p>
+                                                        </div>
+                                                        <ul>
+                                                            <li>Check List 확인</li>
+                                                            <li>데이터 분석 및 시각화</li>
+                                                            <li>필요 데이터 선택</li>
+                                                            <li>분석 결과 확인</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="sub_text_info">
+                                                        <div>
+                                                            <span class="num">02</span>
+                                                            <p>외부 전문가 연계</p>
+                                                        </div>
+                                                        <ul>
+                                                            <li>분석정보 추천 전문가 선택</li>
+                                                            <li>전문 교육 서비스 진행</li>
+                                                            <li>전문 컨설팅 서비스 진행</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -192,11 +264,11 @@
                         </div>
                         <div class="sectionBtn">
                             <ul>
-                                <li></li>
-                                <li ></li>
-                                <li></li>
-                                <li class="on"></li>
-                                <li></li>
+                                <li onclick="fnMove('1')"></li>
+                                <li onclick="fnMove('2')"></li>
+                                <li onclick="fnMove('3')"></li>
+                                <li onclick="fnMove('4')" class="on"></li>
+                                <li onclick="fnMove('5')"></li>
                             </ul>
                         </div>
                     </div>
@@ -204,7 +276,7 @@
             </section>
 
             <!--연계서비스-->
-            <section class="linkedMain">
+            <section class="linkedMain" id="section5">
                 <div class="main_section">
                     <div class="wrap_img">
                         <div class="container mv_text5">
@@ -217,11 +289,11 @@
                                 </p>
                             </div>
                             <div class="flex_wrap">
-                                <div class="left">
+                                <div>
                                     <div class="linked_img"></div>
                                     <div class="linked_title">
-                                        <p></p>
-                                        <span></span>
+                                        <p>어반젠트리</p>
+                                        <span>젠트리피케이션이 뭐지? 게임을 통해 배워보자!</span>
                                     </div>
                                     <div class="linked_btn">
                                         <a href="#none">
@@ -229,13 +301,13 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="right">
+                                <div>
                                     <div class="linked_img"></div>
                                     <div class="linked_title">
-                                        <p></p>
-                                        <span></span>
+                                        <p>공실사냥꾼</p>
+                                        <span>내 주변 공실을 찾고 리워드를 받아가자!</span>
                                     </div>
-                                    <div class="linked_btn">
+                                    <div class="none_btn">
                                         <a href="#none">
                                             출시예정
                                         </a>
@@ -245,11 +317,11 @@
                         </div>
                         <div class="sectionBtn">
                             <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li class="on"></li>
+                                <li onclick="fnMove('1')"></li>
+                                <li onclick="fnMove('2')"></li>
+                                <li onclick="fnMove('3')"></li>
+                                <li onclick="fnMove('4')"></li>
+                                <li onclick="fnMove('5')" class="on"></li>
                             </ul>
                         </div>
                     </div>
@@ -264,17 +336,45 @@
         <script th:src="@{/js/libs/swiper.min.js}"></script>
         <script th:src="@{/js/pages/index.js}"></script>
         <script>
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 30,
-            effect: 'fade',
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-                renderBullet: function(index, className) {
-                    return '<p class="' + className + '"><span>' + (index + 1) + "</span></p>";
-                }
-            },
-        });
+            var menu = ['상점연구', '상권연구', '지역연구']
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 30,
+                loop: true,
+                slidesPerView: 1.5,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                    renderBullet: function(index, className) {
+                        return '<p class="' + className + '"><span>' + (menu[index]) + "</span></p>";
+                    }
+                },
+            });
+
+            $(function (){
+                $(".list_solution > li").click(function (){
+                    $(this).toggleClass("on").siblings().removeClass("on");
+                });
+            });
+
+            function fnMove(seq){
+                var offset = $("#section" + seq).offset();
+                $("html, body").animate({scrollTop : offset.top}, 400);
+            }
+
+            $(function (){
+                $("#swiper1").addClass("on").siblings().remove("on");
+                $(".swiper-pagination p:nth-child(1)").click(function (){
+                    $("#swiper1").addClass("on").siblings().removeClass("on");
+                });
+                $(".swiper-pagination p:nth-child(2)").click(function (){
+                    $("#swiper2").addClass("on").siblings().removeClass("on");
+                });
+                $(".swiper-pagination p:nth-child(3)").click(function (){
+                    $("#swiper3").addClass("on").siblings().removeClass("on");
+                });
+            });
+
+
         </script>
     </th:block>
 </body>

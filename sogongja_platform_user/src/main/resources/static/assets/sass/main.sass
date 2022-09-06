@@ -18,27 +18,24 @@
 	margin: 0 auto
 .main_visual
 	position: relative
-.slide_video
-	overflow: hidden
-	position: relative
-	background-color: #1540bf
+.sectionBtn
+	position: absolute
+	top: calc(50% - 90px)
+	left: 95px
+	ul
+		li
+			background-color: #709bff
+			border: solid 1px #709bff
+			width: 16px
+			height: 16px
+			border-radius: 50%
+			margin-bottom: 16px
+			cursor: pointer
+		li.on
+			background-color: #1540bf
 .main_section
 	height: 100%
 	position: relative
-	.sectionBtn
-		position: absolute
-		top: calc(50% - 90px)
-		left: 95px
-		ul
-			li
-				background-color: #709bff
-				border: solid 1px #709bff
-				width: 16px
-				height: 16px
-				border-radius: 50%
-				margin-bottom: 16px
-			li.on
-				background-color: #1540bf
 	.mv_text1
 		height: 100vh
 		position: relative
@@ -78,8 +75,8 @@
 			.left
 				font-size: 1.375rem
 				font-weight: 500
-				background-color: none
-				border-radius: none
+				background-color: transparent
+				border-radius: 0
 				text-align: center
 				display: inline-block
 				padding: 0 5px
@@ -90,8 +87,8 @@
 			.right
 				font-size: 1.375rem
 				font-weight: 500
-				background-color: none
-				border-radius: none
+				background-color: transparent
+				border-radius: 0
 				text-align: center
 				display: inline-block
 				padding: 0 5px
@@ -103,7 +100,7 @@
 		height: 100vh
 		position: relative
 		display: flex
-		padding-top: rem(275)
+		padding-top: rem(200)
 		.left
 			width: 44%
 			p
@@ -116,6 +113,7 @@
 						font-size: rem(52)
 						font-weight: 300
 						vertical-align: baseline
+						margin: 0
 			span
 				display: inline-block
 				font-size: rem(22)
@@ -158,56 +156,6 @@
 			width: 56%
 			position: relative
 
-	.mv_text4
-		height: 100vh
-		position: relative
-		display: flex
-		padding-top: rem(275)
-		.left
-			width: 50%
-			p
-				font-size: rem(52)
-				font-weight: 300
-				strong
-					font-weight: bold
-			span
-				display: inline-block
-				font-size: rem(22)
-				color: #606060
-				line-height: 1.8
-				margin-top: 40px
-				margin-bottom: 20px
-			div
-				a
-					display: flex
-					align-items: center
-					justify-content: center
-					width: 180px
-					height: 60px
-					margin-top: 20px
-					padding: 16px 29px 15px 30px
-					box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
-					color: #1540bf
-					font-size: rem(20)
-					font-weight: bold
-					&:after
-						content: ""
-						display: block
-						background: url(#{$assetPath}/new/main/arrow_blue_right.png) no-repeat
-						width: 16px
-						height: 16px
-						margin-left: 5px
-		.right
-			width: 50%
-			position: relative
-			margin-top: rem(-54)
-			div
-				background: url(../images/new/main/img_main01.png) no-repeat
-				width: 700px
-				height: 100%
-				background-size: contain
-				margin-left: 5px
-				z-index: 99
 	.back_img01
 		position: absolute
 		overflow: hidden
@@ -225,98 +173,253 @@
 			margin: 80.3px 0 0
 			background-image: linear-gradient(to bottom, #c8d9ff, #c8d9ff 36%, #fbfcfe)
 			transform: rotate(-5deg)
+
+.slide_video
+	position: relative
+	background-color: #1540bf
+	.mv_text4
+		height: 100vh
+		position: relative
+		display: flex
+		padding-top: rem(275)
+		.swiper_text_wrap
+			width: 44%
+			.swiper_text
+				width: 100%
+				display: none
+			.swiper_text.on
+				display: block
+				p
+					font-size: rem(52)
+					font-weight: 300
+					color: #fff
+					strong
+						font-weight: bold
+				span
+					display: inline-block
+					font-size: rem(22)
+					color: #c8d9ff
+					line-height: 1.8
+					margin-top: 40px
+					margin-bottom: 20px
+				div
+					a
+						display: flex
+						align-items: center
+						justify-content: center
+						width: 180px
+						height: 60px
+						margin-top: 20px
+						box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
+						color: #1540bf
+						font-size: rem(20)
+						font-weight: bold
+						background-color: #fff
+						&:after
+							content: ""
+							display: block
+							background: url(#{$assetPath}/new/main/arrow_blue_right.png) no-repeat
+							width: 16px
+							height: 16px
+							margin-left: 5px
+	.mySwiper
+		width: 56%
+		overflow: hidden
+		position: absolute
+		top: 280px
+		left: 44%
+		.right
+			div
+				background-color: #fff
+				width: 100%
+				height: 400px
+
+
+.swiper-pagination
+	top: 220px
+	left: 44%
+	position: relative
+	&:before
+		content: ""
+		width: 100%
+		height: 2px
+		background: rgba(255, 255, 255, 0.6) !important
+		position: absolute
+		top: 13px
+	p
+		width: 122px
+		margin: 0 !important
+		border-radius: 0
+		height: 2px
+		opacity: 1
+		font-weight: 700
+		position: relative
+		background-color: transparent
+		&.swiper-pagination-bullet-active
+			background: #fff !important
+			span
+				color: #fff
+		span
+			position: absolute
+			bottom: 12px
+			left: 0
+			color: rgba(255, 255, 255, 0.6)
+			text-align: center
+			margin: 0 auto
+			display: block
+			width: 100%
+			font-size: rem(22)
+
+.list_solution
+	> li
+		min-width: 750px
+		margin: 0 0 16px
+		box-shadow: 15px 25px 46px 0 rgba(69, 102, 200, 0.26)
+		background-color: #fcfdfe
+		.list_title
+			display: flex
+			justify-content: space-between
+			padding: 20px 40px
+			align-items: center
+			p
+				font-size: rem(24)
+				font-weight: bold
+				color: #969aaf
+			span
+				display: inline-block
+				width: 18px
+				height: 18px
+				border-top: solid 3px #969aaf
+				border-right: solid 3px #969aaf
+				transform: rotate(135deg)
+		.list_text
+			overflow: hidden
+			height: 0
+			padding: 0 40px
+			border-top: solid 1px #f3f3f3
+			transition: 0.2s
+			.list_sub_title
+				font-size: rem(18)
+				color: #1540bf
+				font-weight: bold
+				margin-bottom: 20px
+			.list_sub_text
+				display: flex
+				justify-content: space-between
+				> div
+					width: calc(50% - 10px)
+					background-color: #f9f9f9
+					padding: 20px
+	> li.on
+		.list_title
+			p
+				color: #000
+			span
+				border-top: solid 3px #000
+				border-right: solid 3px #000
+				transform: rotate(-45deg)
+		.list_text
+			height: 100%
+			padding: 20px 40px
+			transition: 0.2s
+
+
+.sub_text_info
+	> div
+		display: flex
+		margin-bottom: 10px
+		.num
+			font-size: rem(18)
+			font-weight: bold
+			color: #709bff
+			margin-right: 10px
+		p
+			font-size: rem(18)
+			font-weight: bold
+	> ul
+		li
+			display: flex
+			margin-left: 20px
+			font-size: rem(14)
+			color: #606060
+			align-items: center
+			&:before
+				content: ""
+				display: inline-block
+				width: 6px
+				height: 6px
+				border-radius: 50%
+				background-color: #969aaf
+				margin-right: 10px
+
 .linkedMain
 	background-color: #e9f0ff
 	.mv_text5
 		height: 100vh
 		position: relative
-		padding-top: rem(275)
+		padding-top: rem(180)
+		padding-bottom: rem(180)
 		.mv_title
 			width: 100%
+			margin-bottom: 40px
 			p
 				text-align: center
+				font-size: rem(52)
 		.flex_wrap
 			display: flex
-			.left
-				width: 50%
-			.right
-				width: 50%
+			justify-content: space-between
+			> div
+				width: calc(50% - 10px)
+				.linked_img
+					width: 100%
+					height: 440px
+					background-color: #ccc
+					box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.25)
+				.linked_title
+					display: flex
+					margin-top: 20px
+					p
+						font-size: rem(24)
+						font-weight: bold
+						margin-right: 10px
+					span
+						font-size: rem(24)
+						font-weight: 300
+				.linked_btn
+					a
+						display: flex
+						align-items: center
+						justify-content: center
+						width: 180px
+						height: 60px
+						margin-top: 20px
+						box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
+						color: #1540bf
+						font-size: rem(20)
+						font-weight: bold
+						background-color: #fff
+						&:after
+							content: ""
+							display: block
+							background: url(#{$assetPath}/new/main/arrow_blue_right.png) no-repeat
+							width: 16px
+							height: 16px
+							margin-left: 5px
+				.none_btn
+					a
+						display: flex
+						align-items: center
+						justify-content: center
+						width: 180px
+						height: 60px
+						margin-top: 20px
+						box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.12)
+						color: #969aaf
+						font-size: rem(20)
+						font-weight: bold
+						background-color: #e2e2e2
 
 
-.mySwiper
-	height: 100%
-	.mv_text1
-		padding-top: rem(275)
-		*
-			color: #fff
-		> span
-			font-size: rem(22)
-			font-weight: 500
-			background: #1540bf
-			border-radius: 30px
-			text-align: center
-			display: inline-block
-			padding: 0px 5px
-		p
-			font-size: rem(48)
-			line-height: 1.42
-			font-weight: 300
-			text-shadow: 0 0 8px #1540bf
-			& + p
-				font-size: rem(19)
-				margin-top: rem(35)
-				line-height: 1.68
-				text-shadow: 0 0 12px rgba(0, 0, 0, 0.35)
-			strong
-				font-weight: 700
-	.mv_text2
-		max-width: 600px
-		padding-top: 14.25rem
-		li
-			+flex_type($justify: flex-start, $align: flex-start)
-			border-bottom: 1px solid rgba(255,255,255,0.6)
-			padding: rem(40) 0
-			span
-				font-size: rem(48)
-				line-height: 1.42
-				font-weight: 700
-				color: #fff
-				text-shadow: 0 0 12px rgba(21, 100, 191, 0.22)
-			p
-				font-size: rem(20)
-				font-weight: 300
-				line-height: 2.2
-				color: #fff
-				margin-left: rem(70)
-				text-shadow: 0 0 12px rgba(21, 100, 191, 0.22)
-			&:last-child
-				border-bottom: none
-	.swiper-pagination
-		text-align: right
-		right: rem(280)
-		left: auto !important
-		width: auto !important
-		bottom: 29% !important
-		p
-			width: 80px
-			margin: 0 !important
-			border-radius: 0
-			height: 2px
-			background: rgba(255,255,255,0.6) !important
-			opacity: 1
-			font-weight: 700
-			&.swiper-pagination-bullet-active
-				background: #fff !important
-			&:first-child span
-				+positionAt(absolute, $top: 2px, $left: -22px)
-				display: block
-			&:last-child span
-				+positionAt(absolute, $top: 2px, $right: -22px)
-				display: block
-			span
-				color: #fff
-				display: none
-				font-size: rem(16)
 .main_tab
 	background: #f6f8f9
 	.main_tab_ul
