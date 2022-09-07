@@ -1,4 +1,5 @@
 @import "_var"
+@import "_mixin"
 /* ajax loading image */
 .wrap-loading
 	z-index: 1060
@@ -31,14 +32,20 @@
 			border-radius: 50%
 			margin-bottom: 16px
 			cursor: pointer
+			&:hover
+				box-shadow: 0 0 10px #709bff
+
 		li.on
 			background-color: #1540bf
+
+
 .main_section
 	height: 100%
 	position: relative
 	.mv_text1
 		height: 100vh
 		position: relative
+		min-height: 998px
 		> p
 			text-align: center
 			color: #c8d9ff
@@ -96,6 +103,32 @@
 				border: solid 4px #fff
 				border-left: 0
 				margin-left: 40px
+		.scrollDown_wrap
+			+positionAt(absolute, $bottom: -50px)
+			left: calc(50% - 51px)
+			.scrollDown_arrow_wrap
+				+positionAt(absolute, $top: -40px)
+				text-align: center
+				margin: 0 auto
+				width: 100%
+				span
+					color: #c8d9ff
+					font-size: rem(12)
+				.scrollDown_arrow
+					background: url(../images/new/main/icon_h_arrow.png) no-repeat
+					width: 18px
+					height: 78px
+					margin: 5px auto 0
+			.scrollDown_circle
+				background-color: #1540bf
+				width: 102px
+				height: 102px
+				border-radius: 50%
+				display: flex
+				flex-direction: column
+				align-items: center
+
+
 	.mv_text3
 		height: 100vh
 		position: relative
@@ -144,7 +177,7 @@
 		.right
 			width: 56%
 			position: relative
-			margin-top: rem(-54)
+			margin-top: rem(-56)
 			div
 				background: url(../images/new/main/img_main01.png) no-repeat
 				width: 700px
@@ -157,17 +190,13 @@
 			position: relative
 
 	.back_img01
-		position: absolute
+		+positionAt(absolute, $bottom: 0, $left: 0)
 		overflow: hidden
 		width: 100%
 		height: 387px
-		bottom: 0
-		left: 0
 		z-index: -1
 		div
-			position: absolute
-			top: 0
-			left: 0
+			+positionAt(absolute, $top: 0, $left: 0)
 			width: 120%
 			height: 370px
 			margin: 80.3px 0 0
@@ -225,9 +254,7 @@
 	.mySwiper
 		width: 56%
 		overflow: hidden
-		position: absolute
-		top: 280px
-		left: 44%
+		+positionAt(absolute, $top: 280px, $left: 44%)
 		.right
 			div
 				background-color: #fff
@@ -244,8 +271,7 @@
 		width: 100%
 		height: 2px
 		background: rgba(255, 255, 255, 0.6) !important
-		position: absolute
-		top: 13px
+		+positionAt(absolute, $top: 13px, $left: 0)
 	p
 		width: 122px
 		margin: 0 !important
@@ -260,9 +286,7 @@
 			span
 				color: #fff
 		span
-			position: absolute
-			bottom: 12px
-			left: 0
+			+positionAt(absolute, $bottom: 12px, $left: 0)
 			color: rgba(255, 255, 255, 0.6)
 			text-align: center
 			margin: 0 auto

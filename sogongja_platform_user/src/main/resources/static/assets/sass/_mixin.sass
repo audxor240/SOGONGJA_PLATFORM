@@ -1,0 +1,17 @@
+@import "./_var.sass"
+
+@mixin mobile
+  @media (min-width: #{$mobile}) and (max-width: #{$tablet - 1px})
+    @content
+
+
+@mixin tablet
+  @media (min-width: #{$tablet}) and (max-width: #{$desktop - 1px})
+    @content
+
+
+@mixin desktop
+  @media (min-width: #{$desktop})
+    @content
+
+
