@@ -1,4 +1,5 @@
 @import "_var"
+@import "_mixin"
 .header
 	height: rem(105)
 	padding: 0 rem(78) 0 rem(40)
@@ -218,6 +219,48 @@
 				&:after
 					background:  url(#{$assetPath}/icon-arrow-down.png) no-repeat 50%
 
+
+.m_header
+	display: none
+	height: rem(105)
+	padding: 0 rem(78) 0 rem(40)
+	+positionAt(absolute, $top: 0, $left: 0)
+	width: 100%
+	+transition3
+	background: transparent
+	z-index: 2
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12)
+	&:hover
+		background-color: #ffffff
+		color: #181818
+	*
+		color: #fff
+	h1
+		width: rem(173)
+		height: rem(39)
+		a
+			display: block
+			height: 100%
+			text-indent: $hideFont
+			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
+	.top_header
+		display: flex
+		.h_btn
+			background-color: #fff
+			width: 20px
+			height: 20px
+	.h_menu_wrap
+		background-color: #00000050
+		width: 100%
+		transform: translateX(-100%)
+	.h_menu_wrap.side
+		transform: translateX(0)
+
+.m_header.on
+	background-color: #ffffff
+	*
+		color: #181818
+
 .hd_dim
 	background: #fff
 	display: none
@@ -363,3 +406,14 @@
 		padding: rem(0) rem(20)
 	.header .user .login_btn a::after
 		margin-top: rem(-13)
+
+//반응형처리
+@include maxMobile
+	.header
+		display: none
+	.m_header
+		display: block
+		+positionAt(fixed, $top :0, $left:0)
+@include desktop
+	.header nav > ul > li h2 a
+		font-size: rem(16)

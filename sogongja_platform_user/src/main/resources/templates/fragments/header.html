@@ -51,6 +51,52 @@
             </div>
         </div>
     </div>
+
+    <div class="m_header">
+        <div class="top_header">
+            <h1>
+                <a th:href="@{/}">소공자플랫폼</a>
+            </h1>
+            <div class="h_btn"></div>
+        </div>
+        <div class="h_menu_wrap">
+            <div class="h_menu">
+                <div class="login_btn">
+                    <a href="#n" sec:authorize="!isAuthenticated()">회원가입/로그인</a>
+                    <a href="#n" sec:authorize="isAuthenticated()">로그아웃</a>
+                    <div class="login_info">
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <p>회원가입으로 소공자플랫폼의<br>다양한 서비스를 이용하세요</p>
+                        </th:block>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <p class="name"><span th:text="${session.ss_user.username}">왕부리부리</span>님<br>반갑습니다.</p>
+                            <a th:href="@{/logout}" class="logout">로그아웃 <span></span></a>
+                        </th:block>
+                        <ul>
+                            <th:block sec:authorize="!isAuthenticated()">
+                                <li><a th:href="@{/login}">로그인</a></li>
+                                <li><a th:href="@{/signup}">회원가입</a></li>
+                            </th:block>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <li><a th:href="@{/mypage}">마이솔루션</a></li>
+                                <li><a th:href="@{/board/faq}">문의 및 답변</a></li>
+                            </th:block>
+                        </ul>
+                    </div>
+                </div>
+                <nav>
+                    <ul th:replace="fragments/menu"></ul>
+                </nav>
+                <a href="#n" class="guide">이용가이드</a>
+                <div class="urban">
+                    <img src="" alt="" onclick="location.href='#none'">
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
+
+
+
 
 </html>

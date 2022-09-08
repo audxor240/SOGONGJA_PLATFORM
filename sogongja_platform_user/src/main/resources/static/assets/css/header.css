@@ -293,6 +293,60 @@
   background: url(../images/icon-arrow-down.png) no-repeat 50%;
 }
 
+.m_header {
+  display: none;
+  height: 6.5625rem;
+  padding: 0 4.875rem 0 2.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: 0.3s;
+  background: transparent;
+  z-index: 2;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12);
+}
+.m_header:hover {
+  background-color: #ffffff;
+  color: #181818;
+}
+.m_header * {
+  color: #fff;
+}
+.m_header h1 {
+  width: 10.8125rem;
+  height: 2.4375rem;
+}
+.m_header h1 a {
+  display: block;
+  height: 100%;
+  text-indent: -9999px;
+  background: url(../images/img-logo-black.png) no-repeat center;
+}
+.m_header .top_header {
+  display: flex;
+}
+.m_header .top_header .h_btn {
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+}
+.m_header .h_menu_wrap {
+  background-color: rgba(0, 0, 0, 0.3137254902);
+  width: 100%;
+  transform: translateX(-100%);
+}
+.m_header .h_menu_wrap.side {
+  transform: translateX(0);
+}
+
+.m_header.on {
+  background-color: #ffffff;
+}
+.m_header.on * {
+  color: #181818;
+}
+
 .hd_dim {
   background: #fff;
   display: none;
@@ -493,6 +547,22 @@
   }
   .header .user .login_btn a::after {
     margin-top: -0.8125rem;
+  }
+}
+@media (max-width: 1023px) {
+  .header {
+    display: none;
+  }
+  .m_header {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+@media (max-width: 1600px) {
+  .header nav > ul > li h2 a {
+    font-size: 1rem;
   }
 }
 
