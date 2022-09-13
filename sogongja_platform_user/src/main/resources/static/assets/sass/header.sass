@@ -173,8 +173,15 @@
 			width: 140px
 			height: 40px
 			margin-left: 20px
-			background: #001658
 			color: #fff
+			background: #001658
+			span
+				display: block
+				margin: 13px auto 0
+				width: 87px
+				height: 13px
+				background: url(#{$assetPath}/new/main/logo_urban2.png) no-repeat 50%
+				background-size: contain
 
 .main .header
 		background: transparent
@@ -223,7 +230,6 @@
 .m_header
 	display: none
 	height: rem(105)
-	padding: 0 rem(78) 0 rem(40)
 	+positionAt(absolute, $top: 0, $left: 0)
 	width: 100%
 	+transition3

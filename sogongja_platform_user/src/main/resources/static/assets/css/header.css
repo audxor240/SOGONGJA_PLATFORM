@@ -239,8 +239,16 @@
   width: 140px;
   height: 40px;
   margin-left: 20px;
-  background: #001658;
   color: #fff;
+  background: #001658;
+}
+.header .user .urban span {
+  display: block;
+  margin: 13px auto 0;
+  width: 87px;
+  height: 13px;
+  background: url(../images/new/main/logo_urban2.png) no-repeat 50%;
+  background-size: contain;
 }
 
 .main .header {
@@ -296,7 +304,6 @@
 .m_header {
   display: none;
   height: 6.5625rem;
-  padding: 0 4.875rem 0 2.5rem;
   position: absolute;
   top: 0;
   left: 0;

@@ -35,7 +35,7 @@ $(function(){
 		}
 	});
 	$(".h_btn").click(function(){
-		$(".h_menu_wrap").addClass("side");
+		$(".h_menu_wrap").toggleClass("side");
 	});
 });
 
