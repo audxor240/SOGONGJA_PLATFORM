@@ -9,6 +9,7 @@ import com.stoneitgt.sogongja.user.security.AuthSuccessHandler;
 import com.stoneitgt.sogongja.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,32 +81,96 @@ public class LoginController {
 
             return "redirect:/";
         }
+    }
 
-        //return "redirect:/signup/agree?type=KAKAO&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
-        //System.out.println("user.getId() :: "+user.getId());
+    @GetMapping("/google")
+    public String loginByGoogle(@RequestParam("code") String token, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
 
+        String clientId = appProperties.getGoogleClientId();
+        String clientSecret = appProperties.getGoogleClientSecret();
+        String redirectUri = appProperties.getHost() + "/login/google";
 
-        /*
-        if (accountSerivce.checkJoin(AccountJoinType.KAKAO, uniqueId)) {
-            accountSerivce.setAuthentication(AccountJoinType.KAKAO, uniqueId);
+        // 코드로 토큰을 받아옴
+        HttpResult result = HttpClient.post(appProperties.getGoogleAccessTokenUri(), "client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + redirectUri + "&code=" + token + "&grant_type=authorization_code");
+
+        JSONObject tokenObj = JSONObject.fromObject(result.getData());
+        String authKey = "Bearer " + tokenObj.getString("access_token");
+
+        // 토큰으로 사용자 정보를 가져옴
+        HttpResult objects = HttpClient.getWithAuthorize(appProperties.getGoogleApiUri() + "/userinfo", authKey);
+        JSONObject resultObject = JSONObject.fromObject(objects.getData()); // 사용자 정보
+
+        String uniqueId = resultObject.getString("sub");
+        String email = resultObject.getString("email");
+
+        //String name = resultObject.getString("name");
+        String name = URLEncoder.encode(resultObject.getString("name"), "UTF-8");
+
+        User user = userService.socialID_check(uniqueId,"GOOGLE");
+
+        if(user == null){
+            return "redirect:/signup/agree?type=GOOGLE&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+        }else{
+
+            List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+            grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+            user.setAuthorities(grantedAuthorityList);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user,"thrhdwk1!",user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);   //세션에 저장
+            response.setStatus(HttpServletResponse.SC_OK);
+
             return "redirect:/";
-        } else {
-            if (accountSerivce.findByEmailToF(email)) {
-                return "redirect:/login/email/already?email=" + email;
-            } else {
-                try {
-                    String name = URLEncoder.encode(RandomStringUtils.randomAlphanumeric(10), "UTF-8");
-                    try {
-                        name = URLEncoder.encode(resultObject.getJSONObject("properties").getString("nickname"), "UTF-8");
-                    } catch (JSONException e) {
-                        System.out.println("unaccessible account");
-                    }
-                    return "redirect:/join/oauth2/term?type=" + AccountJoinType.KAKAO + "&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
-                } catch (UnsupportedEncodingException e1) {
-                    return "redirect:/";
-                }
-            }
         }
-         */
+
+    }
+
+    @GetMapping("/naver")
+    public String loginByNaver(@RequestParam("code") String token, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+        String clientId = appProperties.getNaverClientId();
+        String clientSecret = appProperties.getNaverClientSecret();
+        String redirectUri = appProperties.getHost() + "/login/naver";
+
+        HttpResult result = HttpClient.post(appProperties.getNaverAccessTokenUri(),
+                "grant_type=authorization_code&client_id=" + clientId + "&client_secret=" + clientSecret +
+                        "&code=" + token + "&state=" + request.getSession().getAttribute("state"));
+        JSONObject tokenObject = JSONObject.fromObject(result.getData());
+
+        String authKey = "Bearer ";
+        try {
+            authKey += tokenObject.getString("access_token");
+        } catch (JSONException e) {
+            return "redirect:/";
+        }
+
+        HttpResult objects = HttpClient.getWithAuthorize(appProperties.getNaverApiUri() + "/nid/me", authKey);
+
+        JSONObject resultObject = JSONObject.fromObject(objects.getData()).getJSONObject("response");
+
+        String uniqueId = resultObject.getString("id");
+        String email = resultObject.getString("email");
+
+        String name = URLEncoder.encode(resultObject.getString("name"), "UTF-8");
+
+        User user = userService.socialID_check(uniqueId,"NAVER");
+
+        if(user == null){
+            return "redirect:/signup/agree?type=GOOGLE&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+        }else{
+
+            List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+            grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+            user.setAuthorities(grantedAuthorityList);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user,"thrhdwk1!",user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);   //세션에 저장
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "redirect:/";
+        }
     }
 }

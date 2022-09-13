@@ -36,7 +36,7 @@
                     <input type="hidden" th:field="*{agree1}">
                     <input type="hidden" th:field="*{agree2}">
                     <input type="hidden" th:field="*{checkedId}">
-                    <input type="hidden" id="social_type" name="social_type" th:value="${type}">
+                    <input type="hidden" id="socialType" name="socialType" th:value="${type}">
                     <input type="hidden" id="uniqueId" name="uniqueId" th:value="${uniqueId}">
                     <ul class="stage_02">
                         <ul class="sub_container mypage_info">
@@ -71,7 +71,7 @@
                                 <tr>
                                     <th>이름 <span class="required">(필수)</span></th>
                                     <td>
-                                        <input type="text" name="username" id="username" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" th:value="${param.name}">
+                                        <input type="text" name="username" id="username" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" th:value="${param.name}" th:readonly="${type ne null}">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                     </td>
                                 </tr>
@@ -94,10 +94,10 @@
                                     <th>Email <span class="required">(필수)</span></th>
                                     <td>
                                         <ul class="email_ul">
-                                            <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}"></li>
-                                            <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}"></li>
+                                            <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}" th:readonly="${type ne null}"></li>
+                                            <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}" th:readonly="${type ne null}"></li>
                                             <li>
-                                                <select th:field="*{email3}">
+                                                <select th:field="*{email3}" th:readonly="${type ne null}">
                                                     <option value="">직접입력</option>
                                                     <option value="naver.com">네이버</option>
                                                     <option value="daum.net">다음</option>

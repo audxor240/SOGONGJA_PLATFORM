@@ -51,9 +51,9 @@ public class UserController extends BaseController {
 		String category = user.getCategoryList().toString().substring(1);
 		category = category.substring(0, category.length()-1);
 		category = category.replaceAll("\\s", "");
-
+		System.out.println("user >> "+user);
 		//소셜 회원가입일 경우
-		if(!user.getSocialType().equals("")){
+		if(user.getSocialType() != null){
 			if(user.getSocialType().equals("KAKAO")){
 				user.setKakaoId(user.getUniqueId());
 			}else if(user.getSocialType().equals("GOOGLE")){
@@ -71,6 +71,7 @@ public class UserController extends BaseController {
 
 
 		model.addAttribute("user", user);
+		System.out.println("user >>>>>>>>>>>> "+user);
 		//return "pages/user/signup_result";
 
 		// 회원가입인 경우에만
@@ -370,7 +371,7 @@ public class UserController extends BaseController {
 	@GetMapping("/mypage/info")
 	public String mypage_info(Model model) {
 		User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
-
+		System.out.println("user ::::::::::::: "+user);
 		String[] email = user.getEmail().split("@");
 
 		user.setEmail1(email[0]);

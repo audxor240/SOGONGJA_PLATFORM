@@ -162,4 +162,6 @@ public class User implements UserDetails {
 	private String kakaoId;
 
 	private String naverId;
+
+	private String type;
 }

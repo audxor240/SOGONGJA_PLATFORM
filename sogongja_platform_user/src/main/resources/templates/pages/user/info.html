@@ -79,9 +79,109 @@
                                     <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
                                 </td>
                             </tr>
-                            <tr>
+                            <!--<tr>
                                 <th>관심사항 <span class="">(선택)</span></th>
                                 <td>
+                                    <th:block th:each="item, row : ${category1}">
+                                        <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
+                                        <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
+                                    </th:block>
+                                </td>
+                            </tr>
+                            -->
+                        </table>
+                        <div class="table table_title">
+                            <h3>부가 정보 입력</h3>
+                        </div>
+                        <table class="">
+                            <caption>부가 정보 입력</caption>
+                            <tr>
+                                <th>이용자 유형<span class="required">(필수)</span></th>
+                                <td>
+                                    <ul class="radio_depth01">
+                                        <li>
+                                            <input type="radio" name="type01" id="type01_01" value="1"  checked="checked">
+                                            <label for="type01_01">사업자(소상공인)</label>
+                                            <ul class="radio_depth02 radio_on01">
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_01_01" value="1">
+                                                    <label for="type02_01_01">사업 실행중</label>
+                                                </li>
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_01_02" value="2">
+                                                    <label for="type02_01_02">휴/폐업(예정)중</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="type01" id="type01_02" value="2">
+                                            <label for="type01_02">예비창업자</label>
+                                            <ul class="radio_depth02 radio_on02">
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_02_01" value="3">
+                                                    <label for="type02_02_01">창업 준비중</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="type01" id="type01_03" value="3">
+                                            <label for="type01_03">임대 부동산 소유</label>
+                                            <ul class="radio_depth02 radio_on03">
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_03_01" value="4">
+                                                    <label for="type02_03_01">공실문제 해결</label>
+                                                </li>
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_03_02" value="5">
+                                                    <label for="type02_03_02">시설관리 </label>
+                                                </li>
+                                                <li>
+                                                    <input type="radio" name="type02" id="type02_03_03" value="6">
+                                                    <label for="type02_03_03">빚,채무 관련</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="type01" id="type01_04" value="4">
+                                            <label for="type01_02">일반인</label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>연령대<span class="required">(필수)</span></th>
+                                <td>
+                                    <ul class="radio_depth01">
+                                        <li>
+                                            <input type="radio" name="age" id="age20" value="20" checked="checked">
+                                            <label for="age20">20대</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="age" id="age30" value="30">
+                                            <label for="age30">30대</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="age" id="age40" value="40">
+                                            <label for="age40">40대</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="age" id="age50" value="50">
+                                            <label for="age50">50대</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="age" id="age60" value="60">
+                                            <label for="age60">60대 이상</label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>관심 서비스 유형 <span class="required">(필수)</span></th>
+                                <td>
+                                    <!--<th:block th:each="item, row : ${category1}">
+                                        <input type="checkbox" class="checkbox_style checkbox_style_small" th:id="|category${row.count}|" name="categoryList" th:value="${item.code}">
+                                        <label th:for="|category${row.count}|" th:text="${item.code_name}">동의합니다</label>
+                                    </th:block>-->
                                     <th:block th:each="item, row : ${category1}">
                                         <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
                                         <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
