@@ -119,9 +119,12 @@ public class StudyController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> list = counselingService.getCounselingList(paramsMap, paging);
+		Integer total = counselingService.selectTotalRecords();
+		paging.setTotal(total);
 
 		model.addAttribute("list", list);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 

@@ -29,6 +29,10 @@ public class CounselingService extends BaseService {
 		return consultingMapper.getCounselingList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return consultingMapper.selectTotalRecords();
+	}
+
 	public Counseling getCounseling(int couSeq) {
 		return consultingMapper.getCounseling(couSeq);
 	}

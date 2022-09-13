@@ -218,4 +218,8 @@
 		   AND A.DEL_FLAG  = 0
 	</select>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

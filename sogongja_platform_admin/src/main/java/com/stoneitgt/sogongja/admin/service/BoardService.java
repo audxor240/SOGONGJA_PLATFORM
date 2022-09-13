@@ -32,6 +32,10 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return boardMapper.selectTotalRecords();
+	}
+
 	public Board getBoard(int boardSeq) {
 		Board board = boardMapper.getBoard(boardSeq);
 		board.setFromDt(StoneUtil.dateToFormatString(board.getFromDt()));

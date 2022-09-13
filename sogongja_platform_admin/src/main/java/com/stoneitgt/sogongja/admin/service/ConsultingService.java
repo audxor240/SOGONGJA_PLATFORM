@@ -29,6 +29,10 @@ public class ConsultingService extends BaseService {
 		return consultingMapper.getConsultingList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return consultingMapper.selectTotalRecords();
+	}
+
 	public Consulting getConsulting(int conSeq) {
 		return consultingMapper.getConsulting(conSeq);
 	}

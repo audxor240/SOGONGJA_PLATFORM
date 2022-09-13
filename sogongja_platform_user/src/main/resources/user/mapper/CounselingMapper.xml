@@ -47,4 +47,8 @@
          WHERE COU_SEQ  = #{couSeq}
     </update>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

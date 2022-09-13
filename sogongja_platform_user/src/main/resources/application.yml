@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: prod
     
   servlet:
     multipart:
@@ -140,7 +140,7 @@ spring:
       on-profile: prod
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
       username: sogongja
       password: sogongja@2021!
       
@@ -150,7 +150,7 @@ system:
   thumbnail-file-path: /app/upload/thumb
   
 server:
-  port: 8082
+  port: 2082
   undertow:
     accesslog:
       enabled: true
@@ -174,3 +174,11 @@ logging:
       connection: off
     org:
       thymeleaf: off
+
+app:
+  ########### KAKAO
+  kakao-client-id: ca030a4f9bf9d299095948d15d0982d2
+  kakao-request-token-uri: https://kauth.kakao.com/oauth/authorize
+  kakao-access-token-uri: https://kauth.kakao.com/oauth/token
+  kakao-api-uri: https://kapi.kakao.com/v2
+  host: http://121.254.171.155:2082

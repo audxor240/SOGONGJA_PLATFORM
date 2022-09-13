@@ -93,4 +93,8 @@
 		     AND A.COU_SEQ  = #{couSeq}
 	</select>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

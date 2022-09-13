@@ -37,6 +37,8 @@ public class SolutionController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("order", "read_cnt");
 		List<Map<String, Object>> eduList = ecucationService.getEducationList(paramsMap, paging);
+		Integer total = ecucationService.selectTotalRecords();
+		paging.setTotal(total);
 
 		List<Map<String, Object>> recommendList = null;
 
@@ -64,7 +66,8 @@ public class SolutionController extends BaseController {
 		}
 
 		model.addAttribute("list", eduList);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(eduList, paging));
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(eduList, paging));
+		model.addAttribute("paging", paging);
 		model.addAttribute("recommendList", recommendList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -79,13 +82,16 @@ public class SolutionController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("read_cnt", "Y");
 		List<Map<String, Object>> conList = consultingService.getConsultingList(paramsMap, paging);
+		Integer total = consultingService.selectTotalRecords();
+		paging.setTotal(total);
 
 		paramsMap.put("read_cnt", "N");
 		paramsMap.put("recommend", "Y");
 		List<Map<String, Object>> recommendList = ecucationService.getEducationList(paramsMap);
 
 		model.addAttribute("list", conList);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(conList, paging));
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(conList, paging));
+		model.addAttribute("paging", paging);
 		model.addAttribute("recommendList", recommendList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));

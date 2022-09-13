@@ -35,7 +35,7 @@ public class BoardController extends BaseController {
 
 	@GetMapping("/{boardType:news|notice|faq|community}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
-
+		System.out.println("boardType :: "+boardType);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("board_type", boardType);
 
@@ -47,7 +47,10 @@ public class BoardController extends BaseController {
 		} else {
 			Paging paging = getUserPaging(params.getPage(), params.getSize());
 			list = boardService.getBoardList(paramsMap, paging);
-			model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+			Integer total = boardService.selectTotalRecords();
+			paging.setTotal(total);
+			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+			model.addAttribute("paging", paging);
 		}
 
 		model.addAttribute("list", list);
@@ -105,7 +108,10 @@ public class BoardController extends BaseController {
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
 		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
@@ -133,7 +139,10 @@ public class BoardController extends BaseController {
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
 		List<Map<String, Object>> list = boardService.getBoardLawList(paramsMap, paging);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);

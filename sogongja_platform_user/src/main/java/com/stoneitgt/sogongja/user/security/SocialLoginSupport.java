@@ -62,8 +62,8 @@ public class SocialLoginSupport {
 
         //model.addAttribute("oauthUrlForGoogle", getSocialOauthUrl(appProperties.getHost() + "/login/google", state));
         //model.addAttribute("oauthUrlForNaver", getSocialOauthUrl(appProperties.getHost() + "/login/naver/", state));
-        model.addAttribute("oauthUrlForKakao", getSocialOauthUrl("http://localhost:2082/login/kakao", state));
-        System.out.println("oauthUrlForKakao :: "+getSocialOauthUrl("http://localhost:2082/login/kakao", state));
+        model.addAttribute("oauthUrlForKakao", getSocialOauthUrl(appProperties.getHost()+"/login/kakao", state));
+        System.out.println("oauthUrlForKakao :: "+getSocialOauthUrl(appProperties.getHost()+"/login/kakao", state));
 
     }
 

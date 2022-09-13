@@ -304,4 +304,8 @@
              AND A.LAW_SEQ  = #{lawSeq}
     </select>
 
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
 </mapper>

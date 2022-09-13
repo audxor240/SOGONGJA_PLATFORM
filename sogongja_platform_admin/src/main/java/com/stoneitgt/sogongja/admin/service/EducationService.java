@@ -30,6 +30,10 @@ public class EducationService extends BaseService {
 		return educationMapper.getEducationList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return educationMapper.selectTotalRecords();
+	}
+
 	public Education getEducation(int eduSeq) {
 		return educationMapper.getEducation(eduSeq);
 	}

@@ -39,6 +39,10 @@ public class MenuService {
 		return menuMapper.getParentMenuList(params);
 	}
 
+	public Integer selectTotalRecords() {
+		return menuMapper.selectTotalRecords();
+	}
+
 	public Map<String, Object> getMenu(String menuCode) {
 		return menuMapper.getMenu(menuCode);
 	}

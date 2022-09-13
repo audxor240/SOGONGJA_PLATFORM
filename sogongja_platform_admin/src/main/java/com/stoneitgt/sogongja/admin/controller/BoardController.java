@@ -49,9 +49,12 @@ public class BoardController extends BaseController {
 		paramsMap.put("board_type", boardType);
 
 		List<Map<String, Object>> list = boardService.getBoardList(paramsMap, paging);
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
 
 		model.addAttribute("list", list);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
 		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
@@ -157,7 +160,10 @@ public class BoardController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
@@ -247,7 +253,10 @@ public class BoardController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> list = boardService.getBoardLawList(paramsMap, paging);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);

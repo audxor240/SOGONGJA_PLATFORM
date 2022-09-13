@@ -58,9 +58,12 @@ public class SettingController extends BaseController {
 		paramsMap.put("user_type", "A");
 
 		List<Map<String, Object>> list = userService.getUserList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
 
 		model.addAttribute("list", list);
-		model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -242,11 +245,15 @@ public class SettingController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> list = menuService.getMenuList(paramsMap);
+		Integer total = menuService.selectTotalRecords();
+
 
 		model.addAttribute("list", list);
 		Paging paging = new Paging();
 		paging.setShow(false);
+		//paging.setTotal(total);
 		model.addAttribute("paging", StoneUtil.setTotalPaging2(list, paging));
+		//model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 
