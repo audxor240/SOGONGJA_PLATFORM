@@ -105,15 +105,34 @@
 				margin-left: 40px
 		.scrollDown_wrap
 			+positionAt(absolute, $bottom: -50px)
+			width: 102px
+			height: 102px
 			left: calc(50% - 51px)
+			cursor: pointer
+			&:hover .scrollDown_arrow_wrap
+				top: -25px
+				transition: 0.4s
+			&:hover .scrollDown_circle
+				margin: 20px auto
+				width: 80px
+				height: 80px
+				transition: 0.4s
+
 			.scrollDown_arrow_wrap
 				+positionAt(absolute, $top: -40px)
 				text-align: center
 				margin: 0 auto
 				width: 100%
+				transition: 0.4s
 				span
 					color: #c8d9ff
 					font-size: rem(12)
+					@include keyframe (opacity)
+						100%
+							opacity: 0
+						0%
+							opacity: 1
+					@include animation (0s, 1.6s, opacity, infinite,alternate)
 				.scrollDown_arrow
 					background: url(../images/new/main/icon_h_arrow.png) no-repeat
 					width: 18px
@@ -127,6 +146,7 @@
 				display: flex
 				flex-direction: column
 				align-items: center
+
 
 
 	.mv_text3
@@ -563,3 +583,41 @@
 			opacity: 0.6
 			z-index: -1
 
+
+//반응형처리
+@include desktop
+	.sectionBtn
+		left: 40px
+	.main_section
+		.mv_text3
+			height: auto
+			min-height: 1200px
+			flex-wrap: wrap
+			flex-direction: column
+			padding: rem(140) 100px 0
+			.left
+				width: 100%
+			.right
+				width: 100%
+		.back_img01
+			height: 290px
+	.slide_video
+		.mv_text4
+			height: auto
+			flex-wrap: wrap
+			flex-direction: column
+			padding: rem(140) 100px 0
+			.swiper_text_wrap
+				width: 100%
+		.mySwiper
+			width: 100%
+			position: relative
+			margin: 160px 100px 0
+			top: 0
+			left: 0
+	.linkedMain
+		.mv_text5
+			height: auto
+	.swiper-pagination
+		top: 610px
+		left: 100px

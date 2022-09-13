@@ -124,7 +124,20 @@
 .main_section .mv_text1 .scrollDown_wrap {
   position: absolute;
   bottom: -50px;
+  width: 102px;
+  height: 102px;
   left: calc(50% - 51px);
+  cursor: pointer;
+}
+.main_section .mv_text1 .scrollDown_wrap:hover .scrollDown_arrow_wrap {
+  top: -25px;
+  transition: 0.4s;
+}
+.main_section .mv_text1 .scrollDown_wrap:hover .scrollDown_circle {
+  margin: 20px auto;
+  width: 80px;
+  height: 80px;
+  transition: 0.4s;
 }
 .main_section .mv_text1 .scrollDown_wrap .scrollDown_arrow_wrap {
   position: absolute;
@@ -132,10 +145,24 @@
   text-align: center;
   margin: 0 auto;
   width: 100%;
+  transition: 0.4s;
 }
 .main_section .mv_text1 .scrollDown_wrap .scrollDown_arrow_wrap span {
   color: #c8d9ff;
   font-size: 0.75rem;
+  animation-delay: 0s;
+  animation-duration: 1.6s;
+  animation-name: opacity;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes opacity {
+  100% {
+    opacity: 0;
+  }
+  0% {
+    opacity: 1;
+  }
 }
 .main_section .mv_text1 .scrollDown_wrap .scrollDown_arrow_wrap .scrollDown_arrow {
   background: url(../images/new/main/icon_h_arrow.png) no-repeat;
@@ -694,6 +721,51 @@
   background: #709bff;
   opacity: 0.6;
   z-index: -1;
+}
+
+@media (max-width: 1600px) {
+  .sectionBtn {
+    left: 40px;
+  }
+  .main_section .mv_text3 {
+    height: auto;
+    min-height: 1200px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 8.75rem 100px 0;
+  }
+  .main_section .mv_text3 .left {
+    width: 100%;
+  }
+  .main_section .mv_text3 .right {
+    width: 100%;
+  }
+  .main_section .back_img01 {
+    height: 290px;
+  }
+  .slide_video .mv_text4 {
+    height: auto;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 8.75rem 100px 0;
+  }
+  .slide_video .mv_text4 .swiper_text_wrap {
+    width: 100%;
+  }
+  .slide_video .mySwiper {
+    width: 100%;
+    position: relative;
+    margin: 160px 100px 0;
+    top: 0;
+    left: 0;
+  }
+  .linkedMain .mv_text5 {
+    height: auto;
+  }
+  .swiper-pagination {
+    top: 610px;
+    left: 100px;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

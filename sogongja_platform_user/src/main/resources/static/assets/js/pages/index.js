@@ -37,6 +37,12 @@ $(function(){
 	$(".h_btn").click(function(){
 		$(".h_menu_wrap").toggleClass("side");
 	});
+
+	if($(".h_menu_wrap").hasClass("on") === true) {
+		$('.m_header').addClass('on');
+	} else {
+		$('.m_header').removeClass('on');
+	}
 });
 
 

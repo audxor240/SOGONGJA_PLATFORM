@@ -1,4 +1,5 @@
 @import "_var"
+@import "_mixin"
 footer
 	background: #232323
 	.ft_top
@@ -106,3 +107,12 @@ footer
 			color: rgba(255,255,255,0.48)
 			font-size: rem(14)
 			font-weight: 300
+//반응형처리
+@include tablet
+	.footer
+		.ft_top
+			flex-wrap: wrap
+			.ft_menu
+				display: none
+			.ft_address
+				width: 100%
