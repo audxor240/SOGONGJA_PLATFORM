@@ -2137,4 +2137,10 @@
   color: #1540bf;
 }
 
+@media (max-width: 1200px) {
+  .wrap {
+    padding: 0 40px;
+  }
+}
+
 /*# sourceMappingURL=sub.css.map */
