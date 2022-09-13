@@ -22,4 +22,6 @@ public interface EducationMapper {
 	int updateEducation(Education education);
 
 	int deleteEducation(Map<String, Object> params);
+
+	int selectTotalRecords();
 }

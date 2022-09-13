@@ -50,4 +50,6 @@ public interface BoardMapper {
 	int updateLaw(Law law);
 
 	int deleteLaw(Map<String, Object> params);
+
+	int selectTotalRecords();
 }

@@ -23,6 +23,10 @@ public class CounselingService extends BaseService {
 		return consultingMapper.getCounselingList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return consultingMapper.selectTotalRecords();
+	}
+
 	public Map<String, Object> getCounseling(int couSeq) {
 		Map<String, Object> counseling = consultingMapper.getCounseling(couSeq);
 		consultingMapper.updateCounselingReadCnt(couSeq);

@@ -34,4 +34,6 @@ public interface MenuMapper {
 	int deleteMenuParent(Map<String, Object> params);
 
 	Map<String, Object> getMenu(String menuCode);
+
+	int selectTotalRecords();
 }

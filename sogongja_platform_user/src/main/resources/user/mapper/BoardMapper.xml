@@ -214,4 +214,8 @@
          WHERE LAW_SEQ  = #{lawSeq}
     </update>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

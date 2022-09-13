@@ -17,4 +17,6 @@ public interface CounselingMapper {
 
 	int updateCounselingReadCnt(int couSeq);
 
+	int selectTotalRecords();
+
 }

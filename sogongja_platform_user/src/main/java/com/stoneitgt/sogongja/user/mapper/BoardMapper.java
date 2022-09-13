@@ -44,4 +44,6 @@ public interface BoardMapper {
 	int updateProjectReadCnt(int projectSeq);
 
 	int updateLawReadCnt(int lawSeq);
+
+	int selectTotalRecords();
 }

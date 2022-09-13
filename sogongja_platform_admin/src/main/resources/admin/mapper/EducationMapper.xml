@@ -114,4 +114,8 @@
 		     AND A.EDU_SEQ  = #{eduSeq}
 	</select>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

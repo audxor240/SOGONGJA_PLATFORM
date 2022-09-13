@@ -22,4 +22,6 @@ public interface CounselingMapper {
 	int updateCounseling(Counseling counseling);
 
 	int deleteCounseling(Map<String, Object> params);
+
+	int selectTotalRecords();
 }

@@ -133,7 +133,7 @@ spring:
       on-profile: prod
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
       username: sogongja
       password: sogongja@2021!
       
@@ -143,7 +143,7 @@ system:
   thumbnail-file-path: /app/upload/thumb
   
 server:
-  port: 8081
+  port: 2081
   undertow:
     accesslog:
       enabled: true

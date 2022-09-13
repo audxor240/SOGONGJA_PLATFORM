@@ -142,4 +142,8 @@
 		   WHERE USER_SEQ         = #{user_seq}
 	</update>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

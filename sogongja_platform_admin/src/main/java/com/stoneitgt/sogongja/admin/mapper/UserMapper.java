@@ -28,4 +28,6 @@ public interface UserMapper {
 	int saveUser(User user);
 
 	int deleteUser(Map<String, Object> params);
+
+	int selectTotalRecords();
 }

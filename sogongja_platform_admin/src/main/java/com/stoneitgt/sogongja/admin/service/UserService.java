@@ -41,6 +41,10 @@ public class UserService implements UserDetailsService {
 		return userMapper.getUserList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return userMapper.selectTotalRecords();
+	}
+
 	public User getUserInfo(int userSeq) {
 		User user = userMapper.getUserInfo(userSeq);
 		if (StringUtil.isNotBlank(user.getBirthDay())) {

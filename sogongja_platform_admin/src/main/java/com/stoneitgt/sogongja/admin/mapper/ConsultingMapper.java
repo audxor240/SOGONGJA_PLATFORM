@@ -22,4 +22,6 @@ public interface ConsultingMapper {
 	int updateConsulting(Consulting consulting);
 
 	int deleteConsulting(Map<String, Object> params);
+
+	int selectTotalRecords();
 }

@@ -107,4 +107,8 @@ public class BoardService extends BaseService {
 		law.replace("enforce_date", StoneUtil.dateToFormatString(law.get("enforce_date").toString()));
 		return law;
 	}
+
+	public Integer selectTotalRecords() {
+		return boardMapper.selectTotalRecords();
+	}
 }
