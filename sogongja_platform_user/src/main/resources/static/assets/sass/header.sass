@@ -229,16 +229,13 @@
 
 .m_header
 	display: none
-	height: rem(105)
+	height: rem(79)
 	+positionAt(absolute, $top: 0, $left: 0)
 	width: 100%
 	+transition3
 	background: transparent
 	z-index: 2
 	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12)
-	&:hover
-		background-color: #ffffff
-		color: #181818
 	*
 		color: #fff
 	h1
@@ -248,22 +245,28 @@
 			display: block
 			height: 100%
 			text-indent: $hideFont
-			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
+			background: url(#{$assetPath}/img-logo.png) no-repeat center
 	.top_header
 		display: flex
+		justify-content: space-between
+		padding: 20px 40px
 		.h_btn
-			background-color: #fff
 			width: 20px
 			height: 20px
+			background: url(#{$assetPath}/new/icon/hamburger.png) no-repeat 50%
+			background-size: contain
 	.h_menu_wrap
 		background-color: #00000050
 		width: 100%
 		transform: translateX(-100%)
+		padding: 40px
 	.h_menu_wrap.side
 		transform: translateX(0)
 
 .m_header.on
 	background-color: #ffffff
+	h1 > a
+		background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 	*
 		color: #181818
 
@@ -414,12 +417,25 @@
 		margin-top: rem(-13)
 
 //반응형처리
-@include maxMobile
+@include desktop
+	.header nav > ul > li h2
+		padding: 0 rem(20)
+		a
+			font-size: rem(16)
+		.user
+			a
+				font-size: rem(14)
+			.urban
+				width: 100px
+				height: 30px
+				span
+					margin: 10px auto 0
+					width: 66px
+					height: 10px
+@include tablet
 	.header
 		display: none
 	.m_header
 		display: block
 		+positionAt(fixed, $top :0, $left:0)
-@include desktop
-	.header nav > ul > li h2 a
-		font-size: rem(16)
+

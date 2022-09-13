@@ -11,12 +11,26 @@
 
 
 @mixin tablet
-  @media (min-width: #{$tablet}) and (max-width: #{$desktop - 1px})
+  @media (max-width: #{$tablet})
     @content
 
 
 @mixin desktop
   @media (max-width: #{$desktop})
     @content
+
+@mixin animation ($delay, $duration, $name, $count ,$direction)
+  animation-delay: $delay
+  animation-duration: $duration
+  animation-name: $name
+  animation-iteration-count: $count
+  animation-direction: $direction
+
+
+@mixin keyframe ($animation_name)
+  @keyframes #{$animation_name}
+    @content
+
+
 
 

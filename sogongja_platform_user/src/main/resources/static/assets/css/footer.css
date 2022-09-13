@@ -141,4 +141,16 @@ footer .ft_bottom > p {
   font-weight: 300;
 }
 
+@media (max-width: 1200px) {
+  .footer .ft_top {
+    flex-wrap: wrap;
+  }
+  .footer .ft_top .ft_menu {
+    display: none;
+  }
+  .footer .ft_top .ft_address {
+    width: 100%;
+  }
+}
+
 /*# sourceMappingURL=footer.css.map */
