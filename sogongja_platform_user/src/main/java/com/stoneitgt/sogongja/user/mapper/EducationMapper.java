@@ -16,4 +16,6 @@ public interface EducationMapper {
 	Map<String, Object> getEducation(int eduSeq);
 
 	int updateEducationReadCnt(int eduSeq);
+
+	int selectTotalRecords();
 }

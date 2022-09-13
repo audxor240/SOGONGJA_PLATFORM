@@ -48,6 +48,31 @@ public class UserController extends BaseController {
 	public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult, Model model,
 			RedirectAttributes rttr, HttpServletRequest request) {
 
+		String category = user.getCategoryList().toString().substring(1);
+		category = category.substring(0, category.length()-1);
+		category = category.replaceAll("\\s", "");
+
+		//소셜 회원가입일 경우
+		if(!user.getSocialType().equals("")){
+			if(user.getSocialType().equals("KAKAO")){
+				user.setKakaoId(user.getUniqueId());
+			}else if(user.getSocialType().equals("GOOGLE")){
+				user.setGoogleId(user.getUniqueId());
+			}else if(user.getSocialType().equals("NAVER")){
+				user.setNaverId(user.getUniqueId());
+			}
+			//아이디는 uniqueId, 패스워드는 고정
+			user.setId(user.getUniqueId());
+			user.setPassword("thrhdwk1!");
+			user.setPasswordConfirm("thrhdwk1!");
+			user.setType02("1");
+		}
+
+
+
+		model.addAttribute("user", user);
+		//return "pages/user/signup_result";
+
 		// 회원가입인 경우에만
 		if (user.getUserSeq() == 0) {
 			if (StringUtil.isBlank(user.getId())) {
@@ -117,6 +142,10 @@ public class UserController extends BaseController {
 //		user.setTel(tel);
 		user.setEmail(email);
 		user.setAuth("AU02");
+		user.setAge(user.getAge());
+		user.setType01(user.getType01());
+		user.setType02(user.getType02());
+		user.setServiceType(category);
 
 		userService.saveUser(user);
 

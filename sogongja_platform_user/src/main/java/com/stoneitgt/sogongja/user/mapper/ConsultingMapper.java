@@ -17,4 +17,6 @@ public interface ConsultingMapper {
 
 	int updateConsultingReadCnt(int conSeq);
 
+	int selectTotalRecords();
+
 }
