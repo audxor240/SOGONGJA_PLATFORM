@@ -10,6 +10,11 @@
     <meta name="keywords" content="소공자 플랫폼, 임대인, 임차인, 상권, 분석">
     <meta name="description" content="임대인과 임차인이 함께 소규모 상권의 공생과 자생을 꿈꾸는 플랫">
     <link rel="stylesheet" type="text/css" th:href="@{/css/swiper-bundle.min.css}">
+
+<!--    aos-->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!--animate-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 
 <body>
@@ -22,15 +27,15 @@
                     <div class="wrap_img" th:style="|background: url('@{/images/new/main/img_mainbg.png}') no-repeat center;|">
                         <div class="container mv_text1 " >
                             <div class="title_main">
-                                <span class="left"></span>
-                                <p>
+                                <span class="left animate__animated animate__fadeInLeft"></span>
+                                <p class="animate__animated animate__slideInDown">
                                     <strong>
                                         소규모 상점의 <br>
                                         공생과 자생을 <br>
                                         꿈꾸는 플랫폼
                                     </strong>
                                 </p>
-                                <span class="right"></span>
+                                <span class="right animate__animated animate__fadeInRight"></span>
                             </div>
                             <p>
                                 모두가 빠르게 상권의 문제를 예측하고 스스로 해결할 수 있는 사업단계별 맞춤형 서비스!! <br>
@@ -342,6 +347,9 @@
         <script th:src="@{/js/libs/swiper.min.js}"></script>
         <script th:src="@{/js/pages/index.js}"></script>
         <script>
+            // aos
+            AOS.init();
+
             var menu = ['상점연구', '상권연구', '지역연구']
             var swiper = new Swiper(".mySwiper", {
                 loop: true,
@@ -353,7 +361,7 @@
                     },
                     1200: {
                         slidesPerView: 1,
-                        spaceBetween: 20
+                        spaceBetween: 100
                     }
                 },
                 touchRatio: 0,

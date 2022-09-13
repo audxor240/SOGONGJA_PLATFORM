@@ -250,6 +250,8 @@
 		display: flex
 		justify-content: space-between
 		padding: 20px 40px
+		align-items: center
+		background-color: #1540BF
 		.h_btn
 			width: 20px
 			height: 20px
@@ -258,10 +260,110 @@
 	.h_menu_wrap
 		background-color: #00000050
 		width: 100%
-		transform: translateX(-100%)
-		padding: 40px
+		transition: 0.4s
+		display: none
+		transform: translateX(100%)
+		height: 100vh
+		position: absolute
+		top: 0
+		.h_menu
+			position: relative
+			background-color: #fff
+			width: 400px
+			margin-left: calc(100% - 400px)
+			height: 100vh
+			p
+				color: #606060
+				font-size: rem(18)
+			.login_btn
+				padding: 20px
+				.m_btn
+					display: flex
+					justify-content: space-between
+					margin-top: 20px
+					li
+						width: calc(50% - 10px)
+						a
+							display: block
+							text-align: center
+							height: 40px
+							line-height: 40px
+					li:nth-child(1) a
+						background-color: #1540BF
+						color: #fff
+					li:nth-child(2) a
+						background-color: #fff
+						color: #1540BF
+						border: solid 1px #1540BF
+		.m_nav
+			> ul > li
+				h2
+					border-top: 1px solid #DADADA
+					display: flex
+					justify-content: space-between
+					padding: 10px 20px
+					font-weight: bold
+					&:after
+						display: block
+						content: ""
+						border-top: solid 2px #000
+						border-right: solid 2px #000
+						width: 10px
+						height: 10px
+						transform: rotate(135deg)
+				ul
+					height: 0
+					overflow: hidden
+					li
+						height: 50px
+						line-height: 50px
+						background-color: #F6F8F9
+						color: #606060
+						padding-left: 20px
+			> ul > li:last-child
+				ul
+					border-bottom: 1px solid #DADADA
+		.m_nav > ul > li.on
+			h2
+				border-bottom: 1px solid #DADADA
+				&:after
+					transform: rotate(-45deg)
+					margin-top: 7px
+			ul
+				height: 100%
+		.urban
+			width: 140px
+			height: 40px
+			margin-left: 20px
+			color: #fff
+			background: #001658
+			span
+				display: block
+				margin: 20px auto
+				padding: 20px
+				width: 87px
+				height: 13px
+				background: url(#{$assetPath}/new/main/logo_urban2.png) no-repeat 50%
+				background-size: contain
+		.close_side
+			+positionAt(absolute, $top: 20px, $left:-50px)
+			background: url(#{$assetPath}/new/icon/closeBtn.png) no-repeat 50%
+			width: 30px
+			height: 30px
+		.guide
+			display: block
+			color: #606060
+			padding-left: 20px
+			margin: 20px 0
 	.h_menu_wrap.side
+		display: block
 		transform: translateX(0)
+		transition: 0.4s
+		*
+			color: #000
+
+
+
 
 .m_header.on
 	background-color: #ffffff
@@ -269,6 +371,11 @@
 		background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 	*
 		color: #181818
+	.top_header
+		background-color: #fff
+		.h_btn
+			background: url(#{$assetPath}/new/icon/hamburger_black.png) no-repeat 50%
+
 
 .hd_dim
 	background: #fff
@@ -422,9 +529,11 @@
 		padding: 0 rem(20)
 		a
 			font-size: rem(16)
+	.header
 		.user
 			a
-				font-size: rem(14)
+				font-size: rem(12)
+				line-height: 1.8
 			.urban
 				width: 100px
 				height: 30px
@@ -432,6 +541,8 @@
 					margin: 10px auto 0
 					width: 66px
 					height: 10px
+
+//반응형
 @include tablet
 	.header
 		display: none
@@ -439,3 +550,9 @@
 		display: block
 		+positionAt(fixed, $top :0, $left:0)
 
+@include maxMobile
+	.m_header
+		.h_menu_wrap
+			.h_menu
+				width: 290px
+				margin-left: calc(100% - 290px)

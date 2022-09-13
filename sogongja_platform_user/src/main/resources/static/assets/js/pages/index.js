@@ -26,23 +26,6 @@ $(function(){
 		$(this).parent("li").removeClass("over");
 	});
 
-	// 모바일 header
-	$(window).on('scroll',function(){
-		if($(window).scrollTop()){
-			$('.m_header').addClass('on');
-		}else{
-			$('.m_header').removeClass('on');
-		}
-	});
-	$(".h_btn").click(function(){
-		$(".h_menu_wrap").toggleClass("side");
-	});
-
-	if($(".h_menu_wrap").hasClass("on") === true) {
-		$('.m_header').addClass('on');
-	} else {
-		$('.m_header').removeClass('on');
-	}
 });
 
 

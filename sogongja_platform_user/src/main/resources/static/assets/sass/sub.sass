@@ -1,4 +1,5 @@
 @import "_var"
+@import "_mixin"
 .wrap
 	padding: rem(80) 0 rem(200)
 	background: #f6f8f9
@@ -1596,3 +1597,8 @@
 						span
 							vertical-align: 0
 							color: #1540bf
+
+//반응형
+@include tablet
+	.wrap
+		padding: 0 40px

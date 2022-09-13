@@ -365,3 +365,28 @@ if (window.location.pathname == '/') {
 } else {
     document.querySelector("body").className += '';
 }
+
+$(function(){
+    // 모바일 header
+    $(window).on('scroll',function(){
+        if($(window).scrollTop()){
+            $('.m_header').addClass("on");
+        }else{
+            $('.m_header').removeClass("on");
+        }
+    });
+    $(".h_btn").click(function(){
+        $(".h_menu_wrap").addClass("side");
+        $(".m_header").addClass("on");
+    });
+
+    $(".close_side").click(function(){
+        $(".h_menu_wrap").removeClass("side");
+        $('.m_header').removeClass("on");
+    });
+
+    $(".m_nav > ul > li").click(function(){
+        $(this).addClass("on").siblings().removeClass("on");
+    });
+
+});
