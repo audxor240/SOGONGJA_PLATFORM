@@ -23,6 +23,10 @@ public class EducationService extends BaseService {
 		return educationMapper.getEducationList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return educationMapper.selectTotalRecords();
+	}
+
 	public Map<String, Object> getEducation(int eduSeq) {
 		Map<String, Object> education = educationMapper.getEducation(eduSeq);
 		educationMapper.updateEducationReadCnt(eduSeq);

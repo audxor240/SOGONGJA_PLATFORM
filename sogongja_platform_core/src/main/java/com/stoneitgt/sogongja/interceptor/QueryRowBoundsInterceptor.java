@@ -58,15 +58,16 @@ public class QueryRowBoundsInterceptor implements Interceptor {
 		if (originalSql.indexOf("/*||") > 0 && originalSql.indexOf("||*/") > 0) {
 			suffixSql += originalSql.substring(originalSql.indexOf("/*||") + 4, originalSql.indexOf("||*/"));
 		}
-		sql.append("SELECT CAST(@ROWNUM := @ROWNUM + 1 AS INT) RNUM, X2.* \n");
-		sql.append("       FROM ( SELECT COUNT(1) OVER() AS TOTAL_COUNT, X1.* \n");
+		sql.append("SELECT SQL_CALC_FOUND_ROWS CAST(@ROWNUM := @ROWNUM + 1 AS SIGNED) RNUM, X2.* \n");
+		sql.append("       FROM ( SELECT X1.* \n");
 		sql.append("              FROM ( \n");
 		sql.append(originalSql);
 		sql.append("              ) X1");
 		sql.append("        " + suffixSql + " \n");
-		sql.append("        LIMIT " + (rowBounds.getOffset() - 1) + "," + rowBounds.getLimit() + " ) X2 \n");
+		//sql.append("        LIMIT " + (rowBounds.getOffset() - 1) + "," + rowBounds.getLimit() + " ) X2 \n");
+		sql.append(" ) X2 \n");
 		sql.append("INNER JOIN (SELECT @ROWNUM := " + (rowBounds.getOffset() - 1) + ") XR1 \n");
-		sql.append(" " + suffixSql + " \n");
+		sql.append(" " + suffixSql + "        LIMIT " + (rowBounds.getOffset() - 1) + "," + rowBounds.getLimit() +" \n");
 //		log.info("sql = {}", sql.toString());
 
 		// RowBounds 정보 제거

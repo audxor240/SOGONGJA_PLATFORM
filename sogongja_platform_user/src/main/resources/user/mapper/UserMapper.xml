@@ -82,7 +82,14 @@
 		            , DESCRIPTION
 		            , CATEGORY
 		            , AUTH
-		            , REG_USER_SEQ)
+		            , REG_USER_SEQ
+		            , GOOGLE_ID
+		            , KAKAO_ID
+		            , NAVER_ID
+		            , TYPE
+		            , SUB_TYPE
+		            , AGE_GROUP
+		            , SERVICE_TYPE)
 		       VALUES (
 		              #{userSeq}
 		            , LOWER(#{id})
@@ -101,7 +108,15 @@
 		            , #{description}
 		            , #{category}
 		            , #{auth}
-		            , #{loginUserSeq})
+		            , #{loginUserSeq}
+		            , #{google_id}
+					, #{kakao_id}
+					, #{naver_id}
+					, #{type01}
+					, #{type02}
+					, #{age}
+					, #{service_type}
+		            )
 		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
 		     , EMAIL                         = #{email}
 		     , TEL                           = #{tel}

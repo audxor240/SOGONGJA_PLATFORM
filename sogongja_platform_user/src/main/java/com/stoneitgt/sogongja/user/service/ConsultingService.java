@@ -23,6 +23,10 @@ public class ConsultingService extends BaseService {
 		return consultingMapper.getConsultingList(params, paging.getPaging());
 	}
 
+	public Integer selectTotalRecords() {
+		return consultingMapper.selectTotalRecords();
+	}
+
 	public Map<String, Object> getConsulting(int conSeq) {
 		Map<String, Object> consulting = consultingMapper.getConsulting(conSeq);
 		consultingMapper.updateConsultingReadCnt(conSeq);

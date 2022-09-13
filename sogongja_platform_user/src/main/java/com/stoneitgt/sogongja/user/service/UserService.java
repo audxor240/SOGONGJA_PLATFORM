@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,6 +101,47 @@ public class UserService implements UserDetailsService {
 			userSeq = 0;
 		}
 		return userSeq.intValue();
+	}
+
+	public User socialID_check(String uniqueId,String type){
+		return userMapper.findByUserId(uniqueId);
+	}
+
+	public void setAuthentication(String type, String uniqueId, User user) {
+/*
+		Optional<Account> optAcc = null;
+		if (type.equals("GOOGLE")) {
+			optAcc = accountRepository.findByGoogleUniqueId(uniqueId);
+		} else if (type.equals("NAVER")) {
+//            optAcc = accountRepository.findByNaverUniqueId(uniqueId);
+			optAcc = accountRepository.findByEmailAndEnabledTrue(uniqueId);
+		} else if (type.equals("KAKAO")) {
+			optAcc = accountRepository.findByKakaoUniqueId(uniqueId);
+		}
+		Account account = optAcc.get();
+		if (account.getAccountStt().equals(AccountStatus.DELETE) || account.getAccountStt().equals(AccountStatus.RESIGN)) {
+			throw new CusDeleteResignAccountException("DELETEORRESIGN");
+		}
+		if (account.getAccountStt() == AccountStatus.DISABLE) {
+			throw new CusDisabledAccountException("DISABLE");
+		}
+
+ */
+
+		//UserDetailsImpl signedUser =  loadUserByUsername(uniqueId);
+		//UsernamePasswordAuthenticationToken authReq = new SignedUserAuthenticationToken(signedUser);
+		//SecurityContextHolder.getContext().setAuthentication(authReq);
+		/*
+		User us = socialID_check(uniqueId,"KAKAO");
+		User user2 = new User(us);
+		List<GrantedAuthority> roles = user.getList(user);
+		Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
+		*/
+		//UserDetailsService memberDetails = new UserDetailsService(user);
+		//UserDetails memberDetails = new UserDetails(user);
+
+
+
 	}
 
 }

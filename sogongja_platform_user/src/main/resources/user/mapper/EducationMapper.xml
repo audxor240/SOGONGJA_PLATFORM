@@ -86,4 +86,8 @@
            WHERE EDU_SEQ      = #{edu_seq}
     </update>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

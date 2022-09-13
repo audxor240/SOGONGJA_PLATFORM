@@ -55,4 +55,8 @@
          WHERE CON_SEQ  = #{conSeq}
     </update>
 
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

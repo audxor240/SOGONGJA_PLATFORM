@@ -145,4 +145,21 @@ public class User implements UserDetails {
 
 	private List<String> categoryList;
 
+	private String uniqueId;
+
+	private String socialType;
+
+	private String type01;
+
+	private String type02;
+
+	private String age;
+
+	private String serviceType;
+
+	private String googleId;
+
+	private String kakaoId;
+
+	private String naverId;
 }
