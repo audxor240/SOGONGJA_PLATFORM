@@ -56,6 +56,7 @@
 function validationForm() {
 
     var type = $("#type").val();
+    let cnt = $('[name=categoryList]:checked').length;
     if(type == '') {
         if ($('#checkedId').val() !== $('#id').val()) {
             alert('아이디 중복확인을 하세요');
@@ -67,6 +68,12 @@ function validationForm() {
             return false;
         }
     }
+
+    if(cnt == 0){
+        alert("관심 서비스 유형을 체크해주세요");
+        return false;
+    }
+
     return true;
 }
 

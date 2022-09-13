@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: local
     
   servlet:
     multipart:
@@ -91,6 +91,18 @@ app:
   kakao-access-token-uri: https://kauth.kakao.com/oauth/token
   kakao-api-uri: https://kapi.kakao.com/v2
   host: http://localhost:2082
+  ########### GOOGLE
+  google-client-id: 962520289844-hgpq28i60v460goj8qapo3vrao72qrnv.apps.googleusercontent.com
+  google-client-secret: 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
+  google-request-token-uri: https://accounts.google.com/o/oauth2/v2/auth
+  google-access-token-uri: https://oauth2.googleapis.com/token
+  google-api-uri: https://www.googleapis.com/oauth2/v3
+  ########### NAVER
+  naver-client-id: ejTOG6FfjN38pu8Tcsf3
+  naver-client-secret: bj_jZTZU0v
+  naver-request-token-uri: https://nid.naver.com/oauth2.0/authorize
+  naver-access-token-uri: https://nid.naver.com/oauth2.0/token
+  naver-api-uri: https://openapi.naver.com/v1
 ---
 
 spring:
@@ -182,3 +194,15 @@ app:
   kakao-access-token-uri: https://kauth.kakao.com/oauth/token
   kakao-api-uri: https://kapi.kakao.com/v2
   host: http://121.254.171.155:2082
+  ########### GOOGLE
+  google-client-id: 962520289844-hgpq28i60v460goj8qapo3vrao72qrnv.apps.googleusercontent.com
+  google-client-secret: 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
+  google-request-token-uri: https://accounts.google.com/o/oauth2/v2/auth
+  google-access-token-uri: https://oauth2.googleapis.com/token
+  google-api-uri: https://www.googleapis.com/oauth2/v3
+  ########### NAVER
+  naver-client-id: ejTOG6FfjN38pu8Tcsf3
+  naver-client-secret: bj_jZTZU0v
+  naver-request-token-uri: https://nid.naver.com/oauth2.0/authorize
+  naver-access-token-uri: https://nid.naver.com/oauth2.0/token
+  naver-api-uri: https://openapi.naver.com/v1

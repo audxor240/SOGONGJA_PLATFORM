@@ -109,13 +109,13 @@
 		            , #{category}
 		            , #{auth}
 		            , #{loginUserSeq}
-		            , #{google_id}
-					, #{kakao_id}
-					, #{naver_id}
+		            , #{googleId}
+					, #{kakaoId}
+					, #{naverId}
 					, #{type01}
 					, #{type02}
 					, #{age}
-					, #{service_type}
+					, #{serviceType}
 		            )
 		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
 		     , EMAIL                         = #{email}

@@ -20,8 +20,11 @@ public class SocialLoginSupport {
 
     private final AppProperties appProperties;
 
-    public String getSocialOauthUrl(String redirectUri, String state) {
-        /*if (accountJoinType.isGoogle()) {
+    public String getSocialOauthUrl(String type, String redirectUri, String state) {
+        System.out.println("type >> "+type);
+        System.out.println("redirectUri >> "+redirectUri);
+        System.out.println("state >> "+state);
+        if (type.equals("GOOGLE")) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(appProperties.getGoogleRequestTokenUri())
                     .queryParam("client_id", appProperties.getGoogleClientId())
                     .queryParam("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile")
@@ -29,14 +32,14 @@ public class SocialLoginSupport {
                     .queryParam("response_type", "code")
                     .queryParam("state", state);
             return builder.toUriString();
-        } else if (accountJoinType.isNaver()) {
+        } else if (type.equals("NAVER")) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(appProperties.getNaverRequestTokenUri())
                     .queryParam("client_id", appProperties.getNaverClientId())
                     .queryParam("redirect_uri", redirectUri)
                     .queryParam("response_type", "code")
                     .queryParam("state", state);
             return builder.toUriString();
-        } else if (accountJoinType.isKakao()) {
+        } else if (type.equals("KAKAO")) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(appProperties.getKakaoRequestTokenUri())
                     .queryParam("client_id", appProperties.getKakaoClientId())
                     .queryParam("redirect_uri", redirectUri)
@@ -46,24 +49,26 @@ public class SocialLoginSupport {
         }
         return null;
 
-         */
 
+        /*
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(appProperties.getKakaoRequestTokenUri())
                 .queryParam("client_id", appProperties.getKakaoClientId())
                 .queryParam("redirect_uri", redirectUri)
                 .queryParam("response_type", "code")
                 .queryParam("state", state);
         return builder.toUriString();
+        */
+
     }
 
     public void setSocialOauthUrl(HttpServletRequest request, Model model) {
         String state = generateState();
         request.getSession().setAttribute("state", state);
 
-        //model.addAttribute("oauthUrlForGoogle", getSocialOauthUrl(appProperties.getHost() + "/login/google", state));
-        //model.addAttribute("oauthUrlForNaver", getSocialOauthUrl(appProperties.getHost() + "/login/naver/", state));
-        model.addAttribute("oauthUrlForKakao", getSocialOauthUrl(appProperties.getHost()+"/login/kakao", state));
-        System.out.println("oauthUrlForKakao :: "+getSocialOauthUrl(appProperties.getHost()+"/login/kakao", state));
+        model.addAttribute("oauthUrlForGoogle", getSocialOauthUrl("GOOGLE",appProperties.getHost() + "/login/google", state));
+        model.addAttribute("oauthUrlForNaver", getSocialOauthUrl("NAVER",appProperties.getHost() + "/login/naver/", state));
+        model.addAttribute("oauthUrlForKakao", getSocialOauthUrl("KAKAO",appProperties.getHost()+"/login/kakao", state));
+
 
     }
 
