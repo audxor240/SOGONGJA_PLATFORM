@@ -108,11 +108,33 @@ footer
 			font-size: rem(14)
 			font-weight: 300
 //반응형처리
-@include tablet
-	.footer
+@include desktop
+	footer
 		.ft_top
 			flex-wrap: wrap
 			.ft_menu
 				display: none
 			.ft_address
 				width: 100%
+
+@include tablet
+	footer
+		*
+			font-size: rem(20) !important
+		.ft_bottom
+			padding: 2.5rem 100px 3.75rem
+		.ft_top
+			.ft_address
+				background: #0e0e0e
+				padding: 2.5rem 100px 3.75rem
+				div a
+					width: rem(50)
+					height: rem(50)
+@include mobile
+	footer
+		.ft_bottom
+			padding: 2.5rem 40px 3.75rem
+		.ft_top
+			.ft_address
+				background: #0e0e0e
+				padding: 2.5rem 40px 3.75rem

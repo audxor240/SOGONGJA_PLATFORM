@@ -1,12 +1,12 @@
 @import "./_var.sass"
 
 @mixin maxMobile
-  @media (max-width: #{$minMobile})
+  @media (max-width: #{$maxMobile})
     @content
 
 
 @mixin mobile
-  @media (min-width: #{$mobile}) and (max-width: #{$tablet - 1px})
+  @media (max-width: #{$mobile})
     @content
 
 

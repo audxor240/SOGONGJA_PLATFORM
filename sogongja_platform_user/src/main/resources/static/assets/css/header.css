@@ -315,9 +315,10 @@
 }
 .m_header * {
   color: #fff;
+  font-size: 1.25rem;
 }
 .m_header h1 {
-  width: 10.8125rem;
+  width: 15rem;
   height: 2.4375rem;
 }
 .m_header h1 a {
@@ -476,6 +477,8 @@
 }
 .m_header.on .top_header {
   background-color: #fff;
+  box-shadow: 0 0 10px #ccc;
+  z-index: 99;
 }
 .m_header.on .top_header .h_btn {
   background: url(../images/new/icon/hamburger_black.png) no-repeat 50%;
@@ -704,7 +707,7 @@
     height: 10px;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .header {
     display: none;
   }

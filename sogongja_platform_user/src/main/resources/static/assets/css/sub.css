@@ -1728,10 +1728,20 @@
   height: 20px;
   margin-right: 10px;
 }
-.mypage_info table tr td .radio_depth01 li .radio_depth02 {
-  display: none;
+.mypage_info table tr td > div .radio_depth02 {
+  display: flex;
+  margin-top: 10px;
 }
-.mypage_info table tr td .radio_depth01 li .radio_depth02.on {
+.mypage_info table tr td > div .radio_depth02 li {
+  display: flex;
+  margin-right: 10px;
+}
+.mypage_info table tr td > div .radio_depth02 li input[type=radio] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.mypage_info table tr td > div .radio_depth02.on {
   display: block;
 }
 
@@ -1824,6 +1834,10 @@
   display: block;
   background-color: #1001d9;
   color: #fff;
+}
+.loginForm .login_btns *.mt34,
+.loginForm .login_btns .blue_btn.mt34 {
+  margin-top: 2.125rem;
 }
 .loginForm .login_btns button,
 .loginForm .login_btns .blue_btn {
@@ -2137,9 +2151,82 @@
   color: #1540bf;
 }
 
-@media (max-width: 1200px) {
+.pop_up_wrap {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3137254902);
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.pop_up_wrap .pop_up {
+  position: absolute;
+  top: 40px;
+  width: 500px;
+  left: calc(50% - 250px);
+  background-color: #fff;
+}
+.pop_up_wrap .pop_up .pop_head {
+  background-color: #1540BF;
+  padding: 10px;
+}
+.pop_up_wrap .pop_up .pop_head h4 {
+  color: #fff;
+}
+
+.pop_main {
+  padding: 40px;
+}
+.pop_main .pop_title {
+  margin: 20px;
+}
+.pop_main .pop_title > div {
+  background: url(../images/img-logo-black.png) no-repeat center;
+  width: 120px;
+  height: 40px;
+  background-size: contain;
+  margin: 0 auto 20px;
+}
+.pop_main .pop_title p {
+  font-weight: bold;
+  text-align: center;
+}
+.pop_main .pop_text {
+  border-top: solid 1px #cccccc;
+  border-bottom: solid 1px #cccccc;
+  padding: 20px;
+}
+.pop_main .pop_text p {
+  line-height: 1.8;
+}
+.pop_main .pop_btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.pop_main .pop_btn .btn {
+  width: calc(50% - 10px);
+  text-align: center;
+  border: solid 2px #1540bf;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #1540bf;
+  font-size: 1.125rem;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+.pop_main .pop_btn .btn.blue {
+  background-color: #1540bf;
+  color: #fff;
+}
+
+@media (max-width: 1400px) {
   .wrap {
-    padding: 0 40px;
+    padding: 5rem 40px 1.25rem;
+  }
+  .pop_up_wrap .pop_up {
+    width: 260px;
+    left: calc(50% - 130px);
   }
 }
 
