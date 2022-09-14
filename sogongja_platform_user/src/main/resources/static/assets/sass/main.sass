@@ -401,8 +401,7 @@
 	.mv_text5
 		height: 100vh
 		position: relative
-		padding-top: rem(180)
-		padding-bottom: rem(180)
+		padding-top: rem(60)
 		.mv_title
 			width: 100%
 			margin-bottom: 40px
@@ -602,17 +601,19 @@
 					width: 80%
 					height: 560px
 					margin-left: 20%
+					margin-top: 80px
 			.right02
 				width: 100%
 				margin-top: 40px
 		.back_img01
 			height: 290px
 	.slide_video
+		padding: 100px
 		.mv_text4
 			height: auto
 			flex-wrap: wrap
 			flex-direction: column
-			padding: rem(140) rem(100) 0
+			padding: 0
 			.swiper_text_wrap
 				width: 100%
 		.mySwiper
@@ -620,7 +621,7 @@
 			position: relative
 			top: 0
 			left: 0
-			padding: 160px 100px 100px
+			padding: 160px 0 0
 			overflow: hidden
 	.linkedMain
 		.mv_text5
@@ -635,19 +636,71 @@
 					margin-top: 0
 
 	.swiper-pagination
-		top: 610px
+		top: 570px
 		left: 100px
+
+@include tablet
+	html
+		font-size: 81.3% !important
+	.main_section
+		.wrap_img
+			background-size: cover !important
+			.mv_text1
+				height: auto
+				min-height: 800px
+	.swiper-pagination
+		top: 550px
+		left: 100px
+		&:before
+			top: 9px
+
+@include mobile
+	html
+		font-size: 62.5% !important
+	.sectionBtn
+		display: none
+	.main_section
+		.wrap_img
+			.mv_text1
+				min-height: 600px
+				.title_main
+					.left
+						margin-right: 20px
+					.right
+						margin-left: 20px
+					p strong
+						font-size: rem(60)
+				> p
+					padding: 0 40px
+		.mv_text3
+			padding: 80px 40px
+			.right
+				div
+					width: 80%
+					height: 260px
+					margin-left: 20%
+					margin-top: 80px
+		.back_img01
+			height: 250px
+	.slide_video
+		padding: 80px 40px
+		.mv_text4
+			padding: 0
+	.swiper-pagination
+		top: 480px
+		left: 40px
+		&:before
+			top: 7px
+	.linkedMain
+		.mv_text5
+			padding: 60px 0
+			.flex_wrap
+				flex-wrap: wrap
+				padding: 0 40px
+
+
 
 
 //animate 조절
 .animate__animated.slideInDown
 	--animate-duration: 2s
-
-
-@include tablet
-	html
-		font-size: 81.3% !important
-
-@include maxMobile
-	html
-		font-size: 62.5% !important

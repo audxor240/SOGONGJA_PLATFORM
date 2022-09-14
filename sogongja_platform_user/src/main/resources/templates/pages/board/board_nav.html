@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="lnb" th:fragment="board_nav">
     <ul class="container">
-        <li th:class="${boardType == 'news'} ? 'active'"><a th:href="@{/board/news}">보도자료</a></li>
         <li th:class="${boardType == 'notice'} ? 'active'"><a th:href="@{/board/notice}">공지사항</a></li>
-        <li th:class="${boardType == 'faq'} ? 'active'"><a th:href="@{/board/faq}">자주하는 질문</a></li>
-        <li th:class="${boardType == 'community'} ? 'active'"><a th:href="@{/board/community}">커뮤니티</a></li>
-        <li th:class="${boardType == 'project'} ? 'active'"><a th:href="@{/board/project}">공공지원사업 및 정책</a></li>
-        <li th:class="${boardType == 'law'} ? 'active'"><a th:href="@{/board/law}">법령 및 조례</a></li>
+        <li th:class="${boardType == 'news'} ? 'active'"><a th:href="@{/board/news}">보도자료</a></li>
+<!--        <li th:class="${boardType == 'community'} ? 'active'"><a th:href="@{/board/community}">커뮤니티</a></li>-->
+        <li th:class="${boardType == 'project'} ? 'active'"><a th:href="@{/board/project}">지원 및 정책사업</a></li>
+        <li th:class="${boardType == 'faq'} ? 'active'"><a th:href="@{/board/faq}">QnA</a></li>
+<!--        <li th:class="${boardType == 'law'} ? 'active'"><a th:href="@{/board/law}">법령 및 조례</a></li>-->
     </ul>
 </div>
 

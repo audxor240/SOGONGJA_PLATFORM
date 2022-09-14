@@ -238,8 +238,9 @@
 	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12)
 	*
 		color: #fff
+		font-size: rem(20)
 	h1
-		width: rem(173)
+		width: rem(240)
 		height: rem(39)
 		a
 			display: block
@@ -373,6 +374,8 @@
 		color: #181818
 	.top_header
 		background-color: #fff
+		box-shadow: 0 0 10px #ccc
+		z-index: 99
 		.h_btn
 			background: url(#{$assetPath}/new/icon/hamburger_black.png) no-repeat 50%
 
@@ -550,7 +553,7 @@
 		display: block
 		+positionAt(fixed, $top :0, $left:0)
 
-@include maxMobile
+@include mobile
 	.m_header
 		.h_menu_wrap
 			.h_menu

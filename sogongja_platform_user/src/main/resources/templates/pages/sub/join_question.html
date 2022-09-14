@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>이용자 추가 정보 입력</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 이용자 추가 정보 입력">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="매칭 서비스 제공을 위한 이용자 추가 정보 입력">
+    <meta name="keywords" content="소공자 플랫폼, 교육, 컨설팅 서비스 매칭, 창업, 사업, 폐업, 상권">
+    <meta name="description" content="매칭 서비스 제공을 위한 이용자 추가 정보 입력">
+</head>
+
+<body>
+<article layout:fragment="content">
+    <section class="wrap">
+        <div class="sub_container question">
+            <h3>매칭 서비스 제공을 위한 이용자 추가 정보 입력</h3>
+            <p>사용자 명님께 적합한 교육 또는 컨설팅 서비스를 제공해 드리기위해 몇가지 질문을 드립니다.<br>사용자 명님의 상황에 맞는 적절한 답변을 선택해 주세요.</p>
+            <div class="question_div">
+                <div class="question_800">
+                    <ul>
+                        <li class="">
+                            <p><span>02.</span>현재 어떤 과정이신가요?</p>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <input type="radio" class="radio_style" id="q1" checked="" name="q">
+                                        <label for="q1">창업 준비중</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" id="q2" name="q">
+                                        <label for="q2">사업 준비중</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="radio_style" id="q3" name="q">
+                                        <label for="q3">폐업(예정)중</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="hide">
+                            <p><span>03.</span>현재 창업 진행 상황을 알려주세요. (복수 선택 가능)</p>
+                            <div>
+                                <table class="ques_table">
+                                    <caption>현재 업종을 알려주세요. </caption>
+                                    <tr>
+                                        <th>대분류</th>
+                                        <td>
+                                            <select name="" id="">
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>업종</th>
+                                        <td>
+                                            <select name="" id="">
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>세분류</th>
+                                        <td>
+                                            <select name="" id="">
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                                <option value="">선택해주세요.</option>
+                                            </select>
+                                            <ul>
+                                                <li>
+                                                    <select name="" id="">
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                    </select>
+                                                    <button class="minus">삭제</button>
+                                                </li>
+                                                <li>
+                                                    <select name="" id="">
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                    </select>
+                                                    <button class="minus">삭제</button>
+                                                </li>
+                                                <li>
+                                                    <select name="" id="">
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                        <option value="">56111 한식 음식점업.</option>
+                                                    </select>
+                                                    <button class="plus">추가</button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+
+                        <li class="hide">
+                            <p><span>03.</span>추가로 관심이 있는 분야는 무엇입니까?</p>
+                            <div>
+                                <ul class="ul_3">
+                                    <li>
+                                        <input type="radio" id="r1" name="r" class="radio_style radio_style2" checked="">
+                                        <label for="r1"><span>1</span>없음</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="r2" name="r" class="radio_style radio_style2" >
+                                        <label for="r2"><span>2</span>교육지원</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="r3" name="r" class="radio_style radio_style2" >
+                                        <label for="r3"><span>3</span>상권관리/전통시장</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="r4" name="r" class="radio_style radio_style2" >
+                                        <label for="r4"><span>4</span>법무</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="r5" name="r" class="radio_style radio_style2" >
+                                        <label for="r5"><span>5</span>유통/판매</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn_box">
+                <a class="btn btn_grey" href="#none">이전</a>
+                <a class="btn" href="/">완료</a>
+            </div>
+        </div>
+        <!--알림 모달-->
+        <div class="modal" style="display:none">
+            <div class="dim"></div>
+            <div class="modal_inner">
+                <h4>알림</h4>
+                <p>답변을 선택하지 않았습니다. <br>질문에 대한 답변을 선택해 주세요.</p>
+                <button class="check">확인</button>
+                <button class="close">닫기</button>
+            </div>
+        </div>
+    </section>
+</article>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/js/pages/user/sub.js}"></script>
+</th:block>
+</body>
+
+</html>

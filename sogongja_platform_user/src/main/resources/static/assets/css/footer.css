@@ -141,15 +141,40 @@ footer .ft_bottom > p {
   font-weight: 300;
 }
 
-@media (max-width: 1200px) {
-  .footer .ft_top {
+@media (max-width: 1600px) {
+  footer .ft_top {
     flex-wrap: wrap;
   }
-  .footer .ft_top .ft_menu {
+  footer .ft_top .ft_menu {
     display: none;
   }
-  .footer .ft_top .ft_address {
+  footer .ft_top .ft_address {
     width: 100%;
+  }
+}
+@media (max-width: 1400px) {
+  footer * {
+    font-size: 1.25rem !important;
+  }
+  footer .ft_bottom {
+    padding: 2.5rem 100px 3.75rem;
+  }
+  footer .ft_top .ft_address {
+    background: #0e0e0e;
+    padding: 2.5rem 100px 3.75rem;
+  }
+  footer .ft_top .ft_address div a {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+}
+@media (max-width: 767px) {
+  footer .ft_bottom {
+    padding: 2.5rem 40px 3.75rem;
+  }
+  footer .ft_top .ft_address {
+    background: #0e0e0e;
+    padding: 2.5rem 40px 3.75rem;
   }
 }
 
