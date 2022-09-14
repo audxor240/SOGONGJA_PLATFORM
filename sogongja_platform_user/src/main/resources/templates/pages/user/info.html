@@ -100,7 +100,7 @@
                                 <td>
                                     <ul class="radio_depth01">
                                         <li>
-                                            <input type="radio" name="type01" id="type01_01" value="1"  checked="checked">
+                                            <input type="radio" name="type01" id="type01_01" value="1"  th:checked="${user.type eq '1'}">
                                             <label for="type01_01">사업자(소상공인)</label>
                                             <ul class="radio_depth02 radio_on01">
                                                 <li>
@@ -114,7 +114,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <input type="radio" name="type01" id="type01_02" value="2">
+                                            <input type="radio" name="type01" id="type01_02" value="2" th:checked="${user.type eq '2'}">
                                             <label for="type01_02">예비창업자</label>
                                             <ul class="radio_depth02 radio_on02">
                                                 <li>
@@ -124,7 +124,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <input type="radio" name="type01" id="type01_03" value="3">
+                                            <input type="radio" name="type01" id="type01_03" value="3" th:checked="${user.type eq '3'}">
                                             <label for="type01_03">임대 부동산 소유</label>
                                             <ul class="radio_depth02 radio_on03">
                                                 <li>
@@ -142,7 +142,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <input type="radio" name="type01" id="type01_04" value="4">
+                                            <input type="radio" name="type01" id="type01_04" value="4" th:checked="${user.type eq '4'}">
                                             <label for="type01_02">일반인</label>
                                         </li>
                                     </ul>
@@ -153,23 +153,23 @@
                                 <td>
                                     <ul class="radio_depth01">
                                         <li>
-                                            <input type="radio" name="age" id="age20" value="20" checked="checked">
+                                            <input type="radio" name="ageGroup" id="age20" value="20" th:checked="${user.ageGroup eq '20'}">
                                             <label for="age20">20대</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="age" id="age30" value="30">
+                                            <input type="radio" name="ageGroup" id="age30" value="30" th:checked="${user.ageGroup eq '30'}">
                                             <label for="age30">30대</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="age" id="age40" value="40">
+                                            <input type="radio" name="ageGroup" id="age40" value="40" th:checked="${user.ageGroup eq '40'}">
                                             <label for="age40">40대</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="age" id="age50" value="50">
+                                            <input type="radio" name="ageGroup" id="age50" value="50" th:checked="${user.ageGroup eq '50'}">
                                             <label for="age50">50대</label>
                                         </li>
                                         <li>
-                                            <input type="radio" name="age" id="age60" value="60">
+                                            <input type="radio" name="ageGroup" id="age60" value="60" th:checked="${user.ageGroup eq '60'}">
                                             <label for="age60">60대 이상</label>
                                         </li>
                                     </ul>

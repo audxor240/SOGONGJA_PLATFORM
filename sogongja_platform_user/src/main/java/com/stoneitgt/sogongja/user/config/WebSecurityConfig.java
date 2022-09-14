@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -49,6 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+	UserDetailsService userDetailsService;
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authProvider);
@@ -77,6 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //		http.authorizeRequests().antMatchers("/", "/login", "/error/**").permitAll();
 
+		http.rememberMe() // rememberMe 기능 작동함
+				.rememberMeParameter("remember-me") // default: remember-me, checkbox 등의 이름과 맞춰야함
+				.tokenValiditySeconds(3600) // 쿠키의 만료시간 설정(초), default: 14일
+				.alwaysRemember(false) // 사용자가 체크박스를 활성화하지 않아도 항상 실행, default: false
+				.userDetailsService(userDetailsService); // 기능을 사용할 때 사용자 정보가 필요함. 반드시 이 설정 필요함.
+
 		http.authorizeRequests()//
 				.antMatchers("/mypage/**").authenticated()//
 				.anyRequest().permitAll()//
@@ -90,7 +100,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()//
 					.logout()//
 					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//
-					.deleteCookies("SOGONGJA_USER_JSESSIONID")//
+					.deleteCookies("SOGONGJA_USER_JSESSIONID","remember-me")//
 					.clearAuthentication(true)//
 					.invalidateHttpSession(true)//
 					.logoutSuccessUrl("/");

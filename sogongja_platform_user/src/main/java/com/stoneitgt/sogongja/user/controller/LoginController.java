@@ -157,7 +157,7 @@ public class LoginController {
         User user = userService.socialID_check(uniqueId,"NAVER");
 
         if(user == null){
-            return "redirect:/signup/agree?type=GOOGLE&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+            return "redirect:/signup/agree?type=NAVER&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
         }else{
 
             List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();

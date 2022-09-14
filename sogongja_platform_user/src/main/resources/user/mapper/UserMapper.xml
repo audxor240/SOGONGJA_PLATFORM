@@ -132,6 +132,10 @@
 		     , DEL_FLAG                      = 0
 		     , MOD_USER_SEQ                  = #{loginUserSeq}
 		     , MOD_DATE                      = CURRENT_TIMESTAMP()
+			 , TYPE							 = #{type01}
+			 , SUB_TYPE					     = #{type02}
+			 , AGE_GROUP					 = #{age}
+			 , SERVICE_TYPE					 = #{serviceType}
 	</insert>
 
 	<update id="deleteUser" parameterType="map" >

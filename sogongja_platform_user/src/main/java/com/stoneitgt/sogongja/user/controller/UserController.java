@@ -47,7 +47,7 @@ public class UserController extends BaseController {
 	@PostMapping({ "/signup/register", "/mypage/update" })
 	public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult, Model model,
 			RedirectAttributes rttr, HttpServletRequest request) {
-
+		System.out.println("user ----------- >> "+user);
 		String category = user.getCategoryList().toString().substring(1);
 		category = category.substring(0, category.length()-1);
 		category = category.replaceAll("\\s", "");
@@ -65,9 +65,10 @@ public class UserController extends BaseController {
 			user.setId(user.getUniqueId());
 			user.setPassword("thrhdwk1!");
 			user.setPasswordConfirm("thrhdwk1!");
-			user.setType02("1");
+
 		}
 
+		user.setType02("1");
 
 
 		model.addAttribute("user", user);
@@ -143,7 +144,7 @@ public class UserController extends BaseController {
 //		user.setTel(tel);
 		user.setEmail(email);
 		user.setAuth("AU02");
-		user.setAge(user.getAge());
+		user.setAge(user.getAgeGroup());
 		user.setType01(user.getType01());
 		user.setType02(user.getType02());
 		user.setServiceType(category);
@@ -391,7 +392,7 @@ public class UserController extends BaseController {
 		if (StringUtil.isNotBlank(user.getCategory())) {
 			user.setCategoryList(Arrays.asList(user.getCategory().split(",")));
 		}
-
+		System.out.println("TYPE >>>>>> "+user.getType());
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
 		return "pages/user/info";

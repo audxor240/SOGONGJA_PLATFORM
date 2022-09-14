@@ -38,6 +38,9 @@ public class AuthProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		System.out.println("authentication :: "+authentication);
+		System.out.println("authentication.getName() : "+authentication.getName());
+		System.out.println("authentication.getPrincipal() : "+authentication.getPrincipal());
 		String id = authentication.getName();
 		String password = (String) authentication.getCredentials();
 
@@ -64,6 +67,7 @@ public class AuthProvider implements AuthenticationProvider {
 		List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
 		grantedAuthorityList.add(new SimpleGrantedAuthority(authVal));
 		user.setAuthorities(grantedAuthorityList);
+		user.setUsername(id);
 
 		// 로그인 성공시 로그인 사용자 정보 반환
 		return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
