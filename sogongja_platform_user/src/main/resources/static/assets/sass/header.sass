@@ -120,7 +120,7 @@
 					display: block
 				&:before
 					+before($topB: -10px, $leftB: rem(147))
-					border-top: 0px solid transparent
+					border-top: 0 solid transparent
 					border-left: 10px solid transparent
 					border-right: 10px solid transparent
 					border-bottom: 10px solid #fff
@@ -226,7 +226,6 @@
 				&:after
 					background:  url(#{$assetPath}/icon-arrow-down.png) no-repeat 50%
 
-
 .m_header
 	display: none
 	height: rem(79)
@@ -234,10 +233,9 @@
 	width: 100%
 	+transition3
 	background: transparent
-	z-index: 2
-	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12)
+	z-index: 99
 	*
-		color: #fff
+		color: #181818
 		font-size: rem(20)
 	h1
 		width: rem(240)
@@ -246,17 +244,18 @@
 			display: block
 			height: 100%
 			text-indent: $hideFont
-			background: url(#{$assetPath}/img-logo.png) no-repeat center
+			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 	.top_header
 		display: flex
 		justify-content: space-between
 		padding: 20px 40px
 		align-items: center
-		background-color: #1540BF
+		background-color: #fff
+		z-index: 99
 		.h_btn
 			width: 20px
 			height: 20px
-			background: url(#{$assetPath}/new/icon/hamburger.png) no-repeat 50%
+			background: url(#{$assetPath}/new/icon/hamburger_black.png) no-repeat 50%
 			background-size: contain
 	.h_menu_wrap
 		background-color: #00000050
@@ -365,19 +364,16 @@
 
 
 
-
 .m_header.on
-	background-color: #ffffff
-	h1 > a
-		background: url(#{$assetPath}/img-logo-black.png) no-repeat center
-	*
-		color: #181818
 	.top_header
-		background-color: #fff
 		box-shadow: 0 0 10px #ccc
-		z-index: 99
+.m_header.on02
+	h1 a
+		background: url(#{$assetPath}/img-logo.png) no-repeat center
+	.top_header
+		background-color: transparent !important
 		.h_btn
-			background: url(#{$assetPath}/new/icon/hamburger_black.png) no-repeat 50%
+			background: url(#{$assetPath}/new/icon/hamburger.png) no-repeat 50%
 
 
 .hd_dim
