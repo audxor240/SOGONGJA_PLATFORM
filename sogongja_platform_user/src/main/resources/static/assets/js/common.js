@@ -375,6 +375,7 @@ $(function(){
             $('.m_header').removeClass("on");
         }
     });
+
     $(".h_btn").click(function(){
         $(".h_menu_wrap").addClass("side");
         $(".m_header").addClass("on");

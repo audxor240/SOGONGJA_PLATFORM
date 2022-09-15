@@ -2222,11 +2222,19 @@
 
 @media (max-width: 1400px) {
   .wrap {
-    padding: 5rem 40px 1.25rem;
+    padding: 5rem 40px;
   }
   .pop_up_wrap .pop_up {
     width: 260px;
     left: calc(50% - 130px);
+  }
+  .sub_visual .lnb ul li a {
+    padding: 1.25rem 1.875rem;
+  }
+}
+@media (max-width: 420px) {
+  .wrap {
+    padding: 5rem 20px;
   }
 }
 
