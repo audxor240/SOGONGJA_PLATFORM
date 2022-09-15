@@ -369,21 +369,13 @@ if (window.location.pathname == '/') {
 $(function(){
     // 모바일 header
     $(window).on('scroll',function(){
-        var scrollTop = $(window).scrollTop();
-        var sec01Top = $('#section1').offset().top;
-
-        if(scrollTop === sec01Top){
-            $('.m_header').addClass("on02");
-        }else{
-            $('.m_header').removeClass("on02");
-        }
-
         if($(window).scrollTop()){
             $('.m_header').addClass("on");
         }else{
             $('.m_header').removeClass("on");
         }
     });
+
     $(".h_btn").click(function(){
         $(".h_menu_wrap").addClass("side");
         $(".m_header").addClass("on");

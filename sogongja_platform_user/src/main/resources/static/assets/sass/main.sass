@@ -1,5 +1,11 @@
 @import "_var"
 @import "_mixin"
+
+
+.br_420
+	display: none
+
+
 /* ajax loading image */
 .wrap-loading
 	z-index: 1060
@@ -109,7 +115,7 @@
 			height: 102px
 			left: calc(50% - 51px)
 			cursor: pointer
-			&:hover .scrollDown_arrow_wrap
+			&:hover .scrollDown_arrow_wrap,&:active .scrollDown_arrow_wrap
 				top: -25px
 				transition: 0.4s
 			&:hover .scrollDown_circle
@@ -284,9 +290,11 @@
 
 
 .swiper-pagination
+	width: calc(100% - 820px)
 	top: 220px
 	left: 44%
 	position: relative
+	text-align: left !important
 	&:before
 		content: ""
 		width: 100%
@@ -583,6 +591,8 @@
 			z-index: -1
 
 
+
+
 //반응형처리
 @include desktop
 	.sectionBtn
@@ -626,6 +636,7 @@
 	.linkedMain
 		.mv_text5
 			height: auto
+			padding: rem(80) 0
 			.flex_wrap
 				flex-wrap: wrap
 				padding: 0 100px
@@ -638,6 +649,8 @@
 	.swiper-pagination
 		top: 570px
 		left: 100px
+		width: calc(100% - 200px)
+
 
 @include tablet
 	html
@@ -651,10 +664,18 @@
 	.swiper-pagination
 		top: 550px
 		left: 100px
+		width: calc(100% - 200px)
 		&:before
 			top: 9px
+		p
+			width: calc(100%/3)
+
+
+
 
 @include mobile
+	.br_420
+		display: block
 	html
 		font-size: 62.5% !important
 	.sectionBtn
@@ -663,6 +684,11 @@
 		.wrap_img
 			.mv_text1
 				min-height: 600px
+				.scrollDown_wrap
+					.scrollDown_circle
+						width: 80px
+						height: 80px
+						margin: 0 auto
 				.title_main
 					.left
 						margin-right: 20px
@@ -680,25 +706,88 @@
 					height: 260px
 					margin-left: 20%
 					margin-top: 80px
+			.left
+				p
+					font-size: rem(40)
+					font-weight: 300
+					strong
+						span
+							font-size: rem(40)
+				div
+					a
+						width: 160px
+						height: 48px
+				span
+					margin-top: 20px
 		.back_img01
 			height: 250px
 	.slide_video
 		padding: 80px 40px
 		.mv_text4
 			padding: 0
+			.swiper_text_wrap
+				.swiper_text.on
+					div
+						a
+							width: 160px
+							height: 48px
+					p
+						font-size: rem(40)
 	.swiper-pagination
 		top: 480px
 		left: 40px
+		width: calc(100% - 82px)
 		&:before
 			top: 7px
+	.linkedMain
+		.mv_text5
+			padding: 80px 0
+			.flex_wrap
+				flex-wrap: wrap
+				padding: 0 40px
+				> div
+					.linked_title
+						flex-wrap: wrap
+						p
+							width: 100%
+
+@include maxMobile
+	.main_section
+		.wrap_img
+			.mv_text1
+				.title_main
+					.left
+						margin-right: 10px
+					.right
+						margin-left: 10px
+					p strong
+						font-size: rem(52)
+				> p
+					padding: 0 20px
+		.mv_text3
+			padding: 60px 20px
+			.right
+				div
+					width: 80%
+					height: 260px
+					margin-left: 20%
+					margin-top: 80px
+		.back_img01
+			height: 200px
+	.slide_video
+		padding: 60px 20px
+		.mySwiper
+			padding: 100px 0 0
 	.linkedMain
 		.mv_text5
 			padding: 60px 0
 			.flex_wrap
 				flex-wrap: wrap
-				padding: 0 40px
-
-
+				padding: 0 20px
+	.swiper-pagination
+		top: 400px
+		left: 20px
+		width: calc(100% - 40px)
 
 
 //animate 조절

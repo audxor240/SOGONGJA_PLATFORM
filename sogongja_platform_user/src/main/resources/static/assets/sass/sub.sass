@@ -1664,8 +1664,18 @@
 //반응형
 @include tablet
 	.wrap
-		padding: rem(80) 40px rem(20)
+		padding: rem(80) 40px
 	.pop_up_wrap
 		.pop_up
 			width: 260px
 			left: calc(50% - 130px)
+
+	.sub_visual
+		.lnb
+			ul
+				li
+					a
+						padding: rem(20) rem(30)
+@include maxMobile
+	.wrap
+		padding: rem(80) 20px

@@ -97,7 +97,7 @@ footer
 					margin-right: rem(21)
 					display: inline-block
 					font-size: rem(14)
-					line-height: 1
+					line-height: 1.6
 					font-weight: 300
 					&.br
 						border-right: 1px solid rgba(255,255,255,0.68)
@@ -108,15 +108,6 @@ footer
 			font-size: rem(14)
 			font-weight: 300
 //반응형처리
-@include desktop
-	footer
-		.ft_top
-			flex-wrap: wrap
-			.ft_menu
-				display: none
-			.ft_address
-				width: 100%
-
 @include tablet
 	footer
 		*
@@ -124,17 +115,29 @@ footer
 		.ft_bottom
 			padding: 2.5rem 100px 3.75rem
 		.ft_top
+			flex-wrap: wrap
+			.ft_menu
+				display: none
 			.ft_address
-				background: #0e0e0e
+				width: 100%
 				padding: 2.5rem 100px 3.75rem
 				div a
-					width: rem(50)
-					height: rem(50)
+					width: rem(60)
+					height: rem(60)
 @include mobile
 	footer
 		.ft_bottom
 			padding: 2.5rem 40px 3.75rem
 		.ft_top
 			.ft_address
-				background: #0e0e0e
 				padding: 2.5rem 40px 3.75rem
+				ul li
+					padding-left: rem(50)
+
+@include maxMobile
+	footer
+		.ft_bottom
+			padding: 2.5rem 20px 3.75rem
+		.ft_top
+			.ft_address
+				padding: 2.5rem 20px 3.75rem
