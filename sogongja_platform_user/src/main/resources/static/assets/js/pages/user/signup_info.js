@@ -48,6 +48,31 @@
         $('.close').on('click', function() {
             $('.modal').hide();
         });
+
+        $('#type01_01').change(function(){
+            $("#sub01").show();
+            $("#sub02").hide();
+            $("#sub03").hide();
+        });
+
+        $('#type01_02').change(function(){
+            $("#sub01").hide();
+            $("#sub02").show();
+            $("#sub03").hide();
+        });
+
+        $('#type01_03').change(function(){
+            $("#sub01").hide();
+            $("#sub02").hide();
+            $("#sub03").show();
+        });
+
+        $('#type01_04').change(function(){
+            $("#sub01").hide();
+            $("#sub02").hide();
+            $("#sub03").hide();
+        });
+
     });
 })();
 

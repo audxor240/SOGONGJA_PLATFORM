@@ -45,7 +45,7 @@
                             </div>
                             <table class="">
                                 <caption>기본 정보 입력</caption>
-                                <th:block th:if="${type eq null}"><!-- 이메일 회원가입일 경우 출력 -->
+                                <th:block th:if="${type eq 'none'}"><!-- 이메일 회원가입일 경우 출력 -->
                                     <tr class="tr_id">
                                         <th style="width: 25%;">아이디 <span class="required">(필수)</span></th>
                                         <td>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <th>이름 <span class="required">(필수)</span></th>
                                     <td>
-                                        <input type="text" name="username" id="username" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" th:value="${param.name}" th:readonly="${type ne null}">
+                                        <input type="text" name="username" id="username" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" th:value="${param.name}" th:readonly="${type ne 'none'}">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                     </td>
                                 </tr>
@@ -94,10 +94,10 @@
                                     <th>Email <span class="required">(필수)</span></th>
                                     <td>
                                         <ul class="email_ul">
-                                            <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}" th:readonly="${type ne null}"></li>
-                                            <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}" th:readonly="${type ne null}"></li>
+                                            <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}" th:readonly="${type ne 'none'}"></li>
+                                            <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}" th:readonly="${type ne 'none'}"></li>
                                             <li>
-                                                <select th:field="*{email3}" th:readonly="${type ne null}">
+                                                <select th:field="*{email3}" th:readonly="${type ne 'none'}">
                                                     <option value="">직접입력</option>
                                                     <option value="naver.com">네이버</option>
                                                     <option value="daum.net">다음</option>
@@ -128,50 +128,50 @@
                                     <td>
                                         <ul class="radio_depth01">
                                             <li>
-                                                <input type="radio" name="type01" id="type01_01" value="1"  checked="checked">
+                                                <input type="radio" name="type" id="type01_01" value="1"  checked="checked">
                                                 <label for="type01_01">사업자(소상공인)</label>
                                             </li>
                                             <li>
-                                                <input type="radio" name="type01" id="type01_02" value="2">
+                                                <input type="radio" name="type" id="type01_02" value="2">
                                                 <label for="type01_02">예비창업자</label>
                                             </li>
                                             <li>
-                                                <input type="radio" name="type01" id="type01_03" value="3">
+                                                <input type="radio" name="type" id="type01_03" value="3">
                                                 <label for="type01_03">임대 부동산 소유</label>
                                             </li>
                                             <li>
-                                                <input type="radio" name="type01" id="type01_04" value="4">
+                                                <input type="radio" name="type" id="type01_04" value="4">
                                                 <label for="type01_02">일반인</label>
                                             </li>
                                         </ul>
                                         <div>
-                                            <ul class="radio_depth02 radio_on01">
+                                            <ul class="radio_depth02 radio_on01" id="sub01">
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_01_01" value="1">
+                                                    <input type="radio" name="subType" id="type02_01_01" value="1">
                                                     <label for="type02_01_01">사업 실행중</label>
                                                 </li>
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_01_02" value="2">
+                                                    <input type="radio" name="subType" id="type02_01_02" value="2">
                                                     <label for="type02_01_02">휴/폐업(예정)중</label>
                                                 </li>
                                             </ul>
-                                            <ul class="radio_depth02 radio_on02">
+                                            <ul class="radio_depth02 radio_on02" id="sub02" style="display: none">
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_02_01" value="3">
+                                                    <input type="radio" name="subType" id="type02_02_01" value="3">
                                                     <label for="type02_02_01">창업 준비중</label>
                                                 </li>
                                             </ul>
-                                            <ul class="radio_depth02 radio_on03">
+                                            <ul class="radio_depth02 radio_on03" id="sub03" style="display: none">
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_03_01" value="4">
+                                                    <input type="radio" name="subType" id="type02_03_01" value="4">
                                                     <label for="type02_03_01">공실문제 해결</label>
                                                 </li>
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_03_02" value="5">
+                                                    <input type="radio" name="subType" id="type02_03_02" value="5">
                                                     <label for="type02_03_02">시설관리 </label>
                                                 </li>
                                                 <li>
-                                                    <input type="radio" name="type02" id="type02_03_03" value="6">
+                                                    <input type="radio" name="subType" id="type02_03_03" value="6">
                                                     <label for="type02_03_03">빚,채무 관련</label>
                                                 </li>
                                             </ul>

@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public User loadUserByUsername(String id) throws UsernameNotFoundException {
-		System.out.println("id >>>>>>>>>>>> "+id);
+		System.out.println("loadUserByUsername !!!!!!!!!!!!!!!!!!!!! ");
 		return userMapper.findByUserId(id);
 	}
 
