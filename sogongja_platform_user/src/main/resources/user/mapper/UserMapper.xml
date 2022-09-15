@@ -112,8 +112,8 @@
 		            , #{googleId}
 					, #{kakaoId}
 					, #{naverId}
-					, #{type01}
-					, #{type02}
+					, #{type}
+					, #{subType}
 					, #{age}
 					, #{serviceType}
 		            )

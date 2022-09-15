@@ -51,9 +51,9 @@ public class UserController extends BaseController {
 		String category = user.getCategoryList().toString().substring(1);
 		category = category.substring(0, category.length()-1);
 		category = category.replaceAll("\\s", "");
-		System.out.println("user >> "+user);
+
 		//소셜 회원가입일 경우
-		if(user.getSocialType() != null){
+		if(!user.getSocialType().equals("none")){
 			if(user.getSocialType().equals("KAKAO")){
 				user.setKakaoId(user.getUniqueId());
 			}else if(user.getSocialType().equals("GOOGLE")){
@@ -68,15 +68,13 @@ public class UserController extends BaseController {
 
 		}
 
-		user.setType02("1");
-
-
 		model.addAttribute("user", user);
 		System.out.println("user >>>>>>>>>>>> "+user);
 		//return "pages/user/signup_result";
 
 		// 회원가입인 경우에만
 		if (user.getUserSeq() == 0) {
+			System.out.println("user.getId() >>>>> "+user.getId());
 			if (StringUtil.isBlank(user.getId())) {
 				bindingResult.rejectValue("id", "field.required");
 			} else {
@@ -128,7 +126,6 @@ public class UserController extends BaseController {
 		if (!StoneUtil.isValidEmail(email)) {
 			bindingResult.rejectValue("email", "email.illeal_match");
 		}
-
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 			if (user.getUserSeq() == 0) {
@@ -194,6 +191,8 @@ public class UserController extends BaseController {
 			model.addAttribute("email1", email_arr[0]);
 			model.addAttribute("email2", email_arr[1]);
 			model.addAttribute("name", name);
+		}else{
+			model.addAttribute("type", "none");
 		}
 		model.addAttribute("user", user);
 
