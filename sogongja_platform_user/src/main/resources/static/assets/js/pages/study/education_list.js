@@ -70,3 +70,35 @@
     });
 
 })();
+
+function favorite(seq){
+    let data = {
+        seq: seq
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/favorite",
+        async: false,
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (res) {
+            //alert("res :: "+JSON.stringify(res));
+
+        },
+        error: function (request,status,error) {
+            //alert(res.responseJSON.code);
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+            return;
+
+        }
+    });
+
+
+}
