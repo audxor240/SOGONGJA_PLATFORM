@@ -2,74 +2,86 @@
 @import "_mixin"
 footer
 	background: #232323
-	.ft_top
-		+flex_type
+	.ft_top_wrap
 		border-bottom: 1px solid #0e0e0e
-		.ft_menu
-			width: 64.2%
-			padding: rem(80) rem(80) rem(40) 0
-			> ul
-				+flex_type($justify: flex-end)
-				> li
-					margin-left: rem(84)
-					h2
-						font-weight: 700
-						color: #fff
-						margin-bottom: rem(32)
-					ul
-						li
-							margin-bottom: 8px
-							a
-								color: rgba(255,255,255,0.6)
-								font-weight: 300
-							&.bt_top
-								padding-top: 10px
-								margin-top: 15px
-								border-top: 2px dashed rgba(255,255,255,0.2)
-					&:first-child
-						margin-left: 0
-		.ft_address
+		+positionAt(relative)
+		&:before
+			content: ""
+			display: block
+			+positionAt(absolute, $top: 0, $left: 64.2%)
 			width: 35.8%
-			background: #0e0e0e
-			padding: rem(80) rem(0) rem(80) rem(161)
-			> p
-				color: #fff
-				font-size: rem(24)
-				font-weight: 700
-				margin-bottom: rem(30)
-			ul
-				li
-					color: #cbcbcb
-					font-weight: 300
-					font-size: rem(14)
-					line-height: 24px
-					padding-left: rem(36)
-					margin-bottom: 1rem
-					background: url(#{$assetPath}/icon-fax.png) no-repeat 0 50%
-					&.call
-						background: url(#{$assetPath}/icon-call.png) no-repeat 0 50%
-					&.mail
-						background: url(#{$assetPath}/icon-mail.png) no-repeat 0 50%
-					a
+			height: 100%
+			background-color: #000
+		.ft_top
+			width: 1400px
+			margin: 0 auto
+			+positionAt(relative)
+			+flex_type
+			.ft_menu
+				width: 64.2%
+				padding: rem(80) rem(80) rem(40) 0
+				> ul
+					+flex_type
+					> li
+						margin-left: rem(84)
+						h2
+							font-weight: 700
+							color: #fff
+							margin-bottom: rem(32)
+						ul
+							li
+								margin-bottom: 8px
+								a
+									color: rgba(255,255,255,0.6)
+									font-weight: 300
+								&.bt_top
+									padding-top: 10px
+									margin-top: 15px
+									border-top: 2px dashed rgba(255,255,255,0.2)
+						&:first-child
+							margin-left: 0
+			.ft_address
+				width: 35.8%
+				background: #0e0e0e
+				padding: rem(80) rem(0) rem(80) rem(161)
+				> p
+					color: #fff
+					font-size: rem(24)
+					font-weight: 700
+					margin-bottom: rem(30)
+				ul
+					li
 						color: #cbcbcb
 						font-weight: 300
 						font-size: rem(14)
 						line-height: 24px
+						padding-left: rem(36)
+						margin-bottom: 1rem
+						background: url(#{$assetPath}/icon-fax.png) no-repeat 0 50%
+						&.call
+							background: url(#{$assetPath}/icon-call.png) no-repeat 0 50%
+						&.mail
+							background: url(#{$assetPath}/icon-mail.png) no-repeat 0 50%
+						a
+							color: #cbcbcb
+							font-weight: 300
+							font-size: rem(14)
+							line-height: 24px
 
-			div
-				+flex_type
-				margin-top: rem(36)
-				a
-					width: rem(32)
-					height: rem(32)
-					display: inline-block
-					background: url(#{$assetPath}/icon-facebook.png) no-repeat 0 50%
-					text-indent: -9999px
-					margin-right: rem(12)
-					&.google
-						background: url(#{$assetPath}/icon-google.png) no-repeat 0 50%
-					&.youtube
-						background: url(#{$assetPath}/icon-youtube.png) no-repeat 0 50%
+				div
+					+flex_type
+					margin-top: rem(36)
+					a
+						width: rem(32)
+						height: rem(32)
+						display: inline-block
+						background: url(#{$assetPath}/icon-facebook.png) no-repeat 0 50%
+						text-indent: -9999px
+						margin-right: rem(12)
+						&.google
+							background: url(#{$assetPath}/icon-google.png) no-repeat 0 50%
+						&.youtube
+							background: url(#{$assetPath}/icon-youtube.png) no-repeat 0 50%
 	.ft_bottom
 		padding: rem(40) 0 rem(60)
 		.privacy
@@ -114,30 +126,37 @@ footer
 			font-size: rem(20) !important
 		.ft_bottom
 			padding: 2.5rem 100px 3.75rem
-		.ft_top
-			flex-wrap: wrap
-			.ft_menu
+		.ft_top_wrap
+			&:before
 				display: none
-			.ft_address
+			.ft_top
+				flex-wrap: wrap
 				width: 100%
-				padding: 2.5rem 100px 3.75rem
-				div a
-					width: rem(60)
-					height: rem(60)
+				.ft_menu
+					display: none
+				.ft_address
+					width: 100%
+					padding: 2.5rem 100px 3.75rem
+					div a
+						width: rem(60)
+						height: rem(60)
+
 @include mobile
 	footer
 		.ft_bottom
 			padding: 2.5rem 40px 3.75rem
-		.ft_top
-			.ft_address
-				padding: 2.5rem 40px 3.75rem
-				ul li
-					padding-left: rem(50)
+		.ft_top_wrap
+			.ft_top
+				.ft_address
+					padding: 2.5rem 40px 3.75rem
+					ul li
+						padding-left: rem(50)
 
 @include maxMobile
 	footer
 		.ft_bottom
 			padding: 2.5rem 20px 3.75rem
-		.ft_top
-			.ft_address
-				padding: 2.5rem 20px 3.75rem
+		.ft_top_wrap
+			.ft_top
+				.ft_address
+					padding: 2.5rem 20px 3.75rem

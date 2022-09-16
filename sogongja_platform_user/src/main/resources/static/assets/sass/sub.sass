@@ -511,9 +511,7 @@
 	padding: 0
 	margin-bottom: 0
 	height: calc(100vh - 5rem)
-	display: flex
-	justify-content: space-between
-	flex-direction: row-reverse
+	+flex_type($justify: space-between ,$direction: row-reverse)
 	.map_tab
 		//+positionAt(absolute, $top: rem(0), $left: 0)
 		height: calc(100vh - 5rem)
@@ -1206,7 +1204,7 @@
 		tr
 			&.tr_id
 				td
-					display: flex
+					+flex_type
 					+flex_wrap
 					input
 						width: 80%
@@ -1281,11 +1279,10 @@
 						select
 							border: 1px solid #d5d5d5
 				.radio_depth01
-					display: flex
+					+flex_type
 					li
 						min-width: 100px
-						display: flex
-						align-items: center
+						+flex_type($align: center)
 						margin-right: 10px
 						input[type="radio"]
 							width: 20px
@@ -1293,10 +1290,10 @@
 							margin-right: 10px
 				> div
 					.radio_depth02
-						display: flex
+						+flex_type
 						margin-top: 10px
 						li
-							display: flex
+							+flex_type
 							margin-right: 10px
 							input[type="radio"]
 								width: 20px
@@ -1400,7 +1397,7 @@
 				color: #606060
 		ul
 			margin-top: rem(19)
-			display: flex
+			+flex_type
 			margin-bottom: rem(30)
 			li
 				width: calc(100%/3)
@@ -1410,8 +1407,7 @@
 				a
 					padding: rem(18)
 					font-size: rem(18)
-					display: flex
-					justify-content: center
+					+flex_type($align: center)
 					span
 						background-size: rem(26) !important
 						width: rem(26)
@@ -1646,8 +1642,7 @@
 			line-height: 1.8
 	.pop_btn
 		margin-top: 20px
-		display: flex
-		justify-content: space-between
+		+flex_type($justify: space-between)
 		.btn
 			width: calc(50% - 10px)
 			text-align: center
