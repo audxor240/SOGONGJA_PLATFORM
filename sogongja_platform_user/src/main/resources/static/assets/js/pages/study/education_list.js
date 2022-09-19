@@ -88,8 +88,18 @@ function favorite(seq){
             xhr.setRequestHeader(header, token);
         },
         success: function (res) {
-            //alert("res :: "+JSON.stringify(res));
 
+            if(res.message == "login_check"){
+                $(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
+                alert("로그인이 필요합니다.");
+                return;
+            }else if(res.message == "add"){
+                alert("관심교육 등록되었습니다.");
+                return;
+            }else if(res.message == "delete"){
+                alert("관심교육 해제되었습니다.");
+                return;
+            }
         },
         error: function (request,status,error) {
             //alert(res.responseJSON.code);
@@ -100,5 +110,41 @@ function favorite(seq){
         }
     });
 
+}
 
+function detailEducation(seq){
+    let data = {
+        seq: seq
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/detailEducation",
+        async: false,
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (res) {
+
+            if(res.message == "login_check"){
+                alert("로그인이 필요합니다.");
+                return;
+            }else{
+                window.open(res.edu_url, '_blank');
+            }
+
+
+        },
+        error: function (request,status,error) {
+            //alert(res.responseJSON.code);
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+            return;
+
+        }
+    });
 }

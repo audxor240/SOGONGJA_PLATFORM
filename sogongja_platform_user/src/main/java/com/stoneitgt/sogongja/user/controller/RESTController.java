@@ -3,6 +3,8 @@ package com.stoneitgt.sogongja.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Education;
+import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
 import com.stoneitgt.sogongja.user.service.EducationService;
@@ -25,9 +27,10 @@ public class RESTController extends BaseController {
 
 	@Autowired
 	private CodeService codeService;
-
 	@Autowired
 	private EducationBookmarkService educationBookmarkService;
+	@Autowired
+	private EducationService educationService;
 
 	@PostMapping("/code/ref")
 	@ResponseBody
@@ -42,28 +45,50 @@ public class RESTController extends BaseController {
 	@PostMapping("/favorite")
 	@ResponseBody
 	public JSONObject updateFavorite(@RequestBody Map<String, Object> params,Authentication authentication){
-		System.out.println("CHECK============1");
-		System.out.println("params >>>>>>>>>> "+params.get("seq"));
+
+		JSONObject jsonObject = new JSONObject();
+		User user = new User();
 
 		try {
-			User user = (User) authentication.getPrincipal();
+			user = (User) authentication.getPrincipal();
+
 		} catch(NullPointerException e){
-			String s = "empty";
-			System.out.println(s.toUpperCase()); //catch문에서 대문자로 바꾸어준다.
+			jsonObject.put("message", "login_check");
+			return jsonObject;
 		}
 
+		EducationBookmark eduMark = educationBookmarkService.getEducationBookmark((Integer) params.get("seq"), user.getUserSeq());
 
-		Map<String, Object> eduMark = educationBookmarkService.getEducationBookmark((Integer) params.get("seq"));
-		System.out.println("eduMark :: "+eduMark);
 		if(eduMark == null){
-			//educationBookmarkService.addEducationBookmark((Integer) params.get("seq"));	//관심 교육 등록
+			jsonObject.put("message", "add");
+			educationBookmarkService.addEducationBookmark((Integer) params.get("seq"), user.getUserSeq());	//관심 교육 등록
 		}else{
-
+			jsonObject.put("message", "delete");
+			educationBookmarkService.deleteEducationBookmark((Integer) params.get("seq"), user.getUserSeq());	//관심 교육 삭제
 		}
-		String res = "{res:OK}";
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("res", "OK");
 
+		return jsonObject;
+	}
+
+	@PostMapping("/detailEducation")
+	@ResponseBody
+	public JSONObject detailEducation(@RequestBody Map<String, Object> params,Authentication authentication){
+
+
+		JSONObject jsonObject = new JSONObject();
+		User user = new User();
+
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+			jsonObject.put("message", "login_check");
+			return jsonObject;
+		}
+
+		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
+
+		jsonObject.put("edu_url", education.get("edu_url"));
 
 		return jsonObject;
 	}
