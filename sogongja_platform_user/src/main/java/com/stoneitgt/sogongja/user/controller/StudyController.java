@@ -3,7 +3,13 @@ package com.stoneitgt.sogongja.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Education;
+import com.stoneitgt.sogongja.domain.EducationBookmark;
+import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +43,18 @@ public class StudyController extends BaseController {
 	@Autowired
 	private CounselingService counselingService;
 
+	@Autowired
+	private EducationBookmarkService educationBookmarkService;
+
 	@GetMapping("/education")
-	public String education(@ModelAttribute EducationParameter params, Model model) {
+	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
+		User user = new User();
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+
+		}
 
 		Paging paging = getUserPaging(params.getPage(), PAGE_SIZE.USER_EDUCATION);
 
@@ -48,6 +64,17 @@ public class StudyController extends BaseController {
 
 		Integer total = educationService.selectTotalRecords();
 		paging.setTotal(total);
+
+		for (Map<String, Object> entry : list) {
+
+			EducationBookmark educationBookmark = educationBookmarkService.getEducationBookmark((Integer) entry.get("edu_seq"), user.getUserSeq());
+
+			if(educationBookmark != null){	//관심교육 추가되어있음
+				entry.put("favorite",true);
+			}else{
+				entry.put("favorite",false);
+			}
+		}
 
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));

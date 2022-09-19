@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.EducationWatchingMapper">
+
+    <select id="getEducationWatching" parameterType="int" resultType="com.stoneitgt.sogongja.domain.EducationWatching">
+        /* file : EducationWatchingMapper.xml, id : getEducationWatching */
+        SELECT *
+        FROM ST_EDUCATION_WATCHING
+        WHERE EDU_SEQ = #{eduSeq} and USER_SEQ = #{userSeq}
+    </select>
+
+    <insert id="addEducationWatching" parameterType="int" >
+        /* 교육 시청 등록 */
+        INSERT INTO ST_EDUCATION_WATCHING(EDU_SEQ, USER_SEQ)value(#{eduSeq}, #{userSeq});
+    </insert>
+
+
+</mapper>

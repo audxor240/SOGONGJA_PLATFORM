@@ -7,8 +7,17 @@
         /* file : EducationBookmarkMapper.xml, id : getEducationBookmark */
         SELECT *
         FROM ST_EDUCATION_BOOKMARK
-        WHERE EDU_SEQ = #{eduSeq}
+        WHERE EDU_SEQ = #{eduSeq} and USER_SEQ = #{userSeq}
     </select>
+
+    <insert id="addEducationBookmark" parameterType="int" >
+        /* 관심교육 등록 */
+        INSERT INTO ST_EDUCATION_BOOKMARK(EDU_SEQ, USER_SEQ)value(#{eduSeq}, #{userSeq});
+    </insert>
+
+    <delete id="deleteEducationBookmark" parameterType="int" >
+        DELETE FROM ST_EDUCATION_BOOKMARK where EDU_SEQ = #{eduSeq} and USER_SEQ = #{userSeq}
+    </delete>
 
 
 
