@@ -77,28 +77,28 @@
                     <h4>비밀번호 찾기</h4>
                     <ul>
                         <li>
-                            <input type="text" placeholder="아이디를 입력해주세요." title="아이디를 입력해주세요.">
+                            <input type="text" placeholder="아이디를 입력해주세요." title="아이디를 입력해주세요." id="userId" name="userId">
                         </li>
                         <li class="pas_btn">
-                            <input type="text" title="이메일을 입력해주세요.">
-                            <button>인증코드 발송</button>
+                            <input type="text" placeholder="이메일을 입력해주세요." title="이메일을 입력해주세요." id="email" name="email">
+                            <button onclick="sendCode()">인증코드 발송</button>
                         </li>
                         <li>
-                            <input type="text" placeholder="인증코드" title="인증코드">
-                            <span class="warning">*아이디와 이메일이 일치하지 않습니다. </span>
+                            <input type="text" placeholder="인증코드" title="인증코드" id="code" style="display:none">
+                            <span class="warning" style="display:none">* 아이디와 이메일이 일치하지 않습니다. </span>
                         </li>
                     </ul>
-                    <button class="check" id="open_pas2">비밀번호 찾기</button>
+                    <button class="check" id="open_pas2" onclick="findPw()">새 비밀번호 발급</button>
                     <button class="close">닫기</button>
                 </div>
             </div>
             <div class="modal modal2" style="display: none;">
                 <div class="dim"></div>
                 <div class="modal_inner modal_inner_pas2">
-                    <h4>비밀번호 찾기</h4>
+                    <h4>새 비밀번호 발급</h4>
                     <div>
-                        <p><span>namowebiz</span>님의 비밀번호는</p>
-                        <span> a1234567</span>
+                        <p><span id="user_id">namowebiz</span>님의 비밀번호는</p>
+                        <span id="pw"> a1234567</span>
                         <p>입니다.</p>
                     </div>
                     <button class="close">닫기</button>

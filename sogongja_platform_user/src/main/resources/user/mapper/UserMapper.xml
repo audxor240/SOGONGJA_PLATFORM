@@ -45,6 +45,14 @@
 		     AND U.USER_SEQ = #{userSeq}
 	</select>
 
+	<select id="getFindPwUserInfo" parameterType="string" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : getUserList */
+		SELECT U.*
+		FROM ST_USER U
+		WHERE U.ID = #{id}
+		  AND U.EMAIL = #{email}
+	</select>
+
 	<select id="getUserPassword" parameterType="int" resultType="string">
 		/* file : UserMapper.xml, id : getUserList */
 		  SELECT U.PASSWORD

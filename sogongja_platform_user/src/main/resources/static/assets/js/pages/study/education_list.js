@@ -113,12 +113,10 @@ function favorite(seq){
 }
 
 function detailEducation(seq){
-    let data = {
-        seq: seq
-    };
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
+    var id = $().val();
 
     $.ajax({
         type: "POST",
@@ -136,7 +134,6 @@ function detailEducation(seq){
             }else{
                 window.open(res.edu_url, '_blank');
             }
-
 
         },
         error: function (request,status,error) {
