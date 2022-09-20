@@ -91,7 +91,6 @@
                             <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
                                 <li>
                                     <div th:class="view_favorite">
-                                        <input type="hidden" id="favorite_check" th:value="${item.favorite}">
                                         <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
                                         <span class="view" th:text="${item.read_cnt}">12</span>
                                     </div>

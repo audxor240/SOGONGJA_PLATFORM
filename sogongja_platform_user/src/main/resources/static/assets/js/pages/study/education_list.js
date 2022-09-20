@@ -116,7 +116,10 @@ function detailEducation(seq){
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    var id = $().val();
+
+    let data = {
+        "seq": seq
+    }
 
     $.ajax({
         type: "POST",
