@@ -135,7 +135,7 @@ function sendCode(){
                 alert("인증번호 발송 되었습니다.");
                 $("#code").show();
                 code = res.code;
-                console.log("code >>> "+code);
+                $(".warning").hide();
 
             }else{
                 alert("아이디와 이메일이 일치하지 않습니다.");

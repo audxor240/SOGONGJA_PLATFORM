@@ -78,7 +78,7 @@ public class RESTController extends BaseController {
 	@ResponseBody
 	public JSONObject detailEducation(@RequestBody Map<String, Object> params,Authentication authentication){
 
-
+		System.out.println("check-----------1");
 		JSONObject jsonObject = new JSONObject();
 		User user = new User();
 
@@ -89,7 +89,7 @@ public class RESTController extends BaseController {
 			jsonObject.put("message", "login_check");
 			return jsonObject;
 		}
-
+		System.out.println("check-----------2");
 		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
 
 		jsonObject.put("edu_url", education.get("edu_url"));
