@@ -1,7 +1,18 @@
 spring:
   profiles:
     active: local
-    
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sogongja0@gmail.com
+    password: dqmrjdymsqsmehnu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   servlet:
     multipart:
       max-file-size: 500MB

@@ -66,19 +66,23 @@ $(function() {
                     modal[m].style.display = "none";
                 }
             });
+            /*
             document.querySelector(".check").addEventListener("click", function() {
                 modal[m].style.display = "none";
             });
+            */
+
         }
     }
     //모달 비밀번호 찾기
     if ($("#find_password").length > 0) {
         document.getElementById("find_password").addEventListener("click", function() {
+            $("#userId").val("");
+            $("#email").val("");
+            $("#code").val("");
             document.querySelector(".modal").style.display = "block"
-        });
-        document.getElementById("open_pas2").addEventListener("click", function() {
-            document.querySelector(".modal2").style.display = "block"
-            document.querySelector(".modal_pas").style.display = "none"
+            document.querySelector("#code").style.display = "none"
+
         });
 
     }
@@ -92,5 +96,126 @@ $(function() {
         $(this).parent("li").css("display", "none");
     });
 
-
 });
+
+var code = "";
+function sendCode(){
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var id = $("#userId").val();
+    var email = $("#email").val();
+
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
+        return;
+    }
+
+    if(email == ""){
+        alert("이메일을 입력해주세요.");
+        return;
+    }
+
+    var data = {
+        "id": id,
+        "email": email
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/mail/sendCode",
+        async: false,
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (res) {
+
+            if(res.message == "success"){
+                alert("인증번호 발송 되었습니다.");
+                $("#code").show();
+                code = res.code;
+                console.log("code >>> "+code);
+
+            }else{
+                alert("아이디와 이메일이 일치하지 않습니다.");
+                $(".warning").show();
+            }
+            /*
+            if(res.message == "login_check"){
+                alert("로그인이 필요합니다.");
+                return;
+            }else{
+                window.open(res.edu_url, '_blank');
+            }
+            */
+
+        },
+        error: function (request,status,error) {
+            //alert(res.responseJSON.code);
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            return;
+
+        }
+    });
+
+}
+
+function findPw(){
+
+    let token = $("meta[name='_csrf']").attr("content");
+    let header = $("meta[name='_csrf_header']").attr("content");
+    let id = $("#userId").val();
+    let email = $("#email").val();
+
+    let conCode = $("#code").val();
+
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
+        return;
+    }
+
+    if(email == ""){
+        alert("이메일을 입력해주세요.");
+        return;
+    }
+
+    if(conCode == ""){
+        alert("인증코드를 입력해주세요.");
+        return;
+    }
+
+    if(conCode != code){
+        alert("인증번호가 일치하지 않습니다.");
+        return;
+    }
+
+    let data = {
+        "id": id,
+        "email": email
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/api/findPw",
+        async: false,
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (res) {
+
+            $("#user_id").text(res.userId);
+            $("#pw").text(res.password);
+            document.querySelector(".modal2").style.display = "block";
+            document.querySelector(".modal_pas").style.display = "none";
+
+        },
+        error: function (request,status,error) {
+            //alert(res.responseJSON.code);
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            return;
+
+        }
+    });
+}

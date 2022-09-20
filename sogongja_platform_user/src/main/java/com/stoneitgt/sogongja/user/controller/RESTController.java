@@ -2,21 +2,21 @@ package com.stoneitgt.sogongja.user.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
-import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
-import com.stoneitgt.sogongja.user.service.EducationService;
+import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant.API_STATUS;
-import com.stoneitgt.sogongja.user.service.CodeService;
 
 @RestController
 @RequestMapping("/api")
@@ -31,6 +31,10 @@ public class RESTController extends BaseController {
 	private EducationBookmarkService educationBookmarkService;
 	@Autowired
 	private EducationService educationService;
+
+	@Autowired
+	private UserService userService;
+
 
 	@PostMapping("/code/ref")
 	@ResponseBody
@@ -89,6 +93,37 @@ public class RESTController extends BaseController {
 		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
 
 		jsonObject.put("edu_url", education.get("edu_url"));
+
+		return jsonObject;
+	}
+
+	@PostMapping("/findPw")
+	@ResponseBody
+	public JSONObject findPw(@RequestBody Map<String, Object> params,Authentication authentication){
+
+		int leftLimit = 48; // numeral '0'
+		int rightLimit = 122; // letter 'z'
+		int targetStringLength = 10;
+		Random random = new Random();
+		//패스워드 난수 생성
+		String generatedString = random.ints(leftLimit, rightLimit + 1)
+				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+				.limit(targetStringLength)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+				.toString();
+
+		JSONObject jsonObject = new JSONObject();
+
+		User user = userService.getFindPwUserInfo((String) params.get("id"), (String) params.get("email"));
+		if(user == null){
+			jsonObject.put("message", "아이디와 이메일이 일치하지 않습니다.");
+			return jsonObject;
+		}
+
+		user.setNewPassword(generatedString);
+		jsonObject.put("userId", user.getId());
+		jsonObject.put("password", user.getNewPassword());
+		userService.updatePassword(user);
 
 		return jsonObject;
 	}
