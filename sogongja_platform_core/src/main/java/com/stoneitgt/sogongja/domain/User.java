@@ -43,6 +43,8 @@ public class User implements UserDetails {
 
 	private String checkedId;
 
+	private String checkedNickName;
+
 	// 비밀번호
 	private String password;
 
@@ -169,5 +171,7 @@ public class User implements UserDetails {
 	private String ageGroup;
 
 	private String subType;
+
+	private String nickName;
 
 }

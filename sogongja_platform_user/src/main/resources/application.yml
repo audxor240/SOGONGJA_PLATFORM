@@ -1,7 +1,18 @@
 spring:
   profiles:
     active: local
-    
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sogongja0@gmail.com
+    password: dqmrjdymsqsmehnu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   servlet:
     multipart:
       max-file-size: 500MB
@@ -90,7 +101,6 @@ app:
   kakao-request-token-uri: https://kauth.kakao.com/oauth/authorize
   kakao-access-token-uri: https://kauth.kakao.com/oauth/token
   kakao-api-uri: https://kapi.kakao.com/v2
-  host: http://localhost:2082
   ########### GOOGLE
   google-client-id: 962520289844-hgpq28i60v460goj8qapo3vrao72qrnv.apps.googleusercontent.com
   google-client-secret: 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
@@ -103,6 +113,9 @@ app:
   naver-request-token-uri: https://nid.naver.com/oauth2.0/authorize
   naver-access-token-uri: https://nid.naver.com/oauth2.0/token
   naver-api-uri: https://openapi.naver.com/v1
+  host: http://localhost:2082
+  emailAddress: sogongja0@gmail.com
+
 ---
 
 spring:
@@ -193,7 +206,6 @@ app:
   kakao-request-token-uri: https://kauth.kakao.com/oauth/authorize
   kakao-access-token-uri: https://kauth.kakao.com/oauth/token
   kakao-api-uri: https://kapi.kakao.com/v2
-  host: http://121.254.171.155:2082
   ########### GOOGLE
   google-client-id: 962520289844-hgpq28i60v460goj8qapo3vrao72qrnv.apps.googleusercontent.com
   google-client-secret: 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
@@ -206,3 +218,5 @@ app:
   naver-request-token-uri: https://nid.naver.com/oauth2.0/authorize
   naver-access-token-uri: https://nid.naver.com/oauth2.0/token
   naver-api-uri: https://openapi.naver.com/v1
+  host: http://121.254.171.155:2082
+  emailAddress: sogongja0@gmail.com

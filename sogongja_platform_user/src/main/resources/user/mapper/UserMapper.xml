@@ -45,6 +45,13 @@
 		     AND U.USER_SEQ = #{userSeq}
 	</select>
 
+	<select id="getFindPwUserInfo" parameterType="string" resultType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : getUserList */
+		SELECT U.*
+		FROM ST_USER U
+		WHERE  U.EMAIL = #{email}
+	</select>
+
 	<select id="getUserPassword" parameterType="int" resultType="string">
 		/* file : UserMapper.xml, id : getUserList */
 		  SELECT U.PASSWORD
@@ -61,6 +68,14 @@
 		     AND U.ID       = LOWER(#{id})
 	</select>
 
+	<select id="existedUserNickName" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserId */
+		SELECT COUNT(*) AS CNT
+		FROM ST_USER U
+		WHERE U.DEL_FLAG = 0
+		  AND U.NICK_NAME       = LOWER(#{nickName})
+	</select>
+
 	<insert id="saveUser" parameterType="com.stoneitgt.sogongja.domain.User">
 		/* file : UserMapper.xml, id : saveUser */
 		INSERT
@@ -69,6 +84,7 @@
 		            , ID
 		            , PASSWORD
 		            , USERNAME
+		            , NICK_NAME
 		            , EMAIL
 		            , TEL
 		            , HP
@@ -95,6 +111,7 @@
 		            , LOWER(#{id})
 		            , #{password}
 		            , #{username}
+		            , #{nickName}
 		            , #{email}
 		            , #{tel}
 		            , #{hp}

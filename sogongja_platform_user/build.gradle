@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'net.sf.json-lib', name: 'json-lib-ext-spring', version: '1.0.2'
 
     implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 ext {

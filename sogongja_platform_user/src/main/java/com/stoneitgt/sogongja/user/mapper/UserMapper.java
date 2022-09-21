@@ -23,9 +23,13 @@ public interface UserMapper {
 
 	User getUserInfo(int userSeq);
 
+	User getFindPwUserInfo(String email);
+
 	String getUserPassword(int userSeq);
 
 	int existedUserId(String id);
+
+	int existedUserNickName(String nickName);
 
 	int saveUser(User user);
 

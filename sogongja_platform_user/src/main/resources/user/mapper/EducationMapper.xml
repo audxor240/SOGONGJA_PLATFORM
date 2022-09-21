@@ -80,9 +80,7 @@
 	<update id="updateEducationReadCnt" parameterType="map" >
         /* file : EducationMapper.xml, id : updateEducationReadCnt */
           UPDATE ST_EDUCATION
-             SET DEL_FLAG     = 1
-               , DEL_USER_SEQ = #{login_user_seq}
-               , DEL_DATE     = CURRENT_TIMESTAMP()
+             SET READ_CNT     = READ_CNT+1
            WHERE EDU_SEQ      = #{edu_seq}
     </update>
 

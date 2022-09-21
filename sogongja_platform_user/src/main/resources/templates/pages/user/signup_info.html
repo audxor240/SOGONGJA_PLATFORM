@@ -36,6 +36,7 @@
                     <input type="hidden" th:field="*{agree1}">
                     <input type="hidden" th:field="*{agree2}">
                     <input type="hidden" th:field="*{checkedId}">
+                    <input type="hidden" th:field="*{checkedNickName}">
                     <input type="hidden" id="socialType" name="socialType" th:value="${type}">
                     <input type="hidden" id="uniqueId" name="uniqueId" th:value="${uniqueId}">
                     <ul class="stage_02">
@@ -68,6 +69,14 @@
                                         </td>
                                     </tr>
                                 </th:block>
+                                <tr class="tr_id">
+                                    <th style="width: 25%;">닉네임 <span class="required">(필수)</span></th>
+                                    <td>
+                                        <input type="text" th:field="*{nickName}" title="아이디" required placeholder="닉네임을 입력해주세요." autocomplete="new-password" maxlength="15">
+                                        <button type="button" id="btn-checked-nickName">중복확인</button>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>이름 <span class="required">(필수)</span></th>
                                     <td>
@@ -141,13 +150,13 @@
                                             </li>
                                             <li>
                                                 <input type="radio" name="type" id="type01_04" value="4">
-                                                <label for="type01_02">일반인</label>
+                                                <label for="type01_04">일반인</label>
                                             </li>
                                         </ul>
                                         <div>
                                             <ul class="radio_depth02 radio_on01" id="sub01">
                                                 <li>
-                                                    <input type="radio" name="subType" id="type02_01_01" value="1">
+                                                    <input type="radio" name="subType" id="type02_01_01" value="1" checked="checked">
                                                     <label for="type02_01_01">사업 실행중</label>
                                                 </li>
                                                 <li>
@@ -163,7 +172,7 @@
                                             </ul>
                                             <ul class="radio_depth02 radio_on03" id="sub03" style="display: none">
                                                 <li>
-                                                    <input type="radio" name="subType" id="type02_03_01" value="4">
+                                                    <input type="radio" name="subType" id="type02_03_01" value="4" >
                                                     <label for="type02_03_01">공실문제 해결</label>
                                                 </li>
                                                 <li>

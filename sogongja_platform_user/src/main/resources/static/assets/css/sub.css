@@ -421,6 +421,7 @@
   color: #181818;
   line-height: 1.5;
   font-weight: 700;
+  cursor: pointer;
 }
 .sub_container .edu_list > li .hashtag,
 .sub_container .solution_edu_recommend > ul > li .hashtag {

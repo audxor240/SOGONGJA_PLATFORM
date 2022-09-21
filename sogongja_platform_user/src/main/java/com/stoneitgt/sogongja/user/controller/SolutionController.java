@@ -4,7 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.EducationBookmark;
+import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +34,19 @@ public class SolutionController extends BaseController {
 	@Autowired
 	private ConsultingService consultingService;
 
+	@Autowired
+	private EducationBookmarkService educationBookmarkService;
+
 	@GetMapping("/education")
-	public String education(@ModelAttribute EducationParameter params, Model model) {
+	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
+
+		User user = new User();
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+
+		}
 
 		Paging paging = getUserPaging(params.getPage(), PAGE_SIZE.USER_EDUCATION_SOLUTION);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
@@ -39,6 +54,17 @@ public class SolutionController extends BaseController {
 		List<Map<String, Object>> eduList = ecucationService.getEducationList(paramsMap, paging);
 		Integer total = ecucationService.selectTotalRecords();
 		paging.setTotal(total);
+
+		for (Map<String, Object> entry : eduList) {
+
+			EducationBookmark educationBookmark = educationBookmarkService.getEducationBookmark((Integer) entry.get("edu_seq"), user.getUserSeq());
+
+			if(educationBookmark != null){	//관심교육 추가되어있음
+				entry.put("favorite",true);
+			}else{
+				entry.put("favorite",false);
+			}
+		}
 
 		List<Map<String, Object>> recommendList = null;
 
