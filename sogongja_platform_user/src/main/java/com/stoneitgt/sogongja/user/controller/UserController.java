@@ -219,11 +219,38 @@ public class UserController extends BaseController {
 			}
 		}
 		if (resultCode > 0) {
-			if (userService.existedUserId(userId) > 1) {
+			System.out.println("userId :: "+userId);
+			if (userService.existedUserId(userId) >= 1) {
 				resultCode = -102;
 			}
 		}
+
 		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("resultCode:: "+resultCode);
+		result.put("result_code", resultCode);
+		return result;
+	}
+
+	@PostMapping("/signup/checked/nickName")
+	@ResponseBody
+	public Map<String, Object> checkedUserNickName(@RequestBody Map<String, Object> params) {
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+		String nickName = StringUtil.getString(params.get("nickName"));
+		for (String id : GlobalConstant.BLACK_ID_LIST) {
+			if (id.equalsIgnoreCase(nickName)) {
+				resultCode = -101;
+				break;
+			}
+		}
+		if (resultCode > 0) {
+			System.out.println("userId :: "+nickName);
+			if (userService.existedUserNickName(nickName) >= 1) {
+				resultCode = -102;
+			}
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("resultCode:: "+resultCode);
 		result.put("result_code", resultCode);
 		return result;
 	}

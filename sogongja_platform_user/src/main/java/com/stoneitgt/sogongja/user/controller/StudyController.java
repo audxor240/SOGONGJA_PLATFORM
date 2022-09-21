@@ -75,7 +75,7 @@ public class StudyController extends BaseController {
 				entry.put("favorite",false);
 			}
 		}
-
+		System.out.println("list.get(1) >> "+list.get(1));
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);

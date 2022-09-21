@@ -36,6 +36,7 @@
                     <input type="hidden" th:field="*{agree1}">
                     <input type="hidden" th:field="*{agree2}">
                     <input type="hidden" th:field="*{checkedId}">
+                    <input type="hidden" th:field="*{checkedNickName}">
                     <input type="hidden" id="socialType" name="socialType" th:value="${type}">
                     <input type="hidden" id="uniqueId" name="uniqueId" th:value="${uniqueId}">
                     <ul class="stage_02">
@@ -68,6 +69,14 @@
                                         </td>
                                     </tr>
                                 </th:block>
+                                <tr class="tr_id">
+                                    <th style="width: 25%;">닉네임 <span class="required">(필수)</span></th>
+                                    <td>
+                                        <input type="text" th:field="*{nickName}" title="아이디" required placeholder="닉네임을 입력해주세요." autocomplete="new-password" maxlength="15">
+                                        <button type="button" id="btn-checked-nickName">중복확인</button>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>이름 <span class="required">(필수)</span></th>
                                     <td>
