@@ -23,14 +23,14 @@ public class MailController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/mail/sendCode")
+    @PostMapping("/mail/resetPw")
     @ResponseBody
     public JSONObject execMail(@RequestBody Map<String, Object> params) {
         JSONObject jsonObject = new JSONObject();
 
         String code = UUID.randomUUID().toString();
 
-        User user = userService.getFindPwUserInfo((String) params.get("id"), (String) params.get("email"));
+        User user = userService.getFindPwUserInfo((String) params.get("email"));
         if(user == null){
             jsonObject.put("message", "notMatching");
             return jsonObject;

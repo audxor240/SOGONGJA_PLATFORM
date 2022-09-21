@@ -99,31 +99,39 @@ $(function() {
 });
 
 var code = "";
-function sendCode(){
+function send_reset_pw_mail(){
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     var id = $("#userId").val();
     var email = $("#email").val();
 
+    /*
     if(id == ""){
         alert("아이디를 입력해주세요.");
         return;
     }
-
+    */
     if(email == ""){
         alert("이메일을 입력해주세요.");
         return;
     }
+    var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    if (email.match(regExp) == null) {
+        alert("이메일 형식이 올바르지 않습니다.");
+        return;
+    }
+
 
     var data = {
-        "id": id,
+        //"id": id,
         "email": email
     }
 
     $.ajax({
         type: "POST",
-        url: "/mail/sendCode",
+        url: "/mail/resetPw",
         async: false,
         data: JSON.stringify(data),
         beforeSend: function (xhr) {
@@ -133,12 +141,13 @@ function sendCode(){
 
             if(res.message == "success"){
                 alert("인증번호 발송 되었습니다.");
-                $("#code").show();
-                code = res.code;
+                //$("#code").show();
+                //code = res.code;
                 $(".warning").hide();
+                $(".modal_inner .modal_inner_pas").hide();
 
             }else{
-                alert("아이디와 이메일이 일치하지 않습니다.");
+                alert("가입되지 않은 이메일 입니다.");
                 $(".warning").show();
             }
             /*
