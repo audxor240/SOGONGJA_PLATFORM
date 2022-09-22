@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>보도자료</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 게시판">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 게시판">
+    <meta name="keywords" content="소공자 플랫폼, 게시판, 첨부파일, 제목, 작성일, 보도자료, 공지사항">
+    <meta name="description" content="소공자 플랫폼 게시판">
+</head>
+
+<body>
+<article layout:fragment="content">
+    <section class="sub_visual">
+        <div class="container">
+            <h2 class="border_title">소공자 물어방</h2>
+        </div>
+        <th:block th:include="pages/board/board_nav"></th:block>
+    </section>
+    <section class="wrap">
+        <div class="sub_container">
+            <form class="write">
+                <div class="qna_title">
+                    <input type="text" placeholder="질문 제목을 입력해주세요.">
+                </div>
+                <div class="qna_text">
+                    <!-- 토스트에디터 들어갈 자리-->
+                </div>
+                <div class="addFile_wrap">
+                    <button id="addFile" class="add-button">파일첨부</button>
+                </div>
+                <div class="file-list"></div>
+                <div class="secret_btn_wrap">
+                    <input type="checkbox" id="secret_read">
+                    <label for="secret_read"></label>
+                </div>
+            </form>
+        </div>
+        <div class="btn_box">
+            <a href="#none" class="btn">취소</a>
+            <button type="submit" class="btn blue">문의하기</button>
+        </div>
+    </section>
+</article>
+
+
+<th:block layout:fragment="custom_css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/toastui-editor-viewer.css}">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var tui_content = /*[[${data.content}]]*/ '';
+    </script>
+    <script th:src="@{/js/libs/codemirror.js}"></script>
+    <script th:src="@{/js/libs/toastui-editor-viewer.js}"></script>
+    <script th:src="@{/js/pages/board/board_write.js}"></script>
+</th:block>
+</body>
+
+</html>
