@@ -1331,6 +1331,7 @@
   font-size: 1.125rem;
   line-height: 1.5;
   margin-bottom: 0;
+  text-align: center;
 }
 .modal .modal_inner.modal_inner_pas2 div p span {
   font-weight: 700;
@@ -1384,6 +1385,7 @@
   line-height: 1.5;
   color: #8b8b8b;
   margin-bottom: 2rem;
+  text-align: center;
 }
 .modal .modal_inner .check {
   border: solid 2px #1540bf;
@@ -1652,6 +1654,11 @@
 .mypage_info table tr td {
   padding: 0.75rem 0;
 }
+.mypage_info table tr td .checking_color {
+  color: #F63C3C;
+  font-size: 0.875rem;
+  margin-left: 10px;
+}
 .mypage_info table tr td input {
   width: 100%;
   font-size: 1rem;
@@ -1729,12 +1736,12 @@
 }
 .mypage_info table tr td .radio_depth01 {
   display: flex;
+  flex-wrap: wrap;
 }
 .mypage_info table tr td .radio_depth01 li {
   min-width: 100px;
   display: flex;
   align-items: center;
-  margin-right: 10px;
 }
 .mypage_info table tr td .radio_depth01 li input[type=radio] {
   display: none;
@@ -1753,6 +1760,10 @@
   padding: 0 20px;
   min-width: 100px;
   text-align: center;
+  border-right: none;
+}
+.mypage_info table tr td .radio_depth01 li:last-child label {
+  border-right: solid 1px #DADBDB;
 }
 .mypage_info table tr td > div .radio_depth02 {
   display: flex;
@@ -1760,7 +1771,6 @@
 }
 .mypage_info table tr td > div .radio_depth02 li {
   display: flex;
-  margin-right: 10px;
 }
 .mypage_info table tr td > div .radio_depth02 li input[type=radio] {
   display: none;
@@ -1779,6 +1789,10 @@
   padding: 0 20px;
   min-width: 100px;
   text-align: center;
+  border-right: none;
+}
+.mypage_info table tr td > div .radio_depth02 li:last-child label {
+  border-right: solid 1px #DADBDB;
 }
 .mypage_info table tr td > div .radio_depth02.on {
   display: block;

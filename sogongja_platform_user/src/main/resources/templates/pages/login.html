@@ -74,7 +74,11 @@
             <div class="modal modal_pas" style="display: none;">
                 <div class="dim"></div>
                 <div class="modal_inner modal_inner_pas">
-                    <h4>비밀번호 찾기</h4>
+                    <h4>비밀번호 재설정</h4>
+                    <p>
+                        입력하신 이메일 계정을 통해 <br>
+                        비밀번호 재설정 메일을 발급해드립니다.
+                    </p>
                     <ul>
                         <!--<li>
                             <input type="text" placeholder="아이디를 입력해주세요." title="아이디를 입력해주세요." id="userId" name="userId">
@@ -85,7 +89,7 @@
                         </li>
                         <li>
                             <input type="text" placeholder="인증코드" title="인증코드" id="code" style="display:none">
-                            <span class="warning" style="display:none">* 가입되지 않은 이메일 입니다. </span>
+                            <span class="warning" style="display:none">* 이메일 형식이 올바르지 않습니다. </span>
                         </li>
                     </ul>
                     <!--<button class="check" id="open_pas2" onclick="findPw()">새 비밀번호 발급</button>-->
@@ -96,13 +100,19 @@
             <div class="modal modal2" style="display: none;">
                 <div class="dim"></div>
                 <div class="modal_inner modal_inner_pas2">
-                    <h4>새 비밀번호 발급</h4>
+                    <h4>
+                        비밀번호 재설정
+                        <span>메일발급 완료</span>
+                    </h4>
+                    <p>
+                        성공적으로 비밀번호 재설정 메일이 <br>
+                        발급되었습니다.
+                        해당 이메일의 메일을 확인해주세요.
+                    </p>
                     <div>
-                        <p><span id="user_id">namowebiz</span>님의 비밀번호는</p>
-                        <span id="pw"> a1234567</span>
-                        <p>입니다.</p>
+                        <p><!--전송한 이메일 노출--></p>
                     </div>
-                    <button class="close">닫기</button>
+                    <button class="check" id="open_pas2" onclick="send_reset_pw_mail()">재발송</button>
                 </div>
             </div>
         </section>

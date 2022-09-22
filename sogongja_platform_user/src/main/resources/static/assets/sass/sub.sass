@@ -990,6 +990,7 @@
 					font-size: rem(18)
 					line-height: 1.5
 					margin-bottom: 0
+					text-align: center
 					span
 						font-weight: 700
 						display: inline-block
@@ -1035,6 +1036,7 @@
 			line-height: 1.5
 			color: #8b8b8b
 			margin-bottom: rem(32)
+			text-align: center
 		.check
 			border: solid 2px #1540bf
 			color: #1540bf
@@ -1238,6 +1240,10 @@
 					vertical-align: 0
 			td
 				padding: rem(12) 0
+				.checking_color
+					color: #F63C3C
+					font-size: rem(14)
+					margin-left: 10px
 				input
 					width: 100%
 					font-size: rem(16)
@@ -1290,10 +1296,10 @@
 							border: 1px solid #d5d5d5
 				.radio_depth01
 					+flex_type
+					flex-wrap: wrap
 					li
 						min-width: 100px
 						+flex_type($align: center)
-						margin-right: 10px
 						input[type="radio"]
 							display: none
 							&:checked ~ label
@@ -1309,13 +1315,15 @@
 							padding: 0 20px
 							min-width: 100px
 							text-align: center
+							border-right: none
+						&:last-child label
+							border-right: solid 1px #DADBDB
 				> div
 					.radio_depth02
 						+flex_type
 						margin-top: 10px
 						li
 							+flex_type
-							margin-right: 10px
 							input[type="radio"]
 								display: none
 								&:checked ~ label
@@ -1331,8 +1339,12 @@
 								padding: 0 20px
 								min-width: 100px
 								text-align: center
+								border-right: none
+							&:last-child label
+								border-right: solid 1px #DADBDB
 					.radio_depth02.on
 						display: block
+
 .signup_info .stage_03.signup_completion
 	border-bottom: none
 	padding-bottom: 0

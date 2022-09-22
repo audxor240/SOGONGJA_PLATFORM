@@ -39,8 +39,8 @@
                     <input type="hidden" th:field="*{checkedNickName}">
                     <input type="hidden" id="socialType" name="socialType" th:value="${type}">
                     <input type="hidden" id="uniqueId" name="uniqueId" th:value="${uniqueId}">
-                    <ul class="stage_02">
-                        <ul class="sub_container mypage_info">
+                    <div class="stage_02">
+                        <div class="sub_container mypage_info">
                             <div class="table_title">
                                 <h3>기본 정보 입력</h3>
                             </div>
@@ -60,7 +60,7 @@
                                         <th>비밀번호 <span class="required">(필수)</span></th>
                                         <td style="width: 75%;">
                                             <input type="password" th:field="*{password}" required title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
-                                            <span id="wrongpw1"></span>
+                                            <span id="wrongpw1" class="checking_color"></span>
                                             <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                         </td>
                                     </tr>
@@ -68,7 +68,7 @@
                                         <th>비밀번호 확인 <span class="required">(필수)</span></th>
                                         <td>
                                             <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
-                                            <span id="wrongpw2"></span>
+                                            <span id="wrongpw2" class="checking_color"></span>
                                         </td>
                                     </tr>
                                 </th:block>
@@ -136,8 +136,8 @@
                             <table class="">
                                 <caption>부가 정보 입력</caption>
                                 <tr>
-                                    <th>이용자 유형<span class="required">(필수)</span></th>
-                                    <td>
+                                    <th style="width: 25%;">이용자 유형<span class="required">(필수)</span></th>
+                                    <td style="width: 75%;">
                                         <ul class="radio_depth01">
                                             <li>
                                                 <input type="radio" name="type" id="type01_01" value="1"  checked="checked">
@@ -191,8 +191,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>연령대<span class="required">(필수)</span></th>
-                                    <td>
+                                    <th style="width: 25%;">연령대<span class="required">(필수)</span></th>
+                                    <td style="width: 75%;">
                                         <ul class="radio_depth01">
                                             <li>
                                                 <input type="radio" name="ageGroup" id="age20" value="20" checked="checked">
@@ -218,8 +218,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>관심 서비스 유형 <span class="required">(필수)</span></th>
-                                    <td>
+                                    <th style="width: 25%;">관심 서비스 유형 <span class="required">(필수)</span></th>
+                                    <td style="width: 75%;">
                                         <th:block th:each="item, row : ${category1}">
                                             <input type="checkbox" class="checkbox_style checkbox_style_small" th:id="|category${row.count}|" name="categoryList" th:value="${item.code}">
                                             <label th:for="|category${row.count}|" th:text="${item.code_name}">동의합니다</label>
