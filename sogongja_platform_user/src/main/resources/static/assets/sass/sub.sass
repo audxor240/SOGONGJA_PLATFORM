@@ -1199,6 +1199,16 @@
 	max-width: 800px
 	margin: 0 auto
 	width: 100%
+	.table_title
+		border-bottom: solid 1px #D9D9D9
+		padding: 60px 0 20px
+		margin-bottom: 10px
+		&:first-child
+			padding: 0 0 20px
+		h3
+			color: #1540BF
+			font-size: rem(18)
+			font-weight: bold
 	table
 		width: 100%
 		tr
@@ -1285,9 +1295,20 @@
 						+flex_type($align: center)
 						margin-right: 10px
 						input[type="radio"]
-							width: 20px
-							height: 20px
-							margin-right: 10px
+							display: none
+							&:checked ~ label
+								background-color: #E8EFFF
+								color: #4E6FCE
+								border: solid 1px #4E6FCE
+						label
+							border: solid 1px #DADBDB
+							color: #DADBDB
+							background-color: #fff
+							height: 60px
+							line-height: 60px
+							padding: 0 20px
+							min-width: 100px
+							text-align: center
 				> div
 					.radio_depth02
 						+flex_type
@@ -1296,9 +1317,20 @@
 							+flex_type
 							margin-right: 10px
 							input[type="radio"]
-								width: 20px
-								height: 20px
-								margin-right: 10px
+								display: none
+								&:checked ~ label
+									background-color: #E8EFFF
+									color: #4E6FCE
+									border: solid 1px #4E6FCE
+							label
+								border: solid 1px #DADBDB
+								color: #DADBDB
+								background-color: #fff
+								height: 60px
+								line-height: 60px
+								padding: 0 20px
+								min-width: 100px
+								text-align: center
 					.radio_depth02.on
 						display: block
 .signup_info .stage_03.signup_completion
