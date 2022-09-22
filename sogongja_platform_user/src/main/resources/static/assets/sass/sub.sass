@@ -511,9 +511,7 @@
 	padding: 0
 	margin-bottom: 0
 	height: calc(100vh - 5rem)
-	display: flex
-	justify-content: space-between
-	flex-direction: row-reverse
+	+flex_type($justify: space-between ,$direction: row-reverse)
 	.map_tab
 		//+positionAt(absolute, $top: rem(0), $left: 0)
 		height: calc(100vh - 5rem)
@@ -1201,12 +1199,22 @@
 	max-width: 800px
 	margin: 0 auto
 	width: 100%
+	.table_title
+		border-bottom: solid 1px #D9D9D9
+		padding: 60px 0 20px
+		margin-bottom: 10px
+		&:first-child
+			padding: 0 0 20px
+		h3
+			color: #1540BF
+			font-size: rem(18)
+			font-weight: bold
 	table
 		width: 100%
 		tr
 			&.tr_id
 				td
-					display: flex
+					+flex_type
 					+flex_wrap
 					input
 						width: 80%
@@ -1281,27 +1289,48 @@
 						select
 							border: 1px solid #d5d5d5
 				.radio_depth01
-					display: flex
+					+flex_type
 					li
 						min-width: 100px
-						display: flex
-						align-items: center
+						+flex_type($align: center)
 						margin-right: 10px
 						input[type="radio"]
-							width: 20px
-							height: 20px
-							margin-right: 10px
+							display: none
+							&:checked ~ label
+								background-color: #E8EFFF
+								color: #4E6FCE
+								border: solid 1px #4E6FCE
+						label
+							border: solid 1px #DADBDB
+							color: #DADBDB
+							background-color: #fff
+							height: 60px
+							line-height: 60px
+							padding: 0 20px
+							min-width: 100px
+							text-align: center
 				> div
 					.radio_depth02
-						display: flex
+						+flex_type
 						margin-top: 10px
 						li
-							display: flex
+							+flex_type
 							margin-right: 10px
 							input[type="radio"]
-								width: 20px
-								height: 20px
-								margin-right: 10px
+								display: none
+								&:checked ~ label
+									background-color: #E8EFFF
+									color: #4E6FCE
+									border: solid 1px #4E6FCE
+							label
+								border: solid 1px #DADBDB
+								color: #DADBDB
+								background-color: #fff
+								height: 60px
+								line-height: 60px
+								padding: 0 20px
+								min-width: 100px
+								text-align: center
 					.radio_depth02.on
 						display: block
 .signup_info .stage_03.signup_completion
@@ -1400,7 +1429,7 @@
 				color: #606060
 		ul
 			margin-top: rem(19)
-			display: flex
+			+flex_type
 			margin-bottom: rem(30)
 			li
 				width: calc(100%/3)
@@ -1410,8 +1439,7 @@
 				a
 					padding: rem(18)
 					font-size: rem(18)
-					display: flex
-					justify-content: center
+					+flex_type($align: center)
 					span
 						background-size: rem(26) !important
 						width: rem(26)
@@ -1646,8 +1674,7 @@
 			line-height: 1.8
 	.pop_btn
 		margin-top: 20px
-		display: flex
-		justify-content: space-between
+		+flex_type($justify: space-between)
 		.btn
 			width: calc(50% - 10px)
 			text-align: center

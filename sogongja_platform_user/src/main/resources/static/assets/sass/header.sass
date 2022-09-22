@@ -246,10 +246,8 @@
 			text-indent: $hideFont
 			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 	.top_header
-		display: flex
-		justify-content: space-between
+		+flex_type($justify: space-between ,$align: center)
 		padding: 20px 40px
-		align-items: center
 		background-color: #fff
 		z-index: 99
 		.h_btn
@@ -278,8 +276,7 @@
 			.login_btn
 				padding: 20px
 				.m_btn
-					display: flex
-					justify-content: space-between
+					+flex_type($justify: space-between)
 					margin-top: 20px
 					li
 						width: calc(50% - 10px)
@@ -299,8 +296,7 @@
 			> ul > li
 				h2
 					border-top: 1px solid #DADADA
-					display: flex
-					justify-content: space-between
+					+flex_type($justify: space-between)
 					padding: 10px 20px
 					font-weight: bold
 					&:after

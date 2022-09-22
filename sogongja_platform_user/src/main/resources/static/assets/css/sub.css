@@ -421,7 +421,6 @@
   color: #181818;
   line-height: 1.5;
   font-weight: 700;
-  cursor: pointer;
 }
 .sub_container .edu_list > li .hashtag,
 .sub_container .solution_edu_recommend > ul > li .hashtag {
@@ -1604,6 +1603,19 @@
   margin: 0 auto;
   width: 100%;
 }
+.mypage_info .table_title {
+  border-bottom: solid 1px #D9D9D9;
+  padding: 60px 0 20px;
+  margin-bottom: 10px;
+}
+.mypage_info .table_title:first-child {
+  padding: 0 0 20px;
+}
+.mypage_info .table_title h3 {
+  color: #1540BF;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
 .mypage_info table {
   width: 100%;
 }
@@ -1725,9 +1737,22 @@
   margin-right: 10px;
 }
 .mypage_info table tr td .radio_depth01 li input[type=radio] {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+  display: none;
+}
+.mypage_info table tr td .radio_depth01 li input[type=radio]:checked ~ label {
+  background-color: #E8EFFF;
+  color: #4E6FCE;
+  border: solid 1px #4E6FCE;
+}
+.mypage_info table tr td .radio_depth01 li label {
+  border: solid 1px #DADBDB;
+  color: #DADBDB;
+  background-color: #fff;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 20px;
+  min-width: 100px;
+  text-align: center;
 }
 .mypage_info table tr td > div .radio_depth02 {
   display: flex;
@@ -1738,9 +1763,22 @@
   margin-right: 10px;
 }
 .mypage_info table tr td > div .radio_depth02 li input[type=radio] {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+  display: none;
+}
+.mypage_info table tr td > div .radio_depth02 li input[type=radio]:checked ~ label {
+  background-color: #E8EFFF;
+  color: #4E6FCE;
+  border: solid 1px #4E6FCE;
+}
+.mypage_info table tr td > div .radio_depth02 li label {
+  border: solid 1px #DADBDB;
+  color: #DADBDB;
+  background-color: #fff;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 20px;
+  min-width: 100px;
+  text-align: center;
 }
 .mypage_info table tr td > div .radio_depth02.on {
   display: block;
@@ -1890,7 +1928,7 @@
   padding: 1.125rem;
   font-size: 1.125rem;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 .loginForm .login_sns ul li a span {
   background-size: 1.625rem !important;

@@ -81,11 +81,18 @@
                         </div>
                     </div>
                 </form>
+
+
+
                 <div class="edu_list_wrap">
+
                     <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                    <!-- 컨텐츠가 존재하지 않을 때-->
                     <ul class="edu_list af empty" th:if="${#lists.isEmpty(list)}">
                         <li>컨텐츠가 존재하지 않습니다.</li>
                     </ul>
+
+
                     <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
                         <th:block th:each="item : ${list}">
                             <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">

@@ -60,8 +60,7 @@
 			margin-top: 60px
 		.title_main
 			padding-top: rem(275)
-			display: flex
-			justify-content: center
+			+flex_type($justify: center)
 			*
 				color: #fff
 			//> span
@@ -149,16 +148,12 @@
 				width: 102px
 				height: 102px
 				border-radius: 50%
-				display: flex
-				flex-direction: column
-				align-items: center
-
-
+				+flex_type($align: center, $direction: column)
 
 	.mv_text3
 		height: 100vh
 		position: relative
-		display: flex
+		+flex_type
 		padding-top: rem(200)
 		.left
 			width: 44%
@@ -182,9 +177,7 @@
 				margin-bottom: 20px
 			div
 				a
-					display: flex
-					align-items: center
-					justify-content: center
+					+flex_type($justify: center ,$align: center)
 					width: 180px
 					height: 60px
 					margin-top: 20px
@@ -235,7 +228,7 @@
 	.mv_text4
 		height: 100vh
 		position: relative
-		display: flex
+		+flex_type
 		padding-top: rem(275)
 		.swiper_text_wrap
 			width: 44%
@@ -259,9 +252,7 @@
 					margin-bottom: 20px
 				div
 					a
-						display: flex
-						align-items: center
-						justify-content: center
+						+flex_type($justify: center ,$align: center)
 						width: 180px
 						height: 60px
 						margin-top: 20px
@@ -290,7 +281,7 @@
 
 
 .swiper-pagination
-	width: calc(100% - 820px)
+	width: calc(66% - 190px)
 	top: 220px
 	left: 44%
 	position: relative
@@ -329,10 +320,8 @@
 		box-shadow: 15px 25px 46px 0 rgba(69, 102, 200, 0.26)
 		background-color: #fcfdfe
 		.list_title
-			display: flex
-			justify-content: space-between
+			+flex_type($justify: space-between, $align: center)
 			padding: 20px 40px
-			align-items: center
 			p
 				font-size: rem(24)
 				font-weight: bold
@@ -356,8 +345,7 @@
 				font-weight: bold
 				margin-bottom: 20px
 			.list_sub_text
-				display: flex
-				justify-content: space-between
+				+flex_type($justify: space-between)
 				> div
 					width: calc(50% - 10px)
 					background-color: #f9f9f9
@@ -378,7 +366,7 @@
 
 .sub_text_info
 	> div
-		display: flex
+		+flex_type
 		margin-bottom: 10px
 		.num
 			font-size: rem(18)
@@ -390,11 +378,10 @@
 			font-weight: bold
 	> ul
 		li
-			display: flex
+			+flex_type($align: center)
 			margin-left: 20px
 			font-size: rem(14)
 			color: #606060
-			align-items: center
 			&:before
 				content: ""
 				display: inline-block
@@ -417,17 +404,25 @@
 				text-align: center
 				font-size: rem(52)
 		.flex_wrap
-			display: flex
-			justify-content: space-between
+			+flex_type($justify: space-between)
 			> div
 				width: calc(50% - 10px)
 				.linked_img
 					width: 100%
-					height: 440px
-					background-color: #ccc
+					background-color: #00000060
 					box-shadow: 15px 25px 46px 0 rgba(0, 22, 88, 0.25)
+					+positionAt(relative)
+					.ab_img
+						+positionAt(absolute)
+						top: calc(50% - 40px)
+						left: calc(50% - 150px)
+						width: 300px
+						height: 80px
+					img
+						display: block
+						width: 100%
 				.linked_title
-					display: flex
+					+flex_type
 					margin-top: 20px
 					p
 						font-size: rem(24)
@@ -438,9 +433,7 @@
 						font-weight: 300
 				.linked_btn
 					a
-						display: flex
-						align-items: center
-						justify-content: center
+						+flex_type($justify: center, $align: center)
 						width: 180px
 						height: 60px
 						margin-top: 20px
@@ -458,9 +451,7 @@
 							margin-left: 5px
 				.none_btn
 					a
-						display: flex
-						align-items: center
-						justify-content: center
+						+flex_type($justify: center, $align: center)
 						width: 180px
 						height: 60px
 						margin-top: 20px
@@ -474,7 +465,7 @@
 .main_tab
 	background: #f6f8f9
 	.main_tab_ul
-		display: flex
+		+flex_type
 		position: relative
 		z-index: 2
 		li
@@ -536,7 +527,7 @@
 				line-height: 1.6
 			ul
 				margin-top: rem(50)
-				display: flex
+				+flex_type
 				+flex_wrap
 				li
 					font-size: rem(20)
@@ -602,7 +593,7 @@
 			height: auto
 			flex-wrap: wrap
 			flex-direction: column
-			padding: rem(140) rem(100)
+			padding: rem(140) 100px
 			.left
 				width: 100%
 			.right
@@ -636,15 +627,7 @@
 	.linkedMain
 		.mv_text5
 			height: auto
-			padding: rem(80) 0
-			.flex_wrap
-				flex-wrap: wrap
-				padding: 0 100px
-				> div
-					width: 100%
-					margin-top: 40px
-				> div:first-child
-					margin-top: 0
+			padding: rem(80) 100px
 
 	.swiper-pagination
 		top: 570px
@@ -669,7 +652,20 @@
 			top: 9px
 		p
 			width: calc(100%/3)
-
+	.linkedMain
+		.mv_text5
+			.flex_wrap
+				> div
+					.linked_title
+						flex-wrap: wrap
+						p
+							width: 100%
+					.linked_img
+						.ab_img
+							top: calc(50% - 25px)
+							left: calc(50% - 100px)
+							width: 200px
+							height: 50px
 
 
 
@@ -734,7 +730,7 @@
 					p
 						font-size: rem(40)
 	.swiper-pagination
-		top: 480px
+		top: 460px
 		left: 40px
 		width: calc(100% - 82px)
 		&:before
@@ -743,13 +739,20 @@
 		.mv_text5
 			padding: 80px 0
 			.flex_wrap
+				+flex_type($justify: space-between)
 				flex-wrap: wrap
 				padding: 0 40px
 				> div
-					.linked_title
-						flex-wrap: wrap
-						p
-							width: 100%
+					width: 100%
+					margin-top: 40px
+				> div:first-child
+					margin-top: 0
+					.linked_img
+						.ab_img
+							top: calc(50% - 25px)
+							left: calc(50% - 100px)
+							width: 200px
+							height: 50px
 
 @include maxMobile
 	.main_section

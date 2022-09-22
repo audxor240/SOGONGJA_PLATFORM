@@ -1,53 +1,68 @@
 footer {
   background: #232323;
 }
-footer .ft_top {
-  display: flex;
+footer .ft_top_wrap {
   border-bottom: 1px solid #0e0e0e;
+  position: relative;
 }
-footer .ft_top .ft_menu {
+footer .ft_top_wrap:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 64.2%;
+  width: 35.8%;
+  height: 100%;
+  background-color: #000;
+}
+footer .ft_top_wrap .ft_top {
+  width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+}
+footer .ft_top_wrap .ft_top .ft_menu {
   width: 64.2%;
   padding: 5rem 5rem 2.5rem 0;
 }
-footer .ft_top .ft_menu > ul {
+footer .ft_top_wrap .ft_top .ft_menu > ul {
   display: flex;
-  justify-content: flex-end;
 }
-footer .ft_top .ft_menu > ul > li {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li {
   margin-left: 5.25rem;
 }
-footer .ft_top .ft_menu > ul > li h2 {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li h2 {
   font-weight: 700;
   color: #fff;
   margin-bottom: 2rem;
 }
-footer .ft_top .ft_menu > ul > li ul li {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li ul li {
   margin-bottom: 8px;
 }
-footer .ft_top .ft_menu > ul > li ul li a {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li ul li a {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 300;
 }
-footer .ft_top .ft_menu > ul > li ul li.bt_top {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li ul li.bt_top {
   padding-top: 10px;
   margin-top: 15px;
   border-top: 2px dashed rgba(255, 255, 255, 0.2);
 }
-footer .ft_top .ft_menu > ul > li:first-child {
+footer .ft_top_wrap .ft_top .ft_menu > ul > li:first-child {
   margin-left: 0;
 }
-footer .ft_top .ft_address {
+footer .ft_top_wrap .ft_top .ft_address {
   width: 35.8%;
   background: #0e0e0e;
   padding: 5rem 0rem 5rem 10.0625rem;
 }
-footer .ft_top .ft_address > p {
+footer .ft_top_wrap .ft_top .ft_address > p {
   color: #fff;
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1.875rem;
 }
-footer .ft_top .ft_address ul li {
+footer .ft_top_wrap .ft_top .ft_address ul li {
   color: #cbcbcb;
   font-weight: 300;
   font-size: 0.875rem;
@@ -56,23 +71,23 @@ footer .ft_top .ft_address ul li {
   margin-bottom: 1rem;
   background: url(../images/icon-fax.png) no-repeat 0 50%;
 }
-footer .ft_top .ft_address ul li.call {
+footer .ft_top_wrap .ft_top .ft_address ul li.call {
   background: url(../images/icon-call.png) no-repeat 0 50%;
 }
-footer .ft_top .ft_address ul li.mail {
+footer .ft_top_wrap .ft_top .ft_address ul li.mail {
   background: url(../images/icon-mail.png) no-repeat 0 50%;
 }
-footer .ft_top .ft_address ul li a {
+footer .ft_top_wrap .ft_top .ft_address ul li a {
   color: #cbcbcb;
   font-weight: 300;
   font-size: 0.875rem;
   line-height: 24px;
 }
-footer .ft_top .ft_address div {
+footer .ft_top_wrap .ft_top .ft_address div {
   display: flex;
   margin-top: 2.25rem;
 }
-footer .ft_top .ft_address div a {
+footer .ft_top_wrap .ft_top .ft_address div a {
   width: 2rem;
   height: 2rem;
   display: inline-block;
@@ -80,10 +95,10 @@ footer .ft_top .ft_address div a {
   text-indent: -9999px;
   margin-right: 0.75rem;
 }
-footer .ft_top .ft_address div a.google {
+footer .ft_top_wrap .ft_top .ft_address div a.google {
   background: url(../images/icon-google.png) no-repeat 0 50%;
 }
-footer .ft_top .ft_address div a.youtube {
+footer .ft_top_wrap .ft_top .ft_address div a.youtube {
   background: url(../images/icon-youtube.png) no-repeat 0 50%;
 }
 footer .ft_bottom {
@@ -148,17 +163,21 @@ footer .ft_bottom > p {
   footer .ft_bottom {
     padding: 2.5rem 100px 3.75rem;
   }
-  footer .ft_top {
-    flex-wrap: wrap;
-  }
-  footer .ft_top .ft_menu {
+  footer .ft_top_wrap:before {
     display: none;
   }
-  footer .ft_top .ft_address {
+  footer .ft_top_wrap .ft_top {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  footer .ft_top_wrap .ft_top .ft_menu {
+    display: none;
+  }
+  footer .ft_top_wrap .ft_top .ft_address {
     width: 100%;
     padding: 2.5rem 100px 3.75rem;
   }
-  footer .ft_top .ft_address div a {
+  footer .ft_top_wrap .ft_top .ft_address div a {
     width: 3.75rem;
     height: 3.75rem;
   }
@@ -167,10 +186,10 @@ footer .ft_bottom > p {
   footer .ft_bottom {
     padding: 2.5rem 40px 3.75rem;
   }
-  footer .ft_top .ft_address {
+  footer .ft_top_wrap .ft_top .ft_address {
     padding: 2.5rem 40px 3.75rem;
   }
-  footer .ft_top .ft_address ul li {
+  footer .ft_top_wrap .ft_top .ft_address ul li {
     padding-left: 3.125rem;
   }
 }
@@ -178,7 +197,7 @@ footer .ft_bottom > p {
   footer .ft_bottom {
     padding: 2.5rem 20px 3.75rem;
   }
-  footer .ft_top .ft_address {
+  footer .ft_top_wrap .ft_top .ft_address {
     padding: 2.5rem 20px 3.75rem;
   }
 }

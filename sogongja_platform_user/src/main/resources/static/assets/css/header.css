@@ -329,8 +329,8 @@
 .m_header .top_header {
   display: flex;
   justify-content: space-between;
-  padding: 20px 40px;
   align-items: center;
+  padding: 20px 40px;
   background-color: #fff;
   z-index: 99;
 }

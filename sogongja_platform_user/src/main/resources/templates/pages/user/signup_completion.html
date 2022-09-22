@@ -12,67 +12,67 @@
 </head>
 
 <body>
-    <article layout:fragment="content">
-        <section class="sub_visual">
-            <div class="container">
-                <h2 class="border_title">회원가입</h2>
-                <p>아직 계정이 없으신가요? 간단한 가입 후 더 많은 정보를 을 수 있습니다.</p>
-            </div>
-            <div class="lnb">
-                <ul class="container">
-                    <li><a th:href="@{/login}">로그인</a></li>
-                    <li class="active"><a th:href="@{/signup}">회원가입</a></li>
-                </ul>
-            </div>
-        </section>
-        <section class="wrap">
-            <div class="sub_container signup_info">
-                <ul class="info_stage">
-                    <li class="complete">01 약관동의</li>
-                    <li class="complete">02 정보입력</li>
-                    <li class="active">03 가입완료</li>
-                </ul>
-                <div class="stage_03 mypage_info signup_completion">
-                    <p><span>회원가입</span>이 완료되었습니다!</p>
-                    <div class="sub_container mypage_info">
-                        <table class="">
-                            <caption>회원가입 완료</caption>
-                            <tr class="tr_id">
-                                <th style="width: 25%;">아이디</th>
-                                <td>
-                                    <th:block th:text="${user.id}"></th:block>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>이름</th>
-                                <td>
-                                    <th:block th:text="${user.username}"></th:block>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>
-                                    <th:block th:text="${user.email}"></th:block>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>가입일</th>
-                                <td>
-                                    <th:block th:text="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}"></th:block>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="btn_box">
-                    <a th:href="@{/}" class="btn">홈으로</a>
-                    <a class="btn blue" th:href="@{/login}">로그인</a>
+<article layout:fragment="content">
+    <section class="sub_visual">
+        <div class="container">
+            <h2 class="border_title">회원가입</h2>
+            <p>아직 계정이 없으신가요? 간단한 가입 후 더 많은 정보를 을 수 있습니다.</p>
+        </div>
+        <div class="lnb">
+            <ul class="container">
+                <li><a th:href="@{/login}">로그인</a></li>
+                <li class="active"><a th:href="@{/signup}">회원가입</a></li>
+            </ul>
+        </div>
+    </section>
+    <section class="wrap">
+        <div class="sub_container signup_info">
+            <ul class="info_stage">
+                <li class="complete">01 약관동의</li>
+                <li class="complete">02 정보입력</li>
+                <li class="active">03 가입완료</li>
+            </ul>
+            <div class="stage_03 mypage_info signup_completion">
+                <p><span>회원가입</span>이 완료되었습니다!</p>
+                <div class="sub_container mypage_info">
+                    <table class="">
+                        <caption>회원가입 완료</caption>
+                        <tr class="tr_id">
+                            <th style="width: 25%;">아이디</th>
+                            <td>
+                                <th:block th:text="${user.id}"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이름</th>
+                            <td>
+                                <th:block th:text="${user.username}"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>
+                                <th:block th:text="${user.email}"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>가입일</th>
+                            <td>
+                                <th:block th:text="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}"></th:block>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-        </section>
-    </article>
-    <th:block layout:fragment="custom_js">
-    </th:block>
+            <div class="btn_box">
+                <a th:href="@{/}" class="btn">홈으로</a>
+                <a class="btn blue" th:href="@{/login}">로그인</a>
+            </div>
+        </div>
+    </section>
+</article>
+<th:block layout:fragment="custom_js">
+</th:block>
 </body>
 
 </html>
