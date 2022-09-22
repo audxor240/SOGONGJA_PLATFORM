@@ -2,6 +2,10 @@
     'use strict'
     $(document).ready(function() {
 
+        localStorage.setItem("password", "0");
+        localStorage.setItem("pschk", "0");
+        const pattern = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,}$/;
+
         $('#email3').on('change', function() {
             var value = $(this).val();
             if (value === '') {
@@ -37,6 +41,7 @@
                     alert('사용할 수 있는 아이디입니다.');
                 } else if (result.result_code === -101) {
                     alert('사용할수 없는 아이디입니다.');
+                    $("#id").val("");
                 } else {
                     alert('사용 중인 아이디입니다.');
                     $("#id").val("");
@@ -68,6 +73,7 @@
                     $('#checkedNickName').val(nickName);
                     alert('사용할 수 있는 닉네임입니다.');
                 } else if (result.result_code === -101) {
+                    $("#nickName").val("");
                     alert('사용할수 없는 닉네임입니다.');
                 } else {
                     alert('사용 중인 닉네임입니다.');
@@ -115,8 +121,31 @@
             $("#sub03").hide();
         });
 
+        $("#password").on("change input", function () {
+
+            let password = $("#password").val();
+
+            if (!pattern.test(password)) {
+                localStorage.setItem("password", "0");
+                $('#wrongpw1').text("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
+                return false;
+            }
+            $('#wrongpw1').text("");
+            localStorage.setItem("password", "1");
+        });
+
+        $("#passwordConfirm").on("change input", function () {
+            if($("#password").val() == $("#passwordConfirm").val()){
+                localStorage.setItem("pschk", "1");
+                $('#wrongpw2').text("");
+            } else {
+                localStorage.setItem("pschk", "0");
+                $('#wrongpw2').text("비밀번호가 일치하지 않습니다.");
+            }
+        });
+
     });
-})();
+})(window.jQuery);
 
 
 
@@ -126,9 +155,14 @@ function validationForm() {
     let cnt = $('[name=categoryList]:checked').length;
     let subTypeCnt = $('[name=subType]:checked').length;
 
-    if(type == '') {
+    if(type == "none") {
         if ($('#checkedId').val() !== $('#id').val()) {
             alert('아이디 중복확인을 해주세요');
+            return false;
+        }
+
+        if(localStorage.getItem("password") != "1"){
+            alert("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
             return false;
         }
 
@@ -137,11 +171,13 @@ function validationForm() {
             return false;
         }
 
-        if ($('#checkedNickName').val() !== $('#nickName').val()) {
-            alert('닉네임 중복확인을 해주세요');
-            return false;
-        }
+
     }
+    if ($('#checkedNickName').val() !== $('#nickName').val()) {
+        alert('닉네임 중복확인을 해주세요');
+        return false;
+    }
+
     if(subTypeCnt == 0){
         alert("이용자 유형을 선택해주세요");
         return false;

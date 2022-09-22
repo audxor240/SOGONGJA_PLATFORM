@@ -46,6 +46,7 @@
                             </div>
                             <table class="">
                                 <caption>기본 정보 입력</caption>
+                                <input type="hidden" id="type" th:value="${type}">
                                 <th:block th:if="${type eq 'none'}"><!-- 이메일 회원가입일 경우 출력 -->
                                     <tr class="tr_id">
                                         <th style="width: 25%;">아이디 <span class="required">(필수)</span></th>
@@ -59,6 +60,7 @@
                                         <th>비밀번호 <span class="required">(필수)</span></th>
                                         <td style="width: 75%;">
                                             <input type="password" th:field="*{password}" required title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
+                                            <span id="wrongpw1"></span>
                                             <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                         </td>
                                     </tr>
@@ -66,6 +68,7 @@
                                         <th>비밀번호 확인 <span class="required">(필수)</span></th>
                                         <td>
                                             <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
+                                            <span id="wrongpw2"></span>
                                         </td>
                                     </tr>
                                 </th:block>
@@ -261,7 +264,7 @@
         </div>
     </article>
     <th:block layout:fragment="custom_js">
-        <script th:src="@{/js/pages/user/signup_info.js}"></script>
+        <script th:src="@{/js/pages/user/signup_info.js}" th:inline="javascript"></script>
     </th:block>
 </body>
 
