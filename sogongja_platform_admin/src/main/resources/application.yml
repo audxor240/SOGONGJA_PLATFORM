@@ -57,8 +57,10 @@ spring:
 
 system:
   slack-send: false
-  upload-file-path: Z:\SOGONGJA\upload
-  thumbnail-file-path: Z:\SOGONGJA\upload\thumb
+  #upload-file-path: Z:\SOGONGJA\upload
+  #thumbnail-file-path: Z:\SOGONGJA\upload\thumb
+  upload-file-path: http://121.254.171.155:2082/upload
+  thumbnail-file-path: http://121.254.171.155:2082/upload
     
 server:
   port: 2081
@@ -83,7 +85,12 @@ logging:
       connection: off
     org:
       thymeleaf: off
- 
+
+storage:
+  username: root
+  password: thvmxmfoqtm@))*
+  host: 127.0.0.1
+  port: 2202
 ---
 
 spring:
