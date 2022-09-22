@@ -1405,6 +1405,48 @@
   background: url(../images/img-closebtn.png) no-repeat;
 }
 
+.faq_anchor_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #E9F0FF;
+  padding: 20px 40px;
+  margin-bottom: 40px;
+}
+.faq_anchor_wrap p {
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+.faq_anchor_wrap p span {
+  display: inline-block;
+  color: #1540BF;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+.faq_anchor_wrap div a {
+  display: block;
+  background-color: #1540BF;
+  color: #fff;
+  padding: 10px;
+  font-size: 1.125rem;
+  min-width: 200px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.qna_write_btn a {
+  display: block;
+  color: #1540BF;
+  background-color: #ffffff;
+  border: solid 1px #1540BF;
+  padding: 10px;
+  font-size: 1.125rem;
+  max-width: 300px;
+  font-weight: bold;
+  text-align: center;
+  margin: 40px auto 0;
+}
+
 .search_list {
   display: flex;
   justify-content: space-between;
