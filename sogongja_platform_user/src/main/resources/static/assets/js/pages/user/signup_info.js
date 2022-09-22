@@ -127,7 +127,7 @@
 
             if (!pattern.test(password)) {
                 localStorage.setItem("password", "0");
-                $('#wrongpw1').text("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
+                $('#wrongpw1').text("*영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
                 return false;
             }
             $('#wrongpw1').text("");
@@ -140,7 +140,7 @@
                 $('#wrongpw2').text("");
             } else {
                 localStorage.setItem("pschk", "0");
-                $('#wrongpw2').text("비밀번호가 일치하지 않습니다.");
+                $('#wrongpw2').text("*비밀번호가 일치하지 않습니다.");
             }
         });
 

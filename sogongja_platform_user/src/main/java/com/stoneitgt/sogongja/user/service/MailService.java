@@ -23,8 +23,8 @@ public class MailService {
         System.out.println("appProperties.getEmailAddress() :: "+appProperties.getEmailAddress());
         String content = new StringBuilder()
                 .append("<div style=\"width: 100%; height: 100%;  text-align: center;\">")
-                .append("<div style=\"width: 100%; max-width: 600px; height: auto; border: 2px solid #0099cc; border-radius: 15px; margin: 0 auto; padding: 20px;\">")
-                .append("<div style=\"width: 100%; max-width: 153px; margin: 0 auto; margin-top: 30px; margin-bottom: 20px;\"><img src=\"https://solmap.kr/upload/img/logoIcon.png\" alt=\"main logo\" style=\" width: 100%;\"></div>")
+                .append("<div style=\"width: 100%; max-width: 600px; height: auto; border: 2px solid #d5d5d5; border-radius: 10px; margin: 0 auto; padding: 20px;\">")
+                .append("<div style=\"width: 100%; max-width: 153px; margin: 0 auto; margin-top: 30px; margin-bottom: 20px;\"><img src=\"/images/new/email/img_logo2.png\" alt=\"main logo\" style=\" width: 100%;\"></div>")
                 .append("<h2 style=\"margin-bottom: 20px;\">비밀번호를 재설정 해주세요!</h2>")
                 .append("<p style=\"margin-bottom: 20px;\">안녕하세요.<span style=\"font-weight: 700;\">")
                 .append(email)
@@ -37,7 +37,7 @@ public class MailService {
                 .append("&emailtoken=")
                 .append(code)
                 .append("\" style=\"text-decoration: none;\">")
-                .append("<div style=\"width: 100%; max-width: 200px; line-height: 50px; display: block; margin: 30px auto; font-size: 20px; font-weight: 700; color: #fff; background-color: #0099cc; border-radius: 10px;\">비밀번호 재설정</div></a>")
+                .append("<div style=\"width: 100%; max-width: 200px; line-height: 50px; display: block; margin: 30px auto; font-size: 20px; font-weight: 700; color: #fff; background-color: #1001d9;\">비밀번호 재설정</div></a>")
                 .append("</div><p> 이 메일은 발신전용으로 회신되지 않습니다. 더 궁금하신 사항은 고객센터로 문의 부탁드립니다.</p></div>")
                 .toString();
 
