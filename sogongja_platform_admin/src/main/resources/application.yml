@@ -57,10 +57,10 @@ spring:
 
 system:
   slack-send: false
-  #upload-file-path: Z:\SOGONGJA\upload
-  #thumbnail-file-path: Z:\SOGONGJA\upload\thumb
-  upload-file-path: http://121.254.171.155:2082/upload
-  thumbnail-file-path: http://121.254.171.155:2082/upload
+  upload-file-path: D:\SOGONGJA\upload
+  thumbnail-file-path: D:\SOGONGJA\upload\thumb
+  #upload-file-path: http://121.254.171.155:2082/upload
+  #thumbnail-file-path: http://121.254.171.155:2082/upload
     
 server:
   port: 2081
@@ -146,8 +146,8 @@ spring:
       
 system:
   slack-send: false
-  upload-file-path: /app/upload
-  thumbnail-file-path: /app/upload/thumb
+  upload-file-path: /mnt/extra02/home/sogongja/upload
+  thumbnail-file-path: /mnt/extra02/home/sogongja/upload/thumb
   
 server:
   port: 2081

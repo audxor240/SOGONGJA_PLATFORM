@@ -35,6 +35,10 @@ public class RESTController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private MailService mailService;
+
+
 
 	@PostMapping("/code/ref")
 	@ResponseBody
@@ -122,6 +126,27 @@ public class RESTController extends BaseController {
 		jsonObject.put("userId", user.getId());
 		jsonObject.put("password", user.getNewPassword());
 		userService.updatePassword(user);
+
+		return jsonObject;
+	}
+
+	@PostMapping("/newPassword")
+	@ResponseBody
+	public JSONObject newPassword(@RequestBody Map<String, Object> params,Authentication authentication){
+
+		JSONObject jsonObject = new JSONObject();
+		User user = userService.getUserInfo((String) params.get("email"));
+
+		if(user == null){
+			jsonObject.put("message", "존재하지 않는 회원입니다.");
+			return jsonObject;
+		}else{
+			user.setNewPassword((String) params.get("password"));
+			userService.updatePassword(user);
+			mailService.deleteEmailToken((String) params.get("emailToken"), (String) params.get("email"));
+		}
+
+		jsonObject.put("message", "비밀번호가 변경되었습니다.");
 
 		return jsonObject;
 	}

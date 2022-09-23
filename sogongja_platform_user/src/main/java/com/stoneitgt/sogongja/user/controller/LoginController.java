@@ -3,9 +3,11 @@ package com.stoneitgt.sogongja.user.controller;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.HttpClient;
 import com.stoneitgt.common.HttpResult;
+import com.stoneitgt.sogongja.domain.EmailToken;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.properties.AppProperties;
 import com.stoneitgt.sogongja.user.security.AuthSuccessHandler;
+import com.stoneitgt.sogongja.user.service.MailService;
 import com.stoneitgt.sogongja.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +47,8 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     private AuthSuccessHandler authSuccessHandler;
+
+    private final MailService mailService;
 
     @GetMapping("/kakao")
     public String loginByKakao(@RequestParam("code") String token, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
@@ -172,5 +177,22 @@ public class LoginController {
 
             return "redirect:/";
         }
+    }
+
+    // 이메일에서 비밀번호 찾기시 열리는 페이지
+    @GetMapping("/find/pw/comeback")
+    public String findPwComback(@RequestParam String email,
+                                @RequestParam String emailtoken,
+                                Model model) {
+
+        EmailToken emailToken = mailService.checkEmailToken(emailtoken, email);
+        if(emailToken == null){
+            throw new RuntimeException("잘못된 접근입니다. 기간이 만료 되었습니다..");
+        }
+
+        model.addAttribute("email", email);
+        model.addAttribute("token", emailtoken);
+
+        return "pages/user/password_change";
     }
 }

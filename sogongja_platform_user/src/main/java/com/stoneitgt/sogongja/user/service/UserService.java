@@ -52,6 +52,11 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 
+	public User getUserInfo(String email) {
+		User user = userMapper.getUserInfo2(email);
+		return user;
+	}
+
 	public User getFindPwUserInfo(String email) {
 		User user = userMapper.getFindPwUserInfo(email);
 		return user;
