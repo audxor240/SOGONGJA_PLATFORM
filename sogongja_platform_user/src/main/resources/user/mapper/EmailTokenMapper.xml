@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.EmailTokenMapper">
+
+    <select id="getEmailToken" parameterType="string" resultType="com.stoneitgt.sogongja.domain.EmailToken">
+        /* file : EducationBookmarkMapper.xml, id : getEducationBookmark */
+        SELECT *
+        FROM ST_EMAIL_TOKEN
+        WHERE TOKEN = #{token} and EMAIL = #{email}
+    </select>
+
+    <insert id="addEmailToken" parameterType="string" >
+        /* 관심교육 등록 */
+        INSERT INTO ST_EMAIL_TOKEN(TOKEN, EMAIL)value(#{token}, #{email});
+    </insert>
+
+    <delete id="deleteEmailToken" parameterType="string" >
+        DELETE FROM ST_EMAIL_TOKEN where TOKEN = #{token} and EMAIL = #{email}
+    </delete>
+
+
+
+
+</mapper>

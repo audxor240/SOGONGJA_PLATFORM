@@ -23,6 +23,8 @@ public interface UserMapper {
 
 	User getUserInfo(int userSeq);
 
+	User getUserInfo2(String email);
+
 	User getFindPwUserInfo(String email);
 
 	String getUserPassword(int userSeq);

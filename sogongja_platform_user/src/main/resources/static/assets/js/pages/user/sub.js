@@ -141,30 +141,18 @@ function send_reset_pw_mail(){
 
             if(res.message == "success"){
                 alert("인증번호 발송 되었습니다.");
-                //$("#code").show();
-                //code = res.code;
                 $(".warning").hide();
-                $(".modal_inner .modal_inner_pas").hide();
-
+                $("#modal").hide();
             }else{
                 alert("가입되지 않은 이메일 입니다.");
+                $(".warning").text();
                 $(".warning").show();
             }
-            /*
-            if(res.message == "login_check"){
-                alert("로그인이 필요합니다.");
-                return;
-            }else{
-                window.open(res.edu_url, '_blank');
-            }
-            */
-
         },
         error: function (request,status,error) {
             //alert(res.responseJSON.code);
             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             return;
-
         }
     });
 
