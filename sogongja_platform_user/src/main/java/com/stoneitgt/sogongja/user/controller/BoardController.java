@@ -163,4 +163,11 @@ public class BoardController extends BaseController {
 		return "pages/board/law_view";
 	}
 
+	@GetMapping("/QnaWriteForm")
+	public String QnaWriteForm(Model model) {
+
+
+		return "pages/board/board_write";
+	}
+
 }

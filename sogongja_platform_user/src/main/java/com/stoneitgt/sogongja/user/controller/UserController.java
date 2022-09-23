@@ -106,7 +106,15 @@ public class UserController extends BaseController {
 				bindingResult.rejectValue("passwordConfirm", "password.illegal_match_confirm");
 			}
 		} else {
-			user.setPassword("");
+			//user.setPassword("");
+			if(!user.getPassword().equals("")) {
+				PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
+
+				RuleResult ruleResult = passwordValidator.validate(user.getPassword());
+				if (!ruleResult.isValid()) {
+					bindingResult.rejectValue("password", "password.illegal_match");
+				}
+			}
 		}
 
 		String hp = user.getHp1() + user.getHp2() + user.getHp3();
@@ -398,7 +406,7 @@ public class UserController extends BaseController {
 	@GetMapping("/mypage/info")
 	public String mypage_info(Model model) {
 		User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
-		System.out.println("user ::::::::::::: "+user);
+
 		String[] email = user.getEmail().split("@");
 
 		user.setEmail1(email[0]);
@@ -418,7 +426,7 @@ public class UserController extends BaseController {
 		if (StringUtil.isNotBlank(user.getCategory())) {
 			user.setCategoryList(Arrays.asList(user.getCategory().split(",")));
 		}
-		System.out.println("TYPE >>>>>> "+user.getType());
+
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
 		return "pages/user/info";
