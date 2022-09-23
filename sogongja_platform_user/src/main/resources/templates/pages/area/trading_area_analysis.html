@@ -15,7 +15,8 @@
 </head>
 
 <body class="area">
-    <article>
+    <article layout:fragment="content">
+        <div th:replace="~{fragments/header :: header}"></div>
         <div class="map_header">
             <div class="hd">
                 <h1><a th:href="@{/}">소공자플랫폼 상권분석</a></h1>
