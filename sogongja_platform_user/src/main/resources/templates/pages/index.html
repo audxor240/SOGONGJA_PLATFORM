@@ -24,6 +24,37 @@
             <!--메인이미지-->
             <section class="main_visual" id="section1">
                 <div class="main_section">
+
+                    <!-- Swiper -->
+                    <div class="swiper_wrap" style="width:100%;">
+                        <div class="swiper mainSwiper">
+                            <div class="swiper-wrapper" style="background-color: #fff;">
+                                <div class="swiper-slide">
+                                    <div class="pc_img" th:style="|background: url('@{/images/new/main/img_mainbg1.png}') no-repeat center;|"></div>
+                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm1.png}') no-repeat center;|"></div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="pc_img" th:style="|background: url('@{/images/new/main/img_mainbg2.png}') no-repeat center;|"></div>
+                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm2.png}') no-repeat center;|"></div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="pc_img" th:style="|background: url('@{/images/new/main/img_mainbg3.png}') no-repeat center;|"></div>
+                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm3.png}') no-repeat center;|"></div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <div class="scrollDown_wrap" onclick="fnMove('2')">
+                            <div class="scrollDown_arrow_wrap">
+                                <span>scroll down</span>
+                                <div class="scrollDown_arrow"></div>
+                            </div>
+                            <div class="scrollDown_circle"></div>
+                        </div>
+                    </div>
+
+                    <!--원래 배너만 있던 것 2022.09.23 이미지 슬라이드로 변경
                     <div class="wrap_img" th:style="|background: url('@{/images/new/main/img_mainbg.png}') no-repeat center;|">
                         <div class="container mv_text1 " >
                             <div class="title_main">
@@ -50,6 +81,9 @@
                             </div>
                         </div>
                     </div>
+                    -->
+
+                    <!--sectionBtn 삭제
                     <div class="sectionBtn">
                         <ul>
                             <li onclick="fnMove('1')" class="on"></li>
@@ -59,6 +93,7 @@
                             <li onclick="fnMove('5')"></li>
                         </ul>
                     </div>
+                    -->
                 </div>
             </section>
 
@@ -354,6 +389,18 @@
         <script>
             // aos
             AOS.init();
+
+            // 메인슬라이드
+            var swiper = new Swiper(".mainSwiper", {
+                effect: "fade",
+                rewind: true,
+                loop:true,
+                loopedSlides: 1,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
 
             var menu = ['상점연구', '상권연구', '지역연구']
             var swiper = new Swiper(".mySwiper", {
