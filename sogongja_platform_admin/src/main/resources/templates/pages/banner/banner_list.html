@@ -7,12 +7,13 @@
 </head>
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
+
     <div class="row">
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}"
-                        method="get">
+                          method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <label class="col-sm-4 col-form-label">배너목록</label>
@@ -26,14 +27,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-xl-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
                     <p class="card-description">
                         <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
                     </p>
