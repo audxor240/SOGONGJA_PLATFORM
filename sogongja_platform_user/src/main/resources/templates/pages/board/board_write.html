@@ -21,42 +21,105 @@
     </section>
     <section class="wrap">
         <div class="sub_container">
-            <form class="write">
+            <div class="faq_anchor_wrap">
+                <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
+                <div><a th:href="@{/board/faq}">자주하는 질문</a></div>
+            </div>
+            <form class="write_qna">
                 <div class="qna_title">
                     <input type="text" placeholder="질문 제목을 입력해주세요.">
                 </div>
                 <div class="qna_text">
-                    <!-- 토스트에디터 들어갈 자리-->
+                    <div id="editor"></div>
                 </div>
                 <div class="addFile_wrap">
-                    <button id="addFile" class="add-button">파일첨부</button>
+                    <input type="file" id="file-input" multiple />
+                    <label for="file-input">파일 첨부하기</label>
+                    <div id="preview" class="file-list"></div>
                 </div>
-                <div class="file-list"></div>
                 <div class="secret_btn_wrap">
                     <input type="checkbox" id="secret_read">
-                    <label for="secret_read"></label>
+                    <label for="secret_read">비밀글</label>
                 </div>
             </form>
-        </div>
-        <div class="btn_box">
-            <a href="#none" class="btn">취소</a>
-            <button type="submit" class="btn blue">문의하기</button>
+            <div class="btn_box">
+                <a href="#none" class="btn">취소</a>
+                <button type="submit" class="btn blue">문의하기</button>
+            </div>
         </div>
     </section>
 </article>
 
 
 <th:block layout:fragment="custom_css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/toastui-editor-viewer.css}">
+    <link rel="stylesheet" th:href="@{/css/codemirror.css}" />
+    <link rel="stylesheet" th:href="@{/css/tui-color-picker.css}" />
+    <link rel="stylesheet" th:href="@{/css/toastui-editor.css}" />
 </th:block>
 <th:block layout:fragment="custom_js">
     <script th:inline="javascript">
-        var tui_content = /*[[${data.content}]]*/ '';
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+
+        editor.getMarkdown();
+
+
+        const handler = {
+            init() {
+                const fileInput = document.querySelector('#file-input');
+                const preview = document.querySelector('#preview');
+                fileInput.addEventListener('change', () => {
+                    console.dir(fileInput)
+                    const files = Array.from(fileInput.files)
+                    files.forEach(file => {
+                        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            ${file.name}
+                            <button data-index='${file.lastModified}' class='file-remove'>X</button>
+                        </p>`;
+                    });
+                });
+            },
+
+            removeFile: () => {
+                document.addEventListener('click', (e) => {
+                    if(e.target.className !== 'file-remove') return;
+                    const removeTargetId = e.target.dataset.index;
+                    const removeTarget = document.getElementById(removeTargetId);
+                    const files = document.querySelector('#file-input').files;
+                    const dataTranster = new DataTransfer();
+
+                    // document.querySelector('#file-input').files =
+                    //             Array.from(files).filter(file => file.lastModified !== removeTarget);
+
+
+                    Array.from(files)
+                        .filter(file => file.lastModified != removeTargetId)
+                        .forEach(file => {
+                            dataTranster.items.add(file);
+                        });
+
+                    document.querySelector('#file-input').files = dataTranster.files;
+
+                    removeTarget.remove();
+                })
+            }
+        }
+
+        handler.init()
+        handler.removeFile()
     </script>
     <script th:src="@{/js/libs/codemirror.js}"></script>
-    <script th:src="@{/js/libs/toastui-editor-viewer.js}"></script>
-    <script th:src="@{/js/pages/board/board_write.js}"></script>
+    <script th:src="@{/js/libs/toastui-editor.js}"></script>
+    <script th:src="@{/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
+    <script th:src="@{/js/file-upload.js}"></script>
 </th:block>
+
+
 </body>
 
 </html>
