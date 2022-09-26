@@ -17,7 +17,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-4">
                                         <select th:field="*{field}" class="form-control">
-                                            <option value="subject">교육명</option>
+                                            <label class="col-sm-2 col-form-label">소공자 대분류</label>
                                         </select>
                                     </div>
                                     <div class="col-sm-8">
@@ -28,7 +28,19 @@
                             <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-4">
-                                        <label class="col-sm-2 col-form-label">대분류</label>
+                                        <label class="col-sm-2 col-form-label">소공자 중분류</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select th:field="*{category1}" class="form-control">
+                                            <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-2 col-form-label">소공자 소분류</label>
                                     </div>
                                     <div class="col-sm-8">
                                         <select th:field="*{category1}" class="form-control">
