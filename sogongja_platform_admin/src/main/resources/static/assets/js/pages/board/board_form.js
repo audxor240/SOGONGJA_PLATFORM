@@ -15,7 +15,7 @@
                 rel: 'noopener noreferrer'
             }
         });
-
+/*
         $('.btn-delete-file').on('click', function() {
             var fileSeq = $(this).data('file-seq');
             var _$this = $(this);
@@ -85,6 +85,8 @@
 
             $('div.attach-file-group:last').append(strHTML);
         }
+
+ */
     });
 
 })();

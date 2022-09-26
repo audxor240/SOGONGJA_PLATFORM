@@ -60,11 +60,11 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardType", boardType);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		switch (boardType){
 			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
 			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "자주하는 질문"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
 			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
@@ -87,11 +87,11 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardType", boardType);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		switch (boardType){
 			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
 			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "자주하는 질문"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
 			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
@@ -115,11 +115,11 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		switch (boardType){
 			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
 			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "자주하는 질문"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
 			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
@@ -197,8 +197,8 @@ public class BoardController extends BaseController {
 		model.addAttribute("params", params);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
-		breadcrumb.put("menu_name", "공공지원사업 및 정책");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -218,8 +218,8 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
-		breadcrumb.put("menu_name", "공공지원사업 및 정책");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -236,8 +236,8 @@ public class BoardController extends BaseController {
 			model.addAttribute("menuCode", menuCode);
 			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
 			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-			breadcrumb.put("parent_menu_name", "소공자 물어방");
-			breadcrumb.put("menu_name", "공공지원사업 및 정책");
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+			breadcrumb.put("menu_name", "지원 및 정책관리");
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", project.getPageParams());
 
@@ -271,8 +271,8 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
-		breadcrumb.put("menu_name", "공공지원사업 및 정책");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.PROJECT, projectSeq));
@@ -309,7 +309,7 @@ public class BoardController extends BaseController {
 		model.addAttribute("params", params);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "법령및 조례");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -330,7 +330,7 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "법령 및 조례");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -346,7 +346,7 @@ public class BoardController extends BaseController {
 			model.addAttribute("menuCode", menuCode);
 			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
 			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-			breadcrumb.put("parent_menu_name", "소공자 물어방");
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 			breadcrumb.put("menu_name", "법령 및 조례");
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", law.getPageParams());
@@ -382,7 +382,7 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 물어방");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "법령 및 조례");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));

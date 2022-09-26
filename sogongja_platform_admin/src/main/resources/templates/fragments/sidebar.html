@@ -69,12 +69,14 @@
                 </a>
                 <div class="collapse" th:id="M20">
                     <ul class="nav sub-menu">
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >카테고리 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/category}" class="nav-link" >카테고리 관리</a></li>
                         <li class="nav-item" ><a th:href="@{/education}" class="nav-link" >소공자 교육 관리</a></li>
                         <li class="nav-item"><a th:href="@{/consulting}" class="nav-link">소공자 컨설팅 관리</a></li>
                         <li class="nav-item"><a th:href="@{/counseling}" class="nav-link">소공자 상담사례 관리</a></li>
-                        <li class="nav-item"><a th:href="@{#}" class="nav-link">지원 및 정책 관리</a></li>
-                        <li class="nav-item"><a th:href="@{#}" class="nav-link">FAQ 관리</a></li>
+                        <!--<li class="nav-item"><a th:href="@{#}" class="nav-link">지원 및 정책 관리</a></li>-->
+                        <li class="nav-item" ><a th:href="@{/board/project}" class="nav-link" >지원 및 정책 관리</a></li>
+                        <!--<li class="nav-item"><a th:href="@{#}" class="nav-link">FAQ 관리</a></li>-->
+                        <li class="nav-item" ><a th:href="@{/board/faq}" class="nav-link" >FAQ 관리</a></li>
                     </ul>
                 </div>
             </li>

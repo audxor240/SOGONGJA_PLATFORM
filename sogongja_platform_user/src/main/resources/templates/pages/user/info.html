@@ -252,18 +252,7 @@
     </article>
     <th:block layout:fragment="custom_js">
     	<script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
-        <script th:inline="javascript">
-            /* <![CDATA[ */
-            var ageGroup = /*[[${user.ageGroup}]]*/;
-            alert("ageGroup >> "+dataId);
-            /* ]]> */
-        </script>
     </th:block>
 
 </body>
-<script >
-    alert("aa");
-    //console.log("user.ageGroup :: "+[[ ${user.ageGroup} ]]);
-</script>
-
 </html>
