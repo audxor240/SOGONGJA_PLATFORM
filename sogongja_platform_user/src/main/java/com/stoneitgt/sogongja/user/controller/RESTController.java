@@ -4,19 +4,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.stoneitgt.sogongja.domain.Education;
+import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
 import com.stoneitgt.sogongja.user.service.*;
+import com.stoneitgt.util.StoneUtil;
+import com.stoneitgt.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
+import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant.API_STATUS;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
@@ -149,5 +157,137 @@ public class RESTController extends BaseController {
 		jsonObject.put("message", "비밀번호가 변경되었습니다.");
 
 		return jsonObject;
+	}
+
+	@PostMapping({ "/signup/register", "/mypage/update" })
+	@ResponseBody
+	public JSONObject registerUser(@ModelAttribute("user") User user, BindingResult bindingResult, Model model,
+								   RedirectAttributes rttr, HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+
+		System.out.println("user ------------->> : "+user);
+		String category = user.getCategoryList().toString().substring(1);
+		category = category.substring(0, category.length()-1);
+		category = category.replaceAll("\\s", "");
+
+		//소셜 회원가입일 경우
+		if(!user.getSocialType().equals("none")){
+			if(user.getSocialType().equals("KAKAO")){
+				user.setKakaoId(user.getUniqueId());
+			}else if(user.getSocialType().equals("GOOGLE")){
+				user.setGoogleId(user.getUniqueId());
+			}else if(user.getSocialType().equals("NAVER")){
+				user.setNaverId(user.getUniqueId());
+			}
+			//아이디는 uniqueId, 패스워드는 고정
+			user.setId(user.getUniqueId());
+			user.setPassword("thrhdwk1!");
+			user.setPasswordConfirm("thrhdwk1!");
+
+		}
+
+		model.addAttribute("user", user);
+		System.out.println("user >>>>>>>>>>>> "+user);
+		//return "pages/user/signup_result";
+
+		// 회원가입인 경우에만
+		if (user.getUserSeq() == 0) {
+			System.out.println("user.getId() >>>>> "+user.getId());
+			if (StringUtil.isBlank(user.getId())) {
+				bindingResult.rejectValue("id", "field.required");
+			} else {
+
+				for (String id : GlobalConstant.BLACK_ID_LIST) {
+					if (id.equalsIgnoreCase(user.getId())) {
+						bindingResult.rejectValue("id", "id.black.pattern", new Object[] { id }, "");
+						break;
+					}
+				}
+
+				if (userService.existedUserId(user.getId()) > 0) {
+					bindingResult.rejectValue("id", "member.id.exists");
+				}
+			}
+
+			if (StringUtil.isBlank(user.getPassword())) {
+				bindingResult.rejectValue("password", "field.required");
+			}
+
+			PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
+
+			RuleResult ruleResult = passwordValidator.validate(user.getPassword());
+			if (!ruleResult.isValid()) {
+				bindingResult.rejectValue("password", "password.illegal_match");
+			}
+
+			if (!user.getPassword().equals(user.getPasswordConfirm())) {
+				bindingResult.rejectValue("passwordConfirm", "password.illegal_match_confirm");
+			}
+		} else {
+			//user.setPassword("");
+			if(!user.getPassword().equals("")) {
+				PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
+
+				RuleResult ruleResult = passwordValidator.validate(user.getPassword());
+				if (!ruleResult.isValid()) {
+					bindingResult.rejectValue("password", "password.illegal_match");
+				}
+			}
+		}
+
+		String hp = user.getHp1() + user.getHp2() + user.getHp3();
+
+		if (!StoneUtil.isValidHp(hp)) {
+			bindingResult.rejectValue("hp", "hp.illeal_match");
+		}
+
+//		String tel = user.getTel1() + user.getTel2() + user.getTel3();
+//
+//		if (!StoneUtil.isValidTelNo(tel)) {
+//			bindingResult.rejectValue("tel", "tel.illeal_match");
+//		}
+
+		String email = user.getEmail1() + "@" + user.getEmail2();
+
+		if (!StoneUtil.isValidEmail(email)) {
+			bindingResult.rejectValue("email", "email.illeal_match");
+		}
+		/*
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
+			if (user.getUserSeq() == 0) {
+				// 회원가입
+				return "pages/user/signup_info";
+			} else {
+				// 회원정보변경
+				return "pages/user/info";
+			}
+		}
+		*/
+		user.setHp(hp);
+//		user.setTel(tel);
+		user.setEmail(email);
+		user.setAuth("AU02");
+		user.setAge(user.getAgeGroup());
+		user.setType01(user.getType01());
+		user.setType02(user.getType02());
+		user.setServiceType(category);
+
+		userService.saveUser(user);
+
+		if (user.getUserSeq() == 0) {
+			//model.addAttribute("user", user);
+			//return "pages/user/signup_result";
+			jsonObject.put("message", "signup_result");
+
+			return jsonObject;
+		} else {
+			request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);
+			//return "redirect:/mypage/info";
+			jsonObject.put("message", "info_update");
+
+			return jsonObject;
+		}
+
 	}
 }
