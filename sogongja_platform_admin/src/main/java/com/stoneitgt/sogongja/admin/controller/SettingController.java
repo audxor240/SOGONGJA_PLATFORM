@@ -67,8 +67,8 @@ public class SettingController extends BaseController {
 		model.addAttribute("params", params);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "시스템관리");
-		breadcrumb.put("menu_name", "사용자관리");
+		breadcrumb.put("parent_menu_name", "회원관리");
+		breadcrumb.put("menu_name", "사용자 관리");
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -83,8 +83,8 @@ public class SettingController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "시스템관리");
-		breadcrumb.put("menu_name", "사용자관리");
+		breadcrumb.put("parent_menu_name", "회원관리");
+		breadcrumb.put("menu_name", "사용자 관리");
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -98,8 +98,8 @@ public class SettingController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "시스템관리");
-		breadcrumb.put("menu_name", "사용자관리");
+		breadcrumb.put("parent_menu_name", "회원관리");
+		breadcrumb.put("menu_name", "사용자 관리");
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
