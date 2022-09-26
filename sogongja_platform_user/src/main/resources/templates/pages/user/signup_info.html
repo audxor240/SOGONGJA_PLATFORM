@@ -32,7 +32,7 @@
 <!--                    <li class="active">02 정보입력</li>-->
 <!--                    <li class="">03 가입완료</li>-->
 <!--                </ul>-->
-                <form name="joinForm" th:action="@{/signup/register}" th:object="${user}" method="POST" onsubmit="return validationForm();">
+                <form name="joinForm" id="joinForm" th:action="@{/api/signup/register}" th:object="${user}" method="POST" onsubmit="return validationForm();">
                     <input type="hidden" th:field="*{agree1}">
                     <input type="hidden" th:field="*{agree2}">
                     <input type="hidden" th:field="*{checkedId}">
