@@ -2,6 +2,7 @@ package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,16 @@ public class BoardController extends BaseController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		switch (boardType){
+			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
+			case "news": breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+		}
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		if (BOARD_TYPE.FAQ.equals(boardType)) {
@@ -75,7 +85,16 @@ public class BoardController extends BaseController {
 		model.addAttribute("board", boardService.getBoard(boardSeq));
 		model.addAttribute("menuCode", params.getMenuCode());
 		model.addAttribute("boardType", boardType);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		switch (boardType){
+			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
+			case "news": breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+		}
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		if (BOARD_TYPE.FAQ.equals(boardType)) {
@@ -94,7 +113,16 @@ public class BoardController extends BaseController {
 
 		model.addAttribute("board", board);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		switch (boardType){
+			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
+			case "news": breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+		}
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		if (BOARD_TYPE.FAQ.equals(boardType)) {
@@ -167,7 +195,12 @@ public class BoardController extends BaseController {
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
 		model.addAttribute("place", getCodeList("SIDO"));
@@ -183,7 +216,12 @@ public class BoardController extends BaseController {
 		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
 		model.addAttribute("place", getCodeList("SIDO"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/board/project_form";
@@ -196,7 +234,11 @@ public class BoardController extends BaseController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
-			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+			breadcrumb.put("menu_name", "지원 및 정책관리");
+			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", project.getPageParams());
 
 			model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
@@ -222,11 +264,16 @@ public class BoardController extends BaseController {
 
 	@GetMapping("/project/{projectSeq}")
 	public String projectView(@PathVariable int projectSeq, @ModelAttribute BaseParameter params, Model model) {
+
 		model.addAttribute("project", boardService.getProject(projectSeq));
 		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
 		model.addAttribute("place", getCodeList("SIDO"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.PROJECT, projectSeq));
 		return "pages/board/project_form";
@@ -260,7 +307,11 @@ public class BoardController extends BaseController {
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "법령및 조례");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("lawType", getCodeList("LAW_TYPE"));
 		model.addAttribute("lawClass", getCodeList("LAW_CLASS"));
@@ -277,7 +328,11 @@ public class BoardController extends BaseController {
 		model.addAttribute("lawClass", getCodeList("LAW_CLASS"));
 		model.addAttribute("lawDiv", getCodeList("LAW_DIV"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "법령 및 조례");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/board/law_form";
@@ -289,7 +344,11 @@ public class BoardController extends BaseController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
-			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+			breadcrumb.put("menu_name", "법령 및 조례");
+			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", law.getPageParams());
 
 			model.addAttribute("lawType", getCodeList("LAW_TYPE"));
@@ -321,7 +380,11 @@ public class BoardController extends BaseController {
 		model.addAttribute("lawClass", getCodeList("LAW_CLASS"));
 		model.addAttribute("lawDiv", getCodeList("LAW_DIV"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "법령 및 조례");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.LAW, lawSeq));
 		return "pages/board/law_form";

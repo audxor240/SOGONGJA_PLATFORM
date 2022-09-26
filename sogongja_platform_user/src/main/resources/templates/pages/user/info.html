@@ -29,6 +29,9 @@
             <form name="joinForm" th:action="@{/mypage/update}" th:object="${user}" method="POST" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{userSeq}">
                 <input type="hidden" th:field="*{id}">
+                <input type="hidden" id="type" th:value="${user.type}">
+                <input type="hidden" id="subType" th:value="${user.subType}">
+                <input type="hidden" id="socialType" name="socialType" th:value="none">
                 <div class="stage_02">
                     <div class="sub_container mypage_info">
                         <div class="table table_title">
@@ -40,6 +43,14 @@
                                 <th style="width: 25%;">아이디</th>
                                 <td>
                                     <th:block th:text="*{id}"></th:block>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호 <span class="required">(필수)</span></th>
+                                <td style="width: 75%;">
+                                    <input type="password" th:field="*{password}" title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
+                                    <span id="wrongpw1" class="checking_color"></span>
+                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                 </td>
                             </tr>
                             <!--비밀번호 변경 부분-->
@@ -211,10 +222,37 @@
                 </div>
             </form>
         </section>
+
+        <!--정보 수정 팝업-->
+        <div class="pop_up_wrap" style="display: none">
+            <div class="pop_up pop_up03">
+                <div class="pop_head">
+                    <h4>정보수정 저장완료</h4>
+                </div>
+                <div class="pop_main">
+                    <div class="pop_title">
+                        <div></div>
+                        <p>{사용자명}님의 정보 저장이 완료되었습니다.</p>
+                    </div>
+                    <div class="pop_text">
+                        <p>이용자 유형을 바꾸면</p>
+                        <p>작성되었던 설문은 초기화 됩니다.</p>
+                        <p>설문을 수정하시겠습니까?</p>
+                    </div>
+                    <div class="pop_btn">
+                        <a href="#none" class="btn">다음에하기</a>
+                        <a href="#none" class="btn blue">설문 참여하기</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </article>
     <th:block layout:fragment="custom_js">
-    	<script th:src="@{/js/pages/user/info.js}"></script>
+    	<script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
     </th:block>
-</body>
 
+</body>
 </html>

@@ -93,7 +93,6 @@
             $("#sub01").show();
             $("#sub02").hide();
             $("#sub03").hide();
-            //$("input:radio[name='subType']:radio[value='1']").prop("chcecked",true);
             $("#type02_01_01").prop("checked",true);
         });
 
@@ -101,7 +100,6 @@
             $("input:radio[name='subType']").prop("chcecked",false);
             $("#sub01").hide();
             $("#sub02").show();
-            //$("input:radio[name='subType']:radio[value='3']").prop("chcecked",true);
             $("#type02_02_01").prop("checked",true);
             $("#sub03").hide();
         });
@@ -111,7 +109,6 @@
             $("#sub01").hide();
             $("#sub02").hide();
             $("#sub03").show();
-            //$("input:radio[name='subType']:radio[value='4']").prop("chcecked",true);
             $("#type02_03_01").prop("checked",true);
         });
 
