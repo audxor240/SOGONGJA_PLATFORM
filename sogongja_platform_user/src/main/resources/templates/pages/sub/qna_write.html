@@ -3,11 +3,11 @@
     <head>
         <title>문의하기</title>
         <meta property="og:url" content="">
-        <meta property="og:title" content="">
-        <meta property="og:image" content="">
-        <meta property="og:description" content="">
-        <meta name="keywords" content="">
-        <meta name="description" content="">
+        <meta property="og:title" content="소공자 플랫폼 | 게시판">
+        <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+        <meta property="og:description" content="소공자 플랫폼 게시판">
+        <meta name="keywords" content="소공자 플랫폼, 게시판, 첨부파일, 제목, 작성일, 보도자료, 공지사항, qna">
+        <meta name="description" content="소공자 플랫폼 게시판">
     </head>
     <body>
         <article layout:fragment="content">
@@ -35,7 +35,7 @@
                                 <tr>
                                     <th>내용</th>
                                     <td>
-                                        <textarea name="" id="" title="내용" placeholder="내용을 입력하세요"></textarea>
+                                        <div id="editor"></div>
                                     </td>
                                 </tr>
                                 <tr>

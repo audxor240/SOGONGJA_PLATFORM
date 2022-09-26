@@ -222,6 +222,33 @@
                 </div>
             </form>
         </section>
+
+        <!--정보 수정 팝업-->
+        <div class="pop_up_wrap" style="display: none">
+            <div class="pop_up pop_up03">
+                <div class="pop_head">
+                    <h4>정보수정 저장완료</h4>
+                </div>
+                <div class="pop_main">
+                    <div class="pop_title">
+                        <div></div>
+                        <p>{사용자명}님의 정보 저장이 완료되었습니다.</p>
+                    </div>
+                    <div class="pop_text">
+                        <p>이용자 유형을 바꾸면</p>
+                        <p>작성되었던 설문은 초기화 됩니다.</p>
+                        <p>설문을 수정하시겠습니까?</p>
+                    </div>
+                    <div class="pop_btn">
+                        <a href="#none" class="btn">다음에하기</a>
+                        <a href="#none" class="btn blue">설문 참여하기</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </article>
     <th:block layout:fragment="custom_js">
     	<script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
