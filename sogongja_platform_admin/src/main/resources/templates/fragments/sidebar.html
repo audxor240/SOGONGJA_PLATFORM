@@ -52,7 +52,7 @@
                 <div class="collapse" th:id="M10">
                     <ul class="nav sub-menu">
                         <li class="nav-item" ><a th:href="@{/setting/user}" class="nav-link" >사용자 관리</a></li>
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >서비스 매칭 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/serviceMatching}" class="nav-link" >서비스 매칭 관리</a></li>
                         <!--
                         <li class="nav-item" ><a th:href="@{/education}" class="nav-link" >소공자 교육</a></li>
                         <li class="nav-item"><a th:href="@{/counseling}" class="nav-link">소공자 상담사례</a></li>
@@ -106,8 +106,10 @@
                 </a>
                 <div class="collapse" th:id="M40">
                     <ul class="nav sub-menu">
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >게시판 관리</a></li>
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >커뮤니티 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/notice}" class="nav-link" >공지사항 관리</a></li>
+                        <!--<li class="nav-item" ><a th:href="@{#}" class="nav-link" >공지사항 관리</a></li>-->
+                        <!--<li class="nav-item" ><a th:href="@{#}" class="nav-link" >커뮤니티 관리</a></li>-->
+                        <li class="nav-item" ><a th:href="@{/board/community}" class="nav-link" >커뮤니티 관리</a></li>
                     </ul>
                 </div>
             </li>
@@ -136,9 +138,9 @@
                 </a>
                 <div class="collapse" th:id="M99">
                     <ul class="nav sub-menu">
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >설문 관리</a></li>
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >배너 관리</a></li>
-                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >이벤트 팝업 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/survey}" class="nav-link" >설문 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/banner}" class="nav-link" >배너 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/event}" class="nav-link" >이벤트 팝업 관리</a></li>
                         <!--
                         <li class="nav-item" ><a th:href="@{/setting/code}" class="nav-link" >코드관리</a></li>
                         <li class="nav-item" ><a th:href="@{/setting/menu}" class="nav-link" >메뉴관리</a></li>

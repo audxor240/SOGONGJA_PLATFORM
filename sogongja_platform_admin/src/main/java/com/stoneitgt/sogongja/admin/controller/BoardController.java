@@ -60,12 +60,12 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardType", boardType);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+
 		switch (boardType){
-			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
-			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
+			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -87,12 +87,12 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardType", boardType);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+
 		switch (boardType){
-			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
-			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
+			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -115,12 +115,12 @@ public class BoardController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+
 		switch (boardType){
-			case "notice": breadcrumb.put("menu_name", "공지사항"); break;
-			case "news": breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("menu_name", "커뮤니티"); break;
+			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
+			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
