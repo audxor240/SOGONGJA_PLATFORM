@@ -37,8 +37,7 @@ public class EducationController extends BaseController {
 
 	@GetMapping("")
 	public String educationiList(@ModelAttribute EducationParameter params, Model model) {
-		System.out.println("params :: "+params);
-		System.out.println("getMenuCode ::: "+params.getMenuCode());
+
 		Paging paging = new Paging();
 		paging.setPage(params.getPage());
 		paging.setSize(params.getSize());
