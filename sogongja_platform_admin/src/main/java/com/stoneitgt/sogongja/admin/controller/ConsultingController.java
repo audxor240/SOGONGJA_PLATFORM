@@ -52,7 +52,12 @@ public class ConsultingController extends BaseController {
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 컨설팅");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("conType", getCodeList("CON_TYPE"));
 		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
@@ -65,7 +70,12 @@ public class ConsultingController extends BaseController {
 		Consulting consulting = consultingService.getConsulting(conSeq);
 		model.addAttribute("consulting", consulting);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 컨설팅");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.CONSULTING, conSeq));
 		model.addAttribute("conType", getCodeList("CON_TYPE"));
@@ -81,7 +91,12 @@ public class ConsultingController extends BaseController {
 
 		model.addAttribute("consulting", consulting);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 컨설팅");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("conType", getCodeList("CON_TYPE"));
 		model.addAttribute("conClass", new ArrayList<>());
@@ -97,7 +112,12 @@ public class ConsultingController extends BaseController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
-			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+			breadcrumb.put("parent_menu_name", "소공자 공부방");
+			breadcrumb.put("menu_name", "소공자 컨설팅");
+
+			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", consulting.getPageParams());
 			model.addAttribute("fileList", getFileList(FILE_REF_TYPE.CONSULTING, consulting.getConSeq()));
 			model.addAttribute("conType", getCodeList("CON_TYPE"));

@@ -75,7 +75,6 @@
 		            , ID
 		            , PASSWORD
 		            , USERNAME
-		            , USERNAME_ENG
 		            , EMAIL
 		            , TEL
 		            , HP
@@ -85,9 +84,6 @@
 		            , POSITION
 		            , USER_TYPE
 		            , BIRTH_DAY
-		            , LICENSE_NO
-		            , BANK
-		            , ACCOUNT_NO
 		            , DESCRIPTION
 		            , AUTH
 		            , REG_USER_SEQ)
@@ -96,7 +92,6 @@
 		            , LOWER(#{id})
 		            , #{password}
 		            , #{username}
-		            , #{usernameEng}
 		            , #{email}
 		            , #{tel}
 		            , #{hp}
@@ -106,14 +101,10 @@
 		            , #{position}
 		            , #{userType}
 		            , #{birthDay}
-		            , #{licenseNo}
-		            , #{bank}
-		            , #{accountNo}
 		            , #{description}
 		            , #{auth}
 		            , #{loginUserSeq})
 		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
-		     , USERNAME_ENG                  = #{usernameEng}
 		     , EMAIL                         = #{email}
 		     , TEL                           = #{tel}
 		     , HP                            = #{hp}
@@ -123,9 +114,6 @@
 		     , POSITION                      = #{position}
 		     , USER_TYPE                     = #{userType}
 		     , BIRTH_DAY                     = #{birthDay}
-		     , LICENSE_NO                    = #{licenseNo}
-		     , BANK                          = #{bank}
-		     , ACCOUNT_NO                    = #{accountNo}
 		     , DESCRIPTION                   = #{description}
 		     , AUTH                          = #{auth}
 		     , DEL_FLAG                      = 0
