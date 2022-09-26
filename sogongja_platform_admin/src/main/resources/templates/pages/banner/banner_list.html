@@ -34,13 +34,12 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <colgroup>
-                                <col style="width: 5%;">
-                                <col style="width: 8%;">
-                                <col style="width: 8%;">
+                                <col style="width: 6%;">
+                                <col style="width: 30%;">
+                                <col style="width: 30%;">
                                 <col style="width: 10%;">
-                                <col style="width: 25%;">
-                                <col style="width: 14%;">
-
+                                <col style="width: 12%;">
+                                <col style="width: 12%;">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -53,18 +52,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <th:block th:include="fragments/table_empty:: table_empty(7)"
-                                    th:if="${#lists.isEmpty(list)}"></th:block>
-                                <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                    <td th:text="${paging.total - item.rnum + 1}">1순서</td>
-                                    <td th:text="${item.category_1_name}">제목</td>
-                                    <td th:text="${item.category_2_name}">링크</td>
-                                    <td th:text="${item.category_3_name}">순서변경</td>
-                                    <td th:text="${item.support_org_name}"><input type="checkbox" name="" value="">
+                                <th:block th:include=""
+                                    th:if=""></th:block>
+                                <tr th:each="" th:unless="">
+                                    <td th:text="">1순서</td>
+                                    <td th:text="">제목</td>
+                                    <td th:text="">링크</td>
+                                    <td th:text="">순서변경</td>
+                                    <td th:text="">사용체크박스
+                                        <input type="checkbox" name="" value="">
                                     </td>
                                     <td class="text-right">
                                         <button type="button" class="btn btn-outline-danger btn-sm btn-delete"
-                                            th:data-edu-seq="${item.edu_seq}">삭제</button>
+                                            th:data-edu-seq="">삭제</button>
                                     </td>
                                 </tr>
                             </tbody>
