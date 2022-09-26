@@ -52,7 +52,12 @@ public class CounselingController extends BaseController {
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 상담사례 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("couType", getCodeList("COU_TYPE"));
 		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
@@ -65,7 +70,12 @@ public class CounselingController extends BaseController {
 		Counseling counseling = counselingService.getCounseling(couSeq);
 		model.addAttribute("counseling", counseling);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 상담사례 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.COUNSELING, couSeq));
 		model.addAttribute("couType", getCodeList("COU_TYPE"));
@@ -81,7 +91,12 @@ public class CounselingController extends BaseController {
 
 		model.addAttribute("counseling", counseling);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 상담사례 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("couType", getCodeList("COU_TYPE"));
 		model.addAttribute("couClass", new ArrayList<>());
@@ -97,7 +112,12 @@ public class CounselingController extends BaseController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
-			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+			breadcrumb.put("menu_name", "소공자 상담사례 관리");
+
+			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", counseling.getPageParams());
 			model.addAttribute("fileList", getFileList(FILE_REF_TYPE.COUNSELING, counseling.getCouSeq()));
 			model.addAttribute("couType", getCodeList("COU_TYPE"));

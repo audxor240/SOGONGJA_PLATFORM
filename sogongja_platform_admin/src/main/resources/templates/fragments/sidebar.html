@@ -12,6 +12,7 @@
         </div>
     </div>
     <div class="sidebar-body">
+        <!--
         <ul class="nav" th:with="menu=${session.ss_admin.authMenu}">
             <th:block th:each="item : ${menu}">
                 <li class="nav-item" th:if="${item.parent_menu_code == 'TOP'}">
@@ -39,7 +40,113 @@
                     </th:block>
                 </li>
             </th:block>
+        </ul>-->
+
+        <ul class="nav">
+            <li class="nav-item" >
+                <a href="#M10" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M10">
+                    <i class="link-icon" th:data-feather="clipboard"></i>
+                    <span  class="link-title">회원 관리</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M10">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{/setting/user}" class="nav-link" >사용자 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >서비스 매칭 관리</a></li>
+                        <!--
+                        <li class="nav-item" ><a th:href="@{/education}" class="nav-link" >소공자 교육</a></li>
+                        <li class="nav-item"><a th:href="@{/counseling}" class="nav-link">소공자 상담사례</a></li>
+                        <li class="nav-item"><a th:href="@{/consulting}" class="nav-link">소공자 컨설팅</a></li>
+                        -->
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" >
+                <a href="#M20" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M20">
+                    <i class="link-icon" th:data-feather="map"></i>
+                    <span  class="link-title">콘텐츠 관리</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M20">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >카테고리 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/education}" class="nav-link" >소공자 교육 관리</a></li>
+                        <li class="nav-item"><a th:href="@{/consulting}" class="nav-link">소공자 컨설팅 관리</a></li>
+                        <li class="nav-item"><a th:href="@{/counseling}" class="nav-link">소공자 상담사례 관리</a></li>
+                        <li class="nav-item"><a th:href="@{#}" class="nav-link">지원 및 정책 관리</a></li>
+                        <li class="nav-item"><a th:href="@{#}" class="nav-link">FAQ 관리</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" >
+                <a href="#M30" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M30">
+                    <i class="link-icon" th:data-feather="package"></i>
+                    <span  class="link-title">커머스 연구소 데이터</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M30">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >상점데이터 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >상권데이터 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >지역 데이터 관리</a></li>
+                        <!--
+                        <li class="nav-item" ><a th:href="@{/solution/education}" class="nav-link">맞춤형 교육</a></li>
+                        <li class="nav-item"><a th:href="@{/solution/consulting}" class="nav-link">맞춤형 컨설팅</a></li>
+                        -->
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" >
+                <a href="#M40" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M40">
+                    <i class="link-icon" th:data-feather="check-square"></i>
+                    <span  class="link-title">게시판 관리</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M40">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >게시판 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >커뮤니티 관리</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" >
+                <a href="#M90" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M90">
+                    <i class="link-icon" th:data-feather="message-circle"></i>
+                    <span  class="link-title">소공자 물어방</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M90">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{/board/notice}" class="nav-link" >공지사항</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/news}" class="nav-link" >보도자료</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/faq}" class="nav-link" >자주하는 질문</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/community}" class="nav-link" >커뮤니티</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/project}" class="nav-link" >공공지원사업 및 정책</a></li>
+                        <li class="nav-item" ><a th:href="@{/board/law}" class="nav-link" >법령및 조례</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" >
+                <a href="#M99" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" th:aria-controls="M99">
+                    <i class="link-icon" th:data-feather="settings"></i>
+                    <span  class="link-title">시스템관리</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" th:id="M99">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >설문 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >배너 관리</a></li>
+                        <li class="nav-item" ><a th:href="@{#}" class="nav-link" >이벤트 팝업 관리</a></li>
+                        <!--
+                        <li class="nav-item" ><a th:href="@{/setting/code}" class="nav-link" >코드관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/setting/menu}" class="nav-link" >메뉴관리</a></li>
+                        <li class="nav-item" ><a th:href="@{/setting/auth}" class="nav-link" >권한관리</a></li>
+                        -->
+                    </ul>
+                </div>
+            </li>
         </ul>
+
     </div>
 </nav>
 
