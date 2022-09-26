@@ -55,8 +55,8 @@ public class EducationController extends BaseController {
 		model.addAttribute("params", params);
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 공부방");
-		breadcrumb.put("menu_name", "소공자 교육");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 교육 관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
@@ -72,8 +72,8 @@ public class EducationController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 공부방");
-		breadcrumb.put("menu_name", "소공자 교육");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 교육 관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -95,8 +95,8 @@ public class EducationController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "소공자 공부방");
-		breadcrumb.put("menu_name", "소공자 교육");
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "소공자 교육 관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("category1", getCodeList("CATEGORY_1"));
@@ -116,8 +116,8 @@ public class EducationController extends BaseController {
 			model.addAttribute("menuCode", menuCode);
 			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
 			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
-			breadcrumb.put("parent_menu_name", "소공자 공부방");
-			breadcrumb.put("menu_name", "소공자 교육");
+			breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+			breadcrumb.put("menu_name", "소공자 교육 관리");
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", education.getPageParams());
 			model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION, education.getEduSeq()));
