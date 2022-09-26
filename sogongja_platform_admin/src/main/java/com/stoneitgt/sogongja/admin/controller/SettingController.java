@@ -65,7 +65,12 @@ public class SettingController extends BaseController {
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "시스템관리");
+		breadcrumb.put("menu_name", "사용자관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/setting/user_list";
@@ -76,7 +81,12 @@ public class SettingController extends BaseController {
 		model.addAttribute("user", userService.getUserInfo(userSeq));
 		model.addAttribute("authList", getCodeList("AUTH"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "시스템관리");
+		breadcrumb.put("menu_name", "사용자관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/setting/user_form";
 	}
@@ -86,7 +96,12 @@ public class SettingController extends BaseController {
 		model.addAttribute("user", new User());
 		model.addAttribute("authList", getCodeList("AUTH"));
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "시스템관리");
+		breadcrumb.put("menu_name", "사용자관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/setting/user_form";
 	}

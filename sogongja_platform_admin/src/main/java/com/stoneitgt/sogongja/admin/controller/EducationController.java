@@ -37,7 +37,8 @@ public class EducationController extends BaseController {
 
 	@GetMapping("")
 	public String educationiList(@ModelAttribute EducationParameter params, Model model) {
-
+		System.out.println("params :: "+params);
+		System.out.println("getMenuCode ::: "+params.getMenuCode());
 		Paging paging = new Paging();
 		paging.setPage(params.getPage());
 		paging.setSize(params.getSize());
@@ -52,7 +53,11 @@ public class EducationController extends BaseController {
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 교육");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
 		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
@@ -65,7 +70,12 @@ public class EducationController extends BaseController {
 		Education education = educationService.getEducation(eduSeq);
 		model.addAttribute("education", education);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 교육");
+		model.addAttribute("breadcrumb", breadcrumb);
+
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION, eduSeq));
 		model.addAttribute("imageList", getFileList(FILE_REF_TYPE.EDUCATION_IMAGE, eduSeq));
@@ -83,7 +93,11 @@ public class EducationController extends BaseController {
 
 		model.addAttribute("education", education);
 		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "소공자 공부방");
+		breadcrumb.put("menu_name", "소공자 교육");
+		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("category1", getCodeList("CATEGORY_1"));
 		model.addAttribute("category2", new ArrayList<>());
@@ -100,7 +114,11 @@ public class EducationController extends BaseController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
-			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+			breadcrumb.put("parent_menu_name", "소공자 공부방");
+			breadcrumb.put("menu_name", "소공자 교육");
+			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("pageParams", education.getPageParams());
 			model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION, education.getEduSeq()));
 			model.addAttribute("imageList", getFileList(FILE_REF_TYPE.EDUCATION_IMAGE, education.getEduSeq()));
