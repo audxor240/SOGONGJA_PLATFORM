@@ -59,4 +59,6 @@ public class Board {
 	List<MultipartFile> attachFiles;
 
 	private String regUsername;
+
+	private String secretUse;
 }

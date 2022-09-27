@@ -79,7 +79,21 @@
             }
         }else if(type == "4"){
             $("#type01_04").prop("checked",true);
+            $("#sub01").hide();
+            $("#sub02").hide();
+            $("#sub03").hide();
         }
+
+        //이용자 유형 업데이트 됐을 경우
+        if($("#typeCheck").val() == "update"){
+            //모달창 open
+            $(".pop_up_wrap").show();
+        }
+
+        //다음에하기 클릭
+        $('#to_do_next').on('click', function() {
+            $('.pop_up_wrap').hide();
+        });
 
     });
 
@@ -87,5 +101,28 @@
 
 function validationForm() {
 
-    return true;
+    let cnt = $('[name=categoryList]:checked').length;
+    let subTypeCnt = $('[name=subType]:checked').length;
+    let type = $("#type").val();
+    let subType = $("#subType").val();
+    let checked_type = $('[name=type]:checked').val();
+    let checked_subType = $('[name=subType]:checked').val();
+
+    if(subTypeCnt == 0){
+        alert("이용자 유형을 선택해주세요");
+        return false;
+    }
+
+    if(cnt == 0){
+        alert("관심 서비스 유형을 체크해주세요");
+        return false;
+    }
+
+    if(type != checked_type || subType != checked_subType){
+        if(!confirm("이용자 유형을 바꾸면 작성되었던 설문은 초기화 됩니다.설문을 수정하시겠습니까?")){
+            return false;
+        }
+    }
+
+    return;
 }

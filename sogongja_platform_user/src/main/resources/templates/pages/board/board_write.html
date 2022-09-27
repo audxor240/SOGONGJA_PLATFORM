@@ -25,27 +25,30 @@
                 <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
                 <div><a th:href="@{/board/faq}">자주하는 질문</a></div>
             </div>
-            <form class="write_qna">
+            <form class="write_qna" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+                <input type="hidden" th:field="*{boardSeq}">
+                <input type="hidden" th:field="*{boardType}">
+                <input type="hidden" th:field="*{content}">
                 <div class="qna_title">
-                    <input type="text" placeholder="질문 제목을 입력해주세요.">
+                    <input type="text" placeholder="질문 제목을 입력해주세요." th:field="*{subject}" maxlength="100" required="required">
                 </div>
                 <div class="secret_btn_wrap">
-                    <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small">
+                    <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small" th:field="*{secretUse}" value="Y">
                     <label for="secret_read">비밀글</label>
                 </div>
                 <div class="qna_text">
                     <div id="editor"></div>
                 </div>
                 <div class="addFile_wrap">
-                    <input type="file" id="file-input" multiple />
+                    <input type="file" id="file-input" name="attachFiles" multiple />
                     <label for="file-input">파일 첨부하기 <span></span></label>
                     <div id="preview" class="file-list"></div>
                 </div>
+                <div class="btn_box">
+                    <a href="#none" class="btn">취소</a>
+                    <button type="submit" class="btn blue">문의하기</button>
+                </div>
             </form>
-            <div class="btn_box">
-                <a href="#none" class="btn">취소</a>
-                <button type="submit" class="btn blue">문의하기</button>
-            </div>
         </div>
     </section>
 </article>
@@ -60,6 +63,7 @@
     <script th:src="@{/js/libs/codemirror.js}"></script>
     <script th:src="@{/js/libs/toastui-editor.js}"></script>
     <script th:src="@{/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
+
     <script th:inline="javascript">
 
         const Editor = toastui.Editor;
@@ -128,7 +132,7 @@
         handler.init()
         handler.removeFile()
     </script>
-
+    <script th:src="@{/js/pages/board/board_write.js}"></script>
 </th:block>
 
 

@@ -59,7 +59,8 @@
 		            , FROM_DT
 		            , TO_DT
 		            , TAGS
-		            , REG_USER_SEQ)
+		            , REG_USER_SEQ
+		            , SECRET_USE)
 		       VALUES (
 		              #{boardSeq}
 		            , #{boardType}
@@ -71,7 +72,8 @@
 		            , #{fromDt}
 		            , #{toDt}
 		            , #{tags}
-		            , #{loginUserSeq})
+		            , #{loginUserSeq}
+		            , #{secretUse} )
 
 		<selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
 			SELECT LAST_INSERT_ID()
@@ -92,6 +94,7 @@
 		     , TAGS         = #{tags}
 		     , MOD_USER_SEQ = #{loginUserSeq}
 		     , MOD_DATE     = CURRENT_TIMESTAMP()
+			 , SECRET_USE   = #{secretUse}
 		 WHERE BOARD_SEQ    = #{boardSeq}
 	</update>
 

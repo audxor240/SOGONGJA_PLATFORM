@@ -1,21 +1,19 @@
 package com.stoneitgt.sogongja.user.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import com.stoneitgt.sogongja.domain.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.GlobalConstant.BOARD_TYPE;
@@ -25,6 +23,7 @@ import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.BoardParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.util.StoneUtil;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/board")
@@ -33,7 +32,7 @@ public class BoardController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping("/{boardType:news|notice|faq|community}")
+	@GetMapping("/{boardType:news|notice|faq|community|qna}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
 		System.out.println("boardType :: "+boardType);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
@@ -52,7 +51,7 @@ public class BoardController extends BaseController {
 			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 			model.addAttribute("paging", paging);
 		}
-
+		System.out.println("list --------------- "+list);
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
@@ -64,6 +63,7 @@ public class BoardController extends BaseController {
 		case BOARD_TYPE.NEWS:
 		case BOARD_TYPE.NOTICE:
 		case BOARD_TYPE.COMMUNITY:
+		case BOARD_TYPE.QNA:
 			pageName = "board_list";
 			break;
 		default:
@@ -83,6 +83,48 @@ public class BoardController extends BaseController {
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/board/board_view";
+	}
+
+
+	@PostMapping("/form")
+	public String saveBoard(@RequestParam(required = false) String menuCode,
+							@ModelAttribute("board") @Valid Board board, BindingResult bindingResult, Model model,
+							RedirectAttributes rttr) throws IOException {
+
+		System.out.println("board >>>> "+board);
+		System.out.println("board.getAttachFiles().get(0).getName() ::: "+board.getAttachFiles().get(0).getName());
+		System.out.println("board.getAttachFiles().get(0).getOriginalFilename() ::: "+board.getAttachFiles().get(0).getOriginalFilename());
+		System.out.println("board.getAttachFiles().get(0).getContentType() ::: "+board.getAttachFiles().get(0).getContentType());
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("menuCode", menuCode);
+			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			model.addAttribute("pageParams", board.getPageParams());
+
+			if (BOARD_TYPE.FAQ.equals(board.getBoardType())) {
+				model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
+				//return "pages/board/board_form_faq";
+			} else {
+				model.addAttribute("fileList", getFileList(FILE_REF_TYPE.BOARD, board.getBoardSeq()));
+				return "pages/board/board_write";
+			}
+		}
+
+		String returnUrl = "redirect:/board/" + board.getBoardType() + "?";
+
+		if (board.getBoardSeq() == 0) {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+			returnUrl += "menuCode=" + menuCode;
+		} else {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+			returnUrl += board.getPageParams();
+		}
+		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+		boardService.saveBoard(board);
+
+		return returnUrl;
+
+		//return "";
 	}
 
 	@PostMapping("/popup/notice")
@@ -166,7 +208,9 @@ public class BoardController extends BaseController {
 	@GetMapping("/QnaWriteForm")
 	public String QnaWriteForm(Model model) {
 
-
+		Board board = new Board();
+		board.setBoardType("qna");
+		model.addAttribute("board", board);
 		return "pages/board/board_write";
 	}
 
