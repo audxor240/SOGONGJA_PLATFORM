@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.admin.controller;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.EducationParameter;
 import com.stoneitgt.sogongja.admin.service.EducationService;
+import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.util.StoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +44,32 @@ public class BannerController extends BaseController {
         //model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
         HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
         breadcrumb.put("parent_menu_name", "시스템 관리");
-        breadcrumb.put("menu_name", "설문 관리");
+        breadcrumb.put("menu_name", "배너 관리");
         model.addAttribute("breadcrumb", breadcrumb);
         model.addAttribute("pageParams", getBaseParameterString(params));
         model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
         model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
 
         return "pages/banner/banner_list";
+    }
+
+    @GetMapping("/form")
+    public String bannerForm(@ModelAttribute EducationParameter params, Model model) {
+        Education education = new Education();
+
+        model.addAttribute("education", education);
+        model.addAttribute("menuCode", params.getMenuCode());
+        //model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+        HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+        breadcrumb.put("parent_menu_name", "시스템 관리");
+        breadcrumb.put("menu_name", "배너 관리");
+        model.addAttribute("breadcrumb", breadcrumb);
+        model.addAttribute("pageParams", getBaseParameterString(params));
+        model.addAttribute("category1", getCodeList("CATEGORY_1"));
+        model.addAttribute("category2", new ArrayList<>());
+        model.addAttribute("category3", new ArrayList<>());
+        model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+
+        return "pages/banner/banner_form";
     }
 }
