@@ -2247,6 +2247,12 @@
   color: #1540bf;
 }
 
+.write_qna .qna_title {
+  margin-bottom: 20px;
+}
+.write_qna .secret_btn_wrap {
+  margin-bottom: 20px;
+}
 .write_qna .addFile_wrap input {
   display: none;
 }
@@ -2257,6 +2263,51 @@
   background-color: #C8D9FF;
   font-weight: bold;
   text-align: center;
+  position: relative;
+}
+.write_qna .addFile_wrap label span {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../images/icon-attach_file.png) no-repeat 0 50%;
+}
+.write_qna .addFile_wrap .file-list {
+  background-color: #ffffff;
+  width: 100%;
+}
+.write_qna .addFile_wrap .file-list.on {
+  padding: 20px;
+}
+.write_qna .addFile_wrap .file-list p {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 10px;
+}
+.write_qna .addFile_wrap .file-list p:last-child {
+  padding: 0 10px;
+}
+.write_qna .addFile_wrap .file-list p .file_icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../images/icon-file.png) no-repeat 0 50%;
+}
+.write_qna .addFile_wrap .file-list p .file_name {
+  display: inline-block;
+  margin-right: 10px;
+}
+.write_qna .addFile_wrap .file-list p .file_name:after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background-color: #e2e2e2;
+  margin-left: 10px;
+  vertical-align: inherit;
+}
+.write_qna .addFile_wrap .file-list p button {
+  background-color: transparent;
+  color: #f63c3c;
 }
 
 .pop_up_wrap {
