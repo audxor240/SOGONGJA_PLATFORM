@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
 
 <head>
     <title>공지사항</title>
@@ -58,7 +58,8 @@
                                 <tr th:each="item : ${list}">
                                     <td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>
                                     <td class="txl">
-                                        <a th:href="@{|/board/${boardType}/${item.board_seq}|}" th:text="${item.subject}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
+                                        <!--<a th:href="@{|/board/${boardType}/${item.board_seq}|}" th:text="${item.secret_use eq 'Y'? item.subject+' [비공개]':item.subject}"></a>-->
+                                        <a th:onclick="detailView([[${item.board_seq}]],[[${item.reg_user_seq}]]);" th:text="${item.secret_use eq 'Y'? item.subject+' [비공개]':item.subject}"></a>
                                     </td>
                                     <td th:text="${item.reg_dt}">2021.01.01</td>
                                     <td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>
@@ -68,9 +69,12 @@
                     </table>
                     <th:block th:include="fragments/paging"></th:block>
                 </div>
-                <div class="qna_write_btn">
-                    <a th:href="@{/board/QnaWriteForm}">문의하기</a>
-                </div>
+                <th:block sec:authorize="isAuthenticated()">
+                    <input type="hidden" id="session_seq" th:value="${session.ss_user.userSeq}">
+                    <div class="qna_write_btn" th:if="${boardType eq 'qna'}">
+                        <a th:href="@{/board/QnaWriteForm}">문의하기</a>
+                    </div>
+                </th:block>
             </div>
         </section>
     </article>

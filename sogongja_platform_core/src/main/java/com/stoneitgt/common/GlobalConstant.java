@@ -51,6 +51,8 @@ public class GlobalConstant {
 		public static final String NEWS = "news";
 		public static final String FAQ = "faq";
 		public static final String COMMUNITY = "community";
+
+		public static final String QNA = "qna";
 	}
 
 }
