@@ -31,6 +31,7 @@
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" id="type" th:value="${user.type}">
                 <input type="hidden" id="subType" th:value="${user.subType}">
+                <input type="hidden" id="typeCheck" th:value="${typeCheck}">
                 <input type="hidden" id="socialType" name="socialType" th:value="none">
                 <div class="stage_02">
                     <div class="sub_container mypage_info">
@@ -232,7 +233,7 @@
                 <div class="pop_main">
                     <div class="pop_title">
                         <div></div>
-                        <p>{사용자명}님의 정보 저장이 완료되었습니다.</p>
+                        <p>[[${user.nickName}]] 님의 정보 저장이 완료되었습니다.</p>
                     </div>
                     <div class="pop_text">
                         <p>이용자 유형을 바꾸면</p>
@@ -240,7 +241,7 @@
                         <p>설문을 수정하시겠습니까?</p>
                     </div>
                     <div class="pop_btn">
-                        <a href="#none" class="btn">다음에하기</a>
+                        <a href="#none" id="to_do_next" class="btn">다음에하기</a>
                         <a href="#none" class="btn blue">설문 참여하기</a>
                     </div>
                 </div>

@@ -154,15 +154,28 @@ public class UserController extends BaseController {
 		user.setType02(user.getType02());
 		user.setServiceType(category);
 
+		if(user.getUserSeq() != 0){
+
+			User user2 = userService.getUserInfo(user.getUserSeq());
+
+			//이용자 유형을 변경했을 경우
+			if(!user2.getType().equals(user.getType()) || !user2.getSubType().equals(user.getSubType())){
+				//모달창을 보여주기위한 구분 값
+				model.addAttribute("typeCheck", "update");
+			}
+		}
+
 		userService.saveUser(user);
 
 		if (user.getUserSeq() == 0) {
-			System.out.println("USER =============== "+user);
 			model.addAttribute("user", user);
+
 			return "pages/user/signup_result";
 		} else {
 			request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);
-			return "redirect:/mypage/info";
+			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
+			//return "redirect:/mypage/info";
+			return "pages/user/info";
 		}
 
 	}
