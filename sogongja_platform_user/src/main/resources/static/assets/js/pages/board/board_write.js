@@ -62,3 +62,16 @@ $(document).on('click', '.delete', function(){
     $(id).remove();
     $(this).parent().remove();
 });
+
+function validationForm() {
+    var content = editor.getMarkdown();
+
+    if (content.trim() === '') {
+        alert('내용을 입력하세요.');
+        return false;
+    }
+
+    $('#content').val(content);
+
+    return true;
+}
