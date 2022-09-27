@@ -2373,6 +2373,7 @@
   font-size: 1.125rem;
   height: 3.125rem;
   line-height: 3.125rem;
+  cursor: pointer;
 }
 .pop_main .pop_btn .btn.blue {
   background-color: #1540bf;

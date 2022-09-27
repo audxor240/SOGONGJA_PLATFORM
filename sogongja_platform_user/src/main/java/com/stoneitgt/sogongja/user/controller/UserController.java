@@ -157,6 +157,7 @@ public class UserController extends BaseController {
 		userService.saveUser(user);
 
 		if (user.getUserSeq() == 0) {
+			System.out.println("USER =============== "+user);
 			model.addAttribute("user", user);
 			return "pages/user/signup_result";
 		} else {
@@ -168,6 +169,9 @@ public class UserController extends BaseController {
 
 	@PostMapping("/signup/completion")
 	public String signupCompletion(@ModelAttribute("user") User user, Model model) {
+		System.out.println("user ::------> "+user);
+		model.addAttribute("user", user);
+
 		return "pages/user/signup_completion";
 	}
 
