@@ -9,7 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.stoneitgt.sogongja.domain.Board;
+import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.user.service.UserService;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +37,9 @@ public class BoardController extends BaseController {
 
 	@Autowired
 	private BoardService boardService;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/{boardType:news|notice|faq|community|qna}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
@@ -75,14 +84,56 @@ public class BoardController extends BaseController {
 	}
 
 	@GetMapping("/{boardType}/{boardSeq}")
-	public String boardView(@PathVariable String boardType, @PathVariable int boardSeq,
+	public String boardView(@PathVariable String boardType, @PathVariable int boardSeq, @RequestParam String reg_user_seq,
 			@ModelAttribute BaseParameter params, Model model) {
-		model.addAttribute("data", boardService.getBoard(boardSeq));
+
+		Authentication authentication = authenticationFacade.getAuthentication();
+
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.BOARD, boardSeq));
+		if(authentication.getCredentials() != "") {
+			User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
+
+			Board board = boardService.getBoardDetail(boardSeq);
+			if (user.getUserSeq() == board.getRegUserSeq()) {
+				board.setBoardType("qna");
+				model.addAttribute("board", board);
+				return "pages/board/board_write";
+			}
+		}
+
+		Map<String, Object> board = boardService.getBoard(boardSeq);
+		model.addAttribute("data", board);
 		model.addAttribute("boardType", boardType);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/board/board_view";
+	}
+
+	@GetMapping("/{boardType}/form")
+	public String boardForm(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
+		Board board = new Board();
+		board.setBoardType(boardType);
+
+		model.addAttribute("board", board);
+		model.addAttribute("menuCode", params.getMenuCode());
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+
+		switch (boardType){
+			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
+			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
+			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
+			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
+		}
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		if (BOARD_TYPE.FAQ.equals(boardType)) {
+			model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
+			return "pages/board/board_form_faq";
+		} else {
+			return "pages/board/board_write";
+		}
 	}
 
 
@@ -212,6 +263,18 @@ public class BoardController extends BaseController {
 		board.setBoardType("qna");
 		model.addAttribute("board", board);
 		return "pages/board/board_write";
+	}
+
+	@PostMapping("/delete")
+	public String deleteBoard(@RequestParam int boardSeq,
+							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("board_seq", boardSeq);
+		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+		boardService.deleteBoard(params);
+		//rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
+		return "redirect:/board/qna";
 	}
 
 }

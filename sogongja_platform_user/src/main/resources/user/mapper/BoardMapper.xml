@@ -119,6 +119,14 @@
 		   AND A.BOARD_SEQ           = #{boardSeq}
 	</select>
 
+	<select id="getBoardDetail" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
+		/* file : BoardMapper.xml, id : getBoardDetail */
+		SELECT A.*
+		FROM ST_BOARD A
+		WHERE A.DEL_FLAG            = 0
+		  AND A.BOARD_SEQ           = #{boardSeq}
+	</select>
+
 	<update id="updateBoardReadCnt" parameterType="int">
 		/* file : BoardMapper.xml, id : updateBoardReadCnt */
 		UPDATE ST_BOARD

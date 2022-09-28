@@ -61,4 +61,6 @@ public class Board {
 	private String regUsername;
 
 	private String secretUse;
+
+	private int regUserSeq;
 }
