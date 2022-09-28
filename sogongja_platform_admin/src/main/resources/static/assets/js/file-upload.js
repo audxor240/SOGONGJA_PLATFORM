@@ -40,3 +40,16 @@ function readURLM(input) {
         document.getElementById('previewImgM').src = "https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image";
     }
 }
+
+// 팝업
+    function readURLPop(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImgPop').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('previewImgPop').src = "https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image";
+    }
+}
