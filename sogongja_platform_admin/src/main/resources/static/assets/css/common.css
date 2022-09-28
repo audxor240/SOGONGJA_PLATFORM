@@ -69,6 +69,10 @@ a.file-download { display: block; flex: 1 1 auto; }
 /*첨부파일 썸네일*/
 .bannerThumb{display:block;margin-top: 20px;max-width: 300px;}
 
+/*datepicker 조정*/
+.datepicker{border: solid 1px #eee;padding: 8px 16px}
+.datepicker:focus{border: solid 1px #eee; box-shadow: 0 0 10px #cccccc50;}
+
 /* media */
 @media screen and (max-width:640px) {
 	.login_wrap { background-size: cover; }
