@@ -30,7 +30,7 @@
                 <input type="hidden" th:field="*{boardType}">
                 <input type="hidden" th:field="*{content}">
                 <div class="qna_title">
-                    <input type="text" placeholder="질문 제목을 입력해주세요." th:field="*{subject}" maxlength="100" required="required">
+                    <input type="text" placeholder="질문 제목을 입력해주세요." th:field="*{subject}" maxlength="100" >
                 </div>
                 <div class="secret_btn_wrap">
                     <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small" th:field="*{secretUse}" value="Y">
@@ -42,12 +42,22 @@
                 <div class="addFile_wrap">
                     <input type="file" id="file-input" name="attachFiles" multiple />
                     <label for="file-input">파일 첨부하기 <span></span></label>
-                    <div id="preview" class="file-list"></div>
+                    <div id="preview" class="file-list" th:classappend="${not #lists.isEmpty(fileList)?' on':''}">
+                            <p th:id="${item.file_seq}" th:each="item : ${fileList}" th:if="${not #lists.isEmpty(fileList)}">
+                                <span class="file_icon"></span>
+                                <span class="file_name">[[${item.file_name}]]</span>
+                                <button type="button" th:data-index='${item.file_seq}' class='btn-delete-file' th:data-file-seq="${item.file_seq}">삭제</button>
+                            </p>
+                    </div>
                 </div>
                 <div class="btn_box">
-                    <a href="#none" class="btn">취소</a>
+                    <a href="javascript:window.history.back();" class="btn">취소</a>
                     <button type="submit" class="btn blue">문의하기</button>
+                    <button type="button" id="board_del" class="btn blue">삭제하기</button>
                 </div>
+            </form>
+            <form name="deleteForm" th:action="@{/board/delete}" method="post">
+                <input type="hidden" name="boardSeq" id="boardSeq" th:value="${board.boardSeq}">
             </form>
         </div>
     </section>
@@ -65,6 +75,8 @@
     <script th:src="@{/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
 
     <script th:inline="javascript">
+        var tui_content = /*[[${board.content}]]*/ '';
+        var board_type = /*[[${boardType}]]*/ '';
 
         const Editor = toastui.Editor;
 
@@ -83,6 +95,7 @@
         });
 
         editor.getMarkdown();
+        editor.setMarkdown(tui_content);    //상세보기 -> 내용
 
 
         const handler = {
@@ -91,14 +104,13 @@
                 const preview = document.querySelector('#preview');
                 fileInput.addEventListener('change', () => {
                     document.querySelector('#preview').classList.add('on');
-                    console.dir(fileInput)
                     const files = Array.from(fileInput.files)
                     files.forEach(file => {
                         preview.innerHTML += `
                         <p id="${file.lastModified}">
                             <span class="file_icon"></span>
                             <span class="file_name">${file.name}</span>
-                            <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
                         </p>`;
                     });
                 });

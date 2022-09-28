@@ -42,6 +42,13 @@ public class BoardService extends BaseService {
 		return board;
 	}
 
+
+	public Board getBoardDetail(int boardSeq) {
+		Board board = boardMapper.getBoardDetail(boardSeq);
+		boardMapper.updateBoardReadCnt(boardSeq);
+		return board;
+	}
+
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int saveBoard(Board board) throws IOException {
 		int result = 0;

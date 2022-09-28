@@ -7,13 +7,14 @@
     });
 })();
 
-function detailView(board_seq, reg_user_seq){
+function detailView(board_seq, reg_user_seq,secret_use){
 
 
+    if(secret_use == 'Y'){
+        alert("비공개글 입니다.");
+        return false;
+    }
 
-console.log("session_seq : "+ $("#session_seq").val());
-console.log("board :: "+board_seq);
-console.log("reg_user_seq :: "+reg_user_seq);
-    return;
-    window.location.href = "/board/${boardType}/"+board_seq;
+    window.location.href = "/board/qna/"+board_seq+"?reg_user_seq="+reg_user_seq;    //작성자가 가닌 사람이 볼때
+
 }

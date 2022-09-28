@@ -19,6 +19,8 @@ public interface BoardMapper {
 
 	Map<String, Object> getBoard(int boardSeq);
 
+	Board getBoardDetail(int boardSeq);
+
 	int insertBoard(Board board);
 
 	int updateBoard(Board board);
