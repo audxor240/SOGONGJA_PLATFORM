@@ -66,6 +66,9 @@ a.file-download { display: block; flex: 1 1 auto; }
 .login_btn { border-top: 1px solid #fff; margin-top: 2rem; padding-top: 1.5rem; }
 .login_btn button { width: 100%; background: #fff; border: none; line-height: 2.75rem; font-size: 1.25rem; font-weight: 700; color: #000; margin-top: 1.5rem; }
 
+/*첨부파일 썸네일*/
+.bannerThumb{display:block;margin-top: 20px;max-width: 300px;}
+
 /* media */
 @media screen and (max-width:640px) {
 	.login_wrap { background-size: cover; }
