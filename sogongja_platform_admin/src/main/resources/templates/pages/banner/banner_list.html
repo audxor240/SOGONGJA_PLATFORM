@@ -51,21 +51,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <th></th>
-                                <tr>
-                                    <td>1123</td>
-                                    <td>제목입니당</td>
-                                    <td>바로가기 링크적어주세요</td>
+                                <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                                <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                    <td th:text="${paging.total - item.rnum + 1}"></td>
+                                    <td ><a th:href="@{|/banner/${item.banner_seq}?${pageParams}|}">[[${item.title}]]</a></td>
+                                    <td>[[${item.url}]]</td>
                                     <td>
                                         <button type="button" class="btn btn-sm"><i class="btn-icon-prepend" data-feather="arrow-up"></i></button>
                                         <button type="button" class="btn btn-sm"><i class="btn-icon-prepend" data-feather="arrow-down"></i></button>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="" value="">
+                                        <input type="checkbox" th:checked="${item.used == '1'}">
                                     </td>
                                     <td class="text-right">
-                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete"
-                                            >삭제</button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-banner-seq="${item.banner_seq}">삭제</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -76,15 +75,14 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/education/delete}" method="post">
-        <input type="hidden" name="eduSeq">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    <form name="deleteForm" th:action="@{/banner/delete}" method="post">
+        <input type="hidden" name="bannerSeq">
     </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/assets/js/pages/education/education_list.js}"></script>
+    <script th:src="@{/assets/js/pages/banner/banner_list.js}"></script>
 </th:block>
 
 </html>
