@@ -37,13 +37,19 @@ public class GlobalConstant {
 
 	public static final class FILE_REF_TYPE {
 		public static final String BOARD = "board";
-		public static final String BANNER = "banner";
+		public static final String BANNER_PC = "banner_pc";
+		public static final String BANNER_MOBILE = "banner_mobile";
+
 		public static final String PROJECT = "project";
 		public static final String LAW = "law";
 		public static final String EDUCATION = "education";
 		public static final String EDUCATION_IMAGE = "education_image";
 		public static final String CONSULTING = "consulting";
 		public static final String COUNSELING = "counseling";
+
+		public static final String BANNER_IMAGE_PC = "banner_image_pc";
+
+		public static final String BANNER_IMAGE_MOBILE = "banner_image_mobile";
 	}
 
 	public static final class BOARD_TYPE {

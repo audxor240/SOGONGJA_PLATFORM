@@ -55,7 +55,8 @@
 		            , FROM_DT
 		            , TO_DT
 		            , TAGS
-		            , REG_USER_SEQ)
+		            , REG_USER_SEQ
+		            , REG_DATE)
 		       VALUES (
 		              #{boardType}
 		            , #{subject}
@@ -66,7 +67,8 @@
 		            , #{fromDt}
 		            , #{toDt}
 		            , #{tags}
-		            , #{loginUserSeq})
+		            , #{loginUserSeq}
+		            , CURRENT_TIMESTAMP())
 
 		<selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
 			SELECT LAST_INSERT_ID()
