@@ -870,9 +870,6 @@
   .br_420 {
     display: block;
   }
-  html {
-    font-size: 62.5% !important;
-  }
   .scrollDown_wrap .scrollDown_circle {
     width: 80px;
     height: 80px;
@@ -915,9 +912,11 @@
   .main_section .mv_text3 .left div a {
     width: 160px;
     height: 48px;
+    font-size: 1.125rem;
   }
   .main_section .mv_text3 .left span {
     margin-top: 20px;
+    font-size: 1.125rem;
   }
   .main_section .back_img01 {
     height: 250px;
@@ -935,16 +934,22 @@
   .slide_video .mv_text4 .swiper_text_wrap .swiper_text.on p {
     font-size: 2.5rem;
   }
+  .slide_video .mv_text4 .swiper_text_wrap .swiper_text.on span {
+    font-size: 1.125rem;
+  }
   .swiper-pagination {
     top: 460px;
     left: 40px;
     width: calc(100% - 82px);
   }
   .swiper-pagination:before {
-    top: 7px;
+    top: 10px;
   }
   .linkedMain .mv_text5 {
     padding: 80px 0;
+  }
+  .linkedMain .mv_text5 .mv_title p {
+    font-size: 2.5rem;
   }
   .linkedMain .mv_text5 .flex_wrap {
     display: flex;
@@ -955,6 +960,22 @@
   .linkedMain .mv_text5 .flex_wrap > div {
     width: 100%;
     margin-top: 40px;
+  }
+  .linkedMain .mv_text5 .flex_wrap > div .linked_title p {
+    font-size: 1.125rem;
+  }
+  .linkedMain .mv_text5 .flex_wrap > div .linked_title span {
+    font-size: 1.125rem;
+  }
+  .linkedMain .mv_text5 .flex_wrap > div .linked_btn a {
+    width: 150px;
+    height: 60px;
+    font-size: 1.125rem;
+  }
+  .linkedMain .mv_text5 .flex_wrap > div .none_btn a {
+    width: 150px;
+    height: 60px;
+    font-size: 1.125rem;
   }
   .linkedMain .mv_text5 .flex_wrap > div:first-child {
     margin-top: 0;
@@ -974,6 +995,18 @@
     display: block;
     width: 100%;
     height: 600px;
+  }
+  .main_section .mv_text3 .left p {
+    font-size: 1.875rem;
+  }
+  .main_section .mv_text3 .left p strong span {
+    font-size: 1.875rem;
+  }
+  .main_section .mv_text3 .left span {
+    font-size: 1rem;
+  }
+  .main_section .mv_text3 .left div a {
+    font-size: 1rem;
   }
   .main_section .wrap_img .mv_text1 .title_main .left {
     margin-right: 10px;
@@ -1005,6 +1038,15 @@
   .slide_video .mySwiper {
     padding: 100px 0 0;
   }
+  .slide_video .mv_text4 .swiper_text_wrap .swiper_text.on p {
+    font-size: 1.875rem;
+  }
+  .slide_video .mv_text4 .swiper_text_wrap .swiper_text.on span {
+    font-size: 1rem;
+  }
+  .slide_video .mv_text4 .swiper_text_wrap .swiper_text.on div a {
+    font-size: 1rem;
+  }
   .linkedMain .mv_text5 {
     padding: 60px 0;
   }
@@ -1012,10 +1054,29 @@
     flex-wrap: wrap;
     padding: 0 20px;
   }
+  .linkedMain .mv_text5 .flex_wrap > div .linked_btn a {
+    width: 130px;
+    height: 50px;
+    font-size: 1rem;
+  }
+  .linkedMain .mv_text5 .flex_wrap > div .none_btn a {
+    width: 130px;
+    height: 50px;
+    font-size: 1rem;
+  }
+  .linkedMain .mv_text5 .mv_title p {
+    font-size: 1.875rem;
+  }
   .swiper-pagination {
-    top: 400px;
+    top: 370px;
     left: 20px;
     width: calc(100% - 40px);
+  }
+  .swiper-pagination p span {
+    font-size: 1rem;
+  }
+  .list_solution > li .list_title p {
+    font-size: 1.125rem;
   }
 }
 .animate__animated.slideInDown {
