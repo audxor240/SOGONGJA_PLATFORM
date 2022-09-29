@@ -139,6 +139,10 @@
 		&.blue
 			background-color: #1540bf
 			color: #fff
+		&.red
+			background-color: #F63C3C
+			border: solid 2px #F63C3C
+			color: #fff
 .more_view
 	text-align: center
 	margin-top: rem(60)
@@ -454,9 +458,19 @@
 		padding: rem(24)
 		text-align: center
 		padding-top: 0
-		div
+		> div
 			+flex_type($justify: center,$align: center)
-			margin-bottom: rem(24)
+			h3
+				font-size: rem(24)
+				font-weight: 500
+				margin-bottom: 4px
+			.secret_img
+				display: inline-block
+				background: url(#{$assetPath}/new/icon/secret.png) no-repeat 0 50%
+				background-size: contain
+				width: 18px
+				height: 18px
+				margin-left: 10px
 			p
 				padding: 0 8px
 				position: relative
@@ -469,14 +483,12 @@
 				&:before
 					margin-top: -8px
 					+before($widthB: 8px, $heightB: 16px, $topB: 50%, $leftB: -4px, $bgB : url(#{$assetPath}/slash.png) no-repeat 0 50%)
-
-		h3
-			font-size: rem(24)
-			font-weight: 500
-			margin-bottom: 4px
 		p
 			color: #767676
 			line-height: 1.5
+		.view_change
+			+flex_type($justify: end)
+			margin: 0
 	.view_text
 		padding: rem(36)
 		color: #767676
@@ -498,6 +510,96 @@
 		background: url(#{$assetPath}/icon-file.png) no-repeat 0 50%
 		a
 			color: #000
+.reply_view
+	.reply_view_top
+		margin-top: 40px
+		padding: 20px rem(36) 12px
+		+flex_type($justify: space-between,$align: center)
+		p
+			+flex_type($align: baseline)
+			font-size: rem(24)
+			span
+				display: inline-block
+				font-size: rem(14)
+			.reply_num
+				font-size: rem(24)
+				font-weight: bold
+		a
+			display: block
+			width: 100px
+			height: 50px
+			background-color: #1540bf
+			color: #ffffff
+			text-align: center
+			line-height: 50px
+	.reply_list
+		> li
+			border-bottom: solid 1px #d5d5d5
+			padding: 20px rem(36)
+			.reply_list_info_wrap
+				+flex_type($justify: space-between)
+				margin-bottom: 10px
+				.reply_list_info
+					+flex_type($align: flex-end)
+					p
+						margin-right: 10px
+						font-size: rem(18)
+						font-weight: bold
+					span
+						font-size: rem(16)
+						color: #606060
+			.reply_list_text
+				font-size: rem(16)
+			&:first-child
+				border-top: solid 1px #d5d5d5
+			&:last-child
+				margin-bottom: 20px
+	.reply_write
+		+flex_type
+		textarea
+			width: calc(100% - 100px)
+			resize: none
+			height: 100px
+		button
+			width: 100px
+			background-color: #1540bf
+			color: #ffffff
+.moreBtn_wrap
+	position: relative
+	.moreBtn
+		display: block
+		background: url(#{$assetPath}/new/icon/more.png) no-repeat 50%
+		background-size: contain
+		width: 36px
+		height: 36px
+		cursor: pointer
+	.morePop
+		display: none
+		position: absolute
+		top: 0
+		right: 40px
+		width: 100px
+		background-color: #fff
+		z-index: 4
+		box-shadow:  0 0 10px #00000030
+		li
+			height: 40px
+			line-height: 40px
+			cursor: pointer
+			border-bottom: solid 1px #d5d5d5
+			span
+				display: block
+				text-align: center
+				color: #606060
+				line-height: 40px
+			.delBtn
+				color: #F63C3C
+			&:last-child
+				border-bottom: 0
+	.morePop.on
+		display: block
+
+
 /*map*/
 #map
 	height: 100%
@@ -1187,7 +1289,8 @@
 					color: #767676
 					line-height: 1.5
 .qna_write
-	.form_ul
+	.form_
+	ul
 		> li
 			margin-bottom: rem(22)
 			input[type="text"]
@@ -1711,8 +1814,7 @@
 			&.on
 				padding: 20px
 			p
-				display: flex
-				align-items: center
+				+flex_type($align: enter)
 				padding: 0 10px 10px
 				&:last-child
 					padding: 0 10px
@@ -1736,6 +1838,7 @@
 					background-color: transparent
 					color: #f63c3c
 .pop_up_wrap
+	display: none
 	width: 100%
 	height: 100vh
 	background-color: #00000050
@@ -1751,6 +1854,8 @@
 			padding: 10px
 			h4
 				color: #fff
+			&.red
+				background-color: #F63C3C
 .pop_main
 	padding: 40px
 	.pop_title
@@ -1785,6 +1890,14 @@
 			&.blue
 				background-color: #1540bf
 				color: #fff
+			&.red
+				background-color: #F63C3C
+				border: solid 2px #F63C3C
+				color: #fff
+			&.redline
+				border: solid 2px #F63C3C
+				background-color: #fff
+				color: #F63C3C
 
 //반응형
 @include tablet
@@ -1801,6 +1914,52 @@
 				li
 					a
 						padding: rem(20) rem(30)
+@include mobile
+	.sub_visual
+		> div
+			h2
+				font-size: rem(40)
+		.lnb
+			ul
+				flex-wrap: wrap
+				li
+					width: calc(100%/2)
+	.reply_view
+		.reply_view_top
+			a
+				height: 30px
+				line-height: 30px
+	.moreBtn_wrap
+		.moreBtn
+			width: 24px
+			height: 24px
+		.morePop
+			right: 24px
+			width: 90px
+	.faq_anchor_wrap
+		flex-wrap: wrap
+		justify-content: center
+		p
+			width: 100%
+			margin-bottom: 10px
+			text-align: center
 @include maxMobile
 	.wrap
 		padding: rem(80) 20px
+	.reply_view
+		.reply_view_top
+			flex-wrap: wrap
+			p
+				width: 100%
+		.reply_list
+			> li
+				.reply_list_info_wrap
+					.reply_list_info
+						flex-wrap: wrap
+		.reply_write
+			flex-wrap: wrap
+			textarea
+				width: 100%
+			button
+				width: 100%
+				padding: 12px 0
