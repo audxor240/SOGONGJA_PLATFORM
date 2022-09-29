@@ -97,7 +97,8 @@ public class BoardController extends BaseController {
 			if (user.getUserSeq() == board.getRegUserSeq()) {
 				board.setBoardType("qna");
 				model.addAttribute("board", board);
-				return "pages/board/board_write";
+				model.addAttribute("detail", true);
+				return "pages/board/board_write";	//작성자 수정 form
 			}
 		}
 
@@ -262,6 +263,7 @@ public class BoardController extends BaseController {
 		Board board = new Board();
 		board.setBoardType("qna");
 		model.addAttribute("board", board);
+		model.addAttribute("detail", false);
 		return "pages/board/board_write";
 	}
 

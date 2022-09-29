@@ -53,7 +53,7 @@
                 <div class="btn_box">
                     <a href="javascript:window.history.back();" class="btn">취소</a>
                     <button type="submit" class="btn blue">문의하기</button>
-                    <button type="button" id="board_del" class="btn blue">삭제하기</button>
+                    <button type="button" id="board_del" class="btn blue" th:if="${detail}">삭제하기</button>
                 </div>
             </form>
             <form name="deleteForm" th:action="@{/board/delete}" method="post">

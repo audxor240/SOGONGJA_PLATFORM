@@ -58,7 +58,6 @@
                                 <tr th:each="item : ${list}">
                                     <td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>
                                     <td class="txl">
-                                        <!--<a th:href="@{|/board/${boardType}/${item.board_seq}|}" th:text="${item.secret_use eq 'Y'? item.subject+' [비공개]':item.subject}"></a>-->
                                         <a th:onclick="detailView([[${item.board_seq}]],[[${item.reg_user_seq}]],[[${item.secret_use}]]);" th:text="${item.secret_use eq 'Y'? item.subject+' [비공개]':item.subject}"></a>
                                     </td>
                                     <td th:text="${item.reg_dt}">2021.01.01</td>
