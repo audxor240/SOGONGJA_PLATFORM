@@ -85,6 +85,7 @@
                                                         <button type="button" class="btn btn-danger">삭제</button>
                                                     </span>
                                                 </div>
+                                                <img class="bannerThumb" id="previewImgPc" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
                                             </div>
                                         </th:block>
                                     </div>
@@ -97,8 +98,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">모바일 배너</label>
                                     <div class="col-sm-5">
-                                        <th:block th:if="${not #lists.isEmpty(fileList_mobile)}" th:each="item : ${fileList_mobile}"><!-- pc배너 있을경우 출력 -->
-                                            <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLPC(this);">
+                                        <th:block th:if="${not #lists.isEmpty(fileList_mobile)}" th:each="item : ${fileList_mobile}"><!-- 모바일 배너 있을경우 출력 -->
+                                            <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLM(this);">
                                             <div class="input-group">
                                                 <input type="text" class="form-control file-upload-title"  disabled="disabled" placeholder="" th:value="${item.file_name}">
                                                 <span class="input-group-append">
@@ -116,9 +117,9 @@
                                                 </div>
                                             </div>
                                         </th:block>
-                                        <th:block th:unless="${not #lists.isEmpty(fileList_mobile)}"><!-- pc배너 없을경우 출력 -->
+                                        <th:block th:unless="${not #lists.isEmpty(fileList_mobile)}"><!-- 모바일배너 없을경우 출력 -->
                                             <div class="attach-file">
-                                                <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLPC(this);">
+                                                <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLM(this);">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control file-upload-title"  disabled="disabled" placeholder="" >
                                                     <span class="input-group-append">
@@ -126,6 +127,7 @@
                                                         <button type="button" class="btn btn-danger">삭제</button>
                                                     </span>
                                                 </div>
+                                                <img class="bannerThumb" id="previewImgM" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
                                             </div>
                                         </th:block>
                                     </div>
@@ -158,7 +160,7 @@
                 <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{bannerSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/banner?${pageParams}|}">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
             </div>

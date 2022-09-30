@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Event;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.BannerService;
+import com.stoneitgt.sogongja.user.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ public class RootController extends BaseController {
 	@Autowired
 	private BannerService bannerService;
 
+	@Autowired
+	private EventService eventService;
+
 	@GetMapping(value = { "/", "/index" })
 	public String index(Model model) {
 
@@ -37,8 +42,11 @@ public class RootController extends BaseController {
 		params.put("search_type", "main");
 
 		List<Map<String, Object>> list = bannerService.getBannerList();
+		Map<String, Object> event = eventService.getEventInfo();
 
+		System.out.println("event >> "+event);
 		model.addAttribute("list", list);
+		model.addAttribute("event", event);
 
 		return "pages/index";
 	}
