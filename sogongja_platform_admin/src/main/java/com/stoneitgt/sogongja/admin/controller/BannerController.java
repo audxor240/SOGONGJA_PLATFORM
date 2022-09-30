@@ -4,11 +4,8 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.EducationParameter;
 import com.stoneitgt.sogongja.admin.service.BannerService;
-import com.stoneitgt.sogongja.admin.service.EducationService;
 import com.stoneitgt.sogongja.domain.Banner;
 import com.stoneitgt.sogongja.domain.BaseParameter;
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.util.StoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +24,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/banner")
 public class BannerController extends BaseController {
-
-    @Autowired
-    private EducationService educationService;
 
     @Autowired
     private BannerService bannerService;
@@ -63,8 +57,6 @@ public class BannerController extends BaseController {
 
     @GetMapping("/{bannerSeq}")
     public String bannerView(@PathVariable int bannerSeq, @ModelAttribute BaseParameter params, Model model) {
-
-
 
         model.addAttribute("banner", bannerService.getBanner(bannerSeq));
         model.addAttribute("menuCode", params.getMenuCode());

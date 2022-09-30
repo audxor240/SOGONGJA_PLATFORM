@@ -46,10 +46,9 @@ public class GlobalConstant {
 		public static final String EDUCATION_IMAGE = "education_image";
 		public static final String CONSULTING = "consulting";
 		public static final String COUNSELING = "counseling";
-
 		public static final String BANNER_IMAGE_PC = "banner_image_pc";
-
 		public static final String BANNER_IMAGE_MOBILE = "banner_image_mobile";
+		public static final String EVENT_POP = "event_pop";
 	}
 
 	public static final class BOARD_TYPE {

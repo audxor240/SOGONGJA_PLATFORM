@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
-  <title th:text="${breadcrumb.menu_name}">게시판관리</title>
+  <title th:text="${breadcrumb.menu_name}">이벤트관리</title>
 </head>
 <div layout:fragment="content">
   <nav th:replace="fragments/page_breadcrumb"></nav>
+
   <div class="row">
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="card">
@@ -14,12 +16,12 @@
                 method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
             <div class="row">
-              <label class="col-sm-4 col-form-label">이벤트 팝업</label>
+              <label class="col-sm-4 col-form-label">이벤트목록</label>
             </div>
             <div class="row">
               <div class="col-sm-12 text-right">
                 <a th:href="@{|/event/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
-                  <i class="btn-icon-prepend" data-feather="edit"></i>팝업추가
+                  <i class="btn-icon-prepend" data-feather="edit"></i>이벤트추가
                 </a>
               </div>
             </div>
@@ -35,7 +37,6 @@
                 <col style="width: 30%;">
                 <col style="width: 30%;">
                 <col style="width: 14%;">
-                <col style="width: 14%;">
                 <col style="width: 12%;">
                 <col style="width: 8%;">
               </colgroup>
@@ -47,26 +48,22 @@
                 <th>시작일</th>
                 <th>종료일</th>
                 <th>사용</th>
-                <th style="min-width: 100px; text-align:center;">관리</th>
+                <th>관리</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>1123</td>
-                <td>제목입니당</td>
-                <td>바로가기 링크적어주세요</td>
+              <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+              <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                <td th:text="${paging.total - item.rnum + 1}"></td>
+                <td ><a th:href="@{|/event/${item.event_seq}?${pageParams}|}">[[${item.title}]]</a></td>
+                <td>[[${item.url}]]</td>
+                <td th:text="${#dates.format(item.event_start, 'yyyy-MM-dd')}">시작일 작성</td>
+                <td th:text="${#dates.format(item.event_end, 'yyyy-MM-dd')}">종료일 작성</td>
                 <td>
-                  시작일 작성
+                  <input type="checkbox" th:checked="${item.used == '1'}">
                 </td>
                 <td>
-                  종료일 작성
-                </td>
-                <td>
-                  <input type="checkbox" name="" value="">
-                </td>
-                <td class="text-right">
-                  <button type="button" class="btn btn-outline-danger btn-sm btn-delete"
-                  >삭제</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-event-seq="${item.event_seq}">삭제</button>
                 </td>
               </tr>
               </tbody>
@@ -77,15 +74,14 @@
       </div>
     </div>
   </div>
-  <form name="deleteForm" th:action="@{/education/delete}" method="post">
-    <input type="hidden" name="eduSeq">
-    <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+  <form name="deleteForm" th:action="@{/event/delete}" method="post">
+    <input type="hidden" name="eventSeq">
   </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-  <script th:src="@{/assets/js/pages/education/education_list.js}"></script>
+  <script th:src="@{/assets/js/pages/event/event_list.js}"></script>
 </th:block>
 
 </html>
