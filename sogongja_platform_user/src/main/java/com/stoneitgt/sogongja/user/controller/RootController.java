@@ -1,10 +1,13 @@
 package com.stoneitgt.sogongja.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
+import com.stoneitgt.sogongja.user.service.BannerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -24,11 +27,18 @@ public class RootController extends BaseController {
 
 	private final SocialLoginSupport socialLoginSupport;
 
+	@Autowired
+	private BannerService bannerService;
+
 	@GetMapping(value = { "/", "/index" })
 	public String index(Model model) {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("search_type", "main");
+
+		List<Map<String, Object>> list = bannerService.getBannerList();
+
+		model.addAttribute("list", list);
 
 		return "pages/index";
 	}

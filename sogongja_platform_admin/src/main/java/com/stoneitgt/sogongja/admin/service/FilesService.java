@@ -84,7 +84,19 @@ public class FilesService {
 			if (isThumb && files.getFileContentType().contains("image")) {
 				File thumb = new File(systemProperties.getThumbnailFilePath() + files.getFilePath() + "_thumb.jpg");
 				FileUtils.forceMkdirParent(thumb);
-				Thumbnails.of(file).size(600, 600).outputFormat("jpg").toFile(thumb);
+				int width = 0;
+				int height = 0;
+				System.out.println("files.getRefType() :::: "+files.getRefType());
+
+				//배너 사이즈 변경
+				if(files.getRefType().equals("BANNER_IMAGE_PC") || files.getRefType().equals("BANNER_IMAGE_MOBILE")){
+					width = 2000;
+					height = 2000;
+				}else{
+					width = 600;
+					height = 600;
+				}
+				Thumbnails.of(file).size(width, height).outputFormat("jpg").toFile(thumb);
 
 				files.setThumbnailPath(files.getFilePath() + "_thumb.jpg");
 			}
