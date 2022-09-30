@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.BannerMapper">
+
+    <select id="getBannerList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BannerMapper.xml, id : getBannerList */
+        SELECT *
+        FROM ST_BANNER AS B
+        LEFT JOIN ST_FILES AS F ON F.REF_SEQ = B.BANNER_SEQ
+        WHERE B.DEL_FLAG = 0 AND USED is not null AND F.REF_TYPE = 'BANNER_IMAGE_PC'
+        ORDER BY BANNER_SEQ DESC
+        /*||ORDER BY BANNER_SEQ DESC||*/
+    </select>
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>
