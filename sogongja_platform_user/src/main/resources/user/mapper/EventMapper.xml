@@ -8,7 +8,7 @@
         SELECT *
         FROM ST_EVENT AS B
                  LEFT JOIN ST_FILES AS F ON F.REF_SEQ = B.EVENT_SEQ
-        WHERE B.DEL_FLAG = 0 AND USED is not null AND F.REF_TYPE = 'EVENT_POP'
+        WHERE B.DEL_FLAG = 0 AND USED is not null AND F.REF_TYPE = 'EVENT_POP' AND now() BETWEEN EVENT_START AND EVENT_END
         ORDER BY EVENT_SEQ DESC
         /*||ORDER BY EVENT_SEQ DESC||*/
     </select>

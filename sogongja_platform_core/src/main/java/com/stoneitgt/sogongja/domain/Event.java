@@ -32,4 +32,8 @@ public class Event {
     private int loginUserSeq;
 
     List<MultipartFile> imageFile;
+
+    // 사용중인 이벤트
+    private String eventUsedSeq;
+
 }

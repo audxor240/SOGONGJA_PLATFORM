@@ -58,7 +58,18 @@ public class EventController extends BaseController {
     @GetMapping("/{eventSeq}")
     public String eventView(@PathVariable int eventSeq, @ModelAttribute BaseParameter params, Model model) {
 
-        model.addAttribute("event", eventService.getEvent(eventSeq));
+        Event event = eventService.getEvent(eventSeq);
+
+        //현재 사용중인 이벤트 팝업이 있는지 확인
+        String eventUsedSeq = eventService.getEventUsedCheck();
+        event.setEventUsedSeq(eventUsedSeq);
+
+        String eventStart = event.getEventStart().substring(0,event.getEventStart().length()-11);
+        String eventEnd = event.getEventEnd().substring(0,event.getEventEnd().length()-11);
+        event.setEventStart(eventStart);
+        event.setEventEnd(eventEnd);
+
+        model.addAttribute("event", event);
         model.addAttribute("menuCode", params.getMenuCode());
         //model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
         Map<String, Object> breadcrumb = new HashMap<String, Object>();
@@ -81,7 +92,12 @@ public class EventController extends BaseController {
         breadcrumb.put("menu_name", "이벤트 팝업 관리");
         model.addAttribute("breadcrumb", breadcrumb);
 
+
+
         Event event = new Event();
+        //현재 사용중인 이벤트 팝업이 있는지 확인
+        String eventUsedSeq = eventService.getEventUsedCheck();
+        event.setEventUsedSeq(eventUsedSeq);
         model.addAttribute("event", event);
 
         return "pages/event/event_form";
@@ -91,7 +107,7 @@ public class EventController extends BaseController {
     public String saveEvent(@RequestParam(required = false) String menuCode,
                              @ModelAttribute("event") @Valid Event event, BindingResult bindingResult, Model model,
                              RedirectAttributes rttr) throws IOException {
-
+        System.out.println("event :: "+event);
         String returnUrl = "redirect:/event/";
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
         event.setLoginUserSeq(authenticationFacade.getLoginUserSeq());

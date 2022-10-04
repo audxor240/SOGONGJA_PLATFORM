@@ -12,6 +12,7 @@
     <form name="editForm" th:action="@{/event/form}" th:object="${event}" method="post"
           enctype="multipart/form-data" onsubmit="return validationForm();">
         <input type="hidden" th:field="*{eventSeq}">
+        <input type="hidden" th:field="*{eventUsedSeq}">
         <!--<input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">-->
         <div class="row">
@@ -52,7 +53,7 @@
                                         <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
                                             <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLPC(this);">
                                             <div class="input-group">
-                                                <input type="text" class="form-control file-upload-title"  disabled="disabled" placeholder="" th:value="${item.file_name}">
+                                                <input type="text" class="form-control file-upload-title" name="file_text" disabled="disabled" placeholder="" th:value="${item.file_name}">
                                                 <span class="input-group-append">
                                                         <button type="button"  class="file-upload-browse btn btn-primary">파일선택</button>
                                                         <button type="button" class="btn btn-danger" id="pc_event_del" th:data-file-seq="${item.file_seq}">삭제</button>
@@ -69,7 +70,7 @@
                                             <div class="attach-file">
                                                 <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png"  onchange="readURLPop(this);">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control file-upload-title"  disabled="disabled" placeholder="" >
+                                                    <input type="text" class="form-control file-upload-title" name="file_text" disabled="disabled" placeholder="" >
                                                     <span class="input-group-append">
                                                         <button type="button"  class="file-upload-browse btn btn-primary">파일선택</button>
                                                         <button type="button" class="btn btn-danger">삭제</button>
@@ -87,9 +88,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">게시기간</label>
                                     <div class="col-sm-10">
-                                        <input id="fromDate" class="datepicker start-pick" th:field="*{eventStart}">
+                                        <input class="datepicker start-pick" th:field="*{eventStart}">
                                         ~
-                                        <input id="toDate" class="datepicker end-pick" th:field="*{eventEnd}">
+                                        <input class="datepicker end-pick" th:field="*{eventEnd}">
                                     </div>
                                 </div>
                             </div>
