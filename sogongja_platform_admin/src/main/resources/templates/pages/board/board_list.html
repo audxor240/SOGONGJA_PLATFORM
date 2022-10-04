@@ -31,6 +31,7 @@
                                 <col style="width: 12%;">
                                 <col style="width: 12%;">
                                 <col style="width: 12%;">
+                                <col style="width: 5%;">
                                 <col style="width: 12%;">
                             </colgroup>
                             <thead>
@@ -41,6 +42,7 @@
                                     <th>답변사용</th>
                                     <th>비밀글</th>
                                     <th>등록일</th>
+                                    <th>게시글 관리</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -67,6 +69,10 @@
                                         <i data-feather="check-square"></i>
                                     </td>
                                     <td th:text="${item.reg_dt}">등록일</td>
+                                    <td>
+                                        <!--게시글 관리-->
+                                        <a href="#none" ><i data-feather="corner-right-down"></i></a>
+                                    </td>
                                     <td class="text-right">
                                         <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
                                     </td>
