@@ -19,6 +19,15 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">작성자</label>
+                                    <p class="col-sm-6" style="margin-top:10px;font-weight:bold">작성자 ID 노출</p>
+                                    <span class="col-sm-4 text-right" style="margin-top:10px;color:#999">작성 날짜 노출</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">제목</label>
                                     <div class="col-sm-10">
                                         <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
@@ -38,80 +47,12 @@
                                 </div>
                             </div>
                         </div>
-                        <th:block th:if="*{boardType == 'notice'}">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">공지여부</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="noticeFlag" value="0" data-label="미사용" th:checked="*{noticeFlag == 0}">미사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="noticeFlag" value="1" data-label="사용" th:checked="*{noticeFlag == 1}">사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">팝업사용</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="popupFlag" value="0" data-label="미사용" th:checked="*{popupFlag == 0}">미사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="popupFlag" value="1" data-label="사용" th:checked="*{popupFlag == 1}">사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row popup-date" th:style="*{popupFlag == 0 ? 'display: none;' : ''}">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">팝업기간</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-group row ml-0">
-                                                <div class="col-sm-3 input-group date datepicker">
-                                                    <input type="text" class="form-control" th:field="*{fromDt}" readonly="readonly" required="required">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="m-2">~</div>
-                                                <div class="col-sm-3 input-group date datepicker">
-                                                    <input type="text" class="form-control" th:field="*{toDt}" readonly="readonly" required="required">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th:block>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <div class="col-sm-2">
-                                        <label class="col-form-label">첨부파일</label><br>
-                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file">추가</button>
+                                    <div class="col-sm-2" style="margin-top: 10px;">
+                                        <label class="col-form-label">첨부파일</label>
+                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file" style="margin-top: 3px;">추가</button>
                                     </div>
                                     <div class="col-sm-5">
                                         <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
@@ -143,21 +84,57 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">비밀글 여부</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="checkbox">
+                                                비밀글
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">비밀번호</label>
+                                    <div class="col-sm-4">
+                                        <input type="password" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="border-top:solid 1px #ccc">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">답변작성</label>
+                                    <div class="col-sm-10">
+                                        <div id="editor2" style="height: 500px;"></div>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
+                    <i class="btn-icon-prepend" data-feather="list"></i>목록
+                </a>
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{boardSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                 </button>
                 <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{boardSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
-                    <i class="btn-icon-prepend" data-feather="list"></i>목록
-                </a>
             </div>
         </div>
     </form>
@@ -169,9 +146,14 @@
 </th:block>
 <th:block layout:fragment="custom_js">
     <script th:inline="javascript">
-    var tui_content = /*[[${board.content}]]*/ '';
-    var board_type = /*[[${boardType}]]*/ '';
-    var editor;
+
+        var tui_content = /*[[${board.content}]]*/ '';
+        var board_type = /*[[${boardType}]]*/ '';
+        var editor;
+
+        var tui_content2 = /*[[${board.content}]]*/ '';
+        var board_type2 = /*[[${boardType}]]*/ '';
+        var editor2;
     </script>
     <script th:src="@{/assets/js/libs/codemirror.js}"></script>
     <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
