@@ -21,4 +21,8 @@ public interface EventMapper {
     int selectTotalRecords();
 
     int deleteEvent(Map<String, Object> params);
+
+    String getEventUsedCheck();
+
+    int updateEventUsed(Event event);
 }

@@ -46,6 +46,8 @@
         SET TITLE   = #{title}
           , URL      = #{url}
           , USED     = #{used}
+          , EVENT_START = #{eventStart}
+          , EVENT_END = #{eventEnd}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
         WHERE EVENT_SEQ    = #{eventSeq}
@@ -66,6 +68,22 @@
           , DEL_USER_SEQ = #{login_user_seq}
           , DEL_DATE     = CURRENT_TIMESTAMP()
         WHERE EVENT_SEQ      = #{event_seq}
+    </update>
+
+    <select id="getEventUsedCheck" resultType="string">
+        /* file : EventMapper.xml, id : getEventUsedCheck */
+        SELECT EVENT_SEQ
+        FROM ST_EVENT
+        WHERE DEL_FLAG  = 0 AND USED = '1'
+    </select>
+
+    <update id="updateEventUsed" parameterType="com.stoneitgt.sogongja.domain.Event">
+        /* file : BoardMapper.xml, id : updateBoard */
+        UPDATE ST_EVENT
+        SET USED     = null
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE EVENT_SEQ    = #{eventSeq}
     </update>
 
     <select id="selectTotalRecords" resultType="int">

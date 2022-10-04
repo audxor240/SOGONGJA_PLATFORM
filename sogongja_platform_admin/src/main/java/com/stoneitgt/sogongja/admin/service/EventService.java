@@ -40,6 +40,18 @@ public class EventService extends BaseService {
         } else {
             result = eventMapper.updateEvent(event);
         }
+
+        if(!event.getEventUsedSeq().equals("")) {
+
+            Event event2 = getEvent(Integer.parseInt(event.getEventUsedSeq()));
+
+            //현재 사용하고 있는 팝업 수정하지 않을경우
+            if (!event.getEventUsedSeq().equals(event2.getEventUsedSeq())) {
+                event2.setLoginUserSeq(event.getLoginUserSeq());
+                eventMapper.updateEventUsed(event2);
+            }
+        }
+
         if (event.getImageFile() != null && event.getImageFile().size() > 0) {
             //PC 배너
             if(event.getImageFile().get(0).getSize() > 0){
@@ -74,5 +86,10 @@ public class EventService extends BaseService {
         filesService.deleteFileAll(params);
 
         return result;
+    }
+
+    public String getEventUsedCheck(){
+
+        return eventMapper.getEventUsedCheck();
     }
 }
