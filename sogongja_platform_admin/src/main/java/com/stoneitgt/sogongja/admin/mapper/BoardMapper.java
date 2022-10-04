@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.admin.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -17,6 +18,8 @@ public interface BoardMapper {
 
 	List<Map<String, Object>> getBoardList(Map<String, Object> params, RowBounds rowBounds);
 
+	List<Map<String, Object>> getBoardSettingList(Map<String, Object> params, RowBounds rowBounds);
+
 	Board getBoard(int boardSeq);
 
 	int insertBoard(Board board);
@@ -24,6 +27,12 @@ public interface BoardMapper {
 	int updateBoard(Board board);
 
 	int deleteBoard(Map<String, Object> params);
+
+	int insertBoardSetting(BoardSetting boardSetting);
+
+	int updateBoardSetting(BoardSetting boardSetting);
+
+	int deleteBoardSetting(Map<String, Object> params);
 
 	int modPopupFlagToZero(Board board);
 
