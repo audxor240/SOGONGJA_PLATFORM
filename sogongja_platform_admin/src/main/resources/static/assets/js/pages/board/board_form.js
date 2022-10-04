@@ -16,6 +16,20 @@
             }
         });
 
+        editor2 = new toastui.Editor({
+            el: document.querySelector('#editor2'),
+            initialEditType: 'wysiwyg',
+            hideModeSwitch: true,
+            height: '500px',
+            previewStyle: 'vertical',
+            plugins: [toastui.Editor.plugin.colorSyntax],
+            linkAttribute: {
+                target: '_blank',
+                contenteditable: 'false',
+                rel: 'noopener noreferrer'
+            }
+        });
+
         $('.btn-delete-file').on('click', function() {
             var fileSeq = $(this).data('file-seq');
             var _$this = $(this);
@@ -54,6 +68,7 @@
         });
 
         editor.setMarkdown(tui_content);
+        editor2.setMarkdown(tui_content2);
 
         $('#btn-add-file').on('click', function() {
             if ($('.attach-file').length > 4) {
@@ -91,6 +106,7 @@
 
 function validationForm() {
     var content = editor.getMarkdown();
+    var content2 = editor2.getMarkdown();
 
     if (content.trim() === '') {
         alert('내용을 입력하세요.');

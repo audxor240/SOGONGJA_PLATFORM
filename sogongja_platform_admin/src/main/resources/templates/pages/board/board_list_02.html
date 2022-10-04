@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title th:text="${breadcrumb.menu_name}">게시판관리</title>
+</head>
+<div layout:fragment="content">
+    <nav th:replace="fragments/page_breadcrumb"></nav>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <select th:field="*{field}" class="form-control">
+                                            <option value="subject">제목</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="padding-top: 12px;">
+                                <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
+                                    <i class="btn-icon-prepend" data-feather="search"></i>검색
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <label class="col-sm-8 col-form-label">게시물 목록</label>
+                        <div class="col-sm-4 text-right">
+                            <button class="btn btn-secondary btn-icon-text btn-danger">선택 삭제</button>
+                            <a th:href="@{|/board/${boardType}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
+                                <i class="btn-icon-prepend" data-feather="edit"></i>게시물 추가
+                            </a>
+                        </div>
+                    </div>
+                    <p class="card-description">
+                        <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
+                    </p>
+                    <p class="card-description"></p>
+                    <div class="table-responsive" style="text-align: center">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 5%;">
+                                <col style="width: 5%;">
+                                <col style="width: 35%;">
+                                <col style="width: 12%;">
+                                <col style="width: 12%;">
+                                <col style="width: 12%;">
+                                <col style="width: 5%;">
+                                <col style="width: 12%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>선택</th>
+                                <th>#</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>첨부파일</th>
+                                <th>답변사용</th>
+                                <th>비밀글</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                <td>
+                                    <!--선택 체크박스-->
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" style="margin: 0 auto;">
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-primary" th:if="${item.notice_flag == true}">공지</span>
+                                    <th:block th:unless="${item.notice_flag == true}" th:text="${paging.total - item.rnum + 1}">1</th:block>
+                                </td>
+                                <td>
+                                    <a th:href="@{|/board/${boardType}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                </td>
+                                <td th:text="${item.reg_username}">작성자</td>
+                                <td><i data-feather="file" th:if="${item.file_cnt > 0}"></i></td>
+                                <td>
+                                    <!--답변사용-->
+                                    <span style="color:#ccc; display: none">확인중</span> <!--확인중 display:none 처리 해둠-->
+                                    <span style="color:#727cf5; font-weight: bold">답변완료</span>
+                                </td>
+                                <td>
+                                    <!--비밀글-->
+                                    <i data-feather="lock"></i>
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form name="deleteForm" th:action="@{/board/delete}" method="post">
+        <input type="hidden" name="boardSeq">
+        <input type="hidden" name="boardType" th:value="${boardType}">
+        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    </form>
+</div>
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/assets/js/pages/board/board_list.js}"></script>
+</th:block>
+
+</html>
