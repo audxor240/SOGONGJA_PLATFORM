@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required">제목</label>
+                                    <label class="col-sm-2 col-form-label required">게시판 이름</label>
                                     <div class="col-sm-10">
                                         <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
@@ -30,114 +30,48 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required">내용</label>
+                                    <label class="col-sm-2 col-form-label required">첨부파일 사용 변수명</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
+                                    </div>
+                                    <span class="col-sm-6" style="padding-top: 10px;">* 변수명 규칙을 써주세요.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">설명</label>
                                     <div class="col-sm-10">
-                                        <div id="editor" style="height: 500px;"></div>
+                                        <div id="editor" style="height: 300px;"></div>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <th:block th:if="*{boardType == 'notice'}">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">공지여부</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="noticeFlag" value="0" data-label="미사용" th:checked="*{noticeFlag == 0}">미사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="noticeFlag" value="1" data-label="사용" th:checked="*{noticeFlag == 1}">사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">팝업사용</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="popupFlag" value="0" data-label="미사용" th:checked="*{popupFlag == 0}">미사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="popupFlag" value="1" data-label="사용" th:checked="*{popupFlag == 1}">사용
-                                                    <i class="input-frame"></i>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row popup-date" th:style="*{popupFlag == 0 ? 'display: none;' : ''}">
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">팝업기간</label>
-                                        <div class="col-sm-9">
-                                            <div class="form-group row ml-0">
-                                                <div class="col-sm-3 input-group date datepicker">
-                                                    <input type="text" class="form-control" th:field="*{fromDt}" readonly="readonly" required="required">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="m-2">~</div>
-                                                <div class="col-sm-3 input-group date datepicker">
-                                                    <input type="text" class="form-control" th:field="*{toDt}" readonly="readonly" required="required">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th:block>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <div class="col-sm-2">
-                                        <label class="col-form-label">첨부파일</label><br>
-                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file">추가</button>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
-                                            <div class="pt-2 attach-file">
-                                                <div class="input-group">
-                                                    <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-1 mr-2" th:text="${item.file_name}">파일명</a>
-                                                    <span class="input-group-append">
-                                                        <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </th:block>
-                                        <div class="attach-file-group">
-                                            <div class="pt-2 attach-file" th:if="${#lists.isEmpty(fileList) || #lists.size(fileList) < 5}">
-                                                <input type="file" name="attachFiles" class="file-upload-default">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control file-upload-title" disabled="disabled" placeholder="">
-                                                    <span class="input-group-append">
-                                                        <button type="button" class="file-upload-browse btn btn-primary">파일선택</button>
-                                                        <button type="button" class="btn btn-danger btn-delete-upload ml-3">삭제</button>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                    <label class="col-sm-2 col-form-label">기능</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="file_use">
+                                                <input type="checkbox" value="1" name="function_boad" id="file_use">
+                                                첨부파일 사용
+                                            </label>
                                         </div>
-                                        <div class="text-danger mt-2">
-                                            첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="answer_use">
+                                                <input type="checkbox" value="2" name="function_boad" id="answer_use">
+                                                답변 사용
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="secret_use">
+                                                <input type="checkbox" value="3" name="function_boad" id="secret_use">
+                                                비밀글 사용
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
