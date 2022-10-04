@@ -1,13 +1,11 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import com.stoneitgt.sogongja.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +24,6 @@ import com.stoneitgt.common.GlobalConstant.FILE_REF_TYPE;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.BoardParameter;
 import com.stoneitgt.sogongja.admin.service.BoardService;
-import com.stoneitgt.sogongja.domain.BaseParameter;
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.Law;
-import com.stoneitgt.sogongja.domain.Project;
 import com.stoneitgt.util.StoneUtil;
 
 @Controller
@@ -49,34 +43,46 @@ public class BoardController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("board_type", boardType);
 
-		List<Map<String, Object>> list = boardService.getBoardList(paramsMap, paging);
+		String url = "";
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		//List<Map<String, Object>> list = new ArrayList<Map<String, Object>>;
+
+		if(BOARD_TYPE.SETTING.equals(boardType)) {
+			list = boardService.getBoardSettingList(paramsMap, paging);
+			breadcrumb.put("parent_menu_name", "게시판 관리");
+			breadcrumb.put("menu_name", "게시판 관리");
+			url = "pages/board/board_setting_list";
+		}else{
+			list = boardService.getBoardList(paramsMap, paging);
+
+			switch (boardType) {
+				case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
+				case "news":  breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
+				case "faq":  breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
+				case "community":  breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
+			}
+
+			if (BOARD_TYPE.FAQ.equals(boardType)) {
+				model.addAttribute("category", getCodeList("FAQ_TYPE"));
+				url = "pages/board/board_list_faq";
+			} else {
+				url = "pages/board/board_list";
+			}
+		}
 		Integer total = boardService.selectTotalRecords();
 		paging.setTotal(total);
 
 		model.addAttribute("list", list);
-		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
-		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
-		Map<String, Object> breadcrumb = new HashMap<String, Object>();
 
-		switch (boardType){
-			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
-			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
-		}
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
-		if (BOARD_TYPE.FAQ.equals(boardType)) {
-			model.addAttribute("category", getCodeList("FAQ_TYPE"));
-			return "pages/board/board_list_faq";
-		} else {
-			return "pages/board/board_list";
-		}
-
+		return url;
 	}
 
 	@GetMapping("/{boardType}/{boardSeq}")
@@ -108,10 +114,17 @@ public class BoardController extends BaseController {
 
 	@GetMapping("/{boardType}/form")
 	public String boardForm(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
-		Board board = new Board();
-		board.setBoardType(boardType);
 
-		model.addAttribute("board", board);
+		if (boardType.equals("setting")) {
+			BoardSetting boardSetting = new BoardSetting();
+			boardSetting.setBoardType(boardType);
+			model.addAttribute("boardSetting", boardSetting);
+		}else{
+			Board board = new Board();
+			board.setBoardType(boardType);
+			model.addAttribute("board", board);
+		}
+
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
@@ -121,6 +134,7 @@ public class BoardController extends BaseController {
 			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
 			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
 			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
+			case "setting": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "게시판 관리"); break;
 		}
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -128,6 +142,8 @@ public class BoardController extends BaseController {
 		if (BOARD_TYPE.FAQ.equals(boardType)) {
 			model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
 			return "pages/board/board_form_faq";
+		}else if(BOARD_TYPE.SETTING.equals(boardType)){
+			return "pages/board/board_setting_form";
 		} else {
 			return "pages/board/board_form";
 		}
@@ -163,6 +179,34 @@ public class BoardController extends BaseController {
 		}
 		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
 		boardService.saveBoard(board);
+
+		return returnUrl;
+	}
+
+	@PostMapping("/settingForm")
+	public String saveBoardSetting(@RequestParam(required = false) String menuCode,
+							@ModelAttribute("boardSetting") @Valid BoardSetting boardSetting, BindingResult bindingResult, Model model,
+							RedirectAttributes rttr) throws IOException {
+		System.out.println("boardSetting >>> "+boardSetting);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("menuCode", menuCode);
+			model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+			model.addAttribute("pageParams", boardSetting.getPageParams());
+
+			return "pages/board/board_setting_form";
+		}
+
+		String returnUrl = "redirect:/board/" + boardSetting.getBoardType() + "?";
+
+		if (boardSetting.getBoardSettingSeq() == 0) {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+			returnUrl += "menuCode=" + menuCode;
+		} else {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+			returnUrl += boardSetting.getPageParams();
+		}
+		boardSetting.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+		boardService.saveBoardSetting(boardSetting);
 
 		return returnUrl;
 	}

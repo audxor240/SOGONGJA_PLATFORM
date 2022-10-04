@@ -42,6 +42,12 @@
 	/*||ORDER BY BOARD_SEQ DESC||*/
 	</select>
 
+    <select id="getBoardSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardList */
+        SELECT * FROM ST_BOARD_SETTING ORDER BY REG_DATE DESC
+
+    </select>
+
 	<insert id="insertBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
 		/* file : BoardMapper.xml, id : insertBoard */
 		INSERT
@@ -100,6 +106,56 @@
 		       , DEL_DATE     = CURRENT_TIMESTAMP()
 		   WHERE BOARD_SEQ    = #{board_seq}
 	</update>
+
+    <insert id="insertBoardSetting" parameterType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : insertBoardSetting */
+        INSERT
+        INTO ST_BOARD_SETTING (
+        NAME
+        ,DESCRIPTION
+        ,FILE_USE
+        ,ANSWER_USE
+        ,SECRET_USE
+        ,FILE_DIRECTORY_NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{name}
+        ,#{desc}
+        ,#{fileUse}
+        ,#{answerUse}
+        ,#{secretUse}
+        ,#{fileDirectoryName}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="boardSettingSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateBoardSetting" parameterType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : updateBoard */
+        UPDATE ST_BOARD_SETTING
+        SET
+          NAME = #{name}
+          , DESC = #{desc}
+          , FILE_USE = #{fileUse}
+          , ANSWER_USE= #{answerUse}
+          , SECRET_USE= #{secretUse}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SEQ    = #{boardSeq}
+    </update>
+
+    <update id="deleteBoardSetting" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteBoard */
+        UPDATE ST_BOARD_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
+    </update>
 
 	<update id="modPopupFlagToZero" parameterType="map" >
 		/* file : BoardMapper.xml, id : modPopupFlagToZero */

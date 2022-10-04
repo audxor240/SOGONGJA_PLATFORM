@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,10 @@ public class BoardService extends BaseService {
 
 	public List<Map<String, Object>> getBoardList(Map<String, Object> params, Paging paging) {
 		return boardMapper.getBoardList(params, paging.getPaging());
+	}
+
+	public List<Map<String, Object>> getBoardSettingList(Map<String, Object> params, Paging paging) {
+		return boardMapper.getBoardSettingList(params, paging.getPaging());
 	}
 
 	public Integer selectTotalRecords() {
@@ -70,6 +75,21 @@ public class BoardService extends BaseService {
 		if (popupFlag > 0) {
 			boardMapper.modPopupFlagToZero(board);
 		}
+
+		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public int saveBoardSetting(BoardSetting boardSetting) throws IOException {
+		int result = 0;
+
+
+		if (boardSetting.getBoardSettingSeq() == 0) {
+			result = boardMapper.insertBoardSetting(boardSetting);
+		} else {
+			result = boardMapper.updateBoardSetting(boardSetting);
+		}
+
 
 		return result;
 	}
