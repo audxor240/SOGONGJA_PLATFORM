@@ -63,4 +63,7 @@ public class Board {
 	private String secretUse;
 
 	private int regUserSeq;
+
+	private int boardSettingSeq;
+
 }

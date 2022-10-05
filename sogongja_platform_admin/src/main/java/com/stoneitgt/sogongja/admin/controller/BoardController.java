@@ -33,7 +33,7 @@ public class BoardController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping("/{boardType}")
+	/*@GetMapping("/{boardType}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
 
 		Paging paging = new Paging();
@@ -55,6 +55,7 @@ public class BoardController extends BaseController {
 			breadcrumb.put("menu_name", "게시판 관리");
 			url = "pages/board/board_setting_list";
 		}else{
+			paramsMap.put("board_setting_seq", boardType);
 			list = boardService.getBoardList(paramsMap, paging);
 
 			switch (boardType) {
@@ -73,7 +74,7 @@ public class BoardController extends BaseController {
 		}
 		Integer total = boardService.selectTotalRecords();
 		paging.setTotal(total);
-
+		System.out.println("list >> "+list);
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
@@ -83,70 +84,166 @@ public class BoardController extends BaseController {
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return url;
+	}*/
+
+
+	@GetMapping("/settingList")
+	public String boardSettingList(@ModelAttribute BaseParameter params, Model model) {
+
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		list = boardService.getBoardSettingList(paramsMap, paging);
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", "게시판 관리");
+
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		return "pages/board/board_setting_list";
+	}
+	@GetMapping("/{boardSettingSeq}")
+	public String boardList(@PathVariable String boardSettingSeq, @ModelAttribute BaseParameter params, Model model) {
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("boardSettingSeq",boardSettingSeq);
+		//paramsMap.put("board_type", boardType);
+
+		BoardSetting boardSetting = boardService.getBoardSetting(Integer.parseInt(boardSettingSeq));
+		String url = "";
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		//List<Map<String, Object>> list = new ArrayList<Map<String, Object>>;
+
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", boardSetting.getName()+" 관리");
+
+
+		list = boardService.getBoardList(paramsMap, paging);
+
+
+		url = "pages/board/board_list";
+
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+		model.addAttribute("boardSettingSeq", boardSettingSeq);
+		model.addAttribute("boardSetting", boardSetting);
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		return url;
 	}
 
-	@GetMapping("/{boardType}/{boardSeq}")
-	public String boardView(@PathVariable String boardType, @PathVariable int boardSeq,
+	@GetMapping("/{boardSettingSeq}/{boardSeq}")
+	public String boardView(@PathVariable String boardSettingSeq, @PathVariable int boardSeq,
 			@ModelAttribute BaseParameter params, Model model) {
-		model.addAttribute("board", boardService.getBoard(boardSeq));
-		model.addAttribute("menuCode", params.getMenuCode());
-		model.addAttribute("boardType", boardType);
-		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
-		Map<String, Object> breadcrumb = new HashMap<String, Object>();
 
-		switch (boardType){
-			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
-			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
-		}
+		String url = "";
+
+		model.addAttribute("menuCode", params.getMenuCode());
+		model.addAttribute("boardSettingSeq", boardSettingSeq);
+
+		BoardSetting boardSetting = boardService.getBoardSetting(Integer.parseInt(boardSettingSeq));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", boardSetting.getName()+" 관리");
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
-		if (BOARD_TYPE.FAQ.equals(boardType)) {
-			model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
-			return "pages/board/board_form_faq";
-		} else {
-			model.addAttribute("fileList", getFileList(FILE_REF_TYPE.BOARD, boardSeq));
-			return "pages/board/board_form";
+		model.addAttribute("board", boardService.getBoard(boardSeq));
+		model.addAttribute("fileList", getFileList(boardSetting.getFileDirectoryName(), boardSeq));
+		model.addAttribute("boardSetting", boardSetting);
+
+		//답변 사용인 게시판이면
+		if(boardSetting.getAnswerUse() == 1){
+			url = "pages/board/board_form_02";
+		}else{
+			url = "pages/board/board_form";
 		}
+		return url;
 	}
 
-	@GetMapping("/{boardType}/form")
-	public String boardForm(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
-
-		if (boardType.equals("setting")) {
-			BoardSetting boardSetting = new BoardSetting();
-			boardSetting.setBoardType(boardType);
-			model.addAttribute("boardSetting", boardSetting);
-		}else{
-			Board board = new Board();
-			board.setBoardType(boardType);
-			model.addAttribute("board", board);
-		}
+	@GetMapping("/setting/detail/{boardSettingSeq}")
+	public String boardSettingView(@PathVariable int boardSettingSeq,
+							@ModelAttribute BaseParameter params, Model model) {
 
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
 
-		switch (boardType){
-			case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
-			case "news": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "보도자료"); break;
-			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
-			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
-			case "setting": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "게시판 관리"); break;
-		}
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", "게시판관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
-		if (BOARD_TYPE.FAQ.equals(boardType)) {
-			model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
-			return "pages/board/board_form_faq";
-		}else if(BOARD_TYPE.SETTING.equals(boardType)){
-			return "pages/board/board_setting_form";
-		} else {
-			return "pages/board/board_form";
-		}
+		model.addAttribute("boardSetting", boardService.getBoardSetting(boardSettingSeq));
+		System.out.println("boardSetting >>>>>>>> "+model.getAttribute("boardSetting"));
+		return "pages/board/board_setting_form";
+
+	}
+
+	@GetMapping("/{boardSettingSeq}/form")
+	public String boardForm(@PathVariable int boardSettingSeq, @ModelAttribute BaseParameter params, Model model) {
+
+		Board board = new Board();
+		board.setBoardSettingSeq(boardSettingSeq);
+		model.addAttribute("board", board);
+
+		model.addAttribute("menuCode", params.getMenuCode());
+
+		BoardSetting boardSetting = boardService.getBoardSetting(boardSettingSeq);
+		System.out.println("boardSetting :: "+boardSetting);
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", boardSetting.getName()+" 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("boardSetting", boardSetting);
+
+		return "pages/board/board_form";
+	}
+
+	@GetMapping("/setting/form")
+	public String boardSettingForm(@ModelAttribute BaseParameter params, Model model) {
+
+		BoardSetting boardSetting = new BoardSetting();
+		model.addAttribute("boardSetting", boardSetting);
+
+
+		model.addAttribute("menuCode", params.getMenuCode());
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", "게시판 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		return "pages/board/board_setting_form";
 	}
 
 	@PostMapping("/form")
@@ -168,7 +265,7 @@ public class BoardController extends BaseController {
 			}
 		}
 
-		String returnUrl = "redirect:/board/" + board.getBoardType() + "?";
+		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -178,7 +275,8 @@ public class BoardController extends BaseController {
 			returnUrl += board.getPageParams();
 		}
 		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
-		boardService.saveBoard(board);
+		BoardSetting boardSetting = boardService.getBoardSetting(board.getBoardSettingSeq());
+		boardService.saveBoard(board, boardSetting);
 
 		return returnUrl;
 	}
@@ -196,7 +294,7 @@ public class BoardController extends BaseController {
 			return "pages/board/board_setting_form";
 		}
 
-		String returnUrl = "redirect:/board/" + boardSetting.getBoardType() + "?";
+		String returnUrl = "redirect:/board/settingList?";
 
 		if (boardSetting.getBoardSettingSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -212,14 +310,25 @@ public class BoardController extends BaseController {
 	}
 
 	@PostMapping("/delete")
-	public String deleteBoard(@RequestParam String boardType, @RequestParam int boardSeq,
+	public String deleteBoard(@RequestParam String boardSettingSeq, @RequestParam int boardSeq,
 			@RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("board_seq", boardSeq);
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
 		boardService.deleteBoard(params);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/" + boardType + "?menuCode=" + menuCode;
+		return "redirect:/board/" + boardSettingSeq + "?menuCode=" + menuCode;
+	}
+
+	@PostMapping("/settingDelete")
+	public String deleteBoardSetting(@RequestParam int boardSettingSeq,
+							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("board_setting_seq", boardSettingSeq);
+		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+		boardService.deleteBoardSetting(params);
+		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
+		return "redirect:/board/" + boardSettingSeq + "?menuCode=" + menuCode;
 	}
 
 	@GetMapping("/project")

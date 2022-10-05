@@ -17,9 +17,6 @@
         });
         editor.setMarkdown(tui_content);
 
-
-        /*
-        // qna 수정할때 사용함 , 주석풀어야함
         editor2 = new toastui.Editor({
             el: document.querySelector('#editor2'),
             initialEditType: 'wysiwyg',
@@ -35,7 +32,7 @@
         });
 
         editor2.setMarkdown(tui_content2);
-        */
+
 
         $('.btn-delete-file').on('click', function() {
             var fileSeq = $(this).data('file-seq');
@@ -110,7 +107,7 @@
 
 function validationForm() {
     var content = editor.getMarkdown();
-    //var content2 = editor2.getMarkdown();
+    var content2 = editor2.getMarkdown();
 
     if (content.trim() === '') {
         alert('내용을 입력하세요.');

@@ -15,7 +15,7 @@
                         <div class="row">
                             <label class="col-sm-8 col-form-label">게시판 목록</label>
                             <div class="col-sm-4 text-right">
-                                <a th:href="@{|/board/${boardType}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
+                                <a th:href="@{|/board/setting/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
                                     <i class="btn-icon-prepend" data-feather="edit"></i>게시판 추가
                                 </a>
                             </div>
@@ -54,27 +54,27 @@
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
                                 <td>
-                                    <a th:href="@{|/board/${boardType}/${item.board_setting_seq}?${pageParams}|}" th:text="${item.name}">게시판 이름</a>
+                                    <a th:href="@{|/board/setting/detail/${item.board_setting_seq}?${pageParams}|}" th:text="${item.name}">게시판 이름</a>
                                 </td>
                                 <td>
                                     <!--첨부파일-->
-                                    <i data-feather="check-square" style="display:none"></i>
+                                    <i data-feather="check-square" th:style="${item.file_use == false? 'display:none':''}"></i>
                                 </td>
                                 <td>
                                     <!--답변사용-->
-                                    <i data-feather="check-square"></i>
+                                    <i data-feather="check-square" th:style="${item.answer_use == false? 'display:none':''}"></i>
                                 </td>
                                 <td>
                                     <!--비밀글-->
-                                    <i data-feather="check-square"></i>
+                                    <i data-feather="check-square" th:style="${item.secret_use == false? 'display:none':''}"></i>
                                 </td>
-                                <td th:text="${item.reg_date}">등록일</td>
+                                <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
                                 <td>
                                     <!--게시글 관리-->
-                                    <a href="#none" ><i data-feather="corner-right-down"></i></a>
+                                    <a th:href="@{|/board/${item.board_setting_seq}?${pageParams}|}"><i data-feather="corner-right-down"></i></a>
                                 </td>
                                 <td class="text-right">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_setting_seq}">삭제</button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-setting-seq="${item.board_setting_seq}">삭제</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -85,8 +85,8 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/board/delete}" method="post">
-        <input type="hidden" name="boardSeq">
+    <form name="deleteForm" th:action="@{/board/settingDelete}" method="post">
+        <input type="hidden" name="boardSettingSeq">
         <input type="hidden" name="boardType" th:value="${boardType}">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
@@ -94,7 +94,7 @@
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/assets/js/pages/board/board_list.js}"></script>
+    <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
 </th:block>
 
 </html>

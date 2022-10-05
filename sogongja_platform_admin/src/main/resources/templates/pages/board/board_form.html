@@ -10,6 +10,7 @@
         <input type="hidden" th:field="*{boardSeq}">
         <input type="hidden" th:field="*{boardType}">
         <input type="hidden" th:field="*{content}">
+        <input type="hidden" th:field="*{boardSettingSeq}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">
         <div class="row">
@@ -38,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <th:block th:if="*{boardType == 'notice'}">
+                        <th:block th:if="${boardSetting.boardSettingSeq == 2}">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group row">
@@ -106,7 +107,7 @@
                                 </div>
                             </div>
                         </th:block>
-                        <div class="row">
+                        <div class="row" th:if="${boardSetting.fileUse == 1}">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <div class="col-sm-2">
@@ -155,7 +156,7 @@
                 <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{boardSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" href="javascript:window.history.back();">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
             </div>
@@ -172,6 +173,7 @@
         var tui_content = /*[[${board.content}]]*/ '';
         var board_type = /*[[${boardType}]]*/ '';
         var editor;
+        console.log("tui_content :: "+tui_content);
     </script>
     <script th:src="@{/assets/js/libs/codemirror.js}"></script>
     <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>

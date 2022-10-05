@@ -24,7 +24,7 @@ public class BoardSetting {
 
     // 설명
     @NotBlank(message = "{field.required}")
-    private String desc;
+    private String description;
 
     @NotBlank
     private String boardType;

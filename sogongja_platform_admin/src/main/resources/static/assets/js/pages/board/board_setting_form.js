@@ -44,8 +44,7 @@ function validationForm() {
         alert('설명을 입력해주세요.');
         return false;
     }
-
-    $('#desc').val(desc);
+    $('#description').val(desc);
 
     if($("#fileUse").is(":checked")){
         if(fileDirectoryName == ""){
