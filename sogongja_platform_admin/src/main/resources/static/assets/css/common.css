@@ -66,12 +66,21 @@ a.file-download { display: block; flex: 1 1 auto; }
 .login_btn { border-top: 1px solid #fff; margin-top: 2rem; padding-top: 1.5rem; }
 .login_btn button { width: 100%; background: #fff; border: none; line-height: 2.75rem; font-size: 1.25rem; font-weight: 700; color: #000; margin-top: 1.5rem; }
 
+/*로고*/
+.sidebar-header img{display: block;width:100%}
+
 /*첨부파일 썸네일*/
 .bannerThumb{display:block;margin-top: 20px;max-width: 300px;}
 
 /*datepicker 조정*/
 .datepicker{border: solid 1px #eee;padding: 8px 16px}
 .datepicker:focus{border: solid 1px #eee; box-shadow: 0 0 10px #cccccc50;}
+
+/*탭 조정*/
+.tab_wrap{width: 100%;}
+.tab a{text-align: center; display:block;background-color: #fff; color:#ccc; font-size: 1rem;line-height: 1;padding: 1rem 1rem 1rem; border-radius: 10px;box-shadow: 0 0 10px #eee;}
+.tab.active a{background-color: #727cf5; color:#fff; box-shadow: 0 0 10px #efefef; font-weight: bold;}
+
 
 /* media */
 @media screen and (max-width:640px) {
