@@ -52,7 +52,7 @@
                                 <td th:text="${paging.total - item.rnum + 1}">1</td>
                                 <td>이용자 유형</td>
                                 <td>
-                                    <a th:href="@{|/education/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    <a th:href="@{|/survey/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                 </td>
                                 <td style="text-align: center" th:text="${item.reg_dt}">등록일</td>
                                 <td style="text-align: center">
