@@ -22,6 +22,8 @@ public interface BoardMapper {
 
 	Board getBoard(int boardSeq);
 
+	BoardSetting getBoardSetting(int boardSettingSeq);
+
 	int insertBoard(Board board);
 
 	int updateBoard(Board board);
@@ -61,4 +63,6 @@ public interface BoardMapper {
 	int deleteLaw(Map<String, Object> params);
 
 	int selectTotalRecords();
+
+	BoardSetting getBoardSettingInfo(int boardSettingSeq);
 }

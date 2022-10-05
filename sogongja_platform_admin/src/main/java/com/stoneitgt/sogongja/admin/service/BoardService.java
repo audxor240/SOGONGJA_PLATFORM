@@ -48,8 +48,13 @@ public class BoardService extends BaseService {
 		return board;
 	}
 
+	public BoardSetting getBoardSetting(int boardSettingSeq) {
+		BoardSetting boardSetting = boardMapper.getBoardSetting(boardSettingSeq);
+		return boardSetting;
+	}
+
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-	public int saveBoard(Board board) throws IOException {
+	public int saveBoard(Board board, BoardSetting boardSetting) throws IOException {
 		int result = 0;
 		int popupFlag = board.getPopupFlag();
 
@@ -68,7 +73,8 @@ public class BoardService extends BaseService {
 		}
 		if (board.getAttachFiles() != null && board.getAttachFiles().size() > 0) {
 			for (MultipartFile attachFile : board.getAttachFiles()) {
-				filesService.saveFiles(attachFile, FILE_REF_TYPE.BOARD, board.getBoardSeq(), board.getLoginUserSeq());
+				//filesService.saveFiles(attachFile, FILE_REF_TYPE.BOARD, board.getBoardSeq(), board.getLoginUserSeq());
+				filesService.saveFiles(attachFile, boardSetting.getFileDirectoryName(), board.getBoardSeq(), board.getLoginUserSeq());
 			}
 		}
 
@@ -97,6 +103,15 @@ public class BoardService extends BaseService {
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int deleteBoard(Map<String, Object> params) {
 		int result = boardMapper.deleteBoard(params);
+		params.put("ref_type", FILE_REF_TYPE.BOARD.toUpperCase());
+		params.put("ref_seq", params.get("board_seq"));
+		filesService.deleteFileAll(params);
+		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public int deleteBoardSetting(Map<String, Object> params) {
+		int result = boardMapper.deleteBoardSetting(params);
 		params.put("ref_type", FILE_REF_TYPE.BOARD.toUpperCase());
 		params.put("ref_seq", params.get("board_seq"));
 		filesService.deleteFileAll(params);

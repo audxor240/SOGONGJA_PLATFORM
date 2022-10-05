@@ -31,7 +31,7 @@
                                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
                                     <i class="btn-icon-prepend" data-feather="search"></i>조회
                                 </button>
-                                <a th:href="@{|/board/${boardType}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
+                                <a th:href="@{|/board/${boardSettingSeq}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text" th:if="${boardSetting.answerUse != 1}">
                                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                                 </a>
                             </div>
@@ -66,7 +66,9 @@
                                 <th>제목</th>
                                 <th>작성자</th>
                                 <th>작성일</th>
-                                <th>첨부파일</th>
+                                <th th:if="${boardSetting.fileUse == 1}">첨부파일</th>
+                                <th th:if="${boardSetting.answerUse == 1}">답변</th>
+                                <th th:if="${boardSetting.secretUse == 1}">비밀글</th>
                                 <th>조회수</th>
                                 <th></th>
                             </tr>
@@ -79,11 +81,13 @@
                                     <th:block th:unless="${item.notice_flag == true}" th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
                                 <td>
-                                    <a th:href="@{|/board/${boardType}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    <a th:href="@{|/board/${item.board_setting_seq}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                 </td>
                                 <td th:text="${item.reg_username}">작성자</td>
                                 <td th:text="${item.reg_dt}">작성일</td>
-                                <td><i data-feather="file" th:if="${item.file_cnt > 0}"></i></td>
+                                <td th:if="${boardSetting.fileUse == 1}"><i data-feather="file" th:if="${item.file_cnt > 0}"></i></td>
+                                <td th:if="${boardSetting.answerUse == 1}">답변</td>
+                                <td th:if="${boardSetting.secretUse == 1}">비밀글</td>
                                 <td th:text="${item.read_cnt}">조회수</td>
                                 <td class="text-right">
                                     <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
@@ -99,7 +103,7 @@
     </div>
     <form name="deleteForm" th:action="@{/board/delete}" method="post">
         <input type="hidden" name="boardSeq">
-        <input type="hidden" name="boardType" th:value="${boardType}">
+        <input type="hidden" name="boardSettingSeq" th:value="${boardSettingSeq}">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>

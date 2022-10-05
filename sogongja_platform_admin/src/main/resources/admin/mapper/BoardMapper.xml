@@ -25,26 +25,30 @@
 		    FROM ST_BOARD A
 		       INNER JOIN ST_USER U
 		               ON A.REG_USER_SEQ = U.USER_SEQ
+               LEFT JOIN ST_BOARD_SETTING AS BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
 		<if test="board_type == 'faq'">
 		       INNER JOIN ST_CODE_DTL C
 		               ON C.GRP_CODE     = 'FAQ_TYPE'
 		              AND C.CODE         = A.CATEGORY
 		</if>
 		   WHERE A.DEL_FLAG              = 0
-		     AND A.BOARD_TYPE            = #{board_type}
+             AND A.BOARD_SETTING_SEQ = #{boardSettingSeq}
 		<if test="category != null and category != ''">
 		     AND A.CATEGORY              = #{category}
 		</if>
 		<if test="keyword != null and keyword != ''">
              AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
-		ORDER BY BOARD_SEQ DESC
+		ORDER BY A.BOARD_SEQ DESC
 	/*||ORDER BY BOARD_SEQ DESC||*/
 	</select>
 
     <select id="getBoardSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : BoardMapper.xml, id : getBoardList */
-        SELECT * FROM ST_BOARD_SETTING ORDER BY REG_DATE DESC
+        SELECT *
+        FROM ST_BOARD_SETTING
+        WHERE DEL_FLAG = 0
+        ORDER BY REG_DATE DESC
 
     </select>
 
@@ -53,6 +57,7 @@
 		INSERT
 		  INTO ST_BOARD (
 		              BOARD_TYPE
+		            , BOARD_SETTING_SEQ
 		            , SUBJECT
 		            , CONTENT
 		            , CATEGORY
@@ -65,6 +70,7 @@
 		            , REG_DATE)
 		       VALUES (
 		              #{boardType}
+		            , #{boardSettingSeq}
 		            , #{subject}
 		            , #{content}
 		            , #{category}
@@ -121,7 +127,7 @@
         , REG_DATE)
         VALUES (
         #{name}
-        ,#{desc}
+        ,#{description}
         ,#{fileUse}
         ,#{answerUse}
         ,#{secretUse}
@@ -139,13 +145,13 @@
         UPDATE ST_BOARD_SETTING
         SET
           NAME = #{name}
-          , DESC = #{desc}
+          , DESCRIPTION = #{description}
           , FILE_USE = #{fileUse}
           , ANSWER_USE= #{answerUse}
           , SECRET_USE= #{secretUse}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
-        WHERE BOARD_SEQ    = #{boardSeq}
+        WHERE BOARD_SETTING_SEQ    = #{boardSettingSeq}
     </update>
 
     <update id="deleteBoardSetting" parameterType="map" >
@@ -172,6 +178,14 @@
 		   WHERE A.DEL_FLAG  = 0
 		     AND A.BOARD_SEQ = #{boardSeq}
 	</select>
+
+    <select id="getBoardSetting" parameterType="int" resultType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : getBoard */
+        SELECT A.*
+        FROM ST_BOARD_SETTING A
+        WHERE A.DEL_FLAG  = 0
+          AND A.BOARD_SETTING_SEQ = #{boardSettingSeq}
+    </select>
 
 	<select id="getBoardLawList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : BoardMapper.xml, id : getBoardLawList */
