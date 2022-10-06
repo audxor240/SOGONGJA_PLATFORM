@@ -510,6 +510,15 @@
 		background: url(#{$assetPath}/icon-file.png) no-repeat 0 50%
 		a
 			color: #000
+
+.answer_view
+	.answer_view_tite
+		+flex_type($justify: space-between,$align: center)
+		.icon_answer
+			padding: rem(4.5) 0 rem(4.5) rem(32)
+			background: url(#{$assetPath}/icon-answer.png) no-repeat 0 50%
+	.answer_view_text
+
 .reply_view
 	.reply_view_top
 		margin-top: 40px
@@ -1898,6 +1907,23 @@
 				border: solid 2px #F63C3C
 				background-color: #fff
 				color: #F63C3C
+.servey_question
+	max-width: 1000px
+	.q_title
+		h3
+			font-size: rem(22)
+			font-weight: bold
+			span
+				display: inline-block
+		p
+			font-size: rem(16)
+			color: #606060
+			line-height: 1.8
+
+
+
+
+
 
 //반응형
 @include tablet
