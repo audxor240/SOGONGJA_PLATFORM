@@ -110,18 +110,18 @@ function validationForm() {
     var content2 = editor2.getMarkdown();
 
     if (content.trim() === '') {
-        alert('내용을 입력하세요.');
+        alert('내용을 입력해주세요.');
         return false;
     }
 
-    if ($('input:radio[name="popupFlag"]:checked').val() === '1') {
-        if ($('#fromDt').val() === '' || $('#toDt').val() === '') {
-            alert('팝업 기간을 입력하세요.');
-            return false;
-        }
+    if (content2.trim() === '') {
+        alert('내용을 입력해주세요.');
+        return false;
     }
 
+
     $('#content').val(content);
+    $('#comment').val(content2);
 
     return true;
 }

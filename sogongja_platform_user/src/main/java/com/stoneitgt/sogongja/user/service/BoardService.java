@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,21 +37,21 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardCategoryCount(params);
 	}
 
-	public Map<String, Object> getBoard(int boardSeq) {
-		Map<String, Object> board = boardMapper.getBoard(boardSeq);
-		boardMapper.updateBoardReadCnt(boardSeq);
+	public Map<String, Object> getBoard(int boardSeq, int boardSettingSeq) {
+		Map<String, Object> board = boardMapper.getBoard(boardSeq, boardSettingSeq);
+		boardMapper.updateBoardReadCnt(boardSeq, boardSettingSeq);
 		return board;
 	}
 
 
-	public Board getBoardDetail(int boardSeq) {
-		Board board = boardMapper.getBoardDetail(boardSeq);
-		boardMapper.updateBoardReadCnt(boardSeq);
+	public Board getBoardDetail(int boardSeq, int boardSettingSeq) {
+		Board board = boardMapper.getBoardDetail(boardSeq, boardSettingSeq);
+		boardMapper.updateBoardReadCnt(boardSeq, boardSettingSeq);
 		return board;
 	}
 
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-	public int saveBoard(Board board) throws IOException {
+	public int saveBoard(Board board, BoardSetting boardSetting) throws IOException {
 		int result = 0;
 		if (board.getBoardSeq() == 0) {
 			result = boardMapper.insertBoard(board);
@@ -59,7 +60,7 @@ public class BoardService extends BaseService {
 		}
 		if (board.getAttachFiles() != null && board.getAttachFiles().size() > 0) {
 			for (MultipartFile attachFile : board.getAttachFiles()) {
-				filesService.saveFiles(attachFile, "board", board.getBoardSeq(), board.getLoginUserSeq());
+				filesService.saveFiles(attachFile, boardSetting.getFileDirectoryName(), board.getBoardSeq(), board.getLoginUserSeq());
 			}
 		}
 		return result;
@@ -68,7 +69,7 @@ public class BoardService extends BaseService {
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int deleteBoard(Map<String, Object> params) {
 		int result = boardMapper.deleteBoard(params);
-		params.put("ref_type", "BOARD");
+		params.put("ref_type", params.get("fileDirectoryName"));
 		params.put("ref_seq", params.get("board_seq"));
 		filesService.deleteFileAll(params);
 		return result;
@@ -118,4 +119,16 @@ public class BoardService extends BaseService {
 	public Integer selectTotalRecords() {
 		return boardMapper.selectTotalRecords();
 	}
+
+	public List<Map<String, Object>> getboardSettingList(){
+
+		return boardMapper.getboardSettingList();
+	}
+
+	public BoardSetting getboardSettingInfo(int boardSettingSeq){
+
+		return boardMapper.getboardSettingInfo(boardSettingSeq);
+	}
+
+
 }

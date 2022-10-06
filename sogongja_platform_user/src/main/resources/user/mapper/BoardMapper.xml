@@ -17,8 +17,9 @@
 		    FROM ST_BOARD A
 		       INNER JOIN ST_USER U
 		               ON A.REG_USER_SEQ = U.USER_SEQ
+		       LEFT JOIN ST_BOARD_SETTING as BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
 		   WHERE A.DEL_FLAG              = 0
-		     AND A.BOARD_TYPE            = #{board_type}
+			 AND A.BOARD_SETTING_SEQ            = #{boardSettingSeq}
 		<if test="keyword != null and keyword != ''">
 		     AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
 		</if>
@@ -51,6 +52,7 @@
 		  INTO ST_BOARD (
 		              BOARD_SEQ
 		            , BOARD_TYPE
+					, BOARD_SETTING_SEQ
 		            , SUBJECT
 		            , CONTENT
 		            , CATEGORY
@@ -64,6 +66,7 @@
 		       VALUES (
 		              #{boardSeq}
 		            , #{boardType}
+					, #{boardSettingSeq}
 		            , #{subject}
 		            , #{content}
 		            , #{category}
@@ -117,6 +120,7 @@
 		           ON A.REG_USER_SEQ = B.USER_SEQ
 		 WHERE A.DEL_FLAG            = 0
 		   AND A.BOARD_SEQ           = #{boardSeq}
+		   AND A.BOARD_SETTING_SEQ   = #{boardSettingSeq}
 	</select>
 
 	<select id="getBoardDetail" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
@@ -125,13 +129,14 @@
 		FROM ST_BOARD A
 		WHERE A.DEL_FLAG            = 0
 		  AND A.BOARD_SEQ           = #{boardSeq}
+		  AND A.BOARD_SETTING_SEQ   = #{boardSettingSeq}
 	</select>
 
 	<update id="updateBoardReadCnt" parameterType="int">
 		/* file : BoardMapper.xml, id : updateBoardReadCnt */
 		UPDATE ST_BOARD
 		   SET READ_CNT  = IFNULL(READ_CNT, 0) + 1
-		 WHERE BOARD_SEQ = #{boardSeq}
+		 WHERE BOARD_SEQ = #{boardSeq} AND BOARD_SETTING_SEQ = #{boardSettingSeq}
 	</update>
 
 	<select id="getPopNoticeBoard" resultType="com.stoneitgt.common.LowerKeyMap">
@@ -227,6 +232,20 @@
 
 	<select id="selectTotalRecords" resultType="int">
 		SELECT FOUND_ROWS();
+	</select>
+
+	<select id="getboardSettingList" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getboardSettingList */
+		SELECT *
+		FROM ST_BOARD_SETTING
+		WHERE DEL_FLAG            = 0
+	</select>
+
+	<select id="getboardSettingInfo" resultType="com.stoneitgt.sogongja.domain.BoardSetting">
+		/* file : BoardMapper.xml, id : getboardSettingList */
+		SELECT *
+		FROM ST_BOARD_SETTING
+		WHERE DEL_FLAG            = 0 AND BOARD_SETTING_SEQ = #{boardSettingSeq}
 	</select>
 
 </mapper>

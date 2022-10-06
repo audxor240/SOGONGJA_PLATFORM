@@ -28,11 +28,18 @@
     <li class="board">
         <h2><a href="#">소공자 물어방</a></h2>
         <ul>
+            <!--
             <li><a th:href="@{/board/notice}">공지사항</a></li>
             <li><a th:href="@{/board/news}">보도자료</a></li>
             <li><a th:href="@{/board/project}">지원 및 정책사업</a></li>
             <li><a th:href="@{/board/qna}">QnA</a></li>
+            -->
             <!--            <li><a th:href="@{/board/law}">법령 및 조례</a></li>-->
+            <th:block th:unless="${#lists.isEmpty(boardSettingList)}">
+                <li  th:each="item : ${boardSettingList}">
+                    <a th:href="@{|/board/${item.board_setting_seq}?name=${item.name}|}">[[${item.name}]]</a>
+                </li>
+            </th:block>
         </ul>
     </li>
 </ul>

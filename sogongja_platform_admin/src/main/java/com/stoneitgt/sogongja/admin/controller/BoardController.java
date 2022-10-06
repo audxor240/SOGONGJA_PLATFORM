@@ -5,6 +5,8 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import com.stoneitgt.sogongja.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -166,6 +168,8 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardSettingSeq", boardSettingSeq);
 
 		BoardSetting boardSetting = boardService.getBoardSetting(Integer.parseInt(boardSettingSeq));
+
+
 		Map<String, Object> breadcrumb = new HashMap<String, Object>();
 		breadcrumb.put("parent_menu_name", "게시판 관리");
 		breadcrumb.put("menu_name", boardSetting.getName()+" 관리");
@@ -173,7 +177,15 @@ public class BoardController extends BaseController {
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
-		model.addAttribute("board", boardService.getBoard(boardSeq));
+		Board board = boardService.getBoard(boardSeq);
+		Answer answer = boardService.getAnswerInfo(boardSeq);
+
+		if(answer != null){
+			System.out.println("answer.getComment() :: "+answer.getComment());
+			board.setAnswerSeq(answer.getAnswerSeq());
+			board.setComment(answer.getComment());
+		}
+		model.addAttribute("board", board);
 		model.addAttribute("fileList", getFileList(boardSetting.getFileDirectoryName(), boardSeq));
 		model.addAttribute("boardSetting", boardSetting);
 
@@ -322,7 +334,7 @@ public class BoardController extends BaseController {
 
 	@PostMapping("/settingDelete")
 	public String deleteBoardSetting(@RequestParam int boardSettingSeq,
-							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
+							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws SftpException , JSchException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("board_setting_seq", boardSettingSeq);
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
@@ -552,6 +564,26 @@ public class BoardController extends BaseController {
 		boardService.deleteBoard(params);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 		return "redirect:/board/law?menuCode=" + menuCode;
+	}
+
+	@PostMapping("/saveAnswer")
+	public String saveAnswer(@RequestParam(required = false) String menuCode,
+							@ModelAttribute("board") @Valid Board board, BindingResult bindingResult, Model model,
+							RedirectAttributes rttr) throws IOException {
+
+		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+
+		if (board.getBoardSeq() == 0) {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+			returnUrl += "menuCode=" + menuCode;
+		} else {
+			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+			returnUrl += board.getPageParams();
+		}
+		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+		boardService.saveAnswer(board);
+
+		return returnUrl;
 	}
 
 }

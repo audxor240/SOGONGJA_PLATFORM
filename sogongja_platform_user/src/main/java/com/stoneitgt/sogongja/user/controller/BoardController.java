@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.stoneitgt.sogongja.domain.Board;
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.service.UserService;
 import org.apache.ibatis.jdbc.Null;
@@ -41,6 +42,7 @@ public class BoardController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	/*
 	@GetMapping("/{boardType:news|notice|faq|community|qna}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
 		System.out.println("boardType :: "+boardType);
@@ -60,10 +62,14 @@ public class BoardController extends BaseController {
 			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 			model.addAttribute("paging", paging);
 		}
-		System.out.println("list --------------- "+list);
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingInfo();
+		System.out.println("boardSettingList >>>>> "+boardSettingList);
+		System.out.println("boardSettingList.size() :: "+boardSettingList.size());
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		String pageName = "";
@@ -82,18 +88,75 @@ public class BoardController extends BaseController {
 
 		return "pages/board/" + pageName;
 	}
+	 */
 
-	@GetMapping("/{boardType}/{boardSeq}")
-	public String boardView(@PathVariable String boardType, @PathVariable int boardSeq, @RequestParam String reg_user_seq,
+	@GetMapping("/{boardSettingSeq}")
+	public String boardList(@PathVariable String boardSettingSeq, @RequestParam(required=false) String name, @ModelAttribute BaseParameter params, Model model) {
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("boardSettingSeq", boardSettingSeq);
+
+		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
+		List<Map<String, Object>> list = null;
+
+		/*if (BOARD_TYPE.FAQ.equals(boardType)) {
+			list = boardService.getBoardList(paramsMap);
+			model.addAttribute("categoryCount", boardService.getBoardCategoryCount(paramsMap));
+		} else {
+		*/
+
+			Paging paging = getUserPaging(params.getPage(), params.getSize());
+			list = boardService.getBoardList(paramsMap, paging);
+			Integer total = boardService.selectTotalRecords();
+			paging.setTotal(total);
+			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+			model.addAttribute("paging", paging);
+		//}
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("list", list);
+		model.addAttribute("params", params);
+		model.addAttribute("name", name);
+		model.addAttribute("boardSettingSeq", boardSettingSeq);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("boardSetting", boardSetting);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		String pageName = "";
+		/*
+		switch (boardType.toLowerCase()) {
+			case BOARD_TYPE.NEWS:
+			case BOARD_TYPE.NOTICE:
+			case BOARD_TYPE.COMMUNITY:
+			case BOARD_TYPE.QNA:
+				pageName = "board_list";
+				break;
+			default:
+				pageName = boardType.toLowerCase();
+				break;
+		}
+		*/
+		pageName = "board_list";
+		return "pages/board/" + pageName;
+	}
+
+	@GetMapping("/{boardSettingSeq}/{boardSeq}")
+	public String boardView(@PathVariable int boardSettingSeq, @PathVariable int boardSeq, @RequestParam(required=false) String name,
 			@ModelAttribute BaseParameter params, Model model) {
 
 		Authentication authentication = authenticationFacade.getAuthentication();
+		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
-		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.BOARD, boardSeq));
+		model.addAttribute("fileList", getFileList(boardSetting.getFileDirectoryName(), boardSeq));
+		model.addAttribute("boardSettingSeq", boardSettingSeq);
+		model.addAttribute("boardSetting", boardSetting);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("name", name);
 		if(authentication.getCredentials() != "") {
 			User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
 
-			Board board = boardService.getBoardDetail(boardSeq);
+			Board board = boardService.getBoardDetail(boardSeq, boardSettingSeq);
 			if (user.getUserSeq() == board.getRegUserSeq()) {
 				board.setBoardType("qna");
 				model.addAttribute("board", board);
@@ -101,10 +164,10 @@ public class BoardController extends BaseController {
 				return "pages/board/board_write";	//작성자 수정 form
 			}
 		}
-
-		Map<String, Object> board = boardService.getBoard(boardSeq);
+		System.out.println("boardSetting ::: "+boardSetting);
+		Map<String, Object> board = boardService.getBoard(boardSeq, boardSettingSeq);
 		model.addAttribute("data", board);
-		model.addAttribute("boardType", boardType);
+
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return "pages/board/board_view";
@@ -162,7 +225,7 @@ public class BoardController extends BaseController {
 			}
 		}
 
-		String returnUrl = "redirect:/board/" + board.getBoardType() + "?";
+		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq()+ "?";
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -172,7 +235,8 @@ public class BoardController extends BaseController {
 			returnUrl += board.getPageParams();
 		}
 		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
-		boardService.saveBoard(board);
+		BoardSetting boardSetting = boardService.getboardSettingInfo(board.getBoardSettingSeq());
+		boardService.saveBoard(board, boardSetting);
 
 		return returnUrl;
 
@@ -258,22 +322,32 @@ public class BoardController extends BaseController {
 	}
 
 	@GetMapping("/QnaWriteForm")
-	public String QnaWriteForm(Model model) {
+	public String QnaWriteForm(Model model, @RequestParam int boardSettingSeq) {
 
 		Board board = new Board();
-		board.setBoardType("qna");
+		board.setBoardSettingSeq(boardSettingSeq);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
+
+		System.out.println("boardSetting >> "+boardSetting);
 		model.addAttribute("board", board);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("boardSetting", boardSetting);
+		model.addAttribute("name", boardSetting.getName());
 		model.addAttribute("detail", false);
 		return "pages/board/board_write";
 	}
 
 	@PostMapping("/delete")
-	public String deleteBoard(@RequestParam int boardSeq,
+	public String deleteBoard(@RequestParam int boardSeq, @RequestParam int boardSettingSeq,
 							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
 		Map<String, Object> params = new HashMap<String, Object>();
+		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
 
 		params.put("board_seq", boardSeq);
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+		params.put("fileDirectoryName", boardSetting.getFileDirectoryName());
+
 		boardService.deleteBoard(params);
 		//rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 		return "redirect:/board/qna";

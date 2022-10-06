@@ -2,12 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="lnb" th:fragment="board_nav">
     <ul class="container">
-        <li th:class="${boardType == 'notice'} ? 'active'"><a th:href="@{/board/notice}">공지사항</a></li>
-        <li th:class="${boardType == 'news'} ? 'active'"><a th:href="@{/board/news}">보도자료</a></li>
+       <!-- <li th:class="${boardType == 'notice'} ? 'active'"><a th:href="@{/board/notice}">공지사항</a></li>-->
+        <!--<li th:class="${boardType == 'news'} ? 'active'"><a th:href="@{/board/news}">보도자료</a></li>-->
 <!--        <li th:class="${boardType == 'community'} ? 'active'"><a th:href="@{/board/community}">커뮤니티</a></li>-->
-        <li th:class="${boardType == 'project'} ? 'active'"><a th:href="@{/board/project}">지원 및 정책사업</a></li>
-        <li th:class="${boardType == 'qna'} ? 'active'"><a th:href="@{/board/qna}">QnA</a></li>
+        <!--<li th:class="${boardType == 'project'} ? 'active'"><a th:href="@{/board/project}">지원 및 정책사업</a></li>-->
+        <!--<li th:class="${boardType == 'qna'} ? 'active'"><a th:href="@{/board/qna}">QnA</a></li>-->
 <!--        <li th:class="${boardType == 'law'} ? 'active'"><a th:href="@{/board/law}">법령 및 조례</a></li>-->
+        <th:block th:unless="${#lists.isEmpty(boardSettingList)}">
+            <li th:class="${name == item.name} ? 'active'" th:each="item : ${boardSettingList}">
+                <input type="hidden" id="name" th:value="${name}">
+                <input type="hidden" id="item.name" th:value="${item.name}">
+                <a th:href="@{|/board/${item.board_setting_seq}?name=${item.name}|}">[[${item.name}]]</a>
+            </li>
+        </th:block>
+
     </ul>
 </div>
 

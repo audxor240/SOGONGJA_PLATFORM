@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.jcraft.jsch.*;
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,5 +113,70 @@ public class FilesService {
 
 	public int updateFileTitle(Files file) {
 		return filesMapper.updateFileTitle(file);
+	}
+
+
+	public void deleteDirFile(BoardSetting boardSetting) throws JSchException {
+		String path = systemProperties.getUploadFilePath()+"/"+boardSetting.getFileDirectoryName(); // 경로
+		System.out.println("path >>>> "+path);
+		ChannelSftp sftp = connect();
+		try {
+			sftp.cd(path);
+			sftp.rmdir(path);
+		} catch (SftpException e) {
+			System.out.println("---------------------------- deleteDir Error ----------------------------");
+		} finally {
+			disconnect(sftp.getSession(), sftp);
+		}
+	}
+
+
+	private ChannelSftp connect() {
+		Session session = null;
+		Channel channel = null;
+		ChannelSftp sftp = null;
+
+		try {
+			//JSch 객체를 생성
+			JSch jsch = new JSch();
+			//session = jsch.getSession(username, host, port);
+			session = jsch.getSession("root", "121.254.171.155", 2202);
+
+			//패스워드 설정
+			//session.setPassword(password);
+			session.setPassword("thvmxmfoqtm@))*");
+
+			//기타 설정 적용
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			//접속
+			session.connect();
+
+			//sftp 채널 열기
+			channel = session.openChannel("sftp");
+
+			//sft 채널 연결
+			sftp = (ChannelSftp) channel;
+			sftp.connect();
+
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+			disconnect(session, channel);
+		}
+
+		return sftp;
+	}
+
+	private void disconnect(Session session, Channel channel) {
+		if (channel != null) {
+			channel.disconnect();
+		}
+		if (session != null) {
+			session.disconnect();
+		}
+//        log.info("+++++++++++++++++++++++ Disconnect to sftp:/" + host);
 	}
 }

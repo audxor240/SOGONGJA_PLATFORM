@@ -32,4 +32,10 @@ public class Banner {
 
     List<MultipartFile> imageFile;
 
+    //PC 배너 순서
+    private int pcOrder;
+
+    //모바일 배너 순서
+    private int mobileOrder;
+
 }

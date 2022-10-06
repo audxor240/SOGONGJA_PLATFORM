@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
+import com.stoneitgt.sogongja.admin.mapper.AnswerMapper;
+import com.stoneitgt.sogongja.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +17,6 @@ import com.stoneitgt.common.GlobalConstant.FILE_REF_TYPE;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
 import com.stoneitgt.sogongja.admin.mapper.BoardMapper;
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.Law;
-import com.stoneitgt.sogongja.domain.Project;
 import com.stoneitgt.util.StoneUtil;
 
 @Service
@@ -24,6 +24,9 @@ public class BoardService extends BaseService {
 
 	@Autowired
 	private BoardMapper boardMapper;
+
+	@Autowired
+	private AnswerMapper answerMapper;
 
 	public List<Map<String, Object>> getBoardList(Map<String, Object> params) {
 		return boardMapper.getBoardList(params);
@@ -110,12 +113,22 @@ public class BoardService extends BaseService {
 	}
 
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-	public int deleteBoardSetting(Map<String, Object> params) {
-		int result = boardMapper.deleteBoardSetting(params);
-		params.put("ref_type", FILE_REF_TYPE.BOARD.toUpperCase());
+	public void deleteBoardSetting(Map<String, Object> params) throws SftpException, JSchException {
+		boardMapper.deleteBoardSetting(params);
+		boardMapper.deleteAllBoard(params);		//하위 게시판 삭제
+
+		BoardSetting boardSetting = getBoardSetting((Integer) params.get("board_setting_seq"));
+
+		params.put("ref_type", boardSetting.getFileDirectoryName().toUpperCase());
 		params.put("ref_seq", params.get("board_seq"));
-		filesService.deleteFileAll(params);
-		return result;
+
+		//첨부 파일 사용하는 게시판이면
+		if(boardSetting.getFileUse() == 1) {
+			filesService.deleteFileAll(params);    //파일 삭제(DEL_FLAG 업데이트)
+			//첨부파일 저장된 폴더 및 파일 전체 삭제
+			filesService.deleteDirFile(boardSetting);
+		}
+
 	}
 
 	public List<Map<String, Object>> getBoardLawList(Map<String, Object> params) {
@@ -202,5 +215,20 @@ public class BoardService extends BaseService {
 		params.put("ref_seq", params.get("law_seq"));
 		filesService.deleteFileAll(params);
 		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public void saveAnswer(Board board) throws IOException {
+
+		if (board.getAnswerSeq() == 0) {
+			answerMapper.insertAnswer(board);
+		} else {
+			answerMapper.updateAnswer(board);
+		}
+
+	}
+
+	public Answer getAnswerInfo(int boardSeq){
+		return answerMapper.getAnswerInfo(boardSeq);
 	}
 }

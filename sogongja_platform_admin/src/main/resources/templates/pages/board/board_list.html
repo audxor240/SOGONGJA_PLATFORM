@@ -86,7 +86,7 @@
                                 <td th:text="${item.reg_username}">작성자</td>
                                 <td th:text="${item.reg_dt}">작성일</td>
                                 <td th:if="${boardSetting.fileUse == 1}"><i data-feather="file" th:if="${item.file_cnt > 0}"></i></td>
-                                <td th:if="${boardSetting.answerUse == 1}">답변</td>
+                                <td th:if="${boardSetting.answerUse == 1}" th:text="${item.comment eq null?'답변 대기중': '답변 완료'}"></td>
                                 <td th:if="${boardSetting.secretUse == 1}">비밀글</td>
                                 <td th:text="${item.read_cnt}">조회수</td>
                                 <td class="text-right">
