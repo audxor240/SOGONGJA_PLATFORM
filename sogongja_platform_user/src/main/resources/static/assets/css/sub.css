@@ -701,6 +701,15 @@
   color: #000;
 }
 
+.answer_view .answer_view_tite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.answer_view .answer_view_tite .icon_answer {
+  padding: 0.28125rem 0 0.28125rem 2rem;
+  background: url(../images/icon-answer.png) no-repeat 0 50%;
+}
 .reply_view .reply_view_top {
   margin-top: 40px;
   padding: 20px 2.25rem 12px;
@@ -2525,6 +2534,22 @@
   border: solid 2px #F63C3C;
   background-color: #fff;
   color: #F63C3C;
+}
+
+.servey_question {
+  max-width: 1000px;
+}
+.servey_question .q_title h3 {
+  font-size: 1.375rem;
+  font-weight: bold;
+}
+.servey_question .q_title h3 span {
+  display: inline-block;
+}
+.servey_question .q_title p {
+  font-size: 1rem;
+  color: #606060;
+  line-height: 1.8;
 }
 
 @media (max-width: 1400px) {
