@@ -73,7 +73,7 @@
 					+textnowrap
 					max-width: 100%
 					display: inline-block
-					padding: 0 rem(40)
+					padding: 0 0 0 rem(40)
 			.file
 				width: rem(24)
 				text-indent: -9999px
@@ -452,6 +452,13 @@
 			height: rem(32)
 			text-indent: $hideFont
 			background: url(#{$assetPath}/icon-aarrow-right.png) no-repeat 50%
+.secret_img
+	display: inline-block
+	background: url(#{$assetPath}/new/icon/secret.png) no-repeat 0 50%
+	background-size: contain
+	width: 18px
+	height: 18px
+	margin-left: 10px
 .view
 	.view_title
 		border-bottom: 1px solid #d5d5d5
@@ -464,13 +471,6 @@
 				font-size: rem(24)
 				font-weight: 500
 				margin-bottom: 4px
-			.secret_img
-				display: inline-block
-				background: url(#{$assetPath}/new/icon/secret.png) no-repeat 0 50%
-				background-size: contain
-				width: 18px
-				height: 18px
-				margin-left: 10px
 			p
 				padding: 0 8px
 				position: relative

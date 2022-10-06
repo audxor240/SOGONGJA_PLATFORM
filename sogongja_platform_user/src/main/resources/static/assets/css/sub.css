@@ -100,7 +100,7 @@
   overflow: hidden;
   max-width: 100%;
   display: inline-block;
-  padding: 0 2.5rem;
+  padding: 0 0 0 2.5rem;
 }
 .table_style tr td .file {
   width: 1.5rem;
@@ -618,6 +618,15 @@
   background: url(../images/icon-aarrow-right.png) no-repeat 50%;
 }
 
+.secret_img {
+  display: inline-block;
+  background: url(../images/new/icon/secret.png) no-repeat 0 50%;
+  background-size: contain;
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+}
+
 .view .view_title {
   border-bottom: 1px solid #d5d5d5;
   padding: 1.5rem;
@@ -633,14 +642,6 @@
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 4px;
-}
-.view .view_title > div .secret_img {
-  display: inline-block;
-  background: url(../images/new/icon/secret.png) no-repeat 0 50%;
-  background-size: contain;
-  width: 18px;
-  height: 18px;
-  margin-left: 10px;
 }
 .view .view_title > div p {
   padding: 0 8px;
