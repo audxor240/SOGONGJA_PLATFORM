@@ -6,10 +6,13 @@
 </head>
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
-    <form name="editForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+    <form name="editForm" th:action="@{/board/saveAnswer}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
         <input type="hidden" th:field="*{boardSeq}">
         <input type="hidden" th:field="*{boardType}">
         <input type="hidden" th:field="*{content}">
+        <input type="hidden" th:field="*{comment}">
+        <input type="hidden" th:field="*{answerSeq}">
+        <input type="hidden" th:field="*{boardSettingSeq}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">
         <div class="row">
@@ -52,7 +55,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-2" style="margin-top: 10px;">
                                         <label class="col-form-label">첨부파일</label>
-                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file" style="margin-top: 3px;">추가</button>
+                                        <!--<button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file" style="margin-top: 3px;">추가</button>-->
                                     </div>
                                     <div class="col-sm-5">
                                         <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
@@ -65,6 +68,7 @@
                                                 </div>
                                             </div>
                                         </th:block>
+                                        <!--
                                         <div class="attach-file-group">
                                             <div class="pt-2 attach-file" th:if="${#lists.isEmpty(fileList) || #lists.size(fileList) < 5}">
                                                 <input type="file" name="attachFiles" class="file-upload-default">
@@ -80,6 +84,7 @@
                                         <div class="text-danger mt-2">
                                             첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -91,14 +96,14 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="checkbox">
-                                                비밀글
+                                                <input type="checkbox" th:checked="${board.secretUse == 'Y'}">비밀글
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!--
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
@@ -109,6 +114,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                         <div class="row" style="border-top:solid 1px #ccc">
                             <div class="col-sm-12">
                                 <div class="form-group row">
@@ -126,7 +132,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" href="javascript:window.history.back();">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{boardSeq == 0}">
@@ -151,9 +157,10 @@
         var board_type = /*[[${boardType}]]*/ '';
         var editor;
 
-        var tui_content2 = /*[[${board.content}]]*/ '';
+        var tui_content2 = /*[[${board.comment}]]*/ '';
         var board_type2 = /*[[${boardType}]]*/ '';
         var editor2;
+        console.log("tui_content2 :: "+tui_content2);
     </script>
     <script th:src="@{/assets/js/libs/codemirror.js}"></script>
     <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>

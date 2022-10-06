@@ -66,4 +66,8 @@ public class Board {
 
 	private int boardSettingSeq;
 
+	private int answerSeq;
+
+	private String comment;
+
 }

@@ -17,15 +17,17 @@
 		       , (SELECT COUNT(1)
 		            FROM ST_FILES F
 		           WHERE F.DEL_FLAG = 0
-		             AND F.REF_TYPE = 'BOARD'
+		             /*AND F.REF_TYPE = 'BOARD'*/
 		             AND F.REF_SEQ  = A.BOARD_SEQ
 		         ) AS FILE_CNT
 		  </otherwise>
 		</choose>
+            , AW.COMMENT
 		    FROM ST_BOARD A
 		       INNER JOIN ST_USER U
 		               ON A.REG_USER_SEQ = U.USER_SEQ
                LEFT JOIN ST_BOARD_SETTING AS BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
+               LEFT JOIN ST_ANSWER AS AW ON AW.BOARD_SEQ = A.BOARD_SEQ
 		<if test="board_type == 'faq'">
 		       INNER JOIN ST_CODE_DTL C
 		               ON C.GRP_CODE     = 'FAQ_TYPE'
@@ -149,6 +151,7 @@
           , FILE_USE = #{fileUse}
           , ANSWER_USE= #{answerUse}
           , SECRET_USE= #{secretUse}
+          , FILE_DIRECTORY_NAME= #{fileDirectoryName}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
         WHERE BOARD_SETTING_SEQ    = #{boardSettingSeq}
@@ -157,6 +160,15 @@
     <update id="deleteBoardSetting" parameterType="map" >
         /* file : BoardMapper.xml, id : deleteBoard */
         UPDATE ST_BOARD_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
+    </update>
+
+    <update id="deleteAllBoard" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteAllBoard */
+        UPDATE ST_BOARD
         SET DEL_FLAG     = 1
           , DEL_USER_SEQ = #{login_user_seq}
           , DEL_DATE     = CURRENT_TIMESTAMP()

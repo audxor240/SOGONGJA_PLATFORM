@@ -36,6 +36,8 @@ public interface BoardMapper {
 
 	int deleteBoardSetting(Map<String, Object> params);
 
+	int deleteAllBoard(Map<String, Object> params);
+
 	int modPopupFlagToZero(Board board);
 
 	List<Map<String, Object>> getBoardLawList(Map<String, Object> params);

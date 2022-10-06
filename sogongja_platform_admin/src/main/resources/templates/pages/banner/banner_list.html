@@ -42,10 +42,11 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>순서</th>
+                                    <th>#</th>
                                     <th>제목</th>
                                     <th>링크</th>
-                                    <th>순서변경</th>
+                                    <th>PC 배너순서</th>
+                                    <th>모바일 배너순서</th>
                                     <th>사용</th>
                                     <th>관리</th>
                                 </tr>
@@ -56,10 +57,8 @@
                                     <td th:text="${paging.total - item.rnum + 1}"></td>
                                     <td ><a th:href="@{|/banner/${item.banner_seq}?${pageParams}|}">[[${item.title}]]</a></td>
                                     <td>[[${item.url}]]</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm"><i class="btn-icon-prepend" data-feather="arrow-up"></i></button>
-                                        <button type="button" class="btn btn-sm"><i class="btn-icon-prepend" data-feather="arrow-down"></i></button>
-                                    </td>
+                                    <td>[[${item.pc_order}]]</td>
+                                    <td>[[${item.mobile_order}]]</td>
                                     <td>
                                         <input type="checkbox" th:checked="${item.used == '1'}">
                                     </td>

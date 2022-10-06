@@ -23,6 +23,8 @@
         ,URL
         ,URL_OPEN_TYPE
         ,USED
+        ,PC_ORDER
+        ,MOBILE_ORDER
         , REG_USER_SEQ
         , REG_DATE)
         VALUES (
@@ -30,6 +32,8 @@
         ,#{url}
         ,#{urlOpenType}
         ,#{used}
+        ,#{pcOrder}
+        ,#{mobileOrder}
         , #{loginUserSeq}
         , CURRENT_TIMESTAMP())
 
@@ -45,6 +49,8 @@
           , URL      = #{url}
           , URL_OPEN_TYPE  = #{urlOpenType}
           , USED     = #{used}
+          , PC_ORDER = #{pcOrder}
+          , MOBILE_ORDER = #{mobileOrder}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
         WHERE BANNER_SEQ    = #{bannerSeq}

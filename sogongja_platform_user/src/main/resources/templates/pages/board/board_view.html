@@ -25,7 +25,7 @@
                     <div class="view_title">
                         <div>
                             <h3 th:text="${data.subject}">소상공인 불공정 피해 상담센터 운영</h3>
-                            <span class="secret_img"></span>
+                            <span class="secret_img" th:if="${data.secret_use ne null}"></span>
                         </div>
                         <p>
                             작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
@@ -51,7 +51,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="reply_view">
+                <div class="reply_view" th:if="${boardSetting.answerUse == 1}">
                     <div class="reply_view_top">
                         <p>
                             <span class="reply_num">2</span>
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class="btn_box">
-                <a class="btn btn_grey" th:href="@{|/board/${boardType}|}">목록으로</a>
+                <a class="btn btn_grey" href="javascript:window.history.back();">목록으로</a>
             </div>
             </div>
         </section>

@@ -7,7 +7,7 @@
     });
 })();
 
-function detailView(board_seq, reg_user_seq,secret_use){
+function detailView(board_setting_seq, board_seq, reg_user_seq, boardName,secret_use){
 
     let session_seq = $("#session_seq").val();
 
@@ -18,6 +18,6 @@ function detailView(board_seq, reg_user_seq,secret_use){
         }
     }
 
-    window.location.href = "/board/qna/"+board_seq+"?reg_user_seq="+reg_user_seq;
+    window.location.href = "/board/"+board_setting_seq+"/"+board_seq+"?name="+boardName;
 
 }

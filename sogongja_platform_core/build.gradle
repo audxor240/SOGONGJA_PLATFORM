@@ -32,4 +32,6 @@ dependencies {
 
     implementation fileTree(dir:'libs', include:['*.jar'])
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 }

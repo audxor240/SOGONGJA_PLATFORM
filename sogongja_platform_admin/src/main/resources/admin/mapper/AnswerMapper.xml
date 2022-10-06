@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.AnswerMapper">
+
+    <insert id="insertAnswer" parameterType="com.stoneitgt.sogongja.domain.Board">
+        /* file : AnswerMapper.xml, id : insertAnswer */
+        INSERT
+        INTO ST_ANSWER (
+        BOARD_SEQ
+        , COMMENT
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+         #{boardSeq}
+        , #{comment}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="answerSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateAnswer" parameterType="com.stoneitgt.sogongja.domain.Board">
+        /* file : AnswerMapper.xml, id : updateAnswer */
+        UPDATE ST_ANSWER
+        SET ANSWER_SEQ   = #{answerSeq}
+          , COMMENT      = #{comment}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE ANSWER_SEQ    = #{answerSeq}
+    </update>
+
+    <select id="getAnswerInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Answer">
+        /* file : AnswerMapper.xml, id : getAnswerInfo */
+        SELECT *
+        FROM ST_ANSWER
+        WHERE BOARD_SEQ = #{boardSeq}
+    </select>
+
+
+
+</mapper>

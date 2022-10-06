@@ -7,6 +7,7 @@ import java.util.Map;
 import com.stoneitgt.sogongja.domain.Event;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.BannerService;
+import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class RootController extends BaseController {
 	@Autowired
 	private EventService eventService;
 
+	@Autowired
+	private BoardService boardService;
+
 	@GetMapping(value = { "/", "/index" })
 	public String index(Model model) {
 
@@ -43,10 +47,12 @@ public class RootController extends BaseController {
 
 		List<Map<String, Object>> list = bannerService.getBannerList();
 		Map<String, Object> event = eventService.getEventInfo();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		System.out.println("event >> "+event);
 		model.addAttribute("list", list);
 		model.addAttribute("event", event);
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/index";
 	}
