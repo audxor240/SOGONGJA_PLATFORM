@@ -11,7 +11,7 @@
 		       , (SELECT COUNT(1)
 		            FROM ST_FILES F
 		           WHERE F.DEL_FLAG = 0
-		             AND F.REF_TYPE = 'BOARD'
+		             AND F.REF_TYPE = #{board_type}
 		             AND F.REF_SEQ  = A.BOARD_SEQ
 		         ) AS FILE_CNT
 		    FROM ST_BOARD A
@@ -25,6 +25,27 @@
 		</if>
 		ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC
 	/*||ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC||*/
+	</select>
+
+	<select id="getBoardList2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getBoardList2 */
+		SELECT A.*
+			, DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+			, U.USERNAME                          AS REG_USERNAME
+			, (SELECT COUNT(1)
+				FROM ST_FILES F
+				WHERE F.DEL_FLAG = 0
+					AND F.REF_TYPE = #{board_type}
+					AND F.REF_SEQ  = A.BOARD_SEQ
+			) AS FILE_CNT
+		FROM ST_BOARD A
+		INNER JOIN ST_USER U ON A.REG_USER_SEQ = U.USER_SEQ
+		WHERE A.DEL_FLAG              = 0 AND A.BOARD_TYPE = #{board_type}
+		<if test="keyword != null and keyword != ''">
+			AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC
+		/*||ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC||*/
 	</select>
 
 	<select id="getBoardCategoryCount" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">

@@ -51,9 +51,9 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja
-      password: sogongja@2021!
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: root
+      password: thvmxmfoqtm
 
 system:
   slack-send: false
