@@ -73,6 +73,31 @@
         WHERE BANNER_SEQ      = #{banner_seq}
     </update>
 
+    <update id="updateBannerOrder" parameterType="map" >
+        /* file : BannerMapper.xml, id : updateBannerOrder */
+        UPDATE ST_BANNER
+        SET
+        <if test="type == 'PC'">
+            PC_ORDER = #{num}
+        </if>
+        <if test="type == 'MOBILE'">
+            MOBILE_ORDER = #{num}
+        </if>
+            , MOD_USER_SEQ = #{login_user_seq}
+            , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE BANNER_SEQ      = #{banner_seq}
+    </update>
+
+    <update id="updateBannerUsed" parameterType="map" >
+        /* file : BannerMapper.xml, id : updateBannerOrder */
+        UPDATE ST_BANNER
+        SET
+        USED = #{use}
+        , MOD_USER_SEQ = #{login_user_seq}
+        , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE BANNER_SEQ      = #{banner_seq}
+    </update>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>
