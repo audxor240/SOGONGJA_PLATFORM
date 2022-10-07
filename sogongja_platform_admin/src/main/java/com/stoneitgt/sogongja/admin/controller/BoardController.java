@@ -35,7 +35,7 @@ public class BoardController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
-	/*@GetMapping("/{boardType}")
+	@GetMapping("/type/{boardType}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
 
 		Paging paging = new Paging();
@@ -58,7 +58,7 @@ public class BoardController extends BaseController {
 			url = "pages/board/board_setting_list";
 		}else{
 			paramsMap.put("board_setting_seq", boardType);
-			list = boardService.getBoardList(paramsMap, paging);
+			list = boardService.getBoardList2(paramsMap, paging);
 
 			switch (boardType) {
 				case "notice": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "공지사항 관리"); break;
@@ -71,12 +71,12 @@ public class BoardController extends BaseController {
 				model.addAttribute("category", getCodeList("FAQ_TYPE"));
 				url = "pages/board/board_list_faq";
 			} else {
-				url = "pages/board/board_list";
+				url = "pages/board/community_list";
 			}
 		}
 		Integer total = boardService.selectTotalRecords();
 		paging.setTotal(total);
-		System.out.println("list >> "+list);
+
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		model.addAttribute("params", params);
@@ -86,7 +86,7 @@ public class BoardController extends BaseController {
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		return url;
-	}*/
+	}
 
 
 	@GetMapping("/settingList")
@@ -119,7 +119,7 @@ public class BoardController extends BaseController {
 		return "pages/board/board_setting_list";
 	}
 	@GetMapping("/{boardSettingSeq}")
-	public String boardList(@PathVariable String boardSettingSeq, @ModelAttribute BaseParameter params, Model model) {
+	public String boardList2(@PathVariable String boardSettingSeq, @ModelAttribute BaseParameter params, Model model) {
 		Paging paging = new Paging();
 		paging.setPage(params.getPage());
 		paging.setSize(params.getSize());
@@ -239,6 +239,30 @@ public class BoardController extends BaseController {
 		return "pages/board/board_form";
 	}
 
+	@GetMapping("/type/{boardType}/form")
+	public String boardForm2(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
+		System.out.println("boardType ::: "+boardType);
+		Board board = new Board();
+		board.setBoardType(boardType);
+
+		model.addAttribute("board", board);
+		model.addAttribute("menuCode", params.getMenuCode());
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+
+		breadcrumb.put("parent_menu_name", "게시판 관리");
+		breadcrumb.put("menu_name", "커뮤니티 관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		if (BOARD_TYPE.FAQ.equals(boardType)) {
+			model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
+			return "pages/board/board_form_faq";
+		} else {
+			return "pages/board/community_form";
+		}
+	}
+
 	@GetMapping("/setting/form")
 	public String boardSettingForm(@ModelAttribute BaseParameter params, Model model) {
 
@@ -277,7 +301,13 @@ public class BoardController extends BaseController {
 			}
 		}
 
-		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+		String returnUrl = "";
+		if(BOARD_TYPE.COMMUNITY.equals(board.getBoardType())){
+			returnUrl = "redirect:/board/type/" + board.getBoardType() + "?";
+		}else{
+			returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+		}
+
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);

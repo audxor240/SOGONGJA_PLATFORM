@@ -3,8 +3,8 @@
 
 <mapper namespace="com.stoneitgt.sogongja.admin.mapper.BoardMapper">
 
-	<select id="getBoardList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : BoardMapper.xml, id : getBoardList */
+	<select id="getBoardList2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : BoardMapper.xml, id : getBoardList2 */
 		  SELECT A.*
 		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
 		       , U.USERNAME                          AS REG_USERNAME
@@ -17,24 +17,20 @@
 		       , (SELECT COUNT(1)
 		            FROM ST_FILES F
 		           WHERE F.DEL_FLAG = 0
-		             /*AND F.REF_TYPE = 'BOARD'*/
+                     AND F.REF_TYPE = #{board_type}
 		             AND F.REF_SEQ  = A.BOARD_SEQ
 		         ) AS FILE_CNT
 		  </otherwise>
 		</choose>
-            , AW.COMMENT
 		    FROM ST_BOARD A
 		       INNER JOIN ST_USER U
 		               ON A.REG_USER_SEQ = U.USER_SEQ
-               LEFT JOIN ST_BOARD_SETTING AS BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
-               LEFT JOIN ST_ANSWER AS AW ON AW.BOARD_SEQ = A.BOARD_SEQ
 		<if test="board_type == 'faq'">
 		       INNER JOIN ST_CODE_DTL C
 		               ON C.GRP_CODE     = 'FAQ_TYPE'
 		              AND C.CODE         = A.CATEGORY
 		</if>
 		   WHERE A.DEL_FLAG              = 0
-             AND A.BOARD_SETTING_SEQ = #{boardSettingSeq}
 		<if test="category != null and category != ''">
 		     AND A.CATEGORY              = #{category}
 		</if>
@@ -45,8 +41,50 @@
 	/*||ORDER BY BOARD_SEQ DESC||*/
 	</select>
 
-    <select id="getBoardSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getBoardList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : BoardMapper.xml, id : getBoardList */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        <choose>
+            <when test="board_type == 'faq'">
+                , C.CODE_NAME  AS CATEGORY_NAME
+                , C.REF_CLASS  AS CATEGORY_CLASS
+            </when>
+            <otherwise>
+                , (SELECT COUNT(1)
+                FROM ST_FILES F
+                WHERE F.DEL_FLAG = 0
+                /*AND F.REF_TYPE = 'BOARD'*/
+                AND F.REF_SEQ  = A.BOARD_SEQ
+                ) AS FILE_CNT
+            </otherwise>
+        </choose>
+        , AW.COMMENT
+        FROM ST_BOARD A
+        INNER JOIN ST_USER U
+        ON A.REG_USER_SEQ = U.USER_SEQ
+        LEFT JOIN ST_BOARD_SETTING AS BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
+        LEFT JOIN ST_ANSWER AS AW ON AW.BOARD_SEQ = A.BOARD_SEQ
+        <if test="board_type == 'faq'">
+            INNER JOIN ST_CODE_DTL C
+            ON C.GRP_CODE     = 'FAQ_TYPE'
+            AND C.CODE         = A.CATEGORY
+        </if>
+        WHERE A.DEL_FLAG              = 0
+        AND A.BOARD_SETTING_SEQ = #{boardSettingSeq}
+        <if test="category != null and category != ''">
+            AND A.CATEGORY              = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY A.BOARD_SEQ DESC
+        /*||ORDER BY BOARD_SEQ DESC||*/
+    </select>
+
+    <select id="getBoardSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardSettingList */
         SELECT *
         FROM ST_BOARD_SETTING
         WHERE DEL_FLAG = 0

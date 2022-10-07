@@ -42,8 +42,8 @@ public class BoardController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	/*
-	@GetMapping("/{boardType:news|notice|faq|community|qna}")
+
+	@GetMapping("/type/{boardType:faq|community}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
 		System.out.println("boardType :: "+boardType);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
@@ -52,34 +52,30 @@ public class BoardController extends BaseController {
 		List<Map<String, Object>> list = null;
 
 		if (BOARD_TYPE.FAQ.equals(boardType)) {
-			list = boardService.getBoardList(paramsMap);
+			list = boardService.getBoardList2(paramsMap);
 			model.addAttribute("categoryCount", boardService.getBoardCategoryCount(paramsMap));
 		} else {
 			Paging paging = getUserPaging(params.getPage(), params.getSize());
-			list = boardService.getBoardList(paramsMap, paging);
+			list = boardService.getBoardList2(paramsMap, paging);
 			Integer total = boardService.selectTotalRecords();
 			paging.setTotal(total);
 			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 			model.addAttribute("paging", paging);
 		}
 
-		List<Map<String, Object>> boardSettingList = boardService.getboardSettingInfo();
-		System.out.println("boardSettingList >>>>> "+boardSettingList);
-		System.out.println("boardSettingList.size() :: "+boardSettingList.size());
+		//List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
-		model.addAttribute("boardSettingList", boardSettingList);
+		//model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		String pageName = "";
 
 		switch (boardType.toLowerCase()) {
-		case BOARD_TYPE.NEWS:
-		case BOARD_TYPE.NOTICE:
 		case BOARD_TYPE.COMMUNITY:
-		case BOARD_TYPE.QNA:
-			pageName = "board_list";
+			pageName = "community_list";
 			break;
 		default:
 			pageName = boardType.toLowerCase();
@@ -88,7 +84,7 @@ public class BoardController extends BaseController {
 
 		return "pages/board/" + pageName;
 	}
-	 */
+
 
 	@GetMapping("/{boardSettingSeq}")
 	public String boardList(@PathVariable String boardSettingSeq, @RequestParam(required=false) String name, @ModelAttribute BaseParameter params, Model model) {
@@ -96,6 +92,7 @@ public class BoardController extends BaseController {
 		paramsMap.put("boardSettingSeq", boardSettingSeq);
 
 		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
+		paramsMap.put("board_type", boardSetting.getFileDirectoryName());
 		List<Map<String, Object>> list = null;
 
 		/*if (BOARD_TYPE.FAQ.equals(boardType)) {

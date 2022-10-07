@@ -29,8 +29,16 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardList(params);
 	}
 
+	public List<Map<String, Object>> getBoardList2(Map<String, Object> params) {
+		return boardMapper.getBoardList2(params);
+	}
+
 	public List<Map<String, Object>> getBoardList(Map<String, Object> params, Paging paging) {
 		return boardMapper.getBoardList(params, paging.getPaging());
+	}
+
+	public List<Map<String, Object>> getBoardList2(Map<String, Object> params, Paging paging) {
+		return boardMapper.getBoardList2(params, paging.getPaging());
 	}
 
 	public Map<String, Object> getBoardCategoryCount(Map<String, Object> params) {

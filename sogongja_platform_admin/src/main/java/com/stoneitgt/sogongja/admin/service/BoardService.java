@@ -36,6 +36,10 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardList(params, paging.getPaging());
 	}
 
+	public List<Map<String, Object>> getBoardList2(Map<String, Object> params, Paging paging) {
+		return boardMapper.getBoardList2(params, paging.getPaging());
+	}
+
 	public List<Map<String, Object>> getBoardSettingList(Map<String, Object> params, Paging paging) {
 		return boardMapper.getBoardSettingList(params, paging.getPaging());
 	}

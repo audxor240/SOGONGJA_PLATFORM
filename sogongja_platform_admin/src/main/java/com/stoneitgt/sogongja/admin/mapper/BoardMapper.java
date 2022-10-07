@@ -18,6 +18,8 @@ public interface BoardMapper {
 
 	List<Map<String, Object>> getBoardList(Map<String, Object> params, RowBounds rowBounds);
 
+	List<Map<String, Object>> getBoardList2(Map<String, Object> params, RowBounds rowBounds);
+
 	List<Map<String, Object>> getBoardSettingList(Map<String, Object> params, RowBounds rowBounds);
 
 	Board getBoard(int boardSeq);

@@ -14,7 +14,11 @@ public interface BoardMapper {
 
 	List<Map<String, Object>> getBoardList(Map<String, Object> params);
 
+	List<Map<String, Object>> getBoardList2(Map<String, Object> params);
+
 	List<Map<String, Object>> getBoardList(Map<String, Object> params, RowBounds rowBounds);
+
+	List<Map<String, Object>> getBoardList2(Map<String, Object> params, RowBounds rowBounds);
 
 	Map<String, Object> getBoardCategoryCount(Map<String, Object> params);
 
