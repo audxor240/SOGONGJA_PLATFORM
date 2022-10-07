@@ -30,15 +30,15 @@
                         <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
                     </p>
                     <p class="card-description"></p>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="text-align: center">
                         <table class="table table-hover">
                             <colgroup>
                                 <col style="width: 6%;">
-                                <col style="width: 30%;">
+                                <col style="width: 10%;">
                                 <col style="width: 30%;">
                                 <col style="width: 14%;">
-                                <col style="width: 12%;">
-                                <col style="width: 8%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -57,8 +57,18 @@
                                     <td th:text="${paging.total - item.rnum + 1}"></td>
                                     <td ><a th:href="@{|/banner/${item.banner_seq}?${pageParams}|}">[[${item.title}]]</a></td>
                                     <td>[[${item.url}]]</td>
-                                    <td>[[${item.pc_order}]]</td>
-                                    <td>[[${item.mobile_order}]]</td>
+                                    <td>
+                                        <div class="row">
+                                            <input type="number" class="form-control col-sm-6 mr-2" name="tentacles" th:value="${item.pc_order}" min="1" max="10">
+                                            <button type="button" class="btn btn-primary col-sm-4">저장</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <input type="number" class="form-control col-sm-6 mr-2" name="tentacles" th:value="${item.mobile_order}" min="1" max="10">
+                                            <button type="button" class="btn btn-primary col-sm-4">저장</button>
+                                        </div>
+                                    </td>
                                     <td>
                                         <input type="checkbox" th:checked="${item.used == '1'}">
                                     </td>
