@@ -111,5 +111,34 @@ public class BannerController extends BaseController {
         return "redirect:/banner";
     }
 
+    @PostMapping("/orderUpdate")
+    public String orderUpdate(@RequestParam int bannerSeq, @RequestParam String type, @RequestParam int num,
+                               Model model, RedirectAttributes rttr) throws IOException {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("banner_seq", bannerSeq);
+        params.put("type", type);
+        params.put("num", num);
+        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+
+        bannerService.updateBannerOrder(params);
+        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+        return "redirect:/banner";
+    }
+
+    @PostMapping("/useUpdate")
+    public String useUpdate(@RequestParam int bannerSeq, @RequestParam String use,
+                              Model model, RedirectAttributes rttr) throws IOException {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("banner_seq", bannerSeq);
+        params.put("use", use);
+        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+
+        bannerService.updateBannerUsed(params);
+        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+        return "redirect:/banner";
+    }
+
 
 }

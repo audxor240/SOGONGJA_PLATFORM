@@ -91,4 +91,19 @@ public class BannerService extends BaseService {
         filesService.deleteFileAll(params);
         return result;
     }
+
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public int updateBannerOrder(Map<String, Object> params) {
+        int result = bannerMapper.updateBannerOrder(params);
+
+        return result;
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public int updateBannerUsed(Map<String, Object> params) {
+        int result = bannerMapper.updateBannerUsed(params);
+
+        return result;
+    }
 }

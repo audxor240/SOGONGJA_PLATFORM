@@ -22,4 +22,8 @@ public interface BannerMapper {
     int selectTotalRecords();
 
     int deleteBanner(Map<String, Object> params);
+
+    int updateBannerOrder(Map<String, Object> params);
+
+    int updateBannerUsed(Map<String, Object> params);
 }
