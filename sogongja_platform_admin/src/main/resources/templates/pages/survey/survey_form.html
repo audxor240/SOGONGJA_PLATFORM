@@ -14,7 +14,6 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-
                         <!--이용자 유형-->
                         <div class="row">
                             <div class="col-sm-12">
@@ -26,6 +25,10 @@
                                     <div class="col-sm-2 mt-2">
                                         <p>사업 실행중</p>
                                     </div>
+                                    <div class="col-md-1 offset-sm-5">
+                                        <button type="button" id="view_rescan" style="text-align: right" class="pop_review_btn mb-3 btn-outline-primary btn">미리보기</button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -50,16 +53,19 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required">질문 추가</label>
+                                    <label class="col-sm-2 col-form-label">질문 추가</label>
                                     <div class="col-sm-8">
-                                        <select name="" id="">
-                                            <option value="0">질문 선택</option>
-                                            <option value="1">질문지에서 만든 질문 제목1</option>
-                                            <option value="2">질문지에서 만든 질문 제목2</option>
-                                            <option value="3">질문지에서 만든 질문 제목3</option>
+                                        <select class="form-control" id="q_list" required="required">
+                                            <option name="q_list" value="0" selected="selected" disabled>질문선택</option>
+                                            <option name="q_list" value="1">질문 1</option>
+                                            <option name="q_list" value="2">질문 2</option>
+                                            <option name="q_list" value="3">질문 3</option>
+                                            <option name="q_list" value="4">질문 4</option>
+                                            <option name="q_list" value="5">질문 5</option>
+                                            <option name="q_list" value="6">질문 6</option>
                                         </select>
                                     </div>
-                                    <button type="button" class="on_question btn btn-primary col-sm-2 mb-3">질문추가</button>
+                                    <button type="button" onclick="changeQ(this)" class="q_add_btn btn btn-primary col-sm-2 mb-3">질문추가</button>
                                 </div>
                             </div>
                         </div>
@@ -67,19 +73,115 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required"></label>
-                                    <div class="col-sm-8">
-
-
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-8" id="survey_list_wrap">
                                     </div>
-                                    <button type="button" class="on_question btn btn-danger col-sm-2 mb-3">-</button>
                                 </div>
                             </div>
                         </div>
 
+                        <!--미리보기-->
+                        <div class="modal pop_reiview" tabindex="-1" id="dtsch_modal">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">설문지 미리보기 <span>※ 설문지 미리보기는 기능이 없습니다.</span></h4>
+                                        <button type="button" class="btn-close btn modal_close btn-primary" aria-label="Close">x</button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="modal_in_wrap">
+
+                                            <!--select 형태-->
+                                            <div class="review_qTitle">
+                                                <h5>질문의 제목이 노출</h5>
+                                                <p>질문의 상세 내용이 노출</p>
+                                            </div>
+                                            <div class="review_qText">
+                                                <div class="row justify-content-between">
+                                                    <select class="col-sm-3" name="" id="">
+                                                        <option value="0" selected="selected" disabled>대분류</option>
+                                                    </select>
+                                                    <select class="col-sm-3" name="" id="">
+                                                        <option value="0" selected="selected" disabled>중분류</option>
+                                                    </select>
+                                                    <select class="col-sm-3" name="" id="">
+                                                        <option value="0" selected="selected" disabled>소분류</option>
+                                                    </select>
+                                                    <button type="button" class="col-sm-2 btn btn-primary">+</button>
+                                                </div>
+                                                <div class="choice_board">
+                                                    분류를 선택해주세요.
+                                                </div>
+                                            </div>
+
+
+                                            <!--주소 선택-->
+                                            <div class="review_qTitle">
+                                                <h5>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요 <span>(복수선택)</span></h5>
+                                                <p>질문의 상세 내용이 노출</p>
+                                            </div>
+                                            <div class="review_qText">
+                                                <div class="adress_board">
+                                                    주소를 추가해주세요.
+                                                </div>
+                                                <button type="button" class="btn btn-primary address_add">+ 주소추가</button>
+                                            </div>
+
+                                            <!--checkbox 형태-->
+                                            <div class="review_qTitle">
+                                                <h5>질문의 제목이 노출 <span>(복수선택,2개까지)</span></h5>
+                                                <p>질문의 상세 내용이 노출</p>
+                                            </div>
+                                            <div class="review_qText">
+                                                <ul class="check_survey check_list_li50">
+                                                    <li>
+                                                        <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree1">임대차 계약관련</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="2" disabled name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree2">보험,손해배상</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="3" disabled name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree3">빚,채무 관련</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!--순위 형태-->
+                                            <div class="review_qTitle">
+                                                <h5>질문의 제목이 노출 <span>(복수선택,2순위까지)</span></h5>
+                                                <p>질문의 상세 내용이 노출</p>
+                                            </div>
+                                            <div class="review_qText">
+                                                <ul class="check_survey check_list_li50">
+                                                    <li>
+                                                        <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree1">임대차 계약관련</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="2" disabled name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree2">보험,손해배상</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="3" disabled name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey form-check-input">
+                                                        <label class="form-check-label" for="check_surveyType_tree3">빚,채무 관련</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
 
 
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
 
 
 
@@ -109,6 +211,86 @@
     <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
     <script th:src="@{/assets/js/file-upload.js}"></script>
     <script th:src="@{/assets/js/pages/setting/survey_form.js}"></script>
+    <script>
+
+        let qNum = 1;
+        let qCount = 0;
+        let qList = [];
+        let qNumList = [];
+
+        function changeQ() {
+            let qName=$('#q_list option:selected').text();
+            let qCode=$('#q_list option:selected').val();
+            let qAdd = "";
+
+            if(qCount>=5){
+                alert('질문 최대 5개까지만 선택 가능합니다.');
+                return false;
+            }else if(qList.includes(qCode)){
+                alert('이미 선택한 질문입니다.');
+                return false;
+            } else {
+                qNumList.push(qNum);
+                let qWarp = qList.push(qCode);
+                console.log(qWarp);
+
+                qAdd = '<div class="survey_list">';
+                qAdd+='<label class="survey_text col-sm-10">';
+                qAdd+=qName+"</label>";
+                qAdd+='<button type="button" id="qDelBtn'+qWarp+'" class="qDelBtn btn-danger btn col-sm-1">';
+                qAdd+='-</button></div>';
+
+                console.log(qAdd);
+
+                $('#survey_list_wrap').append(qAdd);
+                qCount++;
+                qNum++;
+
+                console.log(qNumList);
+            }
+        }
+
+        $(document).on('click', '.qDelBtn', function(){
+            //배열에서 빼주고
+            let q=$(this).attr('id'); //형제의 텍스트값
+            // console.log(q);
+            // console.log("인덱스: " + qList.indexOf(q));
+
+            qList.splice(qList.indexOf($(this)), 1); //배열에서 원소 제거
+            qNumList.splice(qNumList.indexOf($(this)), 1); //배열에서 원소 제거
+            console.log(qNumList);
+
+            //리무브 해주고
+            $(this).parent().remove();
+            qCount--;
+            qNum--;
+        });
+
+        <!--미리보기-->
+        $(document).ready(function() {
+            var modal = document.getElementById('dtsch_modal');
+            var btn = document.getElementById("view_rescan");
+            var close = document.getElementsByClassName("modal_close")[0];
+
+            //검색버튼클릭시 모달창 block
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+            // close_btn클릭시 모달창none
+            close.onclick = function() {
+                modal.style.display = "none";
+            }
+            // 모달창외 클릭시 모달 닫힘
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+
+
+
+    </script>
 </th:block>
 
 </html>

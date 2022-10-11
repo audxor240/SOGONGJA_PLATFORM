@@ -190,7 +190,18 @@ a.file-download { display: block; flex: 1 1 auto; }
 	border: solid 1px #eee;
 	margin-right: 10px;
 }
-
+.survey_text{
+	padding: 0 0 0 20px;
+	min-width: 100px;
+	border: 1px solid #e8ebf1;
+	border-radius: 3px;
+	height: 40px;
+	line-height: 40px !important;
+	margin-right: 10px;
+}
+.qDelBtn{
+	height: 40px;
+}
 
 
 .item_tag_wrap{
@@ -211,7 +222,93 @@ a.file-download { display: block; flex: 1 1 auto; }
 	margin-right: 0;
 }
 
-
+/*질문지 모달 팝업*/
+.modal{
+	background: #00000050;
+}
+.modal_in_wrap{
+	overflow-y: scroll;
+	height: 70vh;
+}
+.modal-header{
+	padding: 20px 30px;
+	background-color: #727cf5;
+}
+.modal-content{
+	border: 0;
+}
+.modal-title{
+	color: #fff;
+	display: flex;
+	align-items: center;
+	line-height: 1;
+	margin-top: 10px;
+}
+.modal-title span{
+	display: inline-block;
+	color: #ccc;
+	font-size: 14px;
+	margin-left: 10px;
+}
+.review_qTitle{
+	padding: 20px 20px 0 20px;
+}
+.review_qTitle h5{
+	font-size: 1.125rem;
+}
+.review_qTitle h5 span{
+	font-size: 0.875rem;
+}
+.review_qTitle p{
+	color: #ccc;
+	font-size: 0.875rem;
+	margin-top: 5px;
+}
+.review_qText{
+	padding: 20px;
+}
+.review_qText div{
+	width: 100%;
+	margin: 0 auto;
+}
+.review_qText .choice_board{
+	background-color: #eee;
+	color: #ccc;
+	font-size: 1rem;
+	line-height: 100px;
+	width: 100%;
+	min-height: 100px;
+	padding: 0 20px;
+	margin-top: 20px;
+}
+.check_survey{
+	padding: 0;
+}
+.check_survey li{
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.check_survey li input{
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: relative;
+	margin: 0 10px 0 0;
+}
+.review_qText .adress_board{
+	background-color: #eee;
+	color: #ccc;
+	font-size: 1rem;
+	line-height: 100px;
+	width: 100%;
+	min-height: 100px;
+	padding: 0 20px;
+}
+.review_qText .address_add{
+	width: 100%;
+	height: 40px;
+}
 
 /* media */
 @media screen and (max-width:640px) {
