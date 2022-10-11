@@ -53,6 +53,20 @@ $(document).ready(function () {
             selectArray.push( $thisChk );
         }
     }
+
+    $('.adress_add_btn').click(function(){
+        $('.adress_pop').show();
+    });
+    $('.adress_pop_close').click(function(){
+        $('.adress_pop').hide();
+    });
+
+
+    $('.tag_adress').click(function(){
+        $(this).toggleClass('on');
+    });
+
+
 });
 
 // 단일 선택 체크 박스
@@ -87,3 +101,4 @@ function count_ck2(obj2){
         return false;
     }
 }
+

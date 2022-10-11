@@ -215,6 +215,7 @@
 				> li
 					width: 	33.33%
 
+
 		.check_keyword
 			border-top: 1px solid #d2d2d2
 			padding: rem(30) rem(40)
@@ -1877,6 +1878,74 @@
 				color: #fff
 			&.red
 				background-color: #F63C3C
+	.pop_up03
+		+positionAt(absolute, $top: 100px)
+		width: 1000px
+		left: calc(50% - 500px)
+		background-color: #fff
+		.adress_pop_close
+			+positionAt(absolute, $top: 0, $right: -40px)
+			font-size: 50px
+			color: #fff
+			cursor: pointer
+		.pop_head
+			border-bottom: solid 1px #ccc
+			padding: 20px
+			h4
+				text-align: center
+				font-size: 24px
+				font-weight: bold
+		.pop_main
+			.pop_text
+				border: none
+			.pop_btn
+				margin: 20px auto 0
+				width: 50%
+.adrsss_wrap
+	+flex_type
+	margin-top: 40px
+	.pop_sub_title
+		width: 20%
+		margin-top: 10px
+	.adress_find
+		+flex_type
+		width: 80%
+		input
+			width: calc(100% - 120px)
+		button
+			width: 120px
+			background-color: #1540bf
+			color: #fff
+	.tag_adress_choice_wrap
+		width: 80%
+		.tag_adress_choice_ex
+			background-color: #F6F8F9
+			color: #969AAF
+			height: 45px
+			line-height: 45px
+			padding: 0 20px
+			margin-bottom: 10px
+		.tag_adress_choice
+			padding: 10px
+			border: solid 1px #D9D9D9
+			display: flex
+			flex-wrap: wrap
+			.tag_adress
+				border: solid 1px #D9D9D9
+				border-radius: 50px
+				min-width: 100px
+				padding: 4px 0
+				color: #d9d9d9
+				text-align: center
+				cursor: pointer
+				margin-right: 10px
+			.tag_adress.on
+				border: solid 1px #709BFF
+				background-color: #709BFF
+				color: #fff
+	&:first-child
+		margin-top: 0
+
 .pop_main
 	padding: 40px
 	.pop_title
@@ -1919,20 +1988,134 @@
 				border: solid 2px #F63C3C
 				background-color: #fff
 				color: #F63C3C
-.servey_question
+.survey_question
 	max-width: 1000px
+	margin: 40px auto 0
 	.q_title
 		h3
 			font-size: rem(22)
 			font-weight: bold
+			display: flex
+			align-items: baseline
 			span
 				display: inline-block
+				font-size: rem(14)
 		p
 			font-size: rem(16)
 			color: #606060
 			line-height: 1.8
+			margin-top: 10px
+	.q_answer
+		margin-top: 10px
+		.select_box_wrap
+			display: flex
+			> div
+				width: calc(100%/3 - 30px)
+				margin-right: 10px
+				select
+					border: 1px solid #e2e2e2
+					box-sizing: border-box
+			.plus_btn
+				display: block
+				width: 60px
+				background: #1540bf url(#{$assetPath}/new/icon/plusBtn.png) no-repeat 50%
+		.check_survey
+			li
+				margin: 10px
+				height: 40px
+		.none_adress
+			background-color: #fff
+			min-height: 300px
+			padding: 20px
+			bocr
+	.choice_done_wrap
+		background: #E9F0FF
+		padding: 20px
+		margin-top: 20px
+		p
+			color: #969AAF
+			font-size: rem(24)
+			opacity: 0.4
+	.adress_add_btn
+		display: block
+		width: 100%
+		background-color: #1540bf
+		color: #ffffff
+		font-size: rem(16)
+		text-align: center
+		height: 50px
+		line-height: 50px
+
+.servey_question:first-child
+	margin: 0 auto
+.servey_question:last-child
+	margin: 40px auto
 
 
+.check_wrap
+	margin-bottom: 1rem
+	+positionAt(relative)
+	&:before
+		+positionAt(absolute,$top:0 , $left:0)
+		content: ''
+		width: 2.25rem
+		height: 2.25rem
+		border: 1px solid #d3d3d3
+		background: #fff
+	label
+		display: block
+		.ip_check
+			+positionAt(absolute, $left:0)
+			-webkit-appearance: none
+			margin-right: 40px
+			height: 40px
+			width: 100%
+			z-index: 99
+			cursor: pointer
+		.ip_check:checked ~ .select_num
+			background: #1540bf
+			border: solid 1px #1540bf
+		.select_num
+			+positionAt(absolute,$top:0 , $left:0)
+			color: #fff
+			height: 2.4rem
+			width: 2.4rem
+			text-align: center
+			line-height: 2.3rem
+			z-index: 1
+		.select_text
+			+positionAt(absolute,$top:6px , $left:50px)
+			z-index: 1
+
+
+
+
+//	.ip_check + label
+//		padding-left: 3rem
+//		lheight: 2.25rem
+//		display: inline-block
+//		line-height: 2.25rem
+//		cursor: pointer
+//		color: #5e5e5e
+//		position: relative
+//		&:before
+//			content: ''
+//			+positionAt(absolute, $top:2px, $left:0)
+//			position: absolute
+//			width: 2.25rem
+//			height: 2.25rem
+//			border: 1px solid #d3d3d3
+//			background: #fff
+//	.ip_check:checked + label
+//		&:before
+//			background-color: #1540bf
+//	.ip_check:checked ~ .select_num
+//			+positionAt(absolute, $top:2px, $left:0)
+//			width: 2.25rem
+//			height: 2.25rem
+//			border: 1px solid #1540bf
+//			color: #fff
+//			text-align: center
 
 
 
