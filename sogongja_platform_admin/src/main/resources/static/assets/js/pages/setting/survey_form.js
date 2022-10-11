@@ -3,9 +3,9 @@ $(document).ready(function () {
 
 	// 항목추가형, 항목 선택형
 	$('.item_wrap02').hide();
-	$('select[name=item_choice]').bind('change', function() {
+	$('select[name=questionType]').bind('change', function() {
 		var val = $(this).val();
-		if (val === 'item_add') {
+		if (val === 'add') {
 			$('.item_wrap01').show();
 			$('.item_wrap02').hide();
 		} else {
@@ -16,26 +16,26 @@ $(document).ready(function () {
 
 
 	// 답변항목 옵션 비/활성화 여부
-	$("input:radio[name=bothChoice]").click(function(){
-		if($("input:radio[name=bothChoice]:checked").val()=='yes'){
-			$("#rankUse").attr("disabled", false);  //순위
-			$("#numUse").attr("disabled", false);  // 최대수 체크
+	$("input:radio[name=multipleUse]").click(function(){
+		if($("input:radio[name=multipleUse]:checked").val()=='Y'){
+			$("#rankChangeUse").attr("disabled", false);  //순위
+			$("#maximumUse").attr("disabled", false);  // 최대수 체크
 
 			// 최대수 체크 되어있을 때 (클릭 이벤트 먹지 않는것 방지)
-			if($("#numUse").is(":checked")){
+			if($("#maximumUse").is(":checked")){
 				$(".checkNum").attr("disabled", false);  // 최대수 변경 가능
 			}else{
 				$(".checkNum").attr("disabled", true);  // 최대수 변경 불가능
 			}
-		} else if($("input:radio[name=bothChoice]:checked").val()=='no') {
-			$("#rankUse").attr("disabled",true);
-			$("#numUse").attr("disabled", true);
+		} else if($("input:radio[name=multipleUse]:checked").val()=='N') {
+			$("#rankChangeUse").attr("disabled",true);
+			$("#maximumUse").attr("disabled", true);
 			$(".checkNum").attr("disabled",true);
 		}
 	});
 
 	// 최대 수의 숫자 input 비/활성화 여부
-	$("#numUse").click(function(){
+	$("#maximumUse").click(function(){
 		if (this.checked) {
 			$(".checkNum").prop("disabled",false);
 		}
@@ -67,9 +67,10 @@ $(document).ready(function () {
 	});
 
 	// 항목 선택형 리스트 삭제
-	$('.del_item_button').click(function(){
+	/*$('.del_item_button').click(function(){
+		console.log("$(this).parent().html() :: "+$(this).parent().html());
 		$(this).parent().remove();
-	});
+	});*/
 
 
 
@@ -111,6 +112,7 @@ $(document).ready(function () {
 // }
 
 var tags=[];
+var tags_arr=[];
 var tagCnt=0;
 var tagNo=0;
 
@@ -118,13 +120,11 @@ $('#mach_02').change(function(){
 	var tagName=$('#mach_02 option:selected').text();
 	var tagCode=$('#mach_02 option:selected').val();
 	var addtagDiv="";
-	console.log(tagName);
-	console.log(tagCode);
 
 	if(tagCnt>=3){
 		alert('태그는 3개까지만 가능합니다.');
 		return false;
-	}else if(tags.includes(tagCode)){
+	}else if(tags_arr.includes(tagCode)){
 		alert('이미 선택한 태그입니다.');
 		return false;
 	}else if(tagCode === 0){
@@ -132,15 +132,13 @@ $('#mach_02').change(function(){
 		return false;
 	}else{
 		tags.push("positionAdd-deltagBtn"+tagCode);
-		console.log(tags);
+		tags_arr.push(tagCode);
 
 		addtagDiv='<div class="positionAdd-selectedtagBound">';
 		addtagDiv+='<label class="positionAdd-selectedtag">';
 		addtagDiv+=tagName+"</label>";
 		addtagDiv+='<button type="button" id="positionAdd-deltagBtn'+tagCode+'" class="positionAdd-deltagBtn">';
 		addtagDiv+='x</button></div>';
-
-		console.log(addtagDiv);
 
 		$('.tag_wrap').append(addtagDiv);
 		tagCnt++;
@@ -150,36 +148,69 @@ $('#mach_02').change(function(){
 
 
 $(document).on('click', '.positionAdd-deltagBtn', function(){
-	//배열에서 빼주고
-	var tag=$(this).attr('id'); //형제의 텍스트값
-	console.log(tag);
-	console.log("인덱스: "+tags.indexOf(tag));
+
 	tags.splice(tags.indexOf($(this)), 1); //배열에서 원소 제거
+	tags_arr.splice(tags_arr.indexOf($(this)), 1); //배열에서 원소 제거
 	//리무브 해주고
 	$(this).parent().remove();
 	tagCnt--;
 });
 
+$(document).on('click', '.del_item_button', function(){
+	$(this).parent().remove();
+	answerCnt --;
+});
 
 var items=[];
 var itemCnt= 0;
 var itemNo= 0;
+var answerCnt= 0;
 function getInputValue(){
 	var textValue = $('#text_list_input').val();
-	var tagList = $('.positionAdd-selectedtag').text();
+	//var tagList = $('.positionAdd-selectedtag').text();
+	var mach_01 = $("#mach_01").val();
+	var mach_02 = $("#mach_02").val();
 
-	if( textValue === '' || tagList === ''){
+	if( textValue === ''){
 		alert('입력값이 비어있습니다.');
-	}else{
-		console.log(textValue);
-		console.log(tagList);
+		return;
 	}
+
+	if(mach_01 == "0"){
+		alert("대분류를 선택해주세요.");
+		return;
+	}
+
+	if(mach_02 == "0"){
+		alert("중분류를 선택해주세요.");
+		return;
+	}
+
+	if(answerCnt >= 5){
+		alert("답변은 5개까지 설정 할 수 있습니다.");
+		return;
+	}
+
+	var add_str = "<div class=\"flex_box item_list_wrap\" name='answerArr'>"+
+				  "<div class=\"del_item_button\">\n" +
+				  "	<button type=\"button\" class=\"btn\">-</button>\n" +
+				  "</div>\n" +
+				  "<div id=\"answer_"+answerCnt+"\" class=\"item_list\">\n" +
+				  " <div>\n" +
+				  " 	<p>"+textValue+"</p>\n" +
+				  " </div>\n" +
+				  " <div class=\"item_tag_wrap\">\n";
+		for(var i = 0; i < tagCnt; i++){
+			add_str += " 	<span name=\"matching_"+answerCnt+"\" class=\"item_tag\">"+tags_arr[i]+"</span>\n" ;
+		}
+
+	add_str += 	  " </div>\n";
+	add_str += " </div>";
+	add_str += "</div>";
+	$("#answer_wrap").append(add_str);
+	answerCnt++;
+
 }
-
-
-
-
-
 
 // 항목 선택형 대분류 중분류 관련 짓기
 var mach = false;
@@ -197,3 +228,34 @@ $(function() {
 	$("#mach_01").change(update_selected);
 	$("#mach_01").trigger("change");
 });
+
+var answerObj = {};
+var answerTitleList = Array();
+var answerTagList = Array();
+function validationForm(){
+	let title = $("#title").val();
+
+	if(title == ""){
+		alert("질문 제목을 입력해주세요.");
+		return false;
+	}
+
+	var cnt = 0;
+	$('[name=answerArr]').each(function(){
+		var tag = "";
+		answerTitleList.push($(this).children("#answer_"+cnt).find('p').text());
+		$("[name=matching_"+cnt+"]").each(function(){
+			console.log("matging :: "+$(this).text());
+			tag += $(this).text()+"|";
+
+		});
+		tag = tag.slice(0,-1);
+		answerTagList.push(tag);
+		cnt++;
+	});
+
+	$("[name=answerTitleList]").val(answerTitleList);
+	$("[name=answerTagList]").val(answerTagList);
+	alert("Submit!!!");
+
+}

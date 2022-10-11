@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.QuestionSettingMapper">
+
+    <select id="getBoardList2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardList2 */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        <choose>
+            <when test="board_type == 'faq'">
+                , C.CODE_NAME  AS CATEGORY_NAME
+                , C.REF_CLASS  AS CATEGORY_CLASS
+            </when>
+            <otherwise>
+                , (SELECT COUNT(1)
+                FROM ST_FILES F
+                WHERE F.DEL_FLAG = 0
+                AND F.REF_TYPE = #{board_type}
+                AND F.REF_SEQ  = A.BOARD_SEQ
+                ) AS FILE_CNT
+            </otherwise>
+        </choose>
+        FROM ST_BOARD A
+        INNER JOIN ST_USER U
+        ON A.REG_USER_SEQ = U.USER_SEQ
+        <if test="board_type == 'faq'">
+            INNER JOIN ST_CODE_DTL C
+            ON C.GRP_CODE     = 'FAQ_TYPE'
+            AND C.CODE         = A.CATEGORY
+        </if>
+        WHERE A.DEL_FLAG              = 0
+        <if test="category != null and category != ''">
+            AND A.CATEGORY              = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY A.BOARD_SEQ DESC
+        /*||ORDER BY BOARD_SEQ DESC||*/
+    </select>
+
+    <select id="getBoardList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardList */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        <choose>
+            <when test="board_type == 'faq'">
+                , C.CODE_NAME  AS CATEGORY_NAME
+                , C.REF_CLASS  AS CATEGORY_CLASS
+            </when>
+            <otherwise>
+                , (SELECT COUNT(1)
+                FROM ST_FILES F
+                WHERE F.DEL_FLAG = 0
+                /*AND F.REF_TYPE = 'BOARD'*/
+                AND F.REF_SEQ  = A.BOARD_SEQ
+                ) AS FILE_CNT
+            </otherwise>
+        </choose>
+        , AW.COMMENT
+        FROM ST_BOARD A
+        INNER JOIN ST_USER U
+        ON A.REG_USER_SEQ = U.USER_SEQ
+        LEFT JOIN ST_BOARD_SETTING AS BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
+        LEFT JOIN ST_ANSWER AS AW ON AW.BOARD_SEQ = A.BOARD_SEQ
+        <if test="board_type == 'faq'">
+            INNER JOIN ST_CODE_DTL C
+            ON C.GRP_CODE     = 'FAQ_TYPE'
+            AND C.CODE         = A.CATEGORY
+        </if>
+        WHERE A.DEL_FLAG              = 0
+        AND A.BOARD_SETTING_SEQ = #{boardSettingSeq}
+        <if test="category != null and category != ''">
+            AND A.CATEGORY              = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY A.BOARD_SEQ DESC
+        /*||ORDER BY BOARD_SEQ DESC||*/
+    </select>
+
+    <select id="getBoardSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : BoardMapper.xml, id : getBoardSettingList */
+        SELECT *
+        FROM ST_BOARD_SETTING
+        WHERE DEL_FLAG = 0
+        ORDER BY REG_DATE DESC
+
+    </select>
+
+    <insert id="insertBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+        /* file : BoardMapper.xml, id : insertBoard */
+        INSERT
+        INTO ST_BOARD (
+        BOARD_TYPE
+        , BOARD_SETTING_SEQ
+        , SUBJECT
+        , CONTENT
+        , CATEGORY
+        , NOTICE_FLAG
+        , POPUP_FLAG
+        , FROM_DT
+        , TO_DT
+        , TAGS
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{boardType}
+        , #{boardSettingSeq}
+        , #{subject}
+        , #{content}
+        , #{category}
+        , #{noticeFlag}
+        , #{popupFlag}
+        , #{fromDt}
+        , #{toDt}
+        , #{tags}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateBoard" parameterType="com.stoneitgt.sogongja.domain.Board">
+        /* file : BoardMapper.xml, id : updateBoard */
+        UPDATE ST_BOARD
+        SET BOARD_TYPE   = #{boardType}
+          , SUBJECT      = #{subject}
+          , CONTENT      = #{content}
+          , CATEGORY     = #{category}
+          , NOTICE_FLAG  = #{noticeFlag}
+          , POPUP_FLAG   = #{popupFlag}
+          , FROM_DT      = #{fromDt}
+          , TO_DT        = #{toDt}
+          , TAGS         = #{tags}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SEQ    = #{boardSeq}
+    </update>
+
+    <update id="deleteBoard" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteBoard */
+        UPDATE ST_BOARD
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SEQ    = #{board_seq}
+    </update>
+
+    <insert id="insertQuestionSetting" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : QuestionSettingMapper.xml, id : insertQuestionSetting */
+        INSERT
+        INTO ST_QUESTION_SETTING (
+        QUESTION_TYPE
+        , TITLE
+        , DESCRIPTION
+        , MULTIPLE_USE
+        , RANK_CHANGE_USE
+        , MAXIMUM_USE
+        , MAXIMUM_NUM
+        , KEYWORD
+        , ANSWER_TYPE
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{questionType}
+        , #{title}
+        , #{description}
+        , #{multipleUse}
+        , #{rankChangeUse}
+        , #{maximumUse}
+        , #{maximumNum}
+        , #{keyword}
+        , #{answerType}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="questionSettingSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateBoardSetting" parameterType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : updateBoard */
+        UPDATE ST_BOARD_SETTING
+        SET
+            NAME = #{name}
+          , DESCRIPTION = #{description}
+          , FILE_USE = #{fileUse}
+          , ANSWER_USE= #{answerUse}
+          , SECRET_USE= #{secretUse}
+          , FILE_DIRECTORY_NAME= #{fileDirectoryName}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SETTING_SEQ    = #{boardSettingSeq}
+    </update>
+
+    <update id="deleteBoardSetting" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteBoard */
+        UPDATE ST_BOARD_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
+    </update>
+
+    <update id="deleteAllBoard" parameterType="map" >
+        /* file : BoardMapper.xml, id : deleteAllBoard */
+        UPDATE ST_BOARD
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
+    </update>
+
+    <update id="modPopupFlagToZero" parameterType="map" >
+        /* file : BoardMapper.xml, id : modPopupFlagToZero */
+        UPDATE ST_BOARD
+        SET POPUP_FLAG     = 0
+        WHERE BOARD_SEQ   != #{boardSeq}
+          and   POPUP_FLAG     = 1
+    </update>
+
+    <select id="getBoard" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
+        /* file : BoardMapper.xml, id : getBoard */
+        SELECT A.*
+        FROM ST_BOARD A
+        WHERE A.DEL_FLAG  = 0
+          AND A.BOARD_SEQ = #{boardSeq}
+    </select>
+
+    <select id="getQuestionSetting" parameterType="int" resultType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : BoardMapper.xml, id : getBoard */
+        SELECT A.*
+        FROM ST_QUESTION_SETTING A
+        WHERE A.DEL_FLAG  = 0
+          AND A.QUESTION_SETTING_SEQ = #{questionSettingSeq}
+    </select>
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>
