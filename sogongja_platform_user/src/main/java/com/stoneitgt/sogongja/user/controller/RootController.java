@@ -50,6 +50,7 @@ public class RootController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		System.out.println("event >> "+event);
+		System.out.println("list :: "+list);
 		model.addAttribute("list", list);
 		model.addAttribute("event", event);
 		model.addAttribute("boardSettingList", boardSettingList);

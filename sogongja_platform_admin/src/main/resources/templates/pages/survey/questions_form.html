@@ -6,11 +6,13 @@
 </head>
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
-    <form name="editForm" th:action="@{/education/form}" th:object="${education}" method="post"
+    <form name="editForm" th:action="@{/question/form}" th:object="${questionSetting}" method="post"
           enctype="multipart/form-data" onsubmit="return validationForm();">
-        <input type="hidden" th:field="*{eduSeq}">
+        <input type="hidden" th:field="*{questionSettingSeq}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">
+        <input type="hidden" th:field="*{answerTitleList}">
+        <input type="hidden" th:field="*{answerTagList}">
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -22,9 +24,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label required">질문유형 선택</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" name="item_choice" required="required">
-                                            <option name="item" value="item_add" selected="selected">항목추가형</option>
-                                            <option name="item" value="item_choice">항목선택형</option>
+                                        <select class="form-control" th:field="*{questionType}" required="required">
+                                            <option value="add" selected="selected">항목추가형</option>
+                                            <option value="choice">항목선택형</option>
                                         </select>
                                     </div>
                                 </div>
@@ -37,9 +39,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">질문 제목</label>
                                     <div class="col-sm-10">
-                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control"
+                                        <input type="text" th:field="*{title}" maxlength="100" class="form-control"
                                                required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('subject')">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('title')">
                                         </th:block>
                                     </div>
                                 </div>
@@ -50,8 +52,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">부가 설명</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" th:field="*{content}" rows="10"></textarea>
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('content')">
+                                        <textarea class="form-control" th:field="*{description}" rows="10"></textarea>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('description')">
                                         </th:block>
                                     </div>
                                 </div>
@@ -65,26 +67,26 @@
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" class="form-check-input bothChoice"
-                                                       name="bothChoice" value="yes" data-label="복수 선택 가능" checked>복수 선택 가능
+                                                       name="multipleUse" value="Y" data-label="복수 선택 가능" checked>복수 선택 가능
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="flex_box select_num">
                                             <span style="margin: 0 10px 8px 0;"> ( </span>
                                             <div class="form-check">
-                                                <label class="form-check-label" th:for="rankUse">
-                                                    <input type="checkbox" th:value="0" id="rankUse" name="rankUse">
+                                                <label class="form-check-label" th:for="rankChangeUse">
+                                                    <input type="checkbox" th:value="Y" id="rankChangeUse" name="rankChangeUse">
                                                     순위 입력
                                                 </label>
                                             </div>
                                             <span style="margin: 0 10px 8px 10px;"> / </span>
                                             <div class="form-check flex_box">
-                                                <label class="form-check-label" th:for="numUse">
-                                                    <input type="checkbox" th:value="1" id="numUse" name="numUse">
+                                                <label class="form-check-label" th:for="maximumUse">
+                                                    <input type="checkbox" th:value="1" name="maximumUse" id="maximumUse">
                                                     최대 수
                                                 </label>
                                                 <div class="form_num">
-                                                    <input class="checkNum" type="number" value="2" min="2" max="10" disabled>
+                                                    <input class="checkNum" type="number" value="2" min="2" max="10" th:field="*{maximumNum}" disabled>
                                                 </div>
                                             </div>
                                             <span style="margin: 0 10px 8px 10px;"> ) </span>
@@ -92,7 +94,7 @@
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" class="form-check-input bothChoice"
-                                                       name="bothChoice" value="no" data-label="복수 선택 불가">복수 선택 불가
+                                                       name="multipleUse" value="N" data-label="복수 선택 불가">복수 선택 불가
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
@@ -110,9 +112,9 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-sm-2">
-                                                <select id="selectBox" name="selectBox">
-                                                    <option value="option1" selected="selected">업종</option>
-                                                    <option value="option2">주소</option>
+                                                <select th:field="*{answerType}">
+                                                    <option value="1" selected="selected">업종</option>
+                                                    <option value="2">주소</option>
                                                 </select>
                                             </div>
                                             <!--                                            ★★★★업종 선택은 관리자에서 선택할 필요 없습니다.  -->
@@ -204,8 +206,10 @@
                                             <div class="col-sm-2 add_item_button">
                                                 <button type="button" onclick="getInputValue();" class="btn btn-primary mr-2 btn-icon-text">추가하기</button>
                                             </div>
-                                            <div class="col-sm-10">
+
+                                            <div class="col-sm-10" id="answer_wrap">
                                                 <div class="flex_box item_list_wrap">
+                                                    <!--
                                                     <div class="del_item_button">
                                                         <button type="button" class="btn">-</button>
                                                     </div>
@@ -218,8 +222,10 @@
                                                             <span class="item_tag">중분류 2</span>
                                                         </div>
                                                     </div>
+                                                    -->
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -235,13 +241,13 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/question?${pageParams}|}">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
-                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{eduSeq == 0}">
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{questionSettingSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>저장
                 </button>
-                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{eduSeq == 0}">
+                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{questionSettingSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
             </div>

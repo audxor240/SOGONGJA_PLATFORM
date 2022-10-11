@@ -4,16 +4,18 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.EducationParameter;
 import com.stoneitgt.sogongja.admin.service.EducationService;
-import com.stoneitgt.sogongja.domain.Education;
+import com.stoneitgt.sogongja.admin.service.QuestionService;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.util.StoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,9 @@ public class QuestionController extends BaseController {
 
     @Autowired
     private EducationService educationService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @GetMapping("")
     public String questionList(@ModelAttribute EducationParameter params, Model model) {
@@ -52,28 +57,74 @@ public class QuestionController extends BaseController {
     }
 
     @GetMapping("/form")
-    public String questionForm(@ModelAttribute EducationParameter params, Model model) {
+    public String questionForm(@ModelAttribute BaseParameter params, Model model) {
 
-        int surveySeq = 2882;   // 테스트용
+        //int surveySeq = 2882;   // 테스트용
 
-        Education education = educationService.getEducation(surveySeq);
+        QuestionSetting questionSetting = new QuestionSetting();
+        model.addAttribute("questionSetting", questionSetting);
 
-        model.addAttribute("education", education);
+
         model.addAttribute("menuCode", params.getMenuCode());
-        //model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
         HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
         breadcrumb.put("parent_menu_name", "시스템 관리");
         breadcrumb.put("menu_name", "질문 관리");
         model.addAttribute("breadcrumb", breadcrumb);
 
         model.addAttribute("pageParams", getBaseParameterString(params));
-        model.addAttribute("fileList", getFileList(GlobalConstant.FILE_REF_TYPE.EDUCATION, surveySeq));
-        model.addAttribute("imageList", getFileList(GlobalConstant.FILE_REF_TYPE.EDUCATION_IMAGE, surveySeq));
-        model.addAttribute("category1", getCodeList("CATEGORY_1"));
-        model.addAttribute("category2", getCodeRefList("CATEGORY_2", education.getCategory1(), ""));
-        model.addAttribute("category3", getCodeRefList("CATEGORY_3", education.getCategory2(), ""));
-        model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
 
         return "pages/survey/questions_form";
+    }
+
+    @PostMapping("/form")
+    public String saveQuestionSetting(@RequestParam(required = false) String menuCode,
+                            @ModelAttribute("questionSetting") @Valid QuestionSetting questionSetting, BindingResult bindingResult, Model model,
+                            RedirectAttributes rttr) throws IOException {
+/*
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("menuCode", menuCode);
+            model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
+            model.addAttribute("pageParams", board.getPageParams());
+
+            if (GlobalConstant.BOARD_TYPE.FAQ.equals(board.getBoardType())) {
+                model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
+                return "pages/board/board_form_faq";
+            } else {
+                model.addAttribute("fileList", getFileList(GlobalConstant.FILE_REF_TYPE.BOARD, board.getBoardSeq()));
+                return "pages/board/board_form";
+            }
+        }
+
+
+
+        String returnUrl = "";
+        if(GlobalConstant.BOARD_TYPE.COMMUNITY.equals(board.getBoardType())){
+            returnUrl = "redirect:/board/type/" + board.getBoardType() + "?";
+        }else{
+            returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+        }
+*/
+        String returnUrl = "";
+
+        System.out.println("questionSetting :: "+questionSetting);
+
+        //질문 유형이 항목 선택형이면
+        if(questionSetting.getQuestionType().equals("choice")){
+            questionSetting.setAnswerType(3);
+        }
+
+        if (questionSetting.getQuestionSettingSeq() == 0) {
+            rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+            returnUrl += "menuCode=" + menuCode;
+        } else {
+            rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+            returnUrl += questionSetting.getPageParams();
+        }
+        returnUrl = "redirect:/question"+ "?";
+        questionSetting.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+        //BoardSetting boardSetting = questionService.getQuestionSetting(questionSetting.getQuestionSettingSeq());
+        //questionService.saveQuestionSetting(questionSetting);
+
+        return returnUrl;
     }
 }
