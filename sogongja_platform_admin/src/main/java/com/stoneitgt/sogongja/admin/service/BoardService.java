@@ -118,10 +118,11 @@ public class BoardService extends BaseService {
 
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public void deleteBoardSetting(Map<String, Object> params) throws SftpException, JSchException {
+
+		BoardSetting boardSetting = getBoardSetting((int) params.get("board_setting_seq"));
+
 		boardMapper.deleteBoardSetting(params);
 		boardMapper.deleteAllBoard(params);		//하위 게시판 삭제
-
-		BoardSetting boardSetting = getBoardSetting((Integer) params.get("board_setting_seq"));
 
 		params.put("ref_type", boardSetting.getFileDirectoryName().toUpperCase());
 		params.put("ref_seq", params.get("board_seq"));

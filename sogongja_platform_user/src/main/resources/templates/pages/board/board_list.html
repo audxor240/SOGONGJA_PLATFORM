@@ -28,7 +28,7 @@
                 <div class="search_list">
                     <th:block th:include="fragments/paging_result"></th:block>
                     <div>
-                        <form name="searchForm" th:action="@{|/board/${boardType}|}" th:object="${params}">
+                        <form name="searchForm" th:action="@{|/board/${boardSettingSeq}|}" th:object="${params}">
                             <th:block th:include="fragments/search_hidden"></th:block>
                             <legend>보도자료</legend>
                             <select th:field="*{field}">
@@ -49,7 +49,8 @@
                                 <th style="width: 11.5%;">No</th>
                                 <th class="title txl">제목</th>
                                 <th style="width: 11.5%;">작성일</th>
-                                <th style="width: 11.5%;">첨부파일</th>
+                                <th style="width: 11.5%;" th:if="${boardSetting.fileUse == 1}">첨부파일</th>
+                                <th style="width: 11.5%;" th:if="${boardSetting.answerUse == 1}">답변</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +63,8 @@
                                         <span class="secret_img" th:if="${item.secret_use eq 'Y'}"></span>
                                     </td>
                                     <td th:text="${item.reg_dt}">2021.01.01</td>
-                                    <td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>
+                                    <td th:if="${boardSetting.fileUse == 1}"><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>
+                                    <td th:if="${boardSetting.answerUse == 1}">[[${item.answer_seq == null?'답변 대기':'답변 완료'}]]</td>
                                 </tr>
                             </th:block>
                         </tbody>

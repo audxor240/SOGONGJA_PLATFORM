@@ -240,6 +240,11 @@ function validationForm(){
 		return false;
 	}
 
+	if($('[name=answerArr]').length == 0){
+		alert("답변 항목을 추가해주세요.");
+		return false;
+	}
+
 	var cnt = 0;
 	$('[name=answerArr]').each(function(){
 		var tag = "";
@@ -256,6 +261,5 @@ function validationForm(){
 
 	$("[name=answerTitleList]").val(answerTitleList);
 	$("[name=answerTagList]").val(answerTagList);
-	alert("Submit!!!");
 
 }
