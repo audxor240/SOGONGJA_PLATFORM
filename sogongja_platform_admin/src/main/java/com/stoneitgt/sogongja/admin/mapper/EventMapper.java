@@ -25,4 +25,8 @@ public interface EventMapper {
     String getEventUsedCheck();
 
     int updateEventUsed(Event event);
+
+    int updateEventUsed2(Map<String, Object> params);
+
+    Event getUsedEvent();
 }

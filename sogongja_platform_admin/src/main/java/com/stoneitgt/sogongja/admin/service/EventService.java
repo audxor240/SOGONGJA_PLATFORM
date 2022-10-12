@@ -4,7 +4,7 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
 import com.stoneitgt.sogongja.admin.mapper.EventMapper;
-import com.stoneitgt.sogongja.domain.Banner;
+import com.stoneitgt.sogongja.domain.Event;
 import com.stoneitgt.sogongja.domain.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +66,7 @@ public class EventService extends BaseService {
                 // 이미지 등록 후 썸네일 이미지 생성
                 filesService.saveFiles(event.getImageFile().get(0), GlobalConstant.FILE_REF_TYPE.EVENT_POP, event.getEventSeq(),
                         event.getLoginUserSeq(), true);
-                //filesService.saveFiles(banner.getAttachFiles().get(0), GlobalConstant.FILE_REF_TYPE.BANNER_PC, banner.getBannerSeq(), banner.getLoginUserSeq());
+                //filesService.saveFiles(event.getAttachFiles().get(0), GlobalConstant.FILE_REF_TYPE.BANNER_PC, event.getEventSeq(), event.getLoginUserSeq());
             }
 
         }
@@ -74,6 +74,7 @@ public class EventService extends BaseService {
     }
 
     public Event getEvent(int eventSeq) {
+        System.out.println("eventSeq === "+eventSeq);
         Event event = eventMapper.getEvent(eventSeq);
         return event;
     }
@@ -91,5 +92,26 @@ public class EventService extends BaseService {
     public String getEventUsedCheck(){
 
         return eventMapper.getEventUsedCheck();
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public int updateEventUsed2(Map<String, Object> params) {
+
+        Event event = eventMapper.getUsedEvent();   //현재 사용중인 이벤트가 있는 조회
+
+        if(event != null) {
+
+            Event event2 = getEvent((int)params.get("event_seq")); //사용할 이벤트 조회
+
+            //현재 사용하고 있는 팝업 수정하지 않을경우
+            if (event.getEventSeq() != event2.getEventSeq()) {
+                event.setLoginUserSeq(event.getLoginUserSeq());
+                eventMapper.updateEventUsed(event);    //기존에 사용하던 이벤트를 사용 중지 시킴
+            }
+        }
+
+        int result = eventMapper.updateEventUsed2(params);
+
+        return result;
     }
 }

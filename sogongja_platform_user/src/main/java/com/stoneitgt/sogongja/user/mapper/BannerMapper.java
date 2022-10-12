@@ -9,5 +9,7 @@ import java.util.Map;
 @Mapper
 public interface BannerMapper {
 
-    List<Map<String, Object>> getBannerList();
+    List<Map<String, Object>> getPcBannerList();
+
+    List<Map<String, Object>> getMobileBannerList();
 }

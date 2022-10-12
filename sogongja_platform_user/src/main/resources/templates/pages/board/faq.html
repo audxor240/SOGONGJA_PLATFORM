@@ -21,7 +21,7 @@
         </section>
         <section class="wrap pt0">
             <div class="faq_search">
-                <form name="searchForm" th:action="@{|/board/${boardType}|}" th:object="${params}">
+                <form name="searchForm" th:action="@{|/board/type/${boardType}|}" th:object="${params}">
                     <div class="sc_input">
                         <legend>자주하는 질문</legend>
                         <input type="text" th:field="*{keyword}" title="검색어 입력" placeholder="검색어 입력">

@@ -14,7 +14,11 @@ public class BannerService extends BaseService {
     @Autowired
     private BannerMapper bannerMapper;
 
-    public List<Map<String, Object>> getBannerList() {
-        return bannerMapper.getBannerList();
+    public List<Map<String, Object>> getPcBannerList() {
+        return bannerMapper.getPcBannerList();
+    }
+
+    public List<Map<String, Object>> getMobileBannerList() {
+        return bannerMapper.getMobileBannerList();
     }
 }
