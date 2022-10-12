@@ -14,10 +14,12 @@
 		             AND F.REF_TYPE = #{board_type}
 		             AND F.REF_SEQ  = A.BOARD_SEQ
 		         ) AS FILE_CNT
+			   , SA.ANSWER_SEQ
 		    FROM ST_BOARD A
 		       INNER JOIN ST_USER U
 		               ON A.REG_USER_SEQ = U.USER_SEQ
 		       LEFT JOIN ST_BOARD_SETTING as BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
+			   LEFT JOIN ST_ANSWER as SA ON SA.BOARD_SEQ = A.BOARD_SEQ
 		   WHERE A.DEL_FLAG              = 0
 			 AND A.BOARD_SETTING_SEQ            = #{boardSettingSeq}
 		<if test="keyword != null and keyword != ''">

@@ -8,9 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.BoardSetting;
-import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.domain.*;
+import com.stoneitgt.sogongja.user.service.AnswerService;
 import com.stoneitgt.sogongja.user.service.UserService;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.GlobalConstant.BOARD_TYPE;
 import com.stoneitgt.common.GlobalConstant.FILE_REF_TYPE;
 import com.stoneitgt.common.Paging;
-import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.BoardParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.util.StoneUtil;
@@ -42,6 +40,8 @@ public class BoardController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private AnswerService answerService;
 
 	@GetMapping("/type/{boardType:faq|community}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
@@ -150,12 +150,21 @@ public class BoardController extends BaseController {
 		model.addAttribute("boardSetting", boardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("name", name);
+
+		Answer answer = null;
+		answer = answerService.getAnswerInfo(boardSeq);
+		if(answer == null){
+			answer = new Answer();
+		}
+		System.out.println("answer :::: "+answer);
+		model.addAttribute("answer", answer);
 		if(authentication.getCredentials() != "") {
 			User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
 
 			Board board = boardService.getBoardDetail(boardSeq, boardSettingSeq);
 			if (user.getUserSeq() == board.getRegUserSeq()) {
 				board.setBoardType("qna");
+
 				model.addAttribute("board", board);
 				model.addAttribute("detail", true);
 				return "pages/board/board_write";	//작성자 수정 form
@@ -322,12 +331,14 @@ public class BoardController extends BaseController {
 	public String QnaWriteForm(Model model, @RequestParam int boardSettingSeq) {
 
 		Board board = new Board();
+		Answer answer = new Answer();
 		board.setBoardSettingSeq(boardSettingSeq);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
 
 		System.out.println("boardSetting >> "+boardSetting);
 		model.addAttribute("board", board);
+		model.addAttribute("answer", answer);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("boardSetting", boardSetting);
 		model.addAttribute("name", boardSetting.getName());

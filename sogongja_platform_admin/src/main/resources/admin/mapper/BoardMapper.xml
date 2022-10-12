@@ -223,14 +223,15 @@
 
 	<select id="getBoard" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
 		/* file : BoardMapper.xml, id : getBoard */
-		  SELECT A.*
+		  SELECT A.*, U.NICK_NAME, DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
 		    FROM ST_BOARD A
+            LEFT JOIN ST_USER AS U ON U.USER_SEQ = A.REG_USER_SEQ
 		   WHERE A.DEL_FLAG  = 0
 		     AND A.BOARD_SEQ = #{boardSeq}
 	</select>
 
     <select id="getBoardSetting" parameterType="int" resultType="com.stoneitgt.sogongja.domain.BoardSetting">
-        /* file : BoardMapper.xml, id : getBoard */
+        /* file : BoardMapper.xml, id : getBoardSetting */
         SELECT A.*
         FROM ST_BOARD_SETTING A
         WHERE A.DEL_FLAG  = 0

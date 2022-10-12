@@ -74,13 +74,12 @@
 	</update>
 
 	<update id="deleteFileAll" parameterType="map">
-		/* file : FilesMapper.xml, id : deleteFile */
+		/* file : FilesMapper.xml, id : deleteFileAll */
 		UPDATE ST_FILES
 		   SET DEL_FLAG     = 1
 		     , DEL_USER_SEQ = #{login_user_seq}
 		     , DEL_DATE     = CURRENT_TIMESTAMP()
 		 WHERE REF_TYPE     = #{ref_type}
-		   AND REF_SEQ      = #{ref_seq}
 	</update>
 
 	<update id="updateFileTitle" parameterType="com.stoneitgt.sogongja.domain.Files">

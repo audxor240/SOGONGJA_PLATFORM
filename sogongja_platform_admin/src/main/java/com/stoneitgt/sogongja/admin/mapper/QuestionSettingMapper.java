@@ -16,6 +16,6 @@ public interface QuestionSettingMapper {
 
     int updateQuestionSetting(QuestionSetting questionSetting);
 
-    int deleteBoardSetting(Map<String, Object> params);
+    int deleteQuestionSetting(Map<String, Object> params);
 
 }

@@ -10,7 +10,7 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <form name="searchForm" th:action="@{|/board/${boardSettingSeq}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <div class="col-sm-4">
