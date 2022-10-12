@@ -102,3 +102,71 @@ function count_ck2(obj2){
     }
 }
 
+
+
+
+// 순위 자바스크립트
+
+var choice_done_wrap = document.querySelectorAll('.card');
+var draggingClass = 'dragging';
+var dragSource;
+
+Array.prototype.forEach.call(choice_done_wrap, function (col) {
+    col.addEventListener('dragstart', handleDragStart, false);
+    col.addEventListener('dragenter', handleDragEnter, false)
+    col.addEventListener('dragover', handleDragOver, false);
+    col.addEventListener('dragleave', handleDragLeave, false);
+    col.addEventListener('drop', handleDrop, false);
+    col.addEventListener('dragend', handleDragEnd, false);
+});
+
+function handleDragStart (evt) {
+    dragSource = this;
+    evt.target.classList.add(draggingClass);
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDragOver (evt) {
+    evt.dataTransfer.dropEffect = 'move';
+    evt.preventDefault();
+}
+
+function handleDragEnter (evt) {
+    this.classList.add('over');
+}
+
+function handleDragLeave (evt) {
+    this.classList.remove('over');
+}
+
+function handleDrop (evt) {
+    evt.stopPropagation();
+
+    if (dragSource !== this) {
+        dragSource.innerHTML = this.innerHTML;
+
+        const sourceClass = dragSource.className;
+        const destinationClass = this.className;
+
+        dragSource.className = destinationClass;
+        this.className = sourceClass;
+
+        this.innerHTML = evt.dataTransfer.getData('text/html');
+    }
+
+    evt.preventDefault();
+}
+
+function handleDragEnd (evt) {
+    Array.prototype.forEach.call(choice_done_wrap, function (col) {
+        ['over', 'dragging'].forEach(function (className) {
+            col.classList.remove(className);
+        });
+    });
+}
+
+
+
+
+
