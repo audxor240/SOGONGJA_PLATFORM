@@ -39,19 +39,26 @@
                         <div class="select_box_wrap">
                             <div class="lCategory">
                                 <select name="" id="mach_depth01">
-                                    <option value="">대분류</option>
+                                    <option value="" disabled selected>대분류</option>
                                     <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
                                 </select>
                             </div>
                             <div class="mCategory">
                                 <select name="" id="mach_depth02">
-                                    <option value="">중분류</option>
+                                    <option value="" disabled selected>중분류</option>
                                     <option value="1">1-1</option>
+                                    <option value="2">1-1</option>
+                                    <option value="3">1-1</option>
                                 </select>
                             </div>
                             <div class="sCategory">
                                 <select name="" id="mach_depth03">
-                                    <option value="">소분류</option>
+                                    <option value="" disabled selected>소분류</option>
+                                    <option value="1">1-1-1</option>
+                                    <option value="1">1-1-1</option>
+                                    <option value="1">1-1-1</option>
                                     <option value="1">1-1-1</option>
                                 </select>
                             </div>
@@ -63,7 +70,7 @@
                     </div>
                 </div>
 
-                <!--관리자에서 주소선택 했을 경우 - 복수 추가 불가-->
+                <!--관리자에서 주소선택 했을 경우-->
                 <div class="survey_question">
                     <div class="q_title">
                         <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
@@ -74,6 +81,83 @@
                     </div>
                     <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
                 </div>
+
+                <!--관리자에서 주소선택 했을 경우 - 리스트 노출(순위 없음)-->
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                        <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                    </div>
+                    <div class="choice_done_wrap">
+                        <div class="aAdress_Wrap">
+                            <div class="aAdress_text">
+                                <p>경기도 수원시 장안구</p>
+                                <span class="aAdress_del"></span>
+                            </div>
+                            <div class="tag_adress_choice none_border">
+                                <div class="tag_adress on">#대학가</div>
+                                <div class="tag_adress on">#역세권</div>
+                                <div class="tag_adress on">#골목상권</div>
+                                <div class="tag_adress on">#아파트단지</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
+                </div>
+
+
+                <!--관리자에서 주소선택 했을 경우 - 리스트 노출(순위 있음)-->
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                        <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                    </div>
+                    <div class="choice_done_wrap">
+                        <div class="dragContainer">
+                            <div class="num_drag">
+                                1순위
+                            </div>
+                            <div class="aAdress_Wrap02 draggable card"  draggable="true">
+                                <span class="handle_drag"></span>
+                                <div class="aAdress_text_wrap">
+                                    <div class="aAdress_text">
+                                        <p>경기도 수원시 장안구</p>
+                                        <span class="aAdress_del"></span>
+                                    </div>
+                                    <div class="tag_adress_choice none_border">
+                                        <div class="tag_adress on">#대학가</div>
+                                        <div class="tag_adress on">#역세권</div>
+                                        <div class="tag_adress on">#골목상권</div>
+                                        <div class="tag_adress on">#아파트단지</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dragContainer">
+                            <div class="num_drag">
+                                2순위
+                            </div>
+                            <div class="aAdress_Wrap02 draggable card"  draggable="true">
+                                <span class="handle_drag"></span>
+                                <div class="aAdress_text_wrap">
+                                    <div class="aAdress_text">
+                                        <p>서울특별시 영등포구</p>
+                                        <span class="aAdress_del"></span>
+                                    </div>
+                                    <div class="tag_adress_choice none_border">
+                                        <div class="tag_adress on">#대학가</div>
+                                        <div class="tag_adress on">#역세권</div>
+                                        <div class="tag_adress on">#골목상권</div>
+                                        <div class="tag_adress on">#아파트단지</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
+                </div>
+
 
                 <!--주소검색 팝업-->
                 <div class="pop_up_wrap adress_pop">
@@ -257,12 +341,12 @@
 
 
 
-
             </form>
         </div>
     </section>
 </article>
 <th:block layout:fragment="custom_js">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script th:src="@{/js/pages/user/survey.js}"></script>
 </th:block>
 </body>
