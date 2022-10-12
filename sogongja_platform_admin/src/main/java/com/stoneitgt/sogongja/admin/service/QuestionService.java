@@ -30,6 +30,8 @@ public class QuestionService extends BaseService {
         int result = 0;
 
         if (questionSetting.getQuestionSettingSeq() == 0) {
+            //답변 리스트 추가
+
             result = questionSettingMapper.insertQuestionSetting(questionSetting);
         } else {
             result = questionSettingMapper.updateQuestionSetting(questionSetting);

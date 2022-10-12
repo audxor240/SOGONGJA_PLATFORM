@@ -23,7 +23,7 @@
         <div class="sub_container">
             <div class="faq_anchor_wrap">
                 <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
-                <div><a th:href="@{/board/faq}">자주하는 질문</a></div>
+                <div><a th:href="@{/board/type/faq}">자주하는 질문</a></div>
             </div>
             <form class="write_qna" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{boardSeq}">
@@ -50,35 +50,20 @@
                             </p>
                     </div>
                 </div>
-                <div class="answer_view">
+                <div class="answer_view" th:if="${answer.answerSeq != 0}">
                     <div class="answer_view_title">
                         <div class="icon_answer"></div>
                         <h4>관련 질문 답변입니다.</h4>
                     </div>
                     <div class="answer_view_text">
-                        <p>
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라     질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라     질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라     질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라     질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                            질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라질문이 나옵니다. 블라블라
-                        </p>
+                        <p>[[${answer.comment}]]</p>
                     </div>
 
                 </div>
                 <div class="btn_box">
                     <a href="javascript:window.history.back();" class="btn">목록으로</a>
                     <button type="button" id="board_del" class="btn red" th:if="${detail}">삭제하기</button>
-                    <button type="submit" class="btn blue">문의하기</button>
+                    <button type="submit" class="btn blue" th:if="${answer.answerSeq == 0}">문의하기</button>
                 </div>
             </form>
             <form name="deleteForm" th:action="@{/board/delete}" method="post">

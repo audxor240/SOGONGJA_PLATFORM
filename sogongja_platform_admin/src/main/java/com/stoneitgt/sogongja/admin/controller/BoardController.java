@@ -181,7 +181,6 @@ public class BoardController extends BaseController {
 		Answer answer = boardService.getAnswerInfo(boardSeq);
 
 		if(answer != null){
-			System.out.println("answer.getComment() :: "+answer.getComment());
 			board.setAnswerSeq(answer.getAnswerSeq());
 			board.setComment(answer.getComment());
 		}
@@ -211,7 +210,8 @@ public class BoardController extends BaseController {
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
-		model.addAttribute("boardSetting", boardService.getBoardSetting(boardSettingSeq));
+		BoardSetting boardSetting = boardService.getBoardSetting(boardSettingSeq);
+		model.addAttribute("boardSetting", boardSetting);
 		System.out.println("boardSetting >>>>>>>> "+model.getAttribute("boardSetting"));
 		return "pages/board/board_setting_form";
 

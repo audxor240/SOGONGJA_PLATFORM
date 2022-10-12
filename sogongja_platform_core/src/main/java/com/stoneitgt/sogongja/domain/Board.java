@@ -70,4 +70,6 @@ public class Board {
 
 	private String comment;
 
+	private String nickName;
+
 }
