@@ -86,6 +86,23 @@
         WHERE EVENT_SEQ    = #{eventSeq}
     </update>
 
+    <update id="updateEventUsed2" parameterType="map" >
+        /* file : EventMapper.xml, id : updateEventOrder */
+        UPDATE ST_EVENT
+        SET
+            USED = #{use}
+          , MOD_USER_SEQ = #{login_user_seq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE EVENT_SEQ      = #{event_seq}
+    </update>
+
+    <select id="getUsedEvent" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Event">
+        /* file : EventMapper.xml, id : getUsedEvent */
+        SELECT *
+        FROM ST_EVENT
+        WHERE DEL_FLAG  = 0 AND USED = 1 limit 1
+    </select>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

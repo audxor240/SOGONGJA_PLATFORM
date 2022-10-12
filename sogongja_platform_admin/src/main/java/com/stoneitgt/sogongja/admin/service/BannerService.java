@@ -66,7 +66,7 @@ public class BannerService extends BaseService {
                 params.put("login_user_seq", banner.getLoginUserSeq());
 
                 // 이미 등록된 썸네일 파일을 삭제
-                filesService.deleteFileAll(params);
+                filesService.deleteFile(params);
 
                 filesService.saveFiles(banner.getImageFile().get(1), GlobalConstant.FILE_REF_TYPE.BANNER_IMAGE_MOBILE, banner.getBannerSeq(),
                         banner.getLoginUserSeq(), true);

@@ -40,15 +40,21 @@
                     <div class="swiper_wrap" style="width:100%;">
                         <div class="swiper mainSwiper">
                             <div class="swiper-wrapper" style="background-color: #fff;">
-                                <div class="swiper-slide" th:if="${#lists.isEmpty(list)}">
+                                <div class="swiper-slide" th:if="${#lists.isEmpty(pcBannerList)}">
                                     <div class="pc_img" th:style="|background: url('@{/images/new/main/img_mainbg1.png}') no-repeat center;|"></div>
-                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm1.png}') no-repeat center;|"></div>
                                 </div>
-                                <div class="swiper-slide" th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                <div class="swiper-slide" th:each="item : ${pcBannerList}" th:unless="${#lists.isEmpty(pcBannerList)}">
                                     <a th:href="${item.url}" th:target="${item.url_open_type != '1'?'_blank':''}">
                                         <div class="pc_img" th:style="'background: url(' + @{'/thumb/' + ${item.thumbnail_path}} + ') no-repeat center;'"></div>
                                     </a>
-                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm1.png}') no-repeat center;|"></div>
+                                </div>
+                                <div class="swiper-slide" th:if="${#lists.isEmpty(mobileBannerList)}">
+                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbg1.png}') no-repeat center;|"></div>
+                                </div>
+                                <div class="swiper-slide" th:each="item : ${mobileBannerList}" th:unless="${#lists.isEmpty(mobileBannerList)}">
+                                    <a th:href="${item.url}" th:target="${item.url_open_type != '1'?'_blank':''}">
+                                        <div class="m_img" th:style="'background: url(' + @{'/thumb/' + ${item.thumbnail_path}} + ') no-repeat center;'"></div>
+                                    </a>
                                 </div>
                             </div>
                             <div class="swiper-button-next"></div>

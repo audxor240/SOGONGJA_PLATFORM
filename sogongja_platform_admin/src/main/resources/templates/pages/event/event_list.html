@@ -12,9 +12,9 @@
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}"
-                method="get">
+          <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
+            <input type="hidden" id="eventUsedSeq" th:value="${eventUsedSeq}">
             <div class="row">
               <label class="col-sm-4 col-form-label">이벤트목록</label>
             </div>
@@ -60,7 +60,7 @@
                 <td th:text="${#dates.format(item.event_start, 'yyyy-MM-dd')}">시작일 작성</td>
                 <td th:text="${#dates.format(item.event_end, 'yyyy-MM-dd')}">종료일 작성</td>
                 <td>
-                  <input type="checkbox" th:checked="${item.used == '1'}">
+                  <input class="eventUse" type="checkbox" th:checked="${item.used == '1'}" th:data-event-seq="${item.event_seq}">
                 </td>
                 <td>
                   <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-event-seq="${item.event_seq}">삭제</button>
@@ -76,6 +76,10 @@
   </div>
   <form name="deleteForm" th:action="@{/event/delete}" method="post">
     <input type="hidden" name="eventSeq">
+  </form>
+  <form name="eventUse" th:action="@{/event/useUpdate}" method="post">
+    <input type="hidden" name="eventSeq">
+    <input type="hidden" name="use">
   </form>
 </div>
 <th:block layout:fragment="custom_css">

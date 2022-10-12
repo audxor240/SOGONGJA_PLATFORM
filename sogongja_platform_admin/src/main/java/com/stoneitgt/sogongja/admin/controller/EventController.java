@@ -34,15 +34,17 @@ public class EventController extends BaseController {
         paging.setPage(params.getPage());
         paging.setSize(params.getSize());
 
+        //현재 사용중인 이벤트 팝업이 있는지 확인
+        String eventUsedSeq = eventService.getEventUsedCheck();
+
         Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
         List<Map<String, Object>> list = eventService.getEventList(paramsMap, paging);
-        System.out.println("list ::: "+list);
         Integer total = eventService.selectTotalRecords();
         paging.setTotal(total);
 
         model.addAttribute("list", list);
-        //model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+        model.addAttribute("eventUsedSeq", eventUsedSeq);
         model.addAttribute("paging", paging);
         model.addAttribute("params", params);
 
@@ -123,6 +125,22 @@ public class EventController extends BaseController {
         params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
         eventService.deleteEvent(params);
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
+        return "redirect:/event";
+    }
+
+    @PostMapping("/useUpdate")
+    public String useUpdate(@RequestParam int eventSeq, @RequestParam String use,
+                            Model model, RedirectAttributes rttr) throws IOException {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("event_seq", eventSeq);
+        params.put("use", use);
+        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+
+        eventService.updateEventUsed2(params);
+
+        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+
         return "redirect:/event";
     }
 }

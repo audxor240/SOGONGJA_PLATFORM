@@ -45,13 +45,13 @@ public class RootController extends BaseController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("search_type", "main");
 
-		List<Map<String, Object>> list = bannerService.getBannerList();
+		List<Map<String, Object>> pcBannerList = bannerService.getPcBannerList();
+		List<Map<String, Object>> mobileBannerList = bannerService.getMobileBannerList();
 		Map<String, Object> event = eventService.getEventInfo();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
-		System.out.println("event >> "+event);
-		System.out.println("list :: "+list);
-		model.addAttribute("list", list);
+		model.addAttribute("pcBannerList", pcBannerList);
+		model.addAttribute("mobileBannerList", mobileBannerList);
 		model.addAttribute("event", event);
 		model.addAttribute("boardSettingList", boardSettingList);
 
