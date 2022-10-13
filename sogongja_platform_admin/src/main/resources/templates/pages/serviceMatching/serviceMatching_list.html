@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
-  <title th:text="${breadcrumb.menu_name}">게시판관리</title>
+  <title th:text="${breadcrumb.menu_name}">서비스 매칭 관리</title>
 </head>
 <div layout:fragment="content">
   <nav th:replace="fragments/page_breadcrumb"></nav>
@@ -13,11 +13,11 @@
           <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
             <div class="row">
-              <div class="col-sm-4">
+              <div class="col-sm-11">
                 <div class="form-group row">
                   <div class="col-sm-4">
                     <select th:field="*{field}" class="form-control">
-                      <option value="subject">교육명</option>
+                      <option value="subject">아이디</option>
                     </select>
                   </div>
                   <div class="col-sm-8">
@@ -25,39 +25,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-4">
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="col-sm-2 col-form-label">대분류</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <select th:field="*{category1}" class="form-control">
-                      <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="col-sm-2 col-form-label">지원기관</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <select th:field="*{supportOrg}" class="form-control">
-                      <option th:each="item : ${supportOrg}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12 text-right">
+              <div class="ccol-sm-1 text-right mt-3">
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
-                  <i class="btn-icon-prepend" data-feather="search"></i>조회
+                  <i class="btn-icon-prepend" data-feather="search"></i>검색
                 </button>
-                <a th:href="@{|/education/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
-                  <i class="btn-icon-prepend" data-feather="edit"></i>등록
-                </a>
               </div>
             </div>
           </form>
@@ -79,24 +50,18 @@
                 <col style="width: 5%;">
                 <col style="width: 8%;">
                 <col style="width: 8%;">
-                <col style="width: 10%;">
+                <col style="width: 20%;">
                 <col style="width: 25%;">
                 <col style="width: 14%;">
-                <col style="width: 10%;">
-                <col style="width: 8%;">
-                <col style="width: 8%;">
               </colgroup>
               <thead>
               <tr>
                 <th>#</th>
-                <th>대분류</th>
-                <th>중분류</th>
-                <th>세분류</th>
-                <th>교육명</th>
-                <th>지원기관</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th></th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>이용자 유형</th>
+                <th>설문 등록 여부</th>
               </tr>
               </thead>
               <tbody>
@@ -111,11 +76,6 @@
                   <span th:if="${item.recommend_flag}" class="badge badge-primary">추천</span>
                 </td>
                 <td th:text="${item.support_org_name}">소관부처</td>
-                <td th:text="${item.reg_username}">작성자</td>
-                <td th:text="${item.reg_dt}">작성일</td>
-                <td class="text-right">
-                  <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-edu-seq="${item.edu_seq}">삭제</button>
-                </td>
               </tr>
               </tbody>
             </table>
@@ -125,6 +85,9 @@
       </div>
     </div>
   </div>
+
+
+
   <form name="deleteForm" th:action="@{/education/delete}" method="post">
     <input type="hidden" name="eduSeq">
     <input type="hidden" name="menuCode" th:value=${params.menuCode}>
