@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.AnswerSettingMapper">
+
+    <insert id="insertAnswerSetting" parameterType="com.stoneitgt.sogongja.domain.AnswerSetting">
+        /* file : AnswerSettingMapper.xml, id : insertAnswerSetting */
+        INSERT
+        INTO ST_ANSWER_SETTING (
+        QUESTION_SEQ
+        , CATEGORY_2
+        , ANSWER
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{questionSettingSeq}
+        , #{category2}
+        , #{answer}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="answerSettingSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+
+
+
+</mapper>
