@@ -106,8 +106,6 @@ public class QuestionController extends BaseController {
 */
         String returnUrl = "";
 
-        System.out.println("questionSetting :: "+questionSetting);
-
         //질문 유형이 항목 선택형이면
         if(questionSetting.getQuestionType().equals("choice")){
             questionSetting.setAnswerType(3);
@@ -121,9 +119,12 @@ public class QuestionController extends BaseController {
             returnUrl += questionSetting.getPageParams();
         }
         returnUrl = "redirect:/question"+ "?";
+
+        AnswerSetting answerSetting = new AnswerSetting();
+        answerSetting.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
         questionSetting.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
         //BoardSetting boardSetting = questionService.getQuestionSetting(questionSetting.getQuestionSettingSeq());
-        //questionService.saveQuestionSetting(questionSetting);
+        questionService.saveQuestionSetting(questionSetting, answerSetting);
 
         return returnUrl;
     }
