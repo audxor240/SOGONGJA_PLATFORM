@@ -16,31 +16,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-4">
-                                        <select th:field="*{field}" class="form-control">
-                                            <option value="subject">사례명</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <label class="col-sm-2 col-form-label">구분</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <select th:field="*{couType}" class="form-control">
-                                            <option th:each="item : ${couType}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <label class="col-sm-2 col-form-label">지원기관</label>
+                                        <label class="col-sm-2 col-form-label">상담분야</label>
                                     </div>
                                     <div class="col-sm-8">
                                         <select th:field="*{supportOrg}" class="form-control">
@@ -50,16 +26,19 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="col-sm-12 text-right">
-                                <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
-                                    <i class="btn-icon-prepend" data-feather="search"></i>조회
-                                </button>
-                                <a th:href="@{|/counseling/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
-                                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
-                                </a>
+                            <div class="col-sm-1">
+                                <label class="col-sm-12 col-form-label">검색</label>
                             </div>
+                            <div class="col-sm-8">
+                                <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
+                            </div>
+                            <button type="submit" class="col-sm-3 btn btn-primary btn-icon-text btn-search">
+                                <i class="btn-icon-prepend" data-feather="search"></i>검색
+                            </button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -69,6 +48,11 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="row justify-content-end">
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1">선택삭제</button>
+                        <button type="button" class="btn col-sm-1 btn-primary mr-1">사례 등록</button>
+                        <button type="button" class="btn col-sm-1 btn-success"><i class="icon-file-text"></i>일괄등록</button>
+                    </div>
                     <p class="card-description">
                         <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
                     </p>
@@ -76,42 +60,37 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <colgroup>
+                                <col style="width: 8%;">
                                 <col style="width: 5%;">
-                                <col style="width: 8%;">
-                                <col style="width: 8%;">
-                                <col style="width: 30%;">
-                                <col style="width: 15%;">
                                 <col style="width: 10%;">
                                 <col style="width: 10%;">
-                                <col style="width: 10%;">
+                                <col style="width: 20%;">
+                                <col style="width: 20%;">
+                                <col style="width: 17%;">
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>구분</th>
-                                    <th>종류</th>
-                                    <th>사례명</th>
-                                    <th>지원기관</th>
-                                    <th>작성자</th>
-                                    <th>작성일</th>
                                     <th></th>
+                                    <th>#</th>
+                                    <th>상담분야</th>
+                                    <th>상담사</th>
+                                    <th>키워드</th>
+                                    <th>제공</th>
+                                    <th>해당년도</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                    <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                    <td th:text="${item.cou_type_name}">구분</td>
-                                    <td th:text="${item.cou_class_name}">종류</td>
                                     <td>
-                                        <a th:href="@{|/counseling/${item.cou_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                        <input type="checkbox">
                                     </td>
+                                    <td th:text="${paging.total - item.rnum + 1}">1</td>
+                                    <td>상담분야</td>
+                                    <td>상담사</td>
+                                    <td>키워드</td>
                                     <td th:text="${item.support_org_name}">소관부처</td>
-                                    <td th:text="${item.reg_username}">작성자</td>
-                                    <td th:text="${item.reg_dt}">작성일</td>
-                                    <td class="text-right">
-                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-con-seq="${item.cou_seq}">삭제</button>
-                                    </td>
+                                    <td>해당년도</td>
                                 </tr>
                             </tbody>
                         </table>
