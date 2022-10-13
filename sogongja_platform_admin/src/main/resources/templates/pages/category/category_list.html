@@ -10,31 +10,33 @@
         <div class="col-12 col-xl-12 grid-margin">
             <div class="row">
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <h3>소공자 대분류</h3>
-                    <div class="card">
-                        <ul class="category lCategory list-group">
-                            <li class="list-group-item list-group-item-action active">
-                                <p>창업</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>지원</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>상권</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>성장</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="add_category_btn row">
-                        <input type="text" class="col-sm-8 form-control">
-                        <button type="button" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
-                    </div>
+                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm1();">
+                        <h3>소공자 대분류</h3>
+                        <div class="card">
+                            <ul class="category lCategory list-group">
+                                <li class="list-group-item list-group-item-action active">
+                                    <p>창업</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <p>지원</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <p>상권</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                                <li class="list-group-item list-group-item-action">
+                                    <p>성장</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="add_category_btn row">
+                            <input type="text" id="name" name="name" class="col-sm-8 form-control">
+                            <button type="submit" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
                     <h3>소공자 중분류</h3>
@@ -127,7 +129,6 @@
 
     <form name="deleteForm" th:action="@{/education/delete}" method="post">
         <input type="hidden" name="eduSeq">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>
 <th:block layout:fragment="custom_css">

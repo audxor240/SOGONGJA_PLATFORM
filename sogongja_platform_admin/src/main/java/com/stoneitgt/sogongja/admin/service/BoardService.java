@@ -223,17 +223,35 @@ public class BoardService extends BaseService {
 	}
 
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-	public void saveAnswer(Board board) throws IOException {
+	public void saveAnswer(Board board, BoardSetting boardSetting) throws IOException {
 
 		if (board.getAnswerSeq() == 0) {
-			answerMapper.insertAnswer(board);
+			answerMapper.insertAnswer(board);	//답변 등록
 		} else {
-			answerMapper.updateAnswer(board);
+			answerMapper.updateAnswer(board);	//답변 수정
+		}
+
+		Board board2 = boardMapper.getBoard(board.getBoardSeq());	//기존 정보
+		//문의 정보가 변경 됐으면 수정함
+		if(board.getSubject() != board2.getSubject() || board.getContent() != board2.getContent()){
+			boardMapper.updateBoard(board);		//질문 수정
+		}
+
+		//질문 파일 첨부
+		if (board.getAttachFiles() != null && board.getAttachFiles().size() > 0) {
+			for (MultipartFile attachFile : board.getAttachFiles()) {
+				filesService.saveFiles(attachFile, boardSetting.getFileDirectoryName(), board.getBoardSeq(), board.getLoginUserSeq());
+			}
 		}
 
 	}
 
 	public Answer getAnswerInfo(int boardSeq){
 		return answerMapper.getAnswerInfo(boardSeq);
+	}
+
+	public BoardSetting getboardSettingInfo(int boardSettingSeq){
+
+		return boardMapper.getBoardSettingInfo(boardSettingSeq);
 	}
 }

@@ -611,7 +611,8 @@ public class BoardController extends BaseController {
 			returnUrl += board.getPageParams();
 		}
 		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
-		boardService.saveAnswer(board);
+		BoardSetting boardSetting = boardService.getboardSettingInfo(board.getBoardSettingSeq());
+		boardService.saveAnswer(board, boardSetting);
 
 		return returnUrl;
 	}

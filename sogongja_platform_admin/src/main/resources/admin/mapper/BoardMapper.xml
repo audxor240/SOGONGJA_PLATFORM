@@ -427,6 +427,13 @@
              AND A.LAW_SEQ  = #{lawSeq}
     </select>
 
+    <select id="getBoardSettingInfo" resultType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : getboardSettingInfo */
+        SELECT *
+        FROM ST_BOARD_SETTING
+        WHERE DEL_FLAG            = 0 AND BOARD_SETTING_SEQ = #{boardSettingSeq}
+    </select>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

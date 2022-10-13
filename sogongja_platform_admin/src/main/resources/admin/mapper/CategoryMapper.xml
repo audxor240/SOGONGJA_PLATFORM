@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.CategoryMapper">
+
+    <insert id="insertCategory1" parameterType="com.stoneitgt.sogongja.domain.Category1">
+        /* file : CategoryMapper.xml, id : insertCategory1 */
+        INSERT
+        INTO ST_CATEGORY1 (
+        NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{name}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="category1Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>

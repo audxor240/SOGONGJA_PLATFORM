@@ -22,3 +22,15 @@ $(document).on('click', '.del_btn', function(){
     }
 
 });
+
+function validationForm1() {
+    var name = $("#name").val();
+
+    if (name.trim() === '') {
+        alert('카테고리명 입력하세요.');
+        return false;
+    }
+
+
+    return true;
+}

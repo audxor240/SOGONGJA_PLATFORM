@@ -101,6 +101,33 @@
 
             $('div.attach-file-group:last').append(strHTML);
         }
+
+        $('#openEditor').on('click', function() {
+                $("#editor").show();
+                $("#cancle").show();
+                $(".btn-delete-file").show();
+                $("#btn-add-file").show();
+                $(".attach-file-group").show();
+                $("#subject").show();
+
+                $("#readView").hide();
+                $("#openEditor").hide();
+                $("#readTitle").hide();
+        });
+
+        $('#cancle').on('click', function() {
+            $("#editor").hide();
+            $("#cancle").hide();
+            $(".btn-delete-file").hide();
+            $("#btn-add-file").hide();
+            $(".attach-file-group").hide();
+            $("#subject").hide();
+
+            $("#readView").show();
+            $("#openEditor").show();
+            $("#readTitle").show();
+        });
+
     });
 
 })();
