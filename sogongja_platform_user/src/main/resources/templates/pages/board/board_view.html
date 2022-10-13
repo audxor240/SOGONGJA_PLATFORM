@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
 
 <head>
     <title>게시판</title>
@@ -30,19 +30,22 @@
                         <p>
                             작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
                         </p>
-                        <div class="view_change">
-                            <div class="moreBtn_wrap">
-                                <span class="moreBtn"></span>
-                                <ul class="morePop">
-                                    <li>
-                                        <span class="changeBtn">수정하기</span>
-                                    </li>
-                                    <li>
-                                        <span class="delBtn">삭제하기</span>
-                                    </li>
-                                </ul>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div class="view_change">
+                                <div class="moreBtn_wrap">
+                                    <span class="moreBtn"></span>
+                                    <ul class="morePop">
+                                        <!--<li>
+                                            <span class="changeBtn">수정하기</span>
+                                        </li>-->
+                                        <li>
+                                            <span class="delBtn">삭제하기</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        </th:block>
+
                     </div>
                     <div class="view_text" id="viewer"></div>
                     <ul class="file_list" th:if="${not #lists.isEmpty(fileList)}">
@@ -123,6 +126,7 @@
                     </form>
                 </div>
                 -->
+
             </div>
             <div class="btn_box">
                 <a class="btn btn_grey" href="javascript:window.history.back();">목록으로</a>
@@ -142,13 +146,19 @@
                         <p>다시 복구할 수 없습니다.</p>
                     </div>
                     <div class="pop_btn">
-                        <a class="btn backBtn redline">취소</a>
-                        <a href="#none" class="btn red">삭제하기</a>
+                        <button type="button" class="btn backBtn redline">취소</button>
+                        <button type="button" id="board_del" class="btn red">삭제하기</button>
                     </div>
                 </div>
             </div>
+            <form name="deleteForm" th:action="@{/board/delete}" method="post">
+                <input type="hidden" name="boardSeq" id="boardSeq" th:value="${data.board_seq}">
+                <input type="hidden" name="boardSettingSeq" id="boardSettingSeq" th:value="${boardSettingSeq}">
+            </form>
         </div>
+
     </article>
+
 
 
 

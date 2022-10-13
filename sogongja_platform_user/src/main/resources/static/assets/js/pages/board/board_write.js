@@ -96,7 +96,43 @@ $('#board_del').on('click', function() {
     }
 });
 
+var filesArr = new Array();
+
+function addFile2(obj){
+    for (const file of obj.files) {
+        // 파일 배열에 담기
+        var reader = new FileReader();
+        reader.onload = function () {
+            filesArr.push(file);
+        };
+        reader.readAsDataURL(file);
+
+        const preview = document.querySelector('#preview');
+        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            <span class="file_icon"></span>
+                            <span class="file_name">${file.name}</span>
+                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                        </p>`;
+
+    }
+
+}
+
 function validationForm() {
+
+    var form = document.querySelector("form");
+    var formData = new FormData(form);
+    for (var i = 0; i < filesArr.length; i++) {
+        // 삭제되지 않은 파일만 폼데이터에 담기
+        //if (!filesArr[i].is_delete) {
+            //formData.append("fields", filesArr[i]);
+        console.log("filesArr[i].name :: "+filesArr[i].name);
+            //$("[name=attachFiles]").append(filesArr[i]);
+        formData.append("attachFiles", filesArr[i]);
+        //}
+    }
+
     var content = editor.getMarkdown();
     if($("#subject").val() == ""){
         alert("제목을 입력해주세요.");

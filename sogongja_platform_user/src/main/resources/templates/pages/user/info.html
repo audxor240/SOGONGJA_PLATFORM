@@ -32,6 +32,7 @@
                 <input type="hidden" id="type" th:value="${user.type}">
                 <input type="hidden" id="subType" th:value="${user.subType}">
                 <input type="hidden" id="typeCheck" th:value="${typeCheck}">
+                <input type="hidden" th:field="*{checkedNickName}">
                 <input type="hidden" id="socialType" name="socialType" th:value="none">
                 <div class="stage_02">
                     <div class="sub_container mypage_info">
@@ -54,10 +55,18 @@
                                     <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                 </td>
                             </tr>
+                            <tr>
+                                <th>비밀번호 확인 <span class="required">(필수)</span></th>
+                                <td>
+                                    <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
+                                    <span id="wrongpw2" class="checking_color"></span>
+                                </td>
+                            </tr>
                             <!--비밀번호 변경 부분-->
                             <tr class="tr_id">
                                 <th style="width: 25%;">닉네임 <span class="required">(필수)</span></th>
                                 <td>
+                                    <input type="hidden" id="origin_nickName" th:value="*{nickName}">
                                     <input type="text" th:field="*{nickName}" title="아이디" required placeholder="닉네임을 입력해주세요." autocomplete="new-password" maxlength="15">
                                     <button type="button" id="btn-checked-nickName">중복확인</button>
                                     <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
@@ -66,8 +75,7 @@
                             <tr>
                                 <th style="width: 25%;">이름 <span class="required">(필수)</span></th>
                                 <td style="width: 75%;">
-                                    <input type="text" th:field="*{username}" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20">
-                                    <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
+                                    [[${user.username}]]
                                 </td>
                             </tr>
                             <tr>
@@ -241,11 +249,17 @@
                         <p>설문을 수정하시겠습니까?</p>
                     </div>
                     <div class="pop_btn">
-                        <a href="#none" id="to_do_next" class="btn">다음에하기</a>
-                        <a href="#none" class="btn blue">설문 참여하기</a>
+                        <button id="to_do_next" class="btn">다음에하기</button>
+                        <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
                     </div>
                 </div>
-
+                <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{username}">
+                    <input type="hidden" th:field="*{nickName}">
+                    <input type="hidden" th:field="*{userType}">
+                    <input type="hidden" th:field="*{email}">
+                </form>
             </div>
         </div>
 
@@ -253,6 +267,16 @@
     </article>
     <th:block layout:fragment="custom_js">
     	<script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
+        <script th:inline="javascript">
+
+            $('#to_do_next').on('click', function() {
+                $('.pop_up_wrap').hide();
+            });
+
+            function formSubmit() {
+                document.forms.surveyForm.submit();
+            }
+        </script>
     </th:block>
 
 </body>

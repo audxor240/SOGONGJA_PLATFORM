@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -56,7 +57,7 @@ public class Board {
 	private String pageParams;
 
 	// 첨부파일
-	List<MultipartFile> attachFiles;
+	List<MultipartFile> attachFiles = new ArrayList<>();
 
 	private String regUsername;
 

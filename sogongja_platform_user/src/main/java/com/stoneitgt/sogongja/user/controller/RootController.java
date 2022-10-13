@@ -65,6 +65,8 @@ public class RootController extends BaseController {
 		 * if (authenticationFacade.isAuthenticated()) { return "redirect:/"; }
 		 */
 		socialLoginSupport.setSocialOauthUrl(request, model);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("loginForm", loginForm);
 		return "pages/login";
 	}

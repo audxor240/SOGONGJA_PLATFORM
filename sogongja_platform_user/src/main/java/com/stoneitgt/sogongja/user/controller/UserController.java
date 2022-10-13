@@ -2,11 +2,13 @@ package com.stoneitgt.sogongja.user.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
+import com.stoneitgt.sogongja.user.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private BoardService boardService;
+
 	private final SocialLoginSupport socialLoginSupport;
 
 	@GetMapping("/signup")
@@ -37,6 +42,9 @@ public class UserController extends BaseController {
 		User user = new User();
 		user.setUserType("I");
 		socialLoginSupport.setSocialOauthUrl(request, model);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		model.addAttribute("bankList", getCodeList("BANK"));
 		model.addAttribute("companyList", getCodeList("COMPANY"));
@@ -186,6 +194,14 @@ public class UserController extends BaseController {
 		model.addAttribute("user", user);
 
 		return "pages/user/signup_completion";
+	}
+
+	@PostMapping("/user/surveyForm")
+	public String surveyForm(@ModelAttribute("user") User user, Model model) {
+		System.out.println("user ::------> "+user);
+		model.addAttribute("user", user);
+
+		return "pages/user/survey_form";
 	}
 
 	// <<추가//
@@ -395,13 +411,20 @@ public class UserController extends BaseController {
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
 		User user = new User();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
+
 		return "pages/user/mypage";
 	}
 
 	@GetMapping("/mypage/qna")
 	public String mypage_qna(Model model) {
 		User user = new User();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		return "pages/user/qna";
 	}
@@ -409,6 +432,9 @@ public class UserController extends BaseController {
 	@GetMapping("/mypage/qna/view")
 	public String mypage_qnaView(Model model) {
 		User user = new User();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		return "pages/user/qna_view";
 	}
@@ -416,6 +442,9 @@ public class UserController extends BaseController {
 	@GetMapping("/mypage/qna/write")
 	public String mypage_qnaWrite(Model model) {
 		User user = new User();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		return "pages/user/qna_write";
 	}
@@ -444,6 +473,9 @@ public class UserController extends BaseController {
 			user.setCategoryList(Arrays.asList(user.getCategory().split(",")));
 		}
 
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
 		return "pages/user/info";

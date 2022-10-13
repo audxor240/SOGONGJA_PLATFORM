@@ -40,6 +40,14 @@
             $('.del_pop').hide();
         });
 
+        $('#board_del').on('click', function() {
+                //var boardSeq = $(this).data('boardSeq');
+                var form = document.forms.deleteForm;
+                //form.boardSeq.value = boardSeq;
+                //alert("form.boardSeq.value :: "+form.boardSeq.value);
+                form.submit();
+        });
+
     });
 })();
 

@@ -2,6 +2,10 @@
     'use strict'
     $(document).ready(function() {
 
+        localStorage.setItem("password", "0");
+        localStorage.setItem("pschk", "0");
+        const pattern = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,}$/;
+
         $('#email3').on('change', function() {
             var value = $(this).val();
             if (value === '') {
@@ -95,6 +99,63 @@
             $('.pop_up_wrap').hide();
         });
 
+        $('#btn-checked-nickName').on('click', function() {
+
+            var nickName = $('#nickName').val().trim();
+
+            if (nickName === '') {
+                alert('닉네임을 입력하세요');
+                return false;
+            }
+
+            if (nickName.length < 5) {
+                alert('닉네임을 5자 이상 입력하세요');
+                return false;
+            }
+
+            var data = {
+                nickName: nickName
+            }
+
+            ajaxPost('/signup/checked/nickName', data, function(result) {
+                // console.log('result : ', result);
+                if (result.result_code === 200) {
+                    $('#checkedNickName').val(nickName);
+                    alert('사용할 수 있는 닉네임입니다.');
+                } else if (result.result_code === -101) {
+                    $("#nickName").val("");
+                    alert('사용할수 없는 닉네임입니다.');
+                } else {
+                    alert('사용 중인 닉네임입니다.');
+                    //$("#nickName").val("");
+                }
+            });
+
+        });
+
+        $("#password").on("change input", function () {
+
+            let password = $("#password").val();
+
+            if (!pattern.test(password)) {
+                localStorage.setItem("password", "0");
+                $('#wrongpw1').text("*영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
+                return false;
+            }
+            $('#wrongpw1').text("");
+            localStorage.setItem("password", "1");
+        });
+
+        $("#passwordConfirm").on("change input", function () {
+            if($("#password").val() == $("#passwordConfirm").val()){
+                localStorage.setItem("pschk", "1");
+                $('#wrongpw2').text("");
+            } else {
+                localStorage.setItem("pschk", "0");
+                $('#wrongpw2').text("*비밀번호가 일치하지 않습니다.");
+            }
+        });
+
     });
 
 })();
@@ -107,6 +168,38 @@ function validationForm() {
     let subType = $("#subType").val();
     let checked_type = $('[name=type]:checked').val();
     let checked_subType = $('[name=subType]:checked').val();
+    let origin_nickName = $('#origin_nickName').val();
+    let nickName = $('#nickName').val().trim();
+    let checkedNickName = $('#checkedNickName').val();
+    let password = $("#password").val();
+    let passwordConfirm = $("#passwordConfirm").val();
+
+    if(password != ""){
+
+        if(localStorage.getItem("password") != "1"){
+            alert("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
+            return false;
+        }
+
+        if(passwordConfirm == ""){
+            alert("비밀번호 확인을 입력해주세요.");
+            return false;
+        }
+
+        if(password != passwordConfirm){
+            alert('비밀번호와 비밀번호 확인이 다릅니다');
+            return false;
+        }
+
+    }
+
+    //닉네임을 변경했을때 중복확인했는지 체크
+    if(origin_nickName != nickName){
+        if(checkedNickName == ""){
+            alert("닉네임 중복 확인해주세요");
+            return false;
+        }
+    }
 
     if(subTypeCnt == 0){
         alert("이용자 유형을 선택해주세요");
