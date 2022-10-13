@@ -190,13 +190,17 @@
 			> li
 				width: 25%
 				border-right: 1px solid #d2d2d2
-				&:last-child
-					background-repeat: none
 				h4
 					font-size: rem(24)
 					font-weight: 700
 					color: #000
 					padding: rem(19) rem(40)
+				//&:last-child
+				//	background-repeat: no-repeat
+				//	font-size: rem(24)
+				//	font-weight: 700
+				//	color: #000
+				//	padding: rem(19) rem(40)
 				ul
 					border-top: 1px solid #d2d2d2
 					padding: rem(40)
@@ -1673,6 +1677,8 @@
 				.check_wrap
 					+flex_type($justify: space-between, $align: center)
 					margin-bottom: rem(15)
+					&:before
+						display: none
 					p
 						color: #000
 						font-size: rem(18)
@@ -1925,26 +1931,31 @@
 			line-height: 45px
 			padding: 0 20px
 			margin-bottom: 10px
-		.tag_adress_choice
-			padding: 10px
-			border: solid 1px #D9D9D9
-			display: flex
-			flex-wrap: wrap
-			.tag_adress
-				border: solid 1px #D9D9D9
-				border-radius: 50px
-				min-width: 100px
-				padding: 4px 0
-				color: #d9d9d9
-				text-align: center
-				cursor: pointer
-				margin-right: 10px
-			.tag_adress.on
-				border: solid 1px #709BFF
-				background-color: #709BFF
-				color: #fff
 	&:first-child
 		margin-top: 0
+
+.tag_adress_choice
+	padding: 10px
+	border: solid 1px #D9D9D9
+	display: flex
+	flex-wrap: wrap
+	background-color: #fff
+	.tag_adress
+		border: solid 1px #D9D9D9
+		border-radius: 50px
+		min-width: 100px
+		padding: 4px 0
+		color: #d9d9d9
+		text-align: center
+		cursor: pointer
+		margin-right: 10px
+		margin-bottom: 10px
+	.tag_adress.on
+		border: solid 1px #709BFF
+		background-color: #709BFF
+		color: #fff
+.tag_adress_choice.none_border
+		border: 0
 
 .pop_main
 	padding: 40px
@@ -2032,10 +2043,20 @@
 		background: #E9F0FF
 		padding: 20px
 		margin-top: 20px
-		p
+		> p
 			color: #969AAF
 			font-size: rem(24)
 			opacity: 0.4
+		.dragContainer
+			+flex_type
+			.num_drag
+				width: 70px
+				color: #709BFF
+				margin-top: 20px
+			.aAdress_Wrap
+				width: calc(100% - 70px)
+
+
 	.adress_add_btn
 		display: block
 		width: 100%
@@ -2045,6 +2066,105 @@
 		text-align: center
 		height: 50px
 		line-height: 50px
+
+
+.aJob_Wrap
+	background-color: #ffffff
+	padding: 10px
+	border: solid 1px #D9D9D9
+	margin-top: 10px
+	.aJob_text
+		+flex_type($justify: space-between, $align: center)
+		padding: 0 10px
+		p
+			font-size: rem(18)
+			color: #000
+			span
+				vertical-align: top
+		.aJob_del
+			background: #F63C3C url(#{$assetPath}/new/icon/delBtn.png) no-repeat 50%
+			width: 36px
+			height: 36px
+			border-radius: 50%
+			margin-top: 2px
+
+.aJob_Wrap02
+	+flex_type($align: flex-start)
+	background-color: #ffffff
+	padding: 10px
+	border: solid 1px #D9D9D9
+	margin-top: 10px
+	width: 100%
+	.handle_drag
+		display: blcok
+		background: url(#{$assetPath}/new/icon/handelBtn.png) no-repeat 50%
+		width: 36px
+		height: 36px
+	.aJob_text_wrap
+		width: calc(100% - 36px)
+		.aJob_text
+			+flex_type($justify: space-between, $align: center)
+			padding: 0 10px
+			p
+				font-size: rem(18)
+				color: #000
+				span
+					vertical-align: top
+			.aJob_del
+				background: #F63C3C url(#{$assetPath}/new/icon/delBtn.png) no-repeat 50%
+				width: 36px
+				height: 36px
+				border-radius: 50%
+				margin-top: 2px
+
+
+
+.aAdress_Wrap
+	background-color: #ffffff
+	padding: 10px
+	border: solid 1px #D9D9D9
+	margin-top: 10px
+	.aAdress_text
+		+flex_type($justify: space-between, $align: center)
+		padding: 0 10px
+		p
+			font-size: rem(18)
+			color: #000
+		.aAdress_del
+			background: #F63C3C url(#{$assetPath}/new/icon/delBtn.png) no-repeat 50%
+			width: 36px
+			height: 36px
+			border-radius: 50%
+			margin-top: 2px
+
+.aAdress_Wrap02
+	+flex_type($align: flex-start)
+	background-color: #ffffff
+	padding: 10px
+	border: solid 1px #D9D9D9
+	margin-top: 10px
+	width: 100%
+	.handle_drag
+		display: blcok
+		background: url(#{$assetPath}/new/icon/handelBtn.png) no-repeat 50%
+		width: 36px
+		height: 36px
+	.aAdress_text_wrap
+		width: calc(100% - 36px)
+		.aAdress_text
+			+flex_type($justify: space-between, $align: center)
+			padding: 0 10px
+			p
+				font-size: rem(18)
+				color: #000
+			.aAdress_del
+				background: #F63C3C url(#{$assetPath}/new/icon/delBtn.png) no-repeat 50%
+				width: 36px
+				height: 36px
+				border-radius: 50%
+				margin-top: 2px
+
+
 
 .servey_question:first-child
 	margin: 0 auto
