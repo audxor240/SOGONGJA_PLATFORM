@@ -2256,9 +2256,17 @@
 				li
 					a
 						padding: rem(20) rem(30)
+	.sub_container
+		.edu_list,.solution_edu_recommend
+			> li
+				.view_favorite
+					.favorite
+						width: 3rem
+						height: 3rem
 @include mobile
 	.sub_visual
 		> div
+			padding: 6.25rem 40px 4rem
 			h2
 				font-size: rem(40)
 		.lnb
@@ -2290,6 +2298,40 @@
 		padding: 20px
 		.answer_view_text
 			margin-top: 10px
+	.sub_container
+		.checkbox_wrap
+			.check_list
+				display: block
+				> li
+					width: 100%
+					border-top: 4px solid #1540bf
+					ul
+						+flex_type
+						overflow-y: auto
+						display: flex
+						max-height: none
+						height: auto
+						overflow-x: scroll
+						li
+							margin-right: 10px
+							min-width: 90px
+					&:first-child
+						border-top: 0
+			.check_keyword
+				flex-wrap: wrap
+				border-top: 4px solid #1540bf
+				padding: 1.875rem 0
+				justify-content: center
+				label
+					width: 100%
+					padding: 0 2.5rem 1.875rem
+					border-bottom: solid 1px #d2d2d2
+					margin-bottom: 1.875rem
+			.check_list.check_list50
+				> li
+					width: 100%
+
+
 
 @include maxMobile
 	.wrap
