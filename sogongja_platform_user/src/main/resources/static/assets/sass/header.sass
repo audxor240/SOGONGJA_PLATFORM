@@ -247,7 +247,7 @@
 			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 	.top_header
 		+flex_type($justify: space-between ,$align: center)
-		padding: 20px 40px
+		padding: 20px 20px 20px 0
 		background-color: #fff
 		z-index: 99
 		.h_btn
@@ -275,23 +275,36 @@
 				font-size: rem(18)
 			.login_btn
 				padding: 20px
-				.m_btn
-					+flex_type($justify: space-between)
-					margin-top: 20px
-					li
-						width: calc(50% - 10px)
-						a
-							display: block
-							text-align: center
-							height: 40px
-							line-height: 40px
-					li:nth-child(1) a
-						background-color: #1540BF
-						color: #fff
-					li:nth-child(2) a
-						background-color: #fff
-						color: #1540BF
-						border: solid 1px #1540BF
+				.login_info
+					.logout
+						+flex_type($justify: flex-end, $align: center)
+						font-size: rem(16)
+						color: #969AAF
+						font-weight: bold
+						&:before
+							content: ''
+							display: inline-block
+							width: 24px
+							height: 24px
+							margin-right: 4px
+							background: url(#{$assetPath}/new/icon/logOut.png) no-repeat 50%
+					.m_btn
+						+flex_type($justify: space-between)
+						margin-top: 20px
+						li
+							width: calc(50% - 10px)
+							a
+								display: block
+								text-align: center
+								height: 40px
+								line-height: 40px
+						li:nth-child(1) a
+							background-color: #1540BF
+							color: #fff
+						li:nth-child(2) a
+							background-color: #fff
+							color: #1540BF
+							border: solid 1px #1540BF
 		.m_nav
 			> ul > li
 				h2
@@ -557,6 +570,3 @@
 				margin-left: calc(100% - 290px)
 
 @include maxMobile
-	.m_header
-		.top_header
-			padding: 20px

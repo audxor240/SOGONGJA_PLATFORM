@@ -330,7 +330,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 20px 20px 0;
   background-color: #fff;
   z-index: 99;
 }
@@ -364,25 +364,41 @@
 .m_header .h_menu_wrap .h_menu .login_btn {
   padding: 20px;
 }
-.m_header .h_menu_wrap .h_menu .login_btn .m_btn {
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .logout {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1rem;
+  color: #969AAF;
+  font-weight: bold;
+}
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .logout:before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  background: url(../images/new/icon/logOut.png) no-repeat 50%;
+}
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .m_btn {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
-.m_header .h_menu_wrap .h_menu .login_btn .m_btn li {
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .m_btn li {
   width: calc(50% - 10px);
 }
-.m_header .h_menu_wrap .h_menu .login_btn .m_btn li a {
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .m_btn li a {
   display: block;
   text-align: center;
   height: 40px;
   line-height: 40px;
 }
-.m_header .h_menu_wrap .h_menu .login_btn .m_btn li:nth-child(1) a {
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .m_btn li:nth-child(1) a {
   background-color: #1540BF;
   color: #fff;
 }
-.m_header .h_menu_wrap .h_menu .login_btn .m_btn li:nth-child(2) a {
+.m_header .h_menu_wrap .h_menu .login_btn .login_info .m_btn li:nth-child(2) a {
   background-color: #fff;
   color: #1540BF;
   border: solid 1px #1540BF;
@@ -724,11 +740,6 @@
   .m_header .h_menu_wrap .h_menu {
     width: 290px;
     margin-left: calc(100% - 290px);
-  }
-}
-@media (max-width: 420px) {
-  .m_header .top_header {
-    padding: 20px;
   }
 }
 

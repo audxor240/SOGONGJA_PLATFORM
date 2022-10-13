@@ -101,6 +101,7 @@
   max-width: 100%;
   display: inline-block;
   padding: 0 0 0 2.5rem;
+  cursor: pointer;
 }
 .table_style tr td .file {
   width: 1.5rem;
