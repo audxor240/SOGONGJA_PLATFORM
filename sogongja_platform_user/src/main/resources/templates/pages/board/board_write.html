@@ -25,7 +25,7 @@
                 <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
                 <div><a th:href="@{/board/type/faq}">자주하는 질문</a></div>
             </div>
-            <form class="write_qna" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+            <form class="write_qna" name="qnaForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{boardSeq}">
                 <input type="hidden" th:field="*{boardSettingSeq}">
                 <input type="hidden" th:field="*{content}">
@@ -40,7 +40,8 @@
                     <div id="editor"></div>
                 </div>
                 <div class="addFile_wrap" th:if="${boardSetting.fileUse == 1}">
-                    <input type="file" id="file-input" name="attachFiles" multiple />
+                    <input type="hidden" name="files">
+                    <input type="file" id="file-input" name="attachFiles" onchange="addFile2(this);" multiple />
                     <label for="file-input">파일 첨부하기 <span></span></label>
                     <div id="preview" class="file-list" th:classappend="${not #lists.isEmpty(fileList)?' on':''}">
                             <p th:id="${item.file_seq}" th:each="item : ${fileList}" th:if="${not #lists.isEmpty(fileList)}">
@@ -63,7 +64,7 @@
                 <div class="btn_box">
                     <a href="javascript:window.history.back();" class="btn">목록으로</a>
                     <button type="button" id="board_del" class="btn red" th:if="${detail}">삭제하기</button>
-                    <button type="submit" class="btn blue" th:if="${answer.answerSeq == 0}">문의하기</button>
+                    <button type="submit" class="btn blue" th:if="${answer.answerSeq == 0}" th:text="${board.boardSeq != 0?'수정하기':'문의하기'}">문의하기</button>
                 </div>
             </form>
             <form name="deleteForm" th:action="@{/board/delete}" method="post">
@@ -109,13 +110,16 @@
         editor.setMarkdown(tui_content);    //상세보기 -> 내용
 
 
+
         const handler = {
-            init() {
+            /*init() {
                 const fileInput = document.querySelector('#file-input');
                 const preview = document.querySelector('#preview');
+
                 fileInput.addEventListener('change', () => {
                     document.querySelector('#preview').classList.add('on');
                     const files = Array.from(fileInput.files)
+
                     files.forEach(file => {
                         preview.innerHTML += `
                         <p id="${file.lastModified}">
@@ -125,6 +129,28 @@
                         </p>`;
                     });
                 });
+            },*/
+
+            init() {
+                const fileInput = document.querySelector('#file-input');
+                const preview = document.querySelector('#preview');
+
+                /*fileInput.addEventListener('change', () => {
+                    document.querySelector('#preview').classList.add('on');
+                    const files = Array.from(fileInput.files)
+
+                    files.forEach(file => {
+                        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            <span class="file_icon"></span>
+                            <span class="file_name">${file.name}</span>
+                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                        </p>`;
+                    });
+                });
+                */
+
+
             },
 
             removeFile: () => {

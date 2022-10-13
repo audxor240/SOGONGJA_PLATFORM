@@ -63,12 +63,12 @@ public class BoardController extends BaseController {
 			model.addAttribute("paging", paging);
 		}
 
-		//List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
-		//model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		String pageName = "";
@@ -158,7 +158,8 @@ public class BoardController extends BaseController {
 		}
 		System.out.println("answer :::: "+answer);
 		model.addAttribute("answer", answer);
-		if(authentication.getCredentials() != "") {
+		//내가 쓴글이고 답변이 없으면
+		if(authentication.getCredentials() != "" && answer.getAnswerSeq() == 0) {
 			User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
 
 			Board board = boardService.getBoardDetail(boardSeq, boardSettingSeq);
@@ -213,9 +214,18 @@ public class BoardController extends BaseController {
 							RedirectAttributes rttr) throws IOException {
 
 		System.out.println("board >>>> "+board);
+		/*System.out.println("board.getAttachFiles().size() :: "+board.getAttachFiles().size());
 		System.out.println("board.getAttachFiles().get(0).getName() ::: "+board.getAttachFiles().get(0).getName());
 		System.out.println("board.getAttachFiles().get(0).getOriginalFilename() ::: "+board.getAttachFiles().get(0).getOriginalFilename());
 		System.out.println("board.getAttachFiles().get(0).getContentType() ::: "+board.getAttachFiles().get(0).getContentType());
+
+		System.out.println("board.getAttachFiles().get(1).getName() ::: "+board.getAttachFiles().get(1).getName());
+		System.out.println("board.getAttachFiles().get(1).getOriginalFilename() ::: "+board.getAttachFiles().get(1).getOriginalFilename());
+		System.out.println("board.getAttachFiles().get(1).getContentType() ::: "+board.getAttachFiles().get(1).getContentType());
+
+		System.out.println("board.getAttachFiles().get(2).getName() ::: "+board.getAttachFiles().get(2).getName());
+		System.out.println("board.getAttachFiles().get(2).getOriginalFilename() ::: "+board.getAttachFiles().get(2).getOriginalFilename());
+		System.out.println("board.getAttachFiles().get(2).getContentType() ::: "+board.getAttachFiles().get(2).getContentType());*/
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
@@ -358,7 +368,7 @@ public class BoardController extends BaseController {
 
 		boardService.deleteBoard(params);
 		//rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/qna";
+		return "redirect:/board/"+boardSettingSeq;
 	}
 
 }
