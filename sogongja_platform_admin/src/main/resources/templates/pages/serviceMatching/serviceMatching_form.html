@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
+
+<head>
+  <title th:text="${breadcrumb.menu_name}">서비스 매칭 관리</title>
+</head>
+<div layout:fragment="content">
+  <nav th:replace="fragments/page_breadcrumb"></nav>
+  <form name="editForm" th:action="@{/education/form}" th:object="${education}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+    <input type="hidden" th:field="*{eduSeq}">
+    <input type="hidden" name="menuCode" th:value="${menuCode}">
+    <input type="hidden" name="pageParams" th:value="${pageParams}">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <!--서비스 매칭 정보-->
+            <div class="row">
+              <div class="col-sm-12">
+
+                <div class="form-group row">
+                  <div class="col-sm-12 mt-2">
+                    <h3>이름 / 아이디 노출  <span>님의 교육 및 컨설팅 매칭 설문 정보</span></h3>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">이용자 유형</label>
+                  <div class="col-sm-2 mt-2">
+                    <p>사업자(소상공인)</p>
+                  </div>
+                  <div class="col-sm-2 mt-2">
+                    <p>사업 실행중</p>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">관련 설문</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" name="" id="">
+                      <option value="1">사업자(소상공인) / 사업 실행중</option>
+                      <option value="2">사업자(소상공인) / 휴/폐업(예정중) </option>
+                      <option value="3">예비창업자 / 창업 준비중 설문</option>
+                      <option value="4">임대 부동산 소유 / 공실문제 해결 </option>
+                      <option value="5">임대 부동산 소유 / 시설관리</option>
+                      <option value="6">임대 부동산 소유 / 빚,채무 관련</option>
+                      <option value="7">일반인</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">등록상태 / 등록일</label>
+                  <div class="col-sm-10 mt-2">
+                    <p>등록 <span>2022-10-13</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!--해당 사용자의 설문지 질문/답변-->
+            <div class="row">
+              <div class="col-12 col-xl-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="card-description">
+                      <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
+                    </p>
+                    <p class="card-description"></p>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <colgroup>
+                          <col style="width: 5%;">
+                          <col style="width: 45%;">
+                          <col style="width: 50%;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>질문명</th>
+                          <th>답변</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                        <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                          <td th:text="${paging.total - item.rnum + 1}">1</td>
+                          <td th:text="${item.category_1_name}">구분</td>
+                          <td th:text="${item.category_2_name}">종류</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+          <i class="btn-icon-prepend" data-feather="list"></i>목록
+        </a>
+        <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{eduSeq == 0}">
+          <i class="btn-icon-prepend" data-feather="edit"></i>등록
+        </button>
+        <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{eduSeq == 0}">
+          <i class="btn-icon-prepend" data-feather="edit"></i>수정
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<th:block layout:fragment="custom_css">
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />
+</th:block>
+<th:block layout:fragment="custom_js">
+  <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
+  <script th:src="@{/assets/js/file-upload.js}"></script>
+</th:block>
+
+</html>
