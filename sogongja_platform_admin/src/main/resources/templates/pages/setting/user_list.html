@@ -13,28 +13,21 @@
                     <form name="searchForm" th:action="@{/setting/user(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
                                         <select th:field="*{field}" class="form-control">
                                             <option value="id">아이디</option>
                                             <option value="username">이름</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
                                     </div>
+                                    <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
+                                        <i class="btn-icon-prepend" data-feather="search"></i>검색
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 text-right">
-                                <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
-                                    <i class="btn-icon-prepend" data-feather="search"></i>조회
-                                </button>
-                                <a th:href="@{|/setting/user/form?${pageParams}|}" class="btn btn-secondary btn-icon-text">
-                                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
-                                </a>
                             </div>
                         </div>
                     </form>
@@ -46,50 +39,61 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="row justify-content-end">
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1">선택삭제</button>
+                        <a th:href="@{|/setting/user/form?${pageParams}|}" class="btn btn-icon-text btn-primary">
+                            <i class="btn-icon-prepend" data-feather="edit"></i>신규회원등록
+                        </a>
+                    </div>
+
                     <p class="card-description">
                         <th:block th:include="fragments/paging_result:: paging_result(title='',sort='reg_date|등록일@id|아이디@username|이름')"></th:block>
                     </p>
                     <p class="card-description"></p>
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" style="text-align: center;">
                             <colgroup>
+                                <col style="width: 8%;">
                                 <col style="width: 5%;">
                                 <col style="width: 10%;">
                                 <col style="width: 10%;">
+                                <col style="width: 17%;">
+                                <col style="width: 15%;">
                                 <col style="width: 10%;">
                                 <col style="width: 15%;">
                                 <col style="width: 10%;">
-                                <col style="width: 10%;">
-                                <col style="width: 8%;">
-                                <col style="width: 12%;">
                             </colgroup>
                             <thead>
                                 <tr>
+                                    <th>선택</th>
                                     <th>#</th>
                                     <th>아이디</th>
                                     <th>이름</th>
-                                    <th>권한</th>
                                     <th>이메일</th>
-                                    <th>전화번호</th>
-                                    <th>부서</th>
+                                    <th>닉네임</th>
                                     <th>등록일</th>
                                     <th>최근 로그인 일시</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <th:block th:include="fragments/table_empty:: table_empty(9)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                    <td>
+                                        <input type="checkbox">
+                                    </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
                                     <td th:text="${item.id}">아이디</td>
                                     <td>
                                         <a th:href="@{|/setting/user/${item.user_seq}?${pageParams}|}" th:text="${item.username}">이름</a>
                                     </td>
-                                    <td th:text="${item.auth_nm}">권한</td>
                                     <td th:text="${item.email}">이메일</td>
-                                    <td th:text="${item.tel}">전화번호</td>
-                                    <td th:text="${item.dept}">부서</td>
+                                    <td th:text="${item.auth_nm}">닉네임</td>
                                     <td th:text="${item.reg_dt}">등록일</td>
-                                    <td th:text="${item.login_date}">등록일</td>
+                                    <td th:text="${item.login_date}">최근 로그인</td>
+                                    <td class="text-right">
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete">삭제</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
