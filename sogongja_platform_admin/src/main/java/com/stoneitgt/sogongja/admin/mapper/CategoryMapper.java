@@ -13,12 +13,28 @@ import java.util.Map;
 public interface CategoryMapper {
 
     int insertCategory1(Category1 category1);
-    int insertCategory2(Category2 category2);
-    int insertCategory3(Category3 category3);
+    int insertCategory2(Category1 category1);
+    int insertCategory3(Category1 category1);
+
+    int deleteCategory1(Category1 category1);
+    int deleteCategory2(Category2 category2);
+    int deleteCategory3(Category3 category3);
+
+    int deleteCategory3Parent(int seq);
+
+    int deleteAllCategory2(Category1 category1);
+    int deleteAllCategory3(Category2 category2);
+
 
     List<Map<String, Object>> getCategory1List();
 
     List<Map<String, Object>> getCategory2List();
 
     List<Map<String, Object>> getCategory3List();
+
+    Category1 getCategory1Info(int categorySeq);
+    Category2 getCategory2Info(int categorySeq);
+    Category3 getCategory3Info(int categorySeq);
+
+    Category1 getCategory2DelInfo(int categorySeq);
 }
