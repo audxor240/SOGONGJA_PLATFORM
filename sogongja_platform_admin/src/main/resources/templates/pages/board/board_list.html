@@ -54,8 +54,8 @@
                             <colgroup>
                                 <col style="width: 5%;">
                                 <col style="width: 35%;">
-                                <col style="width: 12%;">
-                                <col style="width: 12%;">
+                                <col style="width: 20%;">
+                                <col style="width: 17%;">
                                 <col style="width: 12%;">
                                 <col style="width: 12%;">
                                 <col style="width: 12%;">
@@ -90,7 +90,7 @@
                                 <td th:if="${boardSetting.secretUse == 1}">비밀글</td>
                                 <td th:text="${item.read_cnt}">조회수</td>
                                 <td class="text-right">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
+                                    <button type="button" style="min-width: 60px;" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-seq="${item.board_seq}">삭제</button>
                                 </td>
                             </tr>
                             </tbody>
