@@ -15,7 +15,7 @@
         /* file : CategoryMapper.xml, id : getCategory2List */
         SELECT *
         FROM ST_CATEGORY2
-        ORDER BY CATEGORY1_SEQ DESC
+        ORDER BY CATEGORY2_SEQ DESC
 
     </select>
 
@@ -23,7 +23,7 @@
         /* file : CategoryMapper.xml, id : getCategory3List */
         SELECT *
         FROM ST_CATEGORY3
-        ORDER BY CATEGORY1_SEQ DESC
+        ORDER BY CATEGORY3_SEQ DESC
 
     </select>
 
@@ -49,10 +49,12 @@
         INSERT
         INTO ST_CATEGORY2 (
         NAME
+        , CATEGORY1_SEQ
         , REG_USER_SEQ
         , REG_DATE)
         VALUES (
         #{name}
+        , #{category1Seq}
         , #{loginUserSeq}
         , CURRENT_TIMESTAMP())
 
@@ -66,10 +68,12 @@
         INSERT
         INTO ST_CATEGORY3 (
         NAME
+        , CATEGORY2_SEQ
         , REG_USER_SEQ
         , REG_DATE)
         VALUES (
         #{name}
+        , #{category2Seq}
         , #{loginUserSeq}
         , CURRENT_TIMESTAMP())
 
