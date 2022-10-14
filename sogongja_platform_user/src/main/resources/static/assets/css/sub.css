@@ -2946,6 +2946,8 @@
   }
   .sub_visual .lnb ul {
     flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
   }
   .sub_visual .lnb ul li {
     width: 50%;
