@@ -33,7 +33,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">제목</label>
                                     <div class="col-sm-10">
-                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
+                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required" style="display: none">
+                                        <span id="readTitle">[[${board.subject}]]</span>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
                                     </div>
                                 </div>
@@ -44,7 +45,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">내용</label>
                                     <div class="col-sm-10">
-                                        <div id="editor" style="height: 500px;"></div>
+                                        <div id="editor" style="height: 500px;display: none"></div>
+                                        <div id="readView" style="height: 500px;">[[${board.content}]]</div>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
                                     </div>
                                 </div>
@@ -55,7 +57,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-2" style="margin-top: 10px;">
                                         <label class="col-form-label">첨부파일</label>
-                                        <!--<button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file" style="margin-top: 3px;">추가</button>-->
+                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file" style="margin-top: 3px;display: none">추가</button>
                                     </div>
                                     <div class="col-sm-5">
                                         <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
@@ -63,13 +65,12 @@
                                                 <div class="input-group">
                                                     <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-1 mr-2" th:text="${item.file_name}">파일명</a>
                                                     <span class="input-group-append">
-                                                        <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
+                                                        <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}" style="display: none">삭제</button>
                                                     </span>
                                                 </div>
                                             </div>
                                         </th:block>
-                                        <!--
-                                        <div class="attach-file-group">
+                                        <div class="attach-file-group" style="display: none">
                                             <div class="pt-2 attach-file" th:if="${#lists.isEmpty(fileList) || #lists.size(fileList) < 5}">
                                                 <input type="file" name="attachFiles" class="file-upload-default">
                                                 <div class="input-group">
@@ -80,11 +81,11 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="text-danger mt-2">
+                                                첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
+                                            </div>
                                         </div>
-                                        <div class="text-danger mt-2">
-                                            첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
-                                        </div>
-                                        -->
+
                                     </div>
                                 </div>
                             </div>
@@ -107,10 +108,10 @@
                             <div class="col-sm-12">
                                 <div class="form-group row justify-content-center mb-2">
                                     <!--질문 에디터 비활성화 일 때-->
-                                    <button type="button" class="col-sm-1 btn btn-primary">수정하기</button>
+                                    <button type="button" class="col-sm-1 btn btn-primary" id="openEditor">수정하기</button>
                                     <!--질문 에디터 활성화 일 때-->
-                                    <button type="button" class="col-sm-1 btn btn-outline-danger mr-1">수정취소</button>
-                                    <button type="button" class="col-sm-1 btn btn-primary">수정완료</button>
+                                    <button type="button" class="col-sm-1 btn btn-outline-danger mr-1" id="cancle" style="display: none">수정취소</button>
+                                    <!--<button type="button" class="col-sm-1 btn btn-primary" id="modifyBoard" style="display: none">수정</button>-->
                                 </div>
                             </div>
                         </div>

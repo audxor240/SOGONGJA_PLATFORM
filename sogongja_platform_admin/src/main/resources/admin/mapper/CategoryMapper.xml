@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.CategoryMapper">
+
+    <select id="getCategory1List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory1List */
+        SELECT *
+        FROM ST_CATEGORY1
+        ORDER BY CATEGORY1_SEQ DESC
+
+    </select>
+
+    <select id="getCategory2List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory2List */
+        SELECT *
+        FROM ST_CATEGORY2
+        ORDER BY CATEGORY1_SEQ DESC
+
+    </select>
+
+    <select id="getCategory3List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory3List */
+        SELECT *
+        FROM ST_CATEGORY3
+        ORDER BY CATEGORY1_SEQ DESC
+
+    </select>
+
+    <insert id="insertCategory1" parameterType="com.stoneitgt.sogongja.domain.Category1">
+        /* file : CategoryMapper.xml, id : insertCategory1 */
+        INSERT
+        INTO ST_CATEGORY1 (
+        NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{name}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="category1Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertCategory2" parameterType="com.stoneitgt.sogongja.domain.Category2">
+        /* file : CategoryMapper.xml, id : insertCategory2 */
+        INSERT
+        INTO ST_CATEGORY2 (
+        NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{name}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="category2Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertCategory3" parameterType="com.stoneitgt.sogongja.domain.Category3">
+        /* file : CategoryMapper.xml, id : insertCategory3 */
+        INSERT
+        INTO ST_CATEGORY3 (
+        NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{name}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="category3Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>
