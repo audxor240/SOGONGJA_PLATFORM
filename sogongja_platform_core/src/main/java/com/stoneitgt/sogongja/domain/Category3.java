@@ -10,4 +10,7 @@ public class Category3 {
 
     // 이름
     private String name;
+
+    // 로그인 사용자
+    private int loginUserSeq;
 }

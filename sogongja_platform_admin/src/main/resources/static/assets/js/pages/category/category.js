@@ -30,7 +30,25 @@ function validationForm1() {
         alert('카테고리명 입력하세요.');
         return false;
     }
+    return true;
+}
 
+function validationForm2() {
+    var name = $("#nam2").val();
 
+    if (name.trim() === '') {
+        alert('카테고리명 입력하세요.');
+        return false;
+    }
+    return true;
+}
+
+function validationForm3() {
+    var name = $("#name3").val();
+
+    if (name.trim() === '') {
+        alert('카테고리명 입력하세요.');
+        return false;
+    }
     return true;
 }

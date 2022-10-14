@@ -14,20 +14,8 @@
                         <h3>소공자 대분류</h3>
                         <div class="card">
                             <ul class="category lCategory list-group">
-                                <li class="list-group-item list-group-item-action active">
-                                    <p>창업</p>
-                                    <span class="del_btn">x</span>
-                                </li>
-                                <li class="list-group-item list-group-item-action">
-                                    <p>지원</p>
-                                    <span class="del_btn">x</span>
-                                </li>
-                                <li class="list-group-item list-group-item-action">
-                                    <p>상권</p>
-                                    <span class="del_btn">x</span>
-                                </li>
-                                <li class="list-group-item list-group-item-action">
-                                    <p>성장</p>
+                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                                    <p>[[${item.name}]]</p>
                                     <span class="del_btn">x</span>
                                 </li>
                             </ul>
@@ -39,58 +27,38 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <h3>소공자 중분류</h3>
-                    <div class="card">
-                        <ul class="category mCategory list-group">
-                            <li class="list-group-item list-group-item-action">
-                                <p>경영</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>법무</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>세무/노무</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>세무/노무</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="add_category_btn row">
-                        <input type="text" class="col-sm-8 form-control">
-                        <button type="button" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
-                    </div>
+                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm2();">
+                        <h3>소공자 중분류</h3>
+                        <div class="card">
+                            <ul class="category lCategory list-group">
+                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                                    <p>[[${item.name}]]</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="add_category_btn row">
+                            <input type="text" id="name2" name="name" class="col-sm-8 form-control">
+                            <button type="submit" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <h3>소공자 소분류</h3>
-                    <div class="card">
-                        <ul class="category sCategory list-group">
-                            <li class="list-group-item list-group-item-action">
-                                <p>리더십</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>경영이해</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>점포운영</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
-                                <p>경영개선 사례</p>
-                                <span class="del_btn">x</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="add_category_btn row">
-                        <input type="text" class="col-sm-8 form-control">
-                        <button type="button" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
-                    </div>
+                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm3();">
+                        <h3>소공자 소분류</h3>
+                        <div class="card">
+                            <ul class="category lCategory list-group">
+                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                                    <p>[[${item.name}]]</p>
+                                    <span class="del_btn">x</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="add_category_btn row">
+                            <input type="text" id="name3" name="name" class="col-sm-8 form-control">
+                            <button type="submit" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
                     <h3>지원 기관</h3>
