@@ -359,6 +359,28 @@ a.file-download { display: block; flex: 1 1 auto; }
 	padding: 10px;
 }
 
+.card_title{
+	font-size: 18px;
+	padding: 10px 0;
+	border-bottom: solid 1px #eee;
+	margin-bottom: 20px;
+}
+.modal.on{
+	display: block;
+}
+.modal h5{
+	color: #fff;
+	font-size: 18px;
+}
+
+.sns_icon{
+	display: inline-block;
+}
+
+.sns_icon img{
+	display: inline-block;
+	width: 24px;
+}
 
 /* media */
 @media screen and (max-width:640px) {

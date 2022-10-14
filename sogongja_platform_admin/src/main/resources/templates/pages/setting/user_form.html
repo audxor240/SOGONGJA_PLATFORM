@@ -15,11 +15,39 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <h3 class="card_title">기본정보</h3>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">아이디</label>
-                                    <div class="col-sm-7">
+                                    <label class="col-sm-2 col-form-label required">닉네임</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" maxlength="20" class="form-control" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">아이디</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" maxlength="20" class="form-control" required="required">
+                                    </div>
+                                    <buttton type="button" class="btn btn-primary mb-3">중복확인</buttton>
+                                </div>
+                            </div>
+                        </div>
+
+<!--                    기존 - 아이디-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">아이디</label>
+                                    <div class="col-sm-3">
                                         <th:block th:if="*{userSeq == 0}">
                                             <input type="text" th:field="*{id}" class="form-control alphabet_number_only" maxlength="20" required="required">
                                             <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
@@ -28,33 +56,97 @@
                                             <input type="hidden" th:field="*{id}">
                                             <span th:text="*{id}">아이디</span>
                                         </th:block>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6" th:if="*{userSeq == 0}">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">비밀번호</label>
-                                    <div class="col-sm-7">
-                                        <input type="password" maxlength="20" th:field="*{password}" class="form-control" required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+
+<!--                                    소셜 로그인일 때만 노출-->
+                                        <span class="sns_icon">
+                                        <img th:src="@{/assets/images/icon/naver.png}">
+                                        <img th:src="@{/assets/images/icon/kakao.png}">
+                                        <img th:src="@{/assets/images/icon/google.png}">
+                                    </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">이름</label>
-                                    <div class="col-sm-7">
+                                    <label class="col-sm-2 col-form-label required">이름</label>
+                                    <div class="col-sm-6">
                                         <input type="text" maxlength="20" th:field="*{username}" class="form-control korean_only" required="required">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                        </div>
+
+<!--                        신규 - 비밀번호 변경-->
+                        <div class="row">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">이메일</label>
-                                    <div class="col-sm-7">
+                                    <label class="col-sm-2 col-form-label required">비밀번호</label>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" required="required">
+                                    </div>
+                                    <label class="col-sm-2 col-form-label required">비밀번호 확인</label>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+<!--                        기존 - 비밀번호 변경-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">비밀번호</label>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-primary pop_pw_btn">비밀번호 변경</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal pop_pw_wrap" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="mt-2">비밀번호 변경</h5>
+                                            <button type="button" class="btn btn-primary pop_pw_close" data-bs-dismiss="modal" aria-label="Close">x</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label required">비밀번호</label>
+                                                <div class="col-sm-9">
+                                                    <input type="password" maxlength="20" th:field="*{password}" class="form-control" required="required">
+                                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label required">비밀번호 확인</label>
+                                                <div class="col-sm-9">
+                                                    <input type="password" maxlength="20" th:field="*{password}" class="form-control" required="required">
+                                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary pop_pw_close" data-bs-dismiss="modal">취소</button>
+                                            <button type="button" class="btn btn-primary">저장</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">이메일</label>
+                                    <div class="col-sm-6">
                                         <input type="text" maxlength="50" th:field="*{email}" class="form-control" required="required">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
                                     </div>
@@ -62,19 +154,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">휴대폰번호</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" maxlength="15" th:field="*{hp}" class="form-control number_only" required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('hp')"></th:block>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">전화번호</label>
-                                    <div class="col-sm-7">
+                                    <label class="col-sm-2 col-form-label required">전화번호</label>
+                                    <div class="col-sm-6">
                                         <input type="text" maxlength="15" th:field="*{tel}" class="form-control number_only" required="required">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('tel')"></th:block>
                                     </div>
@@ -82,27 +165,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">부서</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" maxlength="10" th:field="*{dept}" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">직책</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" maxlength="10" th:field="*{position}" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label required">메뉴 접근 권한</label>
+                                    <label class="col-sm-2 col-form-label required">권한</label>
                                     <div class="col-sm-6">
                                         <select class="select" th:field="*{auth}" required="required">
                                             <option th:each="item : ${authList}" th:value="${item.code}" th:text="${item.code_name}"></option>
@@ -117,23 +182,220 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card_title">부가정보</h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">이용자 유형</label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory01">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01" name="useCategory" checked="checked">
+                                                    사업자(소상공인)
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory02">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory02" name="useCategory">
+                                                    예비창업자
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory03">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03" name="useCategory">
+                                                    임대 부동산 소유
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory04">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory04" name="useCategory">
+                                                    일반인
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                사업자-->
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory01_01">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01_01" name="useCategory_sub01" checked="checked">
+                                                    사업 실행중
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory01_02">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01_02" name="useCategory_sub01" >
+                                                    휴/폐업(예정)중
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                예비창업자-->
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="uuseCategory02_01">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory02_01" name="useCategory_sub02" checked="checked">
+                                                    사업 실행중
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                임대 부동산 소유-->
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory03_01">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_01" name="useCategory_sub03" checked="checked">
+                                                    공실문제 해결
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory03_02">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_02" name="useCategory_sub03" >
+                                                    시설관리 임대관리
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="useCategory03_03">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_03" name="useCategory_sub03" >
+                                                    빚, 채무 관련
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">연령대</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="age_choice01">
+                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice01" name="age_choice" checked="checked">
+                                                20대
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="age_choice02">
+                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice02" name="age_choice">
+                                                30대
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="age_choice03">
+                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice03" name="age_choice">
+                                                40대
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="age_choice04">
+                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice04" name="age_choice">
+                                                50대
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="age_choice05">
+                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice05" name="age_choice">
+                                                60대 이상
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">관심 서비스 유형</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="service01">
+                                                <input type="checkbox" value="1" id="service01" name="service" checked="checked">
+                                                맞춤형 교육/컨설팅
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="service02">
+                                                <input type="checkbox" value="1" id="service02" name="service">
+                                                상권 분석
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="service03">
+                                                <input type="checkbox" value="1" id="service03" name="service">
+                                                전문 컨설팅 서비스
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
+                <a class="btn btn-outline-primary btn-icon-text" th:href=@{|/setting/user?${pageParams}|}> <i class="btn-icon-prepend" data-feather="list"></i>목록
+                </a>
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{userSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                 </button>
                 <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{userSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
-                <a class="btn btn-outline-primary btn-icon-text" th:href=@{|/setting/user?${pageParams}|}> <i class="btn-icon-prepend" data-feather="list"></i>목록
-                </a>
             </div>
         </div>
     </form>
 </div>
 </div>
 <th:block layout:fragment="custom_css">
+
 </th:block>
 <th:block layout:fragment="custom_js">
+    <script th:src="@{/assets/js/pages/setting/user_form.js}"></script>
 </th:block>
 
 </html>
