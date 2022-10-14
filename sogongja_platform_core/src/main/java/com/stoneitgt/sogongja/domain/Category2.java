@@ -13,4 +13,7 @@ public class Category2 {
 
     // 로그인 사용자
     private int loginUserSeq;
+
+    // 대분류 시퀀스
+    private int category1Seq;
 }

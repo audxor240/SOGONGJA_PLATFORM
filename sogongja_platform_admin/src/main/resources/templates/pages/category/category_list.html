@@ -10,13 +10,16 @@
         <div class="col-12 col-xl-12 grid-margin">
             <div class="row">
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm1();">
+                    <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm1();">
+                        <input type="hidden" name="type" value="1">
+                        <input type="hidden" name="category1Seq" value="0">
                         <h3>소공자 대분류</h3>
                         <div class="card">
-                            <div class="category lCategory list-group">
-                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group" id="list-group1">
+                                <label class="list-group-item list-group-item-action" name="label_group1" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
                                     <p>[[${item.name}]]</p>
-                                    <input type="radio" name="lCategory">
+                                    <input type="hidden" name="category_type" value="1">
+                                    <input type="radio" name="lCategory" th:value="${item.category1_seq}">
                                     <span class="del_btn">x</span>
                                 </label>
                             </div>
@@ -28,13 +31,18 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm2();">
+                    <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm2();">
+                        <input type="hidden" name="type" value="2">
+                        <input type="hidden" name="category1Seq">
+                        <input type="hidden" name="category2Seq" value="0">
                         <h3>소공자 중분류</h3>
                         <div class="card">
-                            <div class="category lCategory list-group">
-                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group" id="list-group2">
+                                <label class="list-group-item list-group-item-action" th:name="${'label_c2_'+item.category1_seq}" style="display: none"
+                                       th:each="item, i : ${category2List}" th:unless="${#lists.isEmpty(category2List)}">
+                                    <input type="hidden" name="category_type" value="2">
                                     <p>[[${item.name}]]</p>
-                                    <input type="radio" name="mCategory">
+                                    <input type="radio" name="mCategory" th:value="${item.category2_seq}">
                                     <span class="del_btn">x</span>
                                 </label>
                             </div>
@@ -46,13 +54,18 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm3();">
+                    <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm3();">
+                        <input type="hidden" name="type" value="3">
+                        <input type="hidden" name="category1Seq">
+                        <input type="hidden" name="category2Seq">
                         <h3>소공자 소분류</h3>
                         <div class="card">
-                            <div class="category lCategory list-group">
-                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group" id="list-group3">
+                                <label class="list-group-item list-group-item-action" th:name="${'label_c3_'+item.category2_seq}" style="display: none"
+                                        th:each="item, i : ${category3List}" th:unless="${#lists.isEmpty(category3List)}">
                                     <p>[[${item.name}]]</p>
-                                    <input type="radio" name="sCategory">
+                                    <input type="hidden" name="category_type" value="3">
+                                    <input type="radio" name="sCategory" th:value="${item.category3_seq}">
                                     <span class="del_btn">x</span>
                                 </label>
                             </div>
@@ -103,14 +116,22 @@
         </div>
     </div>
 
-    <form name="deleteForm" th:action="@{/education/delete}" method="post">
-        <input type="hidden" name="eduSeq">
+    <form name="deleteForm" th:action="@{/category/delete}" method="post">
+        <input type="hidden" name="type">
+        <input type="hidden" name="categorySeq">
+
     </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/assets/js/pages/category/category.js}"></script>
+    <script th:inline="javascript">
+        var groupName1 = /*[[${category1List[0].group_name}]]*/'';
+        var groupName2 = /*[[${category1List[0].group_name}]]*/'';
+        var groupName3 = /*[[${category1List[0].group_name}]]*/'';
+    </script>
+    <script th:src="@{/assets/js/pages/category/category.js}" th:inline="javascript"></script>
+
 </th:block>
 
 </html>

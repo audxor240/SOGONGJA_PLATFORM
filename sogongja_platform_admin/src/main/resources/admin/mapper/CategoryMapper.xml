@@ -5,24 +5,27 @@
 
     <select id="getCategory1List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory1List */
-        SELECT *
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY1) as GROUP_NAME
         FROM ST_CATEGORY1
+        WHERE DEL_FLAG = 0
         ORDER BY CATEGORY1_SEQ DESC
 
     </select>
 
     <select id="getCategory2List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory2List */
-        SELECT *
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY2) as GROUP_NAME
         FROM ST_CATEGORY2
+        WHERE DEL_FLAG = 0
         ORDER BY CATEGORY2_SEQ DESC
 
     </select>
 
     <select id="getCategory3List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory3List */
-        SELECT *
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY3) as GROUP_NAME
         FROM ST_CATEGORY3
+        WHERE DEL_FLAG = 0
         ORDER BY CATEGORY3_SEQ DESC
 
     </select>
@@ -81,6 +84,98 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+
+    <select id="getCategory1Info" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Category1">
+        /* file : CategoryMapper.xml, id : getCategory1Info */
+        SELECT *
+        FROM ST_CATEGORY1
+        WHERE DEL_FLAG = 0 AND CATEGORY1_SEQ = #{categorySeq}
+
+    </select>
+
+    <select id="getCategory2Info" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Category2">
+        /* file : CategoryMapper.xml, id : getCategory2Info */
+        SELECT *
+        FROM ST_CATEGORY2
+        WHERE DEL_FLAG = 0 AND CATEGORY2_SEQ = #{categorySeq}
+
+    </select>
+
+    <select id="getCategory3Info" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Category3">
+        /* file : CategoryMapper.xml, id : getCategory3Info */
+        SELECT *
+        FROM ST_CATEGORY3
+        WHERE DEL_FLAG = 0 AND CATEGORY3_SEQ = #{categorySeq}
+
+    </select>
+
+    <update id="deleteCategory1" parameterType="com.stoneitgt.sogongja.domain.Category1" >
+        /* file : CategoryMapper.xml, id : deleteCategory1 */
+        UPDATE ST_CATEGORY1
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY1_SEQ = #{category1Seq}
+
+    </update>
+
+    <update id="deleteCategory2" parameterType="com.stoneitgt.sogongja.domain.Category2" >
+        /* file : CategoryMapper.xml, id : deleteCategory2 */
+        UPDATE ST_CATEGORY2
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY2_SEQ = #{category2Seq}
+
+    </update>
+
+    <update id="deleteCategory3" parameterType="com.stoneitgt.sogongja.domain.Category3" >
+        /* file : CategoryMapper.xml, id : deleteCategory3 */
+        UPDATE ST_CATEGORY3
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY3_SEQ = #{category3Seq}
+
+    </update>
+
+    <update id="deleteAllCategory2" parameterType="com.stoneitgt.sogongja.domain.Category2" >
+        /* file : CategoryMapper.xml, id : deleteAllCategory2 */
+        UPDATE ST_CATEGORY2
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY1_SEQ = #{category1Seq}
+
+    </update>
+
+    <update id="deleteAllCategory3" parameterType="com.stoneitgt.sogongja.domain.Category3" >
+        /* file : CategoryMapper.xml, id : deleteAllCategory2 */
+        UPDATE ST_CATEGORY3
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY2_SEQ = #{category2Seq}
+
+    </update>
+
+    <update id="deleteCategory3Parent" parameterType="int" >
+        /* file : CategoryMapper.xml, id : deleteAllCategory2 */
+        UPDATE ST_CATEGORY3
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE CATEGORY2_SEQ = #{seq}
+
+    </update>
+
+    <select id="getCategory2DelInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Category1">
+        /* file : CategoryMapper.xml, id : getCategory2DelInfo */
+        SELECT group_concat(CATEGORY2_SEQ) as DEL_GROUP_SEQ
+        FROM ST_CATEGORY2
+        WHERE DEL_FLAG = 0 AND CATEGORY1_SEQ = #{categorySeq}
+
+    </select>
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
