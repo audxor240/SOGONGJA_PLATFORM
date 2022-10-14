@@ -324,19 +324,20 @@ a.file-download { display: block; flex: 1 1 auto; }
 	overflow-y: scroll;
 }
 .category{}
-.category li{
+.category label{
 	display: flex;
 	justify-content: space-between;
 	border: none;
 }
-.category li:hover{
+
+.category label:hover{
 	border: none;
 }
-.category li:hover .del_btn{
+.category label:hover .del_btn{
 	display: block;
 	transition: 0.4s;
 }
-.category li .del_btn{
+.category label .del_btn{
 	display: none;
 	background-color: #ff3366;
 	transition: 0.4s;
@@ -347,6 +348,9 @@ a.file-download { display: block; flex: 1 1 auto; }
 	cursor: pointer;
 	line-height: 20px;
 	text-align: center;
+}
+.category label input{
+	-webkit-appearance: none;
 }
 .add_category_btn{
 	width: 100%;

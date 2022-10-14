@@ -13,12 +13,13 @@
                     <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm1();">
                         <h3>소공자 대분류</h3>
                         <div class="card">
-                            <ul class="category lCategory list-group">
-                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group">
+                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
                                     <p>[[${item.name}]]</p>
+                                    <input type="radio" name="lCategory">
                                     <span class="del_btn">x</span>
-                                </li>
-                            </ul>
+                                </label>
+                            </div>
                         </div>
                         <div class="add_category_btn row">
                             <input type="text" id="name" name="name" class="col-sm-8 form-control">
@@ -30,12 +31,13 @@
                     <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm2();">
                         <h3>소공자 중분류</h3>
                         <div class="card">
-                            <ul class="category lCategory list-group">
-                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group">
+                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
                                     <p>[[${item.name}]]</p>
+                                    <input type="radio" name="mCategory">
                                     <span class="del_btn">x</span>
-                                </li>
-                            </ul>
+                                </label>
+                            </div>
                         </div>
                         <div class="add_category_btn row">
                             <input type="text" id="name2" name="name" class="col-sm-8 form-control">
@@ -47,12 +49,13 @@
                     <form th:action="@{/category/category1}" th:object="${category1}" method="post" onsubmit="return validationForm3();">
                         <h3>소공자 소분류</h3>
                         <div class="card">
-                            <ul class="category lCategory list-group">
-                                <li class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}" th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
+                            <div class="category lCategory list-group">
+                                <label class="list-group-item list-group-item-action" th:classappend="${i.first == true?'active':''}"  th:each="item, i : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">
                                     <p>[[${item.name}]]</p>
+                                    <input type="radio" name="sCategory">
                                     <span class="del_btn">x</span>
-                                </li>
-                            </ul>
+                                </label>
+                            </div>
                         </div>
                         <div class="add_category_btn row">
                             <input type="text" id="name3" name="name" class="col-sm-8 form-control">
@@ -63,28 +66,33 @@
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
                     <h3>지원 기관</h3>
                     <div class="card">
-                        <ul id="otherCategory" class="category otherCategory list-group">
-                            <li class="list-group-item list-group-item-action">
+                        <div id="otherCategory" class="category otherCategory list-group">
+                            <label class="list-group-item list-group-item-action">
                                 <p>HACCP 인증</p>
+                                <input type="radio" name="otherCategory">
                                 <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
+                            </label>
+                            <label class="list-group-item list-group-item-action">
                                 <p>재무관리</p>
+                                <input type="radio" name="otherCategory">
                                 <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
+                            </label>
+                            <label class="list-group-item list-group-item-action">
                                 <p>매출 및 손익관리</p>
+                                <input type="radio" name="otherCategory">
                                 <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
+                            </label>
+                            <label class="list-group-item list-group-item-action">
                                 <p>점포 환경관리</p>
+                                <input type="radio" name="otherCategory">
                                 <span class="del_btn">x</span>
-                            </li>
-                            <li class="list-group-item list-group-item-action">
+                            </label>
+                            <label class="list-group-item list-group-item-action">
                                 <p>원자재 및 재고관리</p>
+                                <input type="radio" name="otherCategory" >
                                 <span class="del_btn">x</span>
-                            </li>
-                        </ul>
+                            </label>
+                        </div>
                     </div>
                     <div class="add_category_btn row">
                         <input id="otherCategory_input" type="text" class="col-sm-8 form-control">
