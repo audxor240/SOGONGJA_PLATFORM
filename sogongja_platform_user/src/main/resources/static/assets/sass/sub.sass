@@ -1873,6 +1873,8 @@
 	background-color: #00000050
 	z-index: 999
 	+positionAt(fixed, $top: 0, $left: 0)
+	+&.doneSignUp
+		display: block
 	.pop_up
 		+positionAt(absolute, $top: 40px)
 		width: 500px
@@ -1961,7 +1963,7 @@
 .pop_main
 	padding: 40px
 	.pop_title
-		margin: 20px
+		margin: 0 0 40px 0
 		> div
 			background: url(#{$assetPath}/img-logo-black.png) no-repeat center
 			width: 120px
@@ -1971,6 +1973,11 @@
 		p
 			font-weight: bold
 			text-align: center
+			font-size: rem(18)
+			span
+				color: #1540BF
+				padding-bottom: 3px
+				display: inline-block
 	.pop_text
 		border-top: solid 1px #cccccc
 		border-bottom: solid 1px #cccccc

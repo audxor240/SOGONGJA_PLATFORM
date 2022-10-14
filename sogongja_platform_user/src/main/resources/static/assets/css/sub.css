@@ -2482,6 +2482,9 @@
   top: 0;
   left: 0;
 }
+.pop_up_wrap.doneSignUp {
+  display: block;
+}
 .pop_up_wrap .pop_up {
   position: absolute;
   top: 40px;
@@ -2598,7 +2601,7 @@
   padding: 40px;
 }
 .pop_main .pop_title {
-  margin: 20px;
+  margin: 0 0 40px 0;
 }
 .pop_main .pop_title > div {
   background: url(../images/img-logo-black.png) no-repeat center;
@@ -2610,6 +2613,12 @@
 .pop_main .pop_title p {
   font-weight: bold;
   text-align: center;
+  font-size: 1.125rem;
+}
+.pop_main .pop_title p span {
+  color: #1540BF;
+  padding-bottom: 3px;
+  display: inline-block;
 }
 .pop_main .pop_text {
   border-top: solid 1px #cccccc;
