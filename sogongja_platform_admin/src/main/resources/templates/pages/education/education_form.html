@@ -15,9 +15,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label required">대분류</label>
+                                    <label class="col-sm-4 col-form-label">대분류</label>
                                     <div class="col-sm-8">
                                         <select class="form-control" th:field="*{category1}" required>
                                             <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">중분류</label>
                                     <div class="col-sm-8">
@@ -38,9 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">세분류</label>
                                     <div class="col-sm-8">
@@ -53,10 +51,11 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required">교육명</label>
+                                    <label class="col-sm-2 col-form-label">교육명</label>
                                     <div class="col-sm-10">
                                         <input type="text" th:field="*{subject}" maxlength="100" class="form-control" required="required">
                                         <th:block th:include="fragments/form_invalid:: form_invalid('subject')"></th:block>
@@ -69,7 +68,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">교육내용</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" th:field="*{content}" rows="10"></textarea>
+                                        <div id="editor" style="height: 500px;"></div>
+<!--                                        <textarea class="form-control" th:field="*{content}" rows="10"></textarea>-->
                                         <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label required">지원기관</label>
+                                    <label class="col-sm-4 col-form-label">제공기관</label>
                                     <div class="col-sm-8">
                                         <select class="form-control" th:field="*{supportOrg}" required="required">
                                             <option th:each="item : ${supportOrg}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
@@ -88,17 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">업종</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" th:field="*{bizType}" maxlength="200" class="form-control">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('bizType')"></th:block>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
@@ -114,41 +104,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">태그</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" th:field="*{tags}" class="form-control">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('tags')"></th:block>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">추천</label>
-                                    <div class="col-sm-10">
-                                        <input type="checkbox" name="recommendFlag" id="recommendFlag" data-toggle="toggle" data-size="small" data-on="추천" data-off="일반" data-width="80" value="1" th:checked="*{recommendFlag == 1}">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('recommendFlag')"></th:block>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">썸네일 이미지</label>
+                                    <label class="col-sm-2 col-form-label">대표 이미지</label>
                                     <div class="col-sm-5">
-                                        <th:block th:if="${not #lists.isEmpty(imageList)}" th:each="item : ${imageList}">
-                                            <div class="pb-2 attach-file attach-file-count">
-                                                <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300">
-                                                <div class="input-group">
-                                                    <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-2 mr-2" th:text="${item.file_name}">파일명</a>
-                                                    <span class="input-group-append">
-                                                        <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </th:block>
                                         <div class="attach-file">
                                             <input type="file" name="imageFile" class="file-upload-default" accept="image/jpg, image/jpeg, image/png">
                                             <div class="input-group">
@@ -158,43 +115,29 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group row">
-                                    <div class="col-sm-2">
-                                        <label class="col-form-label">첨부파일</label><br>
-                                        <button type="button" class="btn btn-secondary btn-sm ml-2" id="btn-add-file">추가</button>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <th:block th:if="${not #lists.isEmpty(fileList)}" th:each="item : ${fileList}">
-                                            <div class="pt-2 attach-file attach-file-count">
+                                        <th:block th:if="${not #lists.isEmpty(imageList)}" th:each="item : ${imageList}">
+                                            <div class="pb-2 attach-file attach-file-count">
                                                 <div class="input-group">
-                                                    <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-1 mr-2" th:text="${item.file_name}">파일명</a>
+                                                    <a th:href="@{|/file/download/${item.file_seq}|}" class="file-download mt-2 mr-2" th:text="${item.file_name}">파일명</a>
                                                     <span class="input-group-append">
                                                         <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
                                                     </span>
                                                 </div>
+                                                <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300">
                                             </div>
                                         </th:block>
-                                        <div class="attach-file-group">
-                                            <div class="pt-2 attach-file attach-file-count" th:if="${#lists.isEmpty(fileList) || #lists.size(fileList) < 5}">
-                                                <input type="file" name="attachFiles" class="file-upload-default">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control file-upload-title" disabled="disabled" placeholder="">
-                                                    <span class="input-group-append">
-                                                        <button type="button" class="file-upload-browse btn btn-primary">파일선택</button>
-                                                        <button type="button" class="btn btn-danger btn-delete-upload ml-3">삭제</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger mt-2">
-                                            첨부파일은 한 파일당 100MB, 총 300MB까지 업로드 가능합니다.
-                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">키워드</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{tags}" class="form-control">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('tags')"></th:block>
                                     </div>
                                 </div>
                             </div>
@@ -205,23 +148,33 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+                    <i class="btn-icon-prepend" data-feather="list"></i>목록
+                </a>
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{eduSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                 </button>
                 <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{eduSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
-                    <i class="btn-icon-prepend" data-feather="list"></i>목록
-                </a>
             </div>
         </div>
     </form>
 </div>
 <th:block layout:fragment="custom_css">
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/tui-color-picker.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/toastui-editor.css}" />
 </th:block>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var tui_content = /*[[${board.content}]]*/ '';
+        var board_type = /*[[${boardType}]]*/ '';
+        var editor;
+        console.log("tui_content :: "+tui_content);
+    </script>
+    <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
+    <script th:src="@{/assets/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
     <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
     <script th:src="@{/assets/js/file-upload.js}"></script>
     <script th:src="@{/assets/js/pages/education/education_form.js}"></script>

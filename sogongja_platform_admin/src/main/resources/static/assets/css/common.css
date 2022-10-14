@@ -319,6 +319,7 @@ a.file-download { display: block; flex: 1 1 auto; }
 	padding: 20px 10px 10px;
 	color: #727cf5;
 }
+.category_wrap form > div.card,
 .category_wrap > div.card{
 	height: 500px;
 	overflow-y: scroll;

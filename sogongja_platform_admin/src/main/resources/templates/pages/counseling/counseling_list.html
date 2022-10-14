@@ -13,7 +13,7 @@
                     <form name="searchForm" th:action="@{/counseling(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group row">
                                     <div class="col-sm-4">
                                         <label class="col-sm-2 col-form-label">상담분야</label>
@@ -88,7 +88,7 @@
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
                                     <td>상담분야</td>
                                     <td>상담사</td>
-                                    <td>키워드</td>
+                                    <td><a th:href="@{|/counseling/${item.cou_seq}?${pageParams}|}" th:text="${item.subject}">제목</a></td>
                                     <td th:text="${item.support_org_name}">소관부처</td>
                                     <td>해당년도</td>
                                 </tr>

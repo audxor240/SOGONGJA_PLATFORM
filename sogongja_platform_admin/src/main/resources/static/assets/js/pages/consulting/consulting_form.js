@@ -2,6 +2,22 @@
     'use strict'
     $(document).ready(function() {
 
+        editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'wysiwyg',
+            hideModeSwitch: true,
+            height: '500px',
+            previewStyle: 'vertical',
+            plugins: [toastui.Editor.plugin.colorSyntax],
+            linkAttribute: {
+                target: '_blank',
+                contenteditable: 'false',
+                rel: 'noopener noreferrer'
+            }
+        });
+        editor.setMarkdown(tui_content);
+
+
         $('#tags').tagsinput({
             trimValue: true,
             confirmKeys: [32, 13]
