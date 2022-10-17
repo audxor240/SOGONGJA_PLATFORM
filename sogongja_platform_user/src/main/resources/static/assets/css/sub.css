@@ -331,9 +331,9 @@
   background: #fff;
   height: 27.4375rem;
   float: left;
-  padding: 2.5rem;
   position: relative;
   margin-top: 2.5rem;
+  transition: 0.4s;
 }
 .sub_container .edu_list > li:nth-child(1), .sub_container .edu_list > li:nth-child(2), .sub_container .edu_list > li:nth-child(3),
 .sub_container .solution_edu_recommend > ul > li:nth-child(1),
@@ -341,69 +341,103 @@
 .sub_container .solution_edu_recommend > ul > li:nth-child(3) {
   margin-top: 0;
 }
-.sub_container .edu_list > li.thumnail,
-.sub_container .solution_edu_recommend > ul > li.thumnail {
-  background-size: cover;
-  position: relative;
+.sub_container .edu_list > li:hover,
+.sub_container .solution_edu_recommend > ul > li:hover {
+  transition: 0.4s;
   box-shadow: 0 0 20px 0 rgba(21, 64, 191, 0.72);
 }
-.sub_container .edu_list > li.thumnail:before,
-.sub_container .solution_edu_recommend > ul > li.thumnail:before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: #1540bf;
-  opacity: 0.8;
+.sub_container .edu_list > li:hover div.text_wrap,
+.sub_container .solution_edu_recommend > ul > li:hover div.text_wrap {
+  background-color: #1540bf;
 }
-.sub_container .edu_list > li.thumnail .view_favorite .view,
-.sub_container .solution_edu_recommend > ul > li.thumnail .view_favorite .view {
+.sub_container .edu_list > li:hover div.text_wrap > div .Agency,
+.sub_container .solution_edu_recommend > ul > li:hover div.text_wrap > div .Agency {
+  color: #fff;
+}
+.sub_container .edu_list > li:hover div.text_wrap > div .view,
+.sub_container .solution_edu_recommend > ul > li:hover div.text_wrap > div .view {
   background: url(../images/icon-saw-w.png) no-repeat 0 50%;
   color: #fff;
 }
-.sub_container .edu_list > li.thumnail h4,
-.sub_container .solution_edu_recommend > ul > li.thumnail h4 {
-  position: absolute;
-  left: 0;
-  bottom: 2.5rem;
-  padding: 0 2.5rem;
+.sub_container .edu_list > li:hover div.text_wrap h4,
+.sub_container .solution_edu_recommend > ul > li:hover div.text_wrap h4 {
   font-size: 1.5rem;
   line-height: 1.5;
   height: 5rem;
 }
-.sub_container .edu_list > li.thumnail h4 a,
-.sub_container .solution_edu_recommend > ul > li.thumnail h4 a {
+.sub_container .edu_list > li:hover div.text_wrap h4 a,
+.sub_container .solution_edu_recommend > ul > li:hover div.text_wrap h4 a {
   color: #fff;
 }
 .sub_container .edu_list > li:nth-child(3n+3),
 .sub_container .solution_edu_recommend > ul > li:nth-child(3n+3) {
   margin-right: 0;
 }
-.sub_container .edu_list > li .view_favorite,
-.sub_container .solution_edu_recommend > ul > li .view_favorite {
+.sub_container .edu_list > li .thumb_img,
+.sub_container .solution_edu_recommend > ul > li .thumb_img {
+  background-size: cover;
   position: relative;
+  height: 14.9375rem;
+  padding: 2.5rem;
   z-index: 3;
+}
+.sub_container .edu_list > li .thumb_img .view_favorite,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.75rem;
 }
-.sub_container .edu_list > li .view_favorite .favorite,
-.sub_container .solution_edu_recommend > ul > li .view_favorite .favorite {
+.sub_container .edu_list > li .thumb_img .view_favorite .favorite,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite {
   width: 2.25rem;
   height: 2.25rem;
   background: url(../images/icon-faborite.png) no-repeat 0 50%;
   display: inline-block;
   text-indent: -9999px;
 }
-.sub_container .edu_list > li .view_favorite .favorite.on,
-.sub_container .solution_edu_recommend > ul > li .view_favorite .favorite.on {
+.sub_container .edu_list > li .thumb_img .view_favorite .favorite:hover,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite:hover {
   background: url(../images/icon-faborite-fill.png) no-repeat 0 50%;
 }
-.sub_container .edu_list > li .view_favorite .view,
-.sub_container .solution_edu_recommend > ul > li .view_favorite .view {
+.sub_container .edu_list > li .thumb_img .view_favorite .favorite.on,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite.on {
+  background: url(../images/icon-faborite-fill.png) no-repeat 0 50%;
+}
+.sub_container .edu_list > li .thumb_img .view_favorite .edu_done,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_done {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../images/new/icon/checked.png) no-repeat 0 50%;
+}
+.sub_container .edu_list > li .thumb_img .view_favorite .edu_none,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../images/new/icon/nonecheck.png) no-repeat 0 50%;
+}
+.sub_container .edu_list > li div.text_wrap,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap {
+  height: 12.5rem;
+  padding: 2.5rem;
+  background-color: #fff;
+}
+.sub_container .edu_list > li div.text_wrap > div,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+.sub_container .edu_list > li div.text_wrap > div .Agency,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap > div .Agency {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: #1540bf;
+  line-height: 20px;
+  font-weight: bold;
+}
+.sub_container .edu_list > li div.text_wrap > div .view,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap > div .view {
   display: inline-block;
   font-size: 0.875rem;
   color: #5e5e5e;
@@ -411,20 +445,25 @@
   padding-left: 1.5625rem;
   background: url(../images/icon-saw.png) no-repeat 0 50%;
 }
-.sub_container .edu_list > li h4,
-.sub_container .solution_edu_recommend > ul > li h4 {
+.sub_container .edu_list > li div.text_wrap .flex_right_view,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap .flex_right_view {
+  display: none;
+}
+.sub_container .edu_list > li div.text_wrap h4,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap h4 {
   height: 4.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.sub_container .edu_list > li h4 a,
-.sub_container .solution_edu_recommend > ul > li h4 a {
+.sub_container .edu_list > li div.text_wrap h4 a,
+.sub_container .solution_edu_recommend > ul > li div.text_wrap h4 a {
   font-size: 1.5rem;
   color: #181818;
   line-height: 1.5;
   font-weight: 700;
+  cursor: pointer;
 }
 .sub_container .edu_list > li .hashtag,
 .sub_container .solution_edu_recommend > ul > li .hashtag {
@@ -2932,12 +2971,22 @@
   .sub_visual .lnb ul li a {
     padding: 1.25rem 1.875rem;
   }
-  .sub_container .edu_list > li .view_favorite .favorite, .sub_container .solution_edu_recommend > li .view_favorite .favorite {
+  .sub_container .edu_list > li .thumb_img .view_favorite .favorite,
+.sub_container .edu_list > li .thumb_img .view_favorite .edu_none,
+.sub_container .edu_list > li .thumb_img .view_favorite .edu_done, .sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_done {
     width: 3rem;
     height: 3rem;
   }
+  .sub_container .edu_list > li div.text_wrap > div .view, .sub_container .solution_edu_recommend > ul > li div.text_wrap > div .view {
+    padding-left: 1.875rem;
+  }
 }
 @media (max-width: 767px) {
+  .m_del {
+    display: none !important;
+  }
   .sub_visual > div {
     padding: 6.25rem 40px 4rem;
   }
@@ -3017,6 +3066,81 @@
   .sub_container .checkbox_wrap .check_list.check_list50 > li {
     width: 100%;
   }
+  .sub_container .edu_list > li, .sub_container .solution_edu_recommend > ul > li {
+    margin-top: 1.125rem;
+    width: 48%;
+    margin-right: 2%;
+  }
+  .sub_container .edu_list > li:nth-child(3n+3), .sub_container .solution_edu_recommend > ul > li:nth-child(3n+3) {
+    margin-top: 1.125rem;
+    margin-right: 2%;
+  }
+  .sub_container .edu_list > li:nth-child(2n+2), .sub_container .solution_edu_recommend > ul > li:nth-child(2n+2) {
+    margin-right: 0;
+  }
+  .sub_container .edu_list > li div.text_wrap > div, .sub_container .solution_edu_recommend > ul > li div.text_wrap > div {
+    flex-wrap: wrap;
+  }
+  .sub_container .edu_list > li div.text_wrap > div .Agency, .sub_container .solution_edu_recommend > ul > li div.text_wrap > div .Agency {
+    width: 100%;
+  }
+  .sub_container .edu_list > li div.text_wrap .flex_right_view, .sub_container .solution_edu_recommend > ul > li div.text_wrap .flex_right_view {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .more_view a {
+    padding: 0 0.625rem;
+  }
+  #rdoSupportOrg li {
+    min-width: 180px;
+  }
+  #rdoSupportOrg li:first-child {
+    min-width: 90px;
+  }
+  .table_style thead tr {
+    display: none;
+  }
+  .custom_consulting tbody {
+    display: flex;
+    flex-direction: column;
+  }
+  .custom_consulting tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+  }
+  .custom_consulting tbody tr td {
+    line-height: 4.5rem;
+    border-right: none;
+  }
+  .custom_consulting tbody tr td:nth-child(1) {
+    width: 20%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_consulting tbody tr td:nth-child(2) {
+    width: 30%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_consulting tbody tr td:nth-child(3) {
+    width: 50%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_consulting tbody tr td:nth-child(4) {
+    width: 40%;
+  }
+  .custom_consulting tbody tr td:nth-child(5) {
+    width: 30%;
+  }
+  .custom_consulting tbody tr td:nth-child(6) {
+    width: 30%;
+  }
+  .custom_consulting tbody:first-child {
+    border-top: 4px solid #1540bf;
+  }
+  .custom_consulting tbody:nth-child(2n) {
+    background-color: #F5F5F5;
+  }
 }
 @media (max-width: 420px) {
   .wrap {
@@ -3040,6 +3164,18 @@
   .reply_view .reply_write button {
     width: 100%;
     padding: 12px 0;
+  }
+  .sub_container .edu_list > li, .sub_container .solution_edu_recommend > ul > li {
+    width: 100%;
+    margin-right: 0;
+  }
+  .sub_container .edu_list > li:nth-child(3n+3), .sub_container .solution_edu_recommend > ul > li:nth-child(3n+3) {
+    margin-top: 1.125rem;
+    margin-right: 0;
+  }
+  .sub_container .edu_list > li:nth-child(2n+2), .sub_container .solution_edu_recommend > ul > li:nth-child(2n+2) {
+    margin-top: 1.125rem;
+    margin-right: 0;
   }
 }
 

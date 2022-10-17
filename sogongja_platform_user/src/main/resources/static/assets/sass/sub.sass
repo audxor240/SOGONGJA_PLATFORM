@@ -260,63 +260,90 @@
 			background: #fff
 			height: rem(439)
 			float: left
-			padding: rem(40)
 			position: relative
 			margin-top: rem(40)
+			transition: 0.4s
 			&:nth-child(1),
 			&:nth-child(2),
 			&:nth-child(3)
 				margin-top: 0
-			&.thumnail
-				background-size: cover
-				position: relative
+			&:hover
+				transition: 0.4s
 				box-shadow: 0 0 20px 0 rgba(21, 64, 191, 0.72)
-				&:before
-					+before($widthB: 100%, $heightB: 100%, $topB: 0, $leftB: 0, $bgB : #1540bf)
-					opacity: 0.8
-				.view_favorite
-					.view
-						background: url(#{$assetPath}/icon-saw-w.png) no-repeat 0 50%
-						color: #fff
-				h4
-					+positionAt(absolute,$left: 0)
-					bottom: rem(40)
-					padding: 0 rem(40)
-					font-size: rem(24)
-					line-height: 1.5
-					height: rem(80)
-					a
-						color: #fff
+				div.text_wrap
+					background-color: #1540bf
+					> div
+						.Agency
+							color: #fff
+						.view
+							background: url(#{$assetPath}/icon-saw-w.png) no-repeat 0 50%
+							color: #fff
+					h4
+						font-size: rem(24)
+						line-height: 1.5
+						height: rem(80)
+						a
+							color: #fff
 			&:nth-child(3n+3)
 				margin-right: 0
-			.view_favorite
+			.thumb_img
+				background-size: cover
 				position: relative
+				height: rem(239)
+				padding: rem(40)
 				z-index: 3
-				+flex_type($justify: space-between, $align: center)
-				margin-bottom: rem(12)
-				.favorite
-					width: rem(36)
-					height: rem(36)
-					background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
-					display: inline-block
-					text-indent: -9999px
-					&.on
-						background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
-				.view
-					display: inline-block
-					font-size: rem(14)
-					color: #5e5e5e
-					line-height: 20px
-					padding-left: rem(25)
-					background: url(#{$assetPath}/icon-saw.png) no-repeat 0 50%
-			h4
-				height: rem(72)
-				+textVertical(2)
-				a
-					font-size: rem(24)
-					color: #181818
-					line-height: 1.5
-					font-weight: 700
+				.view_favorite
+					+flex_type($justify: space-between, $align: center)
+					margin-bottom: rem(12)
+					.favorite
+						width: rem(36)
+						height: rem(36)
+						background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
+						display: inline-block
+						text-indent: -9999px
+						&:hover
+							background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+						&.on
+							background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+					.edu_done
+						width: rem(36)
+						height: rem(36)
+						background: url(#{$assetPath}/new/icon/checked.png) no-repeat 0 50%
+					.edu_none
+						width: rem(36)
+						height: rem(36)
+						background: url(#{$assetPath}/new/icon/nonecheck.png) no-repeat 0 50%
+			div.text_wrap
+				height: rem(200)
+				padding: rem(40)
+				background-color: #fff
+				> div
+					+flex_type($justify: space-between)
+					margin-bottom: rem(10)
+					.Agency
+						display: inline-block
+						font-size: rem(14)
+						color: #1540bf
+						line-height: 20px
+						font-weight: bold
+					.view
+						display: inline-block
+						font-size: rem(14)
+						color: #5e5e5e
+						line-height: 20px
+						padding-left: rem(25)
+						background: url(#{$assetPath}/icon-saw.png) no-repeat 0 50%
+				.flex_right_view
+					display: none
+				h4
+					height: rem(72)
+					+textVertical(2)
+					a
+						font-size: rem(24)
+						color: #181818
+						line-height: 1.5
+						font-weight: 700
+						cursor: pointer
 			.hashtag
 				+positionAt(absolute, $bottom: rem(40), $left: rem(40))
 				li
@@ -2264,13 +2291,24 @@
 					a
 						padding: rem(20) rem(30)
 	.sub_container
-		.edu_list,.solution_edu_recommend
+		.edu_list,.solution_edu_recommend > ul
 			> li
-				.view_favorite
-					.favorite
-						width: 3rem
-						height: 3rem
+				.thumb_img
+					.view_favorite
+						.favorite,
+						.edu_none,
+						.edu_done
+							width: 3rem
+							height: 3rem
+				div.text_wrap
+					> div
+						.view
+							padding-left: rem(30)
+
+
 @include mobile
+	.m_del
+		display: none !important
 	.sub_visual
 		> div
 			padding: 6.25rem 40px 4rem
@@ -2338,6 +2376,66 @@
 			.check_list.check_list50
 				> li
 					width: 100%
+		.edu_list,.solution_edu_recommend > ul
+			> li
+				margin-top: rem(18)
+				width: 48%
+				margin-right: 2%
+				&:nth-child(3n+3)
+					margin-top: rem(18)
+					margin-right: 2%
+				&:nth-child(2n+2)
+					margin-right: 0
+				div.text_wrap
+					> div
+						flex-wrap: wrap
+						.Agency
+							width: 100%
+					.flex_right_view
+						+flex_type($justify: flex-end)
+	.more_view
+		a
+			padding: 0 rem(10)
+	#rdoSupportOrg
+		li
+			min-width: 180px
+			&:first-child
+				min-width: 90px
+	.table_style
+		thead
+			tr
+				display: none
+	.custom_consulting
+		tbody
+			+flex_type($direction: column)
+			tr
+				+flex_type
+				flex-wrap: wrap
+				width: 100%
+				border-bottom: 2px solid #ddd
+				td
+					line-height: rem(72)
+					border-right: none
+					&:nth-child(1)
+						width: 20%
+						border-bottom: 1px solid #ddd
+					&:nth-child(2)
+						width: 30%
+						border-bottom: 1px solid #ddd
+					&:nth-child(3)
+						width: 50%
+						border-bottom: 1px solid #ddd
+					&:nth-child(4)
+						width: 40%
+					&:nth-child(5)
+						width: 30%
+					&:nth-child(6)
+						width: 30%
+			&:first-child
+				border-top: 4px solid #1540bf
+			&:nth-child(2n)
+				background-color: #F5F5F5
+
 
 
 
@@ -2361,3 +2459,14 @@
 			button
 				width: 100%
 				padding: 12px 0
+	.sub_container
+		.edu_list,.solution_edu_recommend > ul
+			> li
+				width: 100%
+				margin-right: 0
+				&:nth-child(3n+3)
+					margin-top: rem(18)
+					margin-right: 0
+				&:nth-child(2n+2)
+					margin-top: rem(18)
+					margin-right: 0
