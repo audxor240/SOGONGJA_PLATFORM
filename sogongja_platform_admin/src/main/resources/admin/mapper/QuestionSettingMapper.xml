@@ -3,6 +3,22 @@
 
 <mapper namespace="com.stoneitgt.sogongja.admin.mapper.QuestionSettingMapper">
 
+    <select id="getQuestionSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : QuestionSettingMapper.xml, id : getQuestionSettingList */
+        SELECT *, DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DT
+        FROM ST_QUESTION_SETTING
+        WHERE DEL_FLAG            = 0
+        <if test="keyword != null and keyword != ''">
+            AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="field != null and field != ''">
+            AND QUESTION_TYPE        = #{field}
+        </if>
+
+        ORDER BY QUESTION_SETTING_SEQ DESC
+        /*||ORDER BY QUESTION_SETTING_SEQ DESC||*/
+    </select>
+
     <select id="getBoardList2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : BoardMapper.xml, id : getBoardList2 */
         SELECT A.*
@@ -186,57 +202,27 @@
         </selectKey>
     </insert>
 
-    <update id="updateBoardSetting" parameterType="com.stoneitgt.sogongja.domain.BoardSetting">
-        /* file : BoardMapper.xml, id : updateBoard */
-        UPDATE ST_BOARD_SETTING
+    <update id="updateQuestionSetting" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : QuestionMapper.xml, id : updateQuestionSetting */
+        UPDATE ST_QUESTION_SETTING
         SET
-            NAME = #{name}
+          TITLE = #{title}
           , DESCRIPTION = #{description}
-          , FILE_USE = #{fileUse}
-          , ANSWER_USE= #{answerUse}
-          , SECRET_USE= #{secretUse}
-          , FILE_DIRECTORY_NAME= #{fileDirectoryName}
+          , MULTIPLE_USE = #{multipleUse}
+          , RANK_CHANGE_USE = #{rankChangeUse}
+          , MAXIMUM_USE = #{maximumUse}
+          , MAXIMUM_NUM = #{maximumNum}
+          , KEYWORD = #{keyword}
+          , ANSWER_TYPE = #{answerType}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
-        WHERE BOARD_SETTING_SEQ    = #{boardSettingSeq}
+        WHERE QUESTION_SETTING_SEQ    = #{questionSettingSeq}
     </update>
 
-    <update id="deleteBoardSetting" parameterType="map" >
-        /* file : BoardMapper.xml, id : deleteBoard */
-        UPDATE ST_BOARD_SETTING
-        SET DEL_FLAG     = 1
-          , DEL_USER_SEQ = #{login_user_seq}
-          , DEL_DATE     = CURRENT_TIMESTAMP()
-        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
-    </update>
 
-    <update id="deleteAllBoard" parameterType="map" >
-        /* file : BoardMapper.xml, id : deleteAllBoard */
-        UPDATE ST_BOARD
-        SET DEL_FLAG     = 1
-          , DEL_USER_SEQ = #{login_user_seq}
-          , DEL_DATE     = CURRENT_TIMESTAMP()
-        WHERE BOARD_SETTING_SEQ    = #{board_setting_seq}
-    </update>
-
-    <update id="modPopupFlagToZero" parameterType="map" >
-        /* file : BoardMapper.xml, id : modPopupFlagToZero */
-        UPDATE ST_BOARD
-        SET POPUP_FLAG     = 0
-        WHERE BOARD_SEQ   != #{boardSeq}
-          and   POPUP_FLAG     = 1
-    </update>
-
-    <select id="getBoard" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Board">
-        /* file : BoardMapper.xml, id : getBoard */
-        SELECT A.*
-        FROM ST_BOARD A
-        WHERE A.DEL_FLAG  = 0
-          AND A.BOARD_SEQ = #{boardSeq}
-    </select>
 
     <select id="getQuestionSetting" parameterType="int" resultType="com.stoneitgt.sogongja.domain.QuestionSetting">
-        /* file : BoardMapper.xml, id : getBoard */
+        /* file : QuestionSettingMapper.xml, id : getQuestionSetting */
         SELECT A.*
         FROM ST_QUESTION_SETTING A
         WHERE A.DEL_FLAG  = 0

@@ -25,7 +25,7 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <form name="searchForm" th:action="@{/question}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <div class="col-sm-4">
@@ -34,9 +34,9 @@
                                         <label class="col-sm-2 col-form-label">질문유형 선택</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <select th:field="*{field}" class="form-control">
-                                            <option value="add_list">항목추가형</option>
-                                            <option value="choice_list">항목선택형</option>
+                                        <select th:field="*{field}" th:type="submit" class="form-control">
+                                            <option value="add">항목추가형</option>
+                                            <option value="choice">항목선택형</option>
                                             <!--항목추가형 /항목선택형-->
                                         </select>
                                     </div>
@@ -113,9 +113,9 @@
                                     </div>
                                 </td>
                                 <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                <td th:text="${item.category_1_name}">구분</td>
+                                <td th:text="${item.question_type == 'add'?'추가형':'선택형'}">구분</td>
                                 <td>
-                                    <a th:href="@{|/education/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    <a th:href="@{|/question/${item.question_setting_seq}?${pageParams}|}" th:text="${item.title}">제목</a>
                                 </td>
                                 <td class="text-right" th:text="${item.reg_dt}">등록일</td>
                             </tr>
@@ -127,8 +127,8 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/education/delete}" method="post">
-        <input type="hidden" name="eduSeq">
+    <form name="deleteForm" th:action="@{/question/delete}" method="post">
+        <input type="hidden" name="questionSeq">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>

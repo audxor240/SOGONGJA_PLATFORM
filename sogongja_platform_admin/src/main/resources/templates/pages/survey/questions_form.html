@@ -67,7 +67,7 @@
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" class="form-check-input bothChoice"
-                                                       name="multipleUse" value="Y" data-label="복수 선택 가능" checked>복수 선택 가능
+                                                       name="multipleUse" value="Y" data-label="복수 선택 가능" th:checked="${questionSetting.multipleUse == 'Y'} or ${questionSetting.multipleUse == null}">복수 선택 가능
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
@@ -75,14 +75,14 @@
                                             <span style="margin: 0 10px 8px 0;"> ( </span>
                                             <div class="form-check">
                                                 <label class="form-check-label" th:for="rankChangeUse">
-                                                    <input type="checkbox" th:value="Y" id="rankChangeUse" name="rankChangeUse">
+                                                    <input type="checkbox" th:value="Y" id="rankChangeUse" name="rankChangeUse" th:checked="${questionSetting.rankChangeUse == 'Y'}" th:disabled="${questionSetting.multipleUse == 'N'}">
                                                     순위 입력
                                                 </label>
                                             </div>
                                             <span style="margin: 0 10px 8px 10px;"> / </span>
                                             <div class="form-check flex_box">
                                                 <label class="form-check-label" th:for="maximumUse">
-                                                    <input type="checkbox" th:value="1" name="maximumUse" id="maximumUse">
+                                                    <input type="checkbox" th:value="1" name="maximumUse" id="maximumUse" th:checked="${questionSetting.maximumUse == '1'}" th:disabled="${questionSetting.multipleUse == 'N'}">
                                                     최대 수
                                                 </label>
                                                 <div class="form_num">
@@ -94,7 +94,7 @@
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" class="form-check-input bothChoice"
-                                                       name="multipleUse" value="N" data-label="복수 선택 불가">복수 선택 불가
+                                                       name="multipleUse" value="N" data-label="복수 선택 불가" th:checked="${questionSetting.multipleUse == 'N'}">복수 선택 불가
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
@@ -117,32 +117,6 @@
                                                     <option value="2">주소</option>
                                                 </select>
                                             </div>
-                                            <!--                                            ★★★★업종 선택은 관리자에서 선택할 필요 없습니다.  -->
-                                            <!--                                            <div class="col-sm-10">-->
-                                            <!--                                                <div class="div1 row">-->
-                                            <!--                                                    <div class="col-sm-4">-->
-                                            <!--                                                        <select name="lCategory" id="">-->
-                                            <!--                                                            <option value="" selected="selected">대분류</option>-->
-                                            <!--                                                        </select>-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                    <div class="col-sm-4">-->
-                                            <!--                                                        <select name="mCategory" id="">-->
-                                            <!--                                                            <option value="" selected="selected">중분류</option>-->
-                                            <!--                                                        </select>-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                    <div class="col-sm-4">-->
-                                            <!--                                                        <select name="sCategory" id="">-->
-                                            <!--                                                            <option value="" selected="selected">소분류</option>-->
-                                            <!--                                                        </select>-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
-                                            <!--                                                <div class="div2">-->
-                                            <!--                                                    <input type="text" th:field="*{tags}" class="form-control">-->
-                                            <!--                                                    <th:block-->
-                                            <!--                                                            th:include="fragments/form_invalid:: form_invalid('tags')">-->
-                                            <!--                                                    </th:block>-->
-                                            <!--                                                </div>-->
-                                            <!--                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -169,32 +143,13 @@
                                                             <div class="col-sm-5">
                                                                 <select name="" id="mach_01">
                                                                     <option value="0" selected="selected">대분류</option>
-                                                                    <option value="1">창업</option>
-                                                                    <option value="2">지원</option>
-                                                                    <option value="3">상권</option>
-                                                                    <option value="4">성장</option>
-                                                                    <option value="5">재기</option>
-                                                                    <option value="6">교양</option>
-                                                                    <option value="7">노하우</option>
+                                                                    <option th:value="${item.category1_seq}" th:each="item : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">[[${item.name}]]</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-5">
                                                                 <select name="mach_02" id="mach_02" >
                                                                     <option value="0" selected="selected">중분류</option>
-                                                                    <!--창업-->
-                                                                    <option class="mach1" value="창업이해">창업이해</option>
-                                                                    <option class="mach1" value="창업일반">창업일반</option>
-                                                                    <!--지원-->
-                                                                    <option class="mach2" value="자금지원">자금지원</option>
-                                                                    <!--상권-->
-                                                                    <option class="mach3" value="상권분석">상권분석</option>
-                                                                    <!--성장-->
-                                                                    <option class="mach4" value="경영일반">경영일반</option>
-                                                                    <option class="mach4" value="마케팅/브랜딩">마케팅/브랜딩</option>
-                                                                    <!--재기-->
-                                                                    <!--지원-->
-                                                                    <!--교양-->
-                                                                    <!--노하우-->
+                                                                    <option th:value="${item2.category1_seq}+'_'+${item2.category2_seq}" th:each="item2 : ${category2List}" th:unless="${#lists.isEmpty(category2List)}" style="display: none">[[${item2.name}]]</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -208,22 +163,27 @@
                                             </div>
 
                                             <div class="col-sm-10" id="answer_wrap">
-                                                <div class="flex_box item_list_wrap">
-                                                    <!--
-                                                    <div class="del_item_button">
+                                                <!--<div class="flex_box item_list_wrap"></div>-->
+                                                <!-- 여기에 선택 내용이 담김 -->
+                                                <th:block th:each="item,i : ${answerList}" th:unless="${#lists.isEmpty(answerList)}">
+                                                    <div class="flex_box item_list_wrap" name="answerArr"><div class="del_item_button">
                                                         <button type="button" class="btn">-</button>
                                                     </div>
-                                                    <div class="item_list">
+                                                    <div th:id="answer_+${i.index}" class="item_list">
                                                         <div>
-                                                            <p>여기에 선택 내용이 담김</p>
+                                                            <p>[[${item.answer}]]</p>
                                                         </div>
                                                         <div class="item_tag_wrap">
-                                                            <span class="item_tag">중분류 1</span>
-                                                            <span class="item_tag">중분류 2</span>
+                                                            <!--
+                                                            <span name="matching_1" class="item_tag">생활/취미<input type="hidden" id="answerSeq" value="19"></span>
+                                                            <span name="matching_1" class="item_tag">세무/노무<input type="hidden" id="answerSeq" value="10"></span>
+                                                            -->
+                                                            <span th:name="matching_+${i.index}" class="item_tag" th:each="item2,j : ${item.namearr}">[[${item2}]]
+                                                                <input type="hidden" id="answerSeq" th:value="${item.seqarr[j.index]}">
+                                                            </span>
                                                         </div>
-                                                    </div>
-                                                    -->
-                                                </div>
+                                                    </div></div>
+                                                </th:block>
                                             </div>
 
                                         </div>
