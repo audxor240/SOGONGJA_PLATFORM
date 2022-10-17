@@ -60,4 +60,7 @@ public class QuestionSetting {
     private List<String> answerTitleList;
     private List<String> answerTagList;
 
+    // 등록일
+    private String regDt;
+
 }
