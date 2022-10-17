@@ -40,27 +40,37 @@
                     <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
                         <ul class="af">
                             <li th:each="item : ${recommendList}">
-                                <div class="view_favorite">
-                                    <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-                                    <span class="view" th:text="${item.read_cnt}">12</span>
+                                <div class="thumb_img">
+                                    <div class="view_favorite">
+                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                    </div>
                                 </div>
-                                <h4>
-                                    <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
-                                </h4>
-                                <div class="edu_flex">
-                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">
-                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">
-                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>
-                                        </th:block>
-                                    </ul>
-                                    <button type="button" class="edu_more_box" th:data-edu-seq="${item.edu_seq}">더보기</button>
-                                    <ul class="edu_more_box2">
-                                        <li><a href="#n">수강완료</a></li>
-                                        <li><a href="#n">수강하기</a></li>
-                                        <li><a href="#n">관심교육 해제</a></li>
-                                        <li><a href="#n">관심교육 등록</a></li>
-                                    </ul>
+                                <div class="text_wrap">
+                                    <div>
+                                        <span class="Agency">지원기관 이름 나와야함.</span>
+                                        <span class="view m_del" th:text="${item.read_cnt}">12</span>
+                                    </div>
+                                    <h4>
+                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                    </h4>
+                                    <div class="flex_right_view">
+                                        <span class="view" th:text="${item.read_cnt}">12</span>
+                                    </div>
                                 </div>
+<!--                                <div class="edu_flex">-->
+<!--                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">-->
+<!--                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">-->
+<!--                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>-->
+<!--                                        </th:block>-->
+<!--                                    </ul>-->
+<!--                                    <button type="button" class="edu_more_box" th:data-edu-seq="${item.edu_seq}">더보기</button>-->
+<!--                                    <ul class="edu_more_box2">-->
+<!--                                        <li><a href="#n">수강완료</a></li>-->
+<!--                                        <li><a href="#n">수강하기</a></li>-->
+<!--                                        <li><a href="#n">관심교육 해제</a></li>-->
+<!--                                        <li><a href="#n">관심교육 등록</a></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
                             </li>
                         </ul>
                         <div class="edu_more">
@@ -80,29 +90,44 @@
                         <th:block th:each="item : ${list}">
                             <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
                                 <li>
-                                    <div class="view_favorite">
-                                        <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])">찜하기</button>
-                                        <span class="view" th:text="${item.read_cnt}">12</span>
+                                    <div class="thumb_img">
+                                        <div class="view_favorite">
+                                            <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])">찜하기</button>
+                                        </div>
                                     </div>
-                                    <h4>
-                                        <a th:onclick="detailEducation([[${item.edu_seq}]])" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
-                                    </h4>
-                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">
-                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">
-                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>
-                                        </th:block>
-                                    </ul>
+                                    <div class="text_wrap">
+                                        <div>
+                                            <span class="Agency">지원기관 이름 나와야함.</span>
+                                            <span class="view m_del" th:text="${item.read_cnt}">12</span>
+                                        </div>
+                                        <h4>
+                                            <a th:onclick="detailEducation([[${item.edu_seq}]])" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                        </h4>
+                                        <div class="flex_right_view">
+                                            <span class="view" th:text="${item.read_cnt}">12</span>
+                                        </div>
+                                    </div>
                                 </li>
                             </th:block>
                             <th:block th:unless="${#strings.isEmpty(item.thumbnail_path)}">
-                                <li class="thumnail" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
-                                    <div class="view_favorite">
-                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-                                        <span class="view" th:text="${item.read_cnt}">12</span>
+                                <li class="thumnail" >
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                        <div class="view_favorite">
+                                            <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                        </div>
                                     </div>
-                                    <h4>
-                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
-                                    </h4>
+                                    <div class="text_wrap">
+                                        <div>
+                                            <span class="Agency">지원기관 이름 나와야함.</span>
+                                            <span class="view m_del" th:text="${item.read_cnt}">12</span>
+                                        </div>
+                                        <h4>
+                                            <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                        </h4>
+                                        <div class="flex_right_view">
+                                            <span class="view" th:text="${item.read_cnt}">12</span>
+                                        </div>
+                                    </div>
                                 </li>
                             </th:block>
                         </th:block>

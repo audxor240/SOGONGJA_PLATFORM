@@ -28,13 +28,14 @@ $desktop: 1600px
 	-webkit-flex-wrap: wrap
 	-ms-flex-flow: row wrap
 
-=before($widthB: null, $heightB: null, $topB: null, $leftB: null, $bgB : null)
+=before($widthB: null, $heightB: null, $topB: null, $leftB: null, $bottomB: null, $bgB : null)
 	content: ''
 	position: absolute
 	width: $widthB
 	height: $heightB
 	top: $topB
 	left: $leftB
+	bottom: $bottomB
 	background: $bgB
 
 =positionAt($position, $top: null, $right: null, $bottom: null, $left: null)
