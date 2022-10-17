@@ -50,31 +50,22 @@ public class CategoryService extends BaseService {
         if((int)data.get("type") == 1){
             System.out.println("대분류 삭제!!!!");
             Category1 category1 = categoryMapper.getCategory1Info((int)data.get("categorySeq"));            //대분류 5
-            //Category2 category2 = categoryMapper.getCategory2ParentInfo((int)data.get("categorySeq"));
-            //Category3 category3 = categoryMapper.getCategory3Info((int)data.get("categorySeq"));
+            category1.setLoginUserSeq((int)data.get("loginUserSeq"));
+
             Category1 c1 = categoryMapper.getCategory2DelInfo((int)data.get("categorySeq"));
 
-            category1.setLoginUserSeq((int)data.get("loginUserSeq"));
-            //category2.setLoginUserSeq((int)data.get("loginUserSeq"));
-            //category3.setLoginUserSeq((int)data.get("loginUserSeq"));
+            if(c1 != null) {
+                String[] delSeqArr = c1.getDelGroupSeq().split(",");
 
-            String[] delSeqArr = c1.getDelGroupSeq().split(",");
-            System.out.println("delSeqArr :: "+delSeqArr);
-            System.out.println("delSeqArr.length :: "+delSeqArr.length);
+                //중분류에 속하는 소분류 삭제
+                for (int i = 0; i < delSeqArr.length; i++) {
+                    int seq = Integer.parseInt(delSeqArr[i]);
+                    categoryMapper.deleteCategory3Parent(seq);
+                }
+            }
 
             categoryMapper.deleteCategory1(category1);  //대분류 삭제            //5삭제
             categoryMapper.deleteAllCategory2(category1);   //중분류 전체 삭제     //중분류 5인거 삭제
-            //categoryMapper.deleteAllCategory3(category2);   //소분류 전체 삭제     //중분류가 3,4인 소분류 삭제
-
-            //중분류에 속하는 소분류 삭제
-            for(int i =0; i < delSeqArr.length;i++){
-                int seq = Integer.parseInt(delSeqArr[i]);
-                System.out.println("seq :: "+seq);
-                //Category3 category3 = categoryMapper.getCategory3Info(seq);
-                //System.out.println("category3-----------"+category3);
-                categoryMapper.deleteCategory3Parent(seq);
-            }
-
 
             //해당 카테고리의 [교육]을 전체 삭제해준다.
 

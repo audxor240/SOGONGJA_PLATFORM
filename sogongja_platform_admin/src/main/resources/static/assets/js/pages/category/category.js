@@ -10,7 +10,6 @@ function createList(){
     newList.innerHTML += '<p>'+other_input+'</p>'
     newList.innerHTML += '<span class="del_btn">x</span>'
 
-    console.log(newList);
     obj.appendChild(newList);
 }
 
@@ -20,8 +19,6 @@ $(document).on('click', '.del_btn', function(){
     var type = $(this).parent().find('[name=category_type]').val();  //삭제할 카테고리 타입
     var categorySeq = $(this).parent().find('input:radio').val();  //삭제할 카테고리 seq
 
-    console.log("type >> "+type);
-    console.log("categorySeq >> "+categorySeq);
     if (!confirm("해당 카테고리를 삭제하시겠습니까?")) {
         return false;
     } else {
@@ -35,7 +32,9 @@ $(document).on('click', '.del_btn', function(){
 $(document).ready(function() {
 
     var sel_seq1 = $("#list-group1").find(".active").find('input:radio').val(); // 선택된 대분류 seq
-    console.log("sel_seq1 ::::: "+sel_seq1);
+    if(sel_seq1 == undefined){
+        sel_seq1 = 0;
+    }
     $("[name=category1Seq]").val(sel_seq1);                               // 대분류 seq 저장
     $("[name=label_c2_"+sel_seq1+"]").show();                             // 대분류에 속하는 중분류를 보여준다
     $("[name=label_c2_"+sel_seq1+"]").first().addClass("active");         // 하위 카테고리 첫번째 active 추가
@@ -45,7 +44,7 @@ $(document).ready(function() {
     if(sel_seq2 == undefined){
         sel_seq2 = 0;
     }
-    console.log("sel_seq2 :: "+sel_seq2);
+
     $("[name=category2Seq]").val(sel_seq2);
     $("[name=label_c3_"+sel_seq2+"]").show();
     $("[name=label_c3_"+sel_seq2+"]").first().addClass("active");
@@ -66,10 +65,11 @@ $(document).ready(function() {
         $("#list-group2").find('label').hide();                             // 중분류 전체 숨김
         $("[name=label_c2_"+$(this).val()+"]").show();                      // 대분류에 해당하는 중분류 출력
         $("[name=label_c2_"+$(this).val()+"]").first().addClass("active");  // 첫번째 중분류 active
-        var m_seq = $("[name=label_c2_"+$(this).val()+"]").first().find('input').val() //중분류 seq
+        var m_seq = $("[name=label_c2_"+$(this).val()+"]").first().find('input:radio').val() //중분류 seq
         if(m_seq == undefined){
             m_seq = 0;
         }
+
         $("[name=category2Seq]").val(m_seq);                                //선택된 중분류 seq저장
 
         //소분류 출력
@@ -100,13 +100,13 @@ $(document).ready(function() {
 
 function validationForm1() {
     var name = $("#name").val();
-    var grouNameArr = groupName1.split(",");
 
     if (name.trim() === '') {
         alert('카테고리명 입력하세요.');
         return false;
     }
 
+    var grouNameArr = groupName1.split(",");
     for(var i =0; i < grouNameArr.length;i++){
         var g_name = grouNameArr[i];
         if(g_name == name){
@@ -120,13 +120,13 @@ function validationForm1() {
 
 function validationForm2() {
     var name = $("#name2").val();
-    var grouNameArr = groupName2.split(",");
 
     if (name.trim() === '') {
         alert('카테고리명 입력하세요.');
         return false;
     }
 
+    var grouNameArr = groupName2.split(",");
     for(var i =0; i < grouNameArr.length;i++){
         var g_name = grouNameArr[i];
         if(g_name == name){
@@ -140,13 +140,13 @@ function validationForm2() {
 
 function validationForm3() {
     var name = $("#name3").val();
-    var grouNameArr = groupName3.split(",");
 
     if (name.trim() === '') {
         alert('카테고리명 입력하세요.');
         return false;
     }
 
+    var grouNameArr = groupName3.split(",");
     for(var i =0; i < grouNameArr.length;i++){
         var g_name = grouNameArr[i];
         if(g_name == name){

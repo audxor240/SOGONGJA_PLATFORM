@@ -39,12 +39,12 @@ public class CategoryController extends BaseController {
         List<Map<String, Object>> category1List = categoryService.getCategory1List();
         List<Map<String, Object>> category2List = categoryService.getCategory2List();
         List<Map<String, Object>> category3List = categoryService.getCategory3List();
-        System.out.println("category1List >>> "+category1List);
         HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
         breadcrumb.put("parent_menu_name", "콘텐츠 관리");
         breadcrumb.put("menu_name", "카테고리 관리");
         model.addAttribute("breadcrumb", breadcrumb);
         model.addAttribute("category1List", category1List);
+        model.addAttribute("category1Size", category1List.size());
         model.addAttribute("category2List", category2List);
         model.addAttribute("category3List", category3List);
 
