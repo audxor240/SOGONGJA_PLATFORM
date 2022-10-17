@@ -10,6 +10,7 @@
         <div class="col-12 col-xl-12 grid-margin">
             <div class="row">
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
+                    <input type="hidden" id="category1Size" th:value="${#lists.size(category1List)}">
                     <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm1();">
                         <input type="hidden" name="type" value="1">
                         <input type="hidden" name="category1Seq" value="0">
@@ -31,6 +32,7 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
+                    <input type="hidden" id="category2Size" th:value="${#lists.size(category1List)}">
                     <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm2();">
                         <input type="hidden" name="type" value="2">
                         <input type="hidden" name="category1Seq">
@@ -54,6 +56,7 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
+                    <input type="hidden" id="category3Size" th:value="${#lists.size(category1List)}">
                     <form th:action="@{/category/add}" th:object="${category1}" method="post" onsubmit="return validationForm3();">
                         <input type="hidden" name="type" value="3">
                         <input type="hidden" name="category1Seq">
@@ -126,9 +129,19 @@
 </th:block>
 <th:block layout:fragment="custom_js">
     <script th:inline="javascript">
-        var groupName1 = /*[[${category1List[0].group_name}]]*/'';
-        var groupName2 = /*[[${category1List[0].group_name}]]*/'';
-        var groupName3 = /*[[${category1List[0].group_name}]]*/'';
+        console.log("category1Size ::::: "+ $("#category1Size").val());
+        /*[# th:if="${#lists.size(category1List) != 0} "]*/
+            var groupName1 = /*[[${category1List[0].group_name}]]*/'';
+        /*[/]*/
+
+        /*[# th:if="${#lists.size(category2List) != 0} "]*/
+            var groupName2 = /*[[${category2List[0].group_name}]]*/'';
+        /*[/]*/
+
+        /*[# th:if="${#lists.size(category3List) != 0} "]*/
+            var groupName3 = /*[[${category3List[0].group_name}]]*/'';
+        /*[/]*/
+
     </script>
     <script th:src="@{/assets/js/pages/category/category.js}" th:inline="javascript"></script>
 
