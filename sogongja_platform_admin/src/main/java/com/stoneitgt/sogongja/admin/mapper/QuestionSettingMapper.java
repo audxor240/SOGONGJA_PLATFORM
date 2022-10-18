@@ -22,6 +22,8 @@ public interface QuestionSettingMapper {
 
     List<Map<String, Object>> getQuestionSettingList(Map<String, Object> params, RowBounds rowBounds);
 
+    List<Map<String, Object>> getQuestionList();
+
     int selectTotalRecords();
 
 }

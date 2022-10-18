@@ -6,10 +6,9 @@
 </head>
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
-    <form name="editForm" th:action="@{/education/form}" th:object="${education}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
-        <input type="hidden" th:field="*{eduSeq}">
-        <input type="hidden" name="menuCode" th:value="${menuCode}">
-        <input type="hidden" name="pageParams" th:value="${pageParams}">
+    <form name="surveyForm" th:action="@{/survey/form}" th:object="${survey}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+        <input type="hidden" th:field="*{surveySettingSeq}">
+        <input type="hidden" th:field="*{qSeqList}">
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -20,10 +19,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">이용자 유형</label>
                                     <div class="col-sm-2 mt-2">
-                                        <p>사업자(소상공인)</p>
+                                        <p>[[${survey.surveyType1}]]</p>
                                     </div>
                                     <div class="col-sm-2 mt-2">
-                                        <p>사업 실행중</p>
+                                        <p>[[${survey.surveyType2}]]</p>
                                     </div>
                                     <div class="col-md-1 offset-sm-5">
                                         <button type="button" id="view_rescan" style="text-align: right" class="pop_review_btn mb-3 btn-outline-primary btn">미리보기</button>
@@ -39,9 +38,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">질문 제목</label>
                                     <div class="col-sm-10">
-                                        <input type="text" th:field="*{subject}" maxlength="100" class="form-control"
+                                        <input type="text" th:field="*{title}" maxlength="100" class="form-control"
                                                required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('subject')">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('title')">
                                         </th:block>
                                     </div>
                                 </div>
@@ -57,12 +56,12 @@
                                     <div class="col-sm-8">
                                         <select class="form-control" id="q_list" required="required">
                                             <option name="q_list" value="0" selected="selected" disabled>질문선택</option>
-                                            <option name="q_list" value="1">질문 1</option>
-                                            <option name="q_list" value="2">질문 2</option>
+                                            <option name="q_list" th:value="${item.question_setting_seq}" th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">[[${item.title}]]</option>
+                                            <!--<option name="q_list" value="2">질문 2</option>
                                             <option name="q_list" value="3">질문 3</option>
                                             <option name="q_list" value="4">질문 4</option>
                                             <option name="q_list" value="5">질문 5</option>
-                                            <option name="q_list" value="6">질문 6</option>
+                                            <option name="q_list" value="6">질문 6</option>-->
                                         </select>
                                     </div>
                                     <button type="button" onclick="changeQ(this)" class="q_add_btn btn btn-primary col-sm-2 mb-3">질문추가</button>
@@ -75,6 +74,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-8" id="survey_list_wrap">
+                                        <div class="survey_list" th:each="item : ${listSub}" th:unless="${#lists.isEmpty(listSub)}">
+                                            <label class="survey_text col-sm-10">[[${item.title}]]</label>
+                                            <button type="button" th:value="${item.question_setting_seq}" id="qDelBtn1" class="qDelBtn btn-danger btn col-sm-1">-</button>
+                                        </div>
+                                        <!--<div class="survey_list">
+                                            <label class="survey_text col-sm-10">test999</label>
+                                            <button type="button" id="qDelBtn2" class="qDelBtn btn-danger btn col-sm-1">-</button>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -191,13 +198,13 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/survey|}">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
-                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{eduSeq == 0}">
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{surveySettingSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                 </button>
-                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{eduSeq == 0}">
+                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{surveySettingSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
             </div>
@@ -208,89 +215,13 @@
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />
 </th:block>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var qArr = /*[[${qArr}]]*/ '';
+
+    </script>
     <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
     <script th:src="@{/assets/js/file-upload.js}"></script>
     <script th:src="@{/assets/js/pages/setting/survey_form.js}"></script>
-    <script>
-
-        let qNum = 1;
-        let qCount = 0;
-        let qList = [];
-        let qNumList = [];
-
-        function changeQ() {
-            let qName=$('#q_list option:selected').text();
-            let qCode=$('#q_list option:selected').val();
-            let qAdd = "";
-
-            if(qCount>=5){
-                alert('질문 최대 5개까지만 선택 가능합니다.');
-                return false;
-            }else if(qList.includes(qCode)){
-                alert('이미 선택한 질문입니다.');
-                return false;
-            } else {
-                qNumList.push(qNum);
-                let qWarp = qList.push(qCode);
-                console.log(qWarp);
-
-                qAdd = '<div class="survey_list">';
-                qAdd+='<label class="survey_text col-sm-10">';
-                qAdd+=qName+"</label>";
-                qAdd+='<button type="button" id="qDelBtn'+qWarp+'" class="qDelBtn btn-danger btn col-sm-1">';
-                qAdd+='-</button></div>';
-
-                console.log(qAdd);
-
-                $('#survey_list_wrap').append(qAdd);
-                qCount++;
-                qNum++;
-
-                console.log(qNumList);
-            }
-        }
-
-        $(document).on('click', '.qDelBtn', function(){
-            //배열에서 빼주고
-            let q=$(this).attr('id'); //형제의 텍스트값
-            // console.log(q);
-            // console.log("인덱스: " + qList.indexOf(q));
-
-            qList.splice(qList.indexOf($(this)), 1); //배열에서 원소 제거
-            qNumList.splice(qNumList.indexOf($(this)), 1); //배열에서 원소 제거
-            console.log(qNumList);
-
-            //리무브 해주고
-            $(this).parent().remove();
-            qCount--;
-            qNum--;
-        });
-
-        <!--미리보기-->
-        $(document).ready(function() {
-            var modal = document.getElementById('dtsch_modal');
-            var btn = document.getElementById("view_rescan");
-            var close = document.getElementsByClassName("modal_close")[0];
-
-            //검색버튼클릭시 모달창 block
-            btn.onclick = function() {
-                modal.style.display = "block";
-            }
-            // close_btn클릭시 모달창none
-            close.onclick = function() {
-                modal.style.display = "none";
-            }
-            // 모달창외 클릭시 모달 닫힘
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        });
-
-
-
-    </script>
 </th:block>
 
 </html>
