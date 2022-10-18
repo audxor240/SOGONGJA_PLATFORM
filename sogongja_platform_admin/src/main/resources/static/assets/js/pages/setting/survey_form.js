@@ -269,9 +269,13 @@ function validationForm(){
 		var cnt = 0;
 		$('[name=answerArr]').each(function(){
 			var tag = "";
-			answerTitleList.push($(this).children("#answer_"+cnt).find('p').text());
-			$("[name=matching_"+cnt+"]").find('input').each(function(){
+			//answerTitleList.push($(this).children("#answer_"+cnt).find('p').text());
+			answerTitleList.push($(this).children(".item_list").find('p').text());
+
+			//$("[name=matching_"+cnt+"]").find('input').each(function(){
+			$(this).find(".item_tag_wrap").find(".item_tag").find('input').each(function(){
 				tag += $(this).val()+"|";
+				console.log("tag >>> "+tag );
 
 			});
 			tag = tag.slice(0,-1);
@@ -282,6 +286,8 @@ function validationForm(){
 
 		$("[name=answerTitleList]").val(answerTitleList);
 		$("[name=answerTagList]").val(answerTagList);
+		console.log("answerTitleList :: "+answerTitleList);
+		console.log("answerTagList :: "+answerTagList);
 	}
 
 }

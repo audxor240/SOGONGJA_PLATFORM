@@ -160,13 +160,13 @@
         WHERE BOARD_SEQ    = #{boardSeq}
     </update>
 
-    <update id="deleteBoard" parameterType="map" >
-        /* file : BoardMapper.xml, id : deleteBoard */
-        UPDATE ST_BOARD
+    <update id="deleteQuestionSetting" parameterType="map" >
+        /* file : QuestionSettingMapper.xml, id : deleteQuestionSetting */
+        UPDATE ST_QUESTION_SETTING
         SET DEL_FLAG     = 1
           , DEL_USER_SEQ = #{login_user_seq}
           , DEL_DATE     = CURRENT_TIMESTAMP()
-        WHERE BOARD_SEQ    = #{board_seq}
+        WHERE QUESTION_SETTING_SEQ      = #{questionSettingSeq}
     </update>
 
     <insert id="insertQuestionSetting" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">

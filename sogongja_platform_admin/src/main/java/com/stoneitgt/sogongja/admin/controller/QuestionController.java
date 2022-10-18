@@ -159,4 +159,17 @@ public class QuestionController extends BaseController {
 
         return returnUrl;
     }
+
+    @PostMapping("/delete")
+    public String deleteQuestionSetting(@RequestParam List<Integer> delSeqList,
+                                  Model model, RedirectAttributes rttr) throws IOException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("delSeqList", delSeqList);
+        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+        int login_user_seq = authenticationFacade.getLoginUserSeq();
+        System.out.println("params >>> "+params);
+        questionService.deleteQuestionSetting(delSeqList, login_user_seq);
+        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
+        return "redirect:/question";
+    }
 }
