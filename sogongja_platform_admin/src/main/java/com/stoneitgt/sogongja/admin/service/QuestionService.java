@@ -69,6 +69,10 @@ public class QuestionService extends BaseService {
         return questionSettingMapper.getQuestionSettingList(params, paging.getPaging());
     }
 
+    public List<Map<String, Object>> getQuestionList() {
+        return questionSettingMapper.getQuestionList();
+    }
+
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public void deleteQuestionSetting(List<Integer> delSeqList, int login_user_seq) {
 

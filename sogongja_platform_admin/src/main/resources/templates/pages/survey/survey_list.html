@@ -32,8 +32,8 @@
                         <table class="table table-hover">
                             <colgroup>
                                 <col style="width: 8%;">
-                                <col style="width: 15%;">
-                                <col style="width: 61%;">
+                                <col style="width: 25%;">
+                                <col style="width: 51%;">
                                 <col style="width: 8%;">
                                 <col style="width: 8%;">
                             </colgroup>
@@ -49,15 +49,15 @@
                             <tbody>
                             <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                <td>이용자 유형</td>
+                                <td th:text="${item.survey_setting_seq }">1</td>
+                                <td>[[${item.survey_type1}+${item.survey_type2 != ''?'/'+item.survey_type2:''}]]</td>
                                 <td>
-                                    <a th:href="@{|/survey/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    <a th:href="@{|/survey/${item.survey_setting_seq}|}" th:text="${item.title}">제목</a>
                                 </td>
                                 <td style="text-align: center" th:text="${item.reg_dt}">등록일</td>
                                 <td style="text-align: center">
                                     <!--사용여부-->
-                                    <i data-feather="check-square"></i>
+                                    <i data-feather="check-square" th:if="${item.survey_use != 'N'}"></i>
                                 </td>
                             </tr>
                             </tbody>
@@ -67,10 +67,6 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/education/delete}" method="post">
-        <input type="hidden" name="eduSeq">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
-    </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>

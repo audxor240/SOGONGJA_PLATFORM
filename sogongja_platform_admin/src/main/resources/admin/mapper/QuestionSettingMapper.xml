@@ -19,6 +19,15 @@
         /*||ORDER BY QUESTION_SETTING_SEQ DESC||*/
     </select>
 
+    <select id="getQuestionList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : QuestionSettingMapper.xml, id : getQuestionList */
+        SELECT *, DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DT
+        FROM ST_QUESTION_SETTING
+        WHERE DEL_FLAG            = 0
+        ORDER BY QUESTION_SETTING_SEQ DESC
+
+    </select>
+
     <select id="getBoardList2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : BoardMapper.xml, id : getBoardList2 */
         SELECT A.*
