@@ -2,6 +2,7 @@ package com.stoneitgt.sogongja.admin.mapper;
 
 
 import com.stoneitgt.sogongja.domain.AnswerSetting;
+import com.stoneitgt.sogongja.domain.QuestionSetting;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -16,5 +17,8 @@ public interface AnswerSettingMapper {
     List<Map<String, Object>> getAnswerSettingList(int questionSeq);
 
     int deleteAnswer(Map<String, Object> params);
+
+    int deleteAllAnswer(QuestionSetting questionSetting);
+
 }
 

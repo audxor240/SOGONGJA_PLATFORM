@@ -43,6 +43,16 @@
 
     </update>
 
+    <update id="deleteAllAnswer" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : AnswerSettingMapper.xml, id : deleteAllAnswer */
+        UPDATE ST_ANSWER_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE QUESTION_SETTING_SEQ = #{questionSettingSeq}
+
+    </update>
+
 
 
 
