@@ -12,6 +12,11 @@ spring:
           auth: true
           starttls:
             enable: true
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
 
   servlet:
     multipart:
@@ -20,7 +25,9 @@ spring:
     
   cache:
     type: none
-    
+
+
+
   thymeleaf:
     mode: HTML5
     cache: false
