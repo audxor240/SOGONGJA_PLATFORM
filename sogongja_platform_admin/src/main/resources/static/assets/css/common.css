@@ -372,6 +372,9 @@ a.file-download { display: block; flex: 1 1 auto; }
 	color: #fff;
 	font-size: 18px;
 }
+.modal h5.qSurvey_tile{
+	color: #090101;
+}
 
 .sns_icon{
 	display: inline-block;
