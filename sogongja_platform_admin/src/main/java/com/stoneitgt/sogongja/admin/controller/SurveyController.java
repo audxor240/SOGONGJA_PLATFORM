@@ -1,15 +1,13 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import com.stoneitgt.common.GlobalConstant;
-import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.EducationParameter;
-import com.stoneitgt.sogongja.admin.service.EducationService;
+import com.stoneitgt.sogongja.admin.service.AnswerSettingService;
 import com.stoneitgt.sogongja.admin.service.QuestionService;
 import com.stoneitgt.sogongja.admin.service.SurveyService;
-import com.stoneitgt.sogongja.domain.Banner;
-import com.stoneitgt.sogongja.domain.Education;
+import com.stoneitgt.sogongja.domain.QuestionSetting;
 import com.stoneitgt.sogongja.domain.Survey;
-import com.stoneitgt.util.StoneUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/survey")
+@RequiredArgsConstructor
 public class SurveyController extends BaseController {
 
 
@@ -34,6 +30,9 @@ public class SurveyController extends BaseController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private AnswerSettingService answerSettingService;
 
     @GetMapping("")
     public String surveyList(@ModelAttribute EducationParameter params, Model model) {
@@ -93,6 +92,44 @@ public class SurveyController extends BaseController {
         System.out.println("survey >>> "+survey);
         surveyService.saveSurvey(survey);
         return returnUrl;
+    }
+
+    @PostMapping("/preview")
+    public String surveyPreview(Model model,@RequestBody Map<String, Object> params) throws IOException {
+
+        List<QuestionSetting> List = new ArrayList<>();
+
+        List<List<String>> answerArrList = new ArrayList<>();
+
+        List<String> qSeqArr = (List<String>) params.get("qSeqArr");
+        // 추가된 질문 개수만큼 루프
+        for(int i=0;i< qSeqArr.size();i++){
+            String questionSettingSeq = qSeqArr.get(i);
+            //질문 정보 조회
+            QuestionSetting questionSetting = questionService.getQuestionSetting(Integer.parseInt(questionSettingSeq));
+
+            List<String> answerArr = new ArrayList<>();
+            //질문이 선택형이면
+            if(questionSetting.getQuestionType().equals("choice")){
+                //답변 정보 조회
+                List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
+
+                //해당질문의 답변 배열에 저장
+                for(int j =0; j < listSub.size();j++){
+                    String answer = (String) listSub.get(j).get("answer");
+                    answerArr.add(answer);
+                }
+                answerArrList.add(answerArr);
+            }else{
+                answerArrList.add(null);
+            }
+            List.add(questionSetting);
+        }
+
+        model.addAttribute("answerArrList", answerArrList);
+        model.addAttribute("List", List);
+
+        return "pages/survey/survey_form"+ " :: #dtsch_modal";
     }
 
 }
