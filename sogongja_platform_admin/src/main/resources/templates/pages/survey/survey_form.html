@@ -103,7 +103,7 @@
                                                 <!--select 형태(업종)-->
                                                 <th:block th:if="${item.questionType == 'add'} and ${item.answerType == 1}">
                                                     <div class="review_qTitle">
-                                                        <h5 class="qSurvey_tile">[[${item.title}]]
+                                                        <h5>[[${item.title}]]
                                                             <span>([[${item.multipleUse=='Y'?'복수추가O':'복수추가X'}]],[[${item.rankChangeUse=='Y'?'순위지정O':'순위지정X'}]],최대[[${item.maximumNum}]]개)</span>
                                                         </h5>
                                                         <p>[[${item.description}]]</p>
