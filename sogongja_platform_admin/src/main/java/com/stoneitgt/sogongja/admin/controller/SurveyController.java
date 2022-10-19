@@ -90,6 +90,9 @@ public class SurveyController extends BaseController {
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
         survey.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
         System.out.println("survey >>> "+survey);
+        if(survey.getSurveyUse() == null){
+            survey.setSurveyUse("N");
+        }
         surveyService.saveSurvey(survey);
         return returnUrl;
     }
@@ -98,7 +101,6 @@ public class SurveyController extends BaseController {
     public String surveyPreview(Model model,@RequestBody Map<String, Object> params) throws IOException {
 
         List<QuestionSetting> List = new ArrayList<>();
-
         List<List<String>> answerArrList = new ArrayList<>();
 
         List<String> qSeqArr = (List<String>) params.get("qSeqArr");

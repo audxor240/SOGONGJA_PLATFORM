@@ -1,14 +1,15 @@
 package com.stoneitgt.sogongja.user.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.stoneitgt.sogongja.domain.QuestionSetting;
+import com.stoneitgt.sogongja.domain.Survey;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
+import com.stoneitgt.sogongja.user.service.AnswerSettingService;
 import com.stoneitgt.sogongja.user.service.BoardService;
+import com.stoneitgt.sogongja.user.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class UserController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private SurveyService surveyService;
+	@Autowired
+	private QuestionService questionService;
+	@Autowired
+	private AnswerSettingService answerSettingService;
 	private final SocialLoginSupport socialLoginSupport;
 
 	@GetMapping("/signup")
@@ -161,7 +168,8 @@ public class UserController extends BaseController {
 		user.setType01(user.getType01());
 		user.setType02(user.getType02());
 		user.setServiceType(category);
-
+		System.out.println("user.getType01() :: "+user.getType01());
+		System.out.println("user.getType02() :: "+user.getType02());
 		if(user.getUserSeq() != 0){
 
 			User user2 = userService.getUserInfo(user.getUserSeq());
@@ -174,7 +182,7 @@ public class UserController extends BaseController {
 		}
 
 		userService.saveUser(user);
-
+		System.out.println("user =============== >>>> "+user);
 		if (user.getUserSeq() == 0) {
 			model.addAttribute("user", user);
 
@@ -190,7 +198,7 @@ public class UserController extends BaseController {
 
 	@PostMapping("/signup/completion")
 	public String signupCompletion(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::------> "+user);
+		System.out.println("user ::----1111--> "+user);
 		model.addAttribute("user", user);
 
 		return "pages/user/signup_completion";
@@ -198,8 +206,59 @@ public class UserController extends BaseController {
 
 	@PostMapping("/user/surveyForm")
 	public String surveyForm(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::------> "+user);
+		System.out.println("user ::----2222--> "+user);
 		model.addAttribute("user", user);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		int surveySettingSeq = 0;
+		if(user.getType().equals("4")){
+			surveySettingSeq = 7;
+		}else{
+			surveySettingSeq = Integer.parseInt(user.getSubType());
+		}
+
+		List<Map<String, Object>> surveySubList = surveyService.getSurveySubList(surveySettingSeq);
+		System.out.println("surveySubList :: "+surveySubList);
+
+		List<Integer> qSeqArr = new ArrayList<>();
+		for (Map<String, Object> item:surveySubList) {
+			System.out.println(""+item.get("question_setting_seq"));
+			qSeqArr.add((Integer) item.get("question_setting_seq"));
+		}
+
+		List<QuestionSetting> List = new ArrayList<>();
+		List<List<String>> answerArrList = new ArrayList<>();
+
+		// 추가된 질문 개수만큼 루프
+		for(int i=0;i< qSeqArr.size();i++){
+			int questionSettingSeq = qSeqArr.get(i);
+			//질문 정보 조회
+			QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
+
+			List<String> answerArr = new ArrayList<>();
+			//질문이 선택형이면
+			if(questionSetting.getQuestionType().equals("choice")){
+				//답변 정보 조회
+				List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
+
+				//해당질문의 답변 배열에 저장
+				for(int j =0; j < listSub.size();j++){
+					String answer = (String) listSub.get(j).get("answer");
+					answerArr.add(answer);
+				}
+				answerArrList.add(answerArr);
+			}else{
+				answerArrList.add(null);
+			}
+			List.add(questionSetting);
+		}
+
+		model.addAttribute("answerArrList", answerArrList);
+		model.addAttribute("List", List);
+		System.out.println("answerArrList :: "+answerArrList);
+		System.out.println("List :: "+List);
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/survey_form";
 	}
