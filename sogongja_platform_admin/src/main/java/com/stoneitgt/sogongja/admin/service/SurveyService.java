@@ -40,6 +40,8 @@ public class SurveyService extends BaseService {
     public int saveSurvey(Survey survey) throws IOException {
         int result = 0;
 
+        surveyMapper.updateSurvey(survey);
+
         //설문 관리 sub 정보 조회
         List<Map<String, Object>> listSub = getSurveySubList(survey.getSurveySettingSeq());
         //설문 관리 등록된 질문이 있으면

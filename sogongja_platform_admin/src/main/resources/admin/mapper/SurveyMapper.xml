@@ -50,6 +50,17 @@
         WHERE SURVEY_SETTING_SEQ      = #{surveySettingSeq}
     </update>
 
+    <update id="updateSurvey" parameterType="com.stoneitgt.sogongja.domain.Survey" >
+        /* file : SurveyMapper.xml, id : updateSurvey */
+        UPDATE ST_SURVEY_SETTING
+        SET
+          TITLE = #{title}
+          , SURVEY_USE = #{surveyUse}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE SURVEY_SETTING_SEQ      = #{surveySettingSeq}
+    </update>
+
 
 
     <select id="selectTotalRecords" resultType="int">
