@@ -538,11 +538,11 @@
 .sub_container .solution_edu_recommend > ul {
   padding: 2.125rem 2rem;
   padding-bottom: 0;
-  height: 23.3125rem;
+  height: 27.4375rem;
   overflow: hidden;
 }
 .sub_container .solution_edu_recommend > ul > li {
-  height: 18.75rem;
+  height: 27.4375rem;
   background: #f3f3f3;
 }
 .sub_container .solution_edu_recommend > ul .edu_flex {
