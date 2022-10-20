@@ -30,192 +30,143 @@
     <section class="wrap">
         <div class="sub_container servey_wrap">
             <form name="survey_form" action="">
+                <!--관리자에서 업종선택을 했을 경우(추가 했을때 이미지)-->
+
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>관심있는 업종을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                        <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                    </div>
+                    <div class="q_answer">
+                        <div class="select_box_wrap">
+                            <div class="lCategory">
+                                <select name="" id="mach_depth01">
+                                    <option value="" disabled selected>대분류</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="mCategory">
+                                <select name="" id="mach_depth02">
+                                    <option value="" disabled selected>중분류</option>
+                                    <option value="1">1-1</option>
+                                    <option value="2">1-1</option>
+                                    <option value="3">1-1</option>
+                                </select>
+                            </div>
+                            <div class="sCategory">
+                                <select name="" id="mach_depth03">
+                                    <option value="" disabled selected>소분류</option>
+                                    <option value="1">1-1-1</option>
+                                    <option value="1">1-1-1</option>
+                                    <option value="1">1-1-1</option>
+                                    <option value="1">1-1-1</option>
+                                </select>
+                            </div>
+                            <button type="button" class="plus_btn"></button>
+                        </div>
+                    </div>
+                    <div class="choice_done_wrap">
+                        <div class="aJob_Wrap">
+                            <div class="aJob_text">
+                                <p>
+                                    <span>대분류</span>/
+                                    <span>중분류</span>/
+                                    <span>소분류</span>
+                                </p>
+                                <span class="aJob_del"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<br>------------------------------------------------------------------------------------------------------------------<br>
+
                 <th:block th:each="item,i : ${List}" th:unless="${#lists.isEmpty(List)}">
-                    <!--추가형[업종](복수추가 X)-->
-                    <div class="survey_question">
+                    <!--추가형[업종](복수추가 O/X) 순위지정X 일때 사용함-->
+                    <div class="survey_question" th:if="${viewList[i.index] == '1'}">
+                        <input type="hidden" name="view1_multipleUse" th:value="${item.multipleUse}">
+                        <input type="hidden" name="view1_rankChangeUse" th:value="${item.rankChangeUse}">
+                        <input type="hidden" name="view1_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="view1_cnt" value=0>
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수 추가 불가)</span></h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                            <h3>[[${item.title}]] <span>(복수 추가 불가)</span>[1번]</h3>
+                            <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
                             <div class="select_box_wrap">
                                 <div class="lCategory">
-                                    <select name="" id="mach_depth01">
-                                        <option value="" disabled selected>대분류</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select name="category1" id="t1_n_01">
+                                        <option value="0" disabled selected>대분류</option>
+                                        <option th:value="${item.category1_seq}"
+                                                th:each="item : ${category1List}"
+                                                th:unless="${#lists.isEmpty(category1List)}">[[${item.name}]]</option>
                                     </select>
                                 </div>
                                 <div class="mCategory">
-                                    <select name="" id="mach_depth02">
-                                        <option value="" disabled selected>중분류</option>
-                                        <option value="1">1-1</option>
-                                        <option value="2">1-1</option>
-                                        <option value="3">1-1</option>
+                                    <select name="category2" id="t1_n_02">
+                                        <option value="0" disabled selected>중분류</option>
+                                        <option th:value="${item2.category1_seq}+'_'+${item2.category2_seq}"
+                                                th:name="${item2.c2_name}"
+                                                th:each="item2 : ${category2List}"
+                                                th:unless="${#lists.isEmpty(category2List)}" style="display: none">[[${item2.name}]]</option>
                                     </select>
                                 </div>
                                 <div class="sCategory">
-                                    <select name="" id="mach_depth03">
-                                        <option value="" disabled selected>소분류</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
+                                    <select name="category3" id="t1_n_03">
+                                        <option value="0" disabled selected>소분류</option>
+                                        <option th:value="${item3.category2_seq}+'_'+${item3.category3_seq}"
+                                                th:name="${item3.c2_name}"
+                                                th:each="item3 : ${category3List}"
+                                                th:unless="${#lists.isEmpty(category3List)}" style="display: none">[[${item3.name}]]</option>
                                     </select>
                                 </div>
-                                <button type="button" class="plus_btn"></button>
+                                <button type="button" class="plus_btn" name="plus_btn1"></button>
                             </div>
                         </div>
-                        <div class="choice_done_wrap">
+                        <div class="choice_done_wrap" id="choice_done_wrap1">
                             <p>분류를 선택해주세요.</p>
                         </div>
                     </div>
 
-                    <!--관리자에서 업종선택을 했을 경우(추가 했을때 이미지)-->
-                    <!--<div class="survey_question">
+                    <!--추가형[업종](복수추가O,순위 지정 가능, 최대n개) 순위지정O 일때 사용함-->
+                    <div class="survey_question" th:if="${viewList[i.index] == '2'}">
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수 추가 불가)</span></h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                            <h3>[[${item.title}]] <span>(복수선택, 2순위까지)</span>[2번]</h3>
+                            <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
                             <div class="select_box_wrap">
                                 <div class="lCategory">
-                                    <select name="" id="mach_depth01">
-                                        <option value="" disabled selected>대분류</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select name="category1" id="t1_y_01">
+                                        <option value="0" disabled selected>대분류</option>
+                                        <option th:value="${item.category1_seq}" th:each="item : ${category1List}" th:unless="${#lists.isEmpty(category1List)}">[[${item.name}]]</option>
                                     </select>
                                 </div>
                                 <div class="mCategory">
-                                    <select name="" id="mach_depth02">
-                                        <option value="" disabled selected>중분류</option>
-                                        <option value="1">1-1</option>
-                                        <option value="2">1-1</option>
-                                        <option value="3">1-1</option>
+                                    <select name="category2" id="t1_y_02">
+                                        <option value="0" disabled selected>중분류</option>
+                                        <option th:value="${item2.category1_seq}+'_'+${item2.category2_seq}" th:name="${item2.c2_name}" th:each="item2 : ${category2List}" th:unless="${#lists.isEmpty(category2List)}" style="display: none">[[${item2.name}]]</option>
                                     </select>
                                 </div>
                                 <div class="sCategory">
-                                    <select name="" id="mach_depth03">
-                                        <option value="" disabled selected>소분류</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
+                                    <select name="category3" id="t1_y_03">
+                                        <option value="0" disabled selected>소분류</option>
+                                        <option th:value="${item3.category2_seq}+'_'+${item3.category3_seq}" th:name="${item3.c2_name}" th:each="item3 : ${category3List}" th:unless="${#lists.isEmpty(category3List)}" style="display: none">[[${item3.name}]]</option>
                                     </select>
                                 </div>
-                                <button type="button" class="plus_btn"></button>
+                                <button type="button" class="plus_btn" id="plus_btn2"></button>
                             </div>
                         </div>
-                        <div class="choice_done_wrap">
-                            <div class="aJob_Wrap">
-                                <div class="aJob_text">
-                                    <p>
-                                        <span>대분류</span>/
-                                        <span>중분류</span>/
-                                        <span>소분류</span>
-                                    </p>
-                                    <span class="aJob_del"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
-
-                    <!--추가형[업종](복수추가O,순위 지정 가능, 최대n개)-->
-                    <div class="survey_question">
-                        <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수선택, 2순위까지)</span></h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
-                        </div>
-                        <div class="q_answer">
-                            <div class="select_box_wrap">
-                                <div class="lCategory">
-                                    <select name="" id="mach_depth01">
-                                        <option value="" disabled selected>대분류</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <div class="mCategory">
-                                    <select name="" id="mach_depth02">
-                                        <option value="" disabled selected>중분류</option>
-                                        <option value="1">1-1</option>
-                                        <option value="2">1-1</option>
-                                        <option value="3">1-1</option>
-                                    </select>
-                                </div>
-                                <div class="sCategory">
-                                    <select name="" id="mach_depth03">
-                                        <option value="" disabled selected>소분류</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                        <option value="1">1-1-1</option>
-                                    </select>
-                                </div>
-                                <button type="button" class="plus_btn"></button>
-                            </div>
-                        </div>
-                        <div class="choice_done_wrap">
-                            <div class="dragContainer">
-                                <div class="num_drag">
-                                    1순위
-                                </div>
-                                <div class="aJob_Wrap02 draggable card"  draggable="true">
-                                    <span class="handle_drag"></span>
-                                    <div class="aJob_text_wrap">
-                                        <div class="aJob_text">
-                                            <p>
-                                                <span>대분류1</span>/
-                                                <span>중분류1</span>/
-                                                <span>소분류1</span>
-                                            </p>
-                                            <span class="aJob_del"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dragContainer">
-                                <div class="num_drag">
-                                    2순위
-                                </div>
-                                <div class="aJob_Wrap02 draggable card"  draggable="true">
-                                    <span class="handle_drag"></span>
-                                    <div class="aJob_text_wrap">
-                                        <div class="aJob_text">
-                                            <p>
-                                                <span>대분류2</span>/
-                                                <span>중분류2</span>/
-                                                <span>소분류2</span>
-                                            </p>
-                                            <span class="aJob_del"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="choice_done_wrap" id="choice_done_wrap2">
 
                         </div>
                     </div>
 
-                    <!--추가형[주소](복수추가X)(이미지만 있음)-->
-                    <!--<div class="survey_question">
-                        <div class="q_title">
-                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
-                        </div>
-                        <div class="choice_done_wrap">
-                            <p>주소를 입력해주세요.</p>
-                        </div>
-                        <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
-                    </div>-->
-
                     <!--추가형[주소](복수추가X)-->
-                    <div class="survey_question">
+                    <div class="survey_question" th:if="${viewList[i.index] == '3'}">
                         <div class="q_title">
-                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span>[3번]</h3>
                             <P>질문에 대한 부가 설명이 노출됩니다.</P>
                         </div>
                         <div class="choice_done_wrap">
@@ -235,11 +186,10 @@
                         <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
                     </div>
 
-
-                    <!--추가형[주소](복수추가O,순위 지정, 최대n개)-->
-                    <div class="survey_question">
+                    <!--추가형[주소](복수추가O,순위 지정, 최대n개) 순위지정을 사용할때만 사용함-->
+                    <div class="survey_question" th:if="${viewList[i.index] == '4'}">
                         <div class="q_title">
-                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수선택, 2순위까지)</span></h3>
+                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수선택, 2순위까지)</span>[4번]</h3>
                             <P>질문에 대한 부가 설명이 노출됩니다.</P>
                         </div>
                         <div class="choice_done_wrap">
@@ -288,62 +238,10 @@
                         <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
                     </div>
 
-                    <!--관리자에서 체크박스 복수 선택 불가 했을 경우-->
-                    <!--<div class="survey_question">
+                    <!--선택형 순위X-->
+                    <div class="survey_question" th:if="${viewList[i.index] == '5'}">
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수 추가 불가)</span></h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
-                        </div>
-                        <div class="q_answer">
-                            <ul class="check_survey check_list_li50">
-                                <li>
-                                    <input type="checkbox" onClick="count_ck(this);" value="1" name="check_surveyType_one" id="check_surveyType_one1" class="check_survey checkbox_style">
-                                    <label for="check_surveyType_one1">임대차 계약관련</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" onClick="count_ck(this);" value="2" name="check_surveyType_one" id="check_surveyType_one2" class="check_survey checkbox_style">
-                                    <label for="check_surveyType_one2">보험,손해배상</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" onClick="count_ck(this);" value="3" name="check_surveyType_one" id="check_surveyType_one3" class="check_survey checkbox_style">
-                                    <label for="check_surveyType_one3">빚,채무 관련</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>-->
-
-                    <!--관관리자에서 체크박스 복수 선택, 개수제한 했을 경우-->
-                    <!--<div class="survey_question">
-                        <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수선택, 2개까지)</span></h3>
-                            <P>
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                            </P>
-                        </div>
-                        <div class="q_answer">
-                            <ul class="check_survey check_list_li50">
-                                <li>
-                                    <input type="checkbox" onClick="count_ck2(this);" value="1" name="check_surveyType_two" id="check_surveyType_two1" class="check_survey checkbox_style">
-                                    <label for="check_surveyType_two1">임대차 계약관련</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" onClick="count_ck2(this);" value="2" name="check_surveyType_two" id="check_surveyType_two2" class=" check_survey checkbox_style">
-                                    <label for="check_surveyType_two2">보험,손해배상</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" onClick="count_ck2(this);" value="3" name="check_surveyType_two" id="check_surveyType_two3" class=" check_survey checkbox_style">
-                                    <label for="check_surveyType_two3">빚,채무 관련</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>-->
-
-
-                    <!--관리자에서 체크박스 복수 선택 했을 경우-->
-                    <!--<div class="survey_question">
-                        <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수 선택)</span></h3>
+                            <h3>관심있는 업종을 알려주세요. <span>(복수 선택)</span>[5번]</h3>
                             <P>질문에 대한 부가 설명이 노출됩니다.</P>
                         </div>
                         <div class="q_answer">
@@ -362,13 +260,12 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>-->
+                    </div>
 
-                    <!--관리자에서 체크박스 복수 선택 했을 경우 (갯수 제한)-->
-                    <!--선택형(복수추가O,순위 지정, 최대n개)-->
-                    <div class="survey_question">
+                    <!--선택형 순위O-->
+                    <div class="survey_question" th:if="${viewList[i.index] == '6'}">
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(순위선택,3순위까지)</span></h3>
+                            <h3>관심있는 업종을 알려주세요. <span>(순위선택,3순위까지)</span>[6번]</h3>
                             <P>
                                 질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
                                 질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
@@ -418,7 +315,82 @@
                             </ul>
                         </div>
                     </div>
+
+
                 </th:block>
+                <br>=============================================================================================================================<br>
+                <!--추가형[주소](복수추가X)(이미지만 있음)-->
+                <!--
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                        <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                    </div>
+                    <div class="choice_done_wrap">
+                        <p>주소를 입력해주세요.</p>
+                    </div>
+                    <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
+                </div>
+                -->
+
+                <!--관리자에서 체크박스 복수 선택 불가 했을 경우-->
+                <!--
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>관심있는 업종을 알려주세요. <span>(복수 추가 불가)</span></h3>
+                        <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                    </div>
+                    <div class="q_answer">
+                        <ul class="check_survey check_list_li50">
+                            <li>
+                                <input type="checkbox" onClick="count_ck(this);" value="1" name="check_surveyType_one" id="check_surveyType_one1" class="check_survey checkbox_style">
+                                <label for="check_surveyType_one1">임대차 계약관련</label>
+                            </li>
+                            <li >
+                                <input type="checkbox" onClick="count_ck(this);" value="2" name="check_surveyType_one" id="check_surveyType_one2" class="check_survey checkbox_style">
+                                <label for="check_surveyType_one2">보험,손해배상</label>
+                            </li>
+                            <li >
+                                <input type="checkbox" onClick="count_ck(this);" value="3" name="check_surveyType_one" id="check_surveyType_one3" class="check_survey checkbox_style">
+                                <label for="check_surveyType_one3">빚,채무 관련</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                -->
+
+                <!--관관리자에서 체크박스 복수 선택, 개수제한 했을 경우-->
+                <!--
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>관심있는 업종을 알려주세요. <span>(복수선택, 2개까지)</span></h3>
+                        <P>
+                            질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
+                            질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
+                        </P>
+                    </div>
+                    <div class="q_answer">
+                        <ul class="check_survey check_list_li50">
+                            <li>
+                                <input type="checkbox" onClick="count_ck2(this);" value="1" name="check_surveyType_two" id="check_surveyType_two1" class="check_survey checkbox_style">
+                                <label for="check_surveyType_two1">임대차 계약관련</label>
+                            </li>
+                            <li >
+                                <input type="checkbox" onClick="count_ck2(this);" value="2" name="check_surveyType_two" id="check_surveyType_two2" class=" check_survey checkbox_style">
+                                <label for="check_surveyType_two2">보험,손해배상</label>
+                            </li>
+                            <li >
+                                <input type="checkbox" onClick="count_ck2(this);" value="3" name="check_surveyType_two" id="check_surveyType_two3" class=" check_survey checkbox_style">
+                                <label for="check_surveyType_two3">빚,채무 관련</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                -->
+
+
+
+
                 <!--주소검색 팝업-->
                 <div class="pop_up_wrap adress_pop">
                     <div class="pop_up03">

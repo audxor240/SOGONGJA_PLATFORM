@@ -9,6 +9,14 @@
 
     </select>
 
+    <select id="getSurvey" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Survey">
+        /* file : SurveyMapper.xml, id : getSurvey */
+        select * from ST_SURVEY_SETTING where SURVEY_SETTING_SEQ = #{surveySettingSeq} ;
+
+    </select>
+
+
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

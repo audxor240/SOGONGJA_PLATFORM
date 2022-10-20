@@ -58,7 +58,7 @@
                             <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
                                 <th>비밀번호 확인 <span class="required">(필수)</span></th>
                                 <td>
-                                    <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
+                                    <input type="password" th:field="*{passwordConfirm}" title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
                                     <span id="wrongpw2" class="checking_color"></span>
                                 </td>
                             </tr>
@@ -75,7 +75,8 @@
                             <tr>
                                 <th style="width: 25%;">이름 <span class="required">(필수)</span></th>
                                 <td style="width: 75%;">
-                                    [[${user.username}]]
+                                    <input type="text" th:field="*{username}" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" readonly>
+                                    <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                 </td>
                             </tr>
                             <tr>
@@ -259,6 +260,8 @@
                     <input type="hidden" th:field="*{nickName}">
                     <input type="hidden" th:field="*{userType}">
                     <input type="hidden" th:field="*{email}">
+                    <input type="hidden" th:field="*{type}">
+                    <input type="hidden" th:field="*{subType}">
                 </form>
             </div>
         </div>

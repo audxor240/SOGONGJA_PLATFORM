@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.CategoryMapper">
+
+    <select id="getCategory1List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory1List */
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY1) as GROUP_NAME
+        FROM ST_CATEGORY1
+        WHERE DEL_FLAG = 0
+        ORDER BY CATEGORY1_SEQ
+
+    </select>
+
+    <select id="getCategory2List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory2List */
+        SELECT *, replace(NAME,' ','') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY2) as GROUP_NAME
+        FROM ST_CATEGORY2
+        WHERE DEL_FLAG = 0
+        ORDER BY CATEGORY2_SEQ
+
+    </select>
+
+    <select id="getCategory3List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory3List */
+        SELECT C3.*, replace(C2.NAME,' ','') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY3) as GROUP_NAME
+        FROM ST_CATEGORY3 AS C3
+        LEFT JOIN ST_CATEGORY2 AS C2 ON C2.CATEGORY2_SEQ = C3.CATEGORY2_SEQ
+        WHERE C3.DEL_FLAG = 0
+        ORDER BY CATEGORY3_SEQ
+
+    </select>
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>
