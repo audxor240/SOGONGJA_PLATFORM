@@ -13,7 +13,7 @@ function changeQ() {
 	let qCode=$('#q_list option:selected').val();
 	let qAdd = "";
 
-	if(qCount>=5){
+	if(qCount>=20){
 		alert('질문 최대 5개까지만 선택 가능합니다.');
 		return false;
 	}else if(qSeqList.includes(qCode)){

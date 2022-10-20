@@ -94,7 +94,7 @@
                     <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
                 </div>
             </div>
-            <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
+            <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST" >
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{username}">
                 <input type="hidden" th:field="*{nickName}">
@@ -116,6 +116,12 @@
         });
 
         function formSubmit() {
+            var surveyUse = /*[[${survey.surveyUse}]]*/ '';
+
+            if(surveyUse != 'Y'){
+                alert("설문지 준비중입니다..");
+                return false;
+            }
             document.forms.surveyForm.submit();
         }
     </script>
