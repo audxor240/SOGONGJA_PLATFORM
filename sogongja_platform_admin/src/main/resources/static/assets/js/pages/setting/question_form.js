@@ -52,7 +52,7 @@ $(document).ready(function () {
     });
 
     // 항목추가형 업종, 주소 선택 항목에 따라 보여주기
-    $('.div2').hide();
+    //$('.div2').hide();
     $('select[name=answerType]').bind('change', function() {
         var val = $(this).val();
         if (val === '1') {
@@ -288,6 +288,18 @@ function validationForm(){
         $("[name=answerTagList]").val(answerTagList);
         console.log("answerTitleList :: "+answerTitleList);
         console.log("answerTagList :: "+answerTagList);
+    }else{
+        var answerType = $("#answerType").val();
+        if(questionType == "add" && answerType == "2"){ //답변항목[주소]
+            var keywordArr = [];
+            if($('.label-info').length != 0) {
+                $('.label-info').each(function () {
+                    keywordArr.push($(this).text().replace(" ",""));
+                });
+                $("#keywordList").val(keywordArr);
+            }
+
+        }
     }
 
 }

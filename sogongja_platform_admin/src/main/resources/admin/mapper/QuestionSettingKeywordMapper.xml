@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.QuestionSettingKeywordMapper">
+
+    <insert id="insertQuestionSettingKeyword" parameterType="com.stoneitgt.sogongja.domain.QuestionSettingKeyword">
+        /* file : QuestionSettingKeywordMapper.xml, id : insertQuestionSettingKeyword */
+        INSERT
+        INTO ST_QUESTION_SETTING_KEYWORD (
+        QUESTION_SETTING_SEQ
+        , KEYWORD
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{questionSettingSeq}
+        , #{keyword}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="questionSettingKeywordSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getQuestionSettingKeywordList" parameterType="int" resultType="string">
+        /* file : QuestionSettingKeywordMapper.xml, id : getQuestionSettingKeywordList */
+
+        select group_concat(KEYWORD) as g_keyword
+        from ST_QUESTION_SETTING_KEYWORD
+        where QUESTION_SETTING_SEQ = #{questionSeq} and DEL_FLAG =0;
+    </select>
+
+    <update id="deleteAnswer" parameterType="map">
+        /* file : AnswerSettingMapper.xml, id : deleteAnswer */
+        UPDATE ST_ANSWER_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE QUESTION_SETTING_SEQ = #{question_setting_seq} and ANSWER    = #{answer}
+
+    </update>
+
+    <update id="deleteAllQuestionSettingKeyword" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : QuestionSettingKeywordMapper.xml, id : deleteAllQuestionSettingKeyword */
+        UPDATE ST_QUESTION_SETTING_KEYWORD
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE QUESTION_SETTING_SEQ = #{questionSettingSeq}
+
+    </update>
+
+
+
+
+</mapper>

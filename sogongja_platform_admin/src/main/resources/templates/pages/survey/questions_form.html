@@ -13,6 +13,7 @@
         <input type="hidden" name="pageParams" th:value="${pageParams}">
         <input type="hidden" th:field="*{answerTitleList}">
         <input type="hidden" th:field="*{answerTagList}">
+        <input type="hidden" th:field="*{keywordList}">
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -86,7 +87,7 @@
                                                     최대 수
                                                 </label>
                                                 <div class="form_num">
-                                                    <input class="checkNum" type="number" value="2" min="2" max="10" th:field="*{maximumNum}" disabled>
+                                                    <input class="checkNum" type="number" value="2" min="2" max="10" th:field="*{maximumNum}" th:disabled="${questionSetting.multipleUse == 'N'}">
                                                 </div>
                                             </div>
                                             <span style="margin: 0 10px 8px 10px;"> ) </span>
@@ -119,8 +120,8 @@
                                             </div>
 <!--                                            ★★★★업종 선택은 관리자에서 선택할 필요 없습니다.  -->
                                                 <div class="col-sm-10">
-                                                    <div class="div2">
-                                                        <input type="text" class="form-control" data-role="tagsinput" value="jQuery,Script,Net">
+                                                    <div class="div2" th:if="${questionSetting.answerType == 2}">
+                                                        <input type="text" class="form-control" data-role="tagsinput" th:value="${keywordStr}">
                                                     </div>
                                                 </div>
                                         </div>
