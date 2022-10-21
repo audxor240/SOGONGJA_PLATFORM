@@ -78,7 +78,7 @@
     </select>
 
     <update id="updateEventUsed" parameterType="com.stoneitgt.sogongja.domain.Event">
-        /* file : BoardMapper.xml, id : updateBoard */
+        /* file : EventMapper.xml, id : updateEventUsed */
         UPDATE ST_EVENT
         SET USED     = null
           , MOD_USER_SEQ = #{loginUserSeq}

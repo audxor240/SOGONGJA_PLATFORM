@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.stoneitgt.sogongja.domain.QuestionSetting;
 import com.stoneitgt.sogongja.domain.Survey;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
-import com.stoneitgt.sogongja.user.service.AnswerSettingService;
-import com.stoneitgt.sogongja.user.service.BoardService;
-import com.stoneitgt.sogongja.user.service.QuestionService;
+import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
-import com.stoneitgt.sogongja.user.service.UserService;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
 
@@ -42,6 +39,9 @@ public class UserController extends BaseController {
 	private QuestionService questionService;
 	@Autowired
 	private AnswerSettingService answerSettingService;
+
+	@Autowired
+	private CategoryService categoryService;
 	private final SocialLoginSupport socialLoginSupport;
 
 	@GetMapping("/signup")
@@ -83,7 +83,7 @@ public class UserController extends BaseController {
 
 		}
 
-		model.addAttribute("user", user);
+
 		System.out.println("user >>>>>>>>>>>> "+user);
 		//return "pages/user/signup_result";
 
@@ -189,6 +189,7 @@ public class UserController extends BaseController {
 			return "pages/user/signup_result";
 		} else {
 			request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);
+			model.addAttribute("user", user);
 			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 			//return "redirect:/mypage/info";
 			return "pages/user/info";
@@ -199,7 +200,19 @@ public class UserController extends BaseController {
 	@PostMapping("/signup/completion")
 	public String signupCompletion(@ModelAttribute("user") User user, Model model) {
 		System.out.println("user ::----1111--> "+user);
+
+
+		int surveySettingSeq = 0;
+		if(user.getType().equals("4")){
+			surveySettingSeq = 7;
+		}else{
+			surveySettingSeq = Integer.parseInt(user.getSubType());
+		}
+
+		Survey survey = surveyService.getSurvey(surveySettingSeq);
+
 		model.addAttribute("user", user);
+		model.addAttribute("survey", survey);
 
 		return "pages/user/signup_completion";
 	}
@@ -207,8 +220,12 @@ public class UserController extends BaseController {
 	@PostMapping("/user/surveyForm")
 	public String surveyForm(@ModelAttribute("user") User user, Model model) {
 		System.out.println("user ::----2222--> "+user);
-		model.addAttribute("user", user);
+
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> category2List = categoryService.getCategory2List();
+		List<Map<String, Object>> category3List = categoryService.getCategory3List();
 
 		int surveySettingSeq = 0;
 		if(user.getType().equals("4")){
@@ -218,17 +235,17 @@ public class UserController extends BaseController {
 		}
 
 		List<Map<String, Object>> surveySubList = surveyService.getSurveySubList(surveySettingSeq);
-		System.out.println("surveySubList :: "+surveySubList);
 
 		List<Integer> qSeqArr = new ArrayList<>();
 		for (Map<String, Object> item:surveySubList) {
-			System.out.println(""+item.get("question_setting_seq"));
 			qSeqArr.add((Integer) item.get("question_setting_seq"));
 		}
 
 		List<QuestionSetting> List = new ArrayList<>();
+		List<String> viewList = new ArrayList<>();		//질문을 보여주기 위한 배열 정의
 		List<List<String>> answerArrList = new ArrayList<>();
 
+		boolean firstView = false;
 		// 추가된 질문 개수만큼 루프
 		for(int i=0;i< qSeqArr.size();i++){
 			int questionSettingSeq = qSeqArr.get(i);
@@ -250,11 +267,39 @@ public class UserController extends BaseController {
 			}else{
 				answerArrList.add(null);
 			}
-			List.add(questionSetting);
-		}
+			System.out.println("questionSetting ::: "+questionSetting);
 
+			if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[업종] 이고 순위 지정X
+				viewList.add("1");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[업종] 이고 순위 지정O
+				viewList.add("2");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[주소] 이고 순위 지정X
+				viewList.add("3");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[주소] 이고 순위 지정O
+				viewList.add("4");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//선택형 이고 순위 지정X
+				viewList.add("5");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && questionSetting.getRankChangeUse().equals("Y")){
+				//선택형 이고 순위 지정O
+				viewList.add("6");
+			}
+			List.add(questionSetting);
+
+		}
+		System.out.println("viewList >>> "+viewList);
+
+		model.addAttribute("user", user);
+		model.addAttribute("category1List", category1List);
+		model.addAttribute("category2List", category2List);
+		model.addAttribute("category3List", category3List);
 		model.addAttribute("answerArrList", answerArrList);
 		model.addAttribute("List", List);
+		model.addAttribute("viewList", viewList);
 		System.out.println("answerArrList :: "+answerArrList);
 		System.out.println("List :: "+List);
 
