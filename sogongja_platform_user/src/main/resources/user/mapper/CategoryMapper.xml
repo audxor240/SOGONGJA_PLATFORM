@@ -14,7 +14,7 @@
 
     <select id="getCategory2List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory2List */
-        SELECT *, replace(NAME,' ','') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY2) as GROUP_NAME
+        SELECT *, replace(replace(NAME,' ',''),'/','_') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY2) as GROUP_NAME
         FROM ST_CATEGORY2
         WHERE DEL_FLAG = 0
         ORDER BY CATEGORY2_SEQ
@@ -23,7 +23,7 @@
 
     <select id="getCategory3List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory3List */
-        SELECT C3.*, replace(C2.NAME,' ','') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY3) as GROUP_NAME
+        SELECT C3.*, replace(replace(C2.NAME,' ',''),'/','_') as C2_NAME, (select group_concat(NAME) from ST_CATEGORY3) as GROUP_NAME
         FROM ST_CATEGORY3 AS C3
         LEFT JOIN ST_CATEGORY2 AS C2 ON C2.CATEGORY2_SEQ = C3.CATEGORY2_SEQ
         WHERE C3.DEL_FLAG = 0
