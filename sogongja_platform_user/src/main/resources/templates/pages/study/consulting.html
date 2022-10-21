@@ -29,6 +29,10 @@
         </section>
         <section class="wrap">
             <div class="sub_container consulting">
+                <div class="faq_anchor_wrap">
+                    <p>유사한 상담사례가 있는지 확인해보세요.</p>
+                    <div><a th:href="@{/study/counseling}">상담사례 찾기</a></div>
+                </div>
                 <form name="searchForm" th:action="@{/study/consulting}" th:object="${params}">
                     <th:block th:include="fragments/search_hidden"></th:block>
                     <h3 class="h3_title">컨설팅 선택항목</h3>
@@ -74,30 +78,36 @@
                 </form>
                 <div class="edu_list_wrap">
                     <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
-                    <table class="table_style">
-                        <caption>컨설팅</caption>
+                    <table class="table_style custom_consulting">
+                        <caption>다른 사용자가 자주 찾는 컨설팅</caption>
                         <thead>
-                            <tr>
-                                <th style="width: 11%;">구분</th>
-                                <th style="width: 11%;">지원내용</th>
-                                <th class="txl">컨설팅명</th>
-                                <th style="width: 15%;">지원대상</th>
-                                <th style="width: 11%;">지역</th>
-                                <th style="width: 11%;">바로가기</th>
-                            </tr>
+                        <tr>
+                            <th style="width: 8%;">No.</th>
+                            <th style="width: 12%;">제공기관</th>
+                            <th style="width: 15%;">서비스명</th>
+                            <th style="width: 15%;">구분</th>
+                            <th style="width: 40%;">지원내용</th>
+                            <th style="width: 10%;">관리</th>
+                        </tr>
                         </thead>
                         <tbody>
                             <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
+                                    <td>1</td>
+                                    <td>제공기관</td>
                                     <td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>
                                     <td class="color_606060">창업전 컨설팅</td>
-                                    <td class="txl">
-                                        <a th:href="@{|/study/consulting/${item.con_seq}|}" th:text="${item.subject}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
+                                    <td class="txl">지원내용</td>
+                                    <td>
+                                        <div class="management management_wrap">
+                                            <button type="button" class="favorite">찜하기</button>
+                                            <!--                                    수강완료되었을 때-->
+                                            <!--                                    <span class="edu_done"></span>-->
+                                            <!--                                    수강완료 전-->
+                                            <span class="edu_none"></span>
+                                        </div>
                                     </td>
-                                    <td>서울시 소재 예비 창업자</td>
-                                    <td>서울시</td>
-                                    <td><a class="more_a" th:if="${not #strings.isEmpty(item.con_url)}" th:href="${item.con_url}" target="_blank">바로가기</a></td>
                                 </tr>
                             </th:block>
                         </tbody>

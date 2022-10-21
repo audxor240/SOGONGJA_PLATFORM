@@ -58,7 +58,7 @@
 			font-size: rem(18)
 			color: #000
 			font-weight: 700
-			padding: 0 rem(40)
+			padding: 0 rem(20)
 			height: rem(72)
 			border-right: 1px solid #ddd
 			&:last-child
@@ -67,6 +67,7 @@
 			border-right: 1px solid #ddd
 			height: rem(72)
 			text-align: center
+			padding: 0
 			&:last-child
 				border-right: none
 			&.cate
@@ -454,6 +455,28 @@
 							display: inline-block
 							font-size: rem(14)
 							color: #181818
+.management_wrap
+	+flex_type($justify: center, $align: center)
+	margin-bottom: rem(12)
+	.favorite
+		width: rem(36)
+		height: rem(36)
+		background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
+		display: inline-block
+		text-indent: -9999px
+		margin-right: 10px
+		&:hover
+			background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+		&.on
+			background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+	.edu_done
+		width: rem(36)
+		height: rem(36)
+		background: url(#{$assetPath}/new/icon/checked.png) no-repeat 0 50%
+	.edu_none
+		width: rem(36)
+		height: rem(36)
+		background: url(#{$assetPath}/new/icon/nonecheck.png) no-repeat 0 50%
 .pagination
 	+flex_type($justify: center, $align: center)
 	margin-top: rem(80)
@@ -665,7 +688,10 @@
 
 /*map*/
 #map
+	width: 100%
 	height: 100%
+	position: relative
+	overflow: hidden
 	z-index: 0
 .area .wrap
 	padding-bottom: 0
@@ -1399,6 +1425,18 @@
 		padding-left: rem(36)
 		color: #767676
 		line-height: 1.5
+.my_eduConsulting
+	.title_sub_text
+		display: inline-block
+		font-weight: bold
+		color: #1540bf
+		font-size: rem(18)
+	.my_list_wrap
+		border-top: 4px solid #1540bf
+		margin-bottom: rem(54)
+		padding-top: rem(29)
+	.my_list_wrap02
+		margin-bottom: rem(54)
 .mypage_info
 	max-width: 800px
 	margin: 0 auto
@@ -1996,7 +2034,7 @@
 		background-color: #709BFF
 		color: #fff
 .tag_adress_choice.none_border
-		border: 0
+	border: 0
 
 .pop_main
 	padding: 40px
@@ -2107,6 +2145,10 @@
 				width: 70px
 				color: #709BFF
 				margin-top: 20px
+				span
+					display: inline-block
+					vertical-align: center
+					color: #709BFF
 			.aAdress_Wrap
 				width: calc(100% - 70px)
 
@@ -2296,14 +2338,6 @@
 
 //반응형
 @include tablet
-	.mypage_info
-		table
-			tr
-				th
-					display: table-row
-				td
-					width: 100%
-					display: table-row
 	.wrap
 		padding: rem(80) 40px
 	.pop_up_wrap
@@ -2339,9 +2373,45 @@
 					> div
 						.view
 							padding-left: rem(30)
+	.management_wrap
+		margin-top: 10px
+		margin-bottom: 0
+		.favorite,
+		.edu_done,
+		.edu_none
+			width: 3rem
+			height: 3rem
+
 
 
 @include mobile
+	input[type="text"],
+	input[type="password"],
+	select
+		line-height: 40px
+		height: 40px
+	::placeholder
+		font-size: 1em
+	.mypage_info
+		table
+			border-collapse: separate
+			border-spacing: 0 10px
+			tr
+				th
+					display: table-row
+				td
+					width: 100% !important
+					display: flex
+					padding-bottom: rem(20)
+					.checking_color
+						display: block
+					.radio_depth01,
+					div > .radio_depth02
+						li
+							label
+								line-height: 40px
+								height: 40px
+								padding: 0 10px
 	.m_del
 		display: none !important
 	.sub_visual
@@ -2442,6 +2512,7 @@
 				display: none
 	.custom_consulting
 		tbody
+			border-top: 4px solid #1540bf
 			+flex_type($direction: column)
 			tr
 				+flex_type
@@ -2458,14 +2529,61 @@
 						width: 30%
 						border-bottom: 1px solid #ddd
 					&:nth-child(3)
-						width: 50%
+						width: 20%
 						border-bottom: 1px solid #ddd
 					&:nth-child(4)
-						width: 40%
-					&:nth-child(5)
 						width: 30%
+						border-bottom: 1px solid #ddd
+					&:nth-child(5)
+						width: 70%
+						white-space: break-spaces
+						text-overflow: ellipsis
+						display: table-cell
+						overflow: hidden
 					&:nth-child(6)
 						width: 30%
+			&:first-child
+				border-top: 4px solid #1540bf
+			&:nth-child(2n)
+				background-color: #F5F5F5
+	.custom_counseling
+		tbody
+			border-top: 4px solid #1540bf
+			+flex_type($direction: column)
+			tr
+				+flex_type
+				flex-wrap: wrap
+				width: 100%
+				border-bottom: 2px solid #ddd
+				td
+					line-height: rem(72)
+					border-right: none
+					&:nth-child(1)
+						width: 50%
+						border-bottom: 1px solid #ddd
+					&:nth-child(2)
+						width: 50%
+						border-bottom: 1px solid #ddd
+					&:nth-child(3)
+						width: 100%
+						border-bottom: 1px solid #ddd
+					&:nth-child(4)
+						width: 100%
+						a
+							white-space: break-spaces
+							text-overflow: ellipsis
+							overflow: hidden
+							display: -webkit-box
+							-webkit-line-clamp: 3
+							-webkit-box-orient: vertical
+							line-height: 1.6
+							text-align: center
+							padding: 0
+							border-bottom: 1px solid #ddd
+					&:nth-child(5)
+						width: 50%
+					&:nth-child(6)
+						width: 50%
 			&:first-child
 				border-top: 4px solid #1540bf
 			&:nth-child(2n)
