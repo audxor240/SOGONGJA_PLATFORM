@@ -37,6 +37,15 @@
 					border-bottom: 2px solid #1540bf
 					a
 						color: #1540bf
+.secede_btn
+	text-align: center
+	line-height: 3
+	border: solid 2px #606060
+	font-size: rem(14)
+	max-width: 128px
+	width: 100%
+	background-color: #606060
+	color: #fff
 .table_style
 	width: 100%
 	table-layout: fixed
@@ -399,10 +408,10 @@
 		> ul
 			padding: rem(34) rem(32)
 			padding-bottom: 0
-			height: rem(373)
+			height: rem(439)
 			overflow: hidden
 			> li
-				height: rem(300)
+				height: rem(439)
 				background: #f3f3f3
 			.edu_flex
 				+flex_type($justify: space-between, $align: center)
@@ -1914,6 +1923,8 @@
 				color: #fff
 			&.red
 				background-color: #F63C3C
+			&.gray
+				background-color: #606060
 	.pop_up03
 		+positionAt(absolute, $top: 100px)
 		width: 1000px
@@ -2034,6 +2045,14 @@
 				border: solid 2px #F63C3C
 				background-color: #fff
 				color: #F63C3C
+			&.gray
+				background-color: #606060
+				border: solid 2px #606060
+				color: #fff
+			&.grayLine
+				border: solid 2px #606060
+				background-color: #fff
+				color: #606060
 .survey_question
 	max-width: 1000px
 	margin: 40px auto 0
@@ -2277,13 +2296,29 @@
 
 //반응형
 @include tablet
+	.mypage_info
+		table
+			tr
+				th
+					display: table-row
+				td
+					width: 100%
+					display: table-row
 	.wrap
 		padding: rem(80) 40px
 	.pop_up_wrap
 		.pop_up
-			width: 260px
-			left: calc(50% - 130px)
-
+			width: 400px
+			left: calc(50% - 200px)
+	.pop_main
+		padding: 40px 15px
+		.pop_btn
+			flex-wrap: wrap
+			.btn
+				width: 100%
+				margin-bottom: 10px
+				&:last-child
+					margin-bottom: 0
 	.sub_visual
 		.lnb
 			ul
@@ -2470,3 +2505,7 @@
 				&:nth-child(2n+2)
 					margin-top: rem(18)
 					margin-right: 0
+	.pop_up_wrap
+		.pop_up
+			width: 300px
+			left: calc(50% - 150px)

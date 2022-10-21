@@ -51,6 +51,17 @@
   color: #1540bf;
 }
 
+.secede_btn {
+  text-align: center;
+  line-height: 3;
+  border: solid 2px #606060;
+  font-size: 0.875rem;
+  max-width: 128px;
+  width: 100%;
+  background-color: #606060;
+  color: #fff;
+}
+
 .table_style {
   width: 100%;
   table-layout: fixed;
@@ -538,11 +549,11 @@
 .sub_container .solution_edu_recommend > ul {
   padding: 2.125rem 2rem;
   padding-bottom: 0;
-  height: 23.3125rem;
+  height: 27.4375rem;
   overflow: hidden;
 }
 .sub_container .solution_edu_recommend > ul > li {
-  height: 18.75rem;
+  height: 27.4375rem;
   background: #f3f3f3;
 }
 .sub_container .solution_edu_recommend > ul .edu_flex {
@@ -2541,6 +2552,9 @@
 .pop_up_wrap .pop_up .pop_head.red {
   background-color: #F63C3C;
 }
+.pop_up_wrap .pop_up .pop_head.gray {
+  background-color: #606060;
+}
 .pop_up_wrap .pop_up03 {
   position: absolute;
   top: 100px;
@@ -2695,6 +2709,16 @@
   border: solid 2px #F63C3C;
   background-color: #fff;
   color: #F63C3C;
+}
+.pop_main .pop_btn .btn.gray {
+  background-color: #606060;
+  border: solid 2px #606060;
+  color: #fff;
+}
+.pop_main .pop_btn .btn.grayLine {
+  border: solid 2px #606060;
+  background-color: #fff;
+  color: #606060;
 }
 
 .survey_question {
@@ -2961,12 +2985,32 @@
 }
 
 @media (max-width: 1400px) {
+  .mypage_info table tr th {
+    display: table-row;
+  }
+  .mypage_info table tr td {
+    width: 100%;
+    display: table-row;
+  }
   .wrap {
     padding: 5rem 40px;
   }
   .pop_up_wrap .pop_up {
-    width: 260px;
-    left: calc(50% - 130px);
+    width: 400px;
+    left: calc(50% - 200px);
+  }
+  .pop_main {
+    padding: 40px 15px;
+  }
+  .pop_main .pop_btn {
+    flex-wrap: wrap;
+  }
+  .pop_main .pop_btn .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .pop_main .pop_btn .btn:last-child {
+    margin-bottom: 0;
   }
   .sub_visual .lnb ul li a {
     padding: 1.25rem 1.875rem;
@@ -3176,6 +3220,10 @@
   .sub_container .edu_list > li:nth-child(2n+2), .sub_container .solution_edu_recommend > ul > li:nth-child(2n+2) {
     margin-top: 1.125rem;
     margin-right: 0;
+  }
+  .pop_up_wrap .pop_up {
+    width: 300px;
+    left: calc(50% - 150px);
   }
 }
 

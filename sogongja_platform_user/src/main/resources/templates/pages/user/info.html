@@ -224,6 +224,13 @@
                                 </td>
                             </tr>
                         </table>
+
+                        <div class="table table_title">
+                            <h3>회원탈퇴</h3>
+                        </div>
+                        <div>
+                            <button type="button" class="secede_btn">회원탈퇴</button>
+                        </div>
                     </div>
                 </div>
                 <div class="btn_box">
@@ -232,6 +239,28 @@
                 </div>
             </form>
         </section>
+
+
+        <!--회원탈퇴 팝업-->
+        <div class="pop_up_wrap secede_pop">
+            <div class="pop_up pop_up03">
+                <div class="pop_head red">
+                    <h4>회원 탈퇴</h4>
+                </div>
+                <div class="pop_main">
+                    <div class="pop_title">
+                        <p>회원을 탈퇴하시면,</p>
+                        <p>소공자에서 제공하는 서비스를 더 이상 사용할 수 없습니다.</p>
+                        <p>회원을 탈퇴하시겠습니까?</p>
+                    </div>
+                    <div class="pop_btn">
+                        <button class="btn redline none_btn">취소</button>
+                        <button id="secedeDone_btn" class="btn red">탈퇴하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!--정보 수정 팝업-->
         <div class="pop_up_wrap" style="display: none">
@@ -279,6 +308,13 @@
             function formSubmit() {
                 document.forms.surveyForm.submit();
             }
+
+            $('.secede_btn').on('click', function() {
+                $('.secede_pop').show();
+            });
+            $('.redline').on('click', function() {
+                $('.secede_pop').hide();
+            });
         </script>
     </th:block>
 
