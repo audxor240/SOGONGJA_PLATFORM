@@ -1,7 +1,7 @@
 @import "_var"
 @import "_mixin"
 .wrap
-	padding: rem(80) 0 rem(200)
+	padding: rem(100) 0 rem(200)
 	background: #f6f8f9
 	&.pt0
 		padding-top: 0
@@ -2408,10 +2408,20 @@
 					.radio_depth01,
 					div > .radio_depth02
 						li
+							width: 50%
 							label
+								width: 100%
 								line-height: 40px
 								height: 40px
 								padding: 0 10px
+								border: solid 1px #DADBDB
+					.tel_ul
+						li
+							width: 30%
+		.info_plus_table
+			tr
+				td
+					display: block
 	.m_del
 		display: none !important
 	.sub_visual

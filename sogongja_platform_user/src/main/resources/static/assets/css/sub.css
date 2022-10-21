@@ -1,5 +1,5 @@
 .wrap {
-  padding: 5rem 0 12.5rem;
+  padding: 6.25rem 0 12.5rem;
   background: #f6f8f9;
 }
 .wrap.pt0 {
@@ -3110,11 +3110,23 @@ select {
   .mypage_info table tr td .checking_color {
     display: block;
   }
+  .mypage_info table tr td .radio_depth01 li,
+.mypage_info table tr td div > .radio_depth02 li {
+    width: 50%;
+  }
   .mypage_info table tr td .radio_depth01 li label,
 .mypage_info table tr td div > .radio_depth02 li label {
+    width: 100%;
     line-height: 40px;
     height: 40px;
     padding: 0 10px;
+    border: solid 1px #DADBDB;
+  }
+  .mypage_info table tr td .tel_ul li {
+    width: 30%;
+  }
+  .mypage_info .info_plus_table tr td {
+    display: block;
   }
   .m_del {
     display: none !important;
