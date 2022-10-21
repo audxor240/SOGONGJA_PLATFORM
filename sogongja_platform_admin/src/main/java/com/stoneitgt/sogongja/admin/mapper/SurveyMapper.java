@@ -22,5 +22,7 @@ public interface SurveyMapper {
 
     void deleteSurveySub(Survey survey);
 
+    void updateSurvey(Survey survey);
+
     int selectTotalRecords();
 }

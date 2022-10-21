@@ -52,17 +52,17 @@ $(document).ready(function () {
     });
 
     // 항목추가형 업종, 주소 선택 항목에 따라 보여주기
-    //$('.div2').hide();
-    /*$('select[name=selectBox]').bind('change', function() {
+    $('.div2').hide();
+    $('select[name=answerType]').bind('change', function() {
         var val = $(this).val();
-        if (val === 'option1') {
+        if (val === '1') {
             $('.div1').show();
             $('.div2').hide();
         } else {
             $('.div2').show();
             $('.div1').hide();
         }
-    });*/
+    });
 
 
     // 항목 선택형 태그삭제

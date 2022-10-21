@@ -43,6 +43,10 @@
                                 <div class="thumb_img">
                                     <div class="view_favorite">
                                         <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                        <!--                                    수강완료되었을 때-->
+                                        <!--                                    <span class="edu_done"></span>-->
+                                        <!--                                    수강완료 전-->
+                                        <span class="edu_none"></span>
                                     </div>
                                 </div>
                                 <div class="text_wrap">
@@ -93,6 +97,10 @@
                                     <div class="thumb_img">
                                         <div class="view_favorite">
                                             <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])">찜하기</button>
+                                            <!--                                    수강완료되었을 때-->
+                                            <!--                                    <span class="edu_done"></span>-->
+                                            <!--                                    수강완료 전-->
+                                            <span class="edu_none"></span>
                                         </div>
                                     </div>
                                     <div class="text_wrap">

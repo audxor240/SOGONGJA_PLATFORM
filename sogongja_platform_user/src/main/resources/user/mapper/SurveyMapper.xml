@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.SurveyMapper">
+
+    <select id="getSurveySubList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getSurveySubList */
+        select * from ST_SURVEY_SETTING_SUB where SURVEY_SETTING_SEQ = #{surveySettingSeq} and DEL_FLAG = 0;
+
+    </select>
+
+    <select id="getSurvey" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Survey">
+        /* file : SurveyMapper.xml, id : getSurvey */
+        select * from ST_SURVEY_SETTING where SURVEY_SETTING_SEQ = #{surveySettingSeq} ;
+
+    </select>
+
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>

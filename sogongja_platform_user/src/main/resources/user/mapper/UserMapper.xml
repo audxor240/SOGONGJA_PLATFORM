@@ -142,7 +142,7 @@
 					, #{age}
 					, #{serviceType}
 		            )
-		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
+		    ON DUPLICATE KEY UPDATE USER_SEQ = #{userSeq}
 		<if test="password != null and password != ''">
 			 , PASSWORD                         = #{password}
 		</if>

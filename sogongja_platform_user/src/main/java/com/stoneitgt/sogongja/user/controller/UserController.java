@@ -1,14 +1,13 @@
 package com.stoneitgt.sogongja.user.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.stoneitgt.sogongja.domain.QuestionSetting;
+import com.stoneitgt.sogongja.domain.Survey;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
-import com.stoneitgt.sogongja.user.service.BoardService;
+import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
-import com.stoneitgt.sogongja.user.service.UserService;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
 
@@ -35,6 +33,15 @@ public class UserController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private SurveyService surveyService;
+	@Autowired
+	private QuestionService questionService;
+	@Autowired
+	private AnswerSettingService answerSettingService;
+
+	@Autowired
+	private CategoryService categoryService;
 	private final SocialLoginSupport socialLoginSupport;
 
 	@GetMapping("/signup")
@@ -76,7 +83,7 @@ public class UserController extends BaseController {
 
 		}
 
-		model.addAttribute("user", user);
+
 		System.out.println("user >>>>>>>>>>>> "+user);
 		//return "pages/user/signup_result";
 
@@ -161,7 +168,8 @@ public class UserController extends BaseController {
 		user.setType01(user.getType01());
 		user.setType02(user.getType02());
 		user.setServiceType(category);
-
+		System.out.println("user.getType01() :: "+user.getType01());
+		System.out.println("user.getType02() :: "+user.getType02());
 		if(user.getUserSeq() != 0){
 
 			User user2 = userService.getUserInfo(user.getUserSeq());
@@ -174,13 +182,14 @@ public class UserController extends BaseController {
 		}
 
 		userService.saveUser(user);
-
+		System.out.println("user =============== >>>> "+user);
 		if (user.getUserSeq() == 0) {
 			model.addAttribute("user", user);
 
 			return "pages/user/signup_result";
 		} else {
 			request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);
+			model.addAttribute("user", user);
 			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 			//return "redirect:/mypage/info";
 			return "pages/user/info";
@@ -190,16 +199,111 @@ public class UserController extends BaseController {
 
 	@PostMapping("/signup/completion")
 	public String signupCompletion(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::------> "+user);
+		System.out.println("user ::----1111--> "+user);
+
+
+		int surveySettingSeq = 0;
+		if(user.getType().equals("4")){
+			surveySettingSeq = 7;
+		}else{
+			surveySettingSeq = Integer.parseInt(user.getSubType());
+		}
+
+		Survey survey = surveyService.getSurvey(surveySettingSeq);
+
 		model.addAttribute("user", user);
+		model.addAttribute("survey", survey);
 
 		return "pages/user/signup_completion";
 	}
 
 	@PostMapping("/user/surveyForm")
 	public String surveyForm(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::------> "+user);
+		System.out.println("user ::----2222--> "+user);
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> category2List = categoryService.getCategory2List();
+		List<Map<String, Object>> category3List = categoryService.getCategory3List();
+
+		int surveySettingSeq = 0;
+		if(user.getType().equals("4")){
+			surveySettingSeq = 7;
+		}else{
+			surveySettingSeq = Integer.parseInt(user.getSubType());
+		}
+
+		List<Map<String, Object>> surveySubList = surveyService.getSurveySubList(surveySettingSeq);
+
+		List<Integer> qSeqArr = new ArrayList<>();
+		for (Map<String, Object> item:surveySubList) {
+			qSeqArr.add((Integer) item.get("question_setting_seq"));
+		}
+
+		List<QuestionSetting> List = new ArrayList<>();
+		List<String> viewList = new ArrayList<>();		//질문을 보여주기 위한 배열 정의
+		List<List<String>> answerArrList = new ArrayList<>();
+
+		boolean firstView = false;
+		// 추가된 질문 개수만큼 루프
+		for(int i=0;i< qSeqArr.size();i++){
+			int questionSettingSeq = qSeqArr.get(i);
+			//질문 정보 조회
+			QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
+
+			List<String> answerArr = new ArrayList<>();
+			//질문이 선택형이면
+			if(questionSetting.getQuestionType().equals("choice")){
+				//답변 정보 조회
+				List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
+
+				//해당질문의 답변 배열에 저장
+				for(int j =0; j < listSub.size();j++){
+					String answer = (String) listSub.get(j).get("answer");
+					answerArr.add(answer);
+				}
+				answerArrList.add(answerArr);
+			}else{
+				answerArrList.add(null);
+			}
+			System.out.println("questionSetting ::: "+questionSetting);
+
+			if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[업종] 이고 순위 지정X
+				viewList.add("1");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[업종] 이고 순위 지정O
+				viewList.add("2");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[주소] 이고 순위 지정X
+				viewList.add("3");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[주소] 이고 순위 지정O
+				viewList.add("4");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//선택형 이고 순위 지정X
+				viewList.add("5");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && questionSetting.getRankChangeUse().equals("Y")){
+				//선택형 이고 순위 지정O
+				viewList.add("6");
+			}
+			List.add(questionSetting);
+
+		}
+		System.out.println("viewList >>> "+viewList);
+
 		model.addAttribute("user", user);
+		model.addAttribute("category1List", category1List);
+		model.addAttribute("category2List", category2List);
+		model.addAttribute("category3List", category3List);
+		model.addAttribute("answerArrList", answerArrList);
+		model.addAttribute("List", List);
+		model.addAttribute("viewList", viewList);
+		System.out.println("answerArrList :: "+answerArrList);
+		System.out.println("List :: "+List);
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/survey_form";
 	}

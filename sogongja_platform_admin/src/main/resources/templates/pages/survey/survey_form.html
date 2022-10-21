@@ -87,111 +87,122 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">사용여부</label>
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" th:field="*{surveyUse}"
+                                               data-toggle="toggle" data-size="small" data-on="사용함" data-off="사용안함"
+                                               data-width="80" value="Y" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!--미리보기-->
                         <div class="modal pop_reiview" tabindex="-1" id="dtsch_modal">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">설문지 미리보기 <span>※ 설문지 미리보기는 기능이 없습니다.</span></h4>
-                                        <button type="button" class="btn-close btn modal_close btn-primary" aria-label="Close">x</button>
+                                        <button type="button" class="btn-close btn modal_close btn-primary" aria-label="Close" onclick="preview_close();">x</button>
                                     </div>
 
                                     <div class="modal-body">
                                         <div class="modal_in_wrap">
+                                            <th:block th:each="item,i : ${List}" th:unless="${#lists.isEmpty(List)}">
 
-                                            <!--select 형태-->
-                                            <div class="review_qTitle">
-                                                <h5>질문의 제목이 노출</h5>
-                                                <p>질문의 상세 내용이 노출</p>
-                                            </div>
-                                            <div class="review_qText">
-                                                <div class="row justify-content-between">
-                                                    <select class="col-sm-3" name="" id="">
-                                                        <option value="0" selected="selected" disabled>대분류</option>
-                                                    </select>
-                                                    <select class="col-sm-3" name="" id="">
-                                                        <option value="0" selected="selected" disabled>중분류</option>
-                                                    </select>
-                                                    <select class="col-sm-3" name="" id="">
-                                                        <option value="0" selected="selected" disabled>소분류</option>
-                                                    </select>
-                                                    <button type="button" class="col-sm-2 btn btn-primary">+</button>
+                                                <!--select 형태(업종)-->
+                                                <th:block th:if="${item.questionType == 'add'} and ${item.answerType == 1}">
+                                                    <div class="review_qTitle">
+                                                        <h5>[[${item.title}]]
+                                                            <span>([[${item.multipleUse=='Y'?'복수추가O':'복수추가X'}]],[[${item.rankChangeUse=='Y'?'순위지정O':'순위지정X'}]],최대[[${item.maximumNum}]]개)</span>
+                                                        </h5>
+                                                        <p>[[${item.description}]]</p>
+                                                    </div>
+                                                    <div class="review_qText">
+                                                        <div class="row justify-content-between">
+                                                            <select class="col-sm-3" name="" >
+                                                                <option value="0" selected="selected" disabled>대분류</option>
+                                                            </select>
+                                                            <select class="col-sm-3" name="" >
+                                                                <option value="0" selected="selected" disabled>중분류</option>
+                                                            </select>
+                                                            <select class="col-sm-3" name="" >
+                                                                <option value="0" selected="selected" disabled>소분류</option>
+                                                            </select>
+                                                            <button type="button" class="col-sm-2 btn btn-primary">+</button>
+                                                        </div>
+                                                        <div class="choice_board">
+                                                            분류를 선택해주세요.
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+
+                                                <!--주소 선택-->
+                                                <th:block th:if="${item.questionType == 'add'} and ${item.answerType == 2}">
+                                                    <div class="review_qTitle">
+                                                        <h5>[[${item.title}]]
+                                                            <span>([[${item.multipleUse=='Y'?'복수추가O':'복수추가X'}]],[[${item.rankChangeUse=='Y'?'순위지정O':'순위지정X'}]],최대[[${item.maximumNum}]]개)</span>
+                                                        </h5>
+                                                        <p>[[${item.description}]]</p>
+                                                    </div>
+                                                    <div class="review_qText">
+                                                        <div class="adress_board">
+                                                            주소를 추가해주세요.
+                                                        </div>
+                                                        <button type="button" class="btn btn-primary address_add">+ 주소추가</button>
+                                                    </div>
+                                                </th:block>
+
+                                                <!--checkbox 형태-->
+                                                <th:block th:if="${item.questionType == 'choice'} and ${item.answerType == 3}">
+                                                    <div class="review_qTitle">
+                                                        <h5>[[${item.title}]]
+                                                            <span>([[${item.multipleUse=='Y'?'복수선택O':'복수선택X'}]],[[${item.rankChangeUse=='Y'?'순위지정O':'순위지정X'}]],최대[[${item.maximumNum}]]개)</span>
+                                                        </h5>
+                                                        <p>[[${item.description}]]</p>
+                                                    </div>
+                                                    <div class="review_qText">
+                                                        <ul class="check_survey check_list_li50">
+                                                            <li th:if="${answerArrList[i.index] ne null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#lists.isEmpty(answerArrList[i.index])}">
+                                                                <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
+                                                                <label class="form-check-label" for="check_surveyType_tree1">[[${item2}]]</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </th:block>
+
+                                                <!--순위 형태-->
+                                                <!--/*
+                                                <div class="review_qTitle">
+                                                    <h5>질문의 제목이 노출 <span>(복수선택,2순위까지)</span></h5>
+                                                    <p>질문의 상세 내용이 노출</p>
                                                 </div>
-                                                <div class="choice_board">
-                                                    분류를 선택해주세요.
+                                                <div class="review_qText">
+                                                    <ul class="check_survey check_list_li50">
+                                                        <li>
+                                                            <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
+                                                            <label class="form-check-label" for="check_surveyType_tree1">임대차 계약관련</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" value="2" disabled name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey form-check-input">
+                                                            <label class="form-check-label" for="check_surveyType_tree2">보험,손해배상</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" value="3" disabled name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey form-check-input">
+                                                            <label class="form-check-label" for="check_surveyType_tree3">빚,채무 관련</label>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            </div>
-
-
-                                            <!--주소 선택-->
-                                            <div class="review_qTitle">
-                                                <h5>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요 <span>(복수선택)</span></h5>
-                                                <p>질문의 상세 내용이 노출</p>
-                                            </div>
-                                            <div class="review_qText">
-                                                <div class="adress_board">
-                                                    주소를 추가해주세요.
-                                                </div>
-                                                <button type="button" class="btn btn-primary address_add">+ 주소추가</button>
-                                            </div>
-
-                                            <!--checkbox 형태-->
-                                            <div class="review_qTitle">
-                                                <h5>질문의 제목이 노출 <span>(복수선택,2개까지)</span></h5>
-                                                <p>질문의 상세 내용이 노출</p>
-                                            </div>
-                                            <div class="review_qText">
-                                                <ul class="check_survey check_list_li50">
-                                                    <li>
-                                                        <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree1">임대차 계약관련</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="checkbox" value="2" disabled name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree2">보험,손해배상</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="checkbox" value="3" disabled name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree3">빚,채무 관련</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <!--순위 형태-->
-                                            <div class="review_qTitle">
-                                                <h5>질문의 제목이 노출 <span>(복수선택,2순위까지)</span></h5>
-                                                <p>질문의 상세 내용이 노출</p>
-                                            </div>
-                                            <div class="review_qText">
-                                                <ul class="check_survey check_list_li50">
-                                                    <li>
-                                                        <input type="checkbox" value="1" disabled name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree1">임대차 계약관련</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="checkbox" value="2" disabled name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree2">보험,손해배상</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="checkbox" value="3" disabled name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey form-check-input">
-                                                        <label class="form-check-label" for="check_surveyType_tree3">빚,채무 관련</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-
-
-
+                                                */-->
+                                            </th:block>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>

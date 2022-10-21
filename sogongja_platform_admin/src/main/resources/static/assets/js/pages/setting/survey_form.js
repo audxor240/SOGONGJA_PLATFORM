@@ -13,7 +13,7 @@ function changeQ() {
 	let qCode=$('#q_list option:selected').val();
 	let qAdd = "";
 
-	if(qCount>=5){
+	if(qCount>=20){
 		alert('질문 최대 5개까지만 선택 가능합니다.');
 		return false;
 	}else if(qSeqList.includes(qCode)){
@@ -69,9 +69,49 @@ $(document).ready(function() {
 	var btn = document.getElementById("view_rescan");
 	var close = document.getElementsByClassName("modal_close")[0];
 
-	//검색버튼클릭시 모달창 block
+	//미리보기 버튼클릭시 모달창 block
 	btn.onclick = function() {
-		modal.style.display = "block";
+
+		if($(".survey_list").length == 0){
+			alert("질문을 하나 이상 추가해 주세요");
+			return false;
+		}
+		//let qSeqStr = qSeqList.toString();
+		let qSeqArr = qSeqList;
+		let data = {
+			"qSeqArr": qSeqArr
+		};
+
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+
+		$.ajax({
+			type: "POST",
+			url: "/survey/preview",
+			async: false,
+			data: JSON.stringify(data),
+			//contentType:"application/json; charset=utf-8",
+			//dataType:"json",
+			//data: data,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			error: function (res) {
+
+				let fragment = res.responseText
+				$("#dtsch_modal").replaceWith(fragment);
+				$("#dtsch_modal").show();
+				//alert(res.responseJSON.message);
+				return false;
+			}
+		}).done(function (fragment) {
+			//여기로 안들어옴.....
+			$("#dtsch_modal").replaceWith(fragment);
+			$("#dtsch_modal").show();
+			//$(".loading_box").hide();
+
+		});
+		//modal.style.display = "block";
 	}
 	// close_btn클릭시 모달창none
 	close.onclick = function() {
@@ -85,7 +125,9 @@ $(document).ready(function() {
 	}
 });
 
-
+function preview_close(){
+	$("#dtsch_modal").hide();
+}
 
 function validationForm(){
 

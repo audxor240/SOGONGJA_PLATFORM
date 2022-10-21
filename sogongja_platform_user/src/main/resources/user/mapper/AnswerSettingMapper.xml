@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.AnswerSettingMapper">
+
+    <insert id="insertAnswerSetting" parameterType="com.stoneitgt.sogongja.domain.AnswerSetting">
+        /* file : AnswerSettingMapper.xml, id : insertAnswerSetting */
+        INSERT
+        INTO ST_ANSWER_SETTING (
+        QUESTION_SETTING_SEQ
+        , CATEGORY2_SEQ
+        , ANSWER
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{questionSettingSeq}
+        , #{category2}
+        , #{answer}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="answerSettingSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getAnswerSettingList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : AnswerSettingMapper.xml, id : getAnswerSettingList */
+        select STS.*, group_concat(STS.CATEGORY2_SEQ) as g_seq , group_concat(C2.NAME) as g_name
+        from ST_ANSWER_SETTING as STS
+                 left join ST_CATEGORY2 as C2 ON C2.CATEGORY2_SEQ = STS.CATEGORY2_SEQ
+        where STS.QUESTION_SETTING_SEQ = #{questionSeq} and STS.DEL_FLAG =0
+        group by STS.ANSWER;
+    </select>
+
+    <update id="deleteAnswer" parameterType="map">
+        /* file : AnswerSettingMapper.xml, id : deleteAnswer */
+        UPDATE ST_ANSWER_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE QUESTION_SETTING_SEQ = #{question_setting_seq} and ANSWER    = #{answer}
+
+    </update>
+
+    <update id="deleteAllAnswer" parameterType="com.stoneitgt.sogongja.domain.QuestionSetting">
+        /* file : AnswerSettingMapper.xml, id : deleteAllAnswer */
+        UPDATE ST_ANSWER_SETTING
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE QUESTION_SETTING_SEQ = #{questionSettingSeq}
+
+    </update>
+
+
+
+
+</mapper>

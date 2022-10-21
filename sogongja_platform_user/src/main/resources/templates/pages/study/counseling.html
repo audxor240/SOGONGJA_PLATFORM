@@ -72,9 +72,12 @@
                         <caption>상담사례</caption>
                         <thead>
                             <tr>
-                                <th style="width: 11.5%;">분류</th>
-                                <th class="txl">상담사례</th>
-                                <th style="width: 18.5%;">등록일</th>
+                                <th style="width: 10%;">상담분야</th>
+                                <th style="width: 10%;">상담사</th>
+                                <th style="width: 20%;">키워드</th>
+                                <th style="width: 40%;">상담사례</th>
+                                <th style="width: 10%;">제공</th>
+                                <th style="width: 10%;">해당년도</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,10 +85,13 @@
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
                                     <td class="cate" th:text="${item.cou_type_name}">법률</td>
+                                    <td>상담사</td>
+                                    <td>키워드</td>
                                     <td class="txl">
                                         <a th:href="@{|/study/counseling/${item.cou_seq}|}" th:text="${item.subject}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
                                     </td>
-                                    <td th:text="${item.reg_dt}">2021.01.01</td>
+                                    <td>제공</td>
+                                    <td th:text="${item.reg_dt}">2021</td>
                                 </tr>
                             </th:block>
                         </tbody>
