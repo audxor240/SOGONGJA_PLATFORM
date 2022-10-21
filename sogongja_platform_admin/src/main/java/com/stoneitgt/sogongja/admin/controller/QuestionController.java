@@ -33,6 +33,9 @@ public class QuestionController extends BaseController {
     @Autowired
     private AnswerSettingService answerSettingService;
 
+    @Autowired
+    private QuestionSettingKeywordService questionSettingKeywordService;
+
     @GetMapping("")
     public String questionList(@ModelAttribute EducationParameter params, Model model) {
 
@@ -63,6 +66,7 @@ public class QuestionController extends BaseController {
     @GetMapping("/{questionSeq}")
     public String questionSettingView(@PathVariable int questionSeq, @ModelAttribute EducationParameter params, Model model) {
         QuestionSetting questionSetting = questionService.getQuestionSetting(questionSeq);
+        System.out.println("questionSetting >>> "+questionSetting);
         model.addAttribute("questionSetting", questionSetting);
         //model.addAttribute("menuCode", params.getMenuCode());
 
@@ -73,10 +77,13 @@ public class QuestionController extends BaseController {
         List<Map<String, Object>> category1List = categoryService.getCategory1List();
         List<Map<String, Object>> category2List = categoryService.getCategory2List();
         List<Map<String, Object>> answerList = answerSettingService.getAnswerSettingList(questionSeq);
+        String keywordStr = questionSettingKeywordService.getQuestionSettingKeywordList(questionSeq);
+        System.out.println("keywordStr :: "+keywordStr);
 
         model.addAttribute("category1List", category1List);
         model.addAttribute("category2List", category2List);
         model.addAttribute("answerList", answerList);
+        model.addAttribute("keywordStr", keywordStr);
         System.out.println("answerList 111:: "+answerList);
 
 

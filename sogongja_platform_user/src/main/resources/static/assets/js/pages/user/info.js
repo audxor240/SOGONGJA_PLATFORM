@@ -91,12 +91,12 @@
         //이용자 유형 업데이트 됐을 경우
         if($("#typeCheck").val() == "update"){
             //모달창 open
-            $(".pop_up_wrap").show();
+            $("#survey_pop").show();
         }
 
         //다음에하기 클릭
         $('#to_do_next').on('click', function() {
-            $('.pop_up_wrap').hide();
+            $('#survey_pop').hide();
         });
 
         $('#btn-checked-nickName').on('click', function() {
