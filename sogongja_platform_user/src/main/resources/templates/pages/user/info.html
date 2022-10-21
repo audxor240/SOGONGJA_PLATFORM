@@ -12,313 +12,311 @@
 </head>
 
 <body>
-    <article layout:fragment="content">
-        <section class="sub_visual mypage_visual">
-            <div class="container">
-                <h2 class="border_title"><span th:text="|${session.ss_user.username}님|">김나모님</span> 반갑습니다.</h2>
+<article layout:fragment="content">
+    <section class="sub_visual mypage_visual">
+        <div class="container">
+            <h2 class="border_title"><span th:text="|${session.ss_user.username}님|">김나모님</span> 반갑습니다.</h2>
+        </div>
+        <div class="lnb">
+            <ul class="container">
+                <li><a th:href="@{/mypage}">교육 및 컨설팅</a></li>
+                <li><a th:href="@{/mypage/qna}">문의 및 답변</a></li>
+                <li class="active"><a th:href="@{/mypage/info}">회원정보 변경</a></li>
+            </ul>
+        </div>
+    </section>
+    <section class="wrap">
+        <form name="joinForm" th:action="@{/mypage/update}" th:object="${user}" method="POST" onsubmit="return validationForm();">
+            <input type="hidden" th:field="*{userSeq}">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" id="type" th:value="${user.type}">
+            <input type="hidden" id="subType" th:value="${user.subType}">
+            <input type="hidden" id="typeCheck" th:value="${typeCheck}">
+            <input type="hidden" th:field="*{checkedNickName}">
+            <input type="hidden" id="socialType" name="socialType" th:value="none">
+            <div class="stage_02">
+                <div class="sub_container mypage_info">
+                    <div class="table table_title">
+                        <h3>기본 정보 입력</h3>
+                    </div>
+                    <table class="">
+                        <caption>회원가입</caption>
+                        <tr class="tr_id">
+                            <th style="width: 25%;">아이디</th>
+                            <td>
+                                <th:block th:text="*{id}"></th:block>
+                            </td>
+                        </tr>
+                        <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
+                            <th>비밀번호 <span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <input type="password" th:field="*{password}" title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
+                                <span id="wrongpw1" class="checking_color"></span>
+                                <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                            </td>
+                        </tr>
+                        <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
+                            <th>비밀번호 확인 <span class="required">(필수)</span></th>
+                            <td>
+                                <input type="password" th:field="*{passwordConfirm}" title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
+                                <span id="wrongpw2" class="checking_color"></span>
+                            </td>
+                        </tr>
+                        <!--비밀번호 변경 부분-->
+                        <tr class="tr_id">
+                            <th style="width: 25%;">닉네임 <span class="required">(필수)</span></th>
+                            <td>
+                                <input type="hidden" id="origin_nickName" th:value="*{nickName}">
+                                <input type="text" th:field="*{nickName}" title="아이디" required placeholder="닉네임을 입력해주세요." autocomplete="new-password" maxlength="15">
+                                <button type="button" id="btn-checked-nickName">중복확인</button>
+                                <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">이름 <span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <input type="text" th:field="*{username}" title="이름" required placeholder="이름을 입력해주세요." autocomplete="new-password" maxlength="20" readonly>
+                                <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">휴대번호 <span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <ul class="tel_ul">
+                                    <li>
+                                        <select th:field="*{hp1}" required>
+                                            <option value="010">010</option>
+                                        </select>
+                                    </li>
+                                    <li><input type="text" class="number_only" th:field="*{hp2}" required title="휴대번호" placeholder="0000" maxlength="4"></li>
+                                    <li><input type="text" class="number_only" th:field="*{hp3}" required title="휴대번호" placeholder="0000" maxlength="4"></li>
+                                </ul>
+                                <th:block th:include="fragments/form_invalid:: form_invalid('hp')"></th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email <span class="required">(필수)</span></th>
+                            <td>
+                                <ul class="email_ul">
+                                    <li><input type="text" th:field="*{email1}" required placeholder="이메일" title="email" maxlength="30"></li>
+                                    <li><input type="text" th:field="*{email2}" required placeholder="이메일" title="email" maxlength="30" th:readonly="*{not #strings.isEmpty(email3)}"></li>
+                                    <li>
+                                        <select th:field="*{email3}">
+                                            <option value="">직접입력</option>
+                                            <option value="naver.com">네이버</option>
+                                            <option value="daum.net">다음</option>
+                                            <option value="gmail.com">지메일</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                                <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
+                            </td>
+                        </tr>
+                        <!--<tr>
+                            <th>관심사항 <span class="">(선택)</span></th>
+                            <td>
+                                <th:block th:each="item, row : ${category1}">
+                                    <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
+                                    <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
+                                </th:block>
+                            </td>
+                        </tr>
+                        -->
+                    </table>
+                    <div class="table table_title">
+                        <h3>부가 정보 입력</h3>
+                    </div>
+                    <table class="">
+                        <caption>부가 정보 입력</caption>
+                        <tr>
+                            <th style="width: 25%;">이용자 유형<span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <ul class="radio_depth01">
+                                    <li>
+                                        <input type="radio" name="type" id="type01_01" value="1"  checked="checked">
+                                        <label for="type01_01">사업자(소상공인)</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="type" id="type01_02" value="2">
+                                        <label for="type01_02">예비창업자</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="type" id="type01_03" value="3">
+                                        <label for="type01_03">임대 부동산 소유</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="type" id="type01_04" value="4">
+                                        <label for="type01_04">일반인</label>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <ul class="radio_depth02 radio_on01" id="sub01">
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_01_01" value="1" checked="checked">
+                                            <label for="type02_01_01">사업 실행중</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_01_02" value="2">
+                                            <label for="type02_01_02">휴/폐업(예정)중</label>
+                                        </li>
+                                    </ul>
+                                    <ul class="radio_depth02 radio_on02" id="sub02" style="display: none">
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_02_01" value="3">
+                                            <label for="type02_02_01">창업 준비중</label>
+                                        </li>
+                                    </ul>
+                                    <ul class="radio_depth02 radio_on03" id="sub03" style="display: none">
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_03_01" value="4" >
+                                            <label for="type02_03_01">공실문제 해결</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_03_02" value="5">
+                                            <label for="type02_03_02">시설관리 </label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="subType" id="type02_03_03" value="6">
+                                            <label for="type02_03_03">빚,채무 관련</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">연령대<span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <ul class="radio_depth01">
+                                    <li>
+                                        <input type="radio" name="ageGroup" id="age20" value="20" th:checked="${user.ageGroup eq '20'}">
+                                        <label for="age20">20대</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="ageGroup" id="age30" value="30" th:checked="${user.ageGroup eq '30'}">
+                                        <label for="age30">30대</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="ageGroup" id="age40" value="40" th:checked="${user.ageGroup eq '40'}">
+                                        <label for="age40">40대</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="ageGroup" id="age50" value="50" th:checked="${user.ageGroup eq '50'}">
+                                        <label for="age50">50대</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="ageGroup" id="age60" value="60" th:checked="${user.ageGroup eq '60'}">
+                                        <label for="age60">60대 이상</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">관심 서비스 유형 <span class="required">(필수)</span></th>
+                            <td style="width: 75%;">
+                                <!--<th:block th:each="item, row : ${category1}">
+                                    <input type="checkbox" class="checkbox_style checkbox_style_small" th:id="|category${row.count}|" name="categoryList" th:value="${item.code}">
+                                    <label th:for="|category${row.count}|" th:text="${item.code_name}">동의합니다</label>
+                                </th:block>-->
+                                <th:block th:each="item, row : ${category1}">
+                                    <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
+                                    <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
+                                </th:block>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="table table_title">
+                        <h3>회원탈퇴</h3>
+                    </div>
+                    <div>
+                        <button type="button" class="secede_btn">회원탈퇴</button>
+                    </div>
+                </div>
             </div>
-            <div class="lnb">
-                <ul class="container">
-                    <li><a th:href="@{/mypage}">교육 및 컨설팅</a></li>
-                    <li><a th:href="@{/mypage/qna}">문의 및 답변</a></li>
-                    <li class="active"><a th:href="@{/mypage/info}">회원정보 변경</a></li>
-                </ul>
+            <div class="btn_box">
+                <a th:href="@{/}" class="btn">홈으로</a>
+                <button type="submit" class="btn blue">수정</button>
             </div>
-        </section>
-        <section class="wrap">
-            <form name="updateForm" th:action="@{/mypage/update}" th:object="${user}" method="POST" onsubmit="return validationForm();">
-                <input type="hidden" th:field="*{userSeq}">
+        </form>
+    </section>
+
+
+    <!--회원탈퇴 팝업-->
+    <div class="pop_up_wrap secede_pop">
+        <div class="pop_up pop_up03">
+            <div class="pop_head red">
+                <h4>회원 탈퇴</h4>
+            </div>
+            <div class="pop_main">
+                <div class="pop_title">
+                    <p>회원을 탈퇴하시면,</p>
+                    <p>소공자에서 제공하는 서비스를 더 이상 사용할 수 없습니다.</p>
+                    <p>회원을 탈퇴하시겠습니까?</p>
+                </div>
+                <div class="pop_btn">
+                    <button class="btn redline none_btn">취소</button>
+                    <button id="secedeDone_btn" class="btn red">탈퇴하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--정보 수정 팝업-->
+    <div class="pop_up_wrap" style="display: none">
+        <div class="pop_up pop_up03">
+            <div class="pop_head">
+                <h4>정보수정 저장완료</h4>
+            </div>
+            <div class="pop_main">
+                <div class="pop_title">
+                    <div></div>
+                    <p>[[${user.nickName}]] 님의 정보 저장이 완료되었습니다.</p>
+                </div>
+                <div class="pop_text">
+                    <p>이용자 유형을 바꾸면</p>
+                    <p>작성되었던 설문은 초기화 됩니다.</p>
+                    <p>설문을 수정하시겠습니까?</p>
+                </div>
+                <div class="pop_btn">
+                    <button id="to_do_next" class="btn">다음에하기</button>
+                    <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
+                </div>
+            </div>
+            <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
                 <input type="hidden" th:field="*{id}">
-                <input type="hidden" id="type" th:value="${user.type}">
-                <input type="hidden" id="subType" th:value="${user.subType}">
-                <input type="hidden" id="typeCheck" th:value="${typeCheck}">
-                <input type="hidden" th:field="*{checkedNickName}">
-                <input type="hidden" id="socialType" name="socialType" th:value="none">
-                <div class="stage_02">
-                    <div class="sub_container mypage_info">
-                        <div class="table table_title">
-                            <h3>기본 정보 입력</h3>
-                        </div>
-                        <table class="">
-                            <caption>회원가입</caption>
-                            <tr class="tr_id">
-                                <th style="width: 25%;">아이디</th>
-                                <td>
-                                    <th:block th:text="*{id}"></th:block>
-                                </td>
-                            </tr>
-                            <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
-                                <th>비밀번호 <span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    <input type="password" th:field="*{password}" title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
-                                    <span id="wrongpw1" class="checking_color"></span>
-                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
-                                </td>
-                            </tr>
-                            <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
-                                <th>비밀번호 확인 <span class="required">(필수)</span></th>
-                                <td>
-                                    <input type="password" th:field="*{passwordConfirm}" required title="비밀번호" placeholder="비밀번호를 재입력해주세요." autocomplete="new-password" maxlength="20">
-                                    <span id="wrongpw2" class="checking_color"></span>
-                                </td>
-                            </tr>
-                            <!--비밀번호 변경 부분-->
-                            <tr class="tr_id">
-                                <th style="width: 25%;">닉네임 <span class="required">(필수)</span></th>
-                                <td>
-                                    <input type="hidden" id="origin_nickName" th:value="*{nickName}">
-                                    <input type="text" th:field="*{nickName}" title="아이디" required placeholder="닉네임을 입력해주세요." autocomplete="new-password" maxlength="15">
-                                    <button type="button" id="btn-checked-nickName">중복확인</button>
-                                    <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 25%;">이름 <span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    [[${user.username}]]
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 25%;">휴대번호 <span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    <ul class="tel_ul">
-                                        <li>
-                                            <select th:field="*{hp1}" required>
-                                                <option value="010">010</option>
-                                            </select>
-                                        </li>
-                                        <li><input type="text" class="number_only" th:field="*{hp2}" required title="휴대번호" placeholder="0000" maxlength="4"></li>
-                                        <li><input type="text" class="number_only" th:field="*{hp3}" required title="휴대번호" placeholder="0000" maxlength="4"></li>
-                                    </ul>
-                                    <th:block th:include="fragments/form_invalid:: form_invalid('hp')"></th:block>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Email <span class="required">(필수)</span></th>
-                                <td>
-                                    <ul class="email_ul">
-                                        <li><input type="text" th:field="*{email1}" required placeholder="이메일" title="email" maxlength="30"></li>
-                                        <li><input type="text" th:field="*{email2}" required placeholder="이메일" title="email" maxlength="30" th:readonly="*{not #strings.isEmpty(email3)}"></li>
-                                        <li>
-                                            <select th:field="*{email3}">
-                                                <option value="">직접입력</option>
-                                                <option value="naver.com">네이버</option>
-                                                <option value="daum.net">다음</option>
-                                                <option value="gmail.com">지메일</option>
-                                            </select>
-                                        </li>
-                                    </ul>
-                                    <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
-                                </td>
-                            </tr>
-                            <!--<tr>
-                                <th>관심사항 <span class="">(선택)</span></th>
-                                <td>
-                                    <th:block th:each="item, row : ${category1}">
-                                        <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
-                                        <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
-                                    </th:block>
-                                </td>
-                            </tr>
-                            -->
-                        </table>
-                        <div class="table table_title">
-                            <h3>부가 정보 입력</h3>
-                        </div>
-                        <table class="">
-                            <caption>부가 정보 입력</caption>
-                            <tr>
-                                <th style="width: 25%;">이용자 유형<span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    <ul class="radio_depth01">
-                                        <li>
-                                            <input type="radio" name="type" id="type01_01" value="1"  checked="checked">
-                                            <label for="type01_01">사업자(소상공인)</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="type" id="type01_02" value="2">
-                                            <label for="type01_02">예비창업자</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="type" id="type01_03" value="3">
-                                            <label for="type01_03">임대 부동산 소유</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="type" id="type01_04" value="4">
-                                            <label for="type01_04">일반인</label>
-                                        </li>
-                                    </ul>
-                                    <div>
-                                        <ul class="radio_depth02 radio_on01" id="sub01">
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_01_01" value="1" checked="checked">
-                                                <label for="type02_01_01">사업 실행중</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_01_02" value="2">
-                                                <label for="type02_01_02">휴/폐업(예정)중</label>
-                                            </li>
-                                        </ul>
-                                        <ul class="radio_depth02 radio_on02" id="sub02" style="display: none">
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_02_01" value="3">
-                                                <label for="type02_02_01">창업 준비중</label>
-                                            </li>
-                                        </ul>
-                                        <ul class="radio_depth02 radio_on03" id="sub03" style="display: none">
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_03_01" value="4" >
-                                                <label for="type02_03_01">공실문제 해결</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_03_02" value="5">
-                                                <label for="type02_03_02">시설관리 </label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="subType" id="type02_03_03" value="6">
-                                                <label for="type02_03_03">빚,채무 관련</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 25%;">연령대<span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    <ul class="radio_depth01">
-                                        <li>
-                                            <input type="radio" name="ageGroup" id="age20" value="20" th:checked="${user.ageGroup eq '20'}">
-                                            <label for="age20">20대</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="ageGroup" id="age30" value="30" th:checked="${user.ageGroup eq '30'}">
-                                            <label for="age30">30대</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="ageGroup" id="age40" value="40" th:checked="${user.ageGroup eq '40'}">
-                                            <label for="age40">40대</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="ageGroup" id="age50" value="50" th:checked="${user.ageGroup eq '50'}">
-                                            <label for="age50">50대</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="ageGroup" id="age60" value="60" th:checked="${user.ageGroup eq '60'}">
-                                            <label for="age60">60대 이상</label>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 25%;">관심 서비스 유형 <span class="required">(필수)</span></th>
-                                <td style="width: 75%;">
-                                    <!--<th:block th:each="item, row : ${category1}">
-                                        <input type="checkbox" class="checkbox_style checkbox_style_small" th:id="|category${row.count}|" name="categoryList" th:value="${item.code}">
-                                        <label th:for="|category${row.count}|" th:text="${item.code_name}">동의합니다</label>
-                                    </th:block>-->
-                                    <th:block th:each="item, row : ${category1}">
-                                        <input type="checkbox" class="checkbox_style checkbox_style_small" th:field="*{categoryList}" th:value="${item.code}">
-                                        <label th:for="${#ids.prev('categoryList')}" th:text="${item.code_name}">동의합니다</label>
-                                    </th:block>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="table table_title">
-                            <h3>회원탈퇴</h3>
-                        </div>
-                        <button type="button" class="withdraw" id="btn-withdraw">회원탈퇴</button>
-                    </div>
-                </div>
-                <div class="btn_box">
-                    <a th:href="@{/}" class="btn">홈으로</a>
-                    <button type="submit" class="btn blue">수정</button>
-                </div>
+                <input type="hidden" th:field="*{username}">
+                <input type="hidden" th:field="*{nickName}">
+                <input type="hidden" th:field="*{userType}">
+                <input type="hidden" th:field="*{email}">
+                <input type="hidden" th:field="*{type}">
+                <input type="hidden" th:field="*{subType}">
             </form>
-        </section>
-
-        <!--정보 수정 팝업-->
-        <div class="pop_up_wrap">
-            <div class="pop_up pop_up03">
-                <div class="pop_head">
-                    <h4>정보수정 저장완료</h4>
-                </div>
-                <div class="pop_main">
-                    <div class="pop_title">
-                        <div></div>
-                        <p>[[${user.nickName}]] 님의 정보 저장이 완료되었습니다.</p>
-                    </div>
-                    <div class="pop_text">
-                        <p>이용자 유형을 바꾸면</p>
-                        <p>작성되었던 설문은 초기화 됩니다.</p>
-                        <p>설문을 수정하시겠습니까?</p>
-                    </div>
-                    <div class="pop_btn">
-                        <button id="to_do_next" class="btn">다음에 하기</button>
-                        <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
-                    </div>
-                </div>
-                <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
-                    <input type="hidden" th:field="*{id}">
-                    <input type="hidden" th:field="*{username}">
-                    <input type="hidden" th:field="*{nickName}">
-                    <input type="hidden" th:field="*{userType}">
-                    <input type="hidden" th:field="*{email}">
-                </form>
-            </div>
         </div>
+    </div>
 
 
-        <!--정보 수정완료 알림 팝업-->
+</article>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
+    <script th:inline="javascript">
 
+        $('#to_do_next').on('click', function() {
+            $('.pop_up_wrap').hide();
+        });
 
+        function formSubmit() {
+            document.forms.surveyForm.submit();
+        }
 
-
-        <!--회원탈퇴 팝업-->
-        <div class="pop_up_wrap" style="display: none">
-            <div class="pop_up pop_up03">
-                <div class="pop_head">
-                    <h4>회원탈퇴</h4>
-                </div>
-                <div class="pop_main">
-                    <div class="pop_title">
-                        <div></div>
-                        <p>정말 회원탈퇴를 진행하시겠습니까?</p>
-                        <p>서비스에 설정된 모든 데이터가 삭제되어 복구가 불가능합니다.</p>
-                    </div>
-                    <div class="pop_text">
-                        <p>회원ID : [userID123]</p>
-                        <p>회원닉네임 : 압구정날라리</p>
-                        <p>회원가입 일시 : 2021-10-09</p>
-                    </div>
-                    <div class="pop_btn">
-                        <button id="to_do_next" class="btn">다음에하기</button>
-                        <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!--회원탈퇴 완료 알림림 팝업-->
-        <div>
-
-        </div>
-
-
-    </article>
-    <th:block lyout:fragment="custom_js">
-    	<script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
-        <script th:inline="javascript">
-
-            $('#to_do_next').on('click', function() {
-                $('.pop_up_wrap').hide();
-            });
-
-            function formSubmit() {
-                document.forms.surveyForm.submit();
-            }
-        </script>
-    </th:block>
+        $('.secede_btn').on('click', function() {
+            $('.secede_pop').show();
+        });
+        $('.redline').on('click', function() {
+            $('.secede_pop').hide();
+        });
+    </script>
+</th:block>
 
 </body>
 </html>
