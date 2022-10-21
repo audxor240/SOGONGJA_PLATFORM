@@ -61,6 +61,13 @@
                                 <th:block th:text="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}"></th:block>
                             </td>
                         </tr>
+                        <!--설문여부 Y or N 체크 필요-->
+                        <tr>
+                            <th>설문여부</th>
+                            <td>
+                                <th:block th:text="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}"></th:block>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -71,6 +78,8 @@
         </div>
     </section>
 
+
+<!--    설문완료된 사람은 팝업없이 페이지만 보여지도록 필요함.-->
     <div class="pop_up_wrap doneSignUp">
         <div class="pop_up pop_up01">
             <div class="pop_head">
@@ -90,7 +99,7 @@
                     <p>[[${user.nickName}]] 님께 필요한 서비스를 제공할 수 있습니다.</p>
                 </div>
                 <div class="pop_btn">
-                    <button id="to_do_next" class="btn">다음에하기</button>
+                    <button id="to_do_next" class="btn">다음에 하기</button>
                     <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
                 </div>
             </div>

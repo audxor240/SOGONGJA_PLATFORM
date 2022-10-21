@@ -13,401 +13,193 @@
     <!--/* Common css */-->
     <th:block th:include="fragments/common_css"></th:block>
 </head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
 
+    #map_wrap {
+        position: relative;
+        width: 100%;
+        height: calc(100vh - 105px);
+        top:105px;
+    }
+    #map{
+    width:100%;
+    height:100%;
+    position:relative;
+    overflow:hidden;
+
+    }
+    .title {
+        font-weight: bold;
+        display: block;
+    }
+    .addressSearchTop{
+        position: absolute;
+        top : 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        width: 600px;
+    }
+    .hAddr {
+        width: 360px;
+        float: right;
+        height: 50px;
+        margin-top: 1px;
+    }
+
+    .centerAddr {
+        display: block;
+        float: left;
+        font-size: 16px;
+        background: #fff;
+        padding: 12px 3px;
+        width: 120px;
+        height: 50px;
+        border: 1px solid #d5d5d5;
+        box-sizing: border-box;
+        margin: -1px;
+        background-image: url(../images/icon-arrow-down-big.png);
+        background-repeat: no-repeat;
+        background-position: center right;
+    }
+    .current-local {
+        position: absolute;
+        z-index: 1;
+        right: 2px;
+        top: 192px;
+        width: 36px;
+        height: 36px;
+        opacity: 0.7;
+        background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px;
+    }
+    .current-local:hover{
+        opacity: 1;
+    }
+    .searchInput {
+        width: 230px;
+        background-color: aquamarine;
+        position: relative;
+    }
+    .searchInput input{
+
+        border-right: none;
+        padding-right: 40px;
+    }
+    .searchInput button{
+        position: absolute;
+        right: 1px;
+        top: 1px;
+        height: 48px;
+        width: 28px;
+        background-image: url(../images/icon-search_bk.png);
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center left;
+    }
+
+    .category,
+    .category * {
+        margin: 0;
+        padding: 0;
+        color: #000;
+    }
+
+    .category {
+        position: absolute;
+        overflow: hidden;
+        bottom: 20px;
+        left: 50%;
+        width: 150px;
+        height: 50px;
+        z-index: 10;
+        border: 1px solid black;
+        font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+        font-size: 12px;
+        text-align: center;
+        background-color: #fff;
+    }
+
+    .category .menu_selected {
+        background: #FF5F4A;
+        color: #fff;
+        border-left: 1px solid #915B2F;
+        border-right: 1px solid #915B2F;
+        margin: 0 -1px;
+    }
+
+    .category li {
+        list-style: none;
+        float: left;
+        width: 50px;
+        height: 45px;
+        padding-top: 5px;
+        cursor: pointer;
+    }
+
+    .category .ico_comm {
+        display: block;
+        margin: 0 auto 2px;
+        width: 22px;
+        height: 26px;
+        background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;
+    }
+
+    .category .ico_coffee {
+        background-position: -10px 0;
+    }
+
+    .category .ico_store {
+        background-position: -10px -36px;
+    }
+
+    .category .ico_carpark {
+        background-position: -10px -72px;
+    }
+</style>
 <body class="area">
 <article >
     <div th:replace="~{fragments/header :: header}"></div>
-    <div class="map_header">
-        <div class="hd">
-            <h1><a th:href="@{/}">소공자플랫폼 상권분석</a></h1>
-            <div class="flex_between">
-                <ul class="map_tab_list">
-                    <li class="active">
-                        <a href="#n" id="panTo">발달상권</a>
-                    </li>
-                    <li>
-                        <a href="#n">골목상권</a>
-                    </li>
-                    <li>
-                        <a href="#n">전통시장</a>
-                    </li>
-                    <li>
-                        <a href="#n">관광특구</a>
-                    </li>
-                </ul>
-                <div class="right_hd">
-                    <ul>
-                        <th:block sec:authorize="!isAuthenticated()">
-                            <li><a th:href="@{/login}">로그인</a></li>
-                            <li><a th:href="@{/signup}">회원가입</a></li>
-                        </th:block>
-                        <th:block sec:authorize="isAuthenticated()">
-                            <li><a th:href="@{/mypage}">마이페이지</a></li>
-                        </th:block>
-                        <li><a href="#">사용자가이드</a></li>
-                        <li class="map_menu"><a href="#">메뉴</a></li>
-                    </ul>
-                    <div class="menu">
-                        <ul th:replace="fragments/menu"></ul>
-                    </div>
-                </div>
-            </div>
+    <div id="map_wrap">
+        <div id="map"></div>
+
+        <div class="addressSearchTop">
+        <div class="hAddr">
+            <span class="title"></span>
+            <span class="centerAddr centerAddr1" id="centerAddr1"></span>
+            <span class="centerAddr centerAddr2" id="centerAddr2"></span>
+            <span class="centerAddr centerAddr3" id="centerAddr3"></span>
         </div>
-    </div>
-    <div class="wrap">
-        <div id="map_wrap">
-            <div id="map" style="width:100%;height:100%;"></div>
-            <!-- <div class="selectbox">
-                <ul>
-                    <li>
-                        <select name="" id="">
-                            <option value="">서울시</option>
-                            <option value="">서울시</option>
-                            <option value="">서울시</option>
-                        </select>
-                    </li>
-                    <li>
-                        <select name="" id="">
-                            <option value="">송파구</option>
-                            <option value="">송파구</option>
-                            <option value="">송파구</option>
-                        </select>
-                    </li>
-                    <li>
-                        <select name="" id="">
-                            <option value="">문정동</option>
-                            <option value="">문정동</option>
-                            <option value="">문정동</option>
-                        </select>
-                    </li>
-                </ul>
-            </div> -->
-            <div class="map_tab">
-                <div class="map_search">
-                    <form action="">
-                        <legend>상권 지도 검색</legend>
-                        <label for="map_s">상권 지도검색</label>
-                        <input type="text" id="map_s" placeholder="상권, 주소 검색하기">
-                        <button>검색</button>
-                    </form>
-                </div>
-                <div class="map_list">
-                    <ul class="tab">
-                        <li class="active"><a href="#n">상권분석정보</a></li>
-                        <li><a href="#n">상권특성정보</a></li>
-                        <li><a href="#n">지역특성정보</a></li>
-                    </ul>
-                    <div class="tab_a tab_a1">
-                        <div class="tab_a1_div">
-                            <ul class="">
-                                <li class="">
-                                    <div class="tab_top">
-                                        <div class="tab_title">
-                                            <p>상권활성화지수 <span>2,456</span></p> <button class="info_btn">info</button>
-                                        </div>
-                                        <div class="tooltip">
-                                            <p>상권활성화 예측지수 <span> 2,567</span></p>
-                                            <div>
-                                                <p>해당 상권은 지속적으로 활성화되고 있습니다. </p>
-                                                <p>해당 상권은 현재 활성화정도를 유지하기 위해 노력해야 합니다.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab_style1 tab_style">
-                                        <ul class="tab2 tab_li">
-                                            <li class="active"><a href="#n">년도별</a></li>
-                                            <li><a href="#n">분기별</a></li>
-                                        </ul>
-                                        <div class="tab_b tab_b1">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b2">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart2"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <div class="tab_top">
-                                        <div class="tab_title">
-                                            <p>상권활성화 예측지수 <span>2,456</span></p> <button class="info_btn">info</button>
-                                        </div>
-                                        <div class="tooltip">
-                                            <p>상권활성화 예측지수 <span> 2,567</span></p>
-                                            <div>
-                                                <p>해당 상권은 지속적으로 활성화되고 있습니다. </p>
-                                                <p>해당 상권은 현재 활성화정도를 유지하기 위해 노력해야 합니다.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab_style">
-                                        <p class="tab_sub_t">매출/임대 상승률</p>
-                                        <div class="">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart3"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab_a tab_a2">
-                        <div class="tab_a1_div pb0">
-                            <ul class="">
-                                <li class="">
-                                    <div class="tab_style1 tab_style">
-                                        <p class="tab_sub_t">주변 상권 비교</p>
-                                        <ul class="tab2 tab_li">
-                                            <li class="active"><a href="#n">개·폐업률</a></li>
-                                            <li><a href="#n">영업기간</a></li>
-                                            <li><a href="#n">매출액</a></li>
-                                            <li><a href="#n">매출액</a></li>
-                                        </ul>
-                                        <div class="tab_b tab_b1">
-                                            <div class="chart_div stacked_wrap1" style="height:300px ;">
-                                                <canvas id="tab2_chart1" style="height: 300px !important; width: 100% !important;"></canvas>
-                                                <!-- <div class="stacked_bar">
-                                                    <ul>
-                                                        <li>
-                                                            <div>명동거리</div>
-                                                            <div class="div2">
-                                                                <p>개업률 <span>1.2%</span></p>
-                                                                <p>개업률 <span>0.5%</span></p>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div>명동길</div>
-                                                            <div class="div2">
-                                                                <p>개업률 <span>1.2%</span></p>
-                                                                <p>개업률 <span>0.5%</span></p>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div>을지로3가역_1</div>
-                                                            <div class="div2">
-                                                                <p>개업률 <span>1.2%</span></p>
-                                                                <p>개업률 <span>0.5%</span></p>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div>삼월대로4길</div>
-                                                            <div class="div2">
-                                                                <p>개업률 <span>1.2%</span></p>
-                                                                <p>개업률 <span>0.5%</span></p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b2">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="tab2_chart2"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b3">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="tab2_chart3"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b4">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="tab2_chart4"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="bgeceff1">
-                                    <div class="tab_style1 tab_style">
-                                        <p class="tab_sub_t">개·폐업률</p>
-                                        <ul class="tab2 tab_li">
-                                            <li class="active"><a href="#n">개업률</a></li>
-                                            <li><a href="#n">폐업률</a></li>
-                                        </ul>
-                                        <div class="tab_b tab_b1">
-                                            <div class="chart_div bb_bottom" style="height:200px">
-                                                <canvas id="myChart4"></canvas>
-                                            </div>
-                                            <div>
-                                                <p class="tab_sub_t">상권별 개업률</p>
-                                                <div class="chart_div" style="height:200px">
-                                                    <canvas id="myChart5"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b2">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart6"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="bgeceff1 mt0 bt_fff pb58">
-                                    <div class="tab_style p0 tab_table">
-                                        <p class="tab_sub_t">업종별 평균 개•폐업률 순위</p>
-                                        <table class="">
-                                            <caption>업종별 평균 개•폐업률 순위</caption>
-                                            <tr>
-                                                <th>미용실</th>
-                                                <td class="first">1위</td>
-                                                <th>어린이집</th>
-                                                <td>2위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>애견샵</th>
-                                                <td>3위</td>
-                                                <th>주점</th>
-                                                <td>4위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>패스트푸드점</th>
-                                                <td>5위</td>
-                                                <th>화장품 점포</th>
-                                                <td>6위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>카페</th>
-                                                <td>7위</td>
-                                                <th>어린이집</th>
-                                                <td>8위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>서점</th>
-                                                <td>9위</td>
-                                                <th>종합학원</th>
-                                                <td>10위</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab_a tab_a3">
-                        <div class="tab_a1_div">
-                            <ul class="">
-                                <li class="">
-                                    <div class="tab_top">
-                                        <div class="tab_title">
-                                            <p>상주인구 <span>2,326</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="tab_style1 tab_style">
-                                        <p class="tab_sub_t">상주인구</p>
-                                        <ul class="tab2 tab_li">
-                                            <li class="active"><a href="#n">연령대별</a></li>
-                                            <li><a href="#n">성별</a></li>
-                                        </ul>
-                                        <div class="tab_b tab_b1">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart7"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b2">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart8"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <div class="tab_style1 tab_style">
-                                        <p class="tab_sub_t">유동인구</p>
-                                        <ul class="tab2 tab_li">
-                                            <li class="active"><a href="#n">연령대별</a></li>
-                                            <li><a href="#n">성별</a></li>
-                                            <li><a href="#n">요일별</a></li>
-                                            <li><a href="#n">시간대별</a></li>
-                                        </ul>
-                                        <div class="tab_b tab_b1">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart9"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b2">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart10"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b3">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart11"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="tab_b tab_b4">
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart12"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class=" bt_fff">
-                                    <div class="tab_top">
-                                        <div class="tab_title mt44">
-                                            <p>집객시설 <span>2,326개</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="tab_style tab_table">
-                                        <table class="">
-                                            <caption>집객시서</caption>
-                                            <tr>
-                                                <th>미용실</th>
-                                                <td class="first">1위</td>
-                                                <th>어린이집</th>
-                                                <td>2위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>애견샵</th>
-                                                <td>3위</td>
-                                                <th>주점</th>
-                                                <td>4위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>패스트푸드점</th>
-                                                <td>5위</td>
-                                                <th>화장품 점포</th>
-                                                <td>6위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>카페</th>
-                                                <td>7위</td>
-                                                <th>어린이집</th>
-                                                <td>8위</td>
-                                            </tr>
-                                            <tr>
-                                                <th>서점</th>
-                                                <td>9위</td>
-                                                <th>종합학원</th>
-                                                <td>10위</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="bt_fff p20">
-                                        <div class="tab_style ">
-                                            <p class="tab_sub_t">전체 점포수</p>
-                                            <div class="chart_div" style="height:200px">
-                                                <canvas id="myChart13"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="bt_fff p20">
-                                        <div class="tab_style ">
-                                            <p class="tab_sub_t">상주인구</p>
-                                            <div class="chart_div" style="height:300px">
-                                                <canvas id="myChart14"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+        <div class="searchInput">
+            <form onsubmit="searchPlaces(); return false;" id="search-place">
+                <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+                <input type="text" style="display:none">
+                <button type="submit"></button>
+                <button type="button" style="display:none"></button>
+            </form>
+        </div>
+        </div>
+        <button class="current-local" onclick="setCenter()"></button>
+
+        <div class="category">
+            <ul>
+                <li id="coffeeMenu" onclick="changeMarker('coffee')">
+                    <span class="ico_comm ico_coffee"></span>
+                    음식점
+                </li>
+                <li id="storeMenu" onclick="changeMarker('store')">
+                    <span class="ico_comm ico_store"></span>
+                    숙박
+                </li>
+                <li id="carparkMenu" onclick="changeMarker('carpark')">
+                    <span class="ico_comm ico_carpark"></span>
+                    관광/여가/오락
+                </li>
+            </ul>
         </div>
     </div>
 </article>
@@ -415,13 +207,15 @@
     <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
 </div>
 <th:block th:include="fragments/common_js"></th:block>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
 <script th:src="@{/js/pages/area/chart_list.js}"></script>
-<script th:src="@{/js/pages/area/trading_area_analysis.js}"></script>
+<script th:src="@{/js/pages/area/trading_area_shop.js}"></script>
 </body>
 
 </html>
