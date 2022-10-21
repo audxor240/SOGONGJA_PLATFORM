@@ -162,11 +162,21 @@
     </form>
 </div>
 <th:block layout:fragment="custom_css">
-    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/codemirror.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/tui-color-picker.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/toastui-editor.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />
 </th:block>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+
+        var tui_content = /*[[${board.content}]]*/ '';
+        var board_type = /*[[${boardType}]]*/ '';
+        var editor;
+
+        console.log("tui_content :: "+tui_content);
+    </script>
+    <script th:src="@{/assets/js/libs/codemirror.js}"></script>
     <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
     <script th:src="@{/assets/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
     <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
