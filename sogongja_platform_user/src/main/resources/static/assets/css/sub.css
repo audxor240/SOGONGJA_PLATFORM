@@ -884,7 +884,10 @@
 
 /*map*/
 #map {
+  width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
   z-index: 0;
 }
 
@@ -899,7 +902,8 @@
   box-shadow: none;
   padding: 0;
   margin-bottom: 0;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 105px);
+  top: 105px;
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
