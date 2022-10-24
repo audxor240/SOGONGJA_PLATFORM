@@ -3000,18 +3000,17 @@ select {
   .custom_counseling tbody:nth-child(2n) {
     background-color: #F5F5F5;
   }
+  .search_list {
+    flex-wrap: wrap;
+  }
+  .search_list > div {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .search_list > div form button {
+    height: 40px;
+  }
 }
-.search_list {
-  flex-wrap: wrap;
-}
-.search_list > div {
-  width: 100%;
-  margin-top: 10px;
-}
-.search_list > div form button {
-  height: 40px;
-}
-
 @media (max-width: 420px) {
   .wrap {
     padding: 5rem 20px;
