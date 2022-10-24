@@ -101,63 +101,167 @@
         background-position: center left;
     }
 
-    .category,
-    .category * {
-        margin: 0;
-        padding: 0;
-        color: #000;
-    }
-
-    .category {
+    #category {
         position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 5px;
+        border: 1px solid #909090;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+        background: #fff;
         overflow: hidden;
-        bottom: 20px;
-        left: 50%;
-        width: 150px;
-        height: 50px;
-        z-index: 10;
-        border: 1px solid black;
-        font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-        font-size: 12px;
-        text-align: center;
-        background-color: #fff;
+        z-index: 2;
     }
 
-    .category .menu_selected {
-        background: #FF5F4A;
-        color: #fff;
-        border-left: 1px solid #915B2F;
-        border-right: 1px solid #915B2F;
-        margin: 0 -1px;
-    }
-
-    .category li {
-        list-style: none;
+    #category li {
         float: left;
+        list-style: none;
         width: 50px;
-        height: 45px;
-        padding-top: 5px;
+        border-right: 1px solid #acacac;
+        padding: 6px 0;
+        text-align: center;
         cursor: pointer;
     }
 
-    .category .ico_comm {
+    #category li.on {
+        background: #eee;
+    }
+
+    #category li:hover {
+        background: #ffe6e6;
+        border-left: 1px solid #acacac;
+        margin-left: -1px;
+    }
+
+    #category li:last-child {
+        margin-right: 0;
+        border-right: 0;
+    }
+
+    #category li span {
         display: block;
-        margin: 0 auto 2px;
+        margin: 0 auto 3px;
+        width: 27px;
+        height: 28px;
+    }
+
+    #category li .category_bg {
+        background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;
+    }
+
+    #category li .bank {
+        background: url(https://dummyimage.com/24x24/ff00ff/0011ff) no-repeat;
+
+    }
+
+    #category li .mart {
+        background: url(https://dummyimage.com/24x24/0004ff/0011ff) no-repeat;
+    }
+
+    #category li .pharmacy {
+        background: url(https://dummyimage.com/24x24/00bbff/0011ff) no-repeat;
+    }
+
+    #category li .oil {
+        background: url(https://dummyimage.com/24x24/73ff00/0011ff) no-repeat;
+    }
+
+    #category li .cafe {
+        background: url(https://dummyimage.com/24x24/ffdd00/0011ff) no-repeat;
+    }
+
+    #category li .store {
+        background: url(https://dummyimage.com/24x24/ff6200/0011ff) no-repeat;
+    }
+
+    #category li.on .category_bg {
+        background-position-x: -46px;
+    }
+
+    .placeinfo_wrap {
+        position: absolute;
+        bottom: 28px;
+        left: -150px;
+        width: 300px;
+    }
+
+    .placeinfo {
+        position: relative;
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+        background: #fff;
+    }
+
+    .placeinfo:nth-of-type(n) {
+        border: 0;
+        box-shadow: 0px 1px 2px #888;
+    }
+
+    .placeinfo_wrap .after {
+        content: "";
+        position: relative;
+        margin-left: -12px;
+        left: 50%;
         width: 22px;
-        height: 26px;
-        background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;
+        height: 12px;
+        background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
 
-    .category .ico_coffee {
-        background-position: -10px 0;
+    .placeinfo a,
+    .placeinfo a:hover,
+    .placeinfo a:active {
+        color: #fff;
+        text-decoration: none;
     }
 
-    .category .ico_store {
-        background-position: -10px -36px;
+    .placeinfo a,
+    .placeinfo span {
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
-    .category .ico_carpark {
-        background-position: -10px -72px;
+    .placeinfo span {
+        margin: 5px 5px 0 5px;
+        cursor: default;
+        font-size: 13px;
+    }
+
+    .placeinfo .title {
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 6px 6px 0 0;
+        margin: -1px -1px 0 -1px;
+        padding: 10px;
+        color: #fff;
+        background: #d95050;
+        background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+    }
+
+    .placeinfo .tel {
+        color: #0f7833;
+    }
+
+    .placeinfo .jibun {
+        color: #999;
+        font-size: 11px;
+        margin-top: 0;
+    }
+
+    #sidebar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        top: 100px;
+        left: 0;
+        width: 180px;
+        height: 100%;
+        background-color: aliceblue;
+        padding: 12px;
     }
 </style>
 <body class="area">
@@ -175,7 +279,7 @@
         </div>
 
         <div class="searchInput">
-            <form onsubmit="searchPlaces(); return false;" id="search-place">
+            <form onsubmit="searchPlaces2(); return false;" id="search-place">
                 <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
                 <input type="text" style="display:none">
                 <button type="submit"></button>
@@ -185,23 +289,39 @@
         </div>
         <button class="current-local" onclick="setCenter()"></button>
 
-        <div class="category">
-            <ul>
-                <li id="coffeeMenu" onclick="changeMarker('coffee')">
-                    <span class="ico_comm ico_coffee"></span>
-                    음식점
-                </li>
-                <li id="storeMenu" onclick="changeMarker('store')">
-                    <span class="ico_comm ico_store"></span>
-                    숙박
-                </li>
-                <li id="carparkMenu" onclick="changeMarker('carpark')">
-                    <span class="ico_comm ico_carpark"></span>
-                    관광/여가/오락
-                </li>
-            </ul>
-        </div>
-    </div>
+        <ul id="category">
+            <li data-order="0">
+                <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
+                <span class="category_bg bank"></span>
+                은행
+            </li>
+            <li data-order="1">
+                <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
+                <span class="category_bg mart"></span>
+                마트
+            </li>
+            <li data-order="2">
+                <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
+                <span class="category_bg pharmacy"></span>
+                약국
+            </li>
+            <li data-order="3">
+                <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
+                <span class="category_bg oil"></span>
+                주유소
+            </li>
+            <li data-order="4">
+                <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
+                <span class="category_bg cafe"></span>
+                카페
+            </li>
+            <li data-order="5">
+                <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
+                <span class="category_bg store"></span>
+                편의점
+            </li>
+        </ul>
+    </div> <div id="sidebar"></div>
 </article>
 <div class="wrap-loading display-none">
     <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
