@@ -17,10 +17,10 @@
                     <li>
                         <h2>커머스 연구소</h2>
                         <ul>
-                            <li><a th:href="@{/}">상점연구</a></li>
+                            <li><a th:href="@{/trading-area/shop}">상점연구</a></li>
                             <li><a th:href="@{/trading-area/analysis}">상권연구</a></li>
-                            <li><a th:href="@{/}">지역연구</a></li>
-                            <li><a th:href="@{/board/community}">커뮤니티</a></li>
+                            <li><a th:href="@{/trading-area/regional}">지역연구</a></li>
+                            <li><a th:href="@{/board/type/community}">커뮤니티</a></li>
                         </ul>
                     </li>
                     <li>
@@ -32,10 +32,15 @@
                     <li>
                         <h2>소공자 물어방</h2>
                         <ul>
-                            <li><a th:href="@{/board/notice}">공지사항</a></li>
-                            <li><a th:href="@{/board/news}">보도자료</a></li>
-                            <li><a th:href="@{/board/project}">지원 및 정책사업</a></li>
-                            <li><a th:href="@{/board/faq}">QnA</a></li>
+<!--                            <li><a th:href="@{/board/notice}">공지사항</a></li>-->
+<!--                            <li><a th:href="@{/board/news}">보도자료</a></li>-->
+<!--                            <li><a th:href="@{/board/project}">지원 및 정책사업</a></li>-->
+<!--                            <li><a th:href="@{/board/faq}">QnA</a></li>-->
+                            <th:block th:unless="${#lists.isEmpty(boardSettingList)}">
+                                <li  th:each="item : ${boardSettingList}">
+                                    <a th:href="@{|/board/${item.board_setting_seq}?name=${item.name}|}">[[${item.name}]]</a>
+                                </li>
+                            </th:block>
                             <!--            <li><a th:href="@{/board/law}">법령 및 조례</a></li>-->
                         </ul>
                     </li>
