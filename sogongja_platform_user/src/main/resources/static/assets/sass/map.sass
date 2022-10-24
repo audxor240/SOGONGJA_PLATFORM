@@ -12,11 +12,12 @@
   padding-bottom: 0
   overflow: hidden
 #map_wrap
-  position: relative
+  +positionAt(relative, $top:105px)
   background: transparent
   box-shadow: none
   padding: 0
   margin-bottom: 0
+  width: 100%
   height: calc(100vh - 5rem)
   +flex_type($justify: space-between ,$direction: row-reverse)
   .map_tab
@@ -314,3 +315,165 @@
   > li
     +flex_type
 
+
+
+
+
+.title
+  font-weight: bold
+  display: block
+.addressSearchTop
+  +positionAt(absolute, $top: 16px, $left:50%)
+  position: absolute
+  transform: translateX(-50%)
+  z-index: 1
+  width: 600px
+.hAddr
+  width: 360px
+  float: right
+  height: 50px
+  margin-top: 1px
+.centerAddr
+  display: block
+  float: left
+  font-size: 16px
+  padding: 12px 3px
+  width: 120px
+  height: 50px
+  border: 1px solid #d5d5d5
+  box-sizing: border-box
+  margin: -1px
+  background: #fff
+  background-image: url(../images/icon-arrow-down-big.png)
+  background-repeat: no-repeat
+  background-position: center right
+
+.current-local
+  +positionAt(absolute, $top: 192px, $right: 2px )
+  z-index: 1
+  width: 36px
+  height: 36px
+  opacity: 0.7
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px
+  &:hover
+      opacity: 1
+.searchInput
+  width: 230px
+  background-color: aquamarine
+  position: relative
+  input
+    border-right: none
+    padding-right: 40px
+  button
+    +positionAt(absolute, $top: 1px, $right: 1px)
+    height: 48px
+    width: 28px
+    background-image: url(../images/icon-search_bk.png)
+    background-color: #fff
+    background-repeat: no-repeat
+    background-position: center left
+#category
+  +positionAt(absolute, $bottom:10px, $right:10px)
+  border-radius: 5px
+  border: 1px solid #909090
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
+  background: #fff
+  overflow: hidden
+  z-index: 2
+  li
+    float: left
+    list-style: none
+    width: 50px
+    border-right: 1px solid #acacac
+    padding: 6px 0
+    text-align: center
+    cursor: pointer
+    &:hover
+      background: #ffe6e6
+      border-left: 1px solid #acacac
+      margin-left: -1px
+    &:last-child
+      margin-right: 0
+      border-right: 0
+    .on
+      background: #eee
+    span
+      display: block
+      margin: 0 auto 3px
+      width: 27px
+      height: 28px
+    .category_bg
+      background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat
+    .bank
+      background: url(https://dummyimage.com/24x24/ff00ff/0011ff) no-repeat
+    .mart
+      background: url(https://dummyimage.com/24x24/0004ff/0011ff) no-repeat
+    .pharmacy
+      background: url(https://dummyimage.com/24x24/00bbff/0011ff) no-repeat
+    .oil
+      background: url(https://dummyimage.com/24x24/73ff00/0011ff) no-repeat
+    .cafe
+      background: url(https://dummyimage.com/24x24/ffdd00/0011ff) no-repeat
+    .store
+      background: url(https://dummyimage.com/24x24/ff6200/0011ff) no-repeat
+    .on .category_bg
+      background-position-x: -46px
+.placeinfo_wrap
+  +positionAt(absolute, $bottom:28px, $left: -150px)
+  width: 300px
+.placeinfo
+  +positionAt(relative)
+  width: 100%
+  border-radius: 6px
+  border: 1px solid #ccc
+  border-bottom: 2px solid #ddd
+  padding-bottom: 10px
+  background: #fff
+  &:nth-of-type(n)
+    border: 0
+    box-shadow: 0px 1px 2px #888
+  a,
+  a:hover,
+  a:active
+    color: #fff
+    text-decoration: none
+  a,
+  span
+    display: block
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
+  span
+    margin: 5px 5px 0 5px
+    cursor: default
+    font-size: 13px
+  .title
+    font-weight: bold
+    font-size: 14px
+    border-radius: 6px 6px 0 0
+    margin: -1px -1px 0 -1px
+    padding: 10px
+    color: #fff
+    background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center
+  .tel
+    color: #0f7833
+  .jibun
+    color: #999
+    font-size: 11px
+    margin-top: 0
+.after
+  content: ""
+  +positionAt(relative, $left: 50%)
+  margin-left: -12px
+  width: 22px
+  height: 12px
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")
+#sidebar
+  display: none
+  +positionAt(fixed, $top:100px, $left:0)
+  position: fixed
+  z-index: 1
+  width: 180px
+  height: 100%
+  background-color: aliceblue
+  padding: 12px
