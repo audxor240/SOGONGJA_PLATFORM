@@ -2867,6 +2867,38 @@ select {
   .table_style thead tr {
     display: none;
   }
+  .qna_list tbody {
+    border-top: 4px solid #1540bf;
+    display: flex;
+    flex-direction: column;
+  }
+  .qna_list tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+  }
+  .qna_list tbody tr td {
+    line-height: 4.5rem;
+    border-right: none;
+  }
+  .qna_list tbody tr td:nth-child(1) {
+    width: 10%;
+    border-bottom: 1px solid #ddd;
+  }
+  .qna_list tbody tr td:nth-child(2) {
+    width: 90%;
+    border-bottom: 1px solid #ddd;
+  }
+  .qna_list tbody tr td:nth-child(3) {
+    width: 50%;
+  }
+  .qna_list tbody tr td:nth-child(4) {
+    width: 20%;
+  }
+  .qna_list tbody tr td:nth-child(5) {
+    width: 30%;
+  }
   .custom_consulting tbody {
     border-top: 4px solid #1540bf;
     display: flex;
@@ -2969,6 +3001,17 @@ select {
     background-color: #F5F5F5;
   }
 }
+.search_list {
+  flex-wrap: wrap;
+}
+.search_list > div {
+  width: 100%;
+  margin-top: 10px;
+}
+.search_list > div form button {
+  height: 40px;
+}
+
 @media (max-width: 420px) {
   .wrap {
     padding: 5rem 20px;

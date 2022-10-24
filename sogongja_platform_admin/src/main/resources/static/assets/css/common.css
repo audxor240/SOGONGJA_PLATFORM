@@ -383,6 +383,7 @@ a.file-download { display: block; flex: 1 1 auto; }
 .sns_icon img{
 	display: inline-block;
 	width: 24px;
+	margin-left: 10px;
 }
 
 /* media */
