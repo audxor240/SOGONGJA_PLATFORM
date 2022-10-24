@@ -2232,6 +2232,30 @@
 		thead
 			tr
 				display: none
+	.qna_list
+		tbody
+			border-top: 4px solid #1540bf
+			+flex_type($direction: column)
+			tr
+				+flex_type
+				flex-wrap: wrap
+				width: 100%
+				border-bottom: 2px solid #ddd
+				td
+					line-height: rem(72)
+					border-right: none
+					&:nth-child(1)
+						width: 10%
+						border-bottom: 1px solid #ddd
+					&:nth-child(2)
+						width: 90%
+						border-bottom: 1px solid #ddd
+					&:nth-child(3)
+						width: 50%
+					&:nth-child(4)
+						width: 20%
+					&:nth-child(5)
+						width: 30%
 	.custom_consulting
 		tbody
 			border-top: 4px solid #1540bf
@@ -2310,6 +2334,14 @@
 				border-top: 4px solid #1540bf
 			&:nth-child(2n)
 				background-color: #F5F5F5
+	.search_list
+		flex-wrap: wrap
+		> div
+			width: 100%
+			margin-top: 10px
+			form
+				button
+					height: 40px
 
 
 
