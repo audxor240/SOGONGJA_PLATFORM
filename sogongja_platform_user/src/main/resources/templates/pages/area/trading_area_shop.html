@@ -224,7 +224,8 @@
         overflow: hidden;
         white-space: nowrap;
     }
-
+    .placeinfo .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .placeinfo .close:hover {cursor: pointer;}
     .placeinfo span {
         margin: 5px 5px 0 5px;
         cursor: default;
@@ -239,7 +240,7 @@
         padding: 10px;
         color: #fff;
         background: #d95050;
-        background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+        /*background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;*/
     }
 
     .placeinfo .tel {
@@ -256,12 +257,23 @@
         display: none;
         position: fixed;
         z-index: 1;
-        top: 100px;
+        top: 0;
         left: 0;
         width: 180px;
         height: 100%;
         background-color: aliceblue;
         padding: 12px;
+    }
+    #sidebar .close{
+        background-color: #666;
+        width: 10px;
+        height: 50px;
+        position: absolute;
+        right: 0;
+        top: 50%;
+    }
+    .infoWin{
+        font-size: 12px;
     }
 </style>
 <body class="area">

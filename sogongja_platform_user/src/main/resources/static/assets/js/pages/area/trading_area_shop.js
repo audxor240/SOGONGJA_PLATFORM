@@ -110,6 +110,8 @@ function displayCenterInfo(result, status) {
 var newPositions = [
     {
         storeName: "고향생막걸리",
+        address_name: "서울특별시 강남구 신사동 615-1",
+        road_address_name: "서울특별시 강남구 압구정로 216",
         largeCategory: "음식",
         mediumCategory: "유흥주점",
         smallcategory: "민속주점",
@@ -123,6 +125,8 @@ var newPositions = [
     },
     {
         storeName: "의정부부대찌개",
+        address_name: "서울특별시 강남구 대치동 955-6",
+        road_address_name: "서울특별시 강남구 역삼로83길 24",
         largeCategory: "음식",
         mediumCategory: "한식",
         smallcategory: "부대찌개/섞어찌개",
@@ -136,6 +140,8 @@ var newPositions = [
     },
     {
         storeName: "바른치킨",
+        address_name: "서울특별시 강남구 대치동 889-72",
+        road_address_name: "서울특별시 강남구 선릉로86길 17",
         largeCategory: "음식",
         mediumCategory: "닭/오리요리",
         smallcategory: "후라이드/양념치킨",
@@ -149,6 +155,8 @@ var newPositions = [
     },
     {
         storeName: "한성양꼬치",
+        address_name: "서울특별시 강남구 역삼동 827-22",
+        road_address_name: "서울특별시 강남구 강남대로78길 25",
         largeCategory: "음식",
         mediumCategory: "닭/오리요리",
         smallcategory: "꼬치구이전문점",
@@ -162,6 +170,8 @@ var newPositions = [
     },
     {
         storeName: "샤샤하우스",
+        address_name: "서울특별시 강남구 역삼동 601-6",
+        road_address_name: "서울특별시 강남구 봉은사로4길 6",
         largeCategory: "숙박",
         mediumCategory: "호텔/콘도",
         smallcategory: "호텔/콘도",
@@ -175,6 +185,8 @@ var newPositions = [
     },
     {
         storeName: "토비스콘도",
+        address_name: "서울특별시 강남구 역삼동 773-3",
+        road_address_name: "서울특별시 강남구 언주로 333",
         largeCategory: "숙박",
         mediumCategory: "호텔/콘도",
         smallcategory: "호텔/콘도",
@@ -188,6 +200,8 @@ var newPositions = [
     },
     {
         storeName: "헬로필라테스",
+        address_name: "서울특별시 강남구 도곡동 552-7",
+        road_address_name: "서울특별시 강남구 도곡로 148",
         largeCategory: "관광/여가/오락",
         mediumCategory: "요가/단전/마사지",
         smallcategory: "요가/단식",
@@ -201,6 +215,8 @@ var newPositions = [
     },
     {
         storeName: "화지아트",
+        address_name: "서울특별시 강남구 역삼동 832-7",
+        road_address_name: "서울특별시 강남구 강남대로 320",
         largeCategory: "관광/여가/오락",
         mediumCategory: "연극/영화/극장",
         smallcategory: "연극/음악/예술관련기타",
@@ -214,6 +230,8 @@ var newPositions = [
     },
     {
         storeName: "마담타이",
+        address_name: "서울특별시 강남구 신사동 541-2",
+        road_address_name: "서울특별시 강남구 논현로151길 55",
         largeCategory: "관광/여가/오락",
         mediumCategory: "요가/단전/마사지",
         smallcategory: "안마시술소",
@@ -433,7 +451,16 @@ function displayBK9Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -442,7 +469,7 @@ function displayBK9Places(place) {
 function addBK9Marker(position) {
     var imageSrc =
             "https://dummyimage.com/24x24/ff00ff/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(24,24), // 마커 이미지의 크기
+        imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
             position: position, // 마커의 위치
@@ -480,7 +507,16 @@ function displayMT1Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -528,7 +564,16 @@ function displayPM9Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p class="store" style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -576,7 +621,16 @@ function displayOL7Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -623,7 +677,16 @@ function displayCE7Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -670,7 +733,16 @@ function displayCS2Places(place) {
         })(marker, place[i]);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: place[i].storeName, // 인포윈도우에 표시할 내용
+            content:
+                '<div class="infoWin" style="padding:3px">'+
+                '<p style="font-size:16px;">'+
+                place[i].storeName +
+                '</p>'  +
+                place[i].address_name +
+                '<br/>'+
+                '(지번:'+
+                place[i].road_address_name+
+                ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
     }
@@ -698,9 +770,12 @@ function removeCS2Marker() {
     markersCS2 = [];
 }
 
+
+
 // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
 // 이벤트 리스너로는 클로저를 만들어 등록합니다
 // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+
 function infoBBB(map, marker, infowindow) {
     kakao.maps.event.addListener(
         marker,
@@ -739,8 +814,8 @@ function displayPlaceInfo(place) {
         '<div class="placeinfo">' +
         '   <p class="title" >' +
         place.storeName +
-        "</p>";
-
+        "</p>"+
+        '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
     content1 +=
         '    <span title="' +
         place.road_address_name +
@@ -754,9 +829,6 @@ function displayPlaceInfo(place) {
         ")</span>";
 
     content1 +=
-        '    <span class="tel">' +
-        place.phone +
-        "</span>" +
         "</div>" +
         '<div class="after"></div>';
     contentNode1.innerHTML = content1;
@@ -764,27 +836,42 @@ function displayPlaceInfo(place) {
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
-            '<div class="placeinfo">' +
+            '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+            '<div class="sideinfo">' +
             '   <p class="title" >' +
+            '<span class="storename">상점명 </span>'+
             place.storeName +
-            "</p>";
-        '    <span title="' +
-        place.road_address_name +
-        '">' +
-        place.road_address_name +
-        "</span>" +
-        '  <span class="jibun" title="' +
-        place.address_name +
-        '">(지번 : ' +
-        place.address_name +
-        ")</span>";
-
-        '    <span class="tel">' +
-        place.phone +
-        "</span>" +
-        "</div>" +
-        '<div class="after"></div>';
+            "</p>"+
+            '   <span title="' +
+            place.road_address_name +
+            '">' +
+            '<span class="road_address_name">도로명주소 </span>'+
+            place.road_address_name +
+            "</span>" +
+            '  <span class="jibun" title="' +
+            place.address_name +
+            '">(지번 : ' +
+            place.address_name +
+            ")</span>"+
+            '   <p class="subway" >' +
+            '<span class="subwayname">가까운 지하철역: </span>'+
+            place.subway +
+            "</p>"+
+            '   <p class="busStation" >' +
+            '<span class="busStationname">가까운 버스정류장: </span>'+
+            place.busStation +
+            "</p>"+
+            '   <p class="issue" >' +
+            '<span class="issuename">최근이슈 : <준비중> </span>'+
+            "</p>"+
+            "</div>" +
+            '<div class="after"></div>';
     }
     placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
     placeOverlay.setMap(map);
+}
+
+function closeOverlay() {
+    placeOverlay.setMap(null);
+    document.getElementById("sidebar").style.display = "none";
 }
