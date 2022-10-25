@@ -238,6 +238,14 @@
           AND A.QUESTION_SETTING_SEQ = #{questionSettingSeq}
     </select>
 
+    <select id="getQuestionSettingKeyword" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : QuestionSettingMapper.xml, id : getQuestionSettingKeyword */
+        SELECT *
+        FROM ST_QUESTION_SETTING_KEYWORD
+        WHERE DEL_FLAG            = 0 and QUESTION_SETTING_SEQ = #{questionSettingSeq}
+
+    </select>
+
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
