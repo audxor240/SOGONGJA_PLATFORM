@@ -46,7 +46,7 @@ searchPlaces2();
 function searchPlaces2() {
     var keyword = document.getElementById("keyword").value;
     if (!keyword.replace(/^\s+|\s+$/g, "")) {
-        alert("주소를 입력해주세요!");
+        // alert("주소를 입력해주세요!");
         return false;
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
@@ -467,14 +467,15 @@ function displayBK9Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -483,7 +484,7 @@ function displayBK9Places(place) {
 // BK9마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addBK9Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/ff00ff/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker01.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -523,14 +524,15 @@ function displayMT1Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -539,7 +541,7 @@ function displayMT1Places(place) {
 // MT1마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMT1Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/0004ff/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker02.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -580,14 +582,15 @@ function displayPM9Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p class="store" style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -596,7 +599,7 @@ function displayPM9Places(place) {
 // PM9마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addPM9Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/00bbff/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker03.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -637,14 +640,15 @@ function displayOL7Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -653,7 +657,7 @@ function displayOL7Places(place) {
 // OL7마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addOL7Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/73ff00/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker04.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -693,14 +697,15 @@ function displayCE7Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -709,7 +714,7 @@ function displayCE7Places(place) {
 // CE7마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addCE7Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/ffdd00/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker05.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -749,14 +754,15 @@ function displayCS2Places(place) {
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             content:
-                '<div class="infoWin" style="padding:3px">'+
-                '<p style="font-size:16px;">'+
+                '<div class="infoWin">'+
+                '<h5 style="font-size:16px;">'+
                 place[i].storeName +
-                '</p>'  +
+                '</h5>'  +
+                '<div class="info_text">'+
+                '<div class="storegray iconPlus" style="font-size:16px;">'+
                 place[i].address_name +
-                '<br/>'+
-                '(지번:'+
-                place[i].road_address_name+
+                '</div>'  +
+                '</div>'  +
                 ')</div>' // 인포윈도우에 표시할 내용
         });
         infoBBB(map, marker, infowindow);
@@ -765,7 +771,7 @@ function displayCS2Places(place) {
 // CS2마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addCS2Marker(position) {
     var imageSrc =
-            "https://dummyimage.com/24x24/ff6200/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            "/images/new/area/marker06.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -822,65 +828,94 @@ function makeOutListener(infowindow) {
 //   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 // }
 
+
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfo(place) {
     // console.log("place인포박스받아야함", place);
-    var content1 =
-        '<div class="placeinfo">' +
-        '   <p class="title" >' +
-        place.storeName +
-        "</p>"+
-        '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
-    content1 +=
-        '    <span title="' +
-        place.road_address_name +
-        '">' +
-        place.road_address_name +
-        "</span>" +
-        '  <span class="jibun" title="' +
-        place.address_name +
-        '">(지번 : ' +
-        place.address_name +
-        ")</span>";
 
-    content1 +=
-        "</div>" +
-        '<div class="after"></div>';
-    contentNode1.innerHTML = content1;
+    // var content1 =
+    //     '<div class="placeinfo">' +
+    //     '   <p class="title" >' +
+    //     place.storeName +
+    //     "</p>"+
+    //     '<div class="close" onclick="closeOverlay()" title="닫기">x</div>';
+    // content1 +=
+    //     '    <span title="' +
+    //     place.road_address_name +
+    //     '">' +
+    //     place.road_address_name +
+    //     "</span>" +
+    //     '  <span class="jibun" title="' +
+    //     place.address_name +
+    //     '">(지번 : ' +
+    //     place.address_name +
+    //     ")</span>";
+    //
+    // content1 +=
+    //     "</div>" +
+    //     '<div class="after"></div>';
+    // contentNode1.innerHTML = content1;
 
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
-            '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
-            '<div class="sideinfo">' +
-            '   <p class="title" >' +
-            '<span class="storename">상점명 </span>'+
-            place.storeName +
-            "</p>"+
-            '   <span title="' +
-            place.road_address_name +
-            '">' +
-            '<span class="road_address_name">도로명주소 </span>'+
-            place.road_address_name +
-            "</span>" +
-            '  <span class="jibun" title="' +
-            place.address_name +
-            '">(지번 : ' +
-            place.address_name +
-            ")</span>"+
-            '   <p class="subway" >' +
-            '<span class="subwayname">가까운 지하철역: </span>'+
-            place.subway +
-            "</p>"+
-            '   <p class="busStation" >' +
-            '<span class="busStationname">가까운 버스정류장: </span>'+
+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">상점 정보</h4>'+
+            '<div class="location iconPlus">' +
+                place.road_address_name +
+            '</div>'+
+            '<div class="storegray iconPlus">' +
+                place.storeName +
+            '</div>'+
+            "</div>"+
+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">업종 정보</h4>'+
+            '<div class="listCtegory">' +
+            '<span class="lCategory">' +
+            place.largeCategory +
+            '</span>'+
+            '<span class="mCategory">' +
+            place.mediumCategory +
+            '</span>'+
+            '</div>'+
+            "</div>"+
+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">주변 정보</h4>' +
+            '<div class="subway iconPlus">지하철역' +
+            '<span class="position_name">' +
+                place.subway +
+            '</span>'+
+            '<span class="distance">거리</span>' +
+            '</div>'+
+            '<div class="bus iconPlus">버스' +
+            '<span class="position_name">' +
+                place.busStation +
+            '</span>'+
+            '<span class="distance">거리</span>'+
+            '</div>'+
+            '<div class="street iconPlus">도로' +
             place.busStation +
-            "</p>"+
-            '   <p class="issue" >' +
-            '<span class="issuename">최근이슈 : <준비중> </span>'+
-            "</p>"+
-            "</div>" +
-            '<div class="after"></div>';
+            '<span class="distance">거리</span>'+
+            '</div>'+
+            "</div>"+
+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">최근 이슈</h4>'+
+            '<div class="issue">' +
+            '<span>로그인이 필요합니다.</span>'+
+            '<a>로그인/회원가입 하러가기</a>'+
+            '</div>'+
+            "</div>"+
+
+            '<button class="analysisBtn">상권활성화 예측지수</button>'+
+
+            '<div class="toggle_side" onclick="closeOverlay()" title="닫기"></div>';
+
+
+
     }
     placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
     placeOverlay.setMap(map);

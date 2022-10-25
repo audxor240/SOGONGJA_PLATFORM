@@ -18,7 +18,7 @@
   padding: 0
   margin-bottom: 0
   width: 100%
-  height: calc(100vh - 5rem)
+  height: calc(100vh - 105px)
   +flex_type($justify: space-between ,$direction: row-reverse)
   .map_tab
     //+positionAt(absolute, $top: rem(0), $left: 0)
@@ -311,9 +311,7 @@
       border: none
     &:first-child
       border-bottom: 1px solid #bfbfbf
-#category
-  > li
-    +flex_type
+
 
 
 
@@ -324,7 +322,6 @@
   display: block
 .addressSearchTop
   +positionAt(absolute, $top: 16px, $left:50%)
-  position: absolute
   transform: translateX(-50%)
   z-index: 1
   width: 600px
@@ -347,9 +344,8 @@
   background-image: url(../images/icon-arrow-down-big.png)
   background-repeat: no-repeat
   background-position: center right
-
 .current-local
-  +positionAt(absolute, $top: 192px, $right: 2px )
+  +positionAt(absolute, $top: 192px, $right: 20px )
   z-index: 1
   width: 36px
   height: 36px
@@ -372,50 +368,57 @@
     background-color: #fff
     background-repeat: no-repeat
     background-position: center left
+.companyChoice_wrap
+  +positionAt(absolute, $top: 16px, $left:50%)
+  .choice_pop_wrap
+    +positionAt(absolute, $top: 0, $left:0)
+    display: none
 #category
-  +positionAt(absolute, $bottom:10px, $right:10px)
-  border-radius: 5px
-  border: 1px solid #909090
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
+  +positionAt(absolute, $bottom:60px)
+  width: 600px
+  right: calc(50% - 300px)
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4)
   background: #fff
   overflow: hidden
   z-index: 2
+  +flex_type()
   li
-    float: left
+    width: calc(100%/6)
     list-style: none
-    width: 50px
-    border-right: 1px solid #acacac
+    border-right: 1px solid #efefef
     padding: 6px 0
     text-align: center
     cursor: pointer
     &:hover
-      background: #ffe6e6
-      border-left: 1px solid #acacac
-      margin-left: -1px
+      background: #efefef
     &:last-child
       margin-right: 0
       border-right: 0
     .on
       background: #eee
-    span
-      display: block
-      margin: 0 auto 3px
-      width: 27px
-      height: 28px
-    .category_bg
-      background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat
-    .bank
-      background: url(https://dummyimage.com/24x24/ff00ff/0011ff) no-repeat
-    .mart
-      background: url(https://dummyimage.com/24x24/0004ff/0011ff) no-repeat
-    .pharmacy
-      background: url(https://dummyimage.com/24x24/00bbff/0011ff) no-repeat
-    .oil
-      background: url(https://dummyimage.com/24x24/73ff00/0011ff) no-repeat
-    .cafe
-      background: url(https://dummyimage.com/24x24/ffdd00/0011ff) no-repeat
-    .store
-      background: url(https://dummyimage.com/24x24/ff6200/0011ff) no-repeat
+    label
+      +flex-type($align:center, $justify:center)
+      cursor: pointer
+      input[type="checkbox"]
+        display: none
+      .category_bg
+        background: url(#{$assetPath}/new/area/marker_null.png) no-repeat
+        width: 12px
+        height: 12px
+        background-size: contain !important
+        margin-right: 10px
+      input[type="checkbox"]:checked ~ .bank
+        background: url(#{$assetPath}/new/area/marker01.png) no-repeat
+      input[type="checkbox"]:checked ~ .mart
+        background: url(#{$assetPath}/new/area/marker02.png) no-repeat
+      input[type="checkbox"]:checked ~ .pharmacy
+        background: url(#{$assetPath}/new/area/marker03.png) no-repeat
+      input[type="checkbox"]:checked ~ .oil
+        background: url(#{$assetPath}/new/area/marker04.png) no-repeat
+      input[type="checkbox"]:checked ~ .cafe
+        background: url(#{$assetPath}/new/area/marker05.png) no-repeat
+      input[type="checkbox"]:checked ~ .store
+        background: url(#{$assetPath}/new/area/marker06.png) no-repeat
     .on .category_bg
       background-position-x: -46px
 .placeinfo_wrap
@@ -468,12 +471,141 @@
   width: 22px
   height: 12px
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png")
+.infoWin
+  background: #fff
+  border: solid 5px #fff
+
 #sidebar
   display: none
-  +positionAt(fixed, $top:100px, $left:0)
+  +positionAt(fixed, $top:105px, $left:0)
   position: fixed
   z-index: 1
-  width: 180px
-  height: 100%
-  background-color: aliceblue
-  padding: 12px
+  width: 400px
+  height: calc(100vh - 105px)
+  background-color: #e2e2e2
+  .sideinfo
+      background-color: #fff
+      padding: 20px
+      margin-bottom: 10px
+      .sideinfoTitle
+        color: #1540bf
+        font-weight: bold
+        font-size: 14px
+        margin-bottom: 10px
+      .listCtegory
+        display: flex
+        span
+          margin-right: 5px
+          font-size: 14px
+          &:after
+            content: ""
+            display: inline-block
+            width: 6px
+            height: 6px
+            border-top: solid 2px #ccc
+            border-right: solid 2px #ccc
+            transform: rotate(45deg)
+            margin-right: 5px
+            margin-left: 5px
+        span:last-child
+          &:after
+            display: none
+      .iconPlus
+        font-size: 14px
+        margin-bottom: 5px
+        &:before
+          content: ""
+          display: inline-block
+          width: 14px
+          height: 14px
+          background-size: contain
+          margin-right: 10px
+        .position_name
+          margin: 0 5px
+        .distance
+          color: #969aaf
+          font-size: 14px
+          vertical-align: middle
+      .iconPlus.location
+        background: url(#{$assetPath}/new/area/location.png) no-repeat
+      .iconPlus.storegray
+        background: url(#{$assetPath}/new/area/storegray.png) no-repeat
+      .iconPlus.subway
+        background: url(#{$assetPath}/new/area/train.png) no-repeat
+      .iconPlus.bus
+        background: url(#{$assetPath}/new/area/bus.png) no-repeat
+      .iconPlus.street
+        background: url(#{$assetPath}/new/area/car.png) no-repeat
+        &:last-child
+          margin-bottom: 0
+      .issue
+        background-color: #e2e2e2
+        padding: 20px
+        +flex_type($justify:space-between, $align: center)
+        span
+          display: inline-block
+          font-size: 14px
+        a
+          display: inline-block
+          color: #1540bf
+          cursor: pointer
+          font-size: 14px
+          border-bottom: solid 1px #1540bf
+          &:after
+            content: ""
+            display: inline-block
+            width: 6px
+            height: 6px
+            border-top: solid 1px #1540bf
+            border-right: solid 1px #1540bf
+            transform: rotate(45deg)
+  .toggle_side
+    +positionAt(absolute, $right:-30px)
+    top: calc(50% - 30px)
+    width: 30px
+    height: 60px
+    background: #fff
+    box-shadow: 14px 3px 24px #00000010
+    cursor: pointer
+    &:after
+      content: ""
+      +positionAt(absolute)
+      left: calc(50% - 7px)
+      top: calc(50% - 7px)
+      width: 14px
+      height: 14px
+      border-right: solid 2px #333
+      border-top: solid 2px #333
+      transform: rotate(225deg)
+.analysisBtn
+  +positionAt(relative)
+  margin: 20px
+  padding: 20px
+  width: calc(100% - 40px)
+  background-color: #1540bf
+  color: #fff
+  text-align: left
+  &:after
+    content: ""
+    border-top: solid 2px #ffffff
+    border-right: solid 2px #ffffff
+    transform: rotate(45deg)
+    width: 14px
+    height: 14px
+    +positionAt(absolute, $top: 25px, $right: 20px)
+.solution_btn
+  +positionAt(absolute, $bottom:40px, $right:20px)
+  background: #1540bf url(#{$assetPath}/new/icon/bg_solution_btn.png) no-repeat
+  width: 80px
+  height: 80px
+  border-radius: 50%
+  padding: 20px
+  background-position: center
+  transition: 0.4s
+  a
+    display: block
+    color: #ffffff
+    font-size: 14px
+  &:hover
+    box-shadow: 0 0 10px #1540bf60
+    transition: 0.4s

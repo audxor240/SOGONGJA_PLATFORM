@@ -39,41 +39,61 @@
                 </form>
             </div>
         </div>
+
         <button class="current-local" onclick="setCenter()"></button>
 
         <ul id="category">
             <li data-order="0">
-                <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
-                <span class="category_bg bank"></span>
-                은행
+                <label for="BK9">
+                    <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
+                    <span class="category_bg bank"></span>
+                    은행
+                </label>
             </li>
             <li data-order="1">
-                <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
-                <span class="category_bg mart"></span>
-                마트
+                <label for="MT1">
+                    <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
+                    <span class="category_bg mart"></span>
+                    마트
+                </label>
             </li>
             <li data-order="2">
-                <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
-                <span class="category_bg pharmacy"></span>
-                약국
+                <label for="PM9">
+                    <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
+                    <span class="category_bg pharmacy"></span>
+                    약국
+                </label>
             </li>
             <li data-order="3">
-                <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
-                <span class="category_bg oil"></span>
-                주유소
+                <label for="OL7">
+                    <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
+                    <span class="category_bg oil"></span>
+                    주유소
+                </label>
             </li>
             <li data-order="4">
-                <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
-                <span class="category_bg cafe"></span>
-                카페
+                <label for="CE7">
+                    <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
+                    <span class="category_bg cafe"></span>
+                    카페
+                </label>
             </li>
             <li data-order="5">
-                <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
-                <span class="category_bg store"></span>
-                편의점
+                <label for="CS2">
+                    <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
+                    <span class="category_bg store"></span>
+                    편의점
+                </label>
             </li>
         </ul>
     </div> <div id="sidebar"></div>
+
+    <div class="solution_btn">
+        <a th:href="@{/solution/education}">
+            소공자 <br>
+            솔루션
+        </a>
+    </div>
 </article>
 <div class="wrap-loading display-none">
     <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
