@@ -79,6 +79,7 @@
   font-weight: 700;
   padding: 0 1.25rem;
   height: 4.5rem;
+  line-height: 4.5rem;
   border-right: 1px solid #ddd;
 }
 .table_style tr th:last-child {
