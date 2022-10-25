@@ -33,9 +33,30 @@ function setCenter() {
 // 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-var zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+// 지도타입 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수입니다
+function setMapType(maptype) {
+    var roadmapControl = document.getElementById('btnRoadmap');
+    var skyviewControl = document.getElementById('btnSkyview');
+    if (maptype === 'roadmap') {
+        map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
+        roadmapControl.className = 'selected_btn';
+        skyviewControl.className = 'btn';
+    } else {
+        map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
+        skyviewControl.className = 'selected_btn';
+        roadmapControl.className = 'btn';
+    }
+}
+
+// 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomIn() {
+    map.setLevel(map.getLevel() - 1);
+}
+
+// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomOut() {
+    map.setLevel(map.getLevel() + 1);
+}
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
@@ -809,6 +830,9 @@ function infoBBB(map, marker, infowindow) {
         makeOutListener(infowindow)
     );
 }
+
+
+
 // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
 function makeOverListener(map, marker, infowindow) {
     return function () {
@@ -925,3 +949,8 @@ function closeOverlay() {
     placeOverlay.setMap(null);
     document.getElementById("sidebar").style.display = "none";
 }
+
+$('.community_Btn').click(function() {
+    $('.community_pop_wrap').toggleClass('on');
+});
+

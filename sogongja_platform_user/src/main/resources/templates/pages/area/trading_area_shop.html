@@ -21,6 +21,11 @@
     <div th:replace="~{fragments/header :: header}"></div>
     <div id="map_wrap">
         <div id="map"></div>
+        <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+        <div class="custom_zoomcontrol radius_border">
+            <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
+            <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+        </div>
 
         <div class="addressSearchTop">
             <div class="hAddr">
@@ -87,6 +92,94 @@
             </li>
         </ul>
     </div> <div id="sidebar"></div>
+    <div class="community_wrap">
+        <div class="community_Btn"></div>
+        <div class="community_pop_wrap">
+            <div class="community_pop_title">
+                <h4>상점 Community</h4>
+                <a href="#none">글쓰기</a>
+            </div>
+            <ul class="community_pop_list">
+                <li>
+                    <div class="community_main">
+                        <div class="top_info">
+                            <span>서울시 강남구 숙박음식점</span>
+                            <h5>재적의원과반수의 출석과 어쩌구 저쩌구</h5>
+                        </div>
+                        <div class="down_info">
+                            <p>아이디 노출</p>
+                            <span>2022.10.25</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community_main">
+                        <div class="top_info">
+                            <span>서울시 강남구 숙박음식점</span>
+                            <h5>재적의원과반수의 출석과 어쩌구 저쩌구</h5>
+                        </div>
+                        <div class="down_info">
+                            <p>아이디 노출</p>
+                            <span>2022.10.25</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community_main">
+                        <div class="top_info">
+                            <span>서울시 강남구 숙박음식점</span>
+                            <h5>재적의원과반수의 출석과 어쩌구 저쩌구</h5>
+                        </div>
+                        <div class="down_info">
+                            <p>아이디 노출</p>
+                            <span>2022.10.25</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+<!--            커뮤니티 상세 보기-->
+            <div class="detail_community" style="display: none">
+                <div class="community_main">
+                    <div class="top_info">
+                        <span>서울시 강남구 숙박음식점</span>
+                        <h5>재적의원과반수의 출석과 어쩌구 저쩌구</h5>
+                    </div>
+                    <p>
+                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                    </p>
+                    <div class="down_info">
+                        <p>아이디 노출</p>
+                        <span>2022.10.25</span>
+                    </div>
+                </div>
+                <ul class="coment_list">
+                    <li>
+                        <div class="coment_main">
+                            <span></span>
+                            <p>
+                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                            </p>
+                        </div>
+                        <div class="down_info">
+                            <p>아이디 노출</p>
+                            <span>2022.10.25</span>
+                        </div>
+                    </li>
+                </ul>
+                <form action="" class="coment_form">
+                    <input type="text">
+                    <button type="button">댓글</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="solution_btn">
         <a th:href="@{/solution/education}">
