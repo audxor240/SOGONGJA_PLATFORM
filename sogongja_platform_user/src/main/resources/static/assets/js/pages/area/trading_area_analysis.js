@@ -2,62 +2,6 @@ $(function() {
     'use strict'
     $(document).ready(function() {
 
-        charts.forEach(function(item, index) {
-            new Chart(document.getElementById(item.id), {
-                type: item.option[0].type,
-                data: item.option[0].data,
-                options: item.option[0].options,
-            });
-        });
-
-        $('.tab > li').click(function() {
-            var count = $(this).index() + 1;
-
-            $('.tab > li').removeClass('active');
-            $(this).addClass('active');
-
-            $('.tab_a').hide();
-            $('.tab_a' + count).show();
-        });
-
-        $('.accordion li a').click(function() {
-            $(this).parent('li').toggleClass('active').siblings('li').removeClass('active');
-            $(this).siblings('.accordion_cont').slideToggle().parent('li').siblings().children('.accordion_cont').slideUp();
-        });
-
-        //상권 i버튼
-        $('.info_btn').mouseover(function() {
-            $(this).parent().siblings('.tooltip').css('display', 'block');
-        });
-        $('.info_btn').mouseout(function() {
-            $(this).parent().siblings('.tooltip').css('display', 'none');
-        });
-
-        $('.map_menu').click(function() {
-            $('.right_hd').toggleClass('open');
-        });
-
-
-        // $('.map_tab_list > li').click(function(){
-        // 	var count = $(this).index()+1;
-
-        // 	$('.map_tab_list > li').removeClass('active');
-        // 	$(this).addClass('active');
-
-        // 	$('.tab_a').hide();
-        // 	$('.tab_a'+count).show();
-        // });
-        //
-        $('.tab_style1 > .tab2 > li').click(function() {
-            var count = $(this).index() + 1;
-
-            $(this).addClass('active').siblings().removeClass('active');
-
-            $(this).parent('.tab2').siblings('.tab_b').hide();
-            $(this).parent('.tab2').siblings('.tab_b' + count).show();
-        });
-
-
         // 맵 기본 레벨
         var mapDefaultLevel = 4;
 
