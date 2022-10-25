@@ -75,4 +75,14 @@ public class RootController extends BaseController {
 	public String subPage(@PathVariable String page, Model model) {
 		return "pages/sub/" + page;
 	}
+
+	@GetMapping("/privacyPolicy")
+	public String privacyPolicy(Model model) {
+		return "pages/user/privacy_policy";
+	}
+
+	@GetMapping("/TermsOfService")
+	public String TermsOfService(Model model) {
+		return "pages/user/Terms_of_service";
+	}
 }
