@@ -173,7 +173,13 @@
                     </div>
 
                     <!--추가형[주소](순위X)-->
-                    <div class="survey_question" th:if="${viewList[i.index] == '3'}">
+                    <div class="survey_question" th:if="${viewList[i.index] == '3'}" th:id="survey_question_+${item.questionSettingSeq}">
+                        <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
+                        <input type="hidden" name="view_rankChangeUse" th:value="${item.rankChangeUse}">
+                        <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
+                        <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="addressArr[]" value="">
+                        <input type="hidden" name="view_cnt" value=0>
                         <div class="q_title">
                             <h3>[[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span>[3번]
@@ -182,6 +188,7 @@
                             <P>[[${item.description}]]</P>
                         </div>
                         <div class="choice_done_wrap">
+                            <!--
                             <div class="aAdress_Wrap">
                                 <div class="aAdress_text">
                                     <p>경기도 수원시 장안구</p>
@@ -193,135 +200,80 @@
                                     <div class="tag_adress on">#골목상권</div>
                                     <div class="tag_adress on">#아파트단지</div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
-                        <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
+                        <button type="button" class="adress_add_btn" th:value="${item.questionSettingSeq}">+ 주소추가<button>
+
                     </div>
 
                     <!--추가형[주소](복수추가O,순위O, 최대n개)-->
-                    <div class="survey_question" th:if="${viewList[i.index] == '4'}">
+                    <div class="survey_question" th:if="${viewList[i.index] == '4'}" th:id="survey_question_+${item.questionSettingSeq}">
+                        <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
+                        <input type="hidden" name="view_rankChangeUse" th:value="${item.rankChangeUse}">
+                        <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
+                        <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="addressArr[]" id="addressArr" value="">
+                        <input type="hidden" name="view_cnt" value=0>
                         <div class="q_title">
-                            <h3>현재 소유 및 관리 중인 부동산의 주소와 특성을 알려주세요. <span>(복수선택, 2순위까지)</span>[4번]</h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                            <h3>[[${item.title}]]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span>[4번]
+                                <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
+                            </h3>
+
+                            <P>[[${item.description}]]</P>
                         </div>
                         <div class="choice_done_wrap">
-                            <div class="dragContainer">
-                                <div class="num_drag">
-                                    1순위
-                                </div>
-                                <div class="aAdress_Wrap02 draggable card"  draggable="true">
-                                    <span class="handle_drag"></span>
-                                    <div class="aAdress_text_wrap">
-                                        <div class="aAdress_text">
-                                            <p>경기도 수원시 장안구</p>
-                                            <span class="aAdress_del"></span>
-                                        </div>
-                                        <div class="tag_adress_choice none_border">
-                                            <div class="tag_adress on">#대학가</div>
-                                            <div class="tag_adress on">#역세권</div>
-                                            <div class="tag_adress on">#골목상권</div>
-                                            <div class="tag_adress on">#아파트단지</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dragContainer">
-                                <div class="num_drag">
-                                    2순위
-                                </div>
-                                <div class="aAdress_Wrap02 draggable card"  draggable="true">
-                                    <span class="handle_drag"></span>
-                                    <div class="aAdress_text_wrap">
-                                        <div class="aAdress_text">
-                                            <p>서울특별시 영등포구</p>
-                                            <span class="aAdress_del"></span>
-                                        </div>
-                                        <div class="tag_adress_choice none_border">
-                                            <div class="tag_adress on">#대학가</div>
-                                            <div class="tag_adress on">#역세권</div>
-                                            <div class="tag_adress on">#골목상권</div>
-                                            <div class="tag_adress on">#아파트단지</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
-                        <button type="button" onclick="openClose();" class="adress_add_btn">+ 주소추가<button>
+                        <button type="button" class="adress_add_btn" th:value="${item.questionSettingSeq}">+ 주소추가<button>
                     </div>
 
                     <!--선택형 순위X-->
-                    <div class="survey_question" th:if="${viewList[i.index] == '5'}">
+                    <div class="survey_question" th:if="${viewList[i.index] == '5'}" th:id="survey_question_+${item.questionSettingSeq}">
+                        <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
+                        <input type="hidden" name="view_rankChangeUse" th:value="${item.rankChangeUse}">
+                        <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
+                        <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="checked_cnt" value=0>
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(복수 선택)</span>[5번]</h3>
-                            <P>질문에 대한 부가 설명이 노출됩니다.</P>
+                            <h3>[[${item.title}]]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span>[5번]
+                                <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
+                            </h3>
+                            <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
                             <ul class="check_survey check_list_li50">
-                                <li>
-                                    <input type="checkbox" value="1" name="check_surveyType_tree" id="check_surveyType_tree1" class="check_survey checkbox_style">
-                                    <label for="check_surveyType_tree1">임대차 계약관련</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" value="2" name="check_surveyType_tree" id="check_surveyType_tree2" class=" check_survey checkbox_style">
-                                    <label for="check_surveyType_tree2">보험,손해배상</label>
-                                </li>
-                                <li >
-                                    <input type="checkbox" value="3" name="check_surveyType_tree" id="check_surveyType_tree3" class=" check_survey checkbox_style">
-                                    <label for="check_surveyType_tree3">빚,채무 관련</label>
+                                <li th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
+                                    <input type="checkbox" th:value="${item2}" name="check_surveyType_tree" th:id="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}" class="check_survey checkbox_style">
+                                    <label th:for="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}">[[${item2}]]</label>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!--선택형 순위O-->
-                    <div class="survey_question" th:if="${viewList[i.index] == '6'}">
+                    <div class="survey_question" th:if="${viewList[i.index] == '6'}" th:id="survey_question_+${item.questionSettingSeq}">
+                        <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
+                        <input type="hidden" name="view_rankChangeUse" th:value="${item.rankChangeUse}">
+                        <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
+                        <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="checked_cnt" value=0>
+                        <input type="hidden" name="totalCount" value=0>
+                        <input type="hidden" name="selectArray[]" >
                         <div class="q_title">
-                            <h3>관심있는 업종을 알려주세요. <span>(순위선택,3순위까지)</span>[6번]</h3>
-                            <P>
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                                질문에 대한 부가 설명이 노출됩니다.질문에 대한 부가 설명이 노출됩니다.
-                            </P>
+                            <h3>[[${item.title}]]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span>[6번]
+                                <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
+                            </h3>
+                            <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
                             <ul class="check_survey check_list_li50">
-                                <li class="check_wrap">
-                                    <label for="chk_fb1" class="check_num">
-                                        <input type="checkbox" name="faceSelect" id="chk_fb1" class="ip_check">
-                                        <span class="select_num"></span>
-                                        <span class="select_text">유형 설명 1</span>
-                                    </label>
-                                </li>
-                                <li class="check_wrap">
-                                    <label for="chk_fb2" class="check_num">
-                                        <input type="checkbox" name="faceSelect" id="chk_fb2" class="ip_check">
-                                        <span class="select_num"></span>
-                                        <span class="select_text">유형 설명 2</span>
-                                    </label>
-                                </li>
-                                <li class="check_wrap">
-                                    <label for="chk_fb3" class="check_num">
-                                        <input type="checkbox" name="faceSelect" id="chk_fb3" class="ip_check">
-                                        <span class="select_num"></span>
-                                        <span class="select_text">유형 설명 3</span>
-                                    </label>
-                                </li>
-                                <li class="check_wrap">
-                                    <label for="chk_fb4" class="check_num">
-                                        <input type="checkbox" name="faceSelect" id="chk_fb4" class="ip_check">
-                                        <span class="select_num"></span>
-                                        <span class="select_text">유형 설명 4</span>
-                                    </label>
-                                </li>
-                                <li class="check_wrap">
-                                    <label for="chk_fb5" class="check_num">
-                                        <input type="checkbox" name="faceSelect" id="chk_fb5" class="ip_check">
-                                        <span class="select_num"></span>
-                                        <span class="select_text">유형 설명 5</span>
+                                <li class="check_wrap rank_check" th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
+                                    <label th:for="chk_fb+${j.index}" class="check_num" >
+                                        <input type="checkbox" name="faceSelect" th:id="chk_fb+${j.index}" class="ip_check">
+                                        <span class="select_num" th:id="select_num_+${j.index}"></span>
+                                        <span class="select_text">[[${item2}]]</span>
                                     </label>
                                 </li>
                             </ul>
@@ -330,7 +282,58 @@
 
 
                 </th:block>
-                <br>=============================================================================================================================<br>
+
+
+                <!--선택형 순위O-->
+                <!--
+                <div class="survey_question">
+                    <div class="q_title">
+                        <h3>TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            <span >(복수 추가O)</span>[6번]
+                        </h3>
+                    </div>
+                    <div class="q_answer">
+                        <ul class="check_survey check_list_li50">
+                            <li class="check_wrap" >
+                                <label for="chk_fb1" class="check_num">
+                                    <input type="checkbox" name="faceSelect" id="chk_fb1" class="ip_check">
+                                    <span class="select_num"></span>
+                                    <span class="select_text">유형 설명 1</span>
+                                </label>
+                            </li>
+                            <li class="check_wrap">
+                                <label for="chk_fb2" class="check_num">
+                                    <input type="checkbox" name="faceSelect" id="chk_fb2" class="ip_check">
+                                    <span class="select_num"></span>
+                                    <span class="select_text">유형 설명 2</span>
+                                </label>
+                            </li>
+                            <li class="check_wrap">
+                                <label for="chk_fb3" class="check_num">
+                                    <input type="checkbox" name="faceSelect" id="chk_fb3" class="ip_check">
+                                    <span class="select_num"></span>
+                                    <span class="select_text">유형 설명 3</span>
+                                </label>
+                            </li>
+                            <li class="check_wrap">
+                                <label for="chk_fb4" class="check_num">
+                                    <input type="checkbox" name="faceSelect" id="chk_fb4" class="ip_check">
+                                    <span class="select_num"></span>
+                                    <span class="select_text">유형 설명 4</span>
+                                </label>
+                            </li>
+                            <li class="check_wrap">
+                                <label for="chk_fb5" class="check_num">
+                                    <input type="checkbox" name="faceSelect" id="chk_fb5" class="ip_check">
+                                    <span class="select_num"></span>
+                                    <span class="select_text">유형 설명 5</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                -->
+
                 <!--추가형[주소](복수추가X)(이미지만 있음)-->
                 <!--
                 <div class="survey_question">
@@ -403,7 +406,7 @@
                 <!--주소검색 팝업-->
                 <div class="pop_up_wrap adress_pop">
                     <div class="pop_up03">
-                        <span class="adress_pop_close">x</span>
+                        <span class="adress_pop_close" onclick="addressPopClose()">x</span>
                         <div class="pop_head">
                             <h4>주소추가</h4>
                         </div>
@@ -414,7 +417,7 @@
                                         주소
                                     </p>
                                     <div class="adress_find">
-                                        <input type="text" id="address" name="addr2">
+                                        <input type="text" id="address" name="addr2" readonly>
                                         <button type="button" onclick="execPostCode();">우편번호 찾기</button>
                                     </div>
                                 </div>
@@ -426,19 +429,19 @@
                                         <div class="tag_adress_choice_ex">
                                             입력하신 주소에 해당되는 태그를 선택해주세요.
                                         </div>
-                                        <div class="tag_adress_choice">
-                                            <div class="tag_adress">#대학가</div>
-                                            <div class="tag_adress">#역세권</div>
+                                        <div class="tag_adress_choice" >
+                                            <div class="tag_adress" th:name="tag_adress_keyword" th:each="item,i : ${keywordList}" th:unless="${#lists.isEmpty(keywordList)}">[[${item.keyword}]]</div>
+                                            <!--<div class="tag_adress">#역세권</div>
                                             <div class="tag_adress">#골목상권</div>
-                                            <div class="tag_adress">#아파트단지</div>
+                                            <div class="tag_adress">#아파트단지</div>-->
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="pop_btn">
-                                <a class="btn">취소</a>
-                                <a href="#none" class="btn blue">완료</a>
+                                <a class="btn" style="cursor: pointer" onclick="addressPopClose()">취소</a>
+                                <a class="btn blue" style="cursor: pointer" th:unless="${#arrays.isEmpty(questionSetting)}" th:onclick="addressAdd([[${questionSetting.questionSettingSeq}]]);" >완료</a>
                             </div>
                         </div>
 

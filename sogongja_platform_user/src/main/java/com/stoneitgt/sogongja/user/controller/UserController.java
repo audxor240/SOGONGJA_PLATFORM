@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.user.controller;
 
+import java.io.IOException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -292,7 +293,7 @@ public class UserController extends BaseController {
 
 		}
 		System.out.println("viewList >>> "+viewList);
-
+		System.out.println("answerArrList :: "+answerArrList);
 		model.addAttribute("user", user);
 		model.addAttribute("category1List", category1List);
 		model.addAttribute("category2List", category2List);
@@ -583,6 +584,21 @@ public class UserController extends BaseController {
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
 		return "pages/user/info";
+	}
+
+	@PostMapping("/survey/addressAdd")
+	public String addressAdd(Model model,@RequestBody Map<String, Object> params) throws IOException {
+		System.out.println("params :: "+params);
+
+		int questionSettingSeq = Integer.parseInt(String.valueOf(params.get("questionSettingSeq")));
+		QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
+		System.out.println("questionSetting :: "+questionSetting);
+		List<Map<String, Object>> keywordList = questionService.getQuestionSettingKeyword(questionSettingSeq);
+
+		model.addAttribute("keywordList", keywordList);
+		model.addAttribute("questionSettingSeq", questionSettingSeq);
+		model.addAttribute("questionSetting", questionSetting);
+		return "pages/user/survey_form :: .adress_pop";
 	}
 
 }

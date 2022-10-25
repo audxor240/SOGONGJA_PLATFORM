@@ -2,10 +2,18 @@ $(document).ready(function () {
 
 
     // 순위 선택 체크박스
-    $('body').on('click',  ".check_wrap", function(){
+    /*$('body').on('click',  ".test1", function(){
+        alert("11");
         var $this = $(this);
         countChecked($this);
+    });*/
+
+    // 순위 선택 체크박스
+    $('body').on('click',  ".rank_check", function(){
+        var $this = $(this);
+        countChecked2($this);
     });
+/*
 
     var totalCount = 0;
     var maxCount = 3;
@@ -14,7 +22,7 @@ $(document).ready(function () {
     function countChecked( $this ) {
         var $thisChk = $this ;
         var $ipCheck = $thisChk.find('input[type=checkbox]');
-        var thisChecked = $ipCheck.prop("checked");
+        //var thisChecked = $ipCheck.prop("checked");
         var $countTextbox = $thisChk.find('.select_num');
         var $countText = parseInt($thisChk.find('.select_num').text());
 
@@ -29,11 +37,15 @@ $(document).ready(function () {
                 totalCount = 0;
             }
             $countTextbox.text('');
+            console.log("$countText :: "+$countText);
             selectArray.splice($countText - 1,1);
+            console.log("selectArray :: "+selectArray);
+            console.log("selectArray json >> "+JSON.stringify(selectArray));
             var i;
             var j;
             for( i=0; i<totalCount; i++ ){
                 j = i +1;
+                console.log("selectArray[i].find('.select_num').text() ---11----"+selectArray[i].find('.select_num').text());
                 selectArray[i].find('.select_num').text(j);
             }
 
@@ -51,23 +63,134 @@ $(document).ready(function () {
             $ipCheck.prop("checked", true);
             $countTextbox.text(totalCount);
             selectArray.push( $thisChk );
+            console.log("selectArray ===>> "+selectArray);
+        }
+    }
+*/
+
+
+    function countChecked2( $this ) {
+
+        var totalCount = $this.parents(".survey_question").find("[name=totalCount]").val();
+        var maxCount = $this.parents(".survey_question").find("[name=view_maximumNum]").val();
+        var selectArray = [];
+
+        var $thisChk = $this ;
+        var $ipCheck = $thisChk.find('input[type=checkbox]');
+        var $countTextbox = $thisChk.find('.select_num');
+        var $countText = parseInt($thisChk.find('.select_num').text());
+
+        if( $ipCheck.hasClass('checked') ){
+            $ipCheck.removeClass('checked');
+            $thisChk.removeClass('on');
+            $ipCheck.prop("checked", false);
+            totalCount --;
+            $this.parents(".survey_question").find("[name=totalCount]").val(totalCount);
+
+            if(totalCount < 0 ){
+                totalCount = 0;
+            }
+            $countTextbox.text('');
+
+            var j;
+            var g =0;
+
+            $this.parents(".survey_question").find(".rank_check").each(function (index, item) {
+
+                if ($(this).find("#chk_fb"+index).is(":checked")) {
+                    j = g +1;
+                    $(this).find("#select_num_"+index).text(j)
+                    g++;
+                    //console.log(index+"번째가 "+j+"으로 바뀜");
+                    //console.log("NUMBER --------------------------- " + $(this).find("#select_num_"+index).text(j));
+                }
+            });
+
+        }else{
+            if (totalCount >= maxCount) {
+                alert ("최대 "+maxCount+"개 까지만 가능합니다.");
+                $thisChk.removeClass('on');
+                $ipCheck.prop("checked", false);
+                totalCount = maxCount;
+                return;
+            }
+            totalCount ++;
+            $this.parents(".survey_question").find("[name=totalCount]").val(totalCount);
+
+            $ipCheck.addClass('checked');
+            $thisChk.addClass('on');
+            $ipCheck.prop("checked", true);
+            $countTextbox.text(totalCount);
+            selectArray.push( $thisChk );
         }
     }
 
+    //주소 추가 버튼
     $('.adress_add_btn').click(function(){
-        $('.adress_pop').show();
-    });
-    $('.adress_pop_close').click(function(){
-        $('.adress_pop').hide();
-    });
 
 
-    $('.tag_adress').click(function(){
-        $(this).toggleClass('on');
+        var questionSettingSeq = $(this).val();
+
+        let view_rankChangeUse = $(this).parent("#survey_question_"+questionSettingSeq).find("[name=view_rankChangeUse]").val();
+        let view_multipleUse = $(this).parent("#survey_question_"+questionSettingSeq).find("[name=view_multipleUse]").val();
+        let maximumNum = $(this).parent("#survey_question_"+questionSettingSeq).find("[name=view_maximumNum]").val();
+        let view_cnt = $(this).parent("#survey_question_"+questionSettingSeq).find("[name=view_cnt]").val();
+
+        if(view_multipleUse == "N"){
+            if(maximumNum < view_cnt){
+                alert("1개 이상 추가 할 수 없습니다");
+                return;
+            }
+        }else{
+            if(maximumNum <= view_cnt){
+                alert(maximumNum+"개 이상 추가 할 수 없습니다");
+                return;
+            }
+        }
+
+
+        let data = {
+            "questionSettingSeq": questionSettingSeq
+        };
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            type: "POST",
+            url: "/survey/addressAdd",
+            async: false,
+            data: JSON.stringify(data),
+            //contentType:"application/json; charset=utf-8",
+            //dataType:"json",
+            //data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            error: function (res) {
+
+                let fragment = res.responseText
+                $(".adress_pop").replaceWith(fragment);
+                $('.adress_pop').show();
+                //alert(res.responseJSON.message);
+                return false;
+            }
+        }).done(function (fragment) {
+            //여기로 안들어옴.....
+            //$("#dtsch_modal").replaceWith(fragment);
+            //$("#dtsch_modal").show();
+            //$(".loading_box").hide();
+
+        });
+
+
     });
 
 });
 
+$(document).on('click', '.tag_adress', function(){
+    $(this).toggleClass('on');
+});
 
 drag();
 function drag() {
@@ -142,10 +265,6 @@ $('[name=plus_btn1]').click(function(){
     let view1_cnt = $(this).parents(".survey_question").find("[name=view1_cnt]").val();
     let categoryStr = $(this).parents(".survey_question").find("[name='categoryArr[]']").val();
 
-    console.log("multipleUse :: "+multipleUse);
-    console.log("rankChangeUse :: "+rankChangeUse);
-    console.log("maximumNum :: "+maximumNum);
-    console.log("view1_cnt :: "+view1_cnt);
 
     if(multipleUse == "N"){ //복수 추가X
         if(view1_cnt > 0){
@@ -188,7 +307,6 @@ $('[name=plus_btn1]').click(function(){
 
 
     if(categoryArr.length != 0){
-        console.log("aaa");
         for(var i =0; i < categoryArr.length; i++){
             let category_str = categoryArr[i];   //저장되어 있는 카테고리
             if(category_str == category3){
@@ -243,17 +361,17 @@ $('#plus_btn2').click(function(){
         return;
     }
 
-    if(c1_val1 === 0){
+    if(c1_val1 == 0){
         alert("대분류를 선택해주세요");
         return;
     }
 
-    if(c1_val2 === 0){
+    if(c1_val2 == 0){
         alert("중분류를 선택해주세요");
         return;
 
     }
-    if(c1_val3 === 0){
+    if(c1_val3 == 0){
         alert("소분류를 선택해주세요");
         return;
     }
@@ -266,7 +384,6 @@ $('#plus_btn2').click(function(){
 
 
     if(categoryArr.length != 0){
-        console.log("aaa");
         for(var i =0; i < categoryArr.length; i++){
             let category_str = categoryArr[i];   //저장되어 있는 카테고리
             if(category_str == category3){
@@ -316,8 +433,7 @@ $(document).on('click', '#aJob_del1', function(){
     let cate3 = $(this).parent().find("#cate3").text(); //삭제한 카테고리이름
     let cnt1 = $(this).parents(".survey_question").find("[name=view1_cnt]").val();
     let categoryStr = $(this).parents(".survey_question").find("[name='categoryArr[]']").val(); //저장되어 있는 카테고리
-    console.log("categoryStr >> "+categoryStr);
-    console.log("cate3 :: "+cate3);
+
     cnt1--;
     categoryStr = categoryStr.replace(cate3+",", '');   //저장되어 있는 정보에 해당 카테고리 삭제
 
@@ -332,6 +448,7 @@ $(document).on('click', '#aJob_del2', function(){
     let cnt2 = $(this).parents(".survey_question").find("[name=view2_cnt]").val();
     let questionSettingSeq = $(this).parents(".survey_question").find("[name=questionSettingSeq]").val();
     let categoryStr = $(this).parents(".survey_question").find("[name='categoryArr[]']").val(); //저장되어 있는 카테고리
+
     cnt2--;
     categoryStr = categoryStr.replace(cate3+",", '');   //저장되어 있는 정보에 해당 카테고리 삭제
 
@@ -344,9 +461,6 @@ $(document).on('click', '#aJob_del2', function(){
     $("#survey_question_"+questionSettingSeq).find(".dragContainer").each(function (index, item) {
         $(this).find("[name=rank]").text(index+1) //순위 변경
     });
-
-
-
 
 });
 
@@ -453,7 +567,185 @@ function execPostCode() {
     }).open();
 }
 
+function addressPopClose(){
+    $(".adress_pop").hide();
+}
+
+//주소 추가 완료 버튼
+function addressAdd(questionSettingSeq){
+
+    var address = $("#address").val();
+    var kewywordArr = new Array();
+    var rankChangeUse = $("#survey_question_"+questionSettingSeq).find("[name=view_rankChangeUse]").val();
+    let view_cnt = $("#survey_question_"+questionSettingSeq).find("[name=view_cnt]").val();
+    let addressStr = $("#survey_question_"+questionSettingSeq).find("[name='addressArr[]']").val();
+
+    view_cnt = parseInt(view_cnt);
+
+    if(address == ""){
+        alert("주소를 선택해주세요");
+        return;
+    }
+
+    $("[name=tag_adress_keyword]").each(function (index, item) {
+        //$(this).find("[name=rank]").text(index+1) //순위 변경
+        if($(this).hasClass("on") === true){
+            kewywordArr.push($(this).text());
+        }
+    });
+
+    if(kewywordArr.length == 0){
+        alert("태그를 하나 이상 선택해주세요");
+        return;
+    }
+
+    var addressStr2 = addressStr.slice(0, -1);
+    var addressArr = addressStr2.split(",");
 
 
+    if(addressArr.length != 0){
+        for(var i =0; i < addressArr.length; i++){
+            let address_str = addressArr[i];   //저장되어 있는 카테고리
+            if(address_str == address){
+                alert("동일한 정보가 있습니다");
+                return;
+            }
+        }
+    }
+
+    addressStr += address+",";
+
+    $("#survey_question_"+questionSettingSeq).find("[name='addressArr[]']").val(addressStr);
+
+    //순위 사용하지 않으면
+    if(rankChangeUse != "Y") {
+        var addressHtml = '<div class="aAdress_Wrap">\n' +
+            '                   <div class="aAdress_text">\n' +
+            '                       <p id="addr3">' + address + '</p>\n' +
+            '                       <span class="aAdress_del" id="aJob_del3" style="cursor: pointer"></span>\n' +
+            '                   </div>\n' +
+            '                   <div class="tag_adress_choice none_border">\n';
+        for (var i = 0; i < kewywordArr.length; i++) {
+            addressHtml += '    <div class="tag_adress on">' + kewywordArr[i] + '</div>\n';
+        }
+        addressHtml += '    </div>\n' +
+            '</div>';
+    }else{
+        var addressHtml = '<div class="dragContainer">\n' +
+            '                   <div class="num_drag">\n' +
+            '                       <span name="rank">'+(view_cnt+1)+'</span>순위\n' +
+            '                   </div>\n' +
+            '                   <div class="aAdress_Wrap02 draggable card" draggable="true">\n' +
+            '                       <span class="handle_drag"></span>\n' +
+            '                       <div class="aAdress_text_wrap">\n' +
+            '                           <div class="aAdress_text">\n' +
+            '                               <p id="addr4">' + address + '</p>\n' +
+            '                               <span class="aAdress_del" id="aJob_del4" style="cursor: pointer"></span>\n' +
+            '                           </div>\n' +
+            '                           <div class="tag_adress_choice none_border">\n';
+            for (var i = 0; i < kewywordArr.length; i++) {
+                addressHtml += '    <div class="tag_adress on">' + kewywordArr[i] + '</div>\n';
+            }
+            //'                                            <div class="tag_adress on">#역세권</div>\n' +
+            //'                                            <div class="tag_adress on">#골목상권</div>\n' +
+            //'                                            <div class="tag_adress on">#아파트단지</div>\n' +
+            addressHtml += '                                        </div>\n' +
+            '                                    </div>\n' +
+            '                                </div>\n' +
+            '                            </div>';
+
+    }
+    $("#survey_question_"+questionSettingSeq).find(".choice_done_wrap").append(addressHtml);
+
+    let cnt = $("#survey_question_"+questionSettingSeq).find("[name=view_cnt]").val();
+
+    cnt++;
+
+    $("#survey_question_"+questionSettingSeq).find("[name=view_cnt]").val(cnt);
+    $(".adress_pop").hide();
+
+    if(rankChangeUse == "Y"){
+        drag();
+    }
+
+}
+
+// 추가형[주소] 복수X 삭제 버튼
+$(document).on('click', '#aJob_del3', function(){
+    let addr3 = $(this).parent().find("#addr3").text(); //삭제한 카테고리이름
+    let cnt2 = $(this).parents(".survey_question").find("[name=view_cnt]").val();
+    let questionSettingSeq = $(this).parents(".survey_question").find("[name=questionSettingSeq]").val();
+    let addressStr = $(this).parents(".survey_question").find("[name='addressArr[]']").val(); //저장되어 있는 카테고리
+
+    cnt2--;
+    addressStr = addressStr.replace(addr3+",", '');   //저장되어 있는 정보에 해당 카테고리 삭제
+
+    $(this).parents(".survey_question").find("[name='addressArr[]']").val(addressStr);    //다시 저장
+    $(this).parents(".survey_question").find("[name=view_cnt]").val(cnt2);
+    $(this).parent().parent().remove();
 
 
+    //삭제후 순위를 다시 재정의 해준다
+    $("#survey_question_"+questionSettingSeq).find(".dragContainer").each(function (index, item) {
+        $(this).find("[name=rank]").text(index+1) //순위 변경
+    });
+
+});
+
+// 추가형[주소] 복수O, 순위O 삭제 버튼
+$(document).on('click', '#aJob_del4', function(){
+    let addr4 = $(this).parent().find("#addr4").text(); //삭제한 카테고리이름
+    let cnt2 = $(this).parents(".survey_question").find("[name=view_cnt]").val();
+    let questionSettingSeq = $(this).parents(".survey_question").find("[name=questionSettingSeq]").val();
+    let addressStr = $(this).parents(".survey_question").find("[name='addressArr[]']").val(); //저장되어 있는 카테고리
+
+    cnt2--;
+    addressStr = addressStr.replace(addr4+",", '');   //저장되어 있는 정보에 해당 카테고리 삭제
+
+    $(this).parents(".survey_question").find("[name='addressArr[]']").val(addressStr);    //다시 저장
+    $(this).parents(".survey_question").find("[name=view_cnt]").val(cnt2);
+    $(this).parent().parent().parent().parent().remove();
+
+
+    //삭제후 순위를 다시 재정의 해준다
+    $("#survey_question_"+questionSettingSeq).find(".dragContainer").each(function (index, item) {
+        $(this).find("[name=rank]").text(index+1) //순위 변경
+    });
+
+});
+
+
+$('[name=check_surveyType_tree]').bind('change', function() {
+
+
+});
+
+$("[name=check_surveyType_tree]").change(function(){
+    let questionSettingSeq = $(this).parents(".survey_question").find("[name=questionSettingSeq]").val();
+    console.log("questionSettingSeq :: "+questionSettingSeq);
+    let checked_cnt = $(this).parents(".survey_question").find("[name=checked_cnt]").val();
+
+    let multipleUse = $(this).parents(".survey_question").find("[name=view_multipleUse]").val();
+    let rankChangeUse = $(this).parents(".survey_question").find("[name=view_rankChangeUse]").val();
+    let maximumNum = $(this).parents(".survey_question").find("[name=view_maximumNum]").val();
+
+    if($(this).is(":checked")){
+        if(multipleUse == "N"){ //복수 추가X
+            if(checked_cnt > 0){
+                alert("하나이상 추가 할 수 없습니다");
+                $(this).prop("checked",false);
+                return;
+            }
+        }else{                 //복수 추가O
+            if(maximumNum <= checked_cnt){
+                alert(maximumNum+"개 이상 추가 할 수 없습니다");
+                $(this).prop("checked",false);
+                return;
+            }
+        }
+        checked_cnt++;
+    }else{
+        checked_cnt--;
+    }
+    $(this).parents(".survey_question").find("[name=checked_cnt]").val(checked_cnt);
+});
