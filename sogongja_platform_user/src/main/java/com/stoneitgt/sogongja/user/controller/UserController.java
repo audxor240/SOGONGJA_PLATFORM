@@ -245,6 +245,7 @@ public class UserController extends BaseController {
 		List<QuestionSetting> List = new ArrayList<>();
 		List<String> viewList = new ArrayList<>();		//질문을 보여주기 위한 배열 정의
 		List<List<String>> answerArrList = new ArrayList<>();
+		List<List<Integer>> answerSeqList = new ArrayList<>();
 
 		boolean firstView = false;
 		// 추가된 질문 개수만큼 루프
@@ -254,19 +255,24 @@ public class UserController extends BaseController {
 			QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
 
 			List<String> answerArr = new ArrayList<>();
+			List<Integer> answerSeqArr = new ArrayList<>();
 			//질문이 선택형이면
 			if(questionSetting.getQuestionType().equals("choice")){
 				//답변 정보 조회
 				List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
-
+				System.out.println("listSub :: "+listSub);
 				//해당질문의 답변 배열에 저장
 				for(int j =0; j < listSub.size();j++){
 					String answer = (String) listSub.get(j).get("answer");
+					Integer answerSeq = (Integer) listSub.get(j).get("answer_setting_seq");
 					answerArr.add(answer);
+					answerSeqArr.add(answerSeq);
 				}
 				answerArrList.add(answerArr);
+				answerSeqList.add(answerSeqArr);
 			}else{
 				answerArrList.add(null);
+				answerSeqList.add(null);
 			}
 			System.out.println("questionSetting ::: "+questionSetting);
 
@@ -294,6 +300,7 @@ public class UserController extends BaseController {
 		}
 		System.out.println("viewList >>> "+viewList);
 		System.out.println("answerArrList :: "+answerArrList);
+		System.out.println("answerSeqList ::: "+answerSeqList);
 		model.addAttribute("user", user);
 		model.addAttribute("category1List", category1List);
 		model.addAttribute("category2List", category2List);
@@ -301,6 +308,7 @@ public class UserController extends BaseController {
 		model.addAttribute("answerArrList", answerArrList);
 		model.addAttribute("List", List);
 		model.addAttribute("viewList", viewList);
+		model.addAttribute("answerSeqList", answerSeqList);
 		System.out.println("answerArrList :: "+answerArrList);
 		System.out.println("List :: "+List);
 
@@ -599,6 +607,24 @@ public class UserController extends BaseController {
 		model.addAttribute("questionSettingSeq", questionSettingSeq);
 		model.addAttribute("questionSetting", questionSetting);
 		return "pages/user/survey_form :: .adress_pop";
+	}
+
+	@PostMapping("/survey/form")
+	public String saveUserSurvey( RedirectAttributes rttr) throws IOException {
+		//System.out.println("params :: "+params);
+		System.out.println("CHECK------------/ survey/form ---------------");
+
+		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+		/*int questionSettingSeq = Integer.parseInt(String.valueOf(params.get("questionSettingSeq")));
+		QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
+		System.out.println("questionSetting :: "+questionSetting);
+		List<Map<String, Object>> keywordList = questionService.getQuestionSettingKeyword(questionSettingSeq);
+
+		model.addAttribute("keywordList", keywordList);
+		model.addAttribute("questionSettingSeq", questionSettingSeq);
+		model.addAttribute("questionSetting", questionSetting);*/
+		String returnUrl = "redirect:/";
+		return returnUrl;
 	}
 
 }

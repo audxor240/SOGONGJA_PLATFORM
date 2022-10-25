@@ -29,7 +29,7 @@
     </section>
     <section class="wrap">
         <div class="sub_container servey_wrap">
-            <form name="survey_form" action="">
+            <form name="survey_form" th:action="@{/survey/form}" method="post" onsubmit="return validationForm();" >
                 <!--관리자에서 업종선택을 했을 경우(추가 했을때 이미지)-->
                 <!--
                                 <div class="survey_question">
@@ -80,20 +80,22 @@
                                         </div>
                                     </div>
                                 </div>-->
-                <br>------------------------------------------------------------------------------------------------------------------<br>
 
                 <th:block th:each="item,i : ${List}" th:unless="${#lists.isEmpty(List)}">
                     <!--추가형[업종](복수추가 O/X) 순위지정X 일때 사용함-->
                     <div class="survey_question" th:if="${viewList[i.index] == '1'}" th:id="survey_question_+${item.questionSettingSeq}">
+                        <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
                         <input type="hidden" name="view1_multipleUse" th:value="${item.multipleUse}">
                         <input type="hidden" name="view1_rankChangeUse" th:value="${item.rankChangeUse}">
                         <input type="hidden" name="view1_maximumNum" th:value="${item.maximumNum}">
                         <input type="hidden" name="categoryArr[]"  value="">
+                        <input type="hidden" name="categoryStr"  value="">
                         <input type="hidden" name="view1_cnt" value=0>
+                        <input type="hidden" name="rankStr" value="">
 
                         <div class="q_title">
                             <h3>[[${item.title}]]
-                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span>[1번]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[1번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
                             <P>[[${item.description}]]</P>
@@ -139,9 +141,11 @@
                         <input type="hidden" name="questionSettingSeq" th:value="${item.questionSettingSeq}">
                         <input type="hidden" name="view2_maximumNum" th:value="${item.maximumNum}">
                         <input type="hidden" name="categoryArr[]" id="categoryArr" value="">
+                        <input type="hidden" name="categoryStr"  value="">
                         <input type="hidden" name="view2_cnt" value=1>
+                        <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
-                            <h3>[[${item.title}]] <span>(복수선택O, 최대[[${item.maximumNum}]]개)</span>[2번]</h3>
+                            <h3>[[${item.title}]] <span>(복수선택O, 최대[[${item.maximumNum}]]개)</span><!--[2번]--></h3>
                             <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
@@ -179,28 +183,18 @@
                         <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
                         <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
                         <input type="hidden" name="addressArr[]" value="">
+                        <input type="hidden" name="categoryStr"  value="">
+                        <input type="hidden" name="keywordStr"  value="">
                         <input type="hidden" name="view_cnt" value=0>
+                        <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
                             <h3>[[${item.title}]]
-                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span>[3번]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[3번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
                             <P>[[${item.description}]]</P>
                         </div>
                         <div class="choice_done_wrap">
-                            <!--
-                            <div class="aAdress_Wrap">
-                                <div class="aAdress_text">
-                                    <p>경기도 수원시 장안구</p>
-                                    <span class="aAdress_del"></span>
-                                </div>
-                                <div class="tag_adress_choice none_border">
-                                    <div class="tag_adress on">#대학가</div>
-                                    <div class="tag_adress on">#역세권</div>
-                                    <div class="tag_adress on">#골목상권</div>
-                                    <div class="tag_adress on">#아파트단지</div>
-                                </div>
-                            </div>-->
                         </div>
                         <button type="button" class="adress_add_btn" th:value="${item.questionSettingSeq}">+ 주소추가<button>
 
@@ -213,10 +207,12 @@
                         <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
                         <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
                         <input type="hidden" name="addressArr[]" id="addressArr" value="">
+                        <input type="hidden" name="categoryStr"  value="">
                         <input type="hidden" name="view_cnt" value=0>
+                        <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
                             <h3>[[${item.title}]]
-                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span>[4번]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[4번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
 
@@ -234,10 +230,12 @@
                         <input type="hidden" name="view_rankChangeUse" th:value="${item.rankChangeUse}">
                         <input type="hidden" name="view_multipleUse" th:value="${item.multipleUse}">
                         <input type="hidden" name="view_maximumNum" th:value="${item.maximumNum}">
+                        <input type="hidden" name="categoryStr" value="">
+                        <input type="hidden" name="answerStr" value="">
                         <input type="hidden" name="checked_cnt" value=0>
                         <div class="q_title">
                             <h3>[[${item.title}]]
-                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span>[5번]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span><!--[5번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
                             <P>[[${item.description}]]</P>
@@ -245,7 +243,7 @@
                         <div class="q_answer">
                             <ul class="check_survey check_list_li50">
                                 <li th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
-                                    <input type="checkbox" th:value="${item2}" name="check_surveyType_tree" th:id="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}" class="check_survey checkbox_style">
+                                    <input type="checkbox" th:value="${answerSeqList[i.index][j.index]}" name="check_surveyType_tree" th:id="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}" class="check_survey checkbox_style">
                                     <label th:for="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}">[[${item2}]]</label>
                                 </li>
                             </ul>
@@ -260,9 +258,12 @@
                         <input type="hidden" name="checked_cnt" value=0>
                         <input type="hidden" name="totalCount" value=0>
                         <input type="hidden" name="selectArray[]" >
+                        <input type="hidden" name="categoryStr" value="">
+                        <input type="hidden" name="answerStr" value="">
+                        <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
                             <h3>[[${item.title}]]
-                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span>[6번]
+                                <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span><!--[6번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
                             <P>[[${item.description}]]</P>
@@ -271,7 +272,7 @@
                             <ul class="check_survey check_list_li50">
                                 <li class="check_wrap rank_check" th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
                                     <label th:for="chk_fb+${j.index}" class="check_num" >
-                                        <input type="checkbox" name="faceSelect" th:id="chk_fb+${j.index}" class="ip_check">
+                                        <input type="checkbox" name="faceSelect" th:id="chk_fb+${j.index}" class="ip_check" th:value="${answerSeqList[i.index][j.index]}">
                                         <span class="select_num" th:id="select_num_+${j.index}"></span>
                                         <span class="select_text">[[${item2}]]</span>
                                     </label>
@@ -430,7 +431,7 @@
                                             입력하신 주소에 해당되는 태그를 선택해주세요.
                                         </div>
                                         <div class="tag_adress_choice" >
-                                            <div class="tag_adress" th:name="tag_adress_keyword" th:each="item,i : ${keywordList}" th:unless="${#lists.isEmpty(keywordList)}">[[${item.keyword}]]</div>
+                                            <div class="tag_adress" th:name="tag_adress_keyword" th:value="${item.question_setting_keyword_seq}" th:each="item,i : ${keywordList}" th:unless="${#lists.isEmpty(keywordList)}">[[${item.keyword}]]</div>
                                             <!--<div class="tag_adress">#역세권</div>
                                             <div class="tag_adress">#골목상권</div>
                                             <div class="tag_adress">#아파트단지</div>-->
@@ -449,13 +450,16 @@
                 </div>
                 <div class="btn_box">
                     <a th:href="@{/}" class="btn">이전</a>
-                    <button type="submit" class="btn blue">저장</button>
+                    <button type="button" class="btn blue" onclick="surveySave();">저장</button>
                 </div>
             </form>
         </div>
     </section>
 </article>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var List = /*[[${List}]]*/'';
+    </script>
 
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
