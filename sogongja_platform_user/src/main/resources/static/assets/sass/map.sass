@@ -292,21 +292,23 @@
           width: 35%
 
 .custom_zoomcontrol
-  +positionAt(absolute, $top : 50px,$right : 10px)
-  width: 36px
-  height: 80px
+  +positionAt(absolute, $top : 60px,$right : 20px)
+  width: 32px
+  height: 73px
   overflow: hidden
   z-index: 1
   background-color: #f5f5f5
+  box-shadow: 0 0 10px #ccc
+  border-radius: 4px
   span
+    background-color: #fff
     display: block
-    width: 36px
-    height: 40px
+    width: 32px
+    height: 36px
     text-align: center
     cursor: pointer
     img
       width: 15px
-      height: 15px
       padding: 12px 0
       border: none
     &:first-child
@@ -345,7 +347,7 @@
   background-repeat: no-repeat
   background-position: center right
 .current-local
-  +positionAt(absolute, $top: 192px, $right: 20px )
+  +positionAt(absolute, $top: 20px, $right: 20px )
   z-index: 1
   width: 36px
   height: 36px
@@ -609,3 +611,112 @@
   &:hover
     box-shadow: 0 0 10px #1540bf60
     transition: 0.4s
+.community_wrap
+  +positionAt(absolute, $top: 245px, $right: 20px)
+  .community_Btn
+    background: #001658 url(#{$assetPath}/new/icon/icon-community.png) no-repeat
+    width: 32px
+    height: 32px
+    background-size: cover
+    border-radius: 4px
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
+    cursor: pointer
+  .community_pop_wrap
+    display: none
+    +positionAt(absolute, $top: 40px, $right:0)
+    width: 280px
+    background-color: #e2e2e2
+    .community_pop_title
+      background-color: #ffffff
+      +flex_type($justify:space-between, $align:center)
+      margin-bottom: 10px
+      padding: 20px
+      h4
+        font-size: 14px
+        font-weight: bold
+        color: #1540bf
+      a
+        display: block
+        width: 80px
+        background-color: #1540bf
+        color: #ffffff
+        box-shadow: 0 0 8px rgba(21, 64, 191, 0.4)
+        font-size: 12px
+        padding: 5px
+        text-align: center
+    .community_pop_list
+      > li
+        background-color: #fff
+        border-bottom: solid 1px #eceff1
+        padding: 20px
+        &:last-child
+          border-bottom: none
+  .community_pop_wrap.on
+    display: block
+.community_main
+  .top_info
+    span
+      display: block
+      color: #1540bf
+      font-size: 12px
+      margin-bottom: 5px
+    h5
+      font-size: 14px
+      margin-bottom: 5px
+  > p
+    color: #606060
+    font-size: 12px
+    margin-bottom: 10px
+  .down_info
+    +flex_type($justify:space-between, $align:center)
+    p
+      color: #1540bf
+      font-size: 12px
+    span
+      display: block
+      color: #606060
+      font-size: 12px
+.coment_list
+  li
+    background-color: #ffffff
+    padding: 20px
+    .coment_main
+      +flex_type
+      margin-bottom: 10px
+      > span
+        background: url(#{$assetPath}/icon-answer.png) no-repeat
+        width: 14px
+        height: 14px
+        background-size: cover
+        margin-right: 6px
+      p
+        width: calc(100% - 20px)
+    .down_info
+      +flex_type($justify:space-between, $align:center)
+      padding-left: 20px
+      p
+        color: #1540bf
+        font-size: 12px
+      span
+        display: block
+        color: #606060
+        font-size: 12px
+.coment_form
+  +flex_type($justify:center, $align:center)
+  margin: 10px
+  input
+    border: solid 1px #d2d2d2
+    background-color: #fff
+    padding: 0 rem(16)
+    width: 70%
+    height: 40px
+  button
+    background-color: #1540bf
+    color: #ffffff
+    width: 30%
+    height: 40px
+.detail_community
+  .community_main
+    background-color: #ffffff
+    padding: 20px
+    margin-bottom: 10px
