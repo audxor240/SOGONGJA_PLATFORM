@@ -30,9 +30,18 @@
         <div class="addressSearchTop">
             <div class="hAddr">
                 <span class="title"></span>
-                <span class="centerAddr centerAddr1" id="centerAddr1"></span>
-                <span class="centerAddr centerAddr2" id="centerAddr2"></span>
-                <span class="centerAddr centerAddr3" id="centerAddr3"></span>
+                <div class="addrlist">
+                    <span id="centerAddr1" onclick="changeSelectBox('sido')"></span>
+                    <ul id="sidoBox">시도</ul>
+                </div>
+                <div class="addrlist">
+                    <span id="centerAddr2" onclick="changeSelectBox('sigungu')"></span>
+                    <ul id="sigunguBox">시군구 조회중</ul>
+                </div>
+                <div class="addrlist">
+                    <span id="centerAddr3" onclick="changeSelectBox('dong')"></span>
+                    <ul id="dongBox">행정동 조회중</ul>
+                </div>
             </div>
 
             <div class="searchInput">

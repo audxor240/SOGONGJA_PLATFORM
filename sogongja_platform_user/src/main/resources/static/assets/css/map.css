@@ -427,7 +427,8 @@
   margin-top: 1px;
 }
 
-.centerAddr {
+.addrlist {
+  position: relative;
   display: block;
   float: left;
   font-size: 16px;
@@ -437,12 +438,26 @@
   border: 1px solid #d5d5d5;
   box-sizing: border-box;
   margin: -1px;
-  background: #fff;
-  background-image: url(../images/icon-arrow-down-big.png);
-  background-repeat: no-repeat;
-  background-position: center right;
+  background: #fff url(../images/icon-arrow-down-big.png) no-repeat center right;
 }
-
+.addrlist ul {
+  position: absolute;
+  top: 50px;
+  right: 0%;
+  width: 120px;
+  background-color: antiquewhite;
+  height: 200px;
+  display: none;
+  overflow: scroll;
+}
+.addrlist ul.menu_selected {
+  display: block;
+}
+.addrlist ul li {
+  list-style: none;
+  background-color: blueviolet;
+  background-color: #888;
+}
 .current-local {
   position: absolute;
   top: 20px;
@@ -553,7 +568,7 @@
 #category li label input[type=checkbox]:checked ~ .store {
   background: url(../images/new/area/marker06.png) no-repeat;
 }
-#category li .on .category_bg {
+#category li .category_bg {
   background-position-x: -46px;
 }
 
@@ -602,7 +617,7 @@
   margin: -1px -1px 0 -1px;
   padding: 10px;
   color: #fff;
-  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+  background: #d95050;
 }
 .placeinfo .tel {
   color: #0f7833;
@@ -611,6 +626,15 @@
   color: #999;
   font-size: 11px;
   margin-top: 0;
+}
+.placeinfo .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #888;
+  width: 17px;
+  height: 17px;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png);
 }
 
 .after {
