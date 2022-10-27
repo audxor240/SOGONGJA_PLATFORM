@@ -431,33 +431,66 @@
   position: relative;
   display: block;
   float: left;
-  font-size: 16px;
+  margin: -1px;
+}
+.addrlist span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #d5d5d5;
+  box-sizing: border-box;
   padding: 12px 3px;
   width: 120px;
   height: 50px;
-  border: 1px solid #d5d5d5;
-  box-sizing: border-box;
-  margin: -1px;
-  background: #fff url(../images/icon-arrow-down-big.png) no-repeat center right;
+  background-color: #fff;
+}
+.addrlist span:after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #fff url(../images/icon-arrow-down-big.png) no-repeat center;
+  background-size: contain;
 }
 .addrlist ul {
   position: absolute;
   top: 50px;
   right: 0%;
   width: 120px;
-  background-color: antiquewhite;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1254901961);
+  border: solid 1px #efefef;
   height: 200px;
   display: none;
-  overflow: scroll;
+  overflow-x: hidden;
+}
+.addrlist ul::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #aaa;
+}
+.addrlist ul::-webkit-scrollbar-thumb {
+  background: #000;
 }
 .addrlist ul.menu_selected {
   display: block;
 }
 .addrlist ul li {
+  padding: 2px 4px;
   list-style: none;
-  background-color: blueviolet;
-  background-color: #888;
+  cursor: pointer;
+  font-size: 14px;
 }
+.addrlist ul li .on {
+  background-color: blueviolet;
+}
+.addrlist ul li:hover {
+  background-color: #eeeeee;
+  color: #333;
+}
+
 .current-local {
   position: absolute;
   top: 20px;

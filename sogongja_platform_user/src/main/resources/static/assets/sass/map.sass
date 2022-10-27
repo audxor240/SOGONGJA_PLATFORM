@@ -336,29 +336,51 @@
   +positionAt(relative)
   display: block
   float: left
-  font-size: 16px
-  padding: 12px 3px
-  width: 120px
-  height: 50px
-  border: 1px solid #d5d5d5
-  box-sizing: border-box
   margin: -1px
-  background: #fff url(../images/icon-arrow-down-big.png) no-repeat center right
+  span
+    +flex-type($justify:space-between, $align:center)
+    cursor: pointer
+    font-size: 14px
+    border: 1px solid #d5d5d5
+    box-sizing: border-box
+    padding: 12px 3px
+    width: 120px
+    height: 50px
+    background-color: #fff
+    &:after
+      content: ""
+      display: inline-block
+      width: 20px
+      height: 20px
+      background: #fff url(../images/icon-arrow-down-big.png) no-repeat center
+      background-size: contain
   ul
     +positionAt(absolute, $top: 50px, $right:0%)
     width: 120px
-    background-color: antiquewhite
+    background-color: #fff
+    box-shadow: 0 0 10px #00000020
+    border: solid 1px #efefef
     height: 200px
     display: none
-    overflow: scroll
+    overflow-x: hidden
+    &::-webkit-scrollbar
+      width: 5px
+      height: 8px
+      background-color: #aaa
+    &::-webkit-scrollbar-thumb
+      background: #000
     &.menu_selected
       display: block
     li
+      padding: 2px 4px
       list-style: none
+      cursor: pointer
+      font-size: 14px
       .on
-      background-color: blueviolet
+        background-color: blueviolet
       &:hover
-      background-color: #888
+        background-color: #eeeeee
+        color: #333
 .current-local
   +positionAt(absolute, $top: 20px, $right: 20px )
   z-index: 1
