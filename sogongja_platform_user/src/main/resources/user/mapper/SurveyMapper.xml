@@ -15,6 +15,65 @@
 
     </select>
 
+    <insert id="insertUserSurvey" parameterType="com.stoneitgt.sogongja.domain.UserSurvey">
+        /* file : SurveyMapper.xml, id : insertUserSurvey */
+        INSERT
+        INTO ST_USER_SURVEY (
+        SURVEY_SETTING_SEQ
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{surveySettingSeq}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="userSurveySeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertUserQuestion" parameterType="com.stoneitgt.sogongja.domain.UserQuestion">
+        /* file : SurveyMapper.xml, id : insertUserQuestion */
+        INSERT
+        INTO ST_USER_QUESTION (
+        USER_SURVEY_SEQ
+        , QUESTION_SETTING_SEQ
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{userSurveySeq}
+        , #{questionSettingSeq}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="userQuestionSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertUserAnswer1" parameterType="com.stoneitgt.sogongja.domain.UserAnswer1">
+        /* file : SurveyMapper.xml, id : insertUserAnswer1 */
+        INSERT
+        INTO ST_USER_ANSWER1 (
+        CATEGORY3_SEQ
+        , RANK
+        , TYPE
+        , ADDRESS
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{category3Seq}
+        ,#{rank}
+        ,#{type}
+        ,#{address}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="userAnswer1Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
 
 
     <select id="selectTotalRecords" resultType="int">
