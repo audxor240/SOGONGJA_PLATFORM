@@ -30,6 +30,8 @@
     <section class="wrap">
         <div class="sub_container servey_wrap">
             <form name="survey_form" th:action="@{/survey/form}" method="post" onsubmit="return validationForm();" >
+                <input type="hidden" id="userEmail" name="userEmail" th:value="${user.email}">
+                <input type="hidden" id="surveySettingSeq" name="surveySettingSeq" th:value="${surveySettingSeq}">
                 <!--관리자에서 업종선택을 했을 경우(추가 했을때 이미지)-->
                 <!--
                                 <div class="survey_question">
@@ -94,7 +96,7 @@
                         <input type="hidden" name="rankStr" value="">
 
                         <div class="q_title">
-                            <h3>[[${item.title}]]
+                            <h3>[[${i.index+1}]]. [[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[1번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
@@ -145,7 +147,7 @@
                         <input type="hidden" name="view2_cnt" value=1>
                         <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
-                            <h3>[[${item.title}]] <span>(복수선택O, 최대[[${item.maximumNum}]]개)</span><!--[2번]--></h3>
+                            <h3>[[${i.index+1}]]. [[${item.title}]] <span>(복수선택O, 최대[[${item.maximumNum}]]개)</span><!--[2번]--></h3>
                             <P>[[${item.description}]]</P>
                         </div>
                         <div class="q_answer">
@@ -188,7 +190,7 @@
                         <input type="hidden" name="view_cnt" value=0>
                         <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
-                            <h3>[[${item.title}]]
+                            <h3>[[${i.index+1}]]. [[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[3번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
@@ -211,7 +213,7 @@
                         <input type="hidden" name="view_cnt" value=0>
                         <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
-                            <h3>[[${item.title}]]
+                            <h3>[[${i.index+1}]]. [[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 추가 불가)</span><!--[4번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 추가, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
@@ -234,7 +236,7 @@
                         <input type="hidden" name="answerStr" value="">
                         <input type="hidden" name="checked_cnt" value=0>
                         <div class="q_title">
-                            <h3>[[${item.title}]]
+                            <h3>[[${i.index+1}]]. [[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span><!--[5번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
@@ -243,7 +245,7 @@
                         <div class="q_answer">
                             <ul class="check_survey check_list_li50">
                                 <li th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
-                                    <input type="checkbox" th:value="${answerSeqList[i.index][j.index]}" name="check_surveyType_tree" th:id="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}" class="check_survey checkbox_style">
+                                    <input type="checkbox" th:value="${item2}" name="check_surveyType_tree" th:id="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}" class="check_survey checkbox_style">
                                     <label th:for="check_surveyType_tree+${j.index}+'_'+${item.questionSettingSeq}">[[${item2}]]</label>
                                 </li>
                             </ul>
@@ -262,7 +264,7 @@
                         <input type="hidden" name="answerStr" value="">
                         <input type="hidden" name="rankStr" value="">
                         <div class="q_title">
-                            <h3>[[${item.title}]]
+                            <h3>[[${i.index+1}]]. [[${item.title}]]
                                 <span th:if="${item.multipleUse == 'N'}">(복수 선택 불가)</span><!--[6번]-->
                                 <span th:if="${item.multipleUse == 'Y'}">(복수 선택, 최대[[${item.maximumNum}]]개)</span>
                             </h3>
@@ -272,7 +274,7 @@
                             <ul class="check_survey check_list_li50">
                                 <li class="check_wrap rank_check" th:if="${answerArrList[i.index] != null}" th:each="item2,j : ${answerArrList[i.index]}" th:unless="${#arrays.isEmpty(answerArrList[i.index])}">
                                     <label th:for="chk_fb+${j.index}" class="check_num" >
-                                        <input type="checkbox" name="faceSelect" th:id="chk_fb+${j.index}" class="ip_check" th:value="${answerSeqList[i.index][j.index]}">
+                                        <input type="checkbox" name="faceSelect" th:id="chk_fb+${j.index}" class="ip_check" th:value="${item2}">
                                         <span class="select_num" th:id="select_num_+${j.index}"></span>
                                         <span class="select_text">[[${item2}]]</span>
                                     </label>
@@ -458,7 +460,7 @@
 </article>
 <th:block layout:fragment="custom_js">
     <script th:inline="javascript">
-        var List = /*[[${List}]]*/'';
+        var viewList = /*[[${viewList}]]*/'';
     </script>
 
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.stoneitgt.sogongja.domain.QuestionSetting;
 import com.stoneitgt.sogongja.domain.Survey;
+import com.stoneitgt.sogongja.domain.UserSurvey;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -298,9 +300,6 @@ public class UserController extends BaseController {
 			List.add(questionSetting);
 
 		}
-		System.out.println("viewList >>> "+viewList);
-		System.out.println("answerArrList :: "+answerArrList);
-		System.out.println("answerSeqList ::: "+answerSeqList);
 		model.addAttribute("user", user);
 		model.addAttribute("category1List", category1List);
 		model.addAttribute("category2List", category2List);
@@ -310,6 +309,7 @@ public class UserController extends BaseController {
 		model.addAttribute("viewList", viewList);
 		model.addAttribute("answerSeqList", answerSeqList);
 		System.out.println("answerArrList :: "+answerArrList);
+		model.addAttribute("surveySettingSeq", surveySettingSeq);
 		System.out.println("List :: "+List);
 
 		model.addAttribute("boardSettingList", boardSettingList);
@@ -610,9 +610,18 @@ public class UserController extends BaseController {
 	}
 
 	@PostMapping("/survey/form")
-	public String saveUserSurvey( RedirectAttributes rttr) throws IOException {
-		//System.out.println("params :: "+params);
+	public String saveUserSurvey(@RequestBody Map<String, Object> params, RedirectAttributes rttr) throws IOException {
 		System.out.println("CHECK------------/ survey/form ---------------");
+		List<Map<String, Object>> questionList = (List<Map<String, Object>>) params.get("data");
+		String userEmail = (String) questionList.get(0).get("userEmail");
+		Integer surveySettingSeq = Integer.parseInt((String) questionList.get(0).get("surveySettingSeq"));
+		User user = userService.getUserInfo(userEmail);
+
+		UserSurvey userSurvey = new UserSurvey();
+		userSurvey.setSurveySettingSeq(surveySettingSeq);
+		userSurvey.setLoginUserSeq(user.getUserSeq());
+		userService.saveUserSurvey(userSurvey, questionList);
+
 
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
 		/*int questionSettingSeq = Integer.parseInt(String.valueOf(params.get("questionSettingSeq")));

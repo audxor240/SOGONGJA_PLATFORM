@@ -1,8 +1,13 @@
 package com.stoneitgt.sogongja.user.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.UserAnswer1;
+import com.stoneitgt.sogongja.domain.UserQuestion;
+import com.stoneitgt.sogongja.domain.UserSurvey;
+import com.stoneitgt.sogongja.user.controller.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +23,7 @@ import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.mapper.UserMapper;
 import com.stoneitgt.util.StringUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,6 +33,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private SurveyService surveyService;
 
 	@Override
 	public User loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -120,6 +129,57 @@ public class UserService implements UserDetailsService {
 
 	public User socialID_check(String uniqueId,String type){
 		return userMapper.findByUserId(uniqueId);
+	}
+
+	@Transactional
+	public void saveUserSurvey(UserSurvey userSurvey, List<Map<String, Object>> questionList){
+
+
+		surveyService.insertUserSurvey(userSurvey);		//사용자 설문 insert
+		System.out.println("userSurvey >>> "+userSurvey);
+		System.out.println("questionList :::: "+questionList);
+		for(int i =0 ; i < questionList.size();i++){
+
+			Map<String, Object> List = questionList.get(i);
+			UserQuestion userQuestion = new UserQuestion();
+
+			Integer questionSettingSeq = Integer.parseInt((String) List.get("questionSettingSeq"));
+			List<Integer> category3Arr = (java.util.List<Integer>) List.get("category3Arr");
+			List<Integer> rankArr = (java.util.List<Integer>) List.get("rankArr");
+
+			userQuestion.setUserSurveySeq(userSurvey.getUserSurveySeq());
+			userQuestion.setQuestionSettingSeq(questionSettingSeq);
+			userQuestion.setLoginUserSeq(userSurvey.getLoginUserSeq());
+
+			surveyService.insertUserQuestion(userQuestion);		// 사용자 질문 insert
+			System.out.println("userQuestion : "+userQuestion);
+			System.out.println("category3.size() :: "+category3Arr.size());
+
+			//추가형[업종] 답변 추가
+			if(category3Arr != null) {
+				for (int j = 0; j < category3Arr.size(); j++) {
+					UserAnswer1 userAnswer1 = new UserAnswer1();
+					int category3 = category3Arr.get(j);
+					userAnswer1.setLoginUserSeq(userSurvey.getLoginUserSeq());
+					userAnswer1.setCategory3Seq(category3);
+					userAnswer1.setAddress(null);
+
+					if(rankArr != null){
+						int rank = rankArr.get(j);
+						userAnswer1.setRank(rank);
+					}else{
+						userAnswer1.setRank(0);
+					}
+
+					userAnswer1.setType(1);	//업종 : 1, 주소 : 2
+
+					surveyService.insertUserAnswer1(userAnswer1);
+				}
+			}
+
+
+
+		}
 	}
 
 	public void setAuthentication(String type, String uniqueId, User user) {

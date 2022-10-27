@@ -819,110 +819,102 @@ $("[name=check_surveyType_tree]").change(function(){
 
 function surveySave(){
 
-    console.log("List :: "+List);
-    console.log("List.length :: "+List.length);
+    //console.log("List :: "+List);
+    //console.log("List.length :: "+List.length);
+
 
     var surveyList = new Array();
+    var validation_check = true;
+    var userEmail = $("#userEmail").val();
+    var surveySettingSeq = $("#surveySettingSeq").val();
 
-
-
-    /*
-    for(var i =0; i < List.length; i++){
-        var item = List[i];
-        //console.log("questionSettingSeq :: "+List[i].questionSettingSeq);
-        //console.log("title :: "+List[i].title);
-        //surveyList[i] = List[i].questionSettingSeq;
-        json.questionSettingSeq = item.questionSettingSeq;   //질문 관리 SEQ
-        json.answerType = item.answerType;
-        if(item.answerType == 1){
-
-        }else if(item.answerType == 2){
-            json.category3Seq = null;
-        }else if(item.answerType == 3){
-            json.category3Seq = null;
-        }
-
-        surveyList.push(json);
-    }
-    */
+    //질문 수 만큼 루프
     $(".survey_question").each(function (index, item) {
+        console.log("----------------------------------------------------------------------------------");
+        console.log("viewList :: "+viewList);
+        console.log("viewList[index] :: "+viewList[index]);
         var json = new Object();
         var questionSettingSeq = $(this).children("[name=questionSettingSeq]").val();
         var categoryStr = $(this).find("[name=categoryStr]").val();
         var addressStr = $(this).find("[name='addressArr[]']").val();
         var rankStr = $(this).find("[name='rankStr']").val();
         var answerStr = $(this).find("[name='answerStr']").val();
+        var view1_cnt = $(this).find("[name='view1_cnt']").val();     //추가형[업종] 순위지정X 추가된 개수
+        var view2_cnt = $(this).find("[name='view2_cnt']").val();     //추가형[업종] 순위지정O  추가된 개수
         var view_cnt = $(this).find("[name='view_cnt']").val();     //추가된 개수
 
-        json.questionSettingSeq = questionSettingSeq;   //질문 관리 SEQ
-
-        if(categoryStr != undefined){
-            categoryStr = categoryStr.slice(0,-1);
-            var category3Arr = categoryStr.split(",");
-            json.category3Arr = category3Arr;          //선택한 카테고리3 SEQ 배열
-        }else{
-            json.category3Arr = null;                  //선택한 카테고리3 SEQ 배열
-        }
-
-        /*if(addressStr != undefined){
-            addressStr = addressStr.slice(0,-1);
-            var addressArr = addressStr.split(",");
-            json.addressArr = addressArr;               //추가한 주소 배열
-        }else{
-            json.addressArr = null;
-        }*/
-
-        /*
-        if(rankStr != undefined){
-            rankStr = rankStr.slice(0,-1);
-            var rankArr = rankStr.split(",");
-            json.rankArr = rankArr;               //추가한 순위 배열
-        }else{
-            json.rankArr = null;
-        }
-        */
-
-        if(answerStr != undefined) {
-            answerStr = answerStr.slice(0, -1);
-            var answerArr = answerStr.split(",");
-            json.answerArr = answerArr;               //추가한 답변 배열
-        }else{
-            json.answerArr = null;
-        }
         var rank_arr = [];
         var address_arr = [];
         var keyword_arr = [];
-        if(view_cnt != undefined && view_cnt != 0){
-            if($(this).children(".choice_done_wrap").find(".aAdress_Wrap").length > 0) {
-                console.log("3번 들어옴");
+        var categor3_arr = [];
+
+
+
+        //추가형[업종] 순위지정X
+        if(viewList[index] == "1") {
+            if (view1_cnt != "0") {
+                categoryStr = categoryStr.slice(0, -1);
+                var category3Arr = categoryStr.split(",");
+                json.category3Arr = category3Arr;          //선택한 카테고리3 SEQ 배열
+                json.rankArr = null;             //순위 추가
+                validation_check = true;
+            } else {
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
+            }
+        }
+
+        //추사형[업종] 순위지정O
+        if(viewList[index] == "2") {
+            if (view2_cnt != "1"){
+                $(this).children(".choice_done_wrap").find(".dragContainer").each(function (index, item) {  //순위 루프
+                    var rank = $(this).find("[name=rank]").text();  //순위
+                    var categor3_seq = $(this).find("[name=category3_val]").val();  //카테고리3 seq
+
+                    rank_arr.push(rank);
+                    categor3_arr.push(categor3_seq);
+                });
+                json.rankArr = rank_arr;             //순위 추가
+                json.category3Arr = categor3_arr;    //카테고리3 추가
+                validation_check = true;
+            } else {
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
+            }
+        }
+
+
+
+        //추가형[주소] 주소,키워드 정보 셋팅
+        if(viewList[index] == "3") {
+            if ($(this).children(".choice_done_wrap").find(".aAdress_Wrap").length > 0) {
                 $(this).children(".choice_done_wrap").find(".aAdress_Wrap").each(function (index, item) {
-                    console.log("3번에 키워드 들어옴");
                     var k_arr = [];
                     var address = $(this).find("#addr3").text();  //주소
 
                     $(this).find(".tag_adress").each(function (index, item) {   //키워드 루프
-                        console.log("3번에 키워드 들어옴");
                         k_arr.push($(this).text());
                     });
                     keyword_arr.push(k_arr);
                     address_arr.push(address);
-                    /*var add_keyword = $(this).find("[name=add_keyword]").val();
 
-                    add_keyword = add_keyword.slice(0, -1);
-                    var add_keyword_arr = add_keyword.split(",");
-
-                    for (var i = 0; i < add_keyword_arr.length; i++) {
-                        k_arr.push(add_keyword_arr[i]);
-                    }
-                    keyword_arr.push(k_arr);            // 주소 키워드 추가
-                    */
                 });
                 json.rankArr = null;        //순위 추가
                 json.keywordArr = keyword_arr;  //키워드 추가
                 json.addressArr = address_arr;  //주소 추가
+                validation_check = true;
+            } else {
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
             }
+        }
 
-            if($(this).children(".choice_done_wrap").find(".dragContainer").length > 0) {
+        //추가형[주소] 순위, 주소, 키워드 셋팅
+        if(viewList[index] == "4") {
+            if ($(this).children(".choice_done_wrap").find(".dragContainer").length > 0) {
 
                 $(this).children(".choice_done_wrap").find(".dragContainer").each(function (index, item) {  //순위 루프
                     var k_arr = [];
@@ -940,65 +932,91 @@ function surveySave(){
                 json.rankArr = rank_arr;        //순위 추가
                 json.keywordArr = keyword_arr;  //키워드 추가
                 json.addressArr = address_arr;  //주소 추가
+                validation_check = true;
+            } else {
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
             }
-        }else{
-            console.log(index+"번째 NULL.........");
-            json.keywordArr = null;
         }
+
+        if(viewList[index] == "5") {
+            if (answerStr != undefined && answerStr != "") {
+                answerStr = answerStr.slice(0, -1);
+                var answerArr = answerStr.split(",");
+                json.answerArr = answerArr;               //추가한 답변 배열
+                validation_check = true;
+            } else {
+                json.answerArr = null;
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
+            }
+        }
+
+        var answer_arr = [];
+        //선택형 순위, 답변 셋팅
+        if(viewList[index] == "6") {
+            if ($(this).find("[name=totalCount]").val() > 0) {
+                $(this).find(".rank_check").each(function (index, item) {
+                    if ($(this).hasClass("on")) {
+                        rank_arr.push($(this).find(".select_num").text());          //순번
+                        answer_arr.push($(this).find("[name=faceSelect]").val());   //답변
+                    }
+                });
+                json.rankArr = rank_arr;        //순위 추가
+                json.answerArr = answer_arr;    //답변 추가
+                validation_check = true;
+            } else {
+                alert((index + 1) + "번째 질문을 선택해주세요");
+                validation_check = false;
+                return false;
+            }
+        }
+
+        json.questionSettingSeq = questionSettingSeq;   //질문 관리 SEQ
+        json.userEmail = userEmail;
+        json.surveySettingSeq = surveySettingSeq;
 
         surveyList.push(json);
 
     });
-    console.log("surveyList :: "+surveyList);
-    console.log("JSON.stringify(surveyList)) END :: "+JSON.stringify(surveyList));
-    /*
-    질문&답변정보{
-				[questionSettingSeq : 1, TYPE : 1, CATEGORY3_SEQ : [4,5,6], RANK : [1,3,2]], ADDRESS : NULL, answerSeq : null, keyword : null],
-				[questionSEttingSeq : 5, TYPE : 2, CATEGORY3_SEQ : null, RANK : NULL, ADDRESS: 화곡동, answerSeq : null, keyword : [1,3,4] ],
-				[questionSEttingSeq : 5, TYPE : 2, CATEGORY3_SEQ : null, RANK : [2,1], ADDRESS: [화곡동,여의도], answerSeq : null, keyword : [[1,2,4],[6,5,7]] ],
-				[questionSEttingSeq : 8, TYPE : 3, CATEGORY3_SEQ : null, RANK : [2,3,1,4], ADDRESS: 화곡동, answerSeq : [1,5,4,8], keyword : null]
 
-			}
+    if(!validation_check){
+        return;
+    }
 
-     */
+    let data = {
+        data: surveyList
+    };
 
-    /*let data = {
-        seq: seq
-    };*/
 
-    /*
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
     $.ajax({
         type: "POST",
-        url: "/api/favorite",
+        url: "/survey/form",
         async: false,
         data: JSON.stringify(data),
         beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
         },
         success: function (res) {
+            console.log("res : "+res);
+            alert("설문 작성 완료 되었습니다");
+            window.location.href = "/";
 
-            if(res.message == "login_check"){
-                $(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
-                alert("로그인이 필요합니다.");
-                return;
-            }else if(res.message == "add"){
-                alert("관심교육 등록되었습니다.");
-                return;
-            }else if(res.message == "delete"){
-                alert("관심교육 해제되었습니다.");
-                return;
-            }
         },
         error: function (request,status,error) {
             //alert(res.responseJSON.code);
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            alert("설문 작성 완료 되었습니다");
+            //window.location.href = "/";
 
             return;
 
         }
     });
-    */
+
 }
