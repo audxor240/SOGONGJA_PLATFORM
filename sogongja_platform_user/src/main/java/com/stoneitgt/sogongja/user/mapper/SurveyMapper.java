@@ -1,9 +1,6 @@
 package com.stoneitgt.sogongja.user.mapper;
 
-import com.stoneitgt.sogongja.domain.Survey;
-import com.stoneitgt.sogongja.domain.UserAnswer1;
-import com.stoneitgt.sogongja.domain.UserQuestion;
-import com.stoneitgt.sogongja.domain.UserSurvey;
+import com.stoneitgt.sogongja.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,4 +18,17 @@ public interface SurveyMapper {
     int insertUserQuestion(UserQuestion userQuestion);
 
     int insertUserAnswer1(UserAnswer1 userAnswer1);
+
+    int insertUserAnswer2(UserAnswer2 userAnswer2);
+
+    int insertUserKeyword(UserKeyword userKeyword);
+
+    UserSurvey getUserSurvey(int userSeq);
+
+    void deleteUserSurvey(int userSeq);
+    void deleteUserQuestion(int userSeq);
+    void deleteUserAnswer1(int userSeq);
+    void deleteUserAnswer2(int userSeq);
+    void deleteUserKeyword(int userSeq);
+
 }

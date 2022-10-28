@@ -38,4 +38,26 @@ public class SurveyService extends BaseService {
 
         return surveyMapper.insertUserAnswer1(userAnswer1);
     }
+
+    public int insertUserAnswer2(UserAnswer2 userAnswer2){
+
+        return surveyMapper.insertUserAnswer2(userAnswer2);
+    }
+
+    public int insertUserKeyword(UserKeyword userKeyword){
+
+        return surveyMapper.insertUserKeyword(userKeyword);
+    }
+
+    public UserSurvey getUserSurvey(int userSeq){
+        return surveyMapper.getUserSurvey(userSeq);
+    }
+
+    public void deleteAllSurvey(int userSeq){
+        surveyMapper.deleteUserSurvey(userSeq);
+        surveyMapper.deleteUserQuestion(userSeq);
+        surveyMapper.deleteUserAnswer1(userSeq);
+        surveyMapper.deleteUserAnswer2(userSeq);
+        surveyMapper.deleteUserKeyword(userSeq);
+    }
 }

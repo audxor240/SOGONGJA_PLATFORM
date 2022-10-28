@@ -110,8 +110,6 @@
 		            , GOOGLE_ID
 		            , KAKAO_ID
 		            , NAVER_ID
-		            , TYPE
-		            , SUB_TYPE
 		            , AGE_GROUP
 		            , SERVICE_TYPE)
 		       VALUES (
@@ -137,8 +135,6 @@
 		            , #{googleId}
 					, #{kakaoId}
 					, #{naverId}
-					, #{type}
-					, #{subType}
 					, #{age}
 					, #{serviceType}
 		            )
@@ -160,8 +156,6 @@
 		     , DEL_FLAG                      = 0
 		     , MOD_USER_SEQ                  = #{loginUserSeq}
 		     , MOD_DATE                      = CURRENT_TIMESTAMP()
-			 , TYPE							 = #{type}
-			 , SUB_TYPE					     = #{subType}
 			 , AGE_GROUP					 = #{age}
 			 , SERVICE_TYPE					 = #{serviceType}
 	</insert>
@@ -221,5 +215,16 @@
 		     AND U.LICENSE_NO = #{licenseNo}
 		     AND U.AUTH       = #{auth}
 	</select>
+
+	<update id="updateUserTypeAndSubType" parameterType="com.stoneitgt.sogongja.domain.User">
+		/* file : UserMapper.xml, id : updateUserTypeAndSubType */
+		UPDATE ST_USER
+		SET
+			TYPE = #{type}
+		  , SUB_TYPE = #{subType}
+		  , MOD_DATE = CURRENT_TIMESTAMP
+		  , MOD_USER_SEQ        = #{userSeq}
+		WHERE USER_SEQ        = #{userSeq}
+	</update>
 
 </mapper>

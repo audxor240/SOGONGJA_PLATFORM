@@ -87,12 +87,10 @@ public class UserController extends BaseController {
 		}
 
 
-		System.out.println("user >>>>>>>>>>>> "+user);
 		//return "pages/user/signup_result";
 
 		// 회원가입인 경우에만
 		if (user.getUserSeq() == 0) {
-			System.out.println("user.getId() >>>>> "+user.getId());
 			if (StringUtil.isBlank(user.getId())) {
 				bindingResult.rejectValue("id", "field.required");
 			} else {
@@ -171,21 +169,24 @@ public class UserController extends BaseController {
 		user.setType01(user.getType01());
 		user.setType02(user.getType02());
 		user.setServiceType(category);
-		System.out.println("user.getType01() :: "+user.getType01());
-		System.out.println("user.getType02() :: "+user.getType02());
+
 		if(user.getUserSeq() != 0){
 
 			User user2 = userService.getUserInfo(user.getUserSeq());
 
-			//이용자 유형을 변경했을 경우
-			if(!user2.getType().equals(user.getType()) || !user2.getSubType().equals(user.getSubType())){
-				//모달창을 보여주기위한 구분 값
+			if(user2.getType() != null) {
+				//이용자 유형을 변경했을 경우
+				if (!user2.getType().equals(user.getType()) || !user2.getSubType().equals(user.getSubType())) {
+					//모달창을 보여주기위한 구분 값
+					model.addAttribute("typeCheck", "update");
+				}
+			}else{
 				model.addAttribute("typeCheck", "update");
 			}
 		}
 
 		userService.saveUser(user);
-		System.out.println("user =============== >>>> "+user);
+
 		if (user.getUserSeq() == 0) {
 			model.addAttribute("user", user);
 
@@ -202,9 +203,7 @@ public class UserController extends BaseController {
 
 	@PostMapping("/signup/completion")
 	public String signupCompletion(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::----1111--> "+user);
-
-
+		System.out.println("user --111--- "+user);
 		int surveySettingSeq = 0;
 		if(user.getType().equals("4")){
 			surveySettingSeq = 7;
@@ -222,13 +221,21 @@ public class UserController extends BaseController {
 
 	@PostMapping("/user/surveyForm")
 	public String surveyForm(@ModelAttribute("user") User user, Model model) {
-		System.out.println("user ::----2222--> "+user);
 
+		System.out.println("user >>>>>>>>>> :: "+user);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		List<Map<String, Object>> category1List = categoryService.getCategory1List();
 		List<Map<String, Object>> category2List = categoryService.getCategory2List();
 		List<Map<String, Object>> category3List = categoryService.getCategory3List();
+
+		UserSurvey userSurvey = surveyService.getUserSurvey(user.getUserSeq());
+		System.out.println("userSurvey :: "+userSurvey);
+		if(userSurvey == null){
+			model.addAttribute("userSurveySeq", 0);
+		}else{
+			model.addAttribute("userSurveySeq", userSurvey.getUserSurveySeq());
+		}
 
 		int surveySettingSeq = 0;
 		if(user.getType().equals("4")){
@@ -248,6 +255,8 @@ public class UserController extends BaseController {
 		List<String> viewList = new ArrayList<>();		//질문을 보여주기 위한 배열 정의
 		List<List<String>> answerArrList = new ArrayList<>();
 		List<List<Integer>> answerSeqList = new ArrayList<>();
+		List<List<String>> category2SeqStrList = new ArrayList<>();
+		List<List<String>> answerSeqStrList = new ArrayList<>();
 
 		boolean firstView = false;
 		// 추가된 질문 개수만큼 루프
@@ -258,25 +267,37 @@ public class UserController extends BaseController {
 
 			List<String> answerArr = new ArrayList<>();
 			List<Integer> answerSeqArr = new ArrayList<>();
+			List<String> category2SeqStr = new ArrayList<>();
+			List<String> answerSeqStr = new ArrayList<>();
 			//질문이 선택형이면
 			if(questionSetting.getQuestionType().equals("choice")){
 				//답변 정보 조회
 				List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
 				System.out.println("listSub :: "+listSub);
+
 				//해당질문의 답변 배열에 저장
 				for(int j =0; j < listSub.size();j++){
+					//List<String> arr = new ArrayList<>();
 					String answer = (String) listSub.get(j).get("answer");
 					Integer answerSeq = (Integer) listSub.get(j).get("answer_setting_seq");
+					String category2_seq = (String) listSub.get(j).get("g_seq");
+					String answer_seq = (String) listSub.get(j).get("a_seq");
+
 					answerArr.add(answer);
 					answerSeqArr.add(answerSeq);
+					category2SeqStr.add(category2_seq);
+					answerSeqStr.add(answer_seq);
 				}
 				answerArrList.add(answerArr);
 				answerSeqList.add(answerSeqArr);
+				category2SeqStrList.add(category2SeqStr);
+				answerSeqStrList.add(answerSeqStr);
 			}else{
 				answerArrList.add(null);
 				answerSeqList.add(null);
+				category2SeqStrList.add(null);
+				answerSeqStrList.add(null);
 			}
-			System.out.println("questionSetting ::: "+questionSetting);
 
 			if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
 				//추가형[업종] 이고 순위 지정X
@@ -308,8 +329,10 @@ public class UserController extends BaseController {
 		model.addAttribute("List", List);
 		model.addAttribute("viewList", viewList);
 		model.addAttribute("answerSeqList", answerSeqList);
-		System.out.println("answerArrList :: "+answerArrList);
 		model.addAttribute("surveySettingSeq", surveySettingSeq);
+		model.addAttribute("category2SeqStrList", category2SeqStrList);
+		model.addAttribute("answerSeqStrList", answerSeqStrList);
+
 		System.out.println("List :: "+List);
 
 		model.addAttribute("boardSettingList", boardSettingList);
@@ -336,7 +359,7 @@ public class UserController extends BaseController {
 							 @RequestParam String email,
 							 @RequestParam String name) {
 
-		System.out.println("type >>>> "+type);
+
 		if(!type.equals("")) {
 
 			String[] email_arr = email.split("@");
@@ -373,14 +396,12 @@ public class UserController extends BaseController {
 			}
 		}
 		if (resultCode > 0) {
-			System.out.println("userId :: "+userId);
 			if (userService.existedUserId(userId) >= 1) {
 				resultCode = -102;
 			}
 		}
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println("resultCode:: "+resultCode);
 		result.put("result_code", resultCode);
 		return result;
 	}
@@ -397,14 +418,12 @@ public class UserController extends BaseController {
 			}
 		}
 		if (resultCode > 0) {
-			System.out.println("userId :: "+nickName);
 			if (userService.existedUserNickName(nickName) >= 1) {
 				resultCode = -102;
 			}
 		}
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println("resultCode:: "+resultCode);
 		result.put("result_code", resultCode);
 		return result;
 	}
@@ -418,7 +437,6 @@ public class UserController extends BaseController {
 
 		int cnt = userService.withdrawUser(userSeq);
 
-		System.out.println("cnt=" + cnt);
 
 		if (cnt > 0) {
 			result.put("result_code", GlobalConstant.API_STATUS.SUCCESS);
@@ -596,11 +614,9 @@ public class UserController extends BaseController {
 
 	@PostMapping("/survey/addressAdd")
 	public String addressAdd(Model model,@RequestBody Map<String, Object> params) throws IOException {
-		System.out.println("params :: "+params);
 
 		int questionSettingSeq = Integer.parseInt(String.valueOf(params.get("questionSettingSeq")));
 		QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
-		System.out.println("questionSetting :: "+questionSetting);
 		List<Map<String, Object>> keywordList = questionService.getQuestionSettingKeyword(questionSettingSeq);
 
 		model.addAttribute("keywordList", keywordList);
@@ -611,27 +627,33 @@ public class UserController extends BaseController {
 
 	@PostMapping("/survey/form")
 	public String saveUserSurvey(@RequestBody Map<String, Object> params, RedirectAttributes rttr) throws IOException {
-		System.out.println("CHECK------------/ survey/form ---------------");
 		List<Map<String, Object>> questionList = (List<Map<String, Object>>) params.get("data");
 		String userEmail = (String) questionList.get(0).get("userEmail");
 		Integer surveySettingSeq = Integer.parseInt((String) questionList.get(0).get("surveySettingSeq"));
+		Integer userSurveySeq = Integer.parseInt((String) questionList.get(0).get("userSurveySeq"));
 		User user = userService.getUserInfo(userEmail);
 
+		//설문지를 신규로 작성하거나 변경할때 이용자 유형을 업데이트해준다.
+		switch (surveySettingSeq){
+			case 1 : user.setType("1"); user.setSubType("1"); break;
+			case 2 : user.setType("1"); user.setSubType("2"); break;
+			case 3 : user.setType("2"); user.setSubType("3"); break;
+			case 4 : user.setType("3"); user.setSubType("4"); break;
+			case 5 : user.setType("3"); user.setSubType("5"); break;
+			case 6 : user.setType("3"); user.setSubType("6"); break;
+			case 7 : user.setType("4"); user.setSubType("7"); break;
+		}
+
+		userService.updateUserTypeAndSubType(user);
+
 		UserSurvey userSurvey = new UserSurvey();
+		userSurvey.setUserSurveySeq(userSurveySeq);
 		userSurvey.setSurveySettingSeq(surveySettingSeq);
 		userSurvey.setLoginUserSeq(user.getUserSeq());
 		userService.saveUserSurvey(userSurvey, questionList);
 
-
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
-		/*int questionSettingSeq = Integer.parseInt(String.valueOf(params.get("questionSettingSeq")));
-		QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
-		System.out.println("questionSetting :: "+questionSetting);
-		List<Map<String, Object>> keywordList = questionService.getQuestionSettingKeyword(questionSettingSeq);
 
-		model.addAttribute("keywordList", keywordList);
-		model.addAttribute("questionSettingSeq", questionSettingSeq);
-		model.addAttribute("questionSetting", questionSetting);*/
 		String returnUrl = "redirect:/";
 		return returnUrl;
 	}

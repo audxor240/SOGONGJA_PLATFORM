@@ -1,12 +1,11 @@
 package com.stoneitgt.sogongja.user.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.stoneitgt.sogongja.domain.UserAnswer1;
-import com.stoneitgt.sogongja.domain.UserQuestion;
-import com.stoneitgt.sogongja.domain.UserSurvey;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.controller.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.stoneitgt.common.Paging;
-import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.mapper.UserMapper;
 import com.stoneitgt.util.StringUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,38 +132,50 @@ public class UserService implements UserDetailsService {
 	@Transactional
 	public void saveUserSurvey(UserSurvey userSurvey, List<Map<String, Object>> questionList){
 
+		int loginUserSeq = userSurvey.getLoginUserSeq();
+
+		if(userSurvey.getUserSurveySeq() != 0){
+			//기존 설문지 내용 전체 삭제
+			surveyService.deleteAllSurvey(loginUserSeq);
+		}
+
 
 		surveyService.insertUserSurvey(userSurvey);		//사용자 설문 insert
-		System.out.println("userSurvey >>> "+userSurvey);
-		System.out.println("questionList :::: "+questionList);
+
 		for(int i =0 ; i < questionList.size();i++){
 
 			Map<String, Object> List = questionList.get(i);
 			UserQuestion userQuestion = new UserQuestion();
 
 			Integer questionSettingSeq = Integer.parseInt((String) List.get("questionSettingSeq"));
-			List<Integer> category3Arr = (java.util.List<Integer>) List.get("category3Arr");
-			List<Integer> rankArr = (java.util.List<Integer>) List.get("rankArr");
+			List<String> category3Arr = (java.util.List<String>) List.get("category3Arr");
+			List<String> addressArr = (java.util.List<String>) List.get("addressArr");
+			List<List<String>> keywordArr = (java.util.List<java.util.List<String>>) List.get("keywordArr");
+			List<List<String>> keyworSeqdArr = (java.util.List<java.util.List<String>>) List.get("keywordSeqArr");
+			List<String> rankArr = (java.util.List<String>) List.get("rankArr");
+			List<String> answerArr = (java.util.List<String>) List.get("answerArr");
+			List<List<String>> category2Arr = (java.util.List<java.util.List<String>>) List.get("category2Arr");
+			List<List<String>> answerSeqArr = (java.util.List<java.util.List<String>>) List.get("answerSeqArr");
 
 			userQuestion.setUserSurveySeq(userSurvey.getUserSurveySeq());
 			userQuestion.setQuestionSettingSeq(questionSettingSeq);
-			userQuestion.setLoginUserSeq(userSurvey.getLoginUserSeq());
+			userQuestion.setLoginUserSeq(loginUserSeq);
 
 			surveyService.insertUserQuestion(userQuestion);		// 사용자 질문 insert
-			System.out.println("userQuestion : "+userQuestion);
-			System.out.println("category3.size() :: "+category3Arr.size());
 
 			//추가형[업종] 답변 추가
 			if(category3Arr != null) {
 				for (int j = 0; j < category3Arr.size(); j++) {
 					UserAnswer1 userAnswer1 = new UserAnswer1();
-					int category3 = category3Arr.get(j);
-					userAnswer1.setLoginUserSeq(userSurvey.getLoginUserSeq());
+					int category3 = Integer.parseInt(category3Arr.get(j));
+
+					userAnswer1.setLoginUserSeq(loginUserSeq);
 					userAnswer1.setCategory3Seq(category3);
 					userAnswer1.setAddress(null);
+					userAnswer1.setUserQuestionSeq(userQuestion.getUserQuestionSeq());
 
 					if(rankArr != null){
-						int rank = rankArr.get(j);
+						int rank = Integer.parseInt(rankArr.get(j));
 						userAnswer1.setRank(rank);
 					}else{
 						userAnswer1.setRank(0);
@@ -173,50 +183,89 @@ public class UserService implements UserDetailsService {
 
 					userAnswer1.setType(1);	//업종 : 1, 주소 : 2
 
-					surveyService.insertUserAnswer1(userAnswer1);
+					surveyService.insertUserAnswer1(userAnswer1);	//업종 insert
 				}
 			}
 
+			//추가형[주소] 답변 추가
+			if(addressArr != null){
+				for(int p = 0;p < addressArr.size();p++){
+					UserAnswer1 userAnswer1 = new UserAnswer1();
+					String address = addressArr.get(p);
+
+					userAnswer1.setLoginUserSeq(loginUserSeq);
+					userAnswer1.setCategory3Seq(0);
+					userAnswer1.setAddress(address);
+					userAnswer1.setUserQuestionSeq(userQuestion.getUserQuestionSeq());
+
+					List<String> keyword_array = keywordArr.get(p);	//키워드
+					List<String> keyword_seq_array = keyworSeqdArr.get(p);	//키워드 시퀀스
+
+					if(rankArr != null){
+						int rank = Integer.parseInt(rankArr.get(p));
+						userAnswer1.setRank(rank);
+					}else{
+						userAnswer1.setRank(0);
+					}
+
+					userAnswer1.setType(2);	//업종 : 1, 주소 : 2
+					surveyService.insertUserAnswer1(userAnswer1);	//주소 insert
+
+					for(int k =0 ; k < keyword_array.size(); k++){
+						UserKeyword userKeyword = new UserKeyword();
+						String keyword = keyword_array.get(k);
+						int keywordSeq = Integer.parseInt(keyword_seq_array.get(k));
+
+						userKeyword.setLoginUserSeq(loginUserSeq);
+						userKeyword.setUserAnswer1Seq(userAnswer1.getUserAnswer1Seq());
+						userKeyword.setQuestionSettingKeywordSeq(keywordSeq);
+						userKeyword.setKeyword(keyword);
+						surveyService.insertUserKeyword(userKeyword);	//키워드 insert
+
+					}
+				}
+			}
+
+			//선택형 답변 추가
+			if(answerArr != null){
+				//답변 루프
+				for(int h =0; h < answerArr.size();h++){
+					UserAnswer2 userAnswer2 = new UserAnswer2();
+					String answer = answerArr.get(h);
+					userAnswer2.setLoginUserSeq(loginUserSeq);
+					userAnswer2.setAnswer(answer);										//답변
+					userAnswer2.setUserQuestionSeq(userQuestion.getUserQuestionSeq());	//질문 시퀀스
 
 
+					if(rankArr != null){
+						int rank = Integer.parseInt(rankArr.get(h));
+						userAnswer2.setRank(rank);
+					}else{
+						userAnswer2.setRank(0);
+					}
+
+					List<String> cate2Arr = category2Arr.get(h);	//카테고리2 시퀀스
+					List<String> an_Arr = answerSeqArr.get(h);	//답변 시퀀스
+					//카테고리2 루프
+					for(int n=0;n < cate2Arr.size();n++){
+						int category2 = Integer.parseInt(cate2Arr.get(n));
+						int answerSeq = Integer.parseInt(an_Arr.get(n));
+						userAnswer2.setCategory2Seq(category2);
+						userAnswer2.setAnswerSeq(answerSeq);
+						surveyService.insertUserAnswer2(userAnswer2);	//선택형 insert
+					}
+				}
+			}
 		}
 	}
 
-	public void setAuthentication(String type, String uniqueId, User user) {
-/*
-		Optional<Account> optAcc = null;
-		if (type.equals("GOOGLE")) {
-			optAcc = accountRepository.findByGoogleUniqueId(uniqueId);
-		} else if (type.equals("NAVER")) {
-//            optAcc = accountRepository.findByNaverUniqueId(uniqueId);
-			optAcc = accountRepository.findByEmailAndEnabledTrue(uniqueId);
-		} else if (type.equals("KAKAO")) {
-			optAcc = accountRepository.findByKakaoUniqueId(uniqueId);
-		}
-		Account account = optAcc.get();
-		if (account.getAccountStt().equals(AccountStatus.DELETE) || account.getAccountStt().equals(AccountStatus.RESIGN)) {
-			throw new CusDeleteResignAccountException("DELETEORRESIGN");
-		}
-		if (account.getAccountStt() == AccountStatus.DISABLE) {
-			throw new CusDisabledAccountException("DISABLE");
-		}
+	public UserSurvey getUserSurvey(int userSeq){
 
- */
-
-		//UserDetailsImpl signedUser =  loadUserByUsername(uniqueId);
-		//UsernamePasswordAuthenticationToken authReq = new SignedUserAuthenticationToken(signedUser);
-		//SecurityContextHolder.getContext().setAuthentication(authReq);
-		/*
-		User us = socialID_check(uniqueId,"KAKAO");
-		User user2 = new User(us);
-		List<GrantedAuthority> roles = user.getList(user);
-		Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
-		*/
-		//UserDetailsService memberDetails = new UserDetailsService(user);
-		//UserDetails memberDetails = new UserDetails(user);
-
-
-
+		return surveyService.getUserSurvey(userSeq);
 	}
 
+	public void updateUserTypeAndSubType(User user){
+		userMapper.updateUserTypeAndSubType(user);
+	}
 }
+

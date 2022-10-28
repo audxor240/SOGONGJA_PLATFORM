@@ -15,6 +15,12 @@
 
     </select>
 
+    <select id="getUserSurvey" parameterType="int" resultType="com.stoneitgt.sogongja.domain.UserSurvey">
+        /* file : SurveyMapper.xml, id : getUserSurvey */
+        select * from ST_USER_SURVEY where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+
+    </select>
+
     <insert id="insertUserSurvey" parameterType="com.stoneitgt.sogongja.domain.UserSurvey">
         /* file : SurveyMapper.xml, id : insertUserSurvey */
         INSERT
@@ -55,14 +61,16 @@
         /* file : SurveyMapper.xml, id : insertUserAnswer1 */
         INSERT
         INTO ST_USER_ANSWER1 (
-        CATEGORY3_SEQ
+        USER_QUESTION_SEQ
+        , CATEGORY3_SEQ
         , RANK
         , TYPE
         , ADDRESS
         , REG_USER_SEQ
         , REG_DATE)
         VALUES (
-        #{category3Seq}
+        #{userQuestionSeq}
+        , #{category3Seq}
         ,#{rank}
         ,#{type}
         ,#{address}
@@ -74,7 +82,87 @@
         </selectKey>
     </insert>
 
+    <insert id="insertUserAnswer2" parameterType="com.stoneitgt.sogongja.domain.UserAnswer2">
+        /* file : SurveyMapper.xml, id : insertUserAnswer2 */
+        INSERT
+        INTO ST_USER_ANSWER2 (
+        USER_QUESTION_SEQ
+        , CATEGORY2_SEQ
+        , ANSWER
+        , ANSWER_SEQ
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{userQuestionSeq}
+        , #{category2Seq}
+        , #{answer}
+        , #{answerSeq}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
 
+        <selectKey resultType="int" keyProperty="userAnswer2Seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertUserKeyword" parameterType="com.stoneitgt.sogongja.domain.UserKeyword">
+        /* file : SurveyMapper.xml, id : insertUserKeyword */
+        INSERT
+        INTO ST_USER_KEYWORD (
+        QUESTION_SETTING_KEYWORD_SEQ
+        , KEYWORD
+        , USER_ANSWER1_SEQ
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{questionSettingKeywordSeq}
+        , #{keyword}
+        , #{userAnswer1Seq}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="userKeywordSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="deleteUserSurvey" parameterType="int">
+        /* file : SurveyMapper.xml, id : deleteUserSurvey */
+        update ST_USER_SURVEY
+        set DEL_FLAG = 1
+          , DEL_DATE = CURRENT_TIMESTAMP()
+          , DEL_USER_SEQ = #{userSeq}
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+    </update>
+    <update id="deleteUserQuestion" parameterType="int">
+        /* file : SurveyMapper.xml, id : deleteUserQuestion */
+        update ST_USER_QUESTION
+        set DEL_FLAG = 1
+            , DEL_DATE = CURRENT_TIMESTAMP()
+            , DEL_USER_SEQ = #{userSeq}
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+    </update><update id="deleteUserAnswer1" parameterType="int">
+        /* file : SurveyMapper.xml, id : deleteUserAnswer1 */
+        update ST_USER_ANSWER1
+        set DEL_FLAG = 1
+          , DEL_DATE = CURRENT_TIMESTAMP()
+          , DEL_USER_SEQ = #{userSeq}
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+    </update><update id="deleteUserAnswer2" parameterType="int">
+        /* file : SurveyMapper.xml, id : deleteUserAnswer2 */
+        update ST_USER_ANSWER2
+        set DEL_FLAG = 1
+          , DEL_DATE = CURRENT_TIMESTAMP()
+          , DEL_USER_SEQ = #{userSeq}
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+    </update><update id="deleteUserKeyword" parameterType="int">
+        /* file : SurveyMapper.xml, id : deleteUserKeyword */
+        update ST_USER_KEYWORD
+        set DEL_FLAG = 1
+          , DEL_DATE = CURRENT_TIMESTAMP()
+          , DEL_USER_SEQ = #{userSeq}
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0 ;
+    </update>
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
