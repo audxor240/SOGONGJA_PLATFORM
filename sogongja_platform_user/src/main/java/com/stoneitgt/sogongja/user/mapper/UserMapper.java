@@ -46,4 +46,6 @@ public interface UserMapper {
 	String findUserId(User user);
 
 	Integer findUserPassword(User user);
+
+	void updateUserTypeAndSubType(User user);
 }

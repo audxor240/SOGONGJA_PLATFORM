@@ -26,7 +26,7 @@
 
     <select id="getAnswerSettingList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : AnswerSettingMapper.xml, id : getAnswerSettingList */
-        select STS.*, group_concat(STS.CATEGORY2_SEQ) as g_seq , group_concat(C2.NAME) as g_name
+        select STS.*, group_concat(STS.CATEGORY2_SEQ) as g_seq , group_concat(C2.NAME) as g_name, group_concat(STS.ANSWER_SETTING_SEQ) as a_seq
         from ST_ANSWER_SETTING as STS
                  left join ST_CATEGORY2 as C2 ON C2.CATEGORY2_SEQ = STS.CATEGORY2_SEQ
         where STS.QUESTION_SETTING_SEQ = #{questionSeq} and STS.DEL_FLAG =0

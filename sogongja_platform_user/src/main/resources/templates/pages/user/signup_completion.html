@@ -105,6 +105,7 @@
             </div>
             <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST" >
                 <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{userSeq}">
                 <input type="hidden" th:field="*{username}">
                 <input type="hidden" th:field="*{nickName}">
                 <input type="hidden" th:field="*{userType}">
