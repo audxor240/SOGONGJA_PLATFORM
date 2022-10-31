@@ -7,27 +7,21 @@
 	<select id="getEducationList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : EducationMapper.xml, id : getEducationList */
 		SELECT E.*
-		     , CATE1.CODE_NAME                     AS CATEGORY_1_NAME
-		     , CATE2.CODE_NAME                     AS CATEGORY_2_NAME
-		     , CATE3.CODE_NAME                     AS CATEGORY_3_NAME
-		     , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
-		     , DATE_FORMAT(E.REG_DATE, '%Y-%m-%d') AS REG_DT
-		     , U.USERNAME                          AS REG_USERNAME
+			, CATE1.NAME                     AS CATEGORY_1_NAME
+			, CATE2.NAME                     AS CATEGORY_2_NAME
+			, CATE3.NAME                     AS CATEGORY_3_NAME
+			, SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
+			, DATE_FORMAT(E.REG_DATE, '%Y-%m-%d') AS REG_DT
+		    , U.USERNAME                          AS REG_USERNAME
+			, F.THUMBNAIL_PATH
+			, F.FILE_NAME
 		  FROM ST_EDUCATION E
-		   INNER JOIN ST_CODE_DTL SUPPORT_ORG
-		           ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
-		          AND SUPPORT_ORG.CODE     = E.SUPPORT_ORG
-		   INNER JOIN ST_USER U
-		           ON E.REG_USER_SEQ = U.USER_SEQ
-		   INNER JOIN ST_CODE_DTL CATE1
-		           ON CATE1.GRP_CODE = 'CATEGORY_1'
-		          AND CATE1.CODE     = E.CATEGORY_1
-		LEFT OUTER JOIN ST_CODE_DTL CATE2
-		           ON CATE2.GRP_CODE = 'CATEGORY_2'
-		          AND CATE2.CODE     = E.CATEGORY_2
-		LEFT OUTER JOIN ST_CODE_DTL CATE3
-		           ON CATE3.GRP_CODE = 'CATEGORY_3'
-		          AND CATE3.CODE     = E.CATEGORY_3
+		  INNER JOIN ST_USER U ON E.REG_USER_SEQ = U.USER_SEQ
+		  left join ST_CATEGORY1 as CATE1 ON CATE1.CATEGORY1_SEQ = E.CATEGORY_1
+		  left join ST_CATEGORY2 as CATE2 ON CATE2.CATEGORY2_SEQ = E.CATEGORY_2
+		  left join ST_CATEGORY3 as CATE3 ON CATE3.CATEGORY3_SEQ = E.CATEGORY_3
+		  left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = E.SUPPORT_ORG
+		  left join ST_FILES as F ON F.REF_SEQ = E.EDU_SEQ
 		 WHERE E.DEL_FLAG            = 0
 		<if test="keyword != null and keyword != ''">
              AND E.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
@@ -35,6 +29,13 @@
 		<if test="category1 != null and category1 != ''">
              AND E.CATEGORY_1        = #{category1}
         </if>
+		<if test="category2 != null and category2 != ''">
+			AND E.CATEGORY_2        = #{category2}
+		</if>
+		<if test="category3 != null and category3 != ''">
+			AND E.CATEGORY_3        = #{category3}
+		</if>
+
 		<if test="support_org != null and support_org != ''">
              AND E.SUPPORT_ORG       = #{support_org}
         </if>

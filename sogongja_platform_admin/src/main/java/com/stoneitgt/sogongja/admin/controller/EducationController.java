@@ -1,13 +1,12 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import com.stoneitgt.sogongja.admin.service.CategoryService;
+import com.stoneitgt.sogongja.admin.service.SupportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +34,12 @@ public class EducationController extends BaseController {
 	@Autowired
 	private EducationService educationService;
 
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private SupportService supportService;
+
 	@GetMapping("")
 	public String educationiList(@ModelAttribute EducationParameter params, Model model) {
 
@@ -48,6 +53,25 @@ public class EducationController extends BaseController {
 		Integer total = educationService.selectTotalRecords();
 		paging.setTotal(total);
 
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
+		List<Map<String, Object>> category2List = null;
+		List<Map<String, Object>> category3List = null;
+		if(params.getCategory1() != null && !params.getCategory1().equals("")){
+			Map<String, Object> param2 = new HashMap<String, Object>();
+			param2.put("category1Seq",params.getCategory1());
+			category2List = categoryService.getCategory2(param2);
+			model.addAttribute("category2", category2List);		//카테고리2
+		}
+
+		if(params.getCategory2() != null && !params.getCategory2().equals("")){
+			Map<String, Object> param3 = new HashMap<String, Object>();
+			param3.put("category2Seq",params.getCategory2());
+			category3List = categoryService.getCategory3(param3);
+			model.addAttribute("category3", category3List);		//카테고리3
+		}
+
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
@@ -59,7 +83,9 @@ public class EducationController extends BaseController {
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		model.addAttribute("category1", category1List);		//카테고리1
+		model.addAttribute("supportOrg", supportList);		//지원기관
 
 		return "pages/education/education_list";
 	}
@@ -75,13 +101,32 @@ public class EducationController extends BaseController {
 		breadcrumb.put("menu_name", "소공자 교육 관리");
 		model.addAttribute("breadcrumb", breadcrumb);
 
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
+		Map<String, Object> param2 = new HashMap<String, Object>();
+		param2.put("category1Seq",education.getCategory1());
+		List<Map<String, Object>> category2List = categoryService.getCategory2(param2);
+
+
+		Map<String, Object> param3 = new HashMap<String, Object>();
+		param3.put("category2Seq",education.getCategory2());
+		List<Map<String, Object>> category3List = categoryService.getCategory3(param3);
+
+
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION, eduSeq));
 		model.addAttribute("imageList", getFileList(FILE_REF_TYPE.EDUCATION_IMAGE, eduSeq));
-		model.addAttribute("category1", getCodeList("CATEGORY_1"));
-		model.addAttribute("category2", getCodeRefList("CATEGORY_2", education.getCategory1(), ""));
-		model.addAttribute("category3", getCodeRefList("CATEGORY_3", education.getCategory2(), ""));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("category1", getCodeList("CATEGORY_1"));
+		//model.addAttribute("category2", getCodeRefList("CATEGORY_2", education.getCategory1(), ""));
+		//model.addAttribute("category3", getCodeRefList("CATEGORY_3", education.getCategory2(), ""));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("category1", category1List);
+		model.addAttribute("category2", category2List);
+		model.addAttribute("category3", category3List);
+		model.addAttribute("supportOrg", supportList);
+
+
 
 		return "pages/education/education_form";
 	}
@@ -94,14 +139,22 @@ public class EducationController extends BaseController {
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "소공자 교육 관리");
+
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
-		model.addAttribute("category1", getCodeList("CATEGORY_1"));
+		//model.addAttribute("category1", getCodeList("CATEGORY_1"));
 		model.addAttribute("category2", new ArrayList<>());
 		model.addAttribute("category3", new ArrayList<>());
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("category1", category1List);		//카테고리1
+		model.addAttribute("supportOrg", supportList);		//지원기관
+
 
 		return "pages/education/education_form";
 	}
@@ -139,20 +192,27 @@ public class EducationController extends BaseController {
 			returnUrl += education.getPageParams();
 		}
 		education.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
-
 		educationService.saveEducation(education);
 
 		return returnUrl;
 	}
 
 	@PostMapping("/delete")
-	public String deleteEducation(@RequestParam int eduSeq, @RequestParam(required = false) String menuCode,
+	public String deleteEducation(@RequestParam String eduStr, @RequestParam(required = false) String menuCode,
 			Model model, RedirectAttributes rttr) throws IOException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("edu_seq", eduSeq);
-		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-		educationService.deleteEducation(params);
+
+		List<String> eduSeqArr = Arrays.asList(eduStr.split(","));
+
+		for(int i =0; i < eduSeqArr.size();i++) {
+			int eduSeq = Integer.parseInt(eduSeqArr.get(i));
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("edu_seq", eduSeq);
+			params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+			educationService.deleteEducation(params);
+		}
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/educaction?menuCode=" + menuCode;
+
+		return "redirect:/education?menuCode=" + menuCode;
+		//return "pages/education/education_list";
 	}
 }

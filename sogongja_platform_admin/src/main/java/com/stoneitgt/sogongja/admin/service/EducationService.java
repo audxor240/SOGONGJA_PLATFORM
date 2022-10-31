@@ -76,7 +76,7 @@ public class EducationService extends BaseService {
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int deleteEducation(Map<String, Object> params) {
 		int result = educationMapper.deleteEducation(params);
-		params.put("ref_type", FILE_REF_TYPE.EDUCATION.toUpperCase());
+		params.put("ref_type", FILE_REF_TYPE.EDUCATION_IMAGE.toUpperCase());
 		params.put("ref_seq", params.get("edu_seq"));
 		filesService.deleteFileAll(params);
 		return result;

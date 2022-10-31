@@ -37,4 +37,8 @@ public interface CategoryMapper {
     Category3 getCategory3Info(int categorySeq);
 
     Category1 getCategory2DelInfo(int categorySeq);
+
+    List<Map<String, Object>> getCategory2(Map<String, Object> params);
+
+    List<Map<String, Object>> getCategory3(Map<String, Object> params);
 }

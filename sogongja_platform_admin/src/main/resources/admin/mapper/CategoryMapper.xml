@@ -177,6 +177,24 @@
 
     </select>
 
+    <select id="getCategory2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory2 */
+        SELECT *
+        FROM ST_CATEGORY2
+        WHERE CATEGORY1_SEQ = #{category1Seq}
+          AND DEL_FLAG = 0
+
+    </select>
+
+    <select id="getCategory3" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CategoryMapper.xml, id : getCategory3 */
+        SELECT *
+        FROM ST_CATEGORY3
+        WHERE CATEGORY2_SEQ = #{category2Seq}
+          AND DEL_FLAG = 0
+
+    </select>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

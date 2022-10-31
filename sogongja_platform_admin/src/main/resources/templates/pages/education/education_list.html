@@ -19,8 +19,9 @@
                                         <label class="col-sm-2 col-form-label">대분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select th:field="*{category1}" class="form-control">
-                                            <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        <select th:field="*{category1}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category1}" th:value="${item.category1_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -31,8 +32,9 @@
                                         <label class="col-sm-2 col-form-label">중분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select th:field="*{category1}" class="form-control">
-                                            <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        <select th:field="*{category2}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category2}" th:value="${item.category2_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -43,8 +45,9 @@
                                         <label class="col-sm-2 col-form-label">소분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select th:field="*{category1}" class="form-control">
-                                            <option th:each="item : ${category1}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        <select th:field="*{category3}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category3}" th:value="${item.category3_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -85,8 +88,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-end">
-                        <button type="button" class="btn col-sm-1 btn-danger mr-1">선택삭제</button>
-                        <button type="button" class="btn col-sm-1 btn-primary mr-1">교육 등록</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_education">선택삭제</button>
+                        <!--<a type="button" class="btn col-sm-1 btn-primary mr-1">교육 등록</a>-->
+                        <a th:href="@{|/education/form?${pageParams}|}" class="btn col-sm-1 btn-primary mr-1">
+                            <i class="btn-icon-prepend" data-feather="edit"></i>교육 등록
+                        </a>
+
                         <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
                     </div>
                     <p class="card-description">
@@ -117,10 +124,10 @@
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="edu_check" th:value="${item.edu_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                    <td>썸네일 나와야 함</td>
+                                    <td><img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300"></td>
                                     <td>
                                         <a th:href="@{|/education/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                         <span th:if="${item.recommend_flag}" class="badge badge-primary">추천</span>
@@ -137,7 +144,7 @@
         </div>
     </div>
     <form name="deleteForm" th:action="@{/education/delete}" method="post">
-        <input type="hidden" name="eduSeq">
+        <input type="hidden" name="eduStr">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>
