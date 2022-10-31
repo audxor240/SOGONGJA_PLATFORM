@@ -40,7 +40,7 @@
                     <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
                         <ul class="af">
                             <li th:each="item : ${recommendList}">
-                                <div class="thumb_img">
+                                <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                     <div class="view_favorite">
                                         <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
                                         <!--                                    수강완료되었을 때-->

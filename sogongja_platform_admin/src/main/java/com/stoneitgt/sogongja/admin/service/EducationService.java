@@ -56,7 +56,7 @@ public class EducationService extends BaseService {
 			params.put("login_user_seq", education.getLoginUserSeq());
 
 			// 이미 등록된 썸네일 파일을 삭제
-			filesService.deleteFileAll(params);
+			filesService.deleteFile(params);
 
 			// 이미지 등록 후 썸네일 이미지 생성
 			filesService.saveFiles(education.getImageFile(), FILE_REF_TYPE.EDUCATION_IMAGE, education.getEduSeq(),

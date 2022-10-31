@@ -4,44 +4,40 @@
 <mapper namespace="com.stoneitgt.sogongja.user.mapper.EducationMapper">
 
 	<select id="getEducationList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : EducationMapper.xml, id : getEducationList */
+		/* file : EducationMapper.xml, id : getEducationList234234 */
 		SELECT E.*
-		     , CATE1.CODE_NAME                     AS CATEGORY_1_NAME
-		     , CATE2.CODE_NAME                     AS CATEGORY_2_NAME
-		     , CATE3.CODE_NAME                     AS CATEGORY_3_NAME
-		     , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+			 , CATE1.NAME                     AS CATEGORY_1_NAME
+			 , CATE2.NAME                     AS CATEGORY_2_NAME
+			 , CATE3.NAME                     AS CATEGORY_3_NAME
+			 , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 		     , DATE_FORMAT(E.REG_DATE, '%Y-%m-%d') AS REG_DT
 		     , U.USERNAME                          AS REG_USERNAME
 		     , F.FILE_SEQ
 		     , F.FILE_PATH
 		     , F.THUMBNAIL_PATH
 		  FROM ST_EDUCATION E
-		   INNER JOIN ST_CODE_DTL SUPPORT_ORG
-		           ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
-		          AND SUPPORT_ORG.CODE     = E.SUPPORT_ORG
-		   INNER JOIN ST_USER U
-		           ON E.REG_USER_SEQ = U.USER_SEQ
-		   INNER JOIN ST_CODE_DTL CATE1
-		           ON CATE1.GRP_CODE = 'CATEGORY_1'
-		          AND CATE1.CODE     = E.CATEGORY_1
-		LEFT OUTER JOIN ST_CODE_DTL CATE2
-		           ON CATE2.GRP_CODE = 'CATEGORY_2'
-		          AND CATE2.CODE     = E.CATEGORY_2
-		LEFT OUTER JOIN ST_CODE_DTL CATE3
-		           ON CATE3.GRP_CODE = 'CATEGORY_3'
-		          AND CATE3.CODE     = E.CATEGORY_3
-		LEFT OUTER JOIN ST_FILES F
-		           ON F.REF_TYPE = 'EDUCATION_IMAGE'
-		          AND F.REF_SEQ  = E.EDU_SEQ
-		          AND F.DEL_FLAG = 0
-		 WHERE E.DEL_FLAG        = 0
-		   AND E.EDU_URL        != ''
+		  INNER JOIN ST_USER U ON E.REG_USER_SEQ = U.USER_SEQ
+		  inner join ST_CATEGORY1 as CATE1 ON CATE1.CATEGORY1_SEQ = E.CATEGORY_1
+		  inner join ST_CATEGORY2 as CATE2 ON CATE2.CATEGORY2_SEQ = E.CATEGORY_2
+		  inner join ST_CATEGORY3 as CATE3 ON CATE3.CATEGORY3_SEQ = E.CATEGORY_3
+		  left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = E.SUPPORT_ORG
+		  LEFT JOIN ST_FILES F ON F.REF_TYPE = 'EDUCATION_IMAGE' AND F.REF_SEQ  = E.EDU_SEQ AND F.DEL_FLAG = 0
+		  WHERE E.DEL_FLAG        = 0
+		  	AND E.EDU_URL        != ''
 		<if test="keyword != null and keyword != ''">
              AND E.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
+
 		<if test='recommend == "Y"'>
              AND E.RECOMMEND_FLAG    = 1
         </if>
+
+		<if test="category2Group != null and category2Group != ''">
+			AND E.CATEGORY_2 IN
+			<foreach collection="category2Group" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
         <if test="category1 != null and category1 != ''">
 	         AND E.CATEGORY_1 = #{category1}
         </if>
