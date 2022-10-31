@@ -40,7 +40,7 @@
 
         var strEmpty = '<option value="">선택하세요</option>';
 
-        $('#category1').on('change', function() {
+        /*$('#category1').on('change', function() {
             var strHTML = strEmpty;
             if ($(this).val()) {
                 var data = {
@@ -59,18 +59,37 @@
                 $('#category3').html(strEmpty);
             }
 
+        });*/
+
+        $('#category1').on('change', function() {
+            var strHTML = strEmpty;
+            if ($(this).val()) {
+                var data = {
+                    category1Seq: $(this).val()
+                }
+                ajaxPost('/api/category2', data, function(result) {
+                    $.each(result.data, function(index, item) {
+                        strHTML += '<option value="' + item.category2_seq + '">' + item.name + '</option>';
+                    });
+                    $('#category2').html(strHTML);
+                    $('#category3').html(strEmpty);
+                });
+            } else {
+                $('#category2').html(strHTML);
+                $('#category3').html(strEmpty);
+            }
+
         });
 
         $('#category2').on('change', function() {
             var strHTML = strEmpty;
             if ($(this).val()) {
                 var data = {
-                    groupCode: 'CATEGORY_3',
-                    refCode: $(this).val()
+                    category2Seq: $(this).val()
                 }
-                ajaxPost('/api/code/ref', data, function(result) {
+                ajaxPost('/api/category3', data, function(result) {
                     $.each(result.data, function(index, item) {
-                        strHTML += '<option value="' + item.code + '">' + item.code_name + '</option>';
+                        strHTML += '<option value="' + item.category3_seq + '">' + item.name + '</option>';
                     });
                     $('#category3').html(strHTML);
                 });
@@ -133,6 +152,51 @@
 })();
 
 function validationForm() {
+
+    var content = editor.getMarkdown();
+
+    if($("#category1 option:selected").val() == ""){
+        alert("대분류를 선택해주세요");
+        return false;
+    }
+
+    if($("#category2 option:selected").val() == ""){
+        alert("중분류를 선택해주세요");
+        return false;
+    }
+
+    if($("#category3 option:selected").val() == ""){
+        alert("소분류를 선택해주세요");
+        return false;
+    }
+
+    if($("#subject").val() == ""){
+        alert("교육명을 입력해주세요");
+        return false;
+    }
+
+    if($("#subject").val() == ""){
+        alert("교육명을 입력해주세요");
+        return false;
+    }
+
+    if (content.trim() === '') {
+        alert('교육 내용을 입력해주세요');
+        return false;
+    }
+
+    if($("#supportOrg").val() == ""){
+        alert("제공기관을 선택해주세요");
+        return false;
+    }
+
+    if($("#eduUrl").val() == ""){
+        alert("URL을 입력해주세요");
+        return false;
+    }
+
+    $('#content').val(content);
+
 
 
     return true;

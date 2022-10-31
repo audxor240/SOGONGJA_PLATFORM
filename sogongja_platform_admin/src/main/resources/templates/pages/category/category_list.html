@@ -21,7 +21,7 @@
                                     <p>[[${item.name}]]</p>
                                     <input type="hidden" name="category_type" value="1">
                                     <input type="radio" name="lCategory" th:value="${item.category1_seq}">
-                                    <span class="del_btn">x</span>
+                                    <span class="del_btn del_category">x</span>
                                 </label>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                                     <input type="hidden" name="category_type" value="2">
                                     <p>[[${item.name}]]</p>
                                     <input type="radio" name="mCategory" th:value="${item.category2_seq}">
-                                    <span class="del_btn">x</span>
+                                    <span class="del_btn del_category">x</span>
                                 </label>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                     <p>[[${item.name}]]</p>
                                     <input type="hidden" name="category_type" value="3">
                                     <input type="radio" name="sCategory" th:value="${item.category3_seq}">
-                                    <span class="del_btn">x</span>
+                                    <span class="del_btn del_category">x</span>
                                 </label>
                             </div>
                         </div>
@@ -80,41 +80,24 @@
                     </form>
                 </div>
                 <div class="col-3 col-xl-3 grid-margin category_wrap">
-                    <h3>지원 기관</h3>
-                    <div class="card">
-                        <div id="otherCategory" class="category otherCategory list-group">
-                            <label class="list-group-item list-group-item-action">
-                                <p>HACCP 인증</p>
-                                <input type="radio" name="otherCategory">
-                                <span class="del_btn">x</span>
-                            </label>
-                            <label class="list-group-item list-group-item-action">
-                                <p>재무관리</p>
-                                <input type="radio" name="otherCategory">
-                                <span class="del_btn">x</span>
-                            </label>
-                            <label class="list-group-item list-group-item-action">
-                                <p>매출 및 손익관리</p>
-                                <input type="radio" name="otherCategory">
-                                <span class="del_btn">x</span>
-                            </label>
-                            <label class="list-group-item list-group-item-action">
-                                <p>점포 환경관리</p>
-                                <input type="radio" name="otherCategory">
-                                <span class="del_btn">x</span>
-                            </label>
-                            <label class="list-group-item list-group-item-action">
-                                <p>원자재 및 재고관리</p>
-                                <input type="radio" name="otherCategory" >
-                                <span class="del_btn">x</span>
-                            </label>
+                    <form th:action="@{/category/support/add}" th:object="${support}" method="post" onsubmit="return validationForm4();">
+                        <h3>지원 기관</h3>
+                        <div class="card">
+                            <div id="otherCategory" class="category otherCategory list-group">
+                                <label class="list-group-item list-group-item-action" th:each="item, i : ${supportList}" th:unless="${#lists.isEmpty(supportList)}">
+                                    <p>[[${item.support_name}]]</p>
+                                    <input type="radio" name="otherSupport" th:value="${item.support_seq}">
+                                    <span class="del_btn" id="del_support">x</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="add_category_btn row">
-                        <input id="otherCategory_input" type="text" class="col-sm-8 form-control">
-                        <button type="button" onclick="createList(this);" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
-                    </div>
+                        <div class="add_category_btn row">
+                            <input type="text" class="col-sm-8 form-control" name="supportName" id="support_name">
+                            <button type="submit" class="col-sm-3 offset-sm-1 btn btn-primary">+</button>
+                        </div>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -122,25 +105,26 @@
     <form name="deleteForm" th:action="@{/category/delete}" method="post">
         <input type="hidden" name="type">
         <input type="hidden" name="categorySeq">
+    </form>
 
+    <form name="deleteSupportForm" th:action="@{/category/support/delete}" method="post">
+        <input type="hidden" name="supportSeq">
     </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
     <script th:inline="javascript">
-        console.log("category1Size ::::: "+ $("#category1Size").val());
-        /*[# th:if="${#lists.size(category1List) != 0} "]*/
-            var groupName1 = /*[[${category1List[0].group_name}]]*/'';
-        /*[/]*/
 
-        /*[# th:if="${#lists.size(category2List) != 0} "]*/
-            var groupName2 = /*[[${category2List[0].group_name}]]*/'';
-        /*[/]*/
+        var groupName1 = /*[[${category1List[0].group_name}]]*/'';
+        var groupName2 = /*[[${category2List[0].group_name}]]*/'';
+        var groupName3 = /*[[${category3List[0].group_name}]]*/'';
 
-        /*[# th:if="${#lists.size(category3List) != 0} "]*/
-            var groupName3 = /*[[${category3List[0].group_name}]]*/'';
-        /*[/]*/
+        if([[${#lists.size(supportList)}]] > 0){
+            var supportName = /*[[${supportGroup}]]*/'';
+        }else{
+            var supportName = '';
+        }
 
     </script>
     <script th:src="@{/assets/js/pages/category/category.js}" th:inline="javascript"></script>

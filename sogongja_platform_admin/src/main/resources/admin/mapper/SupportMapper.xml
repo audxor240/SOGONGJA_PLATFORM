@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.SupportMapper">
+
+    <select id="getSupportList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SupportMapper.xml, id : getCategory3List */
+        SELECT *, (select group_concat(SUPPORT_NAME) from ST_SUPPORT) as GROUP_NAME
+        FROM ST_SUPPORT
+        WHERE DEL_FLAG = 0
+        ORDER BY SUPPORT_SEQ
+
+    </select>
+
+    <insert id="insertSupport" parameterType="com.stoneitgt.sogongja.domain.Support">
+        /* file : SupportMapper.xml, id : insertSupport */
+        INSERT
+        INTO ST_SUPPORT (
+        SUPPORT_NAME
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{supportName}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="supportSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="deleteSupport" parameterType="com.stoneitgt.sogongja.domain.Support" >
+        /* file : SupportMapper.xml, id : deleteCategory3 */
+        UPDATE ST_SUPPORT
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{loginUserSeq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE SUPPORT_SEQ = #{supportSeq}
+
+    </update>
+
+    <select id="getSupportInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Support">
+        /* file : SupportMapper.xml, id : getSupportInfo */
+        SELECT *
+        FROM ST_SUPPORT
+        WHERE DEL_FLAG = 0 AND SUPPORT_SEQ = #{supportSeq}
+
+    </select>
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>

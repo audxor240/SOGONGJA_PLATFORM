@@ -48,7 +48,6 @@ public class CategoryService extends BaseService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public void deleteCategory(Map<String, Object> data){
         if((int)data.get("type") == 1){
-            System.out.println("대분류 삭제!!!!");
             Category1 category1 = categoryMapper.getCategory1Info((int)data.get("categorySeq"));            //대분류 5
             category1.setLoginUserSeq((int)data.get("loginUserSeq"));
 
@@ -74,19 +73,25 @@ public class CategoryService extends BaseService {
             //해당 카테고리의 사용자 설문의 질문 정보를 삭제해준다.(맞춤 맵핑시 제외시키기 위함)
 
         }else if((int)data.get("type") == 2){
-            System.out.println("중분류 삭제!!!!");
             Category2 category2 = categoryMapper.getCategory2Info((int)data.get("categorySeq"));
             category2.setLoginUserSeq((int)data.get("loginUserSeq"));
 
             categoryMapper.deleteCategory2(category2);
             categoryMapper.deleteAllCategory3(category2);
         }else if((int)data.get("type") == 3){
-            System.out.println("소분류 삭제!!!!");
             Category3 category3 = categoryMapper.getCategory3Info((int)data.get("categorySeq"));
             category3.setLoginUserSeq((int)data.get("loginUserSeq"));
 
             categoryMapper.deleteCategory3(category3);
         }
 
+    }
+
+    public List<Map<String, Object>> getCategory2(Map<String, Object> params) {
+        return categoryMapper.getCategory2(params);
+    }
+
+    public List<Map<String, Object>> getCategory3(Map<String, Object> params) {
+        return categoryMapper.getCategory3(params);
     }
 }

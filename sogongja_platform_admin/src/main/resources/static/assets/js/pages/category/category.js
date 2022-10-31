@@ -14,7 +14,7 @@ function createList(){
 }
 
 
-$(document).on('click', '.del_btn', function(){
+$(document).on('click', '.del_category', function(){
 
     var type = $(this).parent().find('[name=category_type]').val();  //삭제할 카테고리 타입
     var categorySeq = $(this).parent().find('input:radio').val();  //삭제할 카테고리 seq
@@ -29,6 +29,22 @@ $(document).on('click', '.del_btn', function(){
         $(this).parent().remove();
     }
 });
+
+$(document).on('click', '#del_support', function(){
+
+    //var type = $(this).parent().find('[name=category_type]').val();  //삭제할 카테고리 타입
+    var supportSeq = $(this).parent().find('input:radio').val();  //삭제할 카테고리 seq
+
+    if (!confirm("해당 지원관리를 삭제하시겠습니까?")) {
+        return false;
+    } else {
+        var form = document.forms.deleteSupportForm;
+        form.supportSeq.value = supportSeq;
+        form.submit();
+        $(this).parent().remove();
+    }
+});
+
 $(document).ready(function() {
 
     var sel_seq1 = $("#list-group1").find(".active").find('input:radio').val(); // 선택된 대분류 seq
@@ -99,6 +115,7 @@ $(document).ready(function() {
 });
 
 function validationForm1() {
+    alert("validationForm1");
     var name = $("#name").val();
 
     if (name.trim() === '') {
@@ -119,6 +136,7 @@ function validationForm1() {
 }
 
 function validationForm2() {
+    alert("validationForm2");
     var name = $("#name2").val();
 
     if (name.trim() === '') {
@@ -139,6 +157,7 @@ function validationForm2() {
 }
 
 function validationForm3() {
+    alert("validationForm3");
     var name = $("#name3").val();
 
     if (name.trim() === '') {
@@ -151,6 +170,27 @@ function validationForm3() {
         var g_name = grouNameArr[i];
         if(g_name == name){
             alert("이미 등록된 카테고리명 입니다.");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function validationForm4() {
+    alert("validationForm4");
+    var support_name = $("#support_name").val();
+
+    if (support_name.trim() === '') {
+        alert('지원기관명을 입력하세요.');
+        return false;
+    }
+
+    var grouNameArr = supportName.split(",");
+    for(var i =0; i < grouNameArr.length;i++){
+        var g_name = grouNameArr[i];
+        if(g_name == support_name){
+            alert("이미 등록된 지원기관명 입니다.");
             return false;
         }
     }
