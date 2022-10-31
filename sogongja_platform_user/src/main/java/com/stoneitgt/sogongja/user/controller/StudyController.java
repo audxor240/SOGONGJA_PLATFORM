@@ -1,12 +1,13 @@
 package com.stoneitgt.sogongja.user.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
-import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
+import com.stoneitgt.sogongja.user.service.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,9 +25,6 @@ import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.ConsultingParameter;
 import com.stoneitgt.sogongja.user.domain.CounselingParameter;
 import com.stoneitgt.sogongja.user.domain.EducationParameter;
-import com.stoneitgt.sogongja.user.service.ConsultingService;
-import com.stoneitgt.sogongja.user.service.CounselingService;
-import com.stoneitgt.sogongja.user.service.EducationService;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
 
@@ -45,6 +43,12 @@ public class StudyController extends BaseController {
 
 	@Autowired
 	private EducationBookmarkService educationBookmarkService;
+
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private SupportService supportService;
 
 	@GetMapping("/education")
 	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
@@ -75,7 +79,7 @@ public class StudyController extends BaseController {
 				entry.put("favorite",false);
 			}
 		}
-		System.out.println("list.get(1) >> "+list.get(1));
+
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
@@ -98,10 +102,29 @@ public class StudyController extends BaseController {
 			params.setSupportOrg("");
 		}
 
-		model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
-		model.addAttribute("category2", getCodeRefList("CATEGORY_2", params.getCategory1(), "전체"));
-		model.addAttribute("category3", getCodeRefList("CATEGORY_3", params.getCategory2(), "전체"));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
+		List<Map<String, Object>> category2List = null;
+		List<Map<String, Object>> category3List = null;
+
+		Map<String, Object> param2 = new HashMap<String, Object>();
+		param2.put("category1Seq",params.getCategory1());
+		category2List = categoryService.getCategory2(param2);
+
+		Map<String, Object> param3 = new HashMap<String, Object>();
+		param2.put("category2Seq",params.getCategory2());
+		category3List = categoryService.getCategory3(param3);
+
+		//model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
+		//model.addAttribute("category2", getCodeRefList("CATEGORY_2", params.getCategory1(), "전체"));
+		//model.addAttribute("category3", getCodeRefList("CATEGORY_3", params.getCategory2(), "전체"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		model.addAttribute("category1", category1List);
+		model.addAttribute("category2", category2List);
+		model.addAttribute("category3", category3List);
+		model.addAttribute("supportOrg", supportList);
+
 
 		return "pages/study/education";
 	}

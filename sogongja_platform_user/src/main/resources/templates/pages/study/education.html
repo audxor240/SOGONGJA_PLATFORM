@@ -37,36 +37,52 @@
                         <li>
                             <h4>대분류</h4>
                             <ul id="rdoCategory1">
-                                <li th:each="item : ${category1}">
-                                    <input type="radio" th:field="*{category1}" class="checkbox_style" th:value="${item.code}">
-                                    <label th:for="${#ids.prev('category1')}" th:text="${item.code_name}">전체</label>
+                                <li>
+                                    <input type="radio" id="category10" name="category1" class="checkbox_style" value="" checked>
+                                    <label for="category10">전체</label>
+                                </li>
+                                <li th:each="item, i : ${category1}">
+                                    <input type="radio" th:field="*{category1}" class="checkbox_style" th:value="${item.category1_seq}">
+                                    <label th:for="${#ids.prev('category1')}" th:text="${item.name}">전체</label>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <h4>중분류</h4>
                             <ul id="rdoCategory2">
+                                <li>
+                                    <input type="radio" id="category20" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="category20">전체</label>
+                                </li>
                                 <li th:each="item : ${category2}">
-                                    <input type="radio" th:field="*{category2}" class="checkbox_style" th:value="${item.code}">
-                                    <label th:for="${#ids.prev('category2')}" th:text="${item.code_name}">전체</label>
+                                    <input type="radio" th:field="*{category2}" class="checkbox_style" th:value="${item.category2_seq}">
+                                    <label th:for="${#ids.prev('category2')}" th:text="${item.name}">전체</label>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <h4>세분류</h4>
                             <ul id="rdoCategory3">
+                                <li>
+                                    <input type="radio" id="category30" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="category30">전체</label>
+                                </li>
                                 <li th:each="item : ${category3}">
-                                    <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.code}">
-                                    <label th:for="${#ids.prev('category3')}" th:text="${item.code_name}">전체</label>
+                                    <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.category1_seq}">
+                                    <label th:for="${#ids.prev('category3')}" th:text="${item.name}">전체</label>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <h4>지원기관</h4>
                             <ul id="rdoSupportOrg">
+                                <li>
+                                    <input type="radio" id="supportOrg" name="supportOrg" class="checkbox_style" value="" checked>
+                                    <label for="supportOrg">전체</label>
+                                </li>
                                 <li th:each="item : ${supportOrg}">
-                                    <input type="radio" th:field="*{supportOrg}" class="checkbox_style" th:value="${item.code}">
-                                    <label th:for="${#ids.prev('supportOrg')}" th:text="${item.code_name}">전체</label>
+                                    <input type="radio" th:field="*{supportOrg}" class="checkbox_style" th:value="${item.support_seq}">
+                                    <label th:for="${#ids.prev('supportOrg')}" th:text="${item.support_name}">전체</label>
                                 </li>
                             </ul>
                         </li>
@@ -92,31 +108,21 @@
                 </ul>
                 <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
                     <th:block th:each="item : ${list}">
-                        <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
+                        <!--/*<th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
                             <li>
                                 <div class="thumb_img">
                                     <div th:class="view_favorite">
                                         <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
-                                        <!--                                    수강완료되었을 때-->
-                                        <!--                                    <span class="edu_done"></span>-->
-                                        <!--                                    수강완료 전-->
                                         <span class="edu_none"></span>
                                     </div>
                                 </div>
 
-
-<!--                                <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">-->
-<!--                                    <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">-->
-<!--                                        <li><a href="#n" th:text="|#${tag}|">#교양</a></li>-->
-<!--                                    </th:block>-->
-<!--                                </ul>-->
                                 <div class="text_wrap">
                                     <div>
                                         <span class="Agency">지원기관 이름 나와야함.</span>
                                         <span class="view m_del" th:text="${item.read_cnt}">12</span>
                                     </div>
                                     <h4>
-                                        <!-- <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>-->
                                         <a th:onclick="detailEducation([[${item.edu_seq}]])" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
                                     </h4>
                                     <div class="flex_right_view">
@@ -124,32 +130,31 @@
                                     </div>
                                 </div>
                             </li>
-                        </th:block>
-                        <th:block th:unless="${#strings.isEmpty(item.thumbnail_path)}">
+                        </th:block>*/-->
+
+                        <!--/*<th:block th:unless="${#strings.isEmpty(item.thumbnail_path)}">*/-->
                             <li class="thumnail">
                                 <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                     <div class="view_favorite">
                                         <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-                                        <!--                                    수강완료되었을 때-->
-                                        <!--                                    <span class="edu_done"></span>-->
-                                        <!--                                    수강완료 전-->
+
                                         <span class="edu_none"></span>
                                     </div>
                                 </div>
                                 <div class="text_wrap">
                                     <div>
-                                        <span class="Agency">지원기관 이름 나와야함.</span>
+                                        <span class="Agency">[[${item.support_org_name}]]</span>
                                         <span class="view m_del" th:text="${item.read_cnt}">12</span>
                                     </div>
                                     <h4>
-                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                        <a th:onclick="detailEducation([[${item.edu_seq}]])" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
                                     </h4>
                                     <div class="flex_right_view">
                                         <span class="view" th:text="${item.read_cnt}">12</span>
                                     </div>
                                 </div>
                             </li>
-                        </th:block>
+                        <!--/*</th:block>*/-->
                     </th:block>
                 </ul>
             </div>

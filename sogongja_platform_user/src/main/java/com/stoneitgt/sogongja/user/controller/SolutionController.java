@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.user.service.CategoryService;
 import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,9 @@ public class SolutionController extends BaseController {
 	@Autowired
 	private EducationBookmarkService educationBookmarkService;
 
+	@Autowired
+	private CategoryService categoryService;
+
 	@GetMapping("/education")
 	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
 
@@ -51,6 +55,7 @@ public class SolutionController extends BaseController {
 		Paging paging = getUserPaging(params.getPage(), PAGE_SIZE.USER_EDUCATION_SOLUTION);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("order", "read_cnt");
+		paramsMap.put("category2Group", null);
 		List<Map<String, Object>> eduList = ecucationService.getEducationList(paramsMap, paging);
 		Integer total = ecucationService.selectTotalRecords();
 		paging.setTotal(total);
@@ -72,12 +77,18 @@ public class SolutionController extends BaseController {
 			// 로그인했을 경우에는 관심사항을 가져온다
 			String category = authenticationFacade.getLoginUser().getCategory();
 
-			if (StringUtil.isNotBlank(category)) {
+			//설문지와 매핑된 카테고리를 가져온다
+			String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());
+			//if (StringUtil.isNotBlank(category)) {
+			if (StringUtil.isNotBlank(category2Group)) {
 				paramsMap.put("order", "rand");
 				// ArrayList 타입으로만 foreach 가능
-				paramsMap.put("category", Arrays.asList(category.split(",")));
-				recommendList = ecucationService.getEducationList(paramsMap);
 
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));	//추천교육 매핑 정보(CATEGORY2)
+
+				paramsMap.put("category2Group", category2Arr);
+				recommendList = ecucationService.getEducationList(paramsMap);
+				System.out.println("recommendList :: "+recommendList);
 				// 최대 12개만 보여준다.
 				if (recommendList != null && recommendList.size() > 12) {
 					recommendList = recommendList.subList(0, 12);
@@ -85,11 +96,11 @@ public class SolutionController extends BaseController {
 			}
 		}
 
-		if (recommendList == null || recommendList.size() == 0) {
+		/*if (recommendList == null || recommendList.size() == 0) {
 			paramsMap.put("order", "");
 			paramsMap.put("recommend", "Y");
 			recommendList = ecucationService.getEducationList(paramsMap);
-		}
+		}*/
 
 		model.addAttribute("list", eduList);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(eduList, paging));

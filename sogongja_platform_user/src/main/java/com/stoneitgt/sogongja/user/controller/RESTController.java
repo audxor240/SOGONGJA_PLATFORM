@@ -46,6 +46,8 @@ public class RESTController extends BaseController {
 	@Autowired
 	private MailService mailService;
 
+	@Autowired
+	private CategoryService categoryService;
 
 
 	@PostMapping("/code/ref")
@@ -157,6 +159,26 @@ public class RESTController extends BaseController {
 		jsonObject.put("message", "비밀번호가 변경되었습니다.");
 
 		return jsonObject;
+	}
+
+	@PostMapping("/category2")
+	@ResponseBody
+	public ResponseEntity<?> getCategory2(@RequestBody Map<String, Object> params) {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("code", API_STATUS.SUCCESS);
+		result.put("data", categoryService.getCategory2(params));
+		return ResponseEntity.ok(result);
+	}
+
+	@PostMapping("/category3")
+	@ResponseBody
+	public ResponseEntity<?> getCategory3(@RequestBody Map<String, Object> params) {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("code", API_STATUS.SUCCESS);
+		result.put("data", categoryService.getCategory3(params));
+		return ResponseEntity.ok(result);
 	}
 
 }
