@@ -17,4 +17,8 @@ public class EducationParameter extends BaseParameter {
 
 	private String supportOrg;
 
+	private boolean eduWatchingView1 = false;
+
+	private boolean eduWatchingView2 = false;
+
 }

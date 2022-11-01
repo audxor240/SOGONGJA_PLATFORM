@@ -28,6 +28,14 @@ public class EducationService extends BaseService {
 		return educationMapper.getEducationList(params, paging.getPaging());
 	}
 
+	public List<Map<String, Object>> getEducationRecommendList(Map<String, Object> params) {
+		return educationMapper.getEducationRecommendList(params);
+	}
+
+	public List<Map<String, Object>> getEducationRecommendList(Map<String, Object> params, Paging paging) {
+		return educationMapper.getEducationRecommendList(params, paging.getPaging());
+	}
+
 	public Integer selectTotalRecords() {
 		return educationMapper.selectTotalRecords();
 	}

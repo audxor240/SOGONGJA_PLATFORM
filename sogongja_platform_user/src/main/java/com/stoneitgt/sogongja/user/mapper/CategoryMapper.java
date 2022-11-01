@@ -16,6 +16,8 @@ public interface CategoryMapper {
 
     String getMappingCategory2(int userSeq);
 
+    String getMappingCategory3(int userSeq);
+
     List<Map<String, Object>> getCategory2(Map<String, Object> params);
 
     List<Map<String, Object>> getCategory3(Map<String, Object> params);
