@@ -58,4 +58,20 @@ public class Consulting {
 	List<MultipartFile> attachFiles;
 
 	private String regUsername;
+
+	// 대분류
+	@NotBlank(message = "{field.required}")
+	private String category1;
+
+	// 중분류
+	private String category2;
+
+	// 세분류
+	private String category3;
+
+	private String supportContent;
+
+	private String supportBy;
+
+	private String region;
 }

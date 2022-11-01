@@ -19,8 +19,9 @@
                                         <label class="col-sm-2 col-form-label">대분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select class="form-control">
-                                            <option>전체</option>
+                                        <select th:field="*{category1}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category1}" th:value="${item.category1_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -31,8 +32,9 @@
                                         <label class="col-sm-2 col-form-label">중분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select class="form-control">
-                                            <option>전체</option>
+                                        <select th:field="*{category2}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category2}" th:value="${item.category2_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -43,8 +45,9 @@
                                         <label class="col-sm-2 col-form-label">소분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select  class="form-control">
-                                            <option>전체</option>
+                                        <select th:field="*{category3}" class="form-control" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category3}" th:value="${item.category3_seq}" th:text="${item.name}">전체</option>
                                         </select>
                                     </div>
                                 </div>
@@ -75,8 +78,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-end">
-                        <button type="button" class="btn col-sm-1 btn-danger mr-1">선택삭제</button>
-                        <button type="button" class="btn col-sm-1 btn-primary mr-1">컨설팅 등록</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_consulting">선택삭제</button>
+                        <!--<button type="button" class="btn col-sm-1 btn-primary mr-1">컨설팅 등록</button>-->
+                        <a th:href="@{|/consulting/form?${pageParams}|}" class="btn col-sm-1 btn-primary mr-1">
+                            <i class="btn-icon-prepend" data-feather="edit"></i>컨설팅 등록
+                        </a>
                         <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
                     </div>
                     <p class="card-description">
@@ -109,14 +115,14 @@
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="con_check" th:value="${item.con_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
                                     <td>
                                         <a th:href="@{|/consulting/${item.con_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                     </td>
-                                    <td>지원대상</td>
-                                    <td>지역</td>
+                                    <td th:text="${item.support_by}">지원대상</td>
+                                    <td th:text="${item.region}">지역</td>
                                     <td th:text="${item.support_org_name}">소관부처</td>
                                     <td th:text="${item.reg_dt}">작성일</td>
                                 </tr>
@@ -129,7 +135,7 @@
         </div>
     </div>
     <form name="deleteForm" th:action="@{/consulting/delete}" method="post">
-        <input type="hidden" name="conSeq">
+        <input type="hidden" name="conStr">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>

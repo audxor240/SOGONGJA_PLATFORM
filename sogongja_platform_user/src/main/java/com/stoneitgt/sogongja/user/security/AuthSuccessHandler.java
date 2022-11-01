@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.stoneitgt.sogongja.user.properties.AppProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -29,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+	@Autowired
+	private AppProperties appProperties;
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private RequestCache requestCache = new HttpSessionRequestCache();
@@ -57,7 +62,7 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			String targetUrl = savedRequest.getRedirectUrl();
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		} else {
-			redirectStrategy.sendRedirect(request, response, "/");
+			redirectStrategy.sendRedirect(request, response, appProperties.getHost());
 		}
 	}
 }
