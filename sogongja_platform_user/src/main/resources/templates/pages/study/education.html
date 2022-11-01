@@ -136,9 +136,9 @@
                             <li class="thumnail">
                                 <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                     <div class="view_favorite">
-                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-
-                                        <span class="edu_none"></span>
+                                        <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                        <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                     </div>
                                 </div>
                                 <div class="text_wrap">

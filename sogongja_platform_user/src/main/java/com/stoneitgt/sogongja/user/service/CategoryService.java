@@ -26,8 +26,11 @@ public class CategoryService extends BaseService{
     }
 
     public String getMappingCategory2(int userSeq){
-
         return categoryMapper.getMappingCategory2(userSeq);
+    }
+
+    public String getMappingCategory3(int userSeq){
+        return categoryMapper.getMappingCategory3(userSeq);
     }
 
     public List<Map<String, Object>> getCategory2(Map<String, Object> params) {

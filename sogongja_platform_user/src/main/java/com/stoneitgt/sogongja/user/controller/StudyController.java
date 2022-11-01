@@ -55,7 +55,7 @@ public class StudyController extends BaseController {
 		User user = new User();
 		try {
 			user = (User) authentication.getPrincipal();
-
+			params.setLoginUserSeq(user.getUserSeq());
 		} catch(NullPointerException e){
 
 		}
@@ -68,17 +68,6 @@ public class StudyController extends BaseController {
 
 		Integer total = educationService.selectTotalRecords();
 		paging.setTotal(total);
-
-		for (Map<String, Object> entry : list) {
-
-			EducationBookmark educationBookmark = educationBookmarkService.getEducationBookmark((Integer) entry.get("edu_seq"), user.getUserSeq());
-
-			if(educationBookmark != null){	//관심교육 추가되어있음
-				entry.put("favorite",true);
-			}else{
-				entry.put("favorite",false);
-			}
-		}
 
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));

@@ -137,6 +137,7 @@ function detailEducation(seq){
 
             if(res.message == "login_check"){
                 alert("로그인이 필요합니다.");
+                window.location.href="/login";
                 return;
             }else{
                 window.open(res.edu_url, '_blank');

@@ -1,13 +1,17 @@
 package com.stoneitgt.sogongja.user.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.domain.EducationBookmark;
+import com.stoneitgt.sogongja.domain.LoginForm;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.service.CategoryService;
 import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
+import com.stoneitgt.util.ScriptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -24,6 +28,8 @@ import com.stoneitgt.sogongja.user.service.ConsultingService;
 import com.stoneitgt.sogongja.user.service.EducationService;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/solution")
@@ -42,53 +48,57 @@ public class SolutionController extends BaseController {
 	private CategoryService categoryService;
 
 	@GetMapping("/education")
-	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
+	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication, HttpServletResponse response) throws IOException {
 
 		User user = new User();
 		try {
 			user = (User) authentication.getPrincipal();
+			params.setLoginUserSeq(user.getUserSeq());
 
 		} catch(NullPointerException e){
-
+			//ScriptUtils.alert(response, "로그인이 필요합니다");
+			ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
 		}
 
 		Paging paging = getUserPaging(params.getPage(), PAGE_SIZE.USER_EDUCATION_SOLUTION);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
 		paramsMap.put("order", "read_cnt");
-		paramsMap.put("category2Group", null);
-		List<Map<String, Object>> eduList = ecucationService.getEducationList(paramsMap, paging);
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		List<Map<String, Object>> eduList = new ArrayList<>();
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+			eduList = ecucationService.getEducationRecommendList(paramsMap, paging);    //다른 사용자가 자주 찾는 교육
+		}
+
 		Integer total = ecucationService.selectTotalRecords();
 		paging.setTotal(total);
 
-		for (Map<String, Object> entry : eduList) {
-
-			EducationBookmark educationBookmark = educationBookmarkService.getEducationBookmark((Integer) entry.get("edu_seq"), user.getUserSeq());
-
-			if(educationBookmark != null){	//관심교육 추가되어있음
-				entry.put("favorite",true);
-			}else{
-				entry.put("favorite",false);
-			}
-		}
-
-		List<Map<String, Object>> recommendList = null;
+		List<Map<String, Object>> recommendList = new ArrayList<>();
 
 		if (authenticationFacade.isAuthenticated()) {
 			// 로그인했을 경우에는 관심사항을 가져온다
 			String category = authenticationFacade.getLoginUser().getCategory();
 
-			//설문지와 매핑된 카테고리를 가져온다
-			String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());
 			//if (StringUtil.isNotBlank(category)) {
-			if (StringUtil.isNotBlank(category2Group)) {
+			if (StringUtil.isNotBlank(category2Group) || StringUtil.isNotBlank(category3Group)) {
 				paramsMap.put("order", "rand");
 				// ArrayList 타입으로만 foreach 가능
 
-				List<String> category2Arr = Arrays.asList(category2Group.split(","));	//추천교육 매핑 정보(CATEGORY2)
-
-				paramsMap.put("category2Group", category2Arr);
-				recommendList = ecucationService.getEducationList(paramsMap);
-				System.out.println("recommendList :: "+recommendList);
+				recommendList = ecucationService.getEducationRecommendList(paramsMap);	//추천 교육
 				// 최대 12개만 보여준다.
 				if (recommendList != null && recommendList.size() > 12) {
 					recommendList = recommendList.subList(0, 12);
@@ -105,6 +115,7 @@ public class SolutionController extends BaseController {
 		model.addAttribute("list", eduList);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(eduList, paging));
 		model.addAttribute("paging", paging);
+		System.out.println("recommendList >>> "+recommendList.size());
 		model.addAttribute("recommendList", recommendList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -113,7 +124,16 @@ public class SolutionController extends BaseController {
 	}
 
 	@GetMapping("/consulting")
-	public String consulting(@ModelAttribute BaseParameter params, Model model) {
+	public String consulting(@ModelAttribute BaseParameter params, Model model, Authentication authentication, HttpServletResponse response) throws IOException {
+
+		User user = new User();
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+			//ScriptUtils.alert(response, "로그인이 필요합니다");
+			ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
+		}
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);

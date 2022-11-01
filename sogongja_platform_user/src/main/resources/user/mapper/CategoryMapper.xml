@@ -39,6 +39,14 @@
 
     </select>
 
+    <select id="getMappingCategory3" parameterType="int" resultType="string">
+        /* file : CategoryMapper.xml, id : getMappingCategory3 */
+        select group_concat(DISTINCT(CATEGORY3_SEQ)) as G_CATE3
+        from ST_USER_ANSWER1
+        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0;
+
+    </select>
+
     <select id="getCategory2" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory2 */
         SELECT *
