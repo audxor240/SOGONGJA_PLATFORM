@@ -402,7 +402,7 @@
     height: 48px
     width: 28px
     background-image: url(../images/icon-search_bk.png)
-    background-color: #fff
+    background-color: transparent
     background-repeat: no-repeat
     background-position: center left
 .companyChoice_wrap
@@ -765,3 +765,17 @@
     padding: 20px
     margin-bottom: 10px
     display: block
+
+@include tablet
+  .current-local
+    top: 300px
+  .custom_zoomcontrol
+    top: 340px
+  .community_wrap
+    top: 525px
+    .community_pop_wrap
+      top: -25vh
+      right: 40px
+@include mobile
+
+@include maxMobile
