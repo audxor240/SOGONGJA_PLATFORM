@@ -35,7 +35,7 @@
                         <form name="searchForm1" th:action="@{/solution/education}" th:object="${params}">
                             <input type="hidden" th:field="*{eduWatchingView1}" >
                             <input type="hidden" th:field="*{eduWatchingView2}" >
-                            <div>
+                            <div class="mb_20">
                                 <input type="checkbox" id="edu_watching_hide1" class="checkbox_style c181818" th:checked="${params.eduWatchingView1 == true}">
                                 <label for="edu_watching_hide1">이미 수강한 교육 감추기</label>
                             </div>
@@ -43,7 +43,12 @@
                     </div>
                     <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
                         <ul class="af">
-                            <th:block th:if="${#lists.isEmpty(recommendList)}">컨텐츠가 존재하지 않습니다.</th:block>
+                            <th:block th:if="${#lists.isEmpty(recommendList)}">
+                                <div class="none_contents">
+                                    <span></span>
+                                    <p>컨텐츠가 존재하지 않습니다.</p>
+                                </div>
+                            </th:block>
                             <li th:each="item : ${recommendList}" th:unless="${#lists.isEmpty(recommendList)}">
                                 <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                     <div class="view_favorite">
@@ -82,15 +87,22 @@
                         <th:block th:include="fragments/search_hidden"></th:block>
                     </form>
                     <div class="h3_title_wrap h3_flex">
-                        <h3 class="h3_title">다른 사용자가 자주 찾는 교육</h3>
-                        <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
                         <div>
+                            <h3 class="h3_title">다른 사용자가 자주 찾는 교육</h3>
+                            <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                        </div>
+                        <div class="mb_20">
                             <input type="checkbox" id="edu_watching_hide2" class="checkbox_style c181818" th:checked="${params.eduWatchingView2 == true}">
                             <label for="edu_watching_hide2">이미 수강한 교육 감추기</label>
                         </div>
                     </div>
+                    <th:block th:if="${#lists.isEmpty(list)}">
+                        <div class="none_contents">
+                            <span></span>
+                            <p>컨텐츠가 존재하지 않습니다.</p>
+                        </div>
+                    </th:block>
                     <ul class="edu_list af">
-                        <th:block th:if="${#lists.isEmpty(list)}">컨텐츠가 존재하지 않습니다.</th:block>
                         <th:block th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                 <li class="thumnail">
                                     <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">

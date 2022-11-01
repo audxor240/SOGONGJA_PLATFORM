@@ -521,7 +521,7 @@
   height: 48px;
   width: 28px;
   background-image: url(../images/icon-search_bk.png);
-  background-color: #fff;
+  background-color: transparent;
   background-repeat: no-repeat;
   background-position: center left;
 }
@@ -1004,6 +1004,22 @@
   padding: 20px;
   margin-bottom: 10px;
   display: block;
+}
+
+@media (max-width: 1400px) {
+  .current-local {
+    top: 300px;
+  }
+  .custom_zoomcontrol {
+    top: 340px;
+  }
+  .community_wrap {
+    top: 525px;
+  }
+  .community_wrap .community_pop_wrap {
+    top: -25vh;
+    right: 40px;
+  }
 }
 
 /*# sourceMappingURL=map.css.map */

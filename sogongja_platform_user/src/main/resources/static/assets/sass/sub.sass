@@ -1,5 +1,7 @@
 @import "_var"
 @import "_mixin"
+.mb_20
+	margin-bottom: 20px
 .wrap
 	padding: rem(100) 0 rem(200)
 	background: #f6f8f9
@@ -2015,8 +2017,20 @@
 		.select_text
 			+positionAt(absolute,$top:6px , $left:50px)
 			z-index: 1
-
-
+.none_contents
+	margin: 0 auto
+	span
+		display: block
+		background: url(#{$assetPath}/img-empty.png) no-repeat 50%
+		width: 196px
+		height: 148px
+		margin: 40px auto 20px
+		background-size: contain
+		background-position: center
+	p
+		font-size: 24px
+		color: #606060
+		text-align: center
 
 
 //	.ip_check + label
@@ -2173,6 +2187,13 @@
 		.answer_view_text
 			margin-top: 10px
 	.sub_container
+		.h3_flex
+			flex-wrap: wrap
+		.h3_title_wrap
+			h3
+				width: 100%
+			p.total
+				margin-left: 0
 		.checkbox_wrap
 			.check_list
 				display: block
@@ -2343,8 +2364,12 @@
 			form
 				button
 					height: 40px
-
-
+	.none_contents
+		span
+			width: 120px
+			height: 120px
+		p
+			font-size: 18px
 
 
 @include maxMobile
