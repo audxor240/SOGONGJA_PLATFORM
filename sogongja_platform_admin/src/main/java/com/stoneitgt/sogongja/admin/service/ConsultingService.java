@@ -60,9 +60,9 @@ public class ConsultingService extends BaseService {
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int deleteConsulting(Map<String, Object> params) {
 		int result = consultingMapper.deleteConsulting(params);
-		params.put("ref_type", FILE_REF_TYPE.CONSULTING.toUpperCase());
-		params.put("ref_seq", params.get("con_seq"));
-		filesService.deleteFileAll(params);
+		//params.put("ref_type", FILE_REF_TYPE.CONSULTING.toUpperCase());
+		//params.put("ref_seq", params.get("con_seq"));
+		//filesService.deleteFileAll(params);
 		return result;
 	}
 
