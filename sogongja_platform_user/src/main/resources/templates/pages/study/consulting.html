@@ -39,29 +39,54 @@
                     <div class="checkbox_wrap">
                         <ul class="check_list check_list30">
                             <li>
-                                <h4>컨설팅 분류</h4>
-                                <ul>
-                                    <li th:each="item, row : ${conType}">
-                                        <input type="checkbox" name="conType" th:id="|conType${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
-                                        <label th:for="|conType${row.index}|" th:text="${item.code_name}">전체</label>
+                                <h4>대분류</h4>
+                                <ul id="rdoCategory1">
+                                    <li>
+                                        <input type="radio" id="category10" name="category1" class="checkbox_style" value="" checked>
+                                        <label for="category10">전체</label>
+                                    </li>
+                                    <li th:each="item, i : ${category1}">
+                                        <input type="radio" th:field="*{category1}" class="checkbox_style" th:value="${item.category1_seq}">
+                                        <label th:for="${#ids.prev('category1')}" th:text="${item.name}">전체</label>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <h4>컨설팅 분야</h4>
-                                <ul class="">
-                                    <li th:each="item, row : ${conClass}">
-                                        <input type="checkbox" name="conClass" th:id="|conClass${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
-                                        <label th:for="|conClass${row.index}|" th:text="${item.code_name}">전체</label>
+                                <h4>중분류</h4>
+                                <ul id="rdoCategory2">
+                                    <li>
+                                        <input type="radio" id="category20" name="category2" class="checkbox_style" value="" checked>
+                                        <label for="category20">전체</label>
+                                    </li>
+                                    <li th:each="item : ${category2}">
+                                        <input type="radio" th:field="*{category2}" class="checkbox_style" th:value="${item.category2_seq}">
+                                        <label th:for="${#ids.prev('category2')}" th:text="${item.name}">전체</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>세분류</h4>
+                                <ul id="rdoCategory3">
+                                    <li>
+                                        <input type="radio" id="category30" name="category3" class="checkbox_style" value="" checked>
+                                        <label for="category30">전체</label>
+                                    </li>
+                                    <li th:each="item : ${category3}">
+                                        <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.category1_seq}">
+                                        <label th:for="${#ids.prev('category3')}" th:text="${item.name}">전체</label>
                                     </li>
                                 </ul>
                             </li>
                             <li>
                                 <h4>지원기관</h4>
-                                <ul class="">
-                                    <li th:each="item, row : ${supportOrg}">
-                                        <input type="checkbox" name="supportOrg" th:id="|supportOrg${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
-                                        <label th:for="|supportOrg${row.index}|" th:text="${item.code_name}">전체</label>
+                                <ul id="rdoSupportOrg">
+                                    <li>
+                                        <input type="radio" id="supportOrg" name="supportOrg" class="checkbox_style" value="" checked>
+                                        <label for="supportOrg">전체</label>
+                                    </li>
+                                    <li th:each="item : ${supportOrg}">
+                                        <input type="radio" th:field="*{supportOrg}" class="checkbox_style" th:value="${item.support_seq}">
+                                        <label th:for="${#ids.prev('supportOrg')}" th:text="${item.support_name}">전체</label>
                                     </li>
                                 </ul>
                             </li>
@@ -84,7 +109,7 @@
                         <tr>
                             <th style="width: 8%;">No.</th>
                             <th style="width: 12%;">제공기관</th>
-                            <th style="width: 15%;">서비스명</th>
+                            <!--<th style="width: 15%;">서비스명</th>-->
                             <th style="width: 15%;">구분</th>
                             <th style="width: 40%;">지원내용</th>
                             <th style="width: 10%;">관리</th>
@@ -94,18 +119,15 @@
                             <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
-                                    <td>1</td>
-                                    <td>제공기관</td>
-                                    <td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>
-                                    <td class="color_606060">창업전 컨설팅</td>
-                                    <td class="txl">지원내용</td>
+                                    <td th:text="${paging.total - item.rnum + 1}"></td>
+                                    <td>[[${item.support_org_name}]]</td>
+                                    <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
+                                    <td class="color_606060">[[${item.support_by}]]</td>
+                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
                                     <td>
                                         <div class="management management_wrap">
-                                            <button type="button" class="favorite">찜하기</button>
-                                            <!--                                    수강완료되었을 때-->
-                                            <!--                                    <span class="edu_done"></span>-->
-                                            <!--                                    수강완료 전-->
-                                            <span class="edu_none"></span>
+                                            <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                         </div>
                                     </td>
                                 </tr>

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.stoneitgt.common.GlobalConstant;
+import com.stoneitgt.sogongja.domain.ConsultingBookmark;
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
@@ -37,6 +38,9 @@ public class RESTController extends BaseController {
 	private CodeService codeService;
 	@Autowired
 	private EducationBookmarkService educationBookmarkService;
+
+	@Autowired
+	private ConsultingBookmarkService consultingBookmarkService;
 	@Autowired
 	private EducationService educationService;
 
@@ -75,14 +79,27 @@ public class RESTController extends BaseController {
 			return jsonObject;
 		}
 
-		EducationBookmark eduMark = educationBookmarkService.getEducationBookmark((Integer) params.get("seq"), user.getUserSeq());
+		if(params.get("type").equals("edu")) {
+			EducationBookmark eduMark = educationBookmarkService.getEducationBookmark((Integer) params.get("seq"), user.getUserSeq());
 
-		if(eduMark == null){
-			jsonObject.put("message", "add");
-			educationBookmarkService.addEducationBookmark((Integer) params.get("seq"), user.getUserSeq());	//관심 교육 등록
-		}else{
-			jsonObject.put("message", "delete");
-			educationBookmarkService.deleteEducationBookmark((Integer) params.get("seq"), user.getUserSeq());	//관심 교육 삭제
+			if (eduMark == null) {
+				jsonObject.put("message", "add");
+				educationBookmarkService.addEducationBookmark((Integer) params.get("seq"), user.getUserSeq());    //관심 교육 등록
+			} else {
+				jsonObject.put("message", "delete");
+				educationBookmarkService.deleteEducationBookmark((Integer) params.get("seq"), user.getUserSeq());    //관심 교육 삭제
+			}
+		}else if(params.get("type").equals("con")){
+			ConsultingBookmark conMark = consultingBookmarkService.getConsultingBookmark((Integer) params.get("seq"), user.getUserSeq());
+
+			if (conMark == null) {
+				jsonObject.put("message", "add");
+				consultingBookmarkService.addConsultingBookmark((Integer) params.get("seq"), user.getUserSeq());    //관심 교육 등록
+			} else {
+				jsonObject.put("message", "delete");
+				consultingBookmarkService.deleteConsultingBookmark((Integer) params.get("seq"), user.getUserSeq());    //관심 교육 삭제
+			}
+
 		}
 
 		return jsonObject;

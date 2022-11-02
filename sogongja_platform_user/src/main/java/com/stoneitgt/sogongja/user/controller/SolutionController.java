@@ -9,8 +9,7 @@ import java.util.Map;
 import com.stoneitgt.sogongja.domain.EducationBookmark;
 import com.stoneitgt.sogongja.domain.LoginForm;
 import com.stoneitgt.sogongja.domain.User;
-import com.stoneitgt.sogongja.user.service.CategoryService;
-import com.stoneitgt.sogongja.user.service.EducationBookmarkService;
+import com.stoneitgt.sogongja.user.service.*;
 import com.stoneitgt.util.ScriptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,8 +23,6 @@ import com.stoneitgt.common.GlobalConstant.PAGE_SIZE;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.EducationParameter;
-import com.stoneitgt.sogongja.user.service.ConsultingService;
-import com.stoneitgt.sogongja.user.service.EducationService;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
 
@@ -46,6 +43,9 @@ public class SolutionController extends BaseController {
 
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private BoardService boardService;
 
 	@GetMapping("/education")
 	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication, HttpServletResponse response) throws IOException {
@@ -106,6 +106,8 @@ public class SolutionController extends BaseController {
 			}
 		}
 
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
 		/*if (recommendList == null || recommendList.size() == 0) {
 			paramsMap.put("order", "");
 			paramsMap.put("recommend", "Y");
@@ -119,6 +121,8 @@ public class SolutionController extends BaseController {
 		model.addAttribute("recommendList", recommendList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/solution/education";
 	}
@@ -145,6 +149,7 @@ public class SolutionController extends BaseController {
 		paramsMap.put("read_cnt", "N");
 		paramsMap.put("recommend", "Y");
 		List<Map<String, Object>> recommendList = ecucationService.getEducationList(paramsMap);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		model.addAttribute("list", conList);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(conList, paging));
@@ -152,6 +157,8 @@ public class SolutionController extends BaseController {
 		model.addAttribute("recommendList", recommendList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/solution/consulting";
 	}
