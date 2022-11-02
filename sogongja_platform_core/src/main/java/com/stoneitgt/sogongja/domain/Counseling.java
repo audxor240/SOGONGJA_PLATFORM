@@ -58,4 +58,12 @@ public class Counseling {
 	List<MultipartFile> attachFiles;
 
 	private String regUsername;
+
+	private int field;
+
+	private String year;
+
+	private String counselor;
+
+	private String question;
 }

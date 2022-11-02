@@ -6,27 +6,30 @@
 	<select id="getCounselingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : CounselingMapper.xml, id : getCounselingList */
 		  SELECT C.*
-		       , COU_TYPE.CODE_NAME                  AS COU_TYPE_NAME
-		       , COU_CLASS.CODE_NAME                 AS COU_CLASS_NAME
-		       , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
 		       , U.USERNAME                          AS REG_USERNAME
+		  	   , CASE WHEN C.FIELD = 1 THEN '법률'
+					  WHEN C.FIELD = 2 THEN '노무'
+					  WHEN C.FIELD = 3 THEN '세무'
+					  WHEN C.FIELD = 4 THEN '회계'
+					  WHEN C.FIELD = 5 THEN '지식재산'
+					  WHEN C.FIELD = 6 THEN '관세'
+					  WHEN C.FIELD = 7 THEN '법무'
+					  WHEN C.FIELD = 8 THEN '경영 컨설팅'
+					END as C_FIELD
 		    FROM ST_COUNSELING C
-		       INNER JOIN ST_CODE_DTL COU_TYPE
-		               ON COU_TYPE.GRP_CODE = 'COU_TYPE'
-		              AND COU_TYPE.CODE     = C.COU_TYPE
-		       INNER JOIN ST_CODE_DTL COU_CLASS
-		               ON COU_CLASS.GRP_CODE = 'COU_CLASS'
-		              AND COU_CLASS.CODE     = C.COU_CLASS
-		       INNER JOIN ST_CODE_DTL SUPPORT_ORG
-		               ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
-		              AND SUPPORT_ORG.CODE     = C.SUPPORT_ORG
-		       INNER JOIN ST_USER U
-                       ON C.REG_USER_SEQ = U.USER_SEQ
+			INNER JOIN ST_USER U ON C.REG_USER_SEQ = U.USER_SEQ
+			left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = C.SUPPORT_ORG
 		   WHERE C.DEL_FLAG                    = 0
 		<if test="keyword != null and keyword != ''">
-             AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+             AND C.TAGS LIKE CONCAT('%', #{keyword}, '%')
         </if>
+
+		<if test="field != 0 and keyword != null">
+			AND C.FIELD = #{field}
+		</if>
+
 		ORDER BY COU_SEQ DESC
 	/*||ORDER BY COU_SEQ DESC||*/
 	</select>
@@ -35,9 +38,10 @@
 		/* file : CounselingMapper.xml, id : insertCounseling */
 		INSERT
 		  INTO ST_COUNSELING (
-		              COU_TYPE
-		            , COU_CLASS
-		            , SUBJECT
+		            FIELD
+		            , YEAR
+		            , COUNSELOR
+		            , QUESTION
 		            , CONTENT
 		            , SUPPORT_ORG
 		            , COU_URL
@@ -45,9 +49,10 @@
 		            , TAGS
 		            , REG_USER_SEQ)
 		       VALUES (
-		              #{couType}
-		            , #{couClass}
-		            , #{subject}
+		            #{field}
+		            , #{year}
+		            , #{counselor}
+		            , #{question}
 		            , #{content}
 		            , #{supportOrg}
 		            , #{couUrl}
@@ -63,9 +68,10 @@
 	<update id="updateCounseling" parameterType="com.stoneitgt.sogongja.domain.Counseling">
 		/* file : CounselingMapper.xml, id : updateCounseling */
 		UPDATE ST_COUNSELING
-		   SET COU_TYPE       = #{couType}
-		     , COU_CLASS      = #{couClass}
-		     , SUBJECT        = #{subject}
+		   SET FIELD		  = #{field}
+		     , YEAR			  = #{year}
+		     , COUNSELOR	  = #{counselor}
+		     , QUESTION       = #{question}
 		     , CONTENT        = #{content}
 		     , SUPPORT_ORG    = #{supportOrg}
 		     , COU_URL        = #{couUrl}
