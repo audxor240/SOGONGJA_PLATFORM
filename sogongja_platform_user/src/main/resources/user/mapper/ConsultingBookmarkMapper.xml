@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.ConsultingBookmarkMapper">
+
+    <select id="getConsultingBookmark" parameterType="int" resultType="com.stoneitgt.sogongja.domain.ConsultingBookmark">
+        /* file : ConsultingBookmarkMapper.xml, id : getConsultingBookmark */
+        SELECT *
+        FROM ST_CONSULTING_BOOKMARK
+        WHERE CON_SEQ = #{conSeq} and USER_SEQ = #{userSeq}
+    </select>
+
+    <insert id="addConsultingBookmark" parameterType="int" >
+        /* 관심 컨설팅 등록 */
+        INSERT INTO ST_CONSULTING_BOOKMARK(CON_SEQ, USER_SEQ)value(#{conSeq}, #{userSeq});
+    </insert>
+
+    <delete id="deleteConsultingBookmark" parameterType="int" >
+        DELETE FROM ST_CONSULTING_BOOKMARK where CON_SEQ = #{conSeq} and USER_SEQ = #{userSeq}
+    </delete>
+
+
+
+</mapper>

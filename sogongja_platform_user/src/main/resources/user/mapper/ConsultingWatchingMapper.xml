@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.ConsultingWatchingMapper">
+
+    <select id="getConsultingWatching" parameterType="int" resultType="com.stoneitgt.sogongja.domain.ConsultingWatching">
+        /* file : ConsultingWatchingMapper.xml, id : getConsultingWatching */
+        SELECT *
+        FROM ST_CONSULTING_WATCHING
+        WHERE CON_SEQ = #{conSeq} and USER_SEQ = #{userSeq}
+    </select>
+
+    <insert id="addConsultingWatching" parameterType="int" >
+        /* 컨설팅 시청 등록 */
+        INSERT INTO ST_CONSULTING_WATCHING(CON_SEQ, USER_SEQ)value(#{conSeq}, #{userSeq});
+    </insert>
+
+
+</mapper>
