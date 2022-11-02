@@ -19,8 +19,16 @@
                                         <label class="col-sm-2 col-form-label">상담분야</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select th:field="*{supportOrg}" class="form-control">
-                                            <option th:each="item : ${supportOrg}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        <select th:field="*{field}" class="form-control">
+                                            <option value="0">선택해주세요</option>
+                                            <option value="1">법률</option>
+                                            <option value="2">노무</option>
+                                            <option value="3">세무</option>
+                                            <option value="4">회계</option>
+                                            <option value="5">지적재산</option>
+                                            <option value="6">관세</option>
+                                            <option value="7">법무</option>
+                                            <option value="8">경영컨설팅</option>
                                         </select>
                                     </div>
                                 </div>
@@ -49,8 +57,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-end">
-                        <button type="button" class="btn col-sm-1 btn-danger mr-1">선택삭제</button>
-                        <button type="button" class="btn col-sm-1 btn-primary mr-1">사례 등록</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_counseling">선택삭제</button>
+                        <!--<button type="button" class="btn col-sm-1 btn-primary mr-1">사례 등록</button>-->
+                        <a th:href="@{|/counseling/form?${pageParams}|}" class="btn col-sm-1 btn-primary mr-1">
+                            <i class="btn-icon-prepend" data-feather="edit"></i>사례 등록
+                        </a>
                         <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
                     </div>
                     <p class="card-description">
@@ -83,14 +94,14 @@
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="cou_check" th:value="${item.cou_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                    <td>상담분야</td>
-                                    <td>상담사</td>
-                                    <td><a th:href="@{|/counseling/${item.cou_seq}?${pageParams}|}" th:text="${item.subject}">제목</a></td>
+                                    <td>[[${item.c_field}]]</td>
+                                    <td>[[${item.counselor}]]</td>
+                                    <td><a th:href="@{|/counseling/${item.cou_seq}?${pageParams}|}" th:text="${item.tags}">키워드</a></td>
                                     <td th:text="${item.support_org_name}">소관부처</td>
-                                    <td>해당년도</td>
+                                    <td>[[${item.year}]]</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,7 +112,7 @@
         </div>
     </div>
     <form name="deleteForm" th:action="@{/counseling/delete}" method="post">
-        <input type="hidden" name="couSeq">
+        <input type="hidden" name="couStr">
         <input type="hidden" name="menuCode" th:value=${params.menuCode}>
     </form>
 </div>

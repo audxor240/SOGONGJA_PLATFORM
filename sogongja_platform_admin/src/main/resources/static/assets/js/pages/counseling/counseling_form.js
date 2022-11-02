@@ -111,5 +111,9 @@
 
 function validationForm() {
 
+    var content = editor.getMarkdown();
+
+    $('#content').val(content);
+
     return true;
 }
