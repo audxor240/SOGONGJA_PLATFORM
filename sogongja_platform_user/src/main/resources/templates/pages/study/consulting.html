@@ -116,7 +116,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:if="${#lists.isEmpty(list)}">
+                                <div class="none_contents">
+                                    <span></span>
+                                    <p>컨텐츠가 존재하지 않습니다.</p>
+                                </div>
+                            </th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
                                     <td th:text="${paging.total - item.rnum + 1}"></td>

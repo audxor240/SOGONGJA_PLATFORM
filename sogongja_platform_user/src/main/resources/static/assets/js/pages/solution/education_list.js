@@ -58,11 +58,14 @@
         }
         form.submit();
     });
+
+
 })();
 
 function favorite(seq){
     let data = {
-        seq: seq
+        seq: seq,
+        type: "edu"
     };
 
     var token = $("meta[name='_csrf']").attr("content");

@@ -52,6 +52,80 @@
         </choose>
 	</select>
 
+	<select id="getConsultingRecommendList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : ConsultingMapper.xml, id : getConsultingRecommendList */
+		SELECT C.*
+		, CATE1.NAME                     AS CATEGORY_1_NAME
+		, CATE2.NAME                     AS CATEGORY_2_NAME
+		, CATE3.NAME                     AS CATEGORY_3_NAME
+		, SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
+		, DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
+		, U.USERNAME                          AS REG_USERNAME
+		, CB.CON_MARK_SEQ
+		, CW.CON_WATCHING_SEQ
+		FROM ST_CONSULTING C
+		INNER JOIN ST_USER U ON C.REG_USER_SEQ = U.USER_SEQ
+		inner join ST_CATEGORY1 as CATE1 ON CATE1.CATEGORY1_SEQ = C.CATEGORY_1
+		inner join ST_CATEGORY2 as CATE2 ON CATE2.CATEGORY2_SEQ = C.CATEGORY_2
+		inner join ST_CATEGORY3 as CATE3 ON CATE3.CATEGORY3_SEQ = C.CATEGORY_3
+		left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = C.SUPPORT_ORG
+		left join ST_CONSULTING_BOOKMARK as CB ON CB.CON_SEQ = C.CON_SEQ and CB.USER_SEQ = #{login_user_seq}
+		left join ST_CONSULTING_WATCHING as CW ON CW.CON_SEQ = C.CON_SEQ and CW.USER_SEQ = #{login_user_seq}
+		WHERE C.DEL_FLAG                    = 0
+		<if test="keyword != null and keyword != ''">
+			AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+
+		<if test="con_watching_view1 == true and order != 'read_cnt'">
+			AND CW.CON_WATCHING_SEQ is null
+		</if>
+
+		<if test="con_watching_view2 == true and order == 'read_cnt'">
+			AND CW.CON_WATCHING_SEQ is null
+		</if>
+
+		<if test="category1 != null and category1 != ''">
+			AND C.CATEGORY_1 = #{category1}
+		</if>
+		<if test="category2 != null and category2 != ''">
+			AND C.CATEGORY_2 = #{category2}
+		</if>
+		<if test="category3 != null and category3 != ''">
+			AND C.CATEGORY_3 = #{category2}
+		</if>
+		<if test="support_org != null and support_org != ''">
+			AND C.SUPPORT_ORG = #{support_org}
+		</if>
+
+		<if test="category2Group != null and category2Group != ''">
+			AND C.CATEGORY_2 IN
+			<foreach collection="category2Group" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="category3Group != null and category3Group != ''">
+			AND C.CATEGORY_3 IN
+			<foreach collection="category3Group" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+		<choose>
+			<when test="order == 'read_cnt'">
+				ORDER BY READ_CNT DESC, CON_SEQ DESC
+				/*||ORDER BY READ_CNT DESC, CON_SEQ DESC||*/
+			</when>
+			<when test="order == 'rand'">
+				ORDER BY RAND()
+			</when>
+			<otherwise>
+				ORDER BY CON_SEQ DESC
+				/*||ORDER BY CON_SEQ DESC||*/
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="getConsulting" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : ConsultingMapper.xml, id : getConsulting */
 		  SELECT A.*
