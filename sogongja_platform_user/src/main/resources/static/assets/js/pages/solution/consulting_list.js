@@ -24,6 +24,81 @@
             }
         });
 
+        //추천 컨설팅 > 이미 받은 컨설팅 감추기
+        $('#con_watching_hide1').on('click', function(e) {
+            var form = document.forms.searchForm1;
+            if($(this).is(":checked") == true){
+                form.conWatchingView1.value = true;
+            }else{
+                form.conWatchingView1.value = false;
+            }
+
+            if($("#con_watching_hide2").is(":checked")){
+                form.conWatchingView2.value = true;
+            }else{
+                form.conWatchingView2.value = false;
+            }
+            form.submit();
+        });
+
+        //다른 사용자가 자주 찾는 컨설팅 > 이미 받은 컨설팅 감추기
+        $('#con_watching_hide2').on('click', function(e) {
+            var form = document.forms.searchForm2;
+            if($(this).is(":checked") == true){
+                form.conWatchingView2.value = true;
+            }else{
+                form.conWatchingView2.value = false;
+            }
+            if($("#con_watching_hide1").is(":checked")){
+                form.conWatchingView1.value = true;
+            }else{
+                form.conWatchingView1.value = false;
+            }
+            form.submit();
+        });
+
     });
 
 })();
+
+function favorite(seq){
+    let data = {
+        seq: seq,
+        type: "con"
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/favorite",
+        async: false,
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (res) {
+
+            if(res.message == "login_check"){
+                $(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
+                alert("로그인이 필요합니다.");
+                return;
+            }else if(res.message == "add"){
+                alert("관심 컨설팅 등록되었습니다.");
+                return;
+            }else if(res.message == "delete"){
+                alert("관심 컨설팅 해제되었습니다.");
+                return;
+            }
+        },
+        error: function (request,status,error) {
+            //alert(res.responseJSON.code);
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+            return;
+
+        }
+    });
+
+}

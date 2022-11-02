@@ -13,6 +13,8 @@ public interface ConsultingMapper {
 
 	List<Map<String, Object>> getConsultingList(Map<String, Object> params, RowBounds rowBounds);
 
+	List<Map<String, Object>> getConsultingRecommendList(Map<String, Object> params, RowBounds rowBounds);
+
 	Map<String, Object> getConsulting(int conSeq);
 
 	int updateConsultingReadCnt(int conSeq);
