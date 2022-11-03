@@ -230,6 +230,9 @@
   max-width: 1400px;
   margin: 0 auto;
 }
+.sub_container .solution_edu {
+  margin-bottom: 100px;
+}
 .sub_container .h3_title {
   font-size: 1.5rem;
   color: #000;
@@ -714,19 +717,25 @@
 
 .view .view_title {
   border-bottom: 1px solid #d5d5d5;
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem;
   text-align: center;
-  padding-top: 0;
+}
+.view .view_title .point {
+  color: #1540BF;
+  font-size: 1.125rem;
+}
+.view .view_title h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 20px 0;
+}
+.view .view_title h3.counseling_title {
+  margin: 10px 0;
 }
 .view .view_title > div {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.view .view_title > div h3 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 4px;
 }
 .view .view_title > div p {
   padding: 0 8px;
@@ -749,20 +758,92 @@
   left: -4px;
   background: url(../images/slash.png) no-repeat 0 50%;
 }
+.view .view_title > div p.point_select {
+  padding: 0 5px;
+  color: #1001d9;
+}
+.view .view_title > div p.point_select.before_none:before {
+  display: none;
+}
+.view .view_title > div p.point_select:before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: #1001d9;
+  margin: 0 5px -2px -3px;
+  transform: rotate(20deg);
+  position: relative;
+  top: auto;
+  left: auto;
+}
 .view .view_title p {
   color: #767676;
   line-height: 1.5;
+}
+.view .view_title p span {
+  color: #767676;
+  display: inline-block;
+  margin-right: 10px;
+}
+.view .view_title p span:after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 15px;
+  background-color: #767676;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.view .view_title p span:last-child:after {
+  display: none;
 }
 .view .view_title .view_change {
   display: flex;
   justify-content: end;
   margin: 0;
 }
+.view .view_title .square_tag_list_wrap {
+  justify-content: right;
+}
+.view .view_title .square_tag_list_wrap .square_tag_list {
+  display: flex;
+  justify-content: right;
+}
+.view .view_title .square_tag_list_wrap .square_tag_list > li {
+  padding: 5px 10px;
+  border: solid 1px #1540BF;
+  color: #1540BF;
+  background-color: #ffffff;
+  margin-right: 10px;
+}
+.view .view_title .square_tag_list_wrap .square_tag_list > li:last-child {
+  margin-right: 0;
+}
 .view .view_text {
   padding: 2.25rem;
   color: #767676;
   line-height: 1.5;
   border-bottom: 1px solid #d5d5d5;
+}
+.view .view_text .mark_q {
+  margin-bottom: 10px;
+  color: #1540bf;
+  font-size: 2.25rem;
+}
+.view .tag_list_wrap {
+  padding: 1.5rem;
+}
+.view .tag_list_wrap .tag_list {
+  display: flex;
+}
+.view .tag_list_wrap .tag_list > li {
+  font-size: 1rem;
+  color: #606060;
+  margin-right: 10px;
+}
+.view .tag_list_wrap .tag_list > li:last-child {
+  margin-right: 0;
 }
 .view .consulting_more {
   margin-top: 2.875rem;
@@ -2668,7 +2749,7 @@
 }
 
 .none_contents {
-  margin: 0 auto;
+  margin: 60px auto;
 }
 .none_contents span {
   display: block;
@@ -3030,6 +3111,60 @@ select {
     border-top: 4px solid #1540bf;
   }
   .custom_counseling tbody:nth-child(2n) {
+    background-color: #F5F5F5;
+  }
+  .custom_counselingView tbody {
+    border-top: 4px solid #1540bf;
+    display: flex;
+    flex-direction: column;
+  }
+  .custom_counselingView tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+  }
+  .custom_counselingView tbody tr td {
+    line-height: 4.5rem;
+    border-right: none;
+  }
+  .custom_counselingView tbody tr td:nth-child(1) {
+    width: 50%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_counselingView tbody tr td:nth-child(2) {
+    width: 50%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_counselingView tbody tr td:nth-child(3) {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_counselingView tbody tr td:nth-child(4) {
+    width: 100%;
+  }
+  .custom_counselingView tbody tr td:nth-child(4) a {
+    white-space: break-spaces;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.6;
+    text-align: center;
+    padding: 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .custom_counselingView tbody tr td:nth-child(5) {
+    width: 50%;
+  }
+  .custom_counselingView tbody tr td:nth-child(6) {
+    width: 50%;
+  }
+  .custom_counselingView tbody:first-child {
+    border-top: 4px solid #1540bf;
+  }
+  .custom_counselingView tbody:nth-child(2n) {
     background-color: #F5F5F5;
   }
   .search_list {
