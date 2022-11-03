@@ -172,11 +172,11 @@ public class LoginController {
     }
 
     @GetMapping("/naver")
-    public String loginByNaver(@RequestParam("code") String token, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+    public String loginByNaver(@RequestParam("code") String token, @RequestParam("state") String state
+            , HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
         String clientId = appProperties.getNaverClientId();
         String clientSecret = appProperties.getNaverClientSecret();
         String redirectUri = appProperties.getHost() + "/login/naver";
-        String state = request.getSession().getAttribute("state").toString();
         System.out.println(":::state:::" + state);
 
         HttpResult result = HttpClient.post(appProperties.getNaverAccessTokenUri(),
