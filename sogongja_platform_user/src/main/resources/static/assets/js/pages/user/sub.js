@@ -57,6 +57,27 @@ $(function() {
         $(".modal").show();
     });
 
+    $("#remember-me").click(function() {
+        var ka_attr = $(".kakao>a").attr("href");
+        var na_attr = $(".naver>a").attr("href");
+        var go_attr = $(".google>a").attr("href");
+
+        if ($(this).is(':checked')) {
+            $('input[name=remember-me]').val("true")
+            $(".kakao>a").prop('href', ka_attr + "_true")
+            $(".google>a").prop('href', go_attr + "_true")
+            $(".naver>a").prop('href', na_attr + "_true")
+        } else {
+            $('input[name=remember-me]').val("false")
+            var ka_replace = ka_attr.replace('_true', '');
+            var go_replace = go_attr.replace('_true', '');
+            var na_replace = na_attr.replace('_true', '');
+            $(".kakao>a").prop('href', ka_replace)
+            $(".google>a").prop('href', go_replace)
+            $(".naver>a").prop('href', na_replace)
+        }
+    });
+
     if ($(".modal").length > 0) {
         var close = document.querySelectorAll(".close");
         var modal = document.querySelectorAll(".modal");
