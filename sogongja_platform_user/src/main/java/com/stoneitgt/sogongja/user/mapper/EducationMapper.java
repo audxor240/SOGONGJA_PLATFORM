@@ -11,7 +11,11 @@ public interface EducationMapper {
 
 	List<Map<String, Object>> getEducationList(Map<String, Object> params);
 
+	List<Map<String, Object>> getEducationRecommendList(Map<String, Object> params);
+
 	List<Map<String, Object>> getEducationList(Map<String, Object> params, RowBounds rowBounds);
+
+	List<Map<String, Object>> getEducationRecommendList(Map<String, Object> params, RowBounds rowBounds);
 
 	Map<String, Object> getEducation(int eduSeq);
 

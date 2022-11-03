@@ -1,13 +1,11 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import com.stoneitgt.sogongja.admin.service.SupportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +33,9 @@ public class CounselingController extends BaseController {
 	@Autowired
 	private CounselingService counselingService;
 
+	@Autowired
+	private SupportService supportService;
+
 	@GetMapping("")
 	public String counselingiList(@ModelAttribute CounselingParameter params, Model model) {
 
@@ -43,11 +44,11 @@ public class CounselingController extends BaseController {
 		paging.setSize(params.getSize());
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-
+		System.out.println("paramsMap >> "+paramsMap);
 		List<Map<String, Object>> list = counselingService.getCounselingList(paramsMap, paging);
 		Integer total = counselingService.selectTotalRecords();
 		paging.setTotal(total);
-
+		System.out.println("list >>> "+list);
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
@@ -75,12 +76,15 @@ public class CounselingController extends BaseController {
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "소공자 상담사례 관리");
 
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.COUNSELING, couSeq));
 		model.addAttribute("couType", getCodeList("COU_TYPE"));
 		model.addAttribute("couClass", getCodeRefList("COU_CLASS", counseling.getCouType(), ""));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("supportOrg", supportList);		//지원기관
 
 		return "pages/counseling/counseling_form";
 	}
@@ -96,11 +100,14 @@ public class CounselingController extends BaseController {
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "소공자 상담사례 관리");
 
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("couType", getCodeList("COU_TYPE"));
 		model.addAttribute("couClass", new ArrayList<>());
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("supportOrg", supportList);		//지원기관
 
 		return "pages/counseling/counseling_form";
 	}
@@ -144,12 +151,18 @@ public class CounselingController extends BaseController {
 	}
 
 	@PostMapping("/delete")
-	public String deleteCounseling(@RequestParam int couSeq, @RequestParam(required = false) String menuCode,
+	public String deleteCounseling(@RequestParam String couStr, @RequestParam(required = false) String menuCode,
 			Model model, RedirectAttributes rttr) throws IOException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("cou_seq", couSeq);
-		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-		counselingService.deleteCounseling(params);
+
+		List<String> couSeqArr = Arrays.asList(couStr.split(","));
+
+		for(int i =0; i < couSeqArr.size();i++) {
+			int couSeq = Integer.parseInt(couSeqArr.get(i));
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("cou_seq", couSeq);
+			params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+			counselingService.deleteCounseling(params);
+		}
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 		return "redirect:/counseling?menuCode=" + menuCode;
 	}

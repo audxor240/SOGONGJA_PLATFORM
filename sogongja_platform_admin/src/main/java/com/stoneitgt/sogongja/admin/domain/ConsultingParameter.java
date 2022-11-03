@@ -13,6 +13,12 @@ public class ConsultingParameter extends BaseParameter {
 
 	private String conClass;
 
+	private String category1;
+
+	private String category2;
+
+	private String category3;
+
 	private String supportOrg;
 
 }

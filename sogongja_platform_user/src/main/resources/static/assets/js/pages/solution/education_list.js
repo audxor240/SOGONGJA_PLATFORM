@@ -26,11 +26,46 @@
 
     });
 
+    //추천교육 > 이미수강한 교육 감추기
+    $('#edu_watching_hide1').on('click', function(e) {
+        var form = document.forms.searchForm1;
+        if($(this).is(":checked") == true){
+            form.eduWatchingView1.value = true;
+        }else{
+            form.eduWatchingView1.value = false;
+        }
+
+        if($("#edu_watching_hide2").is(":checked")){
+            form.eduWatchingView2.value = true;
+        }else{
+            form.eduWatchingView2.value = false;
+        }
+        form.submit();
+    });
+
+    //다른 사용자가 자주 찾는교육 > 이미수강한 교육 감추기
+    $('#edu_watching_hide2').on('click', function(e) {
+        var form = document.forms.searchForm2;
+        if($(this).is(":checked") == true){
+            form.eduWatchingView2.value = true;
+        }else{
+            form.eduWatchingView2.value = false;
+        }
+        if($("#edu_watching_hide1").is(":checked")){
+            form.eduWatchingView1.value = true;
+        }else{
+            form.eduWatchingView1.value = false;
+        }
+        form.submit();
+    });
+
+
 })();
 
 function favorite(seq){
     let data = {
-        seq: seq
+        seq: seq,
+        type: "edu"
     };
 
     var token = $("meta[name='_csrf']").attr("content");

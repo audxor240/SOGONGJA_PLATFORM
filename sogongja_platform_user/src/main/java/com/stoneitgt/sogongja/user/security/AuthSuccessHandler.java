@@ -1,18 +1,11 @@
 package com.stoneitgt.sogongja.user.security;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.stoneitgt.sogongja.user.config.FormWebAuthenticationDetails;
-import com.stoneitgt.sogongja.user.properties.AppProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -80,7 +73,7 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			String targetUrl = savedRequest.getRedirectUrl();
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		} else {
-			redirectStrategy.sendRedirect(request, response, "/");
+			redirectStrategy.sendRedirect(request, response, app.getHost());
 		}
 	}
 }

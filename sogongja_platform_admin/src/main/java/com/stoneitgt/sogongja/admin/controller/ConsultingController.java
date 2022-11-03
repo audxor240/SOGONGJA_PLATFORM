@@ -1,13 +1,12 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import com.stoneitgt.sogongja.admin.service.CategoryService;
+import com.stoneitgt.sogongja.admin.service.SupportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +34,12 @@ public class ConsultingController extends BaseController {
 	@Autowired
 	private ConsultingService consultingService;
 
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private SupportService supportService;
+
 	@GetMapping("")
 	public String consultingiList(@ModelAttribute ConsultingParameter params, Model model) {
 
@@ -48,6 +53,25 @@ public class ConsultingController extends BaseController {
 		Integer total = consultingService.selectTotalRecords();
 		paging.setTotal(total);
 
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
+		List<Map<String, Object>> category2List = null;
+		List<Map<String, Object>> category3List = null;
+		if(params.getCategory1() != null && !params.getCategory1().equals("")){
+			Map<String, Object> param2 = new HashMap<String, Object>();
+			param2.put("category1Seq",params.getCategory1());
+			category2List = categoryService.getCategory2(param2);
+			model.addAttribute("category2", category2List);		//카테고리2
+		}
+
+		if(params.getCategory2() != null && !params.getCategory2().equals("")){
+			Map<String, Object> param3 = new HashMap<String, Object>();
+			param3.put("category2Seq",params.getCategory2());
+			category3List = categoryService.getCategory3(param3);
+			model.addAttribute("category3", category3List);		//카테고리3
+		}
+
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
@@ -59,8 +83,10 @@ public class ConsultingController extends BaseController {
 
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
-		model.addAttribute("conType", getCodeList("CON_TYPE"));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("conType", getCodeList("CON_TYPE"));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("category1", category1List);		//카테고리1
+		model.addAttribute("supportOrg", supportList);		//지원기관
 
 		return "pages/consulting/consulting_list";
 	}
@@ -75,12 +101,28 @@ public class ConsultingController extends BaseController {
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "소공자 컨설팅 관리");
 
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
+		Map<String, Object> param2 = new HashMap<String, Object>();
+		param2.put("category1Seq",consulting.getCategory1());
+		List<Map<String, Object>> category2List = categoryService.getCategory2(param2);
+
+
+		Map<String, Object> param3 = new HashMap<String, Object>();
+		param3.put("category2Seq",consulting.getCategory2());
+		List<Map<String, Object>> category3List = categoryService.getCategory3(param3);
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.CONSULTING, conSeq));
-		model.addAttribute("conType", getCodeList("CON_TYPE"));
-		model.addAttribute("conClass", getCodeRefList("CON_CLASS", consulting.getConType(), ""));
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		//model.addAttribute("conType", getCodeList("CON_TYPE"));
+		//model.addAttribute("conClass", getCodeRefList("CON_CLASS", consulting.getConType(), ""));
+		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("category1", category1List);
+		model.addAttribute("category2", category2List);
+		model.addAttribute("category3", category3List);
+		model.addAttribute("supportOrg", supportList);
 
 		return "pages/consulting/consulting_form";
 	}
@@ -96,11 +138,18 @@ public class ConsultingController extends BaseController {
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "소공자 컨설팅 관리");
 
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
+
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("conType", getCodeList("CON_TYPE"));
 		model.addAttribute("conClass", new ArrayList<>());
-		model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+		model.addAttribute("category2", new ArrayList<>());
+		model.addAttribute("category3", new ArrayList<>());
+		model.addAttribute("category1", category1List);		//카테고리1
+		model.addAttribute("supportOrg", supportList);		//지원기관
+
 
 		return "pages/consulting/consulting_form";
 	}
@@ -144,12 +193,18 @@ public class ConsultingController extends BaseController {
 	}
 
 	@PostMapping("/delete")
-	public String deleteConsulting(@RequestParam int conSeq, @RequestParam(required = false) String menuCode,
+	public String deleteConsulting(@RequestParam String conStr, @RequestParam(required = false) String menuCode,
 			Model model, RedirectAttributes rttr) throws IOException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("con_seq", conSeq);
-		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-		consultingService.deleteConsulting(params);
+
+		List<String> conSeqArr = Arrays.asList(conStr.split(","));
+
+		for(int i =0; i < conSeqArr.size();i++) {
+			int conSeq = Integer.parseInt(conSeqArr.get(i));
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("con_seq", conSeq);
+			params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+			consultingService.deleteConsulting(params);
+		}
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 		return "redirect:/consulting?menuCode=" + menuCode;
 	}

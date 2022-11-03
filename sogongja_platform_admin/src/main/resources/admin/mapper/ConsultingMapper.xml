@@ -6,27 +6,32 @@
 	<select id="getConsultingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : ConsultingMapper.xml, id : getConsultingList */
 		  SELECT C.*
-		       , CON_TYPE.CODE_NAME                  AS CON_TYPE_NAME
-		       , CON_CLASS.CODE_NAME                 AS CON_CLASS_NAME
-		       , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+			   , CATE1.NAME                     AS CATEGORY_1_NAME
+			   , CATE2.NAME                     AS CATEGORY_2_NAME
+			   , CATE3.NAME                     AS CATEGORY_3_NAME
+			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
 		       , U.USERNAME                          AS REG_USERNAME
 		    FROM ST_CONSULTING C
-		       INNER JOIN ST_CODE_DTL CON_TYPE
-		               ON CON_TYPE.GRP_CODE = 'CON_TYPE'
-		              AND CON_TYPE.CODE     = C.CON_TYPE
-		       INNER JOIN ST_CODE_DTL CON_CLASS
-		               ON CON_CLASS.GRP_CODE = 'CON_CLASS'
-		              AND CON_CLASS.CODE     = C.CON_CLASS
-		       INNER JOIN ST_CODE_DTL SUPPORT_ORG
-		               ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
-		              AND SUPPORT_ORG.CODE     = C.SUPPORT_ORG
-		       INNER JOIN ST_USER U
-                       ON C.REG_USER_SEQ = U.USER_SEQ
+			INNER JOIN ST_USER U ON C.REG_USER_SEQ = U.USER_SEQ
+			inner join ST_CATEGORY1 as CATE1 ON CATE1.CATEGORY1_SEQ = C.CATEGORY_1
+			inner join ST_CATEGORY2 as CATE2 ON CATE2.CATEGORY2_SEQ = C.CATEGORY_2
+			inner join ST_CATEGORY3 as CATE3 ON CATE3.CATEGORY3_SEQ = C.CATEGORY_3
+			left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = C.SUPPORT_ORG
 		   WHERE C.DEL_FLAG                    = 0
 		<if test="keyword != null and keyword != ''">
              AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
+
+		<if test="category1 != null and category1 != ''">
+			AND C.CATEGORY_1        = #{category1}
+		</if>
+		<if test="category2 != null and category2 != ''">
+			AND C.CATEGORY_2        = #{category2}
+		</if>
+		<if test="category3 != null and category3 != ''">
+			AND C.CATEGORY_3        = #{category3}
+		</if>
 		ORDER BY CON_SEQ DESC
 	/*||ORDER BY CON_SEQ DESC||*/
 	</select>
@@ -35,20 +40,28 @@
 		/* file : ConsultingMapper.xml, id : insertConsulting */
 		INSERT
 		  INTO ST_CONSULTING (
-		              CON_TYPE
-		            , CON_CLASS
+		            CATEGORY_1
+		            , CATEGORY_2
+		            , CATEGORY_3
 		            , SUBJECT
 		            , CONTENT
+		            , SUPPORT_CONTENT
+		            , SUPPORT_BY
+		            , REGION
 		            , SUPPORT_ORG
 		            , CON_URL
 		            , RECOMMEND_FLAG
 		            , TAGS
 		            , REG_USER_SEQ)
 		       VALUES (
-		              #{conType}
-		            , #{conClass}
+					#{category1}
+					, #{category2}
+					, #{category3}
 		            , #{subject}
 		            , #{content}
+					, #{supportContent}
+					, #{supportBy}
+					, #{region}
 		            , #{supportOrg}
 		            , #{conUrl}
 		            , #{recommendFlag}
@@ -63,10 +76,14 @@
 	<update id="updateConsulting" parameterType="com.stoneitgt.sogongja.domain.Consulting">
 		/* file : ConsultingMapper.xml, id : updateConsulting */
 		UPDATE ST_CONSULTING
-		   SET CON_TYPE       = #{conType}
-		     , CON_CLASS      = #{conClass}
+		   SET CATEGORY_1     = #{category1}
+		     , CATEGORY_2     = #{category2}
+		     , CATEGORY_3     = #{category3}
 		     , SUBJECT        = #{subject}
-		     , CONTENT        = #{content}
+			 , CONTENT        = #{content}
+			 , SUPPORT_CONTENT= #{supportContent}
+			 , SUPPORT_BY     = #{supportBy}
+			 , REGION         = #{region}
 		     , SUPPORT_ORG    = #{supportOrg}
 		     , CON_URL        = #{conUrl}
 		     , RECOMMEND_FLAG = #{recommendFlag}

@@ -38,23 +38,43 @@
             }
         });
 
-        $('#conType').on('change', function() {
-            var strHTML = '<option value="">선택하세요</option>';
+        var strEmpty = '<option value="">선택하세요</option>';
+
+        $('#category1').on('change', function() {
+            var strHTML = strEmpty;
             if ($(this).val()) {
                 var data = {
-                    groupCode: 'CON_CLASS',
-                    refCode: $(this).val()
+                    category1Seq: $(this).val()
                 }
-                ajaxPost('/api/code/ref', data, function(result) {
+                ajaxPost('/api/category2', data, function(result) {
                     $.each(result.data, function(index, item) {
-                        strHTML += '<option value="' + item.code + '">' + item.code_name + '</option>';
+                        strHTML += '<option value="' + item.category2_seq + '">' + item.name + '</option>';
                     });
-                    $('#conClass').html(strHTML);
+                    $('#category2').html(strHTML);
+                    $('#category3').html(strEmpty);
                 });
             } else {
-                $('#conClass').html(strHTML);
+                $('#category2').html(strHTML);
+                $('#category3').html(strEmpty);
             }
 
+        });
+
+        $('#category2').on('change', function() {
+            var strHTML = strEmpty;
+            if ($(this).val()) {
+                var data = {
+                    category2Seq: $(this).val()
+                }
+                ajaxPost('/api/category3', data, function(result) {
+                    $.each(result.data, function(index, item) {
+                        strHTML += '<option value="' + item.category3_seq + '">' + item.name + '</option>';
+                    });
+                    $('#category3').html(strHTML);
+                });
+            } else {
+                $('#category3').html(strHTML);
+            }
         });
 
         $('.btn-delete-file').on('click', function() {
@@ -111,6 +131,10 @@
 })();
 
 function validationForm() {
+
+    var content = editor.getMarkdown();
+
+    $('#content').val(content);
 
     return true;
 }

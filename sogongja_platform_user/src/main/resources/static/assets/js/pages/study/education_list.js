@@ -19,10 +19,9 @@
         $('input:radio[name="category1"]').on('change', function() {
             if ($(this).val()) {
                 var data = {
-                    groupCode: 'CATEGORY_2',
-                    refCode: $(this).val()
+                    category1Seq: $(this).val()
                 }
-                ajaxPost('/api/code/ref', data, function(result) {
+                ajaxPost('/api/category2', data, function(result) {
                     $('#rdoCategory2').html(makeCategory(result.data, 'category2'));
                     $('#rdoCategory3').html(getEmptyString('category3'));
                 });
@@ -35,10 +34,9 @@
         $(document).on('change', 'input:radio[name="category2"]', function() {
             if ($(this).val()) {
                 var data = {
-                    groupCode: 'CATEGORY_3',
-                    refCode: $(this).val()
+                    category2Seq: $(this).val()
                 }
-                ajaxPost('/api/code/ref', data, function(result) {
+                ajaxPost('/api/category3', data, function(result) {
                     $('#rdoCategory3').html(makeCategory(result.data, 'category3'));
                 });
             } else {
@@ -50,9 +48,15 @@
         function makeCategory(list, name) {
             var strHTML = getEmptyString(name);
             $.each(list, function(index, item) {
+                var category_seq = "";
+                if(name == "category2"){
+                    category_seq = item.category2_seq;
+                }else{
+                    category_seq = item.category3_seq;
+                }
                 strHTML += '<li>';
-                strHTML += ' <input type="radio" name="' + name + '" id="' + name + (index + 2) + '"  class="checkbox_style" value="' + item.code + '">';
-                strHTML += ' <label for="' + name + (index + 2) + '">' + item.code_name + '</label>';
+                strHTML += ' <input type="radio" name="' + name + '" id="' + name + (index + 2) + '"  class="checkbox_style" value="' + category_seq + '">';
+                strHTML += ' <label for="' + name + (index + 2) + '">' + item.name + '</label>';
                 strHTML += '</li>';
             });
             return strHTML;
@@ -73,7 +77,8 @@
 
 function favorite(seq){
     let data = {
-        seq: seq
+        seq: seq,
+        type: "edu"
     };
 
     var token = $("meta[name='_csrf']").attr("content");
@@ -133,6 +138,7 @@ function detailEducation(seq){
 
             if(res.message == "login_check"){
                 alert("로그인이 필요합니다.");
+                window.location.href="/login";
                 return;
             }else{
                 window.open(res.edu_url, '_blank');

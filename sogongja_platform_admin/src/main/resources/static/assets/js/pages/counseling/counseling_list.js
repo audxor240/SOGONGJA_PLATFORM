@@ -4,11 +4,16 @@
 
         commonSearchPaging();
 
-        $('.btn-delete').on('click', function() {
+        $('#del_counseling').on('click', function() {
             if (confirm('해당 사례를 삭제하시겠습니까?')) {
-                var couSeq = $(this).data('couSeq');
+                var couStr = "";
+                $("input[name=cou_check]:checked").each(function(){
+                    couStr += $(this).val()+",";
+                })
+                couStr = couStr.slice(0,-1);
                 var form = document.forms.deleteForm;
-                form.conSeq.value = couSeq;
+                form.couStr.value = couStr;
+                
                 form.submit();
             }
         });

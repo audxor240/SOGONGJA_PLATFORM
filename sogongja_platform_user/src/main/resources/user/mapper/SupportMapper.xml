@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.SupportMapper">
+
+    <select id="getSupportList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SupportMapper.xml, id : getCategory3List */
+        SELECT *, (select group_concat(SUPPORT_NAME) from ST_SUPPORT) as GROUP_NAME
+        FROM ST_SUPPORT
+        WHERE DEL_FLAG = 0
+        ORDER BY SUPPORT_SEQ
+
+    </select>
+
+    <select id="getSupportInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Support">
+        /* file : SupportMapper.xml, id : getSupportInfo */
+        SELECT *
+        FROM ST_SUPPORT
+        WHERE DEL_FLAG = 0 AND SUPPORT_SEQ = #{supportSeq}
+
+    </select>
+
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>

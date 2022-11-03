@@ -30,80 +30,113 @@
         </section>
         <section class="wrap">
             <div class="sub_container solution_edu_wrap">
-                    <div class="edu_list_wrap">
+                    <div class="solution_edu">
                         <div class="h3_title_wrap h3_flex">
                             <h3 class="h3_title">추천컨설팅</h3>
+                            <form name="searchForm1" th:action="@{/solution/consulting}" th:object="${params}">
+                                <input type="hidden" th:field="*{conWatchingView1}" >
+                                <input type="hidden" th:field="*{conWatchingView2}" >
+                                <div>
+                                    <input type="checkbox" id="con_watching_hide1" class="checkbox_style c181818" th:checked="${params.conWatchingView1 == true}">
+                                    <label for="con_watching_hide1">이미 받은 컨설팅 감추기</label>
+                                </div>
+                            </form>
+                        </div>
+                        <table class="table_style custom_consulting">
+                            <caption>추천 컨설팅</caption>
+                            <thead>
+                            <tr>
+                                <th style="width: 8%;">No.</th>
+                                <th style="width: 12%;">제공기관</th>
+                                <!--<th style="width: 15%;">서비스명</th>-->
+                                <th style="width: 15%;">구분</th>
+                                <th style="width: 40%;">지원내용</th>
+                                <th style="width: 10%;">관리</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:unless="${#lists.isEmpty(recommendList)}">
+                                <tr th:each="item : ${recommendList}">
+                                    <td th:text="${paging.total - item.rnum + 1}"></td>
+                                    <td>[[${item.support_org_name}]]</td>
+                                    <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
+                                    <td class="color_606060">[[${item.support_by}]]</td>
+                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
+                                    <td>
+                                        <div class="management management_wrap">
+                                            <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(recommendList)}">
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="none_contents" >
+                                            <span></span>
+                                            <p>컨텐츠가 존재하지 않습니다.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="edu_list_wrap">
+                        <form name="searchForm2" th:action="@{/solution/consulting}" th:object="${params}">
+                            <input type="hidden" th:field="*{conWatchingView1}" >
+                            <input type="hidden" th:field="*{conWatchingView2}" >
+                            <th:block th:include="fragments/search_hidden"></th:block>
+                        </form>
+                        <div class="h3_title_wrap h3_flex">
                             <div>
-                                <input type="checkbox" id="edu_hide" class="checkbox_style c181818">
-                                <label for="edu_hide">이미 받은 컨설팅 감추기</label>
+                                <h3 class="h3_title">다른 사용자가 자주 찾는 컨설팅</h3>
+                                <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
                             </div>
-                        </div>
-                        <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
-                            <ul class="af">
-                                <li th:each="item : ${recommendList}">
-                                    <div class="view_favorite">
-                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-                                        <span class="view" th:text="${item.read_cnt}">12</span>
-                                    </div>
-                                    <h4>
-                                        <a href="#n" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
-                                    </h4>
-                                    <div class="edu_flex">
-                                        <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">
-                                            <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">
-                                                <li><a href="#n" th:text="|#${tag}|">#교양</a></li>
-                                            </th:block>
-                                        </ul>
-                                        <button type="button" class="edu_more_box" th:data-edu-seq="${item.edu_seq}">더보기</button>
-                                        <ul class="edu_more_box2">
-                                            <li><a href="#n">수강완료</a></li>
-                                            <li><a href="#n">수강하기</a></li>
-                                            <li><a href="#n">관심교육 해제</a></li>
-                                            <li><a href="#n">관심교육 등록</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="edu_more">
-                                <a href="#n">더보기<span>더보기</span></a>
+                            <div class="mb_20">
+                                <input type="checkbox" id="con_watching_hide2" class="checkbox_style c181818" th:checked="${params.conWatchingView2 == true}">
+                                <label for="con_watching_hide2">이미 받은 컨설팅 감추기</label>
                             </div>
-                        </div>
-                        <div class="h3_title_wrap">
-<!--                            <h3 class="h3_title">다른 사용자가 자주 찾는 컨설팅</h3>-->
-                            <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
                         </div>
                         <table class="table_style custom_consulting">
                             <caption>다른 사용자가 자주 찾는 컨설팅</caption>
                             <thead>
-                                <tr>
-                                    <th style="width: 8%;">No.</th>
-                                    <th style="width: 12%;">제공기관</th>
-                                    <th style="width: 15%;">서비스명</th>
-                                    <th style="width: 15%;">구분</th>
-                                    <th style="width: 40%;">지원내용</th>
-                                    <th style="width: 10%;">관리</th>
-                                </tr>
+                            <tr>
+                                <th style="width: 8%;">No.</th>
+                                <th style="width: 12%;">제공기관</th>
+                                <!--<th style="width: 15%;">서비스명</th>-->
+                                <th style="width: 15%;">구분</th>
+                                <th style="width: 40%;">지원내용</th>
+                                <th style="width: 10%;">관리</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <th:block th:include="fragments/table_empty:: table_empty(6)" th:if="${#lists.isEmpty(list)}"></th:block>
-                                <th:block th:unless="${#lists.isEmpty(list)}">
-                                    <tr th:each="item : ${list}">
-                                        <td>1</td>
-                                        <td>제공기관</td>
-                                        <td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>
-                                        <td class="color_606060">창업전 컨설팅</td>
-                                        <td>지원내용</td>
-                                        <td>
-                                            <div class="management management_wrap">
-                                                <button type="button" class="favorite">찜하기</button>
-                                                <!--                                    수강완료되었을 때-->
-                                                <!--                                    <span class="edu_done"></span>-->
-                                                <!--                                    수강완료 전-->
-                                                <span class="edu_none"></span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </th:block>
+                            <th:block th:unless="${#lists.isEmpty(list)}">
+                                <tr th:each="item : ${list}">
+                                    <td th:text="${paging.total - item.rnum + 1}"></td>
+                                    <td>[[${item.support_org_name}]]</td>
+                                    <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
+                                    <td class="color_606060">[[${item.support_by}]]</td>
+                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
+                                    <td>
+                                        <div class="management management_wrap">
+                                            <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(list)}">
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="none_contents" >
+                                            <span></span>
+                                            <p>컨텐츠가 존재하지 않습니다.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
                             </tbody>
                         </table>
                     </div>
@@ -112,7 +145,7 @@
         </section>
     </article>
     <th:block layout:fragment="custom_js">
-        <script th:src="@{/js/pages/solution/education_list.js}"></script>
+        <script th:src="@{/js/pages/solution/consulting_list.js}"></script>
     </th:block>
 </body>
 

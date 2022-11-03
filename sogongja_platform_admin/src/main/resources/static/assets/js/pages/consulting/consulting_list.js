@@ -4,13 +4,22 @@
 
         commonSearchPaging();
 
-        $('.btn-delete').on('click', function() {
+        $('#del_consulting').on('click', function() {
             if (confirm('해당 컨설팅을 삭제하시겠습니까?')) {
-                var conSeq = $(this).data('conSeq');
+                var conStr = "";
+                $("input[name=con_check]:checked").each(function(){
+                    conStr += $(this).val()+",";
+                })
+                conStr = conStr.slice(0,-1);
                 var form = document.forms.deleteForm;
-                form.conSeq.value = conSeq;
+                form.conStr.value = conStr;
+
                 form.submit();
             }
         });
     });
 })();
+
+function selSubmit() {
+    document.searchForm.submit();
+}

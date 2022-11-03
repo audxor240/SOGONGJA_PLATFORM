@@ -32,49 +32,47 @@
                 <div class="solution_edu">
                     <div class="h3_title_wrap h3_flex">
                         <h3 class="h3_title">추천교육</h3>
-                        <div>
-                            <input type="checkbox" id="edu_hide" class="checkbox_style c181818">
-                            <label for="edu_hide">이미 수강한 교육 감추기</label>
-                        </div>
+                        <form name="searchForm1" th:action="@{/solution/education}" th:object="${params}">
+                            <input type="hidden" th:field="*{eduWatchingView1}" >
+                            <input type="hidden" th:field="*{eduWatchingView2}" >
+                            <div class="mb_20">
+                                <input type="checkbox" id="edu_watching_hide1" class="checkbox_style c181818" th:checked="${params.eduWatchingView1 == true}">
+                                <label for="edu_watching_hide1">이미 수강한 교육 감추기</label>
+                            </div>
+                        </form>
                     </div>
                     <div class="solution_edu_recommend" th:classappend="${#lists.size(recommendList) > 3} ? 'more_recommend'">
                         <ul class="af">
-                            <li th:each="item : ${recommendList}">
-                                <div class="thumb_img">
+                            <th:block th:if="${#lists.isEmpty(recommendList)}">
+                                <div class="none_contents">
+                                    <span></span>
+                                    <p>컨텐츠가 존재하지 않습니다.</p>
+                                </div>
+                            </th:block>
+                            <li th:each="item : ${recommendList}" th:unless="${#lists.isEmpty(recommendList)}">
+                                <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                     <div class="view_favorite">
-                                        <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
+                                        <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                        <input type="hidden" id="edu_mark_seq" th:value="${item.edu_mark_seq}">
+                                        <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
                                         <!--                                    수강완료되었을 때-->
                                         <!--                                    <span class="edu_done"></span>-->
                                         <!--                                    수강완료 전-->
-                                        <span class="edu_none"></span>
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                     </div>
                                 </div>
                                 <div class="text_wrap">
                                     <div>
-                                        <span class="Agency">지원기관 이름 나와야함.</span>
+                                        <span class="Agency">[[${item.support_org_name}]]</span>
                                         <span class="view m_del" th:text="${item.read_cnt}">12</span>
                                     </div>
                                     <h4>
-                                        <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
+                                        <a th:onclick="detailEducation([[${item.edu_seq}]])" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
                                     </h4>
                                     <div class="flex_right_view">
                                         <span class="view" th:text="${item.read_cnt}">12</span>
                                     </div>
                                 </div>
-<!--                                <div class="edu_flex">-->
-<!--                                    <ul class="hashtag" th:if="${not #strings.isEmpty(item.tags)}">-->
-<!--                                        <th:block th:each="tag : ${#strings.arraySplit(item.tags,',')}">-->
-<!--                                            <li><a href="#n" th:text="|#${tag}|">#교양</a></li>-->
-<!--                                        </th:block>-->
-<!--                                    </ul>-->
-<!--                                    <button type="button" class="edu_more_box" th:data-edu-seq="${item.edu_seq}">더보기</button>-->
-<!--                                    <ul class="edu_more_box2">-->
-<!--                                        <li><a href="#n">수강완료</a></li>-->
-<!--                                        <li><a href="#n">수강하기</a></li>-->
-<!--                                        <li><a href="#n">관심교육 해제</a></li>-->
-<!--                                        <li><a href="#n">관심교육 등록</a></li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
                             </li>
                         </ul>
                         <div class="edu_more">
@@ -83,29 +81,40 @@
                     </div>
                 </div>
                 <div class="edu_list_wrap">
-                    <form name="searchForm" th:action="@{/solution/education}" th:object="${params}">
+                    <form name="searchForm2" th:action="@{/solution/education}" th:object="${params}">
+                        <input type="hidden" th:field="*{eduWatchingView1}" >
+                        <input type="hidden" th:field="*{eduWatchingView2}" >
                         <th:block th:include="fragments/search_hidden"></th:block>
                     </form>
-                    <div class="h3_title_wrap">
-                        <h3 class="h3_title">다른 사용자가 자주 찾는 교육</h3>
-                        <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                    <div class="h3_title_wrap h3_flex">
+                        <div>
+                            <h3 class="h3_title">다른 사용자가 자주 찾는 교육</h3>
+                            <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                        </div>
+                        <div class="mb_20">
+                            <input type="checkbox" id="edu_watching_hide2" class="checkbox_style c181818" th:checked="${params.eduWatchingView2 == true}">
+                            <label for="edu_watching_hide2">이미 수강한 교육 감추기</label>
+                        </div>
                     </div>
-                    <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
-                        <th:block th:each="item : ${list}">
-                            <th:block th:if="${#strings.isEmpty(item.thumbnail_path)}">
-                                <li>
-                                    <div class="thumb_img">
+                    <th:block th:if="${#lists.isEmpty(list)}">
+                        <div class="none_contents">
+                            <span></span>
+                            <p>컨텐츠가 존재하지 않습니다.</p>
+                        </div>
+                    </th:block>
+                    <ul class="edu_list af">
+                        <th:block th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                <li class="thumnail">
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
                                         <div class="view_favorite">
-                                            <button type="button" th:class="${item.favorite == true ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])">찜하기</button>
-                                            <!--                                    수강완료되었을 때-->
-                                            <!--                                    <span class="edu_done"></span>-->
-                                            <!--                                    수강완료 전-->
-                                            <span class="edu_none"></span>
+                                            <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                            <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                         </div>
                                     </div>
                                     <div class="text_wrap">
                                         <div>
-                                            <span class="Agency">지원기관 이름 나와야함.</span>
+                                            <span class="Agency">[[${item.support_org_name}]]</span>
                                             <span class="view m_del" th:text="${item.read_cnt}">12</span>
                                         </div>
                                         <h4>
@@ -116,28 +125,6 @@
                                         </div>
                                     </div>
                                 </li>
-                            </th:block>
-                            <th:block th:unless="${#strings.isEmpty(item.thumbnail_path)}">
-                                <li class="thumnail" >
-                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
-                                        <div class="view_favorite">
-                                            <button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>
-                                        </div>
-                                    </div>
-                                    <div class="text_wrap">
-                                        <div>
-                                            <span class="Agency">지원기관 이름 나와야함.</span>
-                                            <span class="view m_del" th:text="${item.read_cnt}">12</span>
-                                        </div>
-                                        <h4>
-                                            <a th:href="${item.edu_url}" target="_blank" th:text="${item.subject}">소상공인들을 위한 희망센터 안내 교육센터 </a>
-                                        </h4>
-                                        <div class="flex_right_view">
-                                            <span class="view" th:text="${item.read_cnt}">12</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </th:block>
                         </th:block>
                     </ul>
                 </div>
