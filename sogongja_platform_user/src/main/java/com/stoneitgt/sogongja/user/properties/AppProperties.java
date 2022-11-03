@@ -35,4 +35,7 @@ public class AppProperties {
 
     private String iamportKey;
     private String iamportSecret;
+
+    private String jwtSecret;
+    private String jwtLimit;
 }

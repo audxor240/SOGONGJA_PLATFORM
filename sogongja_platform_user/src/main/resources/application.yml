@@ -69,9 +69,9 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
       username: root
-      password: thvmxmfoqtm
+      password: softlabsdusgn
 
 system:
   slack-send: false
@@ -122,6 +122,9 @@ app:
   naver-api-uri: https://openapi.naver.com/v1
   host: http://localhost:2082
   emailAddress: sogongja0@gmail.com
+  ########### JWT
+  jwt-secret: soogoongjaa
+  jwt-limit: 604800000
 
 ---
 
@@ -227,3 +230,6 @@ app:
   naver-api-uri: https://openapi.naver.com/v1
   host: http://121.254.171.155:2082
   emailAddress: sogongja0@gmail.com
+  ########### JWT
+  jwt-secret: soogoongjaa
+  jwt-limit: 604800000

@@ -40,9 +40,10 @@
                         <span class="warning" th:if="${not #strings.isEmpty(error)}" th:text="${error}">*회원가입 되지 않은 정보입니다.</span>
                         <div class="login_chaeck">
                             <div>
-                                <input type="checkbox" class="checkbox_style" id="remember-me" name="obscure-remember-me">
+                                <input type="checkbox" class="checkbox_style" id="remember-me">
                                 <label for="remember-me">로그인 상태 유지</label>
                             </div>
+                            <input type="hidden" name="remember-me">
                             <a href="#n" id="find_password">비밀번호 찾기</a>
                         </div>
                         <div class="login_btns">
@@ -119,21 +120,7 @@
     <th:block layout:fragment="custom_js">
         <script th:src="@{/js/pages/user/sub.js}"></script>
     </th:block>
-</body>
-<script>
-    import Cookies from "../../static/assets/js/libs/toastui-editor-viewer";
 
-    $("#rememberMe").click(function () {
-        if ($("input:checkbox[id='rememberMe']").is(":checked")) {
-            Cookies.set("rememberMe", true);
-        } else {
-            Cookies.set("rememberMe", false);
-        }
-        alert("rememberMe")
-    })
-    if (Cookies.get("rememberMe") === 'true') {
-        $("input:checkbox[id='rememberMe']").prop("checked", true);
-    }
-</script>
+</body>
 
 </html>

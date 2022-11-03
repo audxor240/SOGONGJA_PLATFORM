@@ -2,6 +2,8 @@ package com.stoneitgt.sogongja.user.config;
 
 import javax.sql.DataSource;
 
+import com.stoneitgt.sogongja.user.mapper.UserMapper;
+import com.stoneitgt.sogongja.user.properties.AppProperties;
 import com.stoneitgt.sogongja.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -20,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -62,6 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	UserMapper userMapper;
+
+	@Autowired
+	AuthenticationDetailsSource authenticationDetailsSource;
+
+	@Autowired
+	private AppProperties app;
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -83,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().ignoringAntMatchers("/login");
+		http.cors().disable().csrf().ignoringAntMatchers("/login");
 
 		http.headers().frameOptions().disable();
 		http.headers().httpStrictTransportSecurity().disable();
@@ -100,14 +112,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenRepository(persistentTokenRepository()) //DataSource 추가
 				.userDetailsService(userDetailsService); // 기능을 사용할 때 사용자 정보가 필요함. 반드시 이 설정 필요함.
 */
-		http.rememberMe()
-				.key("jbcpCalendar")
-				.rememberMeParameter("obscure-remember-me")
-				.rememberMeCookieName("obscure-remember-me")
-				.tokenValiditySeconds(604800) // 쿠키의 만료시간 설정(초), default: 14일
-				.alwaysRemember(true) // 사용자가 체크박스를 활성화하지 않아도 항상 실행, default: false
-				.tokenRepository(persistentTokenRepository()) //DataSource 추가
-				.userDetailsService(userDetailsService); // 기능을 사용할 때 사용자 정보가 필요함. 반드시 이 설정 필요함.
+//		http.rememberMe()
+//				.key("jbcpCalendar")
+//				.rememberMeParameter("obscure-remember-me")
+//				.rememberMeCookieName("obscure-remember-me")
+//				.tokenValiditySeconds(604800) // 쿠키의 만료시간 설정(초), default: 14일
+//				.alwaysRemember(true) // 사용자가 체크박스를 활성화하지 않아도 항상 실행, default: false
+//				.tokenRepository(persistentTokenRepository()) //DataSource 추가
+//				.userDetailsService(userDetailsService); // 기능을 사용할 때 사용자 정보가 필요함. 반드시 이 설정 필요함.
 /*
 		http.rememberMe()
 				.key("hayden") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
@@ -133,22 +145,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 */
 
 
-		http.authorizeRequests()//
-				.antMatchers("/mypage/**").authenticated()//
-				.anyRequest().permitAll()//
-				.and()//
-					.formLogin()//
-					.loginPage("/login")//
-					.usernameParameter("id")//
-					.passwordParameter("password")//
-					.successHandler(authSuccessHandler)//
-					.failureHandler(authFailureHandler)//
-				.and()//
-					.logout()//
-					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//
-					.deleteCookies("JSESSIONID","obscure-remember-me")//
-					.clearAuthentication(true)//
-					.invalidateHttpSession(true)//
+		http.authorizeRequests()
+				.antMatchers("/mypage/**").authenticated()
+				.anyRequest().permitAll()
+				.and()
+				.addFilterBefore(new JwtFilter(app, userMapper), UsernamePasswordAuthenticationFilter.class)
+					.formLogin()
+					.loginPage("/login")
+					.usernameParameter("id")
+				 	.passwordParameter("password")
+					.authenticationDetailsSource(authenticationDetailsSource)
+					.successHandler(authSuccessHandler)
+					.failureHandler(authFailureHandler);
+		http.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.deleteCookies("JSESSIONID","obscure-remember-me")
+					.clearAuthentication(true)
+					.invalidateHttpSession(true)
 					.logoutSuccessUrl("/");
 	}
 
