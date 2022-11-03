@@ -57,7 +57,6 @@ public class LoginController {
     private AuthSuccessHandler authSuccessHandler;
 
     private final MailService mailService;
-    private final AppProperties app;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -84,18 +83,18 @@ public class LoginController {
         User user = userService.socialID_check(uniqueId,"KAKAO");
 
         if(user == null){
-            return "redirect:/signup/agree?type=KAKAO&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+            return "redirect:"+appProperties.getHost()+"/signup/agree?type=KAKAO&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
         }else{
 
             if (state.contains("_true")) {
                 String jwtToken = JWT.create()
-                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(app.getJwtLimit())))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(appProperties.getJwtLimit())))
                         .withClaim("key", user.getId())
-                        .sign(Algorithm.HMAC512(app.getJwtSecret()));
+                        .sign(Algorithm.HMAC512(appProperties.getJwtSecret()));
 
                 Cookie myCookie = new Cookie("obscure-remember-me", jwtToken);
                 myCookie.setPath("/");
-                myCookie.setMaxAge(Integer.parseInt(app.getJwtLimit()));  // 7일동안 유효
+                myCookie.setMaxAge(Integer.parseInt(appProperties.getJwtLimit()));  // 7일동안 유효
                 response.addCookie(myCookie);
             }
 
@@ -110,7 +109,7 @@ public class LoginController {
             response.setStatus(HttpServletResponse.SC_OK);
 
 
-            return "redirect:/";
+            return "redirect:"+appProperties.getHost();
         }
     }
 
@@ -141,18 +140,18 @@ public class LoginController {
         User user = userService.socialID_check(uniqueId,"GOOGLE");
 
         if(user == null){
-            return "redirect:/signup/agree?type=GOOGLE&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+            return "redirect:"+appProperties.getHost()+"/signup/agree?type=GOOGLE&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
         }else{
 
             if (state.contains("_true")) {
                 String jwtToken = JWT.create()
-                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(app.getJwtLimit())))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(appProperties.getJwtLimit())))
                         .withClaim("key", user.getId())
-                        .sign(Algorithm.HMAC512(app.getJwtSecret()));
+                        .sign(Algorithm.HMAC512(appProperties.getJwtSecret()));
 
                 Cookie myCookie = new Cookie("obscure-remember-me", jwtToken);
                 myCookie.setPath("/");
-                myCookie.setMaxAge(Integer.parseInt(app.getJwtLimit()));  // 7일동안 유효
+                myCookie.setMaxAge(Integer.parseInt(appProperties.getJwtLimit()));  // 7일동안 유효
                 response.addCookie(myCookie);
             }
 
@@ -166,7 +165,7 @@ public class LoginController {
             request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);   //세션에 저장
             response.setStatus(HttpServletResponse.SC_OK);
 
-            return "redirect:/";
+            return "redirect:"+appProperties.getHost();
         }
 
     }
@@ -188,7 +187,7 @@ public class LoginController {
         try {
             authKey += tokenObject.getString("access_token");
         } catch (JSONException e) {
-            return "redirect:/";
+            return "redirect:"+appProperties.getHost();
         }
 
         HttpResult objects = HttpClient.getWithAuthorize(appProperties.getNaverApiUri() + "/nid/me", authKey);
@@ -203,18 +202,18 @@ public class LoginController {
         User user = userService.socialID_check(uniqueId,"NAVER");
 
         if(user == null){
-            return "redirect:/signup/agree?type=NAVER&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
+            return "redirect:"+appProperties.getHost()+"/signup/agree?type=NAVER&uniqueId=" + uniqueId + "&email=" + email + "&name=" + name;
         }else{
 
             if (state.contains("_true")) {
                 String jwtToken = JWT.create()
-                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(app.getJwtLimit())))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(appProperties.getJwtLimit())))
                         .withClaim("key", user.getId())
-                        .sign(Algorithm.HMAC512(app.getJwtSecret()));
+                        .sign(Algorithm.HMAC512(appProperties.getJwtSecret()));
 
                 Cookie myCookie = new Cookie("obscure-remember-me", jwtToken);
                 myCookie.setPath("/");
-                myCookie.setMaxAge(Integer.parseInt(app.getJwtLimit()));  // 7일동안 유효
+                myCookie.setMaxAge(Integer.parseInt(appProperties.getJwtLimit()));  // 7일동안 유효
                 response.addCookie(myCookie);
             }
 
@@ -228,7 +227,7 @@ public class LoginController {
             request.getSession().setAttribute(GlobalConstant.SESSION_USER_KEY, user);   //세션에 저장
             response.setStatus(HttpServletResponse.SC_OK);
 
-            return "redirect:/";
+            return "redirect:"+appProperties.getHost();
         }
     }
 

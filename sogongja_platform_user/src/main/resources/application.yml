@@ -228,7 +228,7 @@ app:
   naver-request-token-uri: https://nid.naver.com/oauth2.0/authorize
   naver-access-token-uri: https://nid.naver.com/oauth2.0/token
   naver-api-uri: https://openapi.naver.com/v1
-  host: http://121.254.171.155:2082
+  host: http://sogongja.co.kr
   emailAddress: sogongja0@gmail.com
   ########### JWT
   jwt-secret: soogoongjaa
