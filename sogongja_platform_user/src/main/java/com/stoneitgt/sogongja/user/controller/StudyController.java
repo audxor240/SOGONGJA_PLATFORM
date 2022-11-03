@@ -215,6 +215,7 @@ public class StudyController extends BaseController {
 		paging.setTotal(total);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		List<Map<String, Object>> supportList = supportService.getSupportList();
 
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
@@ -224,6 +225,7 @@ public class StudyController extends BaseController {
 
 		model.addAttribute("couType", getCodeList("COU_TYPE", "전체"));
 		model.addAttribute("couClass", getCodeRefList("COU_CLASS", params.getCouType(), "전체"));
+		model.addAttribute("supportOrg", supportList);
 
 		model.addAttribute("boardSettingList", boardSettingList);
 

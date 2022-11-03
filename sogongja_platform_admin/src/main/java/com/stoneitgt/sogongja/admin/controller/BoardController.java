@@ -1,14 +1,28 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.stoneitgt.sogongja.domain.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -615,6 +629,174 @@ public class BoardController extends BaseController {
 		boardService.saveAnswer(board, boardSetting);
 
 		return returnUrl;
+	}
+
+	@GetMapping("/project_update")
+	public String boardProjectUpdateList(@ModelAttribute BoardParameter params, Model model) {
+
+		System.out.println("params >> "+params);
+
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+		Object objValue = null;
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
+
+		model.addAttribute("list", list);
+		model.addAttribute("params", params);
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		System.out.println("objValue >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+objValue);
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
+		model.addAttribute("place", getCodeList("SIDO"));
+		model.addAttribute("objValue", objValue);
+
+		return "pages/board/project_list_update";
+	}
+
+	@GetMapping("/project/api")
+	public String apiProject(@ModelAttribute BoardParameter params, Model model) throws JSONException {
+
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		System.out.println("paging :: "+paging);
+		model.addAttribute("paging", paging);
+
+		model.addAttribute("list", list);
+		model.addAttribute("params", params);
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
+		model.addAttribute("place", getCodeList("SIDO"));
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Object objValue = null;
+
+		String URL = "";
+		String type = "";
+		switch (params.getProjectType()){
+			case "1" : URL = "https://www.sbiz.or.kr/sup/policy/json/policyfound.do"; type = "정책자금"; break;	//정책자금
+			case "2" : URL = "https://www.sbiz.or.kr/sup/policy/json/policygrow.do"; type = "성장지원"; break;		//성장지원
+			case "3" : URL = "https://www.sbiz.or.kr/sup/policy/json/policycomeback.do"; type = "재기지원"; break;	//재기지원
+			case "4" : URL = "https://www.sbiz.or.kr/sup/policy/json/policystartup.do"; type = "창업지원"; break;	//창업지원
+			case "5" : URL = "https://www.sbiz.or.kr/sup/policy/json/policymarket.do"; type = "전통시장활성화"; break;	//전통시장활성화
+			case "6" : URL = "https://www.sbiz.or.kr/sup/policy/json/policygrnty.do"; type = "보증지원"; break;	//보증지원
+		}
+
+		String content = "";
+		try {
+			URI uri = new URI(URL);
+			uri = new URIBuilder(uri)
+					//.addParameter("key", "key")
+					//.addParameter("targetDt", "20210201")
+					.build();
+
+			CloseableHttpClient httpClient = HttpClients.custom()
+					.setMaxConnTotal(100)
+					.setMaxConnPerRoute(100)
+					.build();
+
+			HttpResponse httpResponse = httpClient.execute(new HttpGet(uri));
+			HttpEntity entity = httpResponse.getEntity();
+			content = EntityUtils.toString(entity);
+			//System.out.println("content = " + content);
+			objValue = objectMapper.readValue(content, Object.class);
+			//System.out.println("objValue = " + objValue);
+
+
+			//System.out.println("jsonObj :: "+jsonObj);
+			//System.out.println("jsonObj.getClass().getName() :: "+jsonObj.getClass().getName());
+			//System.out.println("jsonObj.item :: "+jsonObj.get("item"));
+			//System.out.println("item ---- "+item);
+			//System.out.println("jObject ---------> "+jObject);
+			//System.out.println("jObject.item ---------> "+jObject.get("item"));
+			//System.out.println("jObject.item ---------> "+jObject.get("item"));
+			//페이징 처리를 위해 데이터 재정의
+			/*for(int i =0; i < objValue['item']){
+
+			}*/
+		} catch (Exception e) {
+
+		}
+		paging.setPage(2);
+		paging.setSize(10);
+		int startPage = (paging.getPage() * paging.getSize()) - paging.getSize();	//10
+		int endPage	  = paging.getPage() * paging.getSize();						//20
+		System.out.println("startPage :: "+startPage);
+		System.out.println("endPage :: "+endPage);
+
+		JSONObject jsonParse = new JSONObject(content);
+		JSONObject jsonObj = (JSONObject) jsonParse;
+		JSONArray item =  jsonObj.getJSONArray("item");
+
+
+		JSONArray newData = new JSONArray();
+		int num = 0;
+		for(int i =0; i < item.length();i++){
+			JSONObject index = (JSONObject) item.get(i);
+			if(num == paging.getSize()){
+				break;
+			}
+			if(!index.get("itemCnt").equals(0)){
+				JSONArray items = (JSONArray) index.get("items");
+				for(int j =0; j < items.length();j++){
+					if(j >= startPage && j <= endPage) {
+						System.out.println("j >>> "+j);
+						JSONObject data = (JSONObject) items.get(j);
+						//배열에 저장
+						newData.put(data);
+						num ++;
+						if(num == paging.getSize()){
+							break;
+						}
+					}
+				}
+			}
+
+		}
+		//paging.setPage(params.getPage());
+		//paging.setSize(params.getSize());
+
+
+		System.out.println("newData :: "+newData);
+		System.out.println("newData.length() >> "+newData.length());
+		System.out.println("check------------------1");
+		paging.setTotal(newData.length());
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		System.out.println("paging :: "+paging);
+		model.addAttribute("paging", paging);
+
+		System.out.println("objValue :: "+objValue);
+		model.addAttribute("objValue", objValue);
+		model.addAttribute("type", type);
+		//return ResponseEntity.ok(objValue);
+		return "pages/board/project_list_update";
 	}
 
 }
