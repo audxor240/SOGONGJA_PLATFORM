@@ -102,10 +102,12 @@ public class BoardController extends BaseController {
 		*/
 
 			Paging paging = getUserPaging(params.getPage(), params.getSize());
+
 			list = boardService.getBoardList(paramsMap, paging);
 			Integer total = boardService.selectTotalRecords();
 			paging.setTotal(total);
 			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		System.out.println("paging : "+paging);
 			model.addAttribute("paging", paging);
 		//}
 

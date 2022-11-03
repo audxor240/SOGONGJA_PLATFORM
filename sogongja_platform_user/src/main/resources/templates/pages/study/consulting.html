@@ -116,12 +116,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <th:block th:if="${#lists.isEmpty(list)}">
-                                <div class="none_contents">
-                                    <span></span>
-                                    <p>컨텐츠가 존재하지 않습니다.</p>
-                                </div>
-                            </th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
                                     <td th:text="${paging.total - item.rnum + 1}"></td>
@@ -133,6 +127,16 @@
                                         <div class="management management_wrap">
                                             <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
                                             <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(list)}">
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="none_contents" >
+                                            <span></span>
+                                            <p>컨텐츠가 존재하지 않습니다.</p>
                                         </div>
                                     </td>
                                 </tr>

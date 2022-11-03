@@ -40,14 +40,14 @@
                         </div>
                         <h3 th:text="${data.subject}">누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. </h3>
                         <p>
-                            <span>노랑우산 경영 지원단</span>
+                            <span>[[${data.support_org_name}]]</span>
                             <span th:text="${data.reg_dt}">2021</span>
                         </p>
 
                         <div class="square_tag_list_wrap">
                             <ul class="square_tag_list">
-                                <li>부산시 예비창업자 대상</li>
-                                <li>부산광역시</li>
+                                <li>[[${data.support_by}]]</li>
+                                <li>[[${data.region}]]</li>
                             </ul>
                         </div>
                     </div>
@@ -58,9 +58,7 @@
                     </div>
                     <div class="tag_list_wrap">
                         <ul class="tag_list">
-                            <li>#HAPPC인증</li>
-                            <li>#재무관리</li>
-                            <li>#세무관리</li>
+                            <li th:text="${'#'+#strings.replace(data.tags, ',', ' #')}">#HAPPC인증</li>
                         </ul>
                     </div>
                     <!--

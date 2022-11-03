@@ -6,27 +6,47 @@
 	<select id="getCounselingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : CounselingMapper.xml, id : getCounselingList */
 		  SELECT C.*
-		       , COU_TYPE.CODE_NAME                  AS COU_TYPE_NAME
-		       , COU_CLASS.CODE_NAME                 AS COU_CLASS_NAME
-		       , SUPPORT_ORG.CODE_NAME               AS SUPPORT_ORG_NAME
+			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
 		       , U.USERNAME                          AS REG_USERNAME
+			   , CASE WHEN C.FIELD = 1 THEN '법률'
+					WHEN C.FIELD = 2 THEN '노무'
+					WHEN C.FIELD = 3 THEN '세무'
+					WHEN C.FIELD = 4 THEN '회계'
+					WHEN C.FIELD = 5 THEN '지식재산'
+					WHEN C.FIELD = 6 THEN '관세'
+					WHEN C.FIELD = 7 THEN '법무'
+					WHEN C.FIELD = 8 THEN '경영 컨설팅'
+					END as C_FIELD
 		    FROM ST_COUNSELING C
-		       INNER JOIN ST_CODE_DTL COU_TYPE
-		               ON COU_TYPE.GRP_CODE = 'COU_TYPE'
-		              AND COU_TYPE.CODE     = C.COU_TYPE
-		       INNER JOIN ST_CODE_DTL COU_CLASS
-		               ON COU_CLASS.GRP_CODE = 'COU_CLASS'
-		              AND COU_CLASS.CODE     = C.COU_CLASS
-		       INNER JOIN ST_CODE_DTL SUPPORT_ORG
-		               ON SUPPORT_ORG.GRP_CODE = 'SUPPORT_ORG'
-		              AND SUPPORT_ORG.CODE     = C.SUPPORT_ORG
-		       INNER JOIN ST_USER U
-                       ON C.REG_USER_SEQ = U.USER_SEQ
+			INNER JOIN ST_USER U ON C.REG_USER_SEQ = U.USER_SEQ
+			left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = C.SUPPORT_ORG
 		   WHERE C.DEL_FLAG                    = 0
 		<if test="keyword != null and keyword != ''">
-             AND C.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+             AND C.TAGS LIKE CONCAT('%', #{keyword}, '%')
         </if>
+
+		<if test="field_list != null and field_list != ''">
+			AND C.FIELD IN
+			<foreach collection="field_list" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="support_org_list != null and support_org_list != ''">
+			AND C.SUPPORT_ORG IN
+			<foreach collection="support_org_list" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="year_list != null and year_list != ''">
+			AND C.YEAR IN
+			<foreach collection="year_list" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
 		ORDER BY COU_SEQ DESC
 	/*||ORDER BY COU_SEQ DESC||*/
 	</select>
@@ -35,7 +55,18 @@
 		/* file : CounselingMapper.xml, id : getCounseling */
 		  SELECT A.*
 		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
+			   , CASE WHEN A.FIELD = 1 THEN '법률'
+					  WHEN A.FIELD = 2 THEN '노무'
+					  WHEN A.FIELD = 3 THEN '세무'
+					  WHEN A.FIELD = 4 THEN '회계'
+					  WHEN A.FIELD = 5 THEN '지식재산'
+					  WHEN A.FIELD = 6 THEN '관세'
+					  WHEN A.FIELD = 7 THEN '법무'
+					  WHEN A.FIELD = 8 THEN '경영 컨설팅'
+			  END as C_FIELD
 		    FROM ST_COUNSELING A
+			left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = A.SUPPORT_ORG
 		   WHERE A.DEL_FLAG = 0
 		     AND A.COU_SEQ  = #{couSeq}
 	</select>
