@@ -171,6 +171,8 @@
 .sub_container
 	max-width: 1400px
 	margin: 0 auto
+	.solution_edu
+		margin-bottom: 100px
 	.h3_title
 		font-size: rem(24)
 		color: #000
@@ -530,15 +532,19 @@
 .view
 	.view_title
 		border-bottom: 1px solid #d5d5d5
-		padding: rem(24)
+		padding: 0 rem(24) rem(24)
 		text-align: center
-		padding-top: 0
+		.point
+			color: #1540BF
+			font-size: rem(18)
+		h3
+			font-size: rem(24)
+			font-weight: 500
+			margin: 20px 0
+		h3.counseling_title
+			margin: 10px 0
 		> div
 			+flex_type($justify: center,$align: center)
-			h3
-				font-size: rem(24)
-				font-weight: 500
-				margin-bottom: 4px
 			p
 				padding: 0 8px
 				position: relative
@@ -551,17 +557,75 @@
 				&:before
 					margin-top: -8px
 					+before($widthB: 8px, $heightB: 16px, $topB: 50%, $leftB: -4px, $bgB : url(#{$assetPath}/slash.png) no-repeat 0 50%)
+			p.point_select
+				padding: 0 5px
+				color: $mainColor
+				&.before_none:before
+					display: none
+				&:before
+					content: ""
+					display: inline-block
+					width: 1px
+					height: 16px
+					background: $mainColor
+					margin: 0 5px -2px -3px
+					transform: rotate(20deg)
+					position: relative
+					top: auto
+					left: auto
 		p
 			color: #767676
 			line-height: 1.5
+			span
+				color: #767676
+				display: inline-block
+				margin-right: 10px
+				&:after
+					content: ""
+					display: inline-block
+					width: 2px
+					height: 15px
+					background-color: #767676
+					margin-left: 10px
+					margin-top: 5px
+				&:last-child
+					&:after
+						display: none
 		.view_change
 			+flex_type($justify: end)
 			margin: 0
+		.square_tag_list_wrap
+			justify-content: right
+			.square_tag_list
+				display: flex
+				justify-content: right
+				> li
+					padding: 5px 10px
+					border: solid 1px #1540BF
+					color: #1540BF
+					background-color: #ffffff
+					margin-right: 10px
+					&:last-child
+						margin-right: 0
 	.view_text
+		.mark_q
+			margin-bottom: 10px
+			color: #1540bf
+			font-size: rem(36)
 		padding: rem(36)
 		color: #767676
 		line-height: 1.5
 		border-bottom: 1px solid #d5d5d5
+	.tag_list_wrap
+		padding: rem(24)
+		.tag_list
+			display: flex
+			> li
+				font-size: rem(16)
+				color: #606060
+				margin-right: 10px
+				&:last-child
+					margin-right: 0
 	.consulting_more
 		margin-top: rem(46)
 		.sub_t
@@ -2018,7 +2082,7 @@
 			+positionAt(absolute,$top:6px , $left:50px)
 			z-index: 1
 .none_contents
-	margin: 0 auto
+	margin: 60px auto
 	span
 		display: block
 		background: url(#{$assetPath}/img-empty.png) no-repeat 50%
@@ -2315,6 +2379,48 @@
 			&:nth-child(2n)
 				background-color: #F5F5F5
 	.custom_counseling
+		tbody
+			border-top: 4px solid #1540bf
+			+flex_type($direction: column)
+			tr
+				+flex_type
+				flex-wrap: wrap
+				width: 100%
+				border-bottom: 2px solid #ddd
+				td
+					line-height: rem(72)
+					border-right: none
+					&:nth-child(1)
+						width: 50%
+						border-bottom: 1px solid #ddd
+					&:nth-child(2)
+						width: 50%
+						border-bottom: 1px solid #ddd
+					&:nth-child(3)
+						width: 100%
+						border-bottom: 1px solid #ddd
+					&:nth-child(4)
+						width: 100%
+						a
+							white-space: break-spaces
+							text-overflow: ellipsis
+							overflow: hidden
+							display: -webkit-box
+							-webkit-line-clamp: 3
+							-webkit-box-orient: vertical
+							line-height: 1.6
+							text-align: center
+							padding: 0
+							border-bottom: 1px solid #ddd
+					&:nth-child(5)
+						width: 50%
+					&:nth-child(6)
+						width: 50%
+			&:first-child
+				border-top: 4px solid #1540bf
+			&:nth-child(2n)
+				background-color: #F5F5F5
+	.custom_counselingView
 		tbody
 			border-top: 4px solid #1540bf
 			+flex_type($direction: column)
