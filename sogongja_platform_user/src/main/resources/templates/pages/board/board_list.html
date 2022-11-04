@@ -29,6 +29,7 @@
                     <th:block th:include="fragments/paging_result"></th:block>
                     <div>
                         <form name="searchForm" th:action="@{|/board/${boardSettingSeq}|}" th:object="${params}">
+                            <input type="hidden" id="params" th:value="${params}">
                             <th:block th:include="fragments/search_hidden"></th:block>
                             <legend>보도자료</legend>
                             <select th:field="*{field}">

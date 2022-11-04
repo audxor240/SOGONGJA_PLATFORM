@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 
     //datepicker 한국어로 사용하기 위한 언어설정
-    $.datepicker.setDefaults($.datepicker.regional['ko']);
+    //$.datepicker.setDefaults($.datepicker.regional['ko']);
 
     // 시작일(fromDate)은 종료일(toDate) 이후 날짜 선택 불가
     // 종료일(toDate)은 시작일(fromDate) 이전 날짜 선택 불가

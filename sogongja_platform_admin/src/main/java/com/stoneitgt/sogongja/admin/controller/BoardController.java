@@ -6,6 +6,8 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -19,9 +21,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+//import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -668,35 +671,10 @@ public class BoardController extends BaseController {
 	}
 
 	@GetMapping("/project/api")
-	public String apiProject(@ModelAttribute BoardParameter params, Model model) throws JSONException {
+	public String apiProject(@ModelAttribute BoardParameter params, Model model) throws JsonProcessingException, JSONException{
 
-		Paging paging = new Paging();
-		paging.setPage(params.getPage());
-		paging.setSize(params.getSize());
-
-		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-
-		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
-		Integer total = boardService.selectTotalRecords();
-		paging.setTotal(total);
-		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
-		System.out.println("paging :: "+paging);
-		model.addAttribute("paging", paging);
-
-		model.addAttribute("list", list);
-		model.addAttribute("params", params);
-		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
-		Map<String, Object> breadcrumb = new HashMap<String, Object>();
-		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
-		breadcrumb.put("menu_name", "지원 및 정책관리");
-
-		model.addAttribute("breadcrumb", breadcrumb);
-		model.addAttribute("pageParams", getBaseParameterString(params));
-		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
-		model.addAttribute("place", getCodeList("SIDO"));
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		Object objValue = null;
+		//ObjectMapper objectMapper = new ObjectMapper();
+		//Object objValue = null;
 
 		String URL = "";
 		String type = "";
@@ -726,77 +704,83 @@ public class BoardController extends BaseController {
 			HttpEntity entity = httpResponse.getEntity();
 			content = EntityUtils.toString(entity);
 			//System.out.println("content = " + content);
-			objValue = objectMapper.readValue(content, Object.class);
+			//objValue = objectMapper.readValue(content, Object.class);
 			//System.out.println("objValue = " + objValue);
 
-
-			//System.out.println("jsonObj :: "+jsonObj);
-			//System.out.println("jsonObj.getClass().getName() :: "+jsonObj.getClass().getName());
-			//System.out.println("jsonObj.item :: "+jsonObj.get("item"));
-			//System.out.println("item ---- "+item);
-			//System.out.println("jObject ---------> "+jObject);
-			//System.out.println("jObject.item ---------> "+jObject.get("item"));
-			//System.out.println("jObject.item ---------> "+jObject.get("item"));
-			//페이징 처리를 위해 데이터 재정의
-			/*for(int i =0; i < objValue['item']){
-
-			}*/
 		} catch (Exception e) {
 
 		}
-		paging.setPage(2);
-		paging.setSize(10);
+		System.out.println("params :: "+params);
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+
 		int startPage = (paging.getPage() * paging.getSize()) - paging.getSize();	//10
 		int endPage	  = paging.getPage() * paging.getSize();						//20
-		System.out.println("startPage :: "+startPage);
-		System.out.println("endPage :: "+endPage);
 
 		JSONObject jsonParse = new JSONObject(content);
-		JSONObject jsonObj = (JSONObject) jsonParse;
-		JSONArray item =  jsonObj.getJSONArray("item");
+		JSONObject jsonObj = jsonParse;
+		org.json.JSONArray item =  jsonObj.getJSONArray("item");
 
+		//JSONArray newData = new JSONArray();
+		List<Map<String, Object>> newData = new ArrayList<>();
+		int newDataTotal = 0;	//총개수
+		int num = 0;			//추가된 count저장
 
-		JSONArray newData = new JSONArray();
-		int num = 0;
 		for(int i =0; i < item.length();i++){
 			JSONObject index = (JSONObject) item.get(i);
-			if(num == paging.getSize()){
-				break;
-			}
+
 			if(!index.get("itemCnt").equals(0)){
 				JSONArray items = (JSONArray) index.get("items");
 				for(int j =0; j < items.length();j++){
-					if(j >= startPage && j <= endPage) {
-						System.out.println("j >>> "+j);
-						JSONObject data = (JSONObject) items.get(j);
-						//배열에 저장
-						newData.put(data);
-						num ++;
-						if(num == paging.getSize()){
-							break;
-						}
+					newDataTotal++;
+
+					if(newDataTotal <= startPage && startPage != 0){	//데이터의 n번째 까지는 패스시킨다
+						continue;
 					}
+
+					//row개수가 채워지면 더이상 추가하지 않는다
+					if(num == paging.getSize()){
+						continue;
+					}
+
+					JSONObject data = (JSONObject) items.get(j);
+					Map<String, Object> map;
+					map = new ObjectMapper().readValue(data.toString(), Map.class);
+					map.put("areaNm",index.get("areaNm"));
+					newData.add(map);
+					num ++;
+
 				}
 			}
-
 		}
-		//paging.setPage(params.getPage());
-		//paging.setSize(params.getSize());
 
+		List<Map<String, Object>> list2 = new ArrayList<>();
+		if (newData != null) {
+			int jsonSize = newData.size();
+			for (int i = 0; i < jsonSize; i++) {
+				Map<String, Object> data = newData.get(i);
+				Map<String, Object> map = data;
+				list2.add(map);	//List로 변환
+			}
+		}
+		paging.setTotal(newDataTotal);
 
-		System.out.println("newData :: "+newData);
-		System.out.println("newData.length() >> "+newData.length());
-		System.out.println("check------------------1");
-		paging.setTotal(newData.length());
-		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
-		System.out.println("paging :: "+paging);
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		model.addAttribute("params", params);
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
 		model.addAttribute("paging", paging);
-
-		System.out.println("objValue :: "+objValue);
-		model.addAttribute("objValue", objValue);
 		model.addAttribute("type", type);
+		model.addAttribute("list2", list2);
+
 		//return ResponseEntity.ok(objValue);
 		return "pages/board/project_list_update";
+
 	}
 
 }
