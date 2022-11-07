@@ -1,11 +1,17 @@
 package com.stoneitgt.sogongja.admin.security;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.stoneitgt.sogongja.admin.config.FormWebAuthenticationDetails;
+import com.stoneitgt.sogongja.admin.properties.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -35,6 +41,9 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	@Autowired
 	private MenuService menuService;
 
+	@Autowired
+	private AppProperties app;
+
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -44,11 +53,25 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 		log.info("onAuthenticationSuccess!");
 
+		FormWebAuthenticationDetails form = (FormWebAuthenticationDetails) authentication.getDetails();
+		boolean remember = form.getRemember();
+
 		User user = (User) authentication.getPrincipal();
+
+		if (remember == true) {
+			String jwtToken = JWT.create()
+					.withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(app.getJwtLimit())))
+					.withClaim("key", user.getId())
+					.sign(Algorithm.HMAC512(app.getJwtSecret()));
+
+			Cookie myCookie = new Cookie("admin-remember-me", jwtToken);
+			myCookie.setMaxAge(Integer.parseInt(app.getJwtLimit()));  // 7일동안 유효
+			response.addCookie(myCookie);
+		}
+
 
 		// 사용자 메뉴 권한
 		user.setAuthMenu(menuService.getUserMenuList(user.getAuth()));
-
 		// session setting
 		request.getSession().setAttribute(GlobalConstant.SESSION_ADMIN_KEY, user);
 
