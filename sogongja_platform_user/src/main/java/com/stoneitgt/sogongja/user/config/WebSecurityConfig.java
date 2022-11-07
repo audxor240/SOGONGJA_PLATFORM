@@ -162,7 +162,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.deleteCookies("JSESSIONID","obscure-remember-me")
 					.clearAuthentication(true)
 					.invalidateHttpSession(true)
-					.logoutSuccessUrl("/");
+					.logoutSuccessUrl(app.getHost());
 	}
 
 	@Bean

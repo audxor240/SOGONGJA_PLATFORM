@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
+<!--/* Common javascript */-->
+<th:block th:include="fragments/common_js"></th:block>
 <head>
     <meta charset="utf-8">
     <title>소공자플랫폼 관리자</title>
@@ -28,6 +29,7 @@
                         <input type="checkbox" class="checkbox_style" id="login_keep">
                         <label for="login_keep">로그인 상태 유지</label>
                     </div>
+                    <input type="hidden" name="remember-me">
                     <button type="submit">Login</button>
                 </div>
                 <div class="box_desc" th:if="${not #strings.isEmpty(error)}">
@@ -37,6 +39,14 @@
         </div>
         <p>COPYRIGHT 2021 siteplanning. ALL RIGHTS RESERVED.</p>
     </div>
+<script>
+    $("#login_keep").click(function() {
+        if ($(this).is(':checked')) {
+            $('input[name=remember-me]').val("true")
+        } else {
+            $('input[name=remember-me]').val("false")
+        }
+    });
+</script>
 </body>
-
 </html>

@@ -39,6 +39,10 @@ system:
   slack-bot-channel-url: https://hooks.slack.com/services/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
   api-key: UE110X25S8Z6mmc4EEk1Ag==
   version: 202104071900
+
+app:
+  jwt-secret: soogoongjaa
+  jwt-limit: 604800000
     
 ---
     
@@ -51,9 +55,9 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
       username: root
-      password: thvmxmfoqtm
+      password: softlabsdusgn
 
 system:
   slack-send: false
