@@ -1,14 +1,31 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.stoneitgt.sogongja.domain.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONArray;
+//import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -615,6 +632,155 @@ public class BoardController extends BaseController {
 		boardService.saveAnswer(board, boardSetting);
 
 		return returnUrl;
+	}
+
+	@GetMapping("/project_update")
+	public String boardProjectUpdateList(@ModelAttribute BoardParameter params, Model model) {
+
+		System.out.println("params >> "+params);
+
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+		Object objValue = null;
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
+		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+		model.addAttribute("paging", paging);
+
+		model.addAttribute("list", list);
+		model.addAttribute("params", params);
+		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		System.out.println("objValue >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+objValue);
+
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
+		model.addAttribute("place", getCodeList("SIDO"));
+		model.addAttribute("objValue", objValue);
+
+		return "pages/board/project_list_update";
+	}
+
+	@GetMapping("/project/api")
+	public String apiProject(@ModelAttribute BoardParameter params, Model model) throws JsonProcessingException, JSONException{
+
+		//ObjectMapper objectMapper = new ObjectMapper();
+		//Object objValue = null;
+
+		String URL = "";
+		String type = "";
+		switch (params.getProjectType()){
+			case "1" : URL = "https://www.sbiz.or.kr/sup/policy/json/policyfound.do"; type = "정책자금"; break;	//정책자금
+			case "2" : URL = "https://www.sbiz.or.kr/sup/policy/json/policygrow.do"; type = "성장지원"; break;		//성장지원
+			case "3" : URL = "https://www.sbiz.or.kr/sup/policy/json/policycomeback.do"; type = "재기지원"; break;	//재기지원
+			case "4" : URL = "https://www.sbiz.or.kr/sup/policy/json/policystartup.do"; type = "창업지원"; break;	//창업지원
+			case "5" : URL = "https://www.sbiz.or.kr/sup/policy/json/policymarket.do"; type = "전통시장활성화"; break;	//전통시장활성화
+			case "6" : URL = "https://www.sbiz.or.kr/sup/policy/json/policygrnty.do"; type = "보증지원"; break;	//보증지원
+		}
+
+		String content = "";
+		try {
+			URI uri = new URI(URL);
+			uri = new URIBuilder(uri)
+					//.addParameter("key", "key")
+					//.addParameter("targetDt", "20210201")
+					.build();
+
+			CloseableHttpClient httpClient = HttpClients.custom()
+					.setMaxConnTotal(100)
+					.setMaxConnPerRoute(100)
+					.build();
+
+			HttpResponse httpResponse = httpClient.execute(new HttpGet(uri));
+			HttpEntity entity = httpResponse.getEntity();
+			content = EntityUtils.toString(entity);
+			//System.out.println("content = " + content);
+			//objValue = objectMapper.readValue(content, Object.class);
+			//System.out.println("objValue = " + objValue);
+
+		} catch (Exception e) {
+
+		}
+		System.out.println("params :: "+params);
+		Paging paging = new Paging();
+		paging.setPage(params.getPage());
+		paging.setSize(params.getSize());
+
+		int startPage = (paging.getPage() * paging.getSize()) - paging.getSize();	//10
+		int endPage	  = paging.getPage() * paging.getSize();						//20
+
+		JSONObject jsonParse = new JSONObject(content);
+		JSONObject jsonObj = jsonParse;
+		org.json.JSONArray item =  jsonObj.getJSONArray("item");
+
+		//JSONArray newData = new JSONArray();
+		List<Map<String, Object>> newData = new ArrayList<>();
+		int newDataTotal = 0;	//총개수
+		int num = 0;			//추가된 count저장
+
+		for(int i =0; i < item.length();i++){
+			JSONObject index = (JSONObject) item.get(i);
+
+			if(!index.get("itemCnt").equals(0)){
+				JSONArray items = (JSONArray) index.get("items");
+				for(int j =0; j < items.length();j++){
+					newDataTotal++;
+
+					if(newDataTotal <= startPage && startPage != 0){	//데이터의 n번째 까지는 패스시킨다
+						continue;
+					}
+
+					//row개수가 채워지면 더이상 추가하지 않는다
+					if(num == paging.getSize()){
+						continue;
+					}
+
+					JSONObject data = (JSONObject) items.get(j);
+					Map<String, Object> map;
+					map = new ObjectMapper().readValue(data.toString(), Map.class);
+					map.put("areaNm",index.get("areaNm"));
+					newData.add(map);
+					num ++;
+
+				}
+			}
+		}
+
+		List<Map<String, Object>> list2 = new ArrayList<>();
+		if (newData != null) {
+			int jsonSize = newData.size();
+			for (int i = 0; i < jsonSize; i++) {
+				Map<String, Object> data = newData.get(i);
+				Map<String, Object> map = data;
+				list2.add(map);	//List로 변환
+			}
+		}
+		paging.setTotal(newDataTotal);
+
+		Map<String, Object> breadcrumb = new HashMap<String, Object>();
+		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+		breadcrumb.put("menu_name", "지원 및 정책관리");
+
+		model.addAttribute("params", params);
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("projectType", getCodeList("PROJECT_TYPE"));
+		model.addAttribute("paging", paging);
+		model.addAttribute("type", type);
+		model.addAttribute("list2", list2);
+
+		//return ResponseEntity.ok(objValue);
+		return "pages/board/project_list_update";
+
 	}
 
 }

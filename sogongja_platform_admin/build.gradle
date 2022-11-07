@@ -22,6 +22,10 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.3'
     implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
 
+    // Json
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation 'org.json:json:20220924'
+
     // 디렉토리
     implementation fileTree(dir:'libs', include:['*.jar'])
 }

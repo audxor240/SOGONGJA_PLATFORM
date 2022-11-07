@@ -10,7 +10,7 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm" th:action="@{/board/project(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <form name="searchForm" th:action="@{/board/project/api}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row justify-content-between">
                             <div class="col-sm-4">
@@ -20,7 +20,12 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <select th:field="*{projectType}" class="form-control">
-                                            <option th:each="item : ${projectType}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                            <option value="1">정책자금</option>
+                                            <option value="2">성장지원</option>
+                                            <option value="3">재기지원</option>
+                                            <option value="4">창업지원</option>
+                                            <option value="5">전통시장활성화</option>
+                                            <option value="6">보증지원</option>
                                         </select>
                                     </div>
                                 </div>
@@ -53,7 +58,7 @@
                         <table class="table table-hover">
                             <colgroup>
                                 <col style="width: 8%;">
-                                <col style="width: 5%;">
+                                <!--<col style="width: 5%;">-->
                                 <col style="width: 12%;">
                                 <col style="width: 50%;">
                                 <col style="width: 15%;">
@@ -62,7 +67,7 @@
                             <thead>
                             <tr>
                                 <th>선택</th>
-                                <th>#</th>
+                                <!--<th>#</th>-->
                                 <th>분류</th>
                                 <th>지원사업명</th>
                                 <th>사업년도</th>
@@ -70,19 +75,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
-                            <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td>
-                                    <input type="checkbox" name="" >
-                                </td>
-                                <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                <td th:text="${item.project_type_name}">분류</td>
-                                <td>
-                                    <a th:href="@{|/board/project/${item.project_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
-                                </td>
-                                <td th:text="${item.project_year}">사업년도</td>
-                                <td th:text="${item.place_name}">지역</td>
-                            </tr>
+                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list2)}"></th:block>
+                            <th:block th:each="item, i : ${list2}" th:unless="${#lists.isEmpty(list2)}">
+                                <!--/*<input type="hidden" id="itemList" th:value="${item}">
+                                <input type="hidden" id="item[0]" th:value="${item.get(i.index)}">
+                                <input type="hidden" id="a1" th:value="1">
+                                <input type="hidden" id="item[i.index]" th:value="${item.get(i.index).get('areaNm')}">*/-->
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="" >
+                                    </td>
+                                    <!--/*<td th:text="${paging.total - item.rnum + 1}">1</td>*/-->
+                                    <td>[[${type}]]</td>
+                                    <td th:onclick="'window.open(\'' + @{${item.url}} + '\')'" style="cursor: pointer">[[${item.title}]]</td>
+                                    <td>[[${item.year}]]</td>
+                                    <td>[[${item.areaNm}]]</td>
+                                </tr>
+                            </th:block>
                             </tbody>
                         </table>
                     </div>

@@ -46,8 +46,10 @@ public class ConsultingController extends BaseController {
 		Paging paging = new Paging();
 		paging.setPage(params.getPage());
 		paging.setSize(params.getSize());
+		System.out.println("params :: "+params);
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		System.out.println("paramsMap >> "+paramsMap);
 
 		List<Map<String, Object>> list = consultingService.getConsultingList(paramsMap, paging);
 		Integer total = consultingService.selectTotalRecords();
