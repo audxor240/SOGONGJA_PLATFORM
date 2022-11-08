@@ -204,19 +204,31 @@
         /* file : BoardMapper.xml, id : getBoardProjectList */
 		  SELECT P.*
 		       , DATE_FORMAT(P.REG_DATE, '%Y-%m-%d') AS REG_DT
-		       , PROJECT_TYPE.CODE_NAME              AS PROJECT_TYPE_NAME
-		       , SIDO.CODE_NAME                      AS PLACE_NAME
+			   , CASE WHEN P.PLACE_TYPE = 1 THEN '전국'
+					  WHEN P.PLACE_TYPE = 2 THEN '서울/강원'
+					  WHEN P.PLACE_TYPE = 3 THEN '인천/경기'
+					  WHEN P.PLACE_TYPE = 4 THEN '대전/세종/충청'
+					  WHEN P.PLACE_TYPE = 5 THEN '대구/경북'
+					  WHEN P.PLACE_TYPE = 6 THEN '부산/울산/경남'
+					  WHEN P.PLACE_TYPE = 7 THEN '광주/전라/제주'
+			END as PLACE_NAME
 		    FROM ST_PROJECT P
-		       INNER JOIN ST_CODE_DTL PROJECT_TYPE
-		               ON PROJECT_TYPE.GRP_CODE = 'PROJECT_TYPE'
-		              AND PROJECT_TYPE.CODE     = P.PROJECT_TYPE
-		       INNER JOIN ST_CODE_DTL SIDO
-		               ON SIDO.GRP_CODE = 'SIDO'
-		              AND SIDO.CODE     = P.PLACE
 		   WHERE P.DEL_FLAG             = 0
         <if test="keyword != null and keyword != ''">
              AND P.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
+		<if test="project_type_list != null and project_type_list != ''">
+			AND P.PROJECT_TYPE IN
+			<foreach collection="project_type_list" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="place_list != null and place_list != ''">
+			AND P.PLACE_TYPE IN
+			<foreach collection="place_list" item="item" index='i' open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
 		ORDER BY PROJECT_SEQ DESC
     /*||ORDER BY PROJECT_SEQ DESC||*/
     </select>

@@ -79,8 +79,9 @@
                                 <tbody>
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list2)}"></th:block>
                                 <th:block th:each="item, i : ${list2}" th:unless="${#lists.isEmpty(list2)}">
-                                    <input type="hidden" id="url" th:value="${item.url}">
+
                                     <tr>
+                                        <input type="hidden" id="url" th:value="${item.url}">
                                         <td>
                                             <input type="checkbox" name="project_chk" th:value="${item.title}">
                                         </td>
@@ -108,7 +109,7 @@
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/assets/js/pages/board/project_list.js}"></script>
+    <script th:src="@{/assets/js/pages/board/project_list_update.js}"></script>
 </th:block>
 
 </html>

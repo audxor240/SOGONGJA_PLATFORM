@@ -113,8 +113,8 @@
                                 </td>
                                 <td th:text="${paging.total - item.rnum + 1}">1</td>
                                 <td th:text="${item.project_type}">분류</td>
-                                <td>
-                                    <a th:href="@{|/board/project/${item.project_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                <td th:onclick="'window.open(\'' + @{${item.project_url}} + '\')'" style="cursor: pointer">
+                                    [[${item.subject}]]
                                 </td>
                                 <td th:text="${item.project_year}">사업년도</td>
                                 <td th:text="${item.place_name}">지역</td>
