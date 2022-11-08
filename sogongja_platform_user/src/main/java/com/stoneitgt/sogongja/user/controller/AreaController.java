@@ -76,7 +76,7 @@ public class AreaController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		model.addAttribute("boardSettingList", boardSettingList);
-		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_regional";
