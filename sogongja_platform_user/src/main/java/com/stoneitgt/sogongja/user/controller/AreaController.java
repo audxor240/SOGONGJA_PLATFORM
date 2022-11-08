@@ -39,6 +39,7 @@ public class AreaController extends BaseController {
 
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_shop";

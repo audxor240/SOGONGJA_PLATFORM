@@ -43,6 +43,14 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getResearchShopList(params);
+
+
+		return list;
+	}
+
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {
 
 		List<Map<String, Object>> list = areaMapper.getRegionAreaList(params);

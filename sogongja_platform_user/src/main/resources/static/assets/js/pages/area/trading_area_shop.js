@@ -1,3 +1,5 @@
+
+
 //기본 위치는 서울시청 좌표
 var clientLatitude = 37.5668260055;
 var clientLongitude = 126.9786567859;
@@ -330,24 +332,34 @@ mapContainer.addEventListener("click", e => {
     dongBox.className = '';
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*동동이 관련*/
 /*동동이 관련*/
 /*동동이 관련*/
+
+var newPositions = [];
+for(var i =0; i < researchShop.length;i++){
+    var resaerchData = researchShop[i];
+    var data = new Object() ;
+    data.storeName = resaerchData.shop_nm ;
+    data.address_name = resaerchData.addr ;
+    data.road_address_name = resaerchData.st_addr ;
+    data.largeCategory = resaerchData.nm_type1 ;
+    data.mediumCategory = resaerchData.nm_type2 ;
+    data.smallcategory = resaerchData.nm_type3 ;
+    data.category_large_code = resaerchData.code_type1;
+    data.category_medium_code = resaerchData.code_type2 ;
+    data.category_small_code = resaerchData.code_type3 ;
+    data.x = resaerchData.latitude ;
+    data.y = resaerchData.longitude ;
+    data.subway = resaerchData.sub_station ;
+    data.busStation = resaerchData.bus_station ;
+
+    newPositions.push(data);
+}
+console.log("newPositions :: "+JSON.stringify(newPositions));
 
 // 마커를 표시할 위치와 객체 배열입니다
+/*
 var newPositions = [
     {
         storeName: "고향생막걸리",
@@ -485,6 +497,8 @@ var newPositions = [
         busStation: "신사동고개",
     },
 ];
+console.log("newPositions :: "+JSON.stringify(newPositions));
+*/
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
