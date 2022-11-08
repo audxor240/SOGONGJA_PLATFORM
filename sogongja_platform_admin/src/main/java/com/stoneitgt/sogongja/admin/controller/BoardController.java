@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.stoneitgt.sogongja.domain.*;
@@ -29,12 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.stoneitgt.common.GlobalConstant;
@@ -398,7 +394,8 @@ public class BoardController extends BaseController {
 		paging.setSize(params.getSize());
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-
+		System.out.println("params >> "+params);
+		System.out.println("paramsMap >> "+paramsMap);
 		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
 		Integer total = boardService.selectTotalRecords();
 		paging.setTotal(total);
@@ -492,12 +489,18 @@ public class BoardController extends BaseController {
 	}
 
 	@PostMapping("/project/delete")
-	public String deleteProject(@RequestParam int projectSeq, @RequestParam(required = false) String menuCode,
+	public String deleteProject(@RequestParam String projectStr, @RequestParam(required = false) String menuCode,
 			Model model, RedirectAttributes rttr) throws IOException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("project_seq", projectSeq);
-		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-		boardService.deleteBoard(params);
+
+		List<String> proSeqArr = Arrays.asList(projectStr.split(","));
+
+		for(int i =0; i < proSeqArr.size();i++) {
+			int projectSeq = Integer.parseInt(proSeqArr.get(i));
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("project_seq", projectSeq);
+			params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+			boardService.deleteProject(params);
+		}
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 		return "redirect:/board/project?menuCode=" + menuCode;
 	}
@@ -770,6 +773,8 @@ public class BoardController extends BaseController {
 		breadcrumb.put("parent_menu_name", "콘텐츠 관리");
 		breadcrumb.put("menu_name", "지원 및 정책관리");
 
+		Project project = new Project();
+
 		model.addAttribute("params", params);
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -777,10 +782,29 @@ public class BoardController extends BaseController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("type", type);
 		model.addAttribute("list2", list2);
+		model.addAttribute("project", project);
 
 		//return ResponseEntity.ok(objValue);
 		return "pages/board/project_list_update";
 
+	}
+
+	@PostMapping("/project/add")
+	public String addProject(@RequestParam(required = false) Map<String,Object> data,
+							   Model model,
+							  RedirectAttributes rttr) throws IOException {
+
+		String dataString = data.get("projectList").toString();
+		JSONObject jsonParse = new JSONObject(dataString);
+		org.json.JSONArray item =  jsonParse.getJSONArray("projectList");
+		int loginUserSeq = authenticationFacade.getLoginUserSeq();
+
+		String returnUrl = "redirect:/board/project";
+
+		boardService.addProject(item, loginUserSeq);
+		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+
+		return returnUrl;
 	}
 
 }

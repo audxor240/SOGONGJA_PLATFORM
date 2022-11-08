@@ -54,6 +54,8 @@ public interface BoardMapper {
 
 	int insertProject(Project project);
 
+	int addProject(Map<String,Object> project);
+
 	int updateProject(Project project);
 
 	int deleteProject(Map<String, Object> params);
@@ -69,4 +71,6 @@ public interface BoardMapper {
 	int selectTotalRecords();
 
 	BoardSetting getBoardSettingInfo(int boardSettingSeq);
+
+	String getProjectCheck(Map<String,Object> project);
 }

@@ -1,6 +1,8 @@
 package com.stoneitgt.sogongja.domain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,8 +18,8 @@ public class Project {
 	private int projectSeq;
 
 	// 지원사업분류
-	@NotBlank(message = "{field.required}")
-	private String projectType;
+	//@NotBlank(message = "{field.required}")
+	//private String projectType;
 
 	// 지원사업년도
 	@NotBlank(message = "{field.required}")
@@ -26,21 +28,21 @@ public class Project {
 
 	// 지원사업지역
 	@NotBlank(message = "{field.required}")
-	private String place;
+	private String placeType;
 
 	// 제목
 	@NotBlank(message = "{field.required}")
 	private String subject;
 
 	// 내용
-	@NotBlank(message = "{field.required}")
-	private String content;
+	//@NotBlank(message = "{field.required}")
+	//private String content;
 
 	// 조회수
-	private int readCnt;
+	//private int readCnt;
 
 	// 태그
-	private String tags;
+	//private String tags;
 
 	// 등록일
 	private String regDt;
@@ -54,4 +56,6 @@ public class Project {
 	List<MultipartFile> attachFiles;
 
 	private String regUsername;
+
+	private Map<String,Object> projectList ;
 }
