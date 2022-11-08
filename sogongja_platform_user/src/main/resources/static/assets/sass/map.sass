@@ -410,27 +410,46 @@
   display: none
   width: 50px
   > button
-    +positionAt(absolute, $top: 1px, $right: 1px)
+    +positionAt(absolute, $top: 1px, $right: -60px)
     height: 48px
     width: 48px
     background-image: url(../images/icon-search_bk.png)
     background-color: #ffffff
     box-shadow: 0 0 10px #00000020
-    border-radius: 4px
+    border-radius: 10px
     background-repeat: no-repeat
-    background-position: center left
-  .msearch_pop
-    display: none
-    +positionAt(absolute, $top: 0px, $right: 0px)
-    width: 100%
-    height: 375px
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.475) 40.63%, rgba(0, 0, 0, 0) 100%)
-    .msearch
-      +positionAt(absolute, $top: 10px, $right: 10px)
-      display: none
-      width: calc(100% - 20px)
-  .msearch_pop.on
+    background-position: center
+.msearch_pop
+  display: none
+  +positionAt(fixed, $top: 71px, $right: 0px)
+  width: 100%
+  height: 375px
+  z-index: 5
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.475) 40.63%, rgba(0, 0, 0, 0) 100%)
+  .msearch
+    width: calc(100% - 20px)
+    margin: 20px auto
+    input
+      border: solid 1px #ccc
+      background-color: #fff
+      border-radius: 10px
+    button
+      +positionAt(absolute, $top: 15px, $right: 10px)
+      height: 48px
+      width: 28px
+      background-image: url(../images/icon-search_bk.png)
+      background-color: transparent
+      background-repeat: no-repeat
+      background-position: center left
+  .search_pop_del
     display: block
+    background-color: transparent
+    color: #ffffff
+    text-align: center
+    margin: 10px auto
+    font-size: rem(36)
+.msearch_pop.on
+  display: block
 .companyChoice_wrap
   +positionAt(absolute, $top: 16px, $left:50%)
   .choice_pop_wrap
@@ -894,7 +913,9 @@
     top: auto
     bottom: -60vh
     height: auto
+    z-index: 4
   #sidebar.up
+    bottom: 0
 @include mobile
 
 
