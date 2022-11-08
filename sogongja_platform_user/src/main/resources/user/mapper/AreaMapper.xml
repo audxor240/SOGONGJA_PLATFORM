@@ -79,4 +79,11 @@
 		, B.MAP_SEQ
 	</select>
 
+	<select id="getResearchShopList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getResearchShopList */
+		SELECT *
+		FROM ST_RESEARCH_SHOP
+
+	</select>
+
 </mapper>

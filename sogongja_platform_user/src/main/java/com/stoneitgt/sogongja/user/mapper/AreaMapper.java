@@ -16,4 +16,6 @@ public interface AreaMapper {
 
 	List<Map<String, Object>> getRegionAreaMapList(String mapType);
 
+	List<Map<String, Object>> getResearchShopList(Map<String, Object> params);
+
 }
