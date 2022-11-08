@@ -20,7 +20,14 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <select th:field="*{projectType}" class="form-control">
-                                            <option th:each="item : ${projectType}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                            <!--/*<option th:each="item : ${projectType}" th:value="${item.code}" th:text="${item.code_name}">전체</option>*/-->
+                                            <option value="">선택해주세요</option>
+                                            <option value="정책자금">정책자금</option>
+                                            <option value="성장지원">성장지원</option>
+                                            <option value="재기지원">재기지원</option>
+                                            <option value="창업지원">창업지원</option>
+                                            <option value="전통시장활성화">전통시장활성화</option>
+                                            <option value="보증지원">보증지원</option>
                                         </select>
                                     </div>
                                 </div>
@@ -32,7 +39,15 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <select th:field="*{place}" class="form-control">
-                                            <option th:each="item : ${place}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                            <!--/*<option th:each="item : ${place}" th:value="${item.code}" th:text="${item.code_name}">전체</option>*/-->
+                                            <option value="">선택해주세요</option>
+                                            <option value="1">전국</option>
+                                            <option value="2">서울/강원</option>
+                                            <option value="3">인천/경기</option>
+                                            <option value="4">대전/세종/충청</option>
+                                            <option value="5">대구/경북</option>
+                                            <option value="6">부산/울산/경남</option>
+                                            <option value="7">광주/전라/제주</option>
                                         </select>
                                     </div>
                                 </div>
@@ -58,7 +73,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-end">
-                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_education">선택삭제</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_project">선택삭제</button>
                         <!--<a type="button" class="btn col-sm-1 btn-primary mr-1">교육 등록</a>-->
                         <a th:href="@{|/board/project/api?projectType=1|}" class="btn col-sm-2 btn-primary mr-1">
                             <i class="btn-icon-prepend" data-feather="edit"></i>지원 및 정책사업 등록
@@ -94,10 +109,10 @@
                             <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                 <td>
-                                    <input type="checkbox" name="" >
+                                    <input type="checkbox" name="project_check" th:value="${item.project_seq}">
                                 </td>
                                 <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                <td th:text="${item.project_type_name}">분류</td>
+                                <td th:text="${item.project_type}">분류</td>
                                 <td>
                                     <a th:href="@{|/board/project/${item.project_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                 </td>
@@ -113,8 +128,7 @@
         </div>
     </div>
     <form name="deleteForm" th:action="@{/board/project/delete}" method="post">
-        <input type="hidden" name="projectSeq">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+        <input type="hidden" name="projectStr">
     </form>
 </div>
 <th:block layout:fragment="custom_css">
