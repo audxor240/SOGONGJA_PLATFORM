@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>커뮤니티</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 커뮤니티">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 커뮤니티">
+    <meta name="keywords" content="소공자 플랫폼, 게시판, 첨부파일, 제목, 작성일, 커뮤니티">
+    <meta name="description" content="소공자 플랫폼 커뮤니티">
+</head>
+
+<body>
+<article layout:fragment="content">
+    <section class="sub_visual">
+        <div class="container">
+            <h2 class="border_title">소공자 물어방</h2>
+        </div>
+        <th:block th:include="pages/board/board_nav"></th:block>
+    </section>
+    <section class="wrap">
+        <div class="sub_container">
+            <form class="write_qna" name="qnaForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+                <input type="hidden" th:field="*{boardSeq}">
+                <input type="hidden" th:field="*{boardSettingSeq}">
+                <input type="hidden" th:field="*{content}">
+                <div class="checkbox_wrap checkbox_wrap_baord">
+                    <ul class="check_list check_list50 select_choice">
+                        <li>
+                            <h4>지역선택</h4>
+                            <div>
+                                <select>
+                                    <option>시도</option>
+                                </select>
+                                <select>
+                                    <option>시군구</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <h4>업종선택</h4>
+                            <div>
+                                <select>
+                                    <option>대분류</option>
+                                </select>
+                                <select>
+                                    <option>중분류</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="checkbox_wrap checkbox_wrap_baord">
+                    <ul class="check_list check_list50 select_choice">
+                        <li>
+                            <h4>지역선택</h4>
+                            <div>
+                                <select>
+                                    <option>시도</option>
+                                </select>
+                                <select>
+                                    <option>시군구</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <h4>행정동</h4>
+                            <div class="select_choice01">
+                                <select>
+                                    <option>행정동</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="qna_title">
+                    <input type="text" placeholder="질문 제목을 입력해주세요." th:field="*{subject}" maxlength="100" >
+                </div>
+                <div class="secret_btn_wrap">
+                    <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small" th:field="*{secretUse}" value="Y">
+                    <label for="secret_read">비밀글</label>
+                </div>
+                <div class="qna_text">
+                    <div id="editor"></div>
+                </div>
+                <div class="addFile_wrap" th:if="${boardSetting.fileUse == 1}">
+                    <input type="hidden" name="files">
+                    <input type="file" id="file-input" name="attachFiles" onchange="addFile2(this);" multiple />
+                    <label for="file-input">파일 첨부하기 <span></span></label>
+                    <div id="preview" class="file-list" th:classappend="${not #lists.isEmpty(fileList)?' on':''}">
+                        <p th:id="${item.file_seq}" th:each="item : ${fileList}" th:if="${not #lists.isEmpty(fileList)}">
+                            <span class="file_icon"></span>
+                            <span class="file_name"><a th:href="@{|/file/download/${item.file_seq}|}">[[${item.file_name}]]</a></span>
+                            <button type="button" th:data-index='${item.file_seq}' class='btn-delete-file' th:data-file-seq="${item.file_seq}">삭제</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="answer_view" th:if="${answer.answerSeq != 0}">
+                    <div class="answer_view_title">
+                        <div class="icon_answer"></div>
+                        <h4>관련 질문 답변입니다.</h4>
+                    </div>
+                    <div class="answer_view_text">
+                        <p>[[${answer.comment}]]</p>
+                    </div>
+
+                </div>
+                <div class="btn_box">
+                    <a href="javascript:window.history.back();" class="btn">목록으로</a>
+                    <button type="button" id="board_del" class="btn red" th:if="${detail}">삭제하기</button>
+                    <button type="submit" class="btn blue" th:if="${answer.answerSeq == 0}" th:text="${board.boardSeq != 0?'수정하기':'문의하기'}">문의하기</button>
+                </div>
+            </form>
+            <form name="deleteForm" th:action="@{/board/delete}" method="post">
+                <input type="hidden" name="boardSeq" id="boardSeq" th:value="${board.boardSeq}">
+                <input type="hidden" name="boardSettingSeq" id="boardSettingSeq" th:value="${boardSettingSeq}">
+            </form>
+        </div>
+    </section>
+</article>
+
+
+<th:block layout:fragment="custom_css">
+    <link rel="stylesheet" th:href="@{/css/codemirror.css}" />
+    <link rel="stylesheet" th:href="@{/css/tui-color-picker.css}" />
+    <link rel="stylesheet" th:href="@{/css/toastui-editor.css}" />
+</th:block>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/js/libs/codemirror.js}"></script>
+    <script th:src="@{/js/libs/toastui-editor.js}"></script>
+    <script th:src="@{/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
+
+    <script th:inline="javascript">
+        var tui_content = /*[[${board.content}]]*/ '';
+        var board_type = /*[[${boardType}]]*/ '';
+
+        const Editor = toastui.Editor;
+
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'wysiwyg',
+            hideModeSwitch: true,
+            height: '500px',
+            previewStyle: 'vertical',
+            plugins: [toastui.Editor.plugin.colorSyntax],
+            linkAttribute: {
+                target: '_blank',
+                contenteditable: 'false',
+                rel: 'noopener noreferrer'
+            }
+        });
+
+        editor.getMarkdown();
+        editor.setMarkdown(tui_content);    //상세보기 -> 내용
+
+
+
+        const handler = {
+            /*init() {
+                const fileInput = document.querySelector('#file-input');
+                const preview = document.querySelector('#preview');
+
+                fileInput.addEventListener('change', () => {
+                    document.querySelector('#preview').classList.add('on');
+                    const files = Array.from(fileInput.files)
+
+                    files.forEach(file => {
+                        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            <span class="file_icon"></span>
+                            <span class="file_name">${file.name}</span>
+                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                        </p>`;
+                    });
+                });
+            },*/
+
+            init() {
+                const fileInput = document.querySelector('#file-input');
+                const preview = document.querySelector('#preview');
+
+                /*fileInput.addEventListener('change', () => {
+                    document.querySelector('#preview').classList.add('on');
+                    const files = Array.from(fileInput.files)
+
+                    files.forEach(file => {
+                        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            <span class="file_icon"></span>
+                            <span class="file_name">${file.name}</span>
+                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                        </p>`;
+                    });
+                });
+                */
+
+
+            },
+
+            removeFile: () => {
+                document.addEventListener('click', (e) => {
+                    if(e.target.className !== 'file-remove') return;
+                    const removeTargetId = e.target.dataset.index;
+                    const removeTarget = document.getElementById(removeTargetId);
+                    const files = document.querySelector('#file-input').files;
+                    const dataTranster = new DataTransfer();
+
+                    // document.querySelector('#file-input').files =
+                    //             Array.from(files).filter(file => file.lastModified !== removeTarget);
+
+
+                    Array.from(files)
+                        .filter(file => file.lastModified != removeTargetId)
+                        .forEach(file => {
+                            dataTranster.items.add(file);
+                        });
+
+                    document.querySelector('#file-input').files = dataTranster.files;
+
+                    removeTarget.remove();
+                })
+            }
+        }
+
+        handler.init()
+        handler.removeFile()
+    </script>
+    <script th:src="@{/js/pages/board/board_write.js}"></script>
+</th:block>
+
+
+</body>
+
+</html>

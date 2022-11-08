@@ -301,6 +301,31 @@
 .sub_container .checkbox_wrap .check_list.check_list30 > li {
   width: 33.33%;
 }
+.sub_container .checkbox_wrap .check_list.select_choice > li {
+  display: flex;
+  align-items: center;
+}
+.sub_container .checkbox_wrap .check_list.select_choice > li h4 {
+  width: 25%;
+  font-size: 1.125rem;
+  line-height: 1;
+}
+.sub_container .checkbox_wrap .check_list.select_choice > li div {
+  width: 75%;
+  padding: 1.1875rem 2.5rem;
+  display: flex;
+}
+.sub_container .checkbox_wrap .check_list.select_choice > li div select {
+  width: calc(50% - 5px);
+  border: 1px solid #d5d5d5;
+  margin-right: 10px;
+}
+.sub_container .checkbox_wrap .check_list.select_choice > li div select:last-child {
+  margin-right: 0;
+}
+.sub_container .checkbox_wrap .check_list.select_choice > li div.select_choice01 select {
+  width: 100%;
+}
 .sub_container .checkbox_wrap .check_keyword {
   border-top: 1px solid #d2d2d2;
   padding: 1.875rem 2.5rem;
@@ -2931,6 +2956,15 @@ select {
   .sub_container .checkbox_wrap .check_list > li:first-child {
     border-top: 0;
   }
+  .sub_container .checkbox_wrap .check_list.select_choice > li {
+    flex-wrap: wrap;
+  }
+  .sub_container .checkbox_wrap .check_list.select_choice > li h4 {
+    width: 100%;
+  }
+  .sub_container .checkbox_wrap .check_list.select_choice > li > div {
+    width: 100%;
+  }
   .sub_container .checkbox_wrap .check_keyword {
     flex-wrap: wrap;
     border-top: 4px solid #1540bf;
@@ -3183,6 +3217,16 @@ select {
   }
   .none_contents p {
     font-size: 18px;
+  }
+  .loginForm .login_sns ul {
+    flex-wrap: wrap;
+  }
+  .loginForm .login_sns ul li {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  .loginForm .login_sns ul li a {
+    justify-content: center;
   }
 }
 @media (max-width: 420px) {
