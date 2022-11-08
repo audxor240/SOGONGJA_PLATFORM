@@ -335,12 +335,14 @@
         , PROJECT_YEAR
         , SUBJECT
         , PLACE_TYPE
+        , PROJECT_URL
         , REG_USER_SEQ)
         VALUES (
         #{type}
         , #{year}
         , #{title}
         , #{placeType}
+        , #{url}
         , #{loginUserSeq})
 
         <selectKey resultType="int" keyProperty="projectSeq" order="AFTER">
