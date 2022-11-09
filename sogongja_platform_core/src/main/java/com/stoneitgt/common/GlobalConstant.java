@@ -41,6 +41,7 @@ public class GlobalConstant {
 		public static final String BANNER_MOBILE = "banner_mobile";
 
 		public static final String PROJECT = "project";
+		public static final String COMMUNITY = "community";
 		public static final String LAW = "law";
 		public static final String EDUCATION = "education";
 		public static final String EDUCATION_IMAGE = "education_image";

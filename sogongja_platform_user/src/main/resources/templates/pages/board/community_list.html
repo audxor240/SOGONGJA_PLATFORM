@@ -19,8 +19,8 @@
         </div>
         <div class="lnb">
             <ul class="container">
-                <li class="active"><a href="#none">상점 커뮤니티</a></li>
-                <li><a href="#none">지역 커뮤니티</a></li>
+                <li th:classappend="${params.type eq 'shop'?'active':''}"><a th:href="@{/community(type=shop)}">상점 커뮤니티</a></li>
+                <li th:classappend="${params.type eq 'region'?'active':''}"><a th:href="@{/community(type=region)}">지역 커뮤니티</a></li>
             </ul>
         </div>
         <!--<th:block th:include="pages/board/board_nav"></th:block>-->
@@ -31,64 +31,72 @@
 <!--                <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>-->
 <!--                <div><a th:href="@{/board/type/faq}">자주하는 질문</a></div>-->
 <!--            </div>-->
-            <form name="searchForm">
-                <h3 class="h3_title">상점 커뮤니티 항목</h3>
-                <div class="checkbox_wrap checkbox_wrap_baord">
-                    <ul class="check_list check_list50 select_choice">
-                        <li>
-                            <h4>지역선택</h4>
-                            <div>
-                                <select>
-                                    <option>시도</option>
-                                </select>
-                                <select>
-                                    <option>시군구</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <h4>업종선택</h4>
-                            <div>
-                                <select>
-                                    <option>대분류</option>
-                                </select>
-                                <select>
-                                    <option>중분류</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
+            <form name="searchForm" >
+                <div th:if="${params.type eq 'shop'}">
+                    <h3 class="h3_title">상점 커뮤니티 항목</h3>
+                    <div class="checkbox_wrap checkbox_wrap_baord">
+                        <ul class="check_list check_list50 select_choice">
+                            <li>
+                                <h4>지역선택</h4>
+                                <div>
+                                    <select class="sidoBox" name="regionName1" onchange="changeSido(this);">
+                                        <option>선택해주세요</option>
+                                    </select>
+                                    <select class="sigunguBox" name="regionName2">
+                                        <option>선택해주세요</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <h4>업종선택</h4>
+                                <div>
+                                    <select class="main_type" name="categoryName1">
+                                        <option>대분류</option>
+                                        <option th:each="item : ${researchShopGroupList}" th:value="${item.code_type1}" th:text="${item.nm_type1}"></option>
+                                    </select>
+                                    <select class="sub_type" name="categoryName2">
+                                        <option>중분류</option>
+                                        <option th:each="item : ${researchShopSubGroupList}" th:value="${item.code_type2}" th:text="${item.nm_type2}" style="display: none"></option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                <h3 class="h3_title">지역 커뮤니티 항목</h3>
-                <div class="checkbox_wrap checkbox_wrap_baord">
-                    <ul class="check_list check_list50 select_choice">
-                        <li>
-                            <h4>지역선택</h4>
-                            <div>
-                                <select>
-                                    <option>시도</option>
-                                </select>
-                                <select>
-                                    <option>시군구</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <h4>행정동</h4>
-                            <div class="select_choice01">
-                                <select>
-                                    <option>행정동</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
+                <div th:if="${params.type eq 'region'}">
+                    <h3 class="h3_title">지역 커뮤니티 항목</h3>
+                    <div class="checkbox_wrap checkbox_wrap_baord">
+                        <ul class="check_list check_list50 select_choice">
+                            <li>
+                                <h4>지역선택</h4>
+                                <div>
+                                    <select class="sidoBox" name="regionName1" onchange="changeSido(this);">
+                                        <option>선택해주세요</option>
+                                    </select>
+                                    <select class="sigunguBox" name="regionName2"onchange="changeSigungu(this);">
+                                        <option>선택해주세요</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <h4>동</h4>
+                                <div class="select_choice01">
+                                    <select class="dongBox" name="regionName3">
+                                        <option>선택해주세요</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </form>
             <div class="search_list">
                 <th:block th:include="fragments/paging_result"></th:block>
                 <div>
-                    <form name="searchForm" th:action="@{|/board/type/${boardType}|}" th:object="${params}">
+                    <form name="searchForm" th:action="@{/community}" th:object="${params}">
+                        <input type="hidden" name="type" th:value="${params.type}">
+
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <legend>커뮤니티</legend>
                         <select th:field="*{field}">
@@ -108,32 +116,45 @@
                     <tr>
                         <th style="width: 11.5%;">No</th>
                         <th class="title txl">제목</th>
+                        <th >작성자</th>
                         <th style="width: 11.5%;">작성일</th>
-                        <th style="width: 11.5%;">첨부파일</th>
+                        <!--<th style="width: 11.5%;">첨부파일</th>-->
+                        <th >댓글</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <th:block th:include="fragments/table_empty:: table_empty(4)" th:if="${#lists.isEmpty(list)}"></th:block>
+                    <th:block th:include="fragments/table_empty:: table_empty(5)" th:if="${#lists.isEmpty(list)}"></th:block>
                     <th:block th:unless="${#lists.isEmpty(list)}">
                         <tr th:each="item : ${list}">
                             <td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>
                             <td class="txl">
-                                <a th:onclick="detailView([[${item.board_setting_seq}]],[[${item.board_seq}]],[[${item.reg_user_seq}]],[[${name}]],[[${item.secret_use}]]);" >[[${item.subject}]]</a>
-                                <span class="secret_img" th:if="${item.secret_use eq 'Y'}"></span>
+                                <a th:href="@{|/community/${item.community_seq}|(type=${params.type})}" >[[${item.subject}]]</a>
                             </td>
+                            <td th:text="${item.reg_username}">작성자</td>
                             <td th:text="${item.reg_dt}">2021.01.01</td>
-                            <td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>
+                            <td >0</td>
+                            <!--/*<td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>*/-->
                         </tr>
                     </th:block>
                     </tbody>
                 </table>
                 <th:block th:include="fragments/paging"></th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <input type="hidden" id="session_seq" th:value="${session.ss_user.userSeq}">
+                    <!--/*<div class="qna_write_btn" th:if="${boardSetting.answerUse == 1}">
+                        <a th:href="@{|/board/QnaWriteForm?boardSettingSeq=${boardSettingSeq}|}">문의하기</a>
+                    </div>*/-->
+                    <div class="qna_write_btn" >
+                        <a th:href="@{/community/communityWriteForm(type=${params.type})}">글쓰기</a>
+                    </div>
+                </th:block>
             </div>
         </div>
     </section>
 </article>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/js/pages/board/board_list.js}"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+    <script th:src="@{/js/pages/board/community_list.js}"></script>
 </th:block>
 </body>
 
