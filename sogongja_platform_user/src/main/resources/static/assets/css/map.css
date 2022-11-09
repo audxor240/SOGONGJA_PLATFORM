@@ -600,7 +600,7 @@
 }
 
 .category_wrap {
-  position: absolute;
+  position: fixed;
   bottom: 60px;
   display: flex;
   overflow: hidden;
@@ -1170,7 +1170,7 @@
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1254901961);
-    padding: 5px 10px;
+    padding: 3px 10px;
   }
   .addrlist {
     background-color: #fff;

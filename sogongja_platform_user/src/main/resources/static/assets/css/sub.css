@@ -3224,6 +3224,7 @@ select {
   .loginForm .login_sns ul li {
     width: 100%;
     margin-bottom: 0.75rem;
+    margin-right: 0;
   }
   .loginForm .login_sns ul li a {
     justify-content: center;
