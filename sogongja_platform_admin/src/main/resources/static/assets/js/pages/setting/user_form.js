@@ -135,6 +135,7 @@ $(document).ready(function () {
     });
 
     $('#new_submit').click(function () {
+
         const pw_pattern = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,}$/;
         const email_pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
@@ -257,6 +258,19 @@ $(document).ready(function () {
             }
         }
 
+        if ($('input:radio[name=type]:checked').length < 1) {
+            alert("이용자 유형을 선택해 주세요.")
+            return false;
+        }
+        if ($('input:radio[name=ageGroup]:checked').length < 1) {
+            alert("연령대를 선택해 주세요.")
+            return false;
+        }
+        if ($('input:checkbox[name=serviceType]:checked').length < 1) {
+            alert("관심 서비스 유형을 선택해주세요.")
+            return false;
+        }
+
 
         var nickName = $("#nickName").val();
         var userSeq = $("#userSeq").val();
@@ -362,6 +376,19 @@ $(document).ready(function () {
                 return false;
             }
 
+        }
+
+        if ($('input:radio[name=type]:checked').length < 1) {
+            alert("이용자 유형을 선택해 주세요.")
+            return false;
+        }
+        if ($('input:radio[name=ageGroup]:checked').length < 1) {
+            alert("연령대를 선택해 주세요.")
+            return false;
+        }
+        if ($('input:checkbox[name=serviceType]:checked').length < 1) {
+            alert("관심 서비스 유형을 선택해주세요.")
+            return false;
         }
 
         var nickName = $("#nickName").val();
