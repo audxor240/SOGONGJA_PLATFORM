@@ -670,7 +670,10 @@
 #category li label input[type=checkbox]:checked ~ .store {
   background: url(../images/new/area/marker06.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .store {
+#category li label input[type=checkbox]:checked ~ .pp {
+  background: url(../images/new/area/marker07.png) no-repeat;
+}
+#category li label input[type=checkbox]:checked ~ .rr {
   background: url(../images/new/area/marker07.png) no-repeat;
 }
 #category li .category_bg {
