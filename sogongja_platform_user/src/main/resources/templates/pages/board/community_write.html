@@ -26,21 +26,26 @@
     </section>
     <section class="wrap">
         <div class="sub_container">
-            <form class="write_qna" name="qnaForm" th:action="@{/community/form}" th:object="${community}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+            <form class="write_qna" name="communityForm" th:action="@{/community/form}" th:object="${community}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{communitySeq}">
                 <input type="hidden" th:field="*{content}">
                 <input type="hidden" th:field="*{regionName1}">
                 <input type="hidden" th:field="*{regionName2}">
                 <input type="hidden" th:field="*{regionName3}">
+                <input type="hidden" th:field="*{regionCode1}">
+                <input type="hidden" th:field="*{regionCode2}">
+                <input type="hidden" th:field="*{regionCode3}">
                 <input type="hidden" th:field="*{categoryName1}">
                 <input type="hidden" th:field="*{categoryName2}">
+                <input type="hidden" th:field="*{categoryCode1}">
+                <input type="hidden" th:field="*{categoryCode2}">
                 <input type="hidden" th:field="*{communityType}">
                 <div class="checkbox_wrap checkbox_wrap_baord" th:if="${type eq 'shop'}">
                     <ul class="check_list check_list50 select_choice">
                         <li>
                             <h4>지역선택</h4>
                             <div>
-                                <select class="sidoBox" onchange="changeSido(this);">
+                                <select class="sidoBox" onchange="changeSido(this,'');">
                                     <option value="">지역(시) 선택해주세요</option>
                                 </select>
                                 <select class="sigunguBox">
@@ -69,7 +74,7 @@
                         <li>
                             <h4>지역선택</h4>
                             <div>
-                                <select class="sidoBox" onchange="changeSido(this);">
+                                <select class="sidoBox" onchange="changeSido(this,'');">
                                     <option value="">지역(시) 선택해주세요</option>
                                 </select>
                                 <select class="sigunguBox" onchange="changeSigungu(this);">
@@ -112,74 +117,82 @@
                         </p>
                     </div>
                 </div>
-                <div class="reply_view">
+                <div class="reply_view" th:if="${detail eq true and #lists.size(replyList) > 0}">
                     <div class="reply_view_top">
                         <p>
-                            <span class="reply_num">2</span>
+                            <span class="reply_num">[[${#lists.size(replyList)}]]</span>
                             개의 댓글 &nbsp;
                             <span>최신순</span>
                         </p>
-                        <a href="#none" class="more_reply pcBtn">댓글 더보기</a>
+                        <a href="#none" class="more_reply pcBtn" th:if="${#lists.size(replyList) > 5}">댓글 더보기</a>
                     </div>
                     <ul class="reply_list">
-                        <li>
+                        <li th:each="item,i : ${replyList}" class="row_li">
                             <div class="reply_list_info_wrap">
                                 <div  class="reply_list_info">
-                                    <p>ID에 뒤에 ** 처리필요</p>
-                                    <span>작성한 날짜 노출</span>
+                                    <!--<p>ID에 뒤에 ** 처리필요</p>-->
+                                    <p>[[${item.nick_name}]]</p>
+                                    <span>[[${item.reg_dt}]]</span>
                                 </div>
-                                <div class="moreBtn_wrap">
+                                <div class="moreBtn_wrap" th:if="${myReplyList[i.index] == true}">
                                     <span class="moreBtn"></span>
                                     <ul class="morePop">
                                         <li>
                                             <span class="changeBtn">수정하기</span>
                                         </li>
+                                        <li id="cancle_li" style="display: none">
+                                            <span class="cancleBtn">취소하기</span>
+                                        </li>
                                         <li>
-                                            <span class="delBtn">삭제하기</span>
+                                            <span class="delBtn" th:data-value="${item.reply_seq}">삭제하기</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <p class="reply_list_text">
-                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
+                                [[${item.comment}]]
                             </p>
-                        </li>
-                        <li>
-                            <div class="reply_list_info_wrap">
-                                <div  class="reply_list_info">
-                                    <p>ID에 뒤에 ** 처리필요</p>
-                                    <span>작성한 날짜 노출</span>
-                                </div>
-                                <div class="moreBtn_wrap">
-                                    <span class="moreBtn"></span>
-                                    <ul class="morePop">
-                                        <li>
-                                            <span class="changeBtn">수정하기</span>
-                                        </li>
-                                        <li>
-                                            <span class="delBtn">삭제하기</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="reply_write"  style="display: none">
+                                <textarea name="comment" id="comment" cols="30" rows="10" placeholder="댓글을 입력해주세요." th:utext="${item.comment}"></textarea>
+                                <button type="button" class="replyUpdateBtn" th:value="${item.reply_seq}">댓글 수정</button>
                             </div>
-                            <p class="reply_list_text">
-                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
-                            </p>
                         </li>
                     </ul>
-                    <form class="reply_write">
-                        <textarea name="" id="" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
-                        <button type="submit">댓글작성</button>
-                    </form>
+                </div>
+                <div class="reply_view" th:if="${detail eq true  and #lists.size(replyList) > 0}">
+                    <div class="reply_write">
+                        <textarea name="comment" id="comment1" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
+                        <button type="button" id="reply_w">댓글 작성</button>
+                    </div>
                 </div>
                 <div class="btn_box">
                     <a href="javascript:window.history.back();" class="btn">목록으로</a>
-                    <button type="button" id="community_del" class="btn red" th:if="${detail}">삭제하기</button>
-                    <button type="submit" class="btn blue" th:if="${answer.answerSeq == 0}" th:text="${community.communitySeq != 0?'수정하기':'문의하기'}">문의하기</button>
+                    <button type="button" id="community_del" class="btn red" th:if="${detail}" th:value="${community.communitySeq}">삭제하기</button>
+                    <button type="submit" class="btn blue" th:if="${community.communitySeq == 0}">문의하기</button>
+                    <button type="submit" class="btn blue" th:unless="${community.communitySeq == 0}">수정하기</button>
                 </div>
+            </form>
+
+            <form name="replyWrite" th:action="@{/reply/replyWrite}" th:object="${reply}" method="post" onsubmit="return validationForm2();">
+                <input type="hidden" name="replySeq" value="0">
+                <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                <input type="hidden" name="communityType" th:value="${type}">
+                <input type="hidden" name="comment" id="comment_w">
+            </form>
+            <form class="reply_write" name="replyUpdate" th:action="@{/reply/replyWrite}" th:object="${reply}" method="post" onsubmit="return validationForm2();">
+                <input type="hidden" name="replySeq">
+                <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                <input type="hidden" name="communityType" th:value="${type}">
+                <input type="hidden" name="comment" >
+            </form>
+            <form class="reply_write" name="replyDelete" th:action="@{/reply/replyDelete}" method="post">
+                <input type="hidden" name="replySeq">
+                <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                <input type="hidden" name="communityType" th:value="${type}">
             </form>
             <form name="deleteForm" th:action="@{/community/delete}" method="post">
                 <input type="hidden" name="communitySeq" id="communitySeq" th:value="${community.communitySeq}">
+                <input type="hidden" name="communityType" th:value="${type}">
             </form>
         </div>
     </section>

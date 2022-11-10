@@ -14,6 +14,66 @@
         $('.sub_type option:contains('+ categoryName2 +')').attr('selected', true);     //중분류 선택
     }
 
+    //수정하기/삭제하기 view
+    $(".moreBtn").click(function(){
+        if($(this).parent(".moreBtn_wrap").find(".morePop").css("display") == "none"){
+            $(this).parent(".moreBtn_wrap").find(".morePop").show();
+        }else{
+            $(this).parent(".moreBtn_wrap").find(".morePop").hide();
+        }
+
+    });
+
+    //수정하기 클릭
+    $(".changeBtn").click(function(){
+        var row_li = $(this).parent().parent().parent().parent().parent(".row_li");
+        row_li.find(".reply_write").show();   //댓글입력창
+        row_li.find(".morePop").hide()   //수정/삭제 view
+        row_li.find("#cancle_li").show();   //취소하기
+        row_li.find(".reply_list_text").hide();
+    });
+
+    //취소하기 클릭
+    $(".cancleBtn").click(function(){
+        var row_li = $(this).parent().parent().parent().parent().parent(".row_li");
+        row_li.find(".reply_write").hide();   //댓글입력창
+        row_li.find(".morePop").hide()   //수정/삭제 view
+        row_li.find("#cancle_li").hide();   //취소하기
+        row_li.find(".reply_list_text").show();
+    });
+
+
+    //댓글 등록
+    $("#reply_w").click(function(){
+        alert("wwww");
+        //$("#comment1").val($(this).parent(".reply_form").find("#comment1").val());
+        $("#comment_w").val($("#comment1").val());
+        document.forms.replyWrite.submit();
+    });
+
+    //댓글 수정
+    $(".replyUpdateBtn").click(function(){
+        $("#comment2").val($(this).parent(".reply_write").find("#comment2").val());
+        $("[name=replySeq]").val($(this).val());
+        document.forms.replyUpdate.submit();
+    });
+
+    //댓글 삭제
+    $(".delBtn").click(function(){
+        if (confirm('댓글을 삭제하시겠습니까?')) {
+            $("[name=replySeq]").val($(this).data('value'));
+            document.forms.replyDelete.submit();
+        }
+    });
+
+    //커뮤니티 삭제
+    $("#community_del").click(function(){
+        if (confirm('삭제하시겠습니까?')) {
+            document.forms.deleteForm.submit();
+        }
+    });
+
+
 })();
 
 
@@ -144,8 +204,13 @@ function validationForm() {
     var regionName1 = $(".sidoBox option:selected").text();
     var regionName2 = $(".sigunguBox option:selected").text();
     var regionName3 = $(".dongBox option:selected").text();
+    var regionCode1 = $(".sidoBox option:selected").val();
+    var regionCode2 = $(".sigunguBox option:selected").val();
+    var regionCode3 = $(".dongBox option:selected").val();
     var categoryName1 = $(".main_type option:selected").text();
     var categoryName2 = $(".sub_type option:selected").text();
+    var categoryCode1 = $(".main_type option:selected").val();
+    var categoryCode2 = $(".sub_type option:selected").val();
 
     for (var i = 0; i < filesArr.length; i++) {
         // 삭제되지 않은 파일만 폼데이터에 담기
@@ -161,6 +226,7 @@ function validationForm() {
         return false;
     } else {
         $("#regionName1").val(regionName1);
+        $("#regionCode1").val(regionCode1);
     }
 
     if ($(".sigunguBox option:selected").val() == "") {
@@ -168,6 +234,7 @@ function validationForm() {
         return false;
     } else {
         $("#regionName2").val(regionName2);
+        $("#regionCode2").val(regionCode2);
     }
 
     if(community_type == "shop") {
@@ -176,6 +243,7 @@ function validationForm() {
             return false;
         } else {
             $("#categoryName1").val(categoryName1);
+            $("#categoryCode1").val(categoryCode1);
         }
 
         if ($(".sub_type option:selected").val() == "") {
@@ -183,6 +251,7 @@ function validationForm() {
             return false;
         } else {
             $("#categoryName2").val(categoryName2);
+            $("#categoryCode2").val(categoryCode2);
         }
     }else{
         if ($(".dongBox option:selected").val() == "") {
@@ -190,6 +259,7 @@ function validationForm() {
             return false;
         } else {
             $("#regionName3").val(regionName3);
+            $("#regionCode3").val(regionCode3);
         }
 
     }
@@ -249,18 +319,21 @@ async function renderSido() {
     $(".sidoBox").append(html);
     if(detail) {
         console.log("code :: "+code);
-        await changeSido(code);
+        await changeSido(code,"start");
     }
 }
 renderSido();
 
-async function changeSido(obj){
+
+async function changeSido(obj,type){
     var code = "";
-    if(detail) {
+
+    if(type != "") {
         code = obj.slice(0, 2);
     }else{
         code = obj.value.slice(0, 2);
     }
+
     let sidos = await fetchSigungu(code);
     var sidoList = await sidos.regcodes;
     var name = [];
@@ -270,7 +343,8 @@ async function changeSido(obj){
     }));
 
     name = [...fiddong]
-
+    console.log("name : "+name);
+    console.log("name JSON : "+JSON.stringify(name));
     $(".sigunguBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
     $(".dongBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
 
@@ -284,8 +358,8 @@ async function changeSido(obj){
             }else{
                 select = "";
             }
-            htmlSegment = `<option id="${sido.name}" value="${sido.code}" ${select}>${sido.dong}</option>`;
         }
+        htmlSegment = `<option id="${sido.name}" value="${sido.code}" ${select}>${sido.dong}</option>`;
         html += htmlSegment;
     });
     $(".sigunguBox").append(html);
@@ -340,4 +414,16 @@ async function fetchDong(code) {
     } else {
         throw Error(data);
     }
+}
+
+function validationForm2() {
+
+    var comment = $("#comment1").val();
+
+    if(comment == ""){
+        alert("댓글 내용을 입력해주세요");
+        return false;
+    }
+
+    return true;
 }

@@ -31,7 +31,7 @@
 <!--                <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>-->
 <!--                <div><a th:href="@{/board/type/faq}">자주하는 질문</a></div>-->
 <!--            </div>-->
-            <form name="searchForm" >
+            <form name="searchForm" th:action="@{/community}" th:object="${params}">
                 <div th:if="${params.type eq 'shop'}">
                     <h3 class="h3_title">상점 커뮤니티 항목</h3>
                     <div class="checkbox_wrap checkbox_wrap_baord">
@@ -39,23 +39,23 @@
                             <li>
                                 <h4>지역선택</h4>
                                 <div>
-                                    <select class="sidoBox" name="regionName1" onchange="changeSido(this);">
-                                        <option>선택해주세요</option>
+                                    <select class="sidoBox" name="regionCode1" onchange="changeSido(this);">
+                                        <option value="" selected>선택해주세요</option>
                                     </select>
-                                    <select class="sigunguBox" name="regionName2">
-                                        <option>선택해주세요</option>
+                                    <select class="sigunguBox" name="regionCode2">
+                                        <option value="" selected>선택해주세요</option>
                                     </select>
                                 </div>
                             </li>
                             <li>
                                 <h4>업종선택</h4>
                                 <div>
-                                    <select class="main_type" name="categoryName1">
-                                        <option>대분류</option>
+                                    <select class="main_type" name="categoryCode1">
+                                        <option value="" selected>대분류</option>
                                         <option th:each="item : ${researchShopGroupList}" th:value="${item.code_type1}" th:text="${item.nm_type1}"></option>
                                     </select>
-                                    <select class="sub_type" name="categoryName2">
-                                        <option>중분류</option>
+                                    <select class="sub_type" name="categoryCode2">
+                                        <option value="" selected>중분류</option>
                                         <option th:each="item : ${researchShopSubGroupList}" th:value="${item.code_type2}" th:text="${item.nm_type2}" style="display: none"></option>
                                     </select>
                                 </div>
@@ -71,51 +71,53 @@
                             <li>
                                 <h4>지역선택</h4>
                                 <div>
-                                    <select class="sidoBox" name="regionName1" onchange="changeSido(this);">
-                                        <option>선택해주세요</option>
+                                    <select class="sidoBox" name="regionCode1" onchange="changeSido(this);">
+                                        <option value="" selected>선택해주세요</option>
                                     </select>
-                                    <select class="sigunguBox" name="regionName2"onchange="changeSigungu(this);">
-                                        <option>선택해주세요</option>
+                                    <select class="sigunguBox" name="regionCode2"onchange="changeSigungu(this);">
+                                        <option value="" selected>선택해주세요</option>
                                     </select>
                                 </div>
                             </li>
                             <li>
                                 <h4>동</h4>
                                 <div class="select_choice01">
-                                    <select class="dongBox" name="regionName3">
-                                        <option>선택해주세요</option>
+                                    <select class="dongBox" name="regionCode3">
+                                        <option value="" selected>선택해주세요</option>
                                     </select>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </form>
-            <div class="search_list">
-                <th:block th:include="fragments/paging_result"></th:block>
-                <div>
-                    <form name="searchForm" th:action="@{/community}" th:object="${params}">
-                        <input type="hidden" name="type" th:value="${params.type}">
-
-                        <th:block th:include="fragments/search_hidden"></th:block>
-                        <legend>커뮤니티</legend>
-                        <select th:field="*{field}">
-                            <option value="subject">제목</option>
-                            <option value="content">내용</option>
-                            <option value="">제목 + 내용</option>
-                        </select>
-                        <input type="text" th:field="*{keyword}" title="검색" placeholder="검색어를 입력하세요">
-                        <button type="submit">검색</button>
-                    </form>
+                <div class="search_list">
+                    <th:block th:include="fragments/paging_result"></th:block>
+                    <div>
+                            <input type="hidden" name="type" th:value="${params.type}">
+                            <th:block th:include="fragments/search_hidden"></th:block>
+                            <legend>커뮤니티</legend>
+                            <select th:field="*{field}">
+                                <option value="subject">제목</option>
+                                <option value="content">내용</option>
+                                <option value="">제목 + 내용</option>
+                            </select>
+                            <input type="text" th:field="*{keyword}" title="검색" placeholder="검색어를 입력하세요">
+                            <button type="submit">검색</button>
+                    </div>
                 </div>
-            </div>
+            </form>
             <div class="qna_list">
                 <table class="table_style">
                     <caption>커뮤니티</caption>
                     <thead>
                     <tr>
-                        <th style="width: 11.5%;">No</th>
-                        <th class="title txl">제목</th>
+                        <!--<th style="width: 11.5%;">No</th>-->
+                        <th >지역(시)</th>
+                        <th >지역(구)</th>
+                        <th th:if="${params.type == 'region'}">지역(동)</th>
+                        <th th:if="${params.type == 'shop'}">업종(대분류)</th>
+                        <th th:if="${params.type == 'shop'}">업종(중분류)</th>
+                        <th >제목</th>
                         <th >작성자</th>
                         <th style="width: 11.5%;">작성일</th>
                         <!--<th style="width: 11.5%;">첨부파일</th>-->
@@ -123,16 +125,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <th:block th:include="fragments/table_empty:: table_empty(5)" th:if="${#lists.isEmpty(list)}"></th:block>
+                    <th:block th:include="fragments/table_empty:: table_empty(8)" th:if="${#lists.isEmpty(list)}"></th:block>
                     <th:block th:unless="${#lists.isEmpty(list)}">
                         <tr th:each="item : ${list}">
-                            <td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>
+                            <!--/*<td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>*/-->
+                            <td th:text="${item.region_name1}"></td>
+                            <td th:text="${item.region_name2}"></td>
+                            <td th:if="${params.type == 'region'}" th:text="${item.region_name3}"></td>
+                            <td th:if="${params.type == 'shop'}" th:text="${item.category_name1}"></td>
+                            <td th:if="${params.type == 'shop'}" th:text="${item.category_name2}"></td>
                             <td class="txl">
                                 <a th:href="@{|/community/${item.community_seq}|(type=${params.type})}" >[[${item.subject}]]</a>
                             </td>
                             <td th:text="${item.reg_username}">작성자</td>
                             <td th:text="${item.reg_dt}">2021.01.01</td>
-                            <td >0</td>
+                            <td th:text="${item.reply_cnt}">0</td>
                             <!--/*<td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>*/-->
                         </tr>
                     </th:block>

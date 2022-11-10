@@ -38,8 +38,15 @@ public class Community {
     private String regionName2;	//지역(구)
     private String regionName3;	//지역(동)
 
+    private String regionCode1;	//지역(시) 코드
+    private String regionCode2;	//지역(구) 코드
+    private String regionCode3;	//지역(동) 코드
+
     private String categoryName1;	//업종(대분류)
     private String categoryName2;	//업종(중분류)
+
+    private String categoryCode1;	//업종(대분류) 코드
+    private String categoryCode2;	//업종(중분류) 코드
 
     private String communityType;	//커뮤니티 타입
 }
