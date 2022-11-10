@@ -3,11 +3,15 @@ package com.stoneitgt.sogongja.user.controller;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.*;
+import com.stoneitgt.sogongja.user.domain.CommunityParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
+import com.stoneitgt.sogongja.user.service.ReplyService;
 import com.stoneitgt.sogongja.user.service.UserService;
 import com.stoneitgt.util.ScriptUtils;
 import com.stoneitgt.util.StoneUtil;
+import com.stoneitgt.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,10 +23,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@Slf4j
 @RequestMapping("/community")
 public class CommunityController extends BaseController {
 
@@ -35,8 +45,11 @@ public class CommunityController extends BaseController {
     @Autowired
     private CommunityService communityService;
 
+    @Autowired
+    private ReplyService replyService;
+
     @GetMapping("")
-    public String communityList(@ModelAttribute BaseParameter params, Model model) {
+    public String communityList(@ModelAttribute CommunityParameter params, Model model) {
         System.out.println("params >> "+params);
         Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
@@ -52,11 +65,11 @@ public class CommunityController extends BaseController {
         List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
         List<Map<String, Object>> researchShopGroupList = communityService.getResearchShopGroupList();			//업종 대분류
         List<Map<String, Object>> researchShopSubGroupList = communityService.getResearchShopSubGroupList();	//업종 중분류
-        System.out.println("list >> "+list);
+
         model.addAttribute("list", list);
         model.addAttribute("params", params);
         model.addAttribute("boardSettingList", boardSettingList);
-        model.addAttribute("pageParams", getBaseParameterString(params));
+        model.addAttribute("pageParams", getCommunityParameterString(params));
         model.addAttribute("researchShopGroupList", researchShopGroupList);
         model.addAttribute("researchShopSubGroupList", researchShopSubGroupList);
 
@@ -66,40 +79,18 @@ public class CommunityController extends BaseController {
     }
 
     @PostMapping("/form")
-    public String saveCommunity(@RequestParam(required = false) String menuCode,
-                                @ModelAttribute("community") @Valid Community community, BindingResult bindingResult, Model model,
+    public String saveCommunity(@ModelAttribute("community") @Valid Community community, BindingResult bindingResult, Model model,
                                 RedirectAttributes rttr) throws IOException {
-
-        System.out.println("community :: "+community);
-
-        /*
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("menuCode", menuCode);
-            //model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
-            model.addAttribute("pageParams", community.getPageParams());
-
-            if (GlobalConstant.BOARD_TYPE.FAQ.equals(board.getBoardType())) {
-                model.addAttribute("category", getCodeList("FAQ_TYPE", ""));
-                //return "pages/board/board_form_faq";
-            } else {
-                model.addAttribute("fileList", getFileList(GlobalConstant.FILE_REF_TYPE.BOARD, board.getBoardSeq()));
-                return "pages/board/board_write";
-            }
-        }
-        *?
-         */
 
         String returnUrl = "";
 
         if (community.getCommunitySeq() == 0) {
             rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
-            returnUrl += "menuCode=" + menuCode;
         } else {
             rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
             returnUrl += community.getPageParams();
         }
         community.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
-        //BoardSetting boardSetting = boardService.getboardSettingInfo(board.getBoardSettingSeq());
         communityService.saveCommunity(community);
 
         if(community.getCommunityType().equals("shop")){
@@ -107,10 +98,9 @@ public class CommunityController extends BaseController {
         }else if(community.getCommunityType().equals("region")){
             returnUrl = "redirect:/community?type=region";	//지역 커뮤니티
         }
-        System.out.println("returnUrl >> "+returnUrl);
+
         return returnUrl;
 
-        //return "";
     }
 
     @GetMapping("/communityWriteForm")
@@ -132,8 +122,6 @@ public class CommunityController extends BaseController {
 
         List<Map<String, Object>> researchShopGroupList = communityService.getResearchShopGroupList();			//업종 대분류
         List<Map<String, Object>> researchShopSubGroupList = communityService.getResearchShopSubGroupList();	//업종 중분류
-        System.out.println("researchShopGroupList :: "+researchShopGroupList);
-        System.out.println("researchShopGroupList.size() :: "+researchShopGroupList.size());
 
         model.addAttribute("community", community);
         model.addAttribute("answer", answer);
@@ -150,41 +138,48 @@ public class CommunityController extends BaseController {
                             @ModelAttribute BaseParameter params, Model model) {
         System.out.println("params :::: "+params);
         Authentication authentication = authenticationFacade.getAuthentication();
-        //BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
         List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
         Community community = communityService.getCommunityInfo(communitySeq);
+        User user = new User();
 
-        //model.addAttribute("boardSettingSeq", boardSettingSeq);
-        //model.addAttribute("boardSetting", boardSetting);
+        String returnUrl = "";
 
         Answer answer = null;
         //answer = answerService.getAnswerInfo(communitySeq);
         if(answer == null){
             answer = new Answer();
         }
-        System.out.println("answer :::: "+answer);
+
         model.addAttribute("answer", answer);
-        //내가 쓴글이고 답변이 없으면
-        /*if(authentication.getCredentials() != "") {
-            User user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
+        //로그인 상태일때
+        if(authentication.getCredentials() != "") {
+            user = userService.getUserInfo(authenticationFacade.getLoginUserSeq());
+            //Community community = communityService.getCommunityInfo(communitySeq);
+            if (user.getUserSeq() == community.getRegUserSeq()) {   //내가 작성한글
 
-            Community community = communityService.getBoardDetail(communitySeq);
-            if (user.getUserSeq() == community.getRegUserSeq()) {
-                board.setBoardType("qna");
-
-                model.addAttribute("community", community);
                 model.addAttribute("detail", true);
-                return "pages/board/board_write";	//작성자 수정 form
+                returnUrl = "pages/board/community_write";	//작성자 수정 form
+            }else{
+                model.addAttribute("detail", false);
+                returnUrl = "pages/board/community_view";
             }
+        }else{
+            model.addAttribute("detail", false);
+            returnUrl = "pages/board/community_view";
         }
-        //System.out.println("boardSetting ::: "+boardSetting);
-        Map<String, Object> board = communityService.getBoard(communitySeq);
 
-
-        model.addAttribute("data", board);
-*/
         List<Map<String, Object>> researchShopGroupList = communityService.getResearchShopGroupList();			//업종 대분류
         List<Map<String, Object>> researchShopSubGroupList = communityService.getResearchShopSubGroupList();	//업종 중분류
+        List<Map<String,Object>> replyList = replyService.getreplyList(community.getCommunitySeq());
+        System.out.println("replyList >>> "+replyList);
+        List<Boolean> myReplyList = new ArrayList<>();
+        for (Map<String, Object> list: replyList) {
+            if(list.get("reg_user_seq").equals(user.getUserSeq())){
+                myReplyList.add(true);
+            }else{
+                myReplyList.add(false);
+            }
+        }
 
         model.addAttribute("pageParams", getBaseParameterString(params));
         model.addAttribute("fileList", getFileList(GlobalConstant.FILE_REF_TYPE.COMMUNITY, communitySeq));
@@ -192,13 +187,50 @@ public class CommunityController extends BaseController {
         model.addAttribute("params", params);
         model.addAttribute("name", name);
         model.addAttribute("type", params.getType());
-        model.addAttribute("detail", true);
-        System.out.println("community >> "+community);
+
         model.addAttribute("community", community);
         model.addAttribute("researchShopGroupList", researchShopGroupList);
         model.addAttribute("researchShopSubGroupList", researchShopSubGroupList);
+        model.addAttribute("replyList", replyList);
+        model.addAttribute("myReplyList", myReplyList);
 
-        return "pages/board/community_write";
+        return returnUrl;
+    }
+
+    @PostMapping("/delete")
+    public String deleteCommunity(@RequestParam int communitySeq, @RequestParam String communityType,
+                               Model model, RedirectAttributes rttr) throws IOException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("community_seq", communitySeq);
+        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
+        communityService.deleteCommunity(params);
+
+        String returnUrl = "";
+        if(communityType.equals("shop")){
+            returnUrl = "redirect:/community?type=shop";	//상점 커뮤니티
+        }else {
+            returnUrl = "redirect:/community?type=region";	//지역 커뮤니티
+        }
+
+        return returnUrl;
+    }
+
+    public String getCommunityParameterString(CommunityParameter params) {
+        List<String> result = new ArrayList<String>();
+        result.add("page=" + params.getPage());
+        result.add("size=" + params.getSize());
+        result.add("year=" + StringUtil.defaultString(params.getYear()));
+        result.add("field=" + StringUtil.defaultString(params.getField()));
+        try {
+            result.add("keyword="
+                    + URLEncoder.encode(StringUtil.defaultString(params.getKeyword()), StandardCharsets.UTF_8.name()));
+        } catch (UnsupportedEncodingException e) {
+            log.error("", e);
+        }
+        result.add("sortName=" + StringUtil.defaultString(params.getSortName()));
+        result.add("sortType=" + StringUtil.defaultString(params.getSortType()));
+        result.add("menuCode=" + StringUtil.defaultString(params.getMenuCode()));
+        return String.join("&", result);
     }
 
 }

@@ -59,3 +59,17 @@ $(function(){
         oneCheckFunc($(this));
     });
 });
+
+function validationForm(){
+    if(!$("#agree1").is(":checked")){
+        alert("이용약관 동의를 확인해주세요");
+        return false;
+    }
+
+    if(!$("#agree2").is(":checked")){
+        alert("개인정보 수집 및 이용동의를 확인해주세요");
+        return false;
+    }
+
+    return true;
+}

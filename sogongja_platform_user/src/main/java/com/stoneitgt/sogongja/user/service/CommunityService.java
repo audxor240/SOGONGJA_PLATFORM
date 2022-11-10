@@ -8,6 +8,7 @@ import com.stoneitgt.sogongja.domain.Community;
 import com.stoneitgt.sogongja.user.config.DataSourceConfig;
 import com.stoneitgt.sogongja.user.mapper.BoardMapper;
 import com.stoneitgt.sogongja.user.mapper.CommunityMapper;
+import com.stoneitgt.sogongja.user.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,9 @@ public class CommunityService extends BaseService {
 
     @Autowired
     private CommunityMapper communityMapper;
+
+    @Autowired
+    private ReplyMapper replyMapper;
 
     public List<Map<String, Object>> getCommunityList(Map<String, Object> params, Paging paging) {
         return communityMapper.getCommunityList(params, paging.getPaging());
@@ -59,5 +63,16 @@ public class CommunityService extends BaseService {
 
     public Community getCommunityInfo(int communitySeq){
         return communityMapper.getCommunityInfo(communitySeq);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void deleteCommunity(Map<String, Object> params) {
+        communityMapper.deleteCommunity(params);   //커뮤니티 삭제
+        replyMapper.deleteReplyAll(params);        //댓글 전체 삭제
+
+        params.put("ref_type", GlobalConstant.FILE_REF_TYPE.COMMUNITY.toUpperCase());
+        params.put("ref_seq", params.get("community_seq"));
+        filesService.deleteFileAll(params);
+
     }
 }
