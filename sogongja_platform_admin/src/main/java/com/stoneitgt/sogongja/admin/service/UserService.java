@@ -57,6 +57,14 @@ public class UserService implements UserDetailsService {
 		return userMapper.existedUserId(id);
 	}
 
+	public int existedUserNickName(String nickName) {
+		return userMapper.existedUserNickName(nickName);
+	}
+
+	public int existedUserNickNameWithoutMe(Map<String, Object> params) {
+		return userMapper.existedUserNickNameWithoutMe(params);
+	}
+
 	public int saveUser(User user) {
 		if (StringUtil.isNotBlank(user.getPassword())) {
 			user.setPassword(passwEncoder.encode(user.getPassword()));

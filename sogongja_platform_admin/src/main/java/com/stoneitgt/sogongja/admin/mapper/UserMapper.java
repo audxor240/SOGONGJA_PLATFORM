@@ -25,6 +25,10 @@ public interface UserMapper {
 
 	int existedUserId(String id);
 
+	int existedUserNickName(String nickName);
+	int existedUserNickNameWithoutMe(Map<String, Object> params);
+
+
 	int saveUser(User user);
 
 	int deleteUser(Map<String, Object> params);

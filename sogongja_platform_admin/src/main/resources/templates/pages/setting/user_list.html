@@ -19,6 +19,7 @@
                                         <select th:field="*{field}" class="form-control">
                                             <option value="id">아이디</option>
                                             <option value="username">이름</option>
+                                            <option value="nick_name">닉네임</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
@@ -80,7 +81,7 @@
                                 <th:block th:include="fragments/table_empty:: table_empty(9)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="delete_chk" th:value="${item.user_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
                                     <td th:text="${item.id}">아이디</td>
@@ -88,11 +89,11 @@
                                         <a th:href="@{|/setting/user/${item.user_seq}?${pageParams}|}" th:text="${item.username}">이름</a>
                                     </td>
                                     <td th:text="${item.email}">이메일</td>
-                                    <td th:text="${item.auth_nm}">닉네임</td>
+                                    <td th:text="${item.nick_name}">닉네임</td>
                                     <td th:text="${item.reg_dt}">등록일</td>
                                     <td th:text="${item.login_date}">최근 로그인</td>
                                     <td class="text-right">
-                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete">삭제</button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:value="${item.user_seq}">삭제</button>
                                     </td>
                                 </tr>
                             </tbody>

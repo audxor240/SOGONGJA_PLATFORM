@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,7 +56,7 @@ public class SettingController extends BaseController {
 		paging.setSize(params.getSize());
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-		paramsMap.put("user_type", "A");
+//		paramsMap.put("user_type", "A");
 
 		List<Map<String, Object>> list = userService.getUserList(paramsMap, paging);
 		Integer total = userService.selectTotalRecords();
@@ -78,8 +79,19 @@ public class SettingController extends BaseController {
 
 	@GetMapping("/user/{userSeq}")
 	public String userView(@PathVariable int userSeq, @ModelAttribute BaseParameter params, Model model) {
-		model.addAttribute("user", userService.getUserInfo(userSeq));
-		model.addAttribute("authList", getCodeList("AUTH"));
+		User user = userService.getUserInfo(userSeq);
+
+		String email[] = user.getEmail().split("@");
+		user.setEmail1(email[0]);
+		user.setEmail2(email[1]);
+
+		user.setHp1(user.getHp().substring(0,3));
+		user.setHp2(user.getHp().substring(3,7));
+		user.setHp3(user.getHp().substring(7,11));
+
+		model.addAttribute("user", user);
+//		model.addAttribute("authList", getCodeList("AUTH"));
+
 		model.addAttribute("menuCode", params.getMenuCode());
 		//model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
 		HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
@@ -106,8 +118,84 @@ public class SettingController extends BaseController {
 		return "pages/setting/user_form";
 	}
 
+	@PostMapping("/user/checked/nickName")
+	@ResponseBody
+	public Map<String, Object> checkedUserNickName(@RequestBody Map<String, Object> params) {
+
+		System.out.println(":::::::::::::::::::::");
+		int userSeq = Integer.parseInt(params.get("userSeq").toString());
+
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+		String nickName = StringUtil.getString(params.get("nickName"));
+		for (String id : GlobalConstant.BLACK_ID_LIST) {
+			if (id.equalsIgnoreCase(nickName)) {
+				resultCode = -101;
+				break;
+			}
+		}
+		if (resultCode > 0) {
+			if (userSeq > 0) {
+				Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+				if (userService.existedUserNickNameWithoutMe(paramsMap) >= 1) {
+					resultCode = -102;
+				}
+			} else {
+				if (userService.existedUserNickName(nickName) >= 1) {
+					resultCode = -102;
+				}
+			}
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result_code", resultCode);
+		return result;
+	}
+
+	@PostMapping("/user/checked/id")
+	@ResponseBody
+	public Map<String, Object> checkedUserId(@RequestBody Map<String, Object> params) {
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+		String userId = StringUtil.getString(params.get("id"));
+		for (String id : GlobalConstant.BLACK_ID_LIST) {
+			if (id.equalsIgnoreCase(userId)) {
+				resultCode = -101;
+				break;
+			}
+		}
+		if (resultCode > 0) {
+			if (userService.existedUserId(userId) >= 1) {
+				resultCode = -102;
+			}
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result_code", resultCode);
+		return result;
+	}
+
+	@PostMapping("/delete/user")
+	@ResponseBody
+	public Map<String, Object> deleteUserByAdmin(@RequestBody Map<String, Object> params, Authentication authentication) {
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+
+		int userSeq = StringUtil.getIntValue(params.get("user_seq"));
+		if (userSeq == 0) {
+			resultCode = -101;
+		} else {
+			User user = (User) authentication.getPrincipal();
+			Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+			paramsMap.put("login_user_seq", user.getUserSeq());
+			userService.deleteUser(paramsMap);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result_code", resultCode);
+		return result;
+	}
+
 	@PostMapping("/user/form")
-	public String saveUser(@RequestParam(required = false) String menuCode, @ModelAttribute("user") @Valid User user,
+	public String saveUser(@RequestParam(required = false) String menuCode,
+						   @ModelAttribute("user") User user,
 			BindingResult bindingResult, Model model, RedirectAttributes rttr) {
 		PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
 
@@ -153,8 +241,15 @@ public class SettingController extends BaseController {
 
 		String returnUrl = "redirect:/setting/user?";
 
-		if (user.getUserSeq() == 0) {
+		if (user.getAuth().equals("AU00")) {
 			user.setUserType("A");
+		} else {
+			user.setUserType(null);
+		}
+		user.setEmail(user.getEmail1() + "@" + user.getEmail2());
+		user.setHp(user.getHp1() + user.getHp2() + user.getHp3());
+
+		if (user.getUserSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
 			returnUrl += "menuCode=" + menuCode;
 		} else {
@@ -164,6 +259,7 @@ public class SettingController extends BaseController {
 		user.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
 		userService.saveUser(user);
 		return returnUrl;
+//		return "redirect:/setting/user";
 	}
 
 	@GetMapping("/code")

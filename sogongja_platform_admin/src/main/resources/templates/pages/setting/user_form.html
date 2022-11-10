@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
 
 <head>
     <title th:text="${breadcrumb.menu_name}">사용자관리</title>
 </head>
+
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
-    <form name="editForm" th:action="@{/setting/user/form}" th:object="${user}" method="post">
+    <form id="user_form" name="editForm" th:action="@{/setting/user/form}" th:object="${user}" method="post">
         <input type="hidden" th:field="*{userSeq}">
         <input type="hidden" th:field="*{userType}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
@@ -21,47 +24,39 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">닉네임</label>
                                     <div class="col-sm-6">
-                                        <input type="text" maxlength="20" class="form-control" required="required">
+                                        <input th:field="*{nickName}" type="text" maxlength="20" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
-
-
-                        <div class="row">
+                        <div th:if="*{userSeq == 0}" class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">아이디</label>
                                     <div class="col-sm-4">
-                                        <input type="text" maxlength="20" class="form-control" required="required">
+                                        <input type="hidden" id="id_check" value="false">
+                                        <input type="text" th:field="*{id}" class="form-control alphabet_number_only" maxlength="20">
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
                                     </div>
                                     <buttton type="button" class="btn btn-primary mb-3">중복확인</buttton>
                                 </div>
                             </div>
                         </div>
 
-<!--                    기존 - 아이디-->
-                        <div class="row">
+                        <!--                    기존 - 아이디-->
+                        <div th:unless="*{userSeq == 0}" class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">아이디</label>
                                     <div class="col-sm-3">
-                                        <th:block th:if="*{userSeq == 0}">
-                                            <input type="text" th:field="*{id}" class="form-control alphabet_number_only" maxlength="20" required="required">
-                                            <th:block th:include="fragments/form_invalid:: form_invalid('id')"></th:block>
-                                        </th:block>
-                                        <th:block th:unless="*{userSeq == 0}">
-                                            <input type="hidden" th:field="*{id}">
-                                            <span th:text="*{id}">아이디</span>
-                                        </th:block>
-
-<!--                                    소셜 로그인일 때만 노출-->
+                                        <input type="hidden" th:field="*{id}">
+                                        <span th:text="*{id}">아이디</span>
+                                        <!--                                    소셜 로그인일 때만 노출-->
                                         <span class="sns_icon">
-                                        <img th:src="@{/assets/images/icon/naver.png}">
-                                        <img th:src="@{/assets/images/icon/kakao.png}">
-                                        <img th:src="@{/assets/images/icon/google.png}">
+                                            <th:block th:if="${user.naverId != null}"><img th:src="@{/assets/images/icon/naver.png}"></th:block>
+                                            <th:block th:if="${user.kakaoId != null}"><img th:src="@{/assets/images/icon/kakao.png}"></th:block>
+                                            <th:block th:if="${user.googleId != null}"><img th:src="@{/assets/images/icon/google.png}"></th:block>
                                     </span>
                                     </div>
                                 </div>
@@ -74,32 +69,35 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">이름</label>
                                     <div class="col-sm-6">
-                                        <input type="text" maxlength="20" th:field="*{username}" class="form-control korean_only" required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
+                                        <input type="text" maxlength="20" th:field="*{username}"
+                                               class="form-control korean_only">
+                                        <th:block
+                                                th:include="fragments/form_invalid:: form_invalid('username')"></th:block>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-<!--                        신규 - 비밀번호 변경-->
-                        <div class="row">
+                        <!--                        신규 - 비밀번호 변경-->
+                        <div th:if="*{userSeq == 0}" class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">비밀번호</label>
                                     <div class="col-sm-4">
-                                        <input type="password" class="form-control" required="required">
+                                        <input th:field="*{password}" type="password" class="form-control">
                                     </div>
                                     <label class="col-sm-2 col-form-label required">비밀번호 확인</label>
                                     <div class="col-sm-4">
-                                        <input type="password" class="form-control" required="required">
+                                        <input th:field="*{passwordConfirm}" type="password" class="form-control">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 
-<!--                        기존 - 비밀번호 변경-->
-                        <div class="row">
+                        <!--                        기존 - 비밀번호 변경-->
+                        <div th:unless="*{userSeq == 0}" class="row">
+                            <input type="hidden" id="pw_check" value="false">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">비밀번호</label>
@@ -113,27 +111,35 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="mt-2">비밀번호 변경</h5>
-                                            <button type="button" class="btn btn-primary pop_pw_close" data-bs-dismiss="modal" aria-label="Close">x</button>
+                                            <button type="button" class="btn btn-primary pop_pw_close"
+                                                    data-bs-dismiss="modal" aria-label="Close">x
+                                            </button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label required">비밀번호</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" maxlength="20" th:field="*{password}" class="form-control" required="required">
-                                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                                                    <input type="password" maxlength="20" th:field="*{password}"
+                                                           class="form-control">
+                                                    <th:block
+                                                            th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label required">비밀번호 확인</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" maxlength="20" th:field="*{password}" class="form-control" required="required">
-                                                    <th:block th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
+                                                    <input type="password" maxlength="20" th:field="*{passwordConfirm}"
+                                                           class="form-control">
+                                                    <th:block
+                                                            th:include="fragments/form_invalid:: form_invalid('password')"></th:block>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary pop_pw_close" data-bs-dismiss="modal">취소</button>
-                                            <button type="button" class="btn btn-primary">저장</button>
+                                            <button type="button" class="btn btn-secondary pop_pw_close"
+                                                    data-bs-dismiss="modal">취소
+                                            </button>
+                                            <button id="pw_modify" type="button" class="btn btn-primary">입력</button>
                                         </div>
                                     </div>
                                 </div>
@@ -141,14 +147,23 @@
                         </div>
 
 
-
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">이메일</label>
                                     <div class="col-sm-6">
-                                        <input type="text" maxlength="50" th:field="*{email}" class="form-control" required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
+                                        <input type="text" th:field="*{email1}" placeholder="이메일" title="email" maxlength="30" class="form-control">
+                                        <input type="text" th:field="*{email2}" placeholder="이메일" title="email" maxlength="30" class="form-control">
+                                                <select th:field="*{email3}" class="form-control">
+                                                    <option th:selected="*{email2 == ''}" value="">직접입력</option>
+                                                    <option th:selected="*{email2 == 'naver.com'}" value="naver.com">네이버</option>
+                                                    <option th:selected="*{email2 == 'daum.net'}" value="daum.net">다음</option>
+                                                    <option th:selected="*{email2 == 'gmail.com'}" value="gmail.com">지메일</option>
+                                                </select>
+
+<!--                                        <input type="text" maxlength="50" th:field="*{email}" class="form-control">-->
+<!--                                        <th:block-->
+<!--                                                th:include="fragments/form_invalid:: form_invalid('email')"></th:block>-->
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +173,18 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">전화번호</label>
                                     <div class="col-sm-6">
-                                        <input type="text" maxlength="15" th:field="*{tel}" class="form-control number_only" required="required">
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('tel')"></th:block>
+                                        <ul class="tel_ul">
+                                            <li>
+                                                <select th:field="*{hp1}" required>
+                                                    <option value="010">010</option>
+                                                </select>
+                                            </li>
+                                            <li><input type="text" class="number_only" th:field="*{hp2}" title="휴대번호" placeholder="0000" maxlength="4"></li>
+                                            <li><input type="text" class="number_only" th:field="*{hp3}" title="휴대번호" placeholder="0000" maxlength="4"></li>
+                                        </ul>
+<!--                                        <input type="text" maxlength="15" th:field="*{tel}"-->
+<!--                                               class="form-control number_only">-->
+<!--                                        <th:block th:include="fragments/form_invalid:: form_invalid('tel')"></th:block>-->
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +194,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">권한</label>
                                     <div class="col-sm-6">
-                                        <select class="select" th:field="*{auth}" required="required">
-                                            <option th:each="item : ${authList}" th:value="${item.code}" th:text="${item.code_name}"></option>
+                                        <select class="select" th:field="*{auth}">
+                                            <option th:selected="*{auth == ''}" value="">선택하세요.</option>
+                                            <option th:selected="*{auth == 'AU00'}" value="AU00">관리자</option>
+                                            <option th:selected="*{auth == 'AU02'}" value="AU02">사용자</option>
                                         </select>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('auth')"></th:block>
                                     </div>
@@ -194,28 +221,32 @@
                                         <div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory01">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01" name="useCategory" checked="checked">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01" name="type"
+                                                           th:checked="${user.userSeq == 0 || user.type == '1'}">
                                                     사업자(소상공인)
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory02">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory02" name="useCategory">
+                                                    <input class="form-check-input bothChoice" type="radio" value="2"
+                                                           id="useCategory02" name="type" th:checked="${user.type == '2'}">
                                                     예비창업자
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory03">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03" name="useCategory">
+                                                    <input class="form-check-input bothChoice" type="radio" value="3"
+                                                           id="useCategory03" name="type" th:checked="${user.type == '3'}">
                                                     임대 부동산 소유
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory04">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory04" name="useCategory">
+                                                    <input class="form-check-input bothChoice" type="radio" value="4"
+                                                           id="useCategory04" name="type" th:checked="${user.type == '4'}">
                                                     일반인
                                                     <i class="input-frame"></i>
                                                 </label>
@@ -223,21 +254,24 @@
                                         </div>
                                     </div>
                                 </div>
-<!--                                사업자-->
-                                <div class="form-group row"  id="sub01">
+                                <!--                                사업자-->
+                                <div th:style="${user.userSeq != 0 && user.type != '1' ? 'display:none' : ''}" class="form-group row" id="sub01">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
                                         <div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory01_01">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01_01" name="useCategory_sub01" checked="checked">
+                                                    <input class="form-check-input bothChoice" type="radio" value="1"
+                                                           id="useCategory01_01" name="subType"
+                                                           th:checked="${user.userSeq == 0 || user.subType == '1'}">
                                                     사업 실행중
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory01_02">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory01_02" name="useCategory_sub01" >
+                                                    <input class="form-check-input bothChoice" type="radio" value="2"
+                                                           id="useCategory01_02" name="subType" th:checked="${user.subType == '2'}">
                                                     휴/폐업(예정)중
                                                     <i class="input-frame"></i>
                                                 </label>
@@ -245,16 +279,16 @@
                                         </div>
                                     </div>
                                 </div>
-
-<!--                                예비창업자-->
-                                <div class="form-group row"  id="sub02">
+                                <!-- 예비창업자-->
+                                <div th:style="${user.userSeq == 0 || user.type != '2' ? 'display:none' : ''}" class="form-group row" id="sub02">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
                                         <div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory02_01">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory02_01" name="useCategory_sub02" checked="checked">
-                                                    사업 실행중
+                                                    <input class="form-check-input bothChoice" type="radio" value="3"
+                                                           id="useCategory02_01" name="subType" th:checked="${user.subType == '3'}">
+                                                    창업 준비중
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
@@ -262,28 +296,31 @@
                                     </div>
                                 </div>
 
-<!--                                임대 부동산 소유-->
-                                <div class="form-group row"  id="sub03">
+                                <!--                                임대 부동산 소유-->
+                                <div th:style="${user.userSeq == 0 || user.type != '3' ? 'display:none' : ''}" class="form-group row" id="sub03">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
                                         <div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory03_01">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_01" name="useCategory_sub03" checked="checked">
+                                                    <input class="form-check-input bothChoice" type="radio" value="4"
+                                                           id="useCategory03_01" name="subType" th:checked="${user.subType == '4'}">
                                                     공실문제 해결
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory03_02">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_02" name="useCategory_sub03" >
-                                                    시설관리 임대관리
+                                                    <input class="form-check-input bothChoice" type="radio" value="5"
+                                                           id="useCategory03_02" name="subType" th:checked="${user.subType == '5'}">
+                                                    시설관리, 임대관리
                                                     <i class="input-frame"></i>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label" for="useCategory03_03">
-                                                    <input class="form-check-input bothChoice" type="radio" value="1" id="useCategory03_03" name="useCategory_sub03" >
+                                                    <input class="form-check-input bothChoice" type="radio" value="6"
+                                                           id="useCategory03_03" name="subType" th:checked="${user.subType == '6'}">
                                                     빚, 채무 관련
                                                     <i class="input-frame"></i>
                                                 </label>
@@ -291,9 +328,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
                         <div class="row">
@@ -303,35 +337,40 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="age_choice01">
-                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice01" name="age_choice" checked="checked">
+                                                <input class="form-check-input bothChoice" type="radio" value="20"
+                                                       id="age_choice01" name="ageGroup"  th:checked="${user.userSeq == 0 || user.ageGroup == '20'}">
                                                 20대
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="age_choice02">
-                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice02" name="age_choice">
+                                                <input class="form-check-input bothChoice" type="radio" value="30"
+                                                       id="age_choice02" name="ageGroup" th:checked="${user.ageGroup == '30'}">
                                                 30대
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="age_choice03">
-                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice03" name="age_choice">
+                                                <input class="form-check-input bothChoice" type="radio" value="40"
+                                                       id="age_choice03" name="ageGroup" th:checked="${user.ageGroup == '40'}">
                                                 40대
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="age_choice04">
-                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice04" name="age_choice">
+                                                <input class="form-check-input bothChoice" type="radio" value="50"
+                                                       id="age_choice04" name="ageGroup" th:checked="${user.ageGroup == '50'}">
                                                 50대
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="age_choice05">
-                                                <input class="form-check-input bothChoice" type="radio" value="1" id="age_choice05" name="age_choice">
+                                                <input class="form-check-input bothChoice" type="radio" value="60"
+                                                       id="age_choice05" name="ageGroup" th:checked="${user.ageGroup == '60'}">
                                                 60대 이상
                                                 <i class="input-frame"></i>
                                             </label>
@@ -347,21 +386,24 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="service01">
-                                                <input type="checkbox" value="1" id="service01" name="service" checked="checked">
+                                                <input type="checkbox" value="A" id="service01" name="serviceType"
+                                                       th:checked="${user.userSeq == 0 || #strings.contains(user.serviceType, 'A')}">
                                                 맞춤형 교육/컨설팅
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="service02">
-                                                <input type="checkbox" value="1" id="service02" name="service">
+                                                <input type="checkbox" value="B" id="service02" name="serviceType"
+                                                       th:checked="${user.userSeq != 0 && #strings.contains(user.serviceType, 'B')}">
                                                 상권 분석
                                                 <i class="input-frame"></i>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label" for="service03">
-                                                <input type="checkbox" value="1" id="service03" name="service">
+                                                <input type="checkbox" value="C" id="service03" name="serviceType"
+                                                       th:checked="${user.userSeq != 0 && #strings.contains(user.serviceType, 'C')}">
                                                 전문 컨설팅 서비스
                                                 <i class="input-frame"></i>
                                             </label>
@@ -371,19 +413,21 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-outline-primary btn-icon-text" th:href=@{|/setting/user?${pageParams}|}> <i class="btn-icon-prepend" data-feather="list"></i>목록
+                <a class="btn btn-outline-primary btn-icon-text" th:href=@{|/setting/user?${pageParams}|}> <i
+                        class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
-                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{userSeq == 0}">
-                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
-                </button>
-                <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{userSeq == 0}">
+                <th:block th:if="*{userSeq == 0}">
+                    <button class="btn btn-primary mr-2 btn-icon-text" id="new_submit">
+                        <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                    </button>
+                </th:block>
+                <button th:unless="*{userSeq == 0}" class="btn btn-secondary mr-2 btn-icon-text" id="mod_submit">
                     <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
             </div>
@@ -391,11 +435,11 @@
     </form>
 </div>
 </div>
+
 <th:block layout:fragment="custom_css">
 
 </th:block>
 <th:block layout:fragment="custom_js">
     <script th:src="@{/assets/js/pages/setting/user_form.js}"></script>
 </th:block>
-
 </html>

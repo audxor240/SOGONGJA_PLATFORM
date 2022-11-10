@@ -280,6 +280,35 @@ function ajaxPost(url, data, callback, showLoading) {
     });
 }
 
+function ajaxPostSyn(url, data, callback, showLoading) {
+    // IE 기본값세팅
+    showLoading = typeof showLoading !== 'undefined' ? showLoading : true;
+    $.ajax({
+        async:false,
+        url: contextPath + url,
+        data: JSON.stringify(data),
+        success: function(result) {
+            //console.log('result : ', result);
+            if (callback) {
+                callback(result);
+            }
+        },
+        beforeSend: function() {
+            if (showLoading) {
+                $('.wrap-loading').removeClass('display-none');
+            }
+        },
+        complete: function() {
+            if (showLoading) {
+                $('.wrap-loading').addClass('display-none');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('error : ', error);
+        }
+    });
+}
+
 function commonPreventDefault(event) {
     event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 }
