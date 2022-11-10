@@ -1,3 +1,5 @@
+
+
 //기본 위치는 서울시청 좌표
 var clientLatitude = 37.5668260055;
 var clientLongitude = 126.9786567859;
@@ -83,7 +85,6 @@ kakao.maps.event.addListener(map, "idle", async function () {
     await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
 
         await sleep(2000),
-        console.log("5초실행뒤"),
         // 선택박스에 시군구코드 기준으로 리스트뿌리기
         renderSigungu(),
         renderDong()
@@ -100,11 +101,7 @@ async function searchDetailAddrFromCoords(coords, callback) {
 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 async function displayCenterInfo(result, status) {
     if (status === kakao.maps.services.Status.OK) {
-        console.log("지금좌표값이예요", result);
-        // var sidoCode = document.getElementById('centerAddr1').className;
-        // console.log("시도코드는 뭔가요???", sidoCode);
-        // var sigunguCode = document.getElementById('centerAddr2').className;
-        // console.log("시군구코드는 뭔가요???", sigunguCode);
+
         var infoDiv1 = document.getElementById("centerAddr1");
         var infoDiv2 = document.getElementById("centerAddr2");
         var infoDiv3 = document.getElementById("centerAddr3");
@@ -161,7 +158,6 @@ async function fetchSido() {
         return data;
     } else {
         throw Error(data);
-        console.log(response.status);
     }
 }
 
@@ -173,7 +169,6 @@ async function fetchSigungu(code) {
         return data;
     } else {
         throw Error(data);
-        console.log(response.status);
     }
 }
 
@@ -186,7 +181,6 @@ async function fetchDong(code) {
         return data;
     } else {
         throw Error(data);
-        console.log(response.status);
     }
 }
 
@@ -215,7 +209,6 @@ async function renderSigungu() {
         ...el, dong: el.name.split(" ", 2)[1]
     }));
     name = [...fiddong]
-    console.log("시군구네임리스트", name, name.length);
 
     let html = '';
     name.forEach((sido) => {
@@ -238,14 +231,12 @@ async function renderDong() {
     let code = await sigunguCodeSet();
     let sidos = await fetchDong(code);
     var sidoList = sidos.regcodes;
-    console.log("행정동리스트", sidoList);
     var name = [];
     let fiddong = sidoList.map((el, index, arr) => arr.find(isdongTrue)
         ? ({ ...el, dong: el.name.split(" ", 4)[2] + " " + el.name.split(" ", 4)[3] })
         : ({ ...el, dong: el.name.split(" ", 4)[2] })
     );
     name = [...fiddong]
-    console.log("행정동 네임 리스트", name);
 
     let html = '';
     name.forEach((sido) => {
@@ -270,7 +261,6 @@ function searchSidoDongPlaces() {
 function onClickSearch(el) {
     var id = el.id,
         className = el.className;
-    console.log("id값이 지정이 안되는데", id);
 
     if (className === 'on') {
         currCategory = '';
@@ -280,7 +270,6 @@ function onClickSearch(el) {
         changeCategoryClass(el);
         searchSidoDongPlaces();
     }
-    console.log("현재카테값", currCategory);
 }
 
 // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
@@ -330,175 +319,53 @@ mapContainer.addEventListener("click", e => {
     dongBox.className = '';
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*동동이 관련*/
 /*동동이 관련*/
 /*동동이 관련*/
 
-// 마커를 표시할 위치와 객체 배열입니다
-var newPositions = [
-    {
-        storeName: "고향생막걸리",
-        address_name: "서울특별시 강남구 신사동 615-1",
-        road_address_name: "서울특별시 강남구 압구정로 216",
-        largeCategory: "음식",
-        mediumCategory: "유흥주점",
-        smallcategory: "민속주점",
-        category_large_code: "BK9",
-        category_medium_code: "Q09",
-        category_small_code: "Q09A04",
-        x: 37.52807318,
-        y: 127.0310125,
-        subway: "3호선 압구정역",
-        busStation: "현대아파트",
-    },
-    {
-        storeName: "의정부부대찌개",
-        address_name: "서울특별시 강남구 대치동 955-6",
-        road_address_name: "서울특별시 강남구 역삼로83길 24",
-        largeCategory: "음식",
-        mediumCategory: "한식",
-        smallcategory: "부대찌개/섞어찌개",
-        category_large_code: "BK9",
-        category_medium_code: "Q01",
-        category_small_code: "Q01A07",
-        x: 37.50508236,
-        y: 127.059382,
-        subway: "2호선 삼성(무역센터)",
-        busStation: "대치사거리",
-    },
-    {
-        storeName: "바른치킨",
-        address_name: "서울특별시 강남구 대치동 889-72",
-        road_address_name: "서울특별시 강남구 선릉로86길 17",
-        largeCategory: "음식",
-        mediumCategory: "닭/오리요리",
-        smallcategory: "후라이드/양념치킨",
-        category_large_code: "MT1",
-        category_medium_code: "Q05",
-        category_small_code: "Q05A08",
-        x: 37.50355605,
-        y: 127.0510543,
-        subway: "분당선 선릉",
-        busStation: "선릉역",
-    },
-    {
-        storeName: "한성양꼬치",
-        address_name: "서울특별시 강남구 역삼동 827-22",
-        road_address_name: "서울특별시 강남구 강남대로78길 25",
-        largeCategory: "음식",
-        mediumCategory: "닭/오리요리",
-        smallcategory: "꼬치구이전문점",
-        category_large_code: "MT1",
-        category_medium_code: "Q05",
-        category_small_code: "Q05A08",
-        x: 37.49542999,
-        y: 127.0312535,
-        subway: "신분당선 강남",
-        busStation: "신분당선.강남역4번출구",
-    },
-    {
-        storeName: "샤샤하우스",
-        address_name: "서울특별시 강남구 역삼동 601-6",
-        road_address_name: "서울특별시 강남구 봉은사로4길 6",
-        largeCategory: "숙박",
-        mediumCategory: "호텔/콘도",
-        smallcategory: "호텔/콘도",
-        category_large_code: "PM9",
-        category_medium_code: "O01",
-        category_small_code: "O01A01",
-        x: 37.52373138,
-        y: 127.0556408,
-        subway: "9호선 신논현",
-        busStation: "신논현역",
-    },
-    {
-        storeName: "토비스콘도",
-        address_name: "서울특별시 강남구 역삼동 773-3",
-        road_address_name: "서울특별시 강남구 언주로 333",
-        largeCategory: "숙박",
-        mediumCategory: "호텔/콘도",
-        smallcategory: "호텔/콘도",
-        category_large_code: "PM9",
-        category_medium_code: "O01",
-        category_small_code: "O01A01",
-        x: 37.4975672,
-        y: 127.0447404,
-        subway: "2호선 선릉",
-        busStation: "동영문화센터",
-    },
-    {
-        storeName: "헬로필라테스",
-        address_name: "서울특별시 강남구 도곡동 552-7",
-        road_address_name: "서울특별시 강남구 도곡로 148",
-        largeCategory: "관광/여가/오락",
-        mediumCategory: "요가/단전/마사지",
-        smallcategory: "요가/단식",
-        category_large_code: "OL7",
-        category_medium_code: "N05",
-        category_small_code: "N05A01",
-        x: 37.4907137,
-        y: 127.0363013,
-        subway: "3호선 양재(서초구청)",
-        busStation: "LPG가스충전소",
-    },
-    {
-        storeName: "화지아트",
-        address_name: "서울특별시 강남구 역삼동 832-7",
-        road_address_name: "서울특별시 강남구 강남대로 320",
-        largeCategory: "관광/여가/오락",
-        mediumCategory: "연극/영화/극장",
-        smallcategory: "연극/음악/예술관련기타",
-        category_large_code: "CE7",
-        category_medium_code: "N03",
-        category_small_code: "N03A06",
-        x: 37.49184194,
-        y: 127.0310284,
-        subway: "신분당선 강남",
-        busStation: "역삼초등학교",
-    },
-    {
-        storeName: "마담타이",
-        address_name: "서울특별시 강남구 신사동 541-2",
-        road_address_name: "서울특별시 강남구 논현로151길 55",
-        largeCategory: "관광/여가/오락",
-        mediumCategory: "요가/단전/마사지",
-        smallcategory: "안마시술소",
-        category_large_code: "CS2",
-        category_medium_code: "N05",
-        category_small_code: "N05A07",
-        x: 37.51948856,
-        y: 127.0236459,
-        subway: "3호선 신사",
-        busStation: "신사동고개",
-    },
-];
+var newPositions = [];
+for(var i =0; i < researchShop.length;i++){
+    var resaerchData = researchShop[i];
+    var data = new Object() ;
+    data.storeName = resaerchData.shop_nm ;
+    data.address_name = resaerchData.addr ;
+    data.road_address_name = resaerchData.st_addr ;
+    data.largeCategory = resaerchData.nm_type1 ;
+    data.mediumCategory = resaerchData.nm_type2 ;
+    data.smallcategory = resaerchData.nm_type3 ;
+    data.category_large_code = resaerchData.code_type1;
+    data.category_medium_code = resaerchData.code_type2 ;
+    data.category_small_code = resaerchData.code_type3 ;
+    data.x = resaerchData.latitude ;
+    data.y = resaerchData.longitude ;
+    data.subway = resaerchData.sub_station ;
+    data.busStation = resaerchData.bus_station ;
+
+    newPositions.push(data);
+}
+console.log("newPositions :: "+JSON.stringify(newPositions));
+
+
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+    placeOverlay2 = new kakao.maps.CustomOverlay({ zIndex: 1 }),
     contentNode1 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-    markersBK9 = [], // 마커를 담을 배열입니다
-    markersMT1 = [], // 마커를 담을 배열입니다
-    markersPM9 = [], // 마커를 담을 배열입니다
-    markersOL7 = [], // 마커를 담을 배열입니다
-    markersCE7 = [], // 마커를 담을 배열입니다
-    markersCS2 = [], // 마커를 담을 배열입니다
+    contentNode2 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+
+    markersBK9 = [], // 마커를 담을 배열입니다 1. Q음식
+    markersMT1 = [], // 마커를 담을 배열입니다 2. N관광여가오락
+    markersPM9 = [], // 마커를 담을 배열입니다 3. L=부동산
+    markersOL7 = [], // 마커를 담을 배열입니다 4. F=생활서비스
+    markersCE7 = [], // 마커를 담을 배열입니다 5. D=소매
+    markersCS2 = [], // 마커를 담을 배열입니다 6. O=숙박
+    markersP = [], // 마커를 담을 배열입니다 7. P=스포츠
+    markersR = [], // 마커를 담을 배열입니다 8. R=학문교육
     currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 
 // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
 contentNode1.className = "placeinfo_wrap";
+contentNode2.className = "placeinfo_wrap";
 // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
 // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
 addEventHandle(contentNode1, "mousedown", kakao.maps.event.preventMap);
@@ -506,6 +373,7 @@ addEventHandle(contentNode1, "touchstart", kakao.maps.event.preventMap);
 
 // 커스텀 오버레이 컨텐츠를 설정합니다
 placeOverlay.setContent(contentNode1);
+placeOverlay2.setContent(contentNode2);
 
 // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
 function addEventHandle(target, type, callback) {
@@ -526,122 +394,133 @@ var PM9 = document.getElementById("PM9");
 var OL7 = document.getElementById("OL7");
 var CE7 = document.getElementById("CE7");
 var CS2 = document.getElementById("CS2");
+var P = document.getElementById("P");
+var R = document.getElementById("R");
 
 var BK9markers = [],
     MT1markers = [],
     PM9markers = [],
     OL7markers = [],
     CE7markers = [],
-    CS2markers = [];
-
-function a() {
-    var bk9 = newPositions.filter((v) => v.category_large_code == "BK9");
+    CS2markers = [],
+    Pmarkers = [],
+    Rmarkers = [];
+function a() {//1. Q=음식
+    var bk9 = newPositions.filter((v) => v.category_large_code == "Q");
     var bk9_length = bk9.length;
-    //console.log("은행", bk9, bk9_length);
     if (BK9.checked) {
         BK9markers.push(...bk9);
         displayBK9Places(BK9markers);
     } else {
         BK9markers.forEach((item, index) => {
-            if (item.category_large_code == "BK9") {
-                BK9markers.splice(index, bk9_length);
                 removeBK9Marker();
-            }
         });
     }
 }
 a();
-function b() {
-    var mt1 = newPositions.filter((v) => v.category_large_code == "MT1");
+function b() {//2. N=관광여가오락
+    var mt1 = newPositions.filter((v) => v.category_large_code == "N");
     var mt1_length = mt1.length;
-    //console.log("마트", mt1, mt1_length);
     if (MT1.checked) {
         MT1markers.push(...mt1);
         displayMT1Places(MT1markers);
     } else {
         MT1markers.forEach((item, index) => {
-            if (item.category_large_code == "MT1") {
-                MT1markers.splice(index, mt1_length);
                 removeMT1Marker();
-            }
         });
     }
 }
 b();
-function c() {
-    var pm9 = newPositions.filter((v) => v.category_large_code == "PM9");
+function c() { //3. L=부동산
+    var pm9 = newPositions.filter((v) => v.category_large_code == "L");
     var pm9_length = pm9.length;
-    //console.log("약국", pm9, pm9_length);
     if (PM9.checked) {
         PM9markers.push(...pm9);
         displayPM9Places(PM9markers);
     } else {
         PM9markers.forEach((item, index) => {
-            if (item.category_large_code == "PM9") {
-                PM9markers.splice(index, pm9_length);
                 removePM9Marker();
-            }
         });
     }
 }
 c();
-function d() {
-    var ol7 = newPositions.filter((v) => v.category_large_code == "OL7");
+function d() {//4. F=생활서비스
+    var ol7 = newPositions.filter((v) => v.category_large_code == "F");
     var ol7_length = ol7.length;
-    //console.log("주유소", ol7, ol7_length);
     if (OL7.checked) {
         OL7markers.push(...ol7);
         displayOL7Places(OL7markers);
     } else {
         OL7markers.forEach((item, index) => {
-            if (item.category_large_code == "OL7") {
-                OL7markers.splice(index, ol7_length);
                 removeOL7Marker();
-            }
         });
     }
 }
 d();
-function e() {
-    var ce7 = newPositions.filter((v) => v.category_large_code == "CE7");
+function e() {//5. D=소매
+    var ce7 = newPositions.filter((v) => v.category_large_code == "D");
     var ce7_length = ce7.length;
-    //console.log("카페", ce7, ce7_length);
     if (CE7.checked) {
         CE7markers.push(...ce7);
         displayCE7Places(CE7markers);
     } else {
         CE7markers.forEach((item, index) => {
-            if (item.category_large_code == "CE7") {
-                CE7markers.splice(index, ce7_length);
                 removeCE7Marker();
-            }
         });
     }
 }
 e();
-function f() {
-    var cs2 = newPositions.filter((v) => v.category_large_code == "CS2");
+function f() {//6. O=숙박
+    var cs2 = newPositions.filter((v) => v.category_large_code == "O");
     var cs2_length = cs2.length;
-    //console.log("편의점", cs2, cs2_length);
     if (CS2.checked) {
         CS2markers.push(...cs2);
         displayCS2Places(CS2markers);
     } else {
         CS2markers.forEach((item, index) => {
-            if (item.category_large_code == "CS2") {
-                CS2markers.splice(index, cs2_length);
                 removeCS2Marker();
-            }
         });
     }
 }
 f();
 
-// BK9
+function g() {
+    var p = newPositions.filter((v) => v.category_large_code == "P");
+    var p_length = p.length;
+
+    if (P.checked) {
+        Pmarkers.push(...p);
+        displayPPlaces(Pmarkers);
+    } else {
+        Pmarkers.forEach((item, index) => {
+            removePMarker();
+        });
+    }
+}
+g();
+
+function h() {
+    var r = newPositions.filter((v) => v.category_large_code == "R");
+    var r_length = r.length;
+
+    if (R.checked) {
+        Rmarkers.push(...r);
+        displayPPlaces(Rmarkers);
+    } else {
+        Rmarkers.forEach((item, index) => {
+            removeRMarker();
+        });
+    }
+}
+h();
+
+
+
+
+// 1. Q=음식
 // BK9
 // BK9지도에 마커를 표출하는 함수입니다
 function displayBK9Places(place) {
-    //console.log("BK9place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addBK9Marker(
@@ -654,21 +533,20 @@ function displayBK9Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                '<h5 style="font-size:16px;">'+
-                place[i].storeName +
-                '</h5>'  +
-                '<div class="info_text">'+
-                '<div class="storegray iconPlus" style="font-size:12px;">'+
-                place[i].address_name +
-                '</div>'  +
-                '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
     }
 }
 // BK9마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -693,11 +571,10 @@ function removeBK9Marker() {
     markersBK9 = [];
 }
 
-// MT1
+// 2. N관광여가오락
 // MT1
 // MT1지도에 마커를 표출하는 함수입니다
 function displayMT1Places(place) {
-    //  console.log("MT1place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addMT1Marker(
@@ -710,21 +587,20 @@ function displayMT1Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                '<h5 style="font-size:16px;">'+
-                place[i].storeName +
-                '</h5>'  +
-                '<div class="info_text">'+
-                '<div class="storegray iconPlus" style="font-size:12px;">'+
-                place[i].address_name +
-                '</div>'  +
-                '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
     }
 }
 // MT1마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -750,11 +626,10 @@ function removeMT1Marker() {
 }
 
 
-// PM9
+// 3. L=부동산
 // PM9
 // PM9지도에 마커를 표출하는 함수입니다
 function displayPM9Places(place) {
-    // console.log("PM9place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addPM9Marker(
@@ -767,21 +642,20 @@ function displayPM9Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                '<h5 style="font-size:16px;">'+
-                place[i].storeName +
-                '</h5>'  +
-                '<div class="info_text">'+
-                '<div class="storegray iconPlus" style="font-size:12px;">'+
-                place[i].address_name +
-                '</div>'  +
-                '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
     }
 }
 // PM9마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -807,11 +681,10 @@ function removePM9Marker() {
 }
 
 
-// OL7
+// 4. F=생활서비스
 // OL7
 // OL7지도에 마커를 표출하는 함수입니다
 function displayOL7Places(place) {
-    //  console.log("OL7place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addOL7Marker(
@@ -824,21 +697,20 @@ function displayOL7Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                '<h5 style="font-size:16px;">'+
-                place[i].storeName +
-                '</h5>'  +
-                '<div class="info_text">'+
-                '<div class="storegray iconPlus" style="font-size:12px;">'+
-                place[i].address_name +
-                '</div>'  +
-                '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
     }
 }
 // OL7마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -863,11 +735,10 @@ function removeOL7Marker() {
     markersOL7 = [];
 }
 
-// CE7
+// 5. D=소매
 // CE7
 // CE7지도에 마커를 표출하는 함수입니다
 function displayCE7Places(place) {
-    // console.log("CE7place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addCE7Marker(
@@ -880,21 +751,20 @@ function displayCE7Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                '<h5 style="font-size:16px;">'+
-                place[i].storeName +
-                '</h5>'  +
-                '<div class="info_text">'+
-                '<div class="storegray iconPlus" style="font-size:12px;">'+
-                place[i].address_name +
-                '</div>'  +
-                '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
     }
 }
 // CE7마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -919,16 +789,16 @@ function removeCE7Marker() {
     markersCE7 = [];
 }
 
-// CS2
+// 6. O=숙박
 // CS2
 // CS2지도에 마커를 표출하는 함수입니다
 function displayCS2Places(place) {
-    // console.log("CS2place로 받았는데", place);
     for (var i = 0; i < place.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = addCS2Marker(
             new kakao.maps.LatLng(place[i].x, place[i].y)
         );
+
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
         (function sdf(marker, place) {
@@ -936,21 +806,21 @@ function displayCS2Places(place) {
                 displayPlaceInfo(place);
             });
         })(marker, place[i]);
-        // 마커에 표시할 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content:
-                '<div class="infoWin">'+
-                    '<h5 style="font-size:16px;">'+
-                    place[i].storeName +
-                    '</h5>'  +
-                    '<div class="info_text">'+
-                        '<div class="storegray iconPlus" style="font-size:12px;">'+
-                        place[i].address_name +
-                        '</div>'  +
-                    '</div>'  +
-                '</div>' // 인포윈도우에 표시할 내용
-        });
-        infoBBB(map, marker, infowindow);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
+
     }
 }
 // CS2마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -975,41 +845,141 @@ function removeCS2Marker() {
     markersCS2 = [];
 }
 
+// 777P
+// P
+// P지도에 마커를 표출하는 함수입니다
+function displayPPlaces(place) {
+    for (var i = 0; i < place.length; i++) {
+        var position = new kakao.maps.LatLng(place[i].x, place[i].y);
+        // 마커를 생성하고 지도에 표시합니다
+        var marker = addPMarker(position);
 
 
-// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-// 이벤트 리스너로는 클로저를 만들어 등록합니다
-// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        // 마커와 검색결과 항목을 클릭 했을 때
+        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        (function sdf(marker, place) {
+            kakao.maps.event.addListener(marker, "click", function () {
+                displayPlaceInfo(place);
+            });
+        })(marker, place[i]);
 
-function infoBBB(map, marker, infowindow) {
-    kakao.maps.event.addListener(
-        marker,
-        "mouseover",
-        makeOverListener(map, marker, infowindow)
-    );
-    kakao.maps.event.addListener(
-        marker,
-        "mouseout",
-        makeOutListener(infowindow)
-    );
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
+
+    }
+}
+//P마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addPMarker(position) {
+    var imageSrc =
+            "https://dummyimage.com/24x24/ff6200/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+        marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage,
+        });
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markersP.push(marker); // 배열에 생성된 마커를 추가합니다
+    return marker;
 }
 
-// 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-function makeOverListener(map, marker, infowindow) {
-    return function () {
-        infowindow.open(map, marker);
-    };
+// 지도 위에 표시되고 있는 CS2마커를 모두 제거합니다
+function removePMarker() {
+    for (var i = 0; i < markersP.length; i++) {
+        markersP[i].setMap(null);
+    }
+    markersP = [];
 }
 
-// 인포윈도우를 닫는 클로저를 만드는 함수입니다
-function makeOutListener(infowindow) {
-    return function () {
-        infowindow.close();
-    };
+
+
+// 888R
+// R
+// R지도에 마커를 표출하는 함수입니다
+function displayRPlaces(place) {
+    for (var i = 0; i < place.length; i++) {
+        var position = new kakao.maps.LatLng(place[i].x, place[i].y);
+        // 마커를 생성하고 지도에 표시합니다
+        var marker = addRMarker(position);
+
+
+        // 마커와 검색결과 항목을 클릭 했을 때
+        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        (function sdf(marker, place) {
+            kakao.maps.event.addListener(marker, "click", function () {
+                displayPlaceInfo(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoversdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+                displayPlaceInfoHover(place);
+            });
+        })(marker, place[i]);
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        (function hoverOutsdf(marker, place) {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+                placeOverlay2.setMap(null);
+            });
+        })(marker, place[i]);
+
+    }
 }
+//P마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addRMarker(position) {
+    var imageSrc =
+            "https://dummyimage.com/24x24/ff6200/0011ff", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(24, 24), // 마커 이미지의 크기
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+        marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage,
+        });
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markersR.push(marker); // 배열에 생성된 마커를 추가합니다
+    return marker;
+}
+
+// 지도 위에 표시되고 있는 CS2마커를 모두 제거합니다
+function removeRMarker() {
+    for (var i = 0; i < markersR.length; i++) {
+        markersR[i].setMap(null);
+    }
+    markersR = [];
+}
+
+
+
 
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfo(place) {
+    customInfo(place);
+    sideInfo(place);
+    placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
+    placeOverlay.setMap(map);
+}
+// 호버한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+function displayPlaceInfoHover(place) {
+    customInfo2(place);
+    placeOverlay2.setPosition(new kakao.maps.LatLng(place.x, place.y));
+    placeOverlay2.setMap(map);
+}
+
+//커스텀속에 인포
+function customInfo(place){
     var content1 =
         '<div class="placeinfo">' +
         '   <p class="title" >' +
@@ -1032,7 +1002,34 @@ function displayPlaceInfo(place) {
         "</div>" +
         '<div class="after"></div>';
     contentNode1.innerHTML = content1;
+}
+//커스텀속에 인포
+function customInfo2(place){
+    var content1 =
+        '<div class="placeinfo">' +
+        '   <p class="title" >' +
+        place.storeName +
+        "</p>"+
+        '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
+    content1 +=
+        '    <span title="' +
+        place.road_address_name +
+        '">' +
+        place.road_address_name +
+        "</span>" +
+        '  <span class="jibun" title="' +
+        place.address_name +
+        '">(지번 : ' +
+        place.address_name +
+        ")</span>";
 
+    content1 +=
+        "</div>" +
+        '<div class="after"></div>';
+    contentNode2.innerHTML = content1;
+}
+
+function sideInfo(place){
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
@@ -1040,10 +1037,10 @@ function displayPlaceInfo(place) {
             '<div class="sideinfo">'+
             '<h4 class="sideinfoTitle">상점 정보</h4>'+
             '<div class="location iconPlus">' +
-                place.road_address_name +
+            place.road_address_name +
             '</div>'+
             '<div class="storegray iconPlus">' +
-                place.storeName +
+            place.storeName +
             '</div>'+
             "</div>"+
 
@@ -1063,13 +1060,13 @@ function displayPlaceInfo(place) {
             '<h4 class="sideinfoTitle">주변 정보</h4>' +
             '<div class="subway iconPlus">지하철역' +
             '<span class="position_name">' +
-                place.subway +
+            place.subway +
             '</span>'+
             '<span class="distance">거리</span>' +
             '</div>'+
             '<div class="bus iconPlus">버스' +
             '<span class="position_name">' +
-                place.busStation +
+            place.busStation +
             '</span>'+
             '<span class="distance">거리</span>'+
             '</div>'+
@@ -1092,10 +1089,10 @@ function displayPlaceInfo(place) {
             '<div class="toggle_side" onclick="closeOverlay()" title="닫기"></div>';
 
     }
-    placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
-    placeOverlay.setMap(map);
 }
 
+
+//오버레이 닫음
 function closeOverlay() {
     placeOverlay.setMap(null);
     document.getElementById("sidebar").style.display = "none";

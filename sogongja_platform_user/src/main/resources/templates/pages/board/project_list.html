@@ -29,19 +29,26 @@
                             <li>
                                 <h4>지원사업 분류</h4>
                                 <ul class="check_list_li50">
-                                    <li th:each="item, row : ${projectType}">
-                                        <input type="checkbox" name="projectType" th:id="|projectType${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
-                                        <label th:for="|projectType${row.index}|" th:text="${item.code_name}">전체</label>
-                                    </li>
+                                    <li><input type="checkbox" name="projectTypeList" id="projectType0" class="checkbox_style checked_all" value=""><label for="projectType0" >전체</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType1" class="checkbox_style" th:value="정책자금" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '정책자금')}"><label th:for="projectType1" >정책자금</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType2" class="checkbox_style" th:value="성장지원" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '성장지원')}"><label th:for="projectType2" >성장지원</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType3" class="checkbox_style" th:value="재기지원" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '재기지원')}"><label th:for="projectType3" >재기지원</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType4" class="checkbox_style" th:value="창업지원" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '창업지원')}"><label th:for="projectType4" >창업지원</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType5" class="checkbox_style" th:value="전통시장활성화" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '전통시장활성화')}"><label th:for="projectType5" >전통시장활성화</label></li>
+                                    <li><input type="checkbox" name="projectTypeList" th:id="projectType6" class="checkbox_style" th:value="보증지원" th:checked="${params.projectTypeList != null and #strings.contains(params.projectTypeList, '보증지원')}"><label th:for="projectType6" >보증지원</label></li>
                                 </ul>
                             </li>
                             <li>
                                 <h4>지원사업 지역</h4>
                                 <ul class="check_list_li50">
-                                    <li th:each="item, row : ${place}">
-                                        <input type="checkbox" name="place" th:id="|place${row.index}|" class="checkbox_style" th:classappend="${row.index == 0} ? 'checked_all'" th:value="${item.code}">
-                                        <label th:for="|place${row.index}|" th:text="${item.code_name}">전체</label>
-                                    </li>
+                                    <li><input type="checkbox" name="placeList" id="place0" class="checkbox_style checked_all" value=""><label for="place0" >전체</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place1" class="checkbox_style" th:value="1" th:checked="${params.placeList != null and #strings.contains(params.placeList, '1')}"><label th:for="place1" >전국</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place2" class="checkbox_style" th:value="2" th:checked="${params.placeList != null and #strings.contains(params.placeList, '2')}"><label th:for="place2" >서울/강원</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place3" class="checkbox_style" th:value="3" th:checked="${params.placeList != null and #strings.contains(params.placeList, '3')}"><label th:for="place3" >인천/경기</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place4" class="checkbox_style" th:value="4" th:checked="${params.placeList != null and #strings.contains(params.placeList, '4')}"><label th:for="place4" >대전/세종/충청</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place5" class="checkbox_style" th:value="5" th:checked="${params.placeList != null and #strings.contains(params.placeList, '5')}"><label th:for="place5" >대구/경북</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place6" class="checkbox_style" th:value="6" th:checked="${params.placeList != null and #strings.contains(params.placeList, '6')}"><label th:for="place6" >부산/울산/경남</label></li>
+                                    <li><input type="checkbox" name="placeList" th:id="place7" class="checkbox_style" th:value="7" th:checked="${params.placeList != null and #strings.contains(params.placeList, '7')}"><label th:for="place7" >광주/전라/제주</label></li>
                                 </ul>
                             </li>
                         </ul>
@@ -71,9 +78,12 @@
                             <th:block th:include="fragments/table_empty:: table_empty(4)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
-                                    <td class="cate" th:text="${item.project_type_name}">법률</td>
-                                    <td class="txl">
+                                    <td class="cate" th:text="${item.project_type}">법률</td>
+                                    <!--/*<td class="txl">
                                         <a th:href="@{|/board/project/${item.project_seq}|}">2021년 (국고)온라인미디어 예술활동 지원사업 아트체인지업 공모 안내</a>
+                                    </td>*/-->
+                                    <td class="txl" >
+                                        <a th:onclick="'window.open(\'' + @{${item.project_url}} + '\')'" style="cursor: pointer">[[${item.subject}]]</a>
                                     </td>
                                     <td th:text="${item.project_year}">2021</td>
                                     <td th:text="${item.place_name}">2021</td>

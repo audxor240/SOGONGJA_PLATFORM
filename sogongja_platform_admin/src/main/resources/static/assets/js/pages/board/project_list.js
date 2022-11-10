@@ -4,12 +4,25 @@
 
         commonSearchPaging();
 
-        $('.btn-delete').on('click', function() {
-            if (confirm('해당 게시물을 삭제하시겠습니까?')) {
-                var projectSeq = $(this).data('projectSeq');
+        $('#del_project').on('click', function() {
+            if (confirm('해당 프로젝트를 삭제하시겠습니까?')) {
+                var proStr = "";
+                $("input[name=project_check]:checked").each(function(){
+                    proStr += $(this).val()+",";
+                })
+                proStr = proStr.slice(0,-1);
                 var form = document.forms.deleteForm;
-                form.projectSeq.value = projectSeq;
+                form.projectStr.value = proStr;
+
                 form.submit();
+            }
+        });
+
+        $('#all_check').on('click', function() {
+            if($(this).is(":checked")){
+                $("[name=project_check]").attr("checked",true);
+            }else{
+                $("[name=project_check]").attr("checked",false);
             }
         });
     });

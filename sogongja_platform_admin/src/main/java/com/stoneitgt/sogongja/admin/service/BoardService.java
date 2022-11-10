@@ -1,13 +1,16 @@
 package com.stoneitgt.sogongja.admin.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.stoneitgt.sogongja.admin.mapper.AnswerMapper;
 import com.stoneitgt.sogongja.domain.*;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,11 +180,49 @@ public class BoardService extends BaseService {
 	}
 
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public int addProject(org.json.JSONArray projectList, int loginUserSeq) throws IOException {
+		int result = 0;
+
+		for(int i =0 ; i < projectList.length();i++) {
+			JSONObject dt = (JSONObject) projectList.get(i);
+			System.out.println("dt >> "+dt);
+			Map<String, Object> map;
+			map = new ObjectMapper().readValue(dt.toString(), Map.class);	//Json -> map변경
+
+			map.put("type",dt.get("type"));
+			map.put("title",dt.get("title"));
+			map.put("year",dt.get("year"));
+			map.put("areaNm",dt.get("areaNm"));
+			System.out.println("test >> "+map);
+			switch (map.get("areaNm").toString()){
+				case "전국": map.put("placeType",1);break;
+				case "서울/강원": map.put("placeType",2);break;
+				case "인천/경기": map.put("placeType",3);break;
+				case "대전/세종/충청": map.put("placeType",4);break;
+				case "대구/경북": map.put("placeType",5);break;
+				case "부산/울산/경남": map.put("placeType",6);break;
+				case "광주/전라/제주": map.put("placeType",7);break;
+			}
+			map.put("loginUserSeq",loginUserSeq);	//로그인 사용자
+
+			//등록된 프로젝트가 있는지 조회
+			String projectSeq = boardMapper.getProjectCheck(map);
+			//등록된 프로젝트가 없으면 추가해준다.
+			if(projectSeq == null){
+				result = boardMapper.addProject(map);
+			}
+
+		}
+
+		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public int deleteProject(Map<String, Object> params) {
 		int result = boardMapper.deleteProject(params);
-		params.put("ref_type", FILE_REF_TYPE.PROJECT.toUpperCase());
-		params.put("ref_seq", params.get("project_seq"));
-		filesService.deleteFileAll(params);
+		//params.put("ref_type", FILE_REF_TYPE.PROJECT.toUpperCase());
+		//params.put("ref_seq", params.get("project_seq"));
+		//filesService.deleteFileAll(params);
 		return result;
 	}
 

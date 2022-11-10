@@ -92,6 +92,10 @@ public class BoardController extends BaseController {
 		paramsMap.put("boardSettingSeq", boardSettingSeq);
 
 		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
+		if(boardSetting.getName().equals("지원 및 정책 사업")){
+			return "redirect:/board/project";
+		}
+
 		paramsMap.put("board_type", boardSetting.getFileDirectoryName());
 		List<Map<String, Object>> list = null;
 
@@ -215,20 +219,6 @@ public class BoardController extends BaseController {
 							@ModelAttribute("board") @Valid Board board, BindingResult bindingResult, Model model,
 							RedirectAttributes rttr) throws IOException {
 
-		System.out.println("board >>>> "+board);
-		/*System.out.println("board.getAttachFiles().size() :: "+board.getAttachFiles().size());
-		System.out.println("board.getAttachFiles().get(0).getName() ::: "+board.getAttachFiles().get(0).getName());
-		System.out.println("board.getAttachFiles().get(0).getOriginalFilename() ::: "+board.getAttachFiles().get(0).getOriginalFilename());
-		System.out.println("board.getAttachFiles().get(0).getContentType() ::: "+board.getAttachFiles().get(0).getContentType());
-
-		System.out.println("board.getAttachFiles().get(1).getName() ::: "+board.getAttachFiles().get(1).getName());
-		System.out.println("board.getAttachFiles().get(1).getOriginalFilename() ::: "+board.getAttachFiles().get(1).getOriginalFilename());
-		System.out.println("board.getAttachFiles().get(1).getContentType() ::: "+board.getAttachFiles().get(1).getContentType());
-
-		System.out.println("board.getAttachFiles().get(2).getName() ::: "+board.getAttachFiles().get(2).getName());
-		System.out.println("board.getAttachFiles().get(2).getOriginalFilename() ::: "+board.getAttachFiles().get(2).getOriginalFilename());
-		System.out.println("board.getAttachFiles().get(2).getContentType() ::: "+board.getAttachFiles().get(2).getContentType());*/
-
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("menuCode", menuCode);
 			//model.addAttribute("breadcrumb", getBreadcrumb(menuCode));
@@ -283,18 +273,20 @@ public class BoardController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
+		System.out.println("paramsMap >> "+paramsMap);
 		List<Map<String, Object>> list = boardService.getBoardProjectList(paramsMap, paging);
 		Integer total = boardService.selectTotalRecords();
 		paging.setTotal(total);
-		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
 		model.addAttribute("paging", paging);
 
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("boardType", "project");
-		model.addAttribute("projectType", getCodeList("PROJECT_TYPE", "전체"));
-		model.addAttribute("place", getCodeList("SIDO", "전체"));
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/board/project_list";
 	}

@@ -10,10 +10,10 @@
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="tab_wrap">
         <div class="row">
-          <div class="col-sm-2 tab active">
+          <div class="col-sm-2 tab">
             <a href="#none">상점 커뮤니티</a>
           </div>
-          <div class="col-sm-2 tab">
+          <div class="col-sm-2 tab active">
             <a href="#none">지역 커뮤니티</a>
           </div>
         </div>
@@ -27,43 +27,31 @@
           <form name="searchForm" th:action="@{|/board/type/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="form-group row">
-                  <div class="col-sm-1">
+                  <div class="col-sm-2">
                     <label class="col-sm-2 col-form-label">지역선택</label>
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-5">
                     <select class="form-control">
                       <option value="">시도</option>
                     </select>
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-5">
                     <select class="form-control">
                       <option value="">시군구</option>
                     </select>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-4">
                 <div class="form-group row">
-                  <div class="col-sm-1">
-                    <label class="col-sm-2 col-form-label">업종선택</label>
+                  <div class="col-sm-4">
+                    <label class="col-sm-2 col-form-label">행정동 선택</label>
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-8">
                     <select class="form-control">
-                      <option value="">상업업종 대분류</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-3">
-                    <select class="form-control">
-                      <option value="">상권업종 중분류</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-3">
-                    <select class="form-control">
-                      <option value="">상권업종 소분류</option>
+                      <option value="">전체</option>
                     </select>
                   </div>
                 </div>
@@ -107,8 +95,8 @@
               <colgroup>
                 <col style="width: 8%;">
                 <col style="width: 5%;">
-                <col style="width: 13%;">
-                <col style="width: 12%;">
+                <col style="width: 15%;">
+                <col style="width: 10%;">
                 <col style="width: 30%;">
                 <col style="width: 10%;">
                 <col style="width: 12%;">
@@ -119,7 +107,7 @@
                 <th>선택</th>
                 <th>#</th>
                 <th>지역</th>
-                <th>업종</th>
+                <th>행정동</th>
                 <th>제목</th>
                 <th>작성자</th>
                 <th>작성일</th>
@@ -142,7 +130,7 @@
                   <th:block th:unless="${item.notice_flag == true}" th:text="${paging.total - item.rnum + 1}">1</th:block>
                 </td>
                 <td>지역</td>
-                <td>업종</td>
+                <td>행정동</td>
                 <td>
                   <a th:href="@{|/board/${item.board_setting_seq}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                 </td>

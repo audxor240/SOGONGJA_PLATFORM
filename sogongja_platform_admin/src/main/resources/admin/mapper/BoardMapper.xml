@@ -274,27 +274,29 @@
         /* file : BoardMapper.xml, id : getBoardProjectList */
           SELECT P.*
                , DATE_FORMAT(P.REG_DATE, '%Y-%m-%d') AS REG_DT
-               , PROJECT_TYPE.CODE_NAME              AS PROJECT_TYPE_NAME
-               , SIDO.CODE_NAME                      AS PLACE_NAME
                , U.USERNAME                          AS REG_USERNAME
-               , (SELECT COUNT(1)
-                    FROM ST_FILES F
-                   WHERE F.DEL_FLAG = 0
-                     AND F.REF_TYPE = 'PROJECT'
-                     AND F.REF_SEQ  = P.PROJECT_SEQ
-                 ) AS FILE_CNT
+               , CASE WHEN P.PLACE_TYPE = 1 THEN '전국'
+                      WHEN P.PLACE_TYPE = 2 THEN '서울/강원'
+                      WHEN P.PLACE_TYPE = 3 THEN '인천/경기'
+                      WHEN P.PLACE_TYPE = 4 THEN '대전/세종/충청'
+                      WHEN P.PLACE_TYPE = 5 THEN '대구/경북'
+                      WHEN P.PLACE_TYPE = 6 THEN '부산/울산/경남'
+                      WHEN P.PLACE_TYPE = 7 THEN '광주/전라/제주'
+                END as PLACE_NAME
             FROM ST_PROJECT P
                INNER JOIN ST_USER U
                        ON P.REG_USER_SEQ = U.USER_SEQ
-               INNER JOIN ST_CODE_DTL PROJECT_TYPE
-                       ON PROJECT_TYPE.GRP_CODE = 'PROJECT_TYPE'
-                      AND PROJECT_TYPE.CODE     = P.PROJECT_TYPE
-               INNER JOIN ST_CODE_DTL SIDO
-                       ON SIDO.GRP_CODE = 'SIDO'
-                      AND SIDO.CODE     = P.PLACE
            WHERE P.DEL_FLAG             = 0
         <if test="keyword != null and keyword != ''">
              AND P.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        <if test="project_type != null and project_type != ''">
+            AND P.PROJECT_TYPE = #{project_type}
+        </if>
+
+        <if test="place != null and place != ''">
+            AND P.PLACE_TYPE = #{place}
         </if>
         ORDER BY PROJECT_SEQ DESC
     /*||ORDER BY PROJECT_SEQ DESC||*/
@@ -319,6 +321,29 @@
                     , #{place}
                     , #{tags}
                     , #{loginUserSeq})
+
+        <selectKey resultType="int" keyProperty="projectSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="addProject" parameterType="map">
+        /* file : BoardMapper.xml, id : addProject */
+        INSERT
+        INTO ST_PROJECT (
+        PROJECT_TYPE
+        , PROJECT_YEAR
+        , SUBJECT
+        , PLACE_TYPE
+        , PROJECT_URL
+        , REG_USER_SEQ)
+        VALUES (
+        #{type}
+        , #{year}
+        , #{title}
+        , #{placeType}
+        , #{url}
+        , #{loginUserSeq})
 
         <selectKey resultType="int" keyProperty="projectSeq" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -432,6 +457,17 @@
         SELECT *
         FROM ST_BOARD_SETTING
         WHERE DEL_FLAG            = 0 AND BOARD_SETTING_SEQ = #{boardSettingSeq}
+    </select>
+
+    <select id="getProjectCheck" parameterType="map" resultType="string">
+        /* file : BoardMapper.xml, id : getProjectCheck */
+        SELECT PROJECT_SEQ
+        FROM ST_PROJECT
+        WHERE DEL_FLAG    = 0
+          AND PROJECT_TYPE = #{type}
+          AND SUBJECT = #{title}
+          AND PROJECT_YEAR = #{year}
+          AND PLACE_TYPE = #{placeType}
     </select>
 
     <select id="selectTotalRecords" resultType="int">

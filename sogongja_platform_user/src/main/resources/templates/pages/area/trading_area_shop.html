@@ -52,59 +52,92 @@
                     <button type="button" style="display:none"></button>
                 </form>
             </div>
+            <div class="msearch_pop_wrap">
+                <button type="button" class=""></button>
+            </div>
+        </div>
+
+        <div class="msearch_pop">
+            <div class="msearch">
+                <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+                <button type="button" class=""></button>
+            </div>
+            <button type="button" class="search_pop_del">x</button>
         </div>
 
         <button class="current-local" onclick="setCenter()"></button>
+        <div class="category_wrap">
+            <ul id="category">
+                <li data-order="0">
+                    <label for="BK9">
+                        <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
+                        <span class="category_bg bank"></span>
+                        숙박
+                    </label>
+                </li>
+                <li data-order="1">
+                    <label for="MT1">
+                        <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
+                        <span class="category_bg mart"></span>
+                        수리·개인서비스
+                    </label>
+                </li>
+                <li data-order="2">
+                    <label for="PM9">
+                        <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
+                        <span class="category_bg pharmacy"></span>
+                        도·소매
+                    </label>
+                </li>
+                <li data-order="3">
+                    <label for="OL7">
+                        <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
+                        <span class="category_bg oil"></span>
+                        예술·스포츠·여가
+                    </label>
+                </li>
+                <li data-order="4">
+                    <label for="CE7">
+                        <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
+                        <span class="category_bg cafe"></span>
+                        시설관리·임대
+                    </label>
+                </li>
+                <li data-order="5">
+                    <label for="CS2">
+                        <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
+                        <span class="category_bg store"></span>
+                        과학·기술
+                    </label>
+                </li>
+                <!--            임시 추가-->
+                <li data-order="6">
+                    <label for="P">
+                        <input type="checkbox" name="cate" value="P" id="P" onchange="g()" checked />
+                        <span class="category_bg pp"></span>
+                         스포츠
+                    </label>
+                </li>
 
-        <ul id="category">
-            <li data-order="0">
-                <label for="BK9">
-                    <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
-                    <span class="category_bg bank"></span>
-                    은행
-                </label>
-            </li>
-            <li data-order="1">
-                <label for="MT1">
-                    <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
-                    <span class="category_bg mart"></span>
-                    마트
-                </label>
-            </li>
-            <li data-order="2">
-                <label for="PM9">
-                    <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
-                    <span class="category_bg pharmacy"></span>
-                    약국
-                </label>
-            </li>
-            <li data-order="3">
-                <label for="OL7">
-                    <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
-                    <span class="category_bg oil"></span>
-                    주유소
-                </label>
-            </li>
-            <li data-order="4">
-                <label for="CE7">
-                    <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
-                    <span class="category_bg cafe"></span>
-                    카페
-                </label>
-            </li>
-            <li data-order="5">
-                <label for="CS2">
-                    <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
-                    <span class="category_bg store"></span>
-                    편의점
-                </label>
-            </li>
-        </ul>
+                <li data-order="7">
+                    <label for="R">
+                        <input type="checkbox" name="cate" value="R" id="R" onchange="h()" checked />
+                        <span class="category_bg rr"></span>
+                        학문교육
+                    </label>
+                </li>
+
+            </ul>
+        </div>
+
     </div> <div id="sidebar"></div>
     <div class="community_wrap">
-        <div class="community_Btn"></div>
+        <div class="community_Btn" sec:authorize="isAuthenticated()"></div>
         <div class="community_pop_wrap">
             <div class="community_pop_title">
+                <div class="m_scroll_btn">
+                    <span></span>
+                </div>
                 <h4>상점 Community</h4>
                 <a href="#none">글쓰기</a>
             </div>
@@ -206,6 +239,8 @@
 
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
+    var researchShop = /*[[${researchShop}]]*/ [];
+
 </script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
 <script th:src="@{/js/pages/area/chart_list.js}"></script>

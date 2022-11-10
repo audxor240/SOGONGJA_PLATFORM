@@ -225,6 +225,8 @@
 					overflow-y: auto
 					li
 						margin-bottom: rem(16)
+
+
 			&.check_list50
 				> li
 					width: 	50%
@@ -234,6 +236,27 @@
 			&.check_list30
 				> li
 					width: 	33.33%
+			&.select_choice
+				> li
+					+flex_type
+					align-items: center
+					h4
+						width: 25%
+						font-size: rem(18)
+						line-height: 1
+					div
+						width: 75%
+						padding: rem(19) rem(40)
+						+flex_type
+						select
+							width: calc(100%/2 - 5px)
+							border: 1px solid #d5d5d5
+							margin-right: 10px
+							&:last-child
+								margin-right: 0
+					div.select_choice01
+						select
+							width: 100%
 
 
 		.check_keyword
@@ -2276,6 +2299,13 @@
 							min-width: 90px
 					&:first-child
 						border-top: 0
+				&.select_choice
+					> li
+						flex-wrap: wrap
+						h4
+							width: 100%
+						> div
+							width: 100%
 			.check_keyword
 				flex-wrap: wrap
 				border-top: 4px solid #1540bf
@@ -2476,6 +2506,17 @@
 			height: 120px
 		p
 			font-size: 18px
+	.loginForm
+		.login_sns
+			ul
+				flex-wrap: wrap
+				li
+					width: 100%
+					margin-bottom: 0.75rem
+					margin-right: 0
+					a
+						justify-content: center
+
 
 
 @include maxMobile
@@ -2513,4 +2554,4 @@
 		.pop_up
 			width: 300px
 			left: calc(50% - 150px)
-.infoWin
+

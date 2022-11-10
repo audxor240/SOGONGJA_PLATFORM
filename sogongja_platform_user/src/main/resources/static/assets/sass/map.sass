@@ -390,6 +390,7 @@
   background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px
   &:hover
       opacity: 1
+
 .searchInput
   width: 230px
   background-color: aquamarine
@@ -405,27 +406,76 @@
     background-color: transparent
     background-repeat: no-repeat
     background-position: center left
+.msearch_pop_wrap
+  display: none
+  width: 50px
+  > button
+    +positionAt(absolute, $top: 1px, $right: -60px)
+    height: 48px
+    width: 48px
+    background-image: url(../images/icon-search_bk.png)
+    background-color: #ffffff
+    box-shadow: 0 0 10px #00000020
+    border-radius: 10px
+    background-repeat: no-repeat
+    background-position: center
+.msearch_pop
+  display: none
+  +positionAt(fixed, $top: 71px, $right: 0px)
+  width: 100%
+  height: 375px
+  z-index: 5
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.475) 40.63%, rgba(0, 0, 0, 0) 100%)
+  .msearch
+    width: calc(100% - 20px)
+    margin: 20px auto
+    input
+      border: solid 1px #ccc
+      background-color: #fff
+      border-radius: 10px
+    button
+      +positionAt(absolute, $top: 15px, $right: 10px)
+      height: 48px
+      width: 28px
+      background-image: url(../images/icon-search_bk.png)
+      background-color: transparent
+      background-repeat: no-repeat
+      background-position: center left
+  .search_pop_del
+    display: block
+    background-color: transparent
+    color: #ffffff
+    text-align: center
+    margin: 10px auto
+    font-size: rem(36)
+.msearch_pop.on
+  display: block
 .companyChoice_wrap
   +positionAt(absolute, $top: 16px, $left:50%)
   .choice_pop_wrap
     +positionAt(absolute, $top: 0, $left:0)
     display: none
-#category
-  +positionAt(absolute, $bottom:60px)
-  width: 600px
-  right: calc(50% - 300px)
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4)
-  background: #fff
+.category_wrap
+  +positionAt(fixed, $bottom:60px)
+  +flex_type()
   overflow: hidden
+  left: 25%
+  padding: 10px
   z-index: 2
+#category
+  width: 100%
   +flex_type()
   li
-    width: calc(100%/6)
+    border-radius: 50px
+    background: #fff
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3)
+    min-width: 100px
     list-style: none
-    border-right: 1px solid #efefef
-    padding: 6px 0
+    border: 1px solid #efefef
+    padding: 6px 10px
     text-align: center
     cursor: pointer
+    margin-right: 10px
     &:hover
       background: #efefef
     &:last-child
@@ -442,6 +492,7 @@
         background: url(#{$assetPath}/new/area/marker_null.png) no-repeat
         width: 12px
         height: 12px
+        min-width: 12px
         background-size: contain !important
         margin-right: 10px
       input[type="checkbox"]:checked ~ .bank
@@ -456,6 +507,8 @@
         background: url(#{$assetPath}/new/area/marker05.png) no-repeat
       input[type="checkbox"]:checked ~ .store
         background: url(#{$assetPath}/new/area/marker06.png) no-repeat
+      input[type="checkbox"]:checked ~ .store
+        background: url(#{$assetPath}/new/area/marker07.png) no-repeat
     .on
     .category_bg
       background-position-x: -46px
@@ -494,8 +547,8 @@
     border-radius: 6px 6px 0 0
     margin: -1px -1px 0 -1px
     padding: 10px
-    color: #fff
-    background: #d95050
+    color: #000
+    background: #ECEFF1
   .tel
     color: #0f7833
   .jibun
@@ -767,15 +820,103 @@
     display: block
 
 @include tablet
+  #map_wrap
+    height: calc(100vh - 71px)
+    top: 71px
+  #map
+    height: calc(100% + 71px)
   .current-local
     top: 300px
   .custom_zoomcontrol
     top: 340px
   .community_wrap
-    top: 525px
+    top: 492px
     .community_pop_wrap
-      top: -25vh
-      right: 40px
+      top: auto
+      right: 0
+      width: 100%
+      left: 0
+      position: fixed
+      bottom: -300px
+      z-index: 4
+      border-radius: 10px 10px 0 0
+      transition: 0.4s
+      .community_pop_title
+        padding: 10px 20px 20px
+        border-radius: 10px 10px 0 0
+        flex-wrap: wrap
+        > a
+          display: none
+        .m_scroll_btn
+          width: 100%
+          span
+            display: block
+            width: 100px
+            height: 10px
+            border-radius: 50px
+            background-color: #ECEFF1
+            margin: 0 auto 5px
+    .community_pop_wrap.up
+      bottom: 100vh
+      transition: 0.4s
+  .category_wrap
+    left: 0
+    bottom: 20px
+    overflow: scroll
+    width: 98%
+  #category
+    li
+      min-width: 140px
+  .solution_btn
+    width: 60px
+    height: 60px
+    bottom: 70px
+    padding: 13px
+    a
+      font-size: 12px
+  .searchInput
+    display: none
+  .community_pop_list
+    height: 600px
+    overflow: scroll
+  .addressSearchTop
+    width: auto
+    top: 10px
+    left: auto
+    right: 80px
+    transform: translateX(10px)
+  .hAddr
+    display: flex
+    width: auto
+    height: auto
+    float: none
+    margin-top: 0
+    background-color: #fff
+    border-radius: 10px
+    box-shadow: 0 0 10px #00000020
+    padding: 3px 10px
+  .addrlist
+    background-color: #fff
+    border-radius: 10px
+    span
+      display: inline-block
+      width: auto
+      font-weight: bold
+      border: none
+      height: auto
+      &:after
+        display: none
+  .msearch_pop_wrap
+    display: block
+  #sidebar
+    width: 100%
+    top: auto
+    bottom: -60vh
+    height: auto
+    z-index: 4
+  #sidebar.up
+    bottom: 0
 @include mobile
+
 
 @include maxMobile

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.CommunityMapper">
+
+    <select id="getCommunityList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CommunityMapper.xml, id : getCommunityList */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        FROM ST_COMMUNITY A
+        INNER JOIN ST_USER U ON A.REG_USER_SEQ = U.USER_SEQ
+        WHERE A.DEL_FLAG              = 0 AND A.COMMUNITY_TYPE = #{type}
+        <if test="keyword != null and keyword != ''">
+            AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="regionName1 != null and regionName1 != ''">
+            AND A.REGION_NAME1 = #{regionName1}
+        </if>
+        <if test="regionName2 != null and regionName2 != ''">
+            AND A.REGION_NAME2 = #{regionName2}
+        </if>
+        <if test="regionName3 != null and regionName3 != ''">
+            AND A.REGION_NAME3 = #{regionName3}
+        </if>
+        <if test="categoryName1 != null and categoryName1 != ''">
+            AND A.CATEGORY_NAME1 = #{categoryName1}
+        </if>
+        <if test="categoryName2 != null and categoryName2 != ''">
+            AND A.CATEGORY_NAME2 = #{categoryName2}
+        </if>
+        ORDER BY COMMUNITY_SEQ DESC
+        /*||ORDER BY COMMUNITY_SEQ DESC||*/
+    </select>
+
+    <insert id="insertCommunity" parameterType="com.stoneitgt.sogongja.domain.Community">
+        /* file : CommunityMapper.xml, id : insertCommunity */
+        INSERT
+        INTO ST_COMMUNITY (
+        COMMUNITY_TYPE
+        , SUBJECT
+        , CONTENT
+        , REGION_NAME1
+        , REGION_NAME2
+        , REGION_NAME3
+        , CATEGORY_NAME1
+        , CATEGORY_NAME2
+        , REG_USER_SEQ
+        )
+        VALUES (
+        #{communityType}
+        , #{subject}
+        , #{content}
+        , #{regionName1}
+        , #{regionName2}
+        , #{regionName3}
+        , #{categoryName1}
+        , #{categoryName2}
+        , #{loginUserSeq}
+         )
+
+        <selectKey resultType="int" keyProperty="communitySeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateCommunity" parameterType="com.stoneitgt.sogongja.domain.Community">
+        /* file : CommunityMapper.xml, id : updateCommunity */
+        UPDATE ST_COMMUNITY
+        SET
+           SUBJECT      = #{subject}
+          , CONTENT      = #{content}
+          , REGION_NAME1 = #{regionName1}
+          , REGION_NAME2 = #{regionName2}
+          , REGION_NAME3 = #{regionName3}
+          , CATEGORY_NAME1 = #{categoryName1}
+          , CATEGORY_NAME2 = #{categoryName2}
+          , MOD_USER_SEQ = #{loginUserSeq}
+          , MOD_DATE     = CURRENT_TIMESTAMP()
+        WHERE COMMUNITY_SEQ    = #{communitySeq}
+    </update>
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+    <select id="getResearchShopGroupList" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CommunityMapper.xml, id : getResearchShopGroupList */
+        select * from ST_RESEARCH_SHOP group by CODE_TYPE1;
+    </select>
+
+    <select id="getResearchShopSubGroupList" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CommunityMapper.xml, id : getResearchShopSubGroupList */
+        select CODE_TYPE2,NM_TYPE2 from ST_RESEARCH_SHOP where CODE_TYPE1 in('D', 'F', 'L', 'N', 'O', 'P', 'Q', 'R') group by CODE_TYPE2;
+    </select>
+
+    <select id="getCommunityInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Community">
+        /* file : CommunityMapper.xml, id : getCommunityInfo */
+        select * from ST_COMMUNITY where COMMUNITY_SEQ = #{communitySeq};
+    </select>
+
+</mapper>

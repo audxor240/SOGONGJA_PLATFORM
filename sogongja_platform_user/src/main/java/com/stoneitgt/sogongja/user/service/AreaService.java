@@ -43,6 +43,34 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getResearchShopList(params);
+
+
+		return list;
+	}
+
+	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getRegionAreaList(params);
+		List<Map<String, Object>> mapPathList = areaMapper.getRegionAreaMapList("PATH");
+		List<Map<String, Object>> mapHoleList = areaMapper.getRegionAreaMapList("HOLE");
+
+		for (Map<String, Object> map : list) {
+			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
+			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+
+			map.put("path", path);
+			map.put("hole", hole);
+		}
+
+		return list;
+	}
+
 	public List<Map<String, Object>> getTradingAreaMapList(String mapType) {
 		return areaMapper.getTradingAreaMapList(mapType);
 	}

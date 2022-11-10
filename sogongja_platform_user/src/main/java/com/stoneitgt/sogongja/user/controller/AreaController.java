@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.user.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,9 @@ public class AreaController extends BaseController {
 	@Autowired
 	private AreaService areaService;
 
+	@Autowired
+	private BoardService boardService;
+
 	@GetMapping("/shop")
 	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
 
@@ -31,7 +35,11 @@ public class AreaController extends BaseController {
 //			System.out.println(t);
 //		}
 //		System.out.println("==========================================================");
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_shop";
@@ -47,6 +55,9 @@ public class AreaController extends BaseController {
 //			System.out.println(t);
 //		}
 //		System.out.println("==========================================================");
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -63,7 +74,10 @@ public class AreaController extends BaseController {
 //			System.out.println(t);
 //		}
 //		System.out.println("==========================================================");
-		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_regional";
