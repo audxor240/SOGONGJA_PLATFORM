@@ -11,6 +11,8 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+
 /**
  * Sring-boot 메인 실행 파일.
  *

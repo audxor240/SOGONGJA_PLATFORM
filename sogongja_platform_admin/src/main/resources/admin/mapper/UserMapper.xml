@@ -35,19 +35,18 @@
 		       , (SELECT CODE_NAME FROM ST_CODE_DTL D WHERE D.GRP_CODE = 'POSITION' AND D.CODE = U.POSITION)   AS POSITION_NM
 		    FROM ST_USER U
 		   WHERE U.DEL_FLAG = 0
-		  <choose>
-		  	<when test='user_type == "A"'>
-		     AND U.USER_TYPE = 'A'
-		  	</when>
-		  	<otherwise>
-		     AND U.USER_TYPE IN ('I', 'O')
-		  	</otherwise>
-		  </choose>
 		  <if test="field != null and field != '' and keyword != null and keyword != ''">
 		     AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
 		  </if>
-		ORDER BY USER_SEQ DESC
-	/*||ORDER BY USER_SEQ DESC||*/
+		<choose>
+			<when test="sort_name != null and sort_name != '' and sort_type != null and sort_type != ''">
+				ORDER BY U.${sort_name} ${sort_type}
+			</when>
+			<otherwise>
+				ORDER BY USER_SEQ DESC
+			</otherwise>
+		</choose>
+
 	</select>
 
 	<select id="getUserInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.User">
@@ -67,6 +66,24 @@
 		     AND U.ID       = LOWER(#{id})
 	</select>
 
+	<select id="existedUserNickName" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserId */
+		SELECT COUNT(*) AS CNT
+		FROM ST_USER U
+		WHERE U.DEL_FLAG = 0
+		  AND U.NICK_NAME       = LOWER(#{nickName})
+	</select>
+
+	<select id="existedUserNickNameWithoutMe" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserId */
+		SELECT COUNT(*) AS CNT
+		FROM ST_USER U
+		WHERE U.USER_SEQ != #{userSeq}
+		AND U.DEL_FLAG = 0
+		  AND U.NICK_NAME       = LOWER(#{nickName})
+	</select>
+
+
 	<insert id="saveUser" parameterType="com.stoneitgt.sogongja.domain.User">
 		/* file : UserMapper.xml, id : saveUser */
 		INSERT
@@ -75,6 +92,7 @@
 		            , ID
 		            , PASSWORD
 		            , USERNAME
+		            , NICK_NAME
 		            , EMAIL
 		            , TEL
 		            , HP
@@ -86,12 +104,17 @@
 		            , BIRTH_DAY
 		            , DESCRIPTION
 		            , AUTH
+		            , TYPE
+		            , SUB_TYPE
+		            , AGE_GROUP
+		            , SERVICE_TYPE
 		            , REG_USER_SEQ)
 		       VALUES (
 		              #{userSeq}
 		            , LOWER(#{id})
 		            , #{password}
 		            , #{username}
+					, #{nickName}
 		            , #{email}
 		            , #{tel}
 		            , #{hp}
@@ -103,8 +126,14 @@
 		            , #{birthDay}
 		            , #{description}
 		            , #{auth}
+		            , #{type}
+		            , #{subType}
+		            , #{ageGroup}
+		            , #{serviceType}
 		            , #{loginUserSeq})
 		    ON DUPLICATE KEY UPDATE USERNAME = #{username}
+			 , NICK_NAME                     = #{nickName}
+			 , PASSWORD                      = #{password}
 		     , EMAIL                         = #{email}
 		     , TEL                           = #{tel}
 		     , HP                            = #{hp}
@@ -116,6 +145,10 @@
 		     , BIRTH_DAY                     = #{birthDay}
 		     , DESCRIPTION                   = #{description}
 		     , AUTH                          = #{auth}
+			 , TYPE                          = #{type}
+			 , SUB_TYPE                      = #{subType}
+			 , AGE_GROUP                     = #{ageGroup}
+			 , SERVICE_TYPE                  = #{serviceType}
 		     , DEL_FLAG                      = 0
 		     , MOD_USER_SEQ                  = #{loginUserSeq}
 		     , MOD_DATE                      = CURRENT_TIMESTAMP()
