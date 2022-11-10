@@ -10,19 +10,22 @@
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <form name="searchForm" th:action="@{/education(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+          <form name="searchForm" th:action="@{/serviceMatching(menuCode=${params.menuCode})}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
             <div class="row">
               <div class="col-sm-11">
                 <div class="form-group row">
                   <div class="col-sm-4">
                     <select th:field="*{field}" class="form-control">
-                      <option value="subject">아이디</option>
+                      <option value="id">아이디</option>
+                      <option value="username">이름</option>
+                      <option value="email">이메일</option>
                     </select>
                   </div>
                   <div class="col-sm-8">
                     <input type="text" th:field="*{keyword}" class="form-control" placeholder="검색어를 입력하세요">
                   </div>
+
                 </div>
               </div>
               <div class="ccol-sm-1 text-right mt-3">
@@ -41,7 +44,7 @@
       <div class="card">
         <div class="card-body">
           <p class="card-description">
-            <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
+            <th:block th:include="fragments/paging_result:: paging_result('')")></th:block>
           </p>
           <p class="card-description"></p>
           <div class="table-responsive">
@@ -68,14 +71,30 @@
               <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
               <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                 <td th:text="${paging.total - item.rnum + 1}">1</td>
-                <td th:text="${item.category_1_name}">구분</td>
-                <td th:text="${item.category_2_name}">종류</td>
-                <td th:text="${item.category_3_name}">종류</td>
+                <td th:text="${item.id}">아이디</td>
                 <td>
-                  <a th:href="@{|/education/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
-                  <span th:if="${item.recommend_flag}" class="badge badge-primary">추천</span>
+                  <a th:href="@{|/serviceMatching/user/${item.user_seq}?${pageParams}|}" th:text="${item.username}">이름</a>
                 </td>
-                <td th:text="${item.support_org_name}">소관부처</td>
+                <td th:text="${item.email}">이메일</td>
+                <td>
+                <th:block th:switch="${item.type}">
+                <span th:case="'1'">사업자(소상공인) </span>
+                <span th:case="'2'">예비창업자 </span>
+                <span th:case="'3'">임대 부동산 소유 </span>
+                <span th:case="'4'">일반인 </span>
+                <span th:case="*"></span>
+                </th:block>
+                <th:block th:switch="${item.sub_type}">
+                  <span th:case="'1'">/ 사업 실행중</span>
+                  <span th:case="'2'">/ 휴/폐업(예정)중</span>
+                  <span th:case="'3'">/ 창업 준비중</span>
+                  <span th:case="'4'">/ 공실문제 해결</span>
+                  <span th:case="'5'">/ 시설관리, 임대관리</span>
+                  <span th:case="'6'">/ 빚, 채무 관련</span>
+                  <span th:case="*"></span>
+                </th:block>
+                </td>
+                <td th:text="${item.registered == 1 ? '등록' : '미등록'}">설문 등록 여부</td>
               </tr>
               </tbody>
             </table>
@@ -85,18 +104,20 @@
       </div>
     </div>
   </div>
-
-
-
-  <form name="deleteForm" th:action="@{/education/delete}" method="post">
-    <input type="hidden" name="eduSeq">
-    <input type="hidden" name="menuCode" th:value=${params.menuCode}>
-  </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-  <script th:src="@{/assets/js/pages/education/education_list.js}"></script>
+  <script>
+    (function() {
+      'use strict'
+      $(document).ready(function() {
+        commonSearchPaging();
+
+      });
+    })();
+  </script>
 </th:block>
+
 
 </html>

@@ -6,8 +6,8 @@
 </head>
 <div layout:fragment="content">
   <nav th:replace="fragments/page_breadcrumb"></nav>
-  <form name="editForm" th:action="@{/education/form}" th:object="${education}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
-    <input type="hidden" th:field="*{eduSeq}">
+  <form name="editForm" action="" method="post" enctype="multipart/form-data" onsubmit="return false">
+<!--    <input type="hidden" th:field="*{eduSeq}">-->
     <input type="hidden" name="menuCode" th:value="${menuCode}">
     <input type="hidden" name="pageParams" th:value="${pageParams}">
     <div class="row">
@@ -58,15 +58,12 @@
               </div>
             </div>
 
-
-
             <!--해당 사용자의 설문지 질문/답변-->
             <div class="row">
               <div class="col-12 col-xl-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <p class="card-description">
-                      <th:block th:include="fragments/paging_result:: paging_result('')"></th:block>
                     </p>
                     <p class="card-description"></p>
                     <div class="table-responsive">
@@ -87,34 +84,30 @@
                         <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                         <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                           <td th:text="${paging.total - item.rnum + 1}">1</td>
-                          <td th:text="${item.category_1_name}">구분</td>
-                          <td th:text="${item.category_2_name}">종류</td>
+                          <td>구분</td>
+                          <td>종류</td>
                         </tr>
                         </tbody>
                       </table>
                     </div>
-                    <th:block th:include="fragments/paging"></th:block>
+<!--                    <th:block th:include="fragments/paging"></th:block>-->
                   </div>
                 </div>
               </div>
             </div>
-
-
-
-
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/education?${pageParams}|}">
+        <a class="btn btn-outline-primary btn-icon-text" href="/serviceMatching">
           <i class="btn-icon-prepend" data-feather="list"></i>목록
         </a>
-        <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{eduSeq == 0}">
+        <button type="submit" class="btn btn-primary mr-2 btn-icon-text">
           <i class="btn-icon-prepend" data-feather="edit"></i>등록
         </button>
-        <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{eduSeq == 0}">
+        <button type="submit" class="btn btn-secondary mr-2 btn-icon-text">
           <i class="btn-icon-prepend" data-feather="edit"></i>수정
         </button>
       </div>
@@ -126,7 +119,7 @@
 </th:block>
 <th:block layout:fragment="custom_js">
   <script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>
-  <script th:src="@{/assets/js/file-upload.js}"></script>
+<!--  <script th:src="@{/assets/js/file-upload.js}"></script>-->
 </th:block>
 
 </html>

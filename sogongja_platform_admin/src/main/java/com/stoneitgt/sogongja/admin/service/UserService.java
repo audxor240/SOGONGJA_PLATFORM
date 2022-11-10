@@ -41,6 +41,10 @@ public class UserService implements UserDetailsService {
 		return userMapper.getUserList(params, paging.getPaging());
 	}
 
+	public List<Map<String, Object>> getServiceMatchingList(Map<String, Object> params, Paging paging) {
+		return userMapper.getServiceMatchingList(params, paging.getPaging());
+	}
+
 	public Integer selectTotalRecords() {
 		return userMapper.selectTotalRecords();
 	}

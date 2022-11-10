@@ -20,6 +20,8 @@ public interface UserMapper {
 	List<Map<String, Object>> getUserList(Map<String, Object> params);
 
 	List<Map<String, Object>> getUserList(Map<String, Object> params, RowBounds rowBounds);
+	List<Map<String, Object>> getServiceMatchingList(Map<String, Object> params, RowBounds rowBounds);
+
 
 	User getUserInfo(int userSeq);
 
