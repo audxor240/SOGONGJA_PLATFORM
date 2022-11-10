@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>커뮤니티</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 커뮤니티">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 게시판">
+    <meta name="keywords" content="소공자 플랫폼, 첨부파일, 제목, 작성일, 커뮤니티">
+    <meta name="description" content="소공자 플랫폼 커뮤니티">
+</head>
+
+<body>
+    <article layout:fragment="content">
+        <section class="sub_visual">
+            <div class="container">
+                <h2 class="border_title">커뮤니티</h2>
+            </div>
+            <div class="lnb">
+                <ul class="container">
+                    <li><a href="#none">상점 커뮤니티</a></li>
+                    <li><a href="#none">지역 커뮤니티</a></li>
+                </ul>
+            </div>
+            <!--<th:block th:include="pages/board/board_nav"></th:block>-->
+        </section>
+        <section class="wrap">
+            <div class="sub_container">
+                <div class="view">
+                    <div class="view_title">
+                        <div>
+                            <h3 th:text="${data.subject}">소상공인 불공정 피해 상담센터 운영</h3>
+                            <span class="secret_img" th:if="${data.secret_use ne null}"></span>
+                        </div>
+                        <p>
+                            작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
+                        </p>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div class="view_change">
+                                <div class="moreBtn_wrap">
+                                    <span class="moreBtn"></span>
+                                    <ul class="morePop">
+                                        <li>
+                                            <span class="changeBtn">수정하기</span>
+                                        </li>
+                                        <li>
+                                            <span class="delBtn">삭제하기</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th:block>
+
+                    </div>
+                    <div class="view_text" id="viewer"></div>
+                    <ul class="file_list" th:if="${not #lists.isEmpty(fileList)}">
+                        <li th:each="item : ${fileList}">
+                            <a th:href="@{|/file/download/${item.file_seq}|}" th:text="${item.file_name}" download="">(Q&A)2021년 온라인미디어 예술활동 지원 주요 문의사항.pdf</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="reply_view">
+                    <div class="reply_view_top">
+                        <p>
+                            <span class="reply_num">2</span>
+                            개의 댓글 &nbsp;
+                            <span>최신순</span>
+                        </p>
+                        <a href="#none" class="more_reply pcBtn">댓글 더보기</a>
+                    </div>
+                    <ul class="reply_list">
+                        <li>
+                            <div class="reply_list_info_wrap">
+                                <div  class="reply_list_info">
+                                    <p>ID에 뒤에 ** 처리필요</p>
+                                    <span>작성한 날짜 노출</span>
+                                </div>
+                                <div class="moreBtn_wrap">
+                                    <span class="moreBtn"></span>
+                                    <ul class="morePop">
+                                        <li>
+                                            <span class="changeBtn">수정하기</span>
+                                        </li>
+                                        <li>
+                                            <span class="delBtn">삭제하기</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="reply_list_text">
+                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
+                            </p>
+                        </li>
+                        <li>
+                            <div class="reply_list_info_wrap">
+                                <div  class="reply_list_info">
+                                    <p>ID에 뒤에 ** 처리필요</p>
+                                    <span>작성한 날짜 노출</span>
+                                </div>
+                                <div class="moreBtn_wrap">
+                                    <span class="moreBtn"></span>
+                                    <ul class="morePop">
+                                        <li>
+                                            <span class="changeBtn">수정하기</span>
+                                        </li>
+                                        <li>
+                                            <span class="delBtn">삭제하기</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="reply_list_text">
+                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
+                            </p>
+                        </li>
+                    </ul>
+                    <form class="reply_write">
+                        <textarea name="" id="" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
+                        <button type="submit">댓글작성</button>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="btn_box">
+                <a class="btn btn_grey" href="javascript:window.history.back();">목록으로</a>
+            </div>
+
+        </section>
+
+        <!--삭제하기 여부 팝업-->
+        <div class="pop_up_wrap del_pop">
+            <div class="pop_up">
+                <div class="pop_head red">
+                    <h4>삭제하시겠습니까?</h4>
+                </div>
+                <div class="pop_main">
+                    <div class="pop_text">
+                        <p>해당 글을 삭제하시면</p>
+                        <p>다시 복구할 수 없습니다.</p>
+                    </div>
+                    <div class="pop_btn">
+                        <button type="button" class="btn backBtn redline">취소</button>
+                        <button type="button" id="board_del" class="btn red">삭제하기</button>
+                    </div>
+                </div>
+            </div>
+            <form name="deleteForm" th:action="@{/board/delete}" method="post">
+                <input type="hidden" name="boardSeq" id="boardSeq" th:value="${data.board_seq}">
+                <input type="hidden" name="boardSettingSeq" id="boardSettingSeq" th:value="${boardSettingSeq}">
+            </form>
+        </div>
+
+    </article>
+
+
+
+
+
+
+    <th:block layout:fragment="custom_css">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/toastui-editor-viewer.css}">
+    </th:block>
+    <th:block layout:fragment="custom_js">
+        <script th:inline="javascript">
+        var tui_content = /*[[${data.content}]]*/ '';
+        </script>
+        <script th:src="@{/js/libs/codemirror.js}"></script>
+        <script th:src="@{/js/libs/toastui-editor-viewer.js}"></script>
+        <script th:src="@{/js/pages/board/board_view.js}"></script>
+    </th:block>
+</body>
+
+</html>
