@@ -230,7 +230,7 @@
                         </div>
                     </div>
                     <div class="btn_box">
-                        <a th:href="@{/signup/agree}" class="btn">이전</a>
+                        <a th:href="@{/signup/agree}" class="btn" th:if="${type eq 'none'}">이전</a>
                         <button type="submit" class="btn blue">등록</button>
                     </div>
                 </form>

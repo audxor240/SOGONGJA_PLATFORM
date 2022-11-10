@@ -4,6 +4,7 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.domain.CommunityParameter;
+import com.stoneitgt.sogongja.user.properties.AppProperties;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
 import com.stoneitgt.sogongja.user.service.ReplyService;
@@ -48,6 +49,9 @@ public class CommunityController extends BaseController {
     @Autowired
     private ReplyService replyService;
 
+    @Autowired
+    private AppProperties appProperties;
+    
     @GetMapping("")
     public String communityList(@ModelAttribute CommunityParameter params, Model model) {
         System.out.println("params >> "+params);
@@ -94,9 +98,9 @@ public class CommunityController extends BaseController {
         communityService.saveCommunity(community);
 
         if(community.getCommunityType().equals("shop")){
-            returnUrl = "redirect:/community?type=shop";	//상점 커뮤니티
+            returnUrl = "redirect:"+appProperties.getHost()+"/community?type=shop";	//상점 커뮤니티
         }else if(community.getCommunityType().equals("region")){
-            returnUrl = "redirect:/community?type=region";	//지역 커뮤니티
+            returnUrl = "redirect:"+appProperties.getHost()+"/community?type=region";	//지역 커뮤니티
         }
 
         return returnUrl;
@@ -207,9 +211,9 @@ public class CommunityController extends BaseController {
 
         String returnUrl = "";
         if(communityType.equals("shop")){
-            returnUrl = "redirect:/community?type=shop";	//상점 커뮤니티
+            returnUrl = "redirect:"+appProperties.getHost()+"/community?type=shop";	//상점 커뮤니티
         }else {
-            returnUrl = "redirect:/community?type=region";	//지역 커뮤니티
+            returnUrl = "redirect:"+appProperties.getHost()+"/community?type=region";	//지역 커뮤니티
         }
 
         return returnUrl;

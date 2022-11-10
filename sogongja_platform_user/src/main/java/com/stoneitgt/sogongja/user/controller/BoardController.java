@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.stoneitgt.sogongja.domain.*;
+import com.stoneitgt.sogongja.user.properties.AppProperties;
 import com.stoneitgt.sogongja.user.service.AnswerService;
 import com.stoneitgt.sogongja.user.service.UserService;
 import org.apache.ibatis.jdbc.Null;
@@ -42,6 +43,9 @@ public class BoardController extends BaseController {
 
 	@Autowired
 	private AnswerService answerService;
+
+	@Autowired
+	private AppProperties appProperties;
 
 	@GetMapping("/type/{boardType:faq|community}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
@@ -90,10 +94,10 @@ public class BoardController extends BaseController {
 	public String boardList(@PathVariable String boardSettingSeq, @RequestParam(required=false) String name, @ModelAttribute BaseParameter params, Model model) {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("boardSettingSeq", boardSettingSeq);
-
+		System.out.println("appProperties.getHost() :::>>>"+appProperties.getHost());
 		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
 		if(boardSetting.getName().equals("지원 및 정책 사업")){
-			return "redirect:/board/project";
+			return "redirect:"+appProperties.getHost()+"/board/project";
 		}
 
 		paramsMap.put("board_type", boardSetting.getFileDirectoryName());
@@ -233,7 +237,7 @@ public class BoardController extends BaseController {
 			}
 		}
 
-		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq()+ "?";
+		String returnUrl = "redirect:"+appProperties.getHost()+"//board/" + board.getBoardSettingSeq()+ "?";
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -362,7 +366,7 @@ public class BoardController extends BaseController {
 
 		boardService.deleteBoard(params);
 		//rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/"+boardSettingSeq;
+		return "redirect:"+appProperties.getHost()+"//board/"+boardSettingSeq;
 	}
 
 }

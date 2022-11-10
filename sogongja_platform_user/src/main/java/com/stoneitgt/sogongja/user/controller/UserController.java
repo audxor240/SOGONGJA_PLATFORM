@@ -348,6 +348,9 @@ public class UserController extends BaseController {
 							  @RequestParam(value = "name" , required = false) String name,
 							  @RequestParam(value = "type" , required = false) String type,
 							  Model model) {
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/signup_agree";
 	}
@@ -371,6 +374,10 @@ public class UserController extends BaseController {
 		}else{
 			model.addAttribute("type", "none");
 		}
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
