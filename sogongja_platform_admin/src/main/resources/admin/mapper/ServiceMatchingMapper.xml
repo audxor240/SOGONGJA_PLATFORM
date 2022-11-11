@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.ServiceMatchingMapper">
+
+
+    <select id="getTitle" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : getTitle */
+        SELECT SS.TITLE, SS.REG_DATE
+             , COUNT(*) AS REGISTERED
+        FROM ST_USER_SURVEY US
+                 INNER JOIN ST_SURVEY_SETTING SS
+                            ON US.SURVEY_SETTING_SEQ = SS.SURVEY_SETTING_SEQ
+        WHERE US.REG_USER_SEQ = #{userSeq}
+    </select>
+
+    <select id="getQuestionList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : findTitle */
+        SELECT UQ.*
+        FROM ST_USER_QUESTION UQ
+        WHERE UQ.REG_USER_SEQ = #{userSeq};
+    </select>
+
+    <select id="getQuestion" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : getQuestion */
+        SELECT UQ.USER_QUESTION_SEQ, QS.TITLE, QS.QUESTION_TYPE
+        FROM ST_USER_QUESTION UQ
+                 INNER JOIN ST_QUESTION_SETTING QS
+                            ON UQ.QUESTION_SETTING_SEQ = QS.QUESTION_SETTING_SEQ
+        WHERE QS.QUESTION_SETTING_SEQ = #{questionSeq};
+    </select>
+
+    <select id="getChoiceAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : getChoiceAnswer */
+        SELECT GROUP_CONCAT(UA2.ANSWER SEPARATOR '^') AS ANSWER
+             , if(UA2.RANK IS NULL , 0, 1) AS RANKED
+        FROM ST_USER_QUESTION UQ
+                 INNER JOIN ST_USER_ANSWER2 UA2 ON UQ.USER_QUESTION_SEQ = UA2.USER_QUESTION_SEQ
+        WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
+        ORDER BY UA2.RANK ASC;
+    </select>
+
+    <select id="getAddAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : getAddAnswer */
+        SELECT
+            CASE UA1.`TYPE`
+                WHEN 1
+                    THEN (SELECT C3.NAME FROM ST_CATEGORY3 C3 WHERE C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ )
+                WHEN 2
+                    THEN UA1.ADDRESS
+                ELSE null
+                END AS ANSWER,
+            CASE UA1.`TYPE`
+                WHEN 1
+                    THEN ''
+                WHEN 2
+                    THEN (SELECT GROUP_CONCAT(QSK.KEYWORD SEPARATOR '^')
+                          FROM ST_USER_KEYWORD UK
+                                   INNER JOIN ST_QUESTION_SETTING_KEYWORD QSK
+                                              ON UK.QUESTION_SETTING_KEYWORD_SEQ = QSK.QUESTION_SETTING_KEYWORD_SEQ)
+                ELSE ''
+                END AS KEYWORD,
+            if(UA1.RANK IS NULL , 0, 1) AS RANKED
+        FROM ST_USER_QUESTION UQ
+                 INNER JOIN ST_USER_ANSWER1 UA1 ON UQ.USER_QUESTION_SEQ = UA1.USER_QUESTION_SEQ
+        WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
+        ORDER BY UA1.RANK ASC
+    </select>
+
+
+</mapper>

@@ -12,6 +12,7 @@
         <div class="card-body">
           <form name="searchForm" th:action="@{/serviceMatching(menuCode=${params.menuCode})}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
+            <input type="hidden" th:field="*{registered}">
             <div class="row">
               <div class="col-sm-11">
                 <div class="form-group row">
@@ -44,7 +45,76 @@
       <div class="card">
         <div class="card-body">
           <p class="card-description">
-            <th:block th:include="fragments/paging_result:: paging_result('')")></th:block>
+<!--            <th:block th:include="fragments/paging_result:: paging_result('')")></th:block>-->
+          <div class="result-info d-flex flex-sm-row align-items-center justify-content-sm-between pb-4 w-100 m_db">
+            <div>
+              <span class="title font-weight-bold h5 mr-2"></span>
+              <span class="result-count text-muted">
+                <span th:text="${#numbers.formatInteger(paging.total,0,'COMMA')}">87</span>
+                <span>Results</span>
+            </span>
+            </div>
+            <div class="pager row no-gutters align-items-center mobile_none" th:if="${paging.show}">
+              <div class="form-group row mr-1" style="width: 280px;">
+                <select id="sel_type" class="form-control col-sm-5">
+                  <option value="" th:selected="${params.sortName == '' || params.sortName == null}">이용자 유형 전체</option>
+                  <option value="1" th:selected="${params.sortName == 'type' && params.sortType == '1'}">사업자(소상공인)</option>
+                  <option value="2" th:selected="${params.sortName == 'type' && params.sortType == '2'}">예비창업자</option>
+                  <option value="3" th:selected="${params.sortName == 'type' && params.sortType == '3'}">임대 부동산 소유</option>
+                  <option value="4" th:selected="${params.sortName == 'type' && params.sortType == '4'}">일반인</option>
+                </select>
+
+                <select id="sel_reged" class="form-control col-sm-5">
+                  <option value="" th:selected="${params.registered == '' || params.registered == null}">등록여부 전체</option>
+                  <option value="1" th:selected="${params.registered == '1'}">등록</option>
+                  <option value="0" th:selected="${params.registered == '0'}">미등록</option>
+                </select>
+              </div>
+              <div class="mr-1">
+                <select id="gridPageSize" class="form-control">
+                  <option value="10" th:selected="${paging.size == 10}">10</option>
+                  <option value="20" th:selected="${paging.size == 20}">20</option>
+                  <option value="50" th:selected="${paging.size == 50}">50</option>
+                  <option value="100" th:selected="${paging.size == 100}">100</option>
+                  <option value="500" th:selected="${paging.size == 500}">500</option>
+                </select>
+              </div>
+              <div class="text-muted mr-4">
+                개씩 보기
+              </div>
+              <div class="text-muted mr-1">
+                Results:
+              </div>
+              <div class="page-info mr-3">
+                <span th:text="${paging.from}">1</span>
+                <span>-</span>
+                <span th:text="${paging.to}">10</span>
+                <span>of</span>
+                <span th:text="${#numbers.formatInteger(paging.total,0,'COMMA')}">100</span>
+              </div>
+              <th:block th:if="${paging.page > 1}">
+                <button type="button" class="btn btn-icon page-link" aria-label="previous page" th:data-page="${paging.prev}">
+                  <i data-feather="chevron-left"></i>
+                </button>
+              </th:block>
+              <th:block th:unless="${paging.page > 1}">
+                <button type="button" class="btn btn-icon" aria-label="previous page" aria-disabled="true">
+                  <i data-feather="chevron-left"></i>
+                </button>
+              </th:block>
+              <th:block th:if="${paging.page < paging.last}">
+                <button type="button" class="btn btn-icon page-link" aria-label="next page" th:data-page="${paging.next}">
+                  <i data-feather="chevron-right"></i>
+                </button>
+              </th:block>
+              <th:block th:unless="${paging.page < paging.last}">
+                <button type="button" class="btn btn-icon" aria-label="next page" aria-disabled="true">
+                  <i data-feather="chevron-right"></i>
+                </button>
+              </th:block>
+            </div>
+          </div>
+
           </p>
           <p class="card-description"></p>
           <div class="table-responsive">
@@ -109,15 +179,22 @@
 </th:block>
 <th:block layout:fragment="custom_js">
   <script>
-    (function() {
-      'use strict'
       $(document).ready(function() {
         commonSearchPaging();
 
+        $('#sel_type').change(function() {
+          $('#sortName').val('type');
+          $('#sortType').val($(this).val());
+          $('.btn-search').click();
+        });
+
+        $('#sel_reged').change(function() {
+          $('#registered').val($(this).val());
+          $('.btn-search').click();
+        });
+
       });
-    })();
   </script>
 </th:block>
-
 
 </html>
