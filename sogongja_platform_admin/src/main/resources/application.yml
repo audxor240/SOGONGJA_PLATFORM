@@ -55,7 +55,7 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
       username: root
       password: softlabsdusgn
 

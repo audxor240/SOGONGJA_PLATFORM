@@ -20,31 +20,47 @@
 
                 <div class="form-group row">
                   <div class="col-sm-12 mt-2">
-                    <h3>이름 / 아이디 노출  <span>님의 교육 및 컨설팅 매칭 설문 정보</span></h3>
+                    <h3>[[ ${user.username} ]] / [[ ${user.id} ]] <span>님의 교육 및 컨설팅 매칭 설문 정보</span></h3>
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">이용자 유형</label>
                   <div class="col-sm-2 mt-2 text-primary">
-                    <p>사업자(소상공인)</p>
+                    <th:block th:switch="${user.type}">
+                      <p th:case="'1'">사업자(소상공인) </p>
+                      <p th:case="'2'">예비창업자 </p>
+                      <p th:case="'3'">임대 부동산 소유 </p>
+                      <p th:case="'4'">일반인 </p>
+                      <p th:case="*"></p>
+                    </th:block>
                   </div>
                   <div class="col-sm-2 mt-2 text-primary">
-                    <p>사업 실행중</p>
+                    <th:block th:switch="${user.subType}">
+                      <p th:case="'1'">/ 사업 실행중</p>
+                      <p th:case="'2'">/ 휴/폐업(예정)중</p>
+                      <p th:case="'3'">/ 창업 준비중</p>
+                      <p th:case="'4'">/ 공실문제 해결</p>
+                      <p th:case="'5'">/ 시설관리, 임대관리</p>
+                      <p th:case="'6'">/ 빚, 채무 관련</p>
+                      <p th:case="*"></p>
+                    </th:block>
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">관련 설문</label>
                   <div class="col-sm-10 mt-2">
-                    <p>설문제목이 나오면 됩니다.</p>
+                    <p th:if="${top.title == null}"></p>
+                    <p th:unless="${top.title == null}">[[ ${top.title} ]]</p>
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">등록상태 / 등록일</label>
                   <div class="col-sm-10 mt-2">
-                    <p>등록 <span>2022-10-13</span></p>
+                    <p th:if="${top.registered == 0}">미등록<span></span></p>
+                    <p th:unless="${top.registered == 0}">등록 / <span>[[ ${#dates.format(top.reg_date, 'yyyy-MM-dd')} ]]</span></p>
                   </div>
                 </div>
               </div>
@@ -78,9 +94,11 @@
                 <tbody>
                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                  <td th:text="${paging.total - item.rnum + 1}">1</td>
-                  <td>구분</td>
-                  <td>종류</td>
+                  <td th:text="${itemStat.count}">1</td>
+                  <td th:text="${item.question}">구분</td>
+                  <td>
+                    <p th:utext="${item.answer}"></p>
+                  </td>
                 </tr>
                 </tbody>
               </table>
@@ -92,7 +110,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <a class="btn btn-outline-primary btn-icon-text" href="/serviceMatching">
+        <a class="btn btn-outline-primary btn-icon-text" th:href=@{|/serviceMatching?${pageParams}|}>
           <i class="btn-icon-prepend" data-feather="list"></i>목록
         </a>
       </div>

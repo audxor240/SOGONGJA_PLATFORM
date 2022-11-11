@@ -49,15 +49,39 @@
 	</select>
 
 	<select id="getServiceMatchingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : UserMapper.xml, id : getUserList */
-		SELECT U.*
-		, if((SELECT COUNT(*) FROM ST_USER_SURVEY US WHERE U.USER_SEQ = US.REG_USER_SEQ) > 0 , 1, 0) AS REGISTERED
-		FROM ST_USER U
-		WHERE U.DEL_FLAG = 0 AND U.AUTH = 'AU02'
-		<if test="field != null and field != '' and keyword != null and keyword != ''">
-			AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		ORDER BY USER_SEQ DESC
+		/* file : UserMapper.xml, id : getServiceMatchingList */
+
+		<choose>
+			<when test="registered != null and registered != ''">
+				SELECT * FROM (
+					SELECT U.*
+					, if((SELECT COUNT(*) FROM ST_USER_SURVEY US WHERE U.USER_SEQ = US.REG_USER_SEQ) > 0 , 1, 0) AS REGISTERED
+					FROM ST_USER U
+					WHERE U.DEL_FLAG = 0 AND U.AUTH = 'AU02'
+					<if test="field != null and field != '' and keyword != null and keyword != ''">
+						AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
+					</if>
+					<if test="sort_name != null and sort_name == 'type' and sort_type != null and sort_type != ''">
+						AND U.${sort_name} = #{sort_type}
+					</if>
+					ORDER BY USER_SEQ DESC) AS U2
+				WHERE U2.registered = #{registered}
+			</when>
+			<otherwise>
+				SELECT U.*
+				, if((SELECT COUNT(*) FROM ST_USER_SURVEY US WHERE U.USER_SEQ = US.REG_USER_SEQ) > 0 , 1, 0) AS REGISTERED
+				FROM ST_USER U
+				WHERE U.DEL_FLAG = 0 AND U.AUTH = 'AU02'
+				<if test="field != null and field != '' and keyword != null and keyword != ''">
+					AND U.${field} LIKE CONCAT('%', #{keyword}, '%')
+				</if>
+				<if test="sort_name != null and sort_name == 'type' and sort_type != null and sort_type != ''">
+					AND U.${sort_name} = #{sort_type}
+				</if>
+				ORDER BY USER_SEQ DESC
+			</otherwise>
+		</choose>
+
 	</select>
 
 	<select id="getUserInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.User">
