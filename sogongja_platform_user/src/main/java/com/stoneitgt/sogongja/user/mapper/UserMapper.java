@@ -35,6 +35,8 @@ public interface UserMapper {
 
 	int existedUserNickName(String nickName);
 
+	int existedUserEmail(String email);
+
 	int saveUser(User user);
 
 	int updatePassword(User user);

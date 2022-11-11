@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.stoneitgt.sogongja.user.mapper.CommunityMapper">
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.CommunityMapper">
 
     <select id="getCommunityList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CommunityMapper.xml, id : getCommunityList */
@@ -68,7 +68,7 @@
         , #{categoryCode1}
         , #{categoryCode2}
         , #{loginUserSeq}
-         )
+        )
 
         <selectKey resultType="int" keyProperty="communitySeq" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -79,20 +79,20 @@
         /* file : CommunityMapper.xml, id : updateCommunity */
         UPDATE ST_COMMUNITY
         SET
-           SUBJECT      = #{subject}
-          , CONTENT      = #{content}
-          , REGION_NAME1 = #{regionName1}
-          , REGION_NAME2 = #{regionName2}
-          , REGION_NAME3 = #{regionName3}
-          , REGION_CODE1 = #{regionCode1}
-          , REGION_CODE2 = #{regionCode2}
-          , REGION_CODE3 = #{regionCode3}
-          , CATEGORY_NAME1 = #{categoryName1}
-          , CATEGORY_NAME2 = #{categoryName2}
-          , CATEGORY_CODE1 = #{categoryCode1}
-          , CATEGORY_CODE2 = #{categoryCode2}
-          , MOD_USER_SEQ = #{loginUserSeq}
-          , MOD_DATE     = CURRENT_TIMESTAMP()
+        SUBJECT      = #{subject}
+        , CONTENT      = #{content}
+        , REGION_NAME1 = #{regionName1}
+        , REGION_NAME2 = #{regionName2}
+        , REGION_NAME3 = #{regionName3}
+        , REGION_CODE1 = #{regionCode1}
+        , REGION_CODE2 = #{regionCode2}
+        , REGION_CODE3 = #{regionCode3}
+        , CATEGORY_NAME1 = #{categoryName1}
+        , CATEGORY_NAME2 = #{categoryName2}
+        , CATEGORY_CODE1 = #{categoryCode1}
+        , CATEGORY_CODE2 = #{categoryCode2}
+        , MOD_USER_SEQ = #{loginUserSeq}
+        , MOD_DATE     = CURRENT_TIMESTAMP()
         WHERE COMMUNITY_SEQ    = #{communitySeq}
     </update>
 
@@ -113,7 +113,7 @@
     <select id="getCommunityInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Community">
         /* file : CommunityMapper.xml, id : getCommunityInfo */
         select C.*
-             , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
         from ST_COMMUNITY as C
         where C.DEL_FLAG = 0 AND C.COMMUNITY_SEQ = #{communitySeq};
     </select>
@@ -122,8 +122,8 @@
         /* file : CommunityMapper.xml, id : deleteCommunity */
         UPDATE ST_COMMUNITY
         SET DEL_FLAG     = 1
-          , DEL_USER_SEQ = #{login_user_seq}
-          , DEL_DATE     = CURRENT_TIMESTAMP()
+        , DEL_USER_SEQ = #{login_user_seq}
+        , DEL_DATE     = CURRENT_TIMESTAMP()
         WHERE COMMUNITY_SEQ      = #{community_seq} AND DEL_FLAG = 0
     </update>
 

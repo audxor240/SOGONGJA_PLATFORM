@@ -1,9 +1,9 @@
-package com.stoneitgt.sogongja.user.controller;
+package com.stoneitgt.sogongja.admin.controller;
 
 import com.stoneitgt.common.GlobalConstant;
+import com.stoneitgt.sogongja.admin.properties.AppProperties;
+import com.stoneitgt.sogongja.admin.service.ReplyService;
 import com.stoneitgt.sogongja.domain.Reply;
-import com.stoneitgt.sogongja.user.properties.AppProperties;
-import com.stoneitgt.sogongja.user.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,11 +44,11 @@ public class ReplyController extends BaseController {
         replyService.saveReply(reply);
 
         if(reply.getCommunityType().equals("shop")){
-            returnUrl = "redirect:"+appProperties.getHost()+"/community/"+reply.getCommunitySeq()+"?type=shop";	//상점 커뮤니티
+            returnUrl = "redirect:/community/detail/"+reply.getCommunitySeq()+"?type=shop";	//상점 커뮤니티
         }else if(reply.getCommunityType().equals("region")){
-            returnUrl = "redirect:"+appProperties.getHost()+"/community/"+reply.getCommunitySeq()+"?type=region";	//지역 커뮤니티
+            returnUrl = "redirect:/community/detail/"+reply.getCommunitySeq()+"?type=region";	//지역 커뮤니티
         }
-        System.out.println("returnUrl >> "+returnUrl);
+
         return returnUrl;
 
         //return "";
@@ -65,11 +65,12 @@ public class ReplyController extends BaseController {
 
         String returnUrl = "";
         if(communityType.equals("shop")){
-            returnUrl = "redirect:"+appProperties.getHost()+"/community/"+communitySeq+"?type=shop";	//상점 커뮤니티
+            returnUrl = "redirect:/community/detail/"+communitySeq+"?type=shop";	//상점 커뮤니티
         }else {
-            returnUrl = "redirect:"+appProperties.getHost()+"/community"+communitySeq+"?type=region";	//지역 커뮤니티
+            returnUrl = "redirect:/community/detail/"+communitySeq+"?type=region";	//지역 커뮤니티
         }
 
         return returnUrl;
     }
 }
+

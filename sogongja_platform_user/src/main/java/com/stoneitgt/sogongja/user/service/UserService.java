@@ -77,6 +77,10 @@ public class UserService implements UserDetailsService {
 		return userMapper.existedUserNickName(nickName);
 	}
 
+	public int existedUserEmail(String email) {
+		return userMapper.existedUserEmail(email);
+	}
+
 	public int saveUser(User user) {
 		if (StringUtil.isNotBlank(user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -14,6 +14,20 @@
 
     });
 
+    $('#del_community').on('click', function() {
+        if (confirm('해당 커뮤니티를 삭제하시겠습니까?')) {
+            var comStr = "";
+            $("input[name=com_check]:checked").each(function(){
+                comStr += $(this).val()+",";
+            })
+            comStr = comStr.slice(0,-1);
+            var form = document.forms.deleteForm;
+            form.comStr.value = comStr;
+
+            form.submit();
+        }
+    });
+
 })();
 
 function detailView( community_seq, reg_user_seq){
@@ -59,9 +73,9 @@ async function changeSido(obj){
     }));
 
     name = [...fiddong]
-
+console.log("name :: "+name);
     $(".sigunguBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
-    $(".dongBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
+    //$(".dongBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
 
     let html = '';
     name.forEach((sido) => {
@@ -86,6 +100,8 @@ async function changeSigungu(obj){
     }));
 
     name = [...fiddong]
+    console.log("changeSigungu");
+    console.log("name"+name);
 
     $(".dongBox").children('option:not(:first)').remove();    //첫번째 옵션 제외하고 삭제
 
@@ -93,7 +109,7 @@ async function changeSigungu(obj){
     name.forEach((sido) => {
 
         let htmlSegment = `<option id="${sido.name}" value="${sido.code}">
-                            ${sido.dong.trim()}
+                            ${sido.dong}
                         </option>`;
         html += htmlSegment;
     });

@@ -348,6 +348,9 @@ public class UserController extends BaseController {
 							  @RequestParam(value = "name" , required = false) String name,
 							  @RequestParam(value = "type" , required = false) String type,
 							  Model model) {
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/signup_agree";
 	}
@@ -371,6 +374,10 @@ public class UserController extends BaseController {
 		}else{
 			model.addAttribute("type", "none");
 		}
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
@@ -421,6 +428,25 @@ public class UserController extends BaseController {
 			if (userService.existedUserNickName(nickName) >= 1) {
 				resultCode = -102;
 			}
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result_code", resultCode);
+		return result;
+	}
+
+	@PostMapping("/signup/checked/email")
+	@ResponseBody
+	public Map<String, Object> checkedUserEmail(@RequestBody Map<String, Object> params) {
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+		//String nickName = StringUtil.getString(params.get("nickName"));
+		String email1 = StringUtil.getString(params.get("email1"));
+		String email2 = StringUtil.getString(params.get("email2"));
+
+		String email = email1+"@"+email2;
+
+		if (userService.existedUserEmail(email) >= 1) {
+			resultCode = -102;
 		}
 
 		Map<String, Object> result = new HashMap<String, Object>();

@@ -37,6 +37,7 @@
                     <input type="hidden" th:field="*{agree2}">
                     <input type="hidden" th:field="*{checkedId}">
                     <input type="hidden" th:field="*{checkedNickName}">
+                    <input type="hidden" th:field="*{checkedEmail}">
                     <input type="hidden" id="socialType" name="socialType" th:value="${type}">
                     <input type="hidden" id="uniqueId" name="uniqueId" th:value="${uniqueId}">
                     <div class="stage_02">
@@ -117,6 +118,7 @@
                                                 </select>
                                             </li>
                                         </ul>
+                                        <button type="button" id="btn-checked-email">중복확인</button>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
                                     </td>
                                 </tr>
@@ -230,7 +232,7 @@
                         </div>
                     </div>
                     <div class="btn_box">
-                        <a th:href="@{/signup/agree}" class="btn">이전</a>
+                        <a th:href="@{/signup/agree}" class="btn" th:if="${type eq 'none'}">이전</a>
                         <button type="submit" class="btn blue">등록</button>
                     </div>
                 </form>

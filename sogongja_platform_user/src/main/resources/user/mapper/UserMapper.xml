@@ -84,6 +84,14 @@
 		  AND U.NICK_NAME       = LOWER(#{nickName})
 	</select>
 
+	<select id="existedUserEmail" parameterType="string" resultType="int">
+		/* file : UserMapper.xml, id : existedUserEmail */
+		SELECT COUNT(*) AS CNT
+		FROM ST_USER U
+		WHERE U.DEL_FLAG = 0
+		  AND U.EMAIL       = LOWER(#{email})
+	</select>
+
 	<insert id="saveUser" parameterType="com.stoneitgt.sogongja.domain.User">
 		/* file : UserMapper.xml, id : saveUser */
 		INSERT

@@ -1,47 +1,125 @@
 (function() {
+    'use strict'
+    $(document).ready(function() {
 
-    $(".main_type").change(function(){
-        $(".sub_type option").attr("selected",false);
-        $(".sub_type").children('option:not(:first)').hide();    //첫번째 옵션 제외하고 숨김처리
-        $(".sub_type option[value*="+$(this).val()+"]").show();
-    });
+        editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'wysiwyg',
+            hideModeSwitch: true,
+            height: '500px',
+            previewStyle: 'vertical',
+            plugins: [toastui.Editor.plugin.colorSyntax],
+            linkAttribute: {
+                target: '_blank',
+                contenteditable: 'false',
+                rel: 'noopener noreferrer'
+            }
+        });
+        editor.setMarkdown(tui_content);
 
-    //상세보기이면
-    if(detail){
-        $('.main_type option:contains('+ categoryName1 +')').attr('selected', true);    //대분류 선택
-        var code = $('.main_type option:contains('+ categoryName1 +')').val();
-        $(".sub_type option[value*="+code+"]").show();
-        $('.sub_type option:contains('+ categoryName2 +')').attr('selected', true);     //중분류 선택
-    }
 
-    //수정하기/삭제하기 view
-    $(".moreBtn").click(function(){
-        if($(this).parent(".moreBtn_wrap").find(".morePop").css("display") == "none"){
-            $(this).parent(".moreBtn_wrap").find(".morePop").show();
-        }else{
-            $(this).parent(".moreBtn_wrap").find(".morePop").hide();
+        /*
+        // qna 수정할때 사용함 , 주석풀어야함
+        editor2 = new toastui.Editor({
+            el: document.querySelector('#editor2'),
+            initialEditType: 'wysiwyg',
+            hideModeSwitch: true,
+            height: '500px',
+            previewStyle: 'vertical',
+            plugins: [toastui.Editor.plugin.colorSyntax],
+            linkAttribute: {
+                target: '_blank',
+                contenteditable: 'false',
+                rel: 'noopener noreferrer'
+            }
+        });
+
+        editor2.setMarkdown(tui_content2);
+        */
+
+        $('.btn-delete-file').on('click', function() {
+            var fileSeq = $(this).data('file-seq');
+            var _$this = $(this);
+
+            if (confirm('파일을 삭제하시겠습니까?')) {
+                var data = {
+                    file_seq: fileSeq
+                }
+
+                ajaxPost('/file/delete', data, function(result) {
+                    if (result.result_code == 200) {
+                        showAlert('3');
+                        _$this.closest('div.attach-file').remove();
+                        // window.location.reload();
+                    }
+                });
+            }
+        });
+
+        $('input:radio[name="category"]').on('click', function() {
+            if ($(this).val() === 'VIDEO') {
+                $('#thumbnailImageFile').show();
+            } else {
+                $('#thumbnailImageFile').hide();
+            }
+        });
+
+        $('input:radio[name="popupFlag"]').on('click', function() {
+            if ($(this).val() === '0') {
+                $('#fromDt').val('');
+                $('#toDt').val('');
+                $('.popup-date').hide();
+            } else {
+                $('.popup-date').show();
+            }
+        });
+
+        $('#btn-add-file').on('click', function() {
+            if ($('.attach-file').length > 4) {
+                alert('최대 5개까지 가능합니다.');
+                return;
+            }
+            addFileRow();
+        });
+
+        $(document).on('click', '.btn-delete-upload', function() {
+            $(this).closest('div.attach-file').remove();
+            if ($('.attach-file-group .attach-file').length === 0) {
+                addFileRow();
+            }
+        });
+
+        function addFileRow() {
+            var strHTML = '';
+            strHTML += '<div class="pt-2 attach-file">';
+            strHTML += '  <input type="file" name="attachFiles" class="file-upload-default">';
+            strHTML += '  <div class="input-group col-xs-12">';
+            strHTML += '    <input type="text" class="form-control file-upload-title" disabled="disabled" placeholder="">';
+            strHTML += '    <span class="input-group-append">';
+            strHTML += '      <button type="button" class="file-upload-browse btn btn-primary">파일선택</button>';
+            strHTML += '      <button type="button" class="btn btn-danger btn-delete-upload ml-3">삭제</button>';
+            strHTML += '    </span>';
+            strHTML += '  </div>';
+            strHTML += '</div>';
+
+            $('div.attach-file-group:last').append(strHTML);
         }
 
+        //상세보기이면
+        if(detail){
+            $('.main_type option:contains('+ categoryName1 +')').attr('selected', true);    //대분류 선택
+            var code = $('.main_type option:contains('+ categoryName1 +')').val();
+            $(".sub_type option[value*="+code+"]").show();
+            $('.sub_type option:contains('+ categoryName2 +')').attr('selected', true);     //중분류 선택
+        }
     });
 
-    //수정하기 클릭
-    $(".changeBtn").click(function(){
-        var row_li = $(this).parent().parent().parent().parent().parent(".row_li");
-        row_li.find(".reply_write").show();   //댓글입력창
-        row_li.find(".morePop").hide()   //수정/삭제 view
-        row_li.find("#cancle_li").show();   //취소하기
-        row_li.find(".reply_list_text").hide();
-    });
+    $(".main_type").change(function(){
+        console.log("대분류 변경");
+        $(".sub_type").children('option:not(:first)').hide();    //첫번째 옵션 제외하고 숨김처리
+        $(".sub_type option[value*="+$(this).val()+"]").show();
 
-    //취소하기 클릭
-    $(".cancleBtn").click(function(){
-        var row_li = $(this).parent().parent().parent().parent().parent(".row_li");
-        row_li.find(".reply_write").hide();   //댓글입력창
-        row_li.find(".morePop").hide()   //수정/삭제 view
-        row_li.find("#cancle_li").hide();   //취소하기
-        row_li.find(".reply_list_text").show();
     });
-
 
     //댓글 등록
     $("#reply_w").click(function(){
@@ -55,156 +133,25 @@
         document.forms.replyWrite.submit();
     });
 
-    //댓글 수정
-    $(".replyUpdateBtn").click(function(){
-        $("#comment2").val($(this).parent(".reply_write").find("#comment2").val());
-        $("[name=replySeq]").val($(this).val());
-        document.forms.replyUpdate.submit();
-    });
-
     //댓글 삭제
     $(".delBtn").click(function(){
         if (confirm('댓글을 삭제하시겠습니까?')) {
-            $("[name=replySeq]").val($(this).data('value'));
+            $("[name=replySeq]").val($(this).val());
             document.forms.replyDelete.submit();
         }
     });
 
     //커뮤니티 삭제
-    $("#community_del").click(function(){
+    $(".communityDel-Btn").click(function(){
         if (confirm('삭제하시겠습니까?')) {
             document.forms.deleteForm.submit();
         }
     });
 
-
 })();
 
-
-function hiddenFile(o){
-    let file = '';
-    file += '<input type="file" name="file" id="'+o.id+'"/>';
-    return file;
-}
-
-function file(o){
-    let type = '';
-    if(o.ext === 'pptx' || o.ext === 'ppt'){
-        type = 'powerpoint';
-    }else if(o.ext === 'png' || o.ext === 'jpg'){
-        type = 'image';
-    }else if(o.ext === 'xlsx'){
-        type = 'excel';
-    }else if(o.ext === 'pdf'){
-        type = 'pdf';
-    }else {
-        type = 'alt';
-    }
-
-    let fileThumbnail = '';
-    fileThumbnail += '<div class="thumbnail">';
-    fileThumbnail += '  <i class="far fa-file-'+type+'"></i>';
-    fileThumbnail += '  <p class="name">'+o.name+'</p>';
-    fileThumbnail += '  <a href="#'+o.id+'" class="delete"><i class="far fa-minus-square"></i></a>';
-    fileThumbnail += '</div>';
-    return fileThumbnail;
-}
-
-function addFile(o){
-    $('.file-hidden-list').append(hiddenFile(o));
-    $('#' + o.id).click();
-    $('#' + o.id).on('change', function(e){
-        const arr1 = e.target.value.split('\\');
-        const name = arr1[arr1.length-1];
-        o.name = name;
-
-        const arr2 = e.target.value.split('.');
-        const ext = arr2[arr2.length-1];
-        o.ext = ext;
-
-        $('.file-list').append(file(o));
-    });
-}
-
-function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-$(document).on('click', '#addFile', function(){
-    addFile({id:makeid(10)});
-});
-$(document).on('click', '.delete', function(){
-    const id = $(this).attr('href');
-    $(id).remove();
-    $(this).parent().remove();
-});
-
-$('.btn-delete-file').on('click', function() {
-    var fileSeq = $(this).data('file-seq');
-    var _$this = $(this);
-    var id = _$this.parent().attr('id');
-
-    if (confirm('파일을 삭제하시겠습니까?')) {
-
-        var data = {
-            file_seq: fileSeq
-        }
-
-        ajaxPost('/file/delete', data, function(result) {
-            if (result.result_code == 200) {
-                alert("삭제되었습니다.");
-                $("#"+id).remove(); //해당 파일 삭제
-            }
-        });
-    }else{
-        return false;
-    }
-});
-
-$('#board_del').on('click', function() {
-    if (confirm('해당 게시물을 삭제하시겠습니까?')) {
-
-        //var boardSeq = $(this).data('boardSeq');
-        var form = document.forms.deleteForm;
-        //form.boardSeq.value = boardSeq;
-        //alert("form.boardSeq.value :: "+form.boardSeq.value);
-        form.submit();
-    }
-});
-
-var filesArr = new Array();
-
-function addFile2(obj){
-    for (const file of obj.files) {
-        // 파일 배열에 담기
-        var reader = new FileReader();
-        reader.onload = function () {
-            filesArr.push(file);
-        };
-        reader.readAsDataURL(file);
-
-        const preview = document.querySelector('#preview');
-        preview.innerHTML += `
-                        <p id="${file.lastModified}">
-                            <span class="file_icon"></span>
-                            <span class="file_name">${file.name}</span>
-                            <button type='button' data-index='${file.lastModified}' class='file-remove'>삭제</button>
-                        </p>`;
-
-    }
-
-}
-
 function validationForm() {
-
-    var form = document.querySelector("form");
-    var formData = new FormData(form);
+    var content = editor.getMarkdown();
     var regionName1 = $(".sidoBox option:selected").text();
     var regionName2 = $(".sigunguBox option:selected").text();
     var regionName3 = $(".dongBox option:selected").text();
@@ -215,16 +162,8 @@ function validationForm() {
     var categoryName2 = $(".sub_type option:selected").text();
     var categoryCode1 = $(".main_type option:selected").val();
     var categoryCode2 = $(".sub_type option:selected").val();
+    //var content2 = editor2.getMarkdown();
 
-    for (var i = 0; i < filesArr.length; i++) {
-        // 삭제되지 않은 파일만 폼데이터에 담기
-        //if (!filesArr[i].is_delete) {
-        //formData.append("fields", filesArr[i]);
-        console.log("filesArr[i].name :: "+filesArr[i].name);
-        //$("[name=attachFiles]").append(filesArr[i]);
-        formData.append("attachFiles", filesArr[i]);
-        //}
-    }
     if ($(".sidoBox option:selected").val() == "") {
         alert("지역(시)을 선택해주세요");
         return false;
@@ -268,21 +207,17 @@ function validationForm() {
 
     }
 
-    var content = editor.getMarkdown();
-    if($("#subject").val() == ""){
-        alert("제목을 입력해주세요.");
-        return false;
-    }
-
     if (content.trim() === '') {
-        alert('내용을 입력해주세요.');
+        alert('내용을 입력하세요.');
         return false;
     }
 
     $('#content').val(content);
     $("#communityType").val(community_type);
+
     return true;
 }
+
 
 var mainurl = `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=`
 async function fetchSido() {
@@ -303,8 +238,8 @@ async function renderSido() {
     let select = "";
     let htmlSegment = "";
     let code = "";
-
     sidoList.forEach((sido) => {
+
         //상세보기이면 선택해준다
         if(detail) {
             if(regionName1 === sido.name) {
@@ -326,7 +261,6 @@ async function renderSido() {
     }
 }
 renderSido();
-
 
 async function changeSido(obj,type){
     var code = "";
@@ -352,6 +286,7 @@ async function changeSido(obj,type){
     let html = '';
     let htmlSegment = "";
     let select = "";
+
     name.forEach((sido) => {
         if(detail) {
             if(regionName2 === sido.dong) {
@@ -368,7 +303,6 @@ async function changeSido(obj,type){
     if(detail && type != "") {
         await changeSigungu(code,"start");
     }
-
 }
 
 async function changeSigungu(obj,type){
