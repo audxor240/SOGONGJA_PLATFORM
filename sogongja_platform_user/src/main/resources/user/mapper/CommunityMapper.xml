@@ -8,26 +8,27 @@
         SELECT A.*
         , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
         , U.USERNAME                          AS REG_USERNAME
+        , (select count(*) from ST_REPLY as R where R.COMMUNITY_SEQ = A.COMMUNITY_SEQ and R.DEL_FLAG = 0) as REPLY_CNT
         FROM ST_COMMUNITY A
         INNER JOIN ST_USER U ON A.REG_USER_SEQ = U.USER_SEQ
         WHERE A.DEL_FLAG              = 0 AND A.COMMUNITY_TYPE = #{type}
         <if test="keyword != null and keyword != ''">
             AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
-        <if test="regionName1 != null and regionName1 != ''">
-            AND A.REGION_NAME1 = #{regionName1}
+        <if test="region_code1 != null and region_code1 != ''">
+            AND A.REGION_CODE1 = #{region_code1}
         </if>
-        <if test="regionName2 != null and regionName2 != ''">
-            AND A.REGION_NAME2 = #{regionName2}
+        <if test="region_code2 != null and region_code2 != ''">
+            AND A.REGION_CODE2 = #{region_code2}
         </if>
-        <if test="regionName3 != null and regionName3 != ''">
-            AND A.REGION_NAME3 = #{regionName3}
+        <if test="region_code3 != null and region_code3 != ''">
+            AND A.REGION_CODE3 = #{region_code3}
         </if>
-        <if test="categoryName1 != null and categoryName1 != ''">
-            AND A.CATEGORY_NAME1 = #{categoryName1}
+        <if test="category_code1 != null and category_code1 != ''">
+            AND A.CATEGORY_CODE1 = #{category_code1}
         </if>
-        <if test="categoryName2 != null and categoryName2 != ''">
-            AND A.CATEGORY_NAME2 = #{categoryName2}
+        <if test="category_code2 != null and category_code2 != ''">
+            AND A.CATEGORY_CODE2 = #{category_code2}
         </if>
         ORDER BY COMMUNITY_SEQ DESC
         /*||ORDER BY COMMUNITY_SEQ DESC||*/
@@ -43,8 +44,13 @@
         , REGION_NAME1
         , REGION_NAME2
         , REGION_NAME3
+        , REGION_CODE1
+        , REGION_CODE2
+        , REGION_CODE3
         , CATEGORY_NAME1
         , CATEGORY_NAME2
+        , CATEGORY_CODE1
+        , CATEGORY_CODE2
         , REG_USER_SEQ
         )
         VALUES (
@@ -54,8 +60,13 @@
         , #{regionName1}
         , #{regionName2}
         , #{regionName3}
+        , #{regionCode1}
+        , #{regionCode2}
+        , #{regionCode3}
         , #{categoryName1}
         , #{categoryName2}
+        , #{categoryCode1}
+        , #{categoryCode2}
         , #{loginUserSeq}
          )
 
@@ -73,8 +84,13 @@
           , REGION_NAME1 = #{regionName1}
           , REGION_NAME2 = #{regionName2}
           , REGION_NAME3 = #{regionName3}
+          , REGION_CODE1 = #{regionCode1}
+          , REGION_CODE2 = #{regionCode2}
+          , REGION_CODE3 = #{regionCode3}
           , CATEGORY_NAME1 = #{categoryName1}
           , CATEGORY_NAME2 = #{categoryName2}
+          , CATEGORY_CODE1 = #{categoryCode1}
+          , CATEGORY_CODE2 = #{categoryCode2}
           , MOD_USER_SEQ = #{loginUserSeq}
           , MOD_DATE     = CURRENT_TIMESTAMP()
         WHERE COMMUNITY_SEQ    = #{communitySeq}
@@ -96,7 +112,19 @@
 
     <select id="getCommunityInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Community">
         /* file : CommunityMapper.xml, id : getCommunityInfo */
-        select * from ST_COMMUNITY where COMMUNITY_SEQ = #{communitySeq};
+        select C.*
+             , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
+        from ST_COMMUNITY as C
+        where C.DEL_FLAG = 0 AND C.COMMUNITY_SEQ = #{communitySeq};
     </select>
+
+    <update id="deleteCommunity" parameterType="map" >
+        /* file : CommunityMapper.xml, id : deleteCommunity */
+        UPDATE ST_COMMUNITY
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE COMMUNITY_SEQ      = #{community_seq}
+    </update>
 
 </mapper>

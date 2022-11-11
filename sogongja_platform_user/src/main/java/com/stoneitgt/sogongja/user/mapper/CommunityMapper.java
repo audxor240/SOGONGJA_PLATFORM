@@ -23,4 +23,6 @@ public interface CommunityMapper {
     List<Map<String, Object>> getResearchShopSubGroupList();
 
     Community getCommunityInfo(int communitySeq);
+
+    int deleteCommunity(Map<String, Object> params);
 }

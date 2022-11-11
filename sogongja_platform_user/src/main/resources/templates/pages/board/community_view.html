@@ -19,8 +19,8 @@
             </div>
             <div class="lnb">
                 <ul class="container">
-                    <li><a href="#none">상점 커뮤니티</a></li>
-                    <li><a href="#none">지역 커뮤니티</a></li>
+                    <li th:classappend="${type eq 'shop'?'active':''}"><a th:href="@{/community(type=shop)}">상점 커뮤니티</a></li>
+                    <li th:classappend="${type eq 'region'?'active':''}"><a th:href="@{/community(type=region)}">지역 커뮤니티</a></li>
                 </ul>
             </div>
             <!--<th:block th:include="pages/board/board_nav"></th:block>-->
@@ -30,14 +30,14 @@
                 <div class="view">
                     <div class="view_title">
                         <div>
-                            <h3 th:text="${data.subject}">소상공인 불공정 피해 상담센터 운영</h3>
-                            <span class="secret_img" th:if="${data.secret_use ne null}"></span>
+                            <h3 th:text="${community.subject}">소상공인 불공정 피해 상담센터 운영</h3>
                         </div>
                         <p>
-                            작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
+                            작성일 <th:block th:text="${community.regDt}">2021.01.01</th:block>
                         </p>
+                        <!--/*
                         <th:block sec:authorize="isAuthenticated()">
-                            <div class="view_change">
+                            <div class="view_change" th:if="${detail == true}">
                                 <div class="moreBtn_wrap">
                                     <span class="moreBtn"></span>
                                     <ul class="morePop">
@@ -51,9 +51,9 @@
                                 </div>
                             </div>
                         </th:block>
-
+                        */-->
                     </div>
-                    <div class="view_text" id="viewer"></div>
+                    <div class="view_text" id="viewer">[[${community.content}]]</div>
                     <ul class="file_list" th:if="${not #lists.isEmpty(fileList)}">
                         <li th:each="item : ${fileList}">
                             <a th:href="@{|/file/download/${item.file_seq}|}" th:text="${item.file_name}" download="">(Q&A)2021년 온라인미디어 예술활동 지원 주요 문의사항.pdf</a>
@@ -61,68 +61,72 @@
                     </ul>
                 </div>
 
-                <div class="reply_view">
+                <div class="reply_view" >
                     <div class="reply_view_top">
                         <p>
-                            <span class="reply_num">2</span>
+                            <span class="reply_num">[[${#lists.size(replyList)}]]</span>
                             개의 댓글 &nbsp;
                             <span>최신순</span>
                         </p>
-                        <a href="#none" class="more_reply pcBtn">댓글 더보기</a>
+                        <a href="#none" class="more_reply pcBtn" th:if="${#lists.size(replyList) > 5}">댓글 더보기</a>
                     </div>
                     <ul class="reply_list">
-                        <li>
+                        <li th:each="item,i : ${replyList}" class="row_li">
                             <div class="reply_list_info_wrap">
                                 <div  class="reply_list_info">
-                                    <p>ID에 뒤에 ** 처리필요</p>
-                                    <span>작성한 날짜 노출</span>
+                                    <!--<p>ID에 뒤에 ** 처리필요</p>-->
+                                    <p>[[${item.nick_name}]]</p>
+                                    <span>[[${item.reg_dt}]]</span>
                                 </div>
-                                <div class="moreBtn_wrap">
+                                <div class="moreBtn_wrap" th:if="${myReplyList[i.index] == true}">
                                     <span class="moreBtn"></span>
                                     <ul class="morePop">
                                         <li>
                                             <span class="changeBtn">수정하기</span>
                                         </li>
+                                        <li id="cancle_li" style="display: none">
+                                            <span class="cancleBtn">취소하기</span>
+                                        </li>
                                         <li>
-                                            <span class="delBtn">삭제하기</span>
+                                            <span class="delBtn" th:data-value="${item.reply_seq}">삭제하기</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <p class="reply_list_text">
-                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
+                                [[${item.comment}]]
                             </p>
-                        </li>
-                        <li>
-                            <div class="reply_list_info_wrap">
-                                <div  class="reply_list_info">
-                                    <p>ID에 뒤에 ** 처리필요</p>
-                                    <span>작성한 날짜 노출</span>
-                                </div>
-                                <div class="moreBtn_wrap">
-                                    <span class="moreBtn"></span>
-                                    <ul class="morePop">
-                                        <li>
-                                            <span class="changeBtn">수정하기</span>
-                                        </li>
-                                        <li>
-                                            <span class="delBtn">삭제하기</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="reply_write"  style="display: none">
+                                <textarea name="comment" id="comment2" cols="30" rows="10" placeholder="댓글을 입력해주세요." th:utext="${item.comment}"></textarea>
+                                <button type="button" class="replyUpdateBtn" th:value="${item.reply_seq}">댓글 수정</button>
                             </div>
-                            <p class="reply_list_text">
-                                여기에 댓글이 쓰입니다. 몇 줄까지 쓰일지는 모르겠네요.
-                            </p>
                         </li>
                     </ul>
-                    <form class="reply_write">
-                        <textarea name="" id="" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
-                        <button type="submit">댓글작성</button>
-                    </form>
                 </div>
-
-
+                <th:block sec:authorize="isAuthenticated()">
+                    <div class="reply_view">
+                        <form th:action="@{/reply/replyWrite}" th:object="${reply}" method="post" onsubmit="return validationForm2();">
+                            <input type="hidden" name="replySeq" value="0">
+                            <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                            <input type="hidden" name="communityType" th:value="${type}">
+                            <div class="reply_write">
+                                <textarea name="comment" id="comment1" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
+                                <button type="submit">댓글 작성</button>
+                            </div>
+                        </form>
+                    </div>
+                </th:block>
+                <form class="reply_write" name="replyUpdate" th:action="@{/reply/replyWrite}" th:object="${reply}" method="post" onsubmit="return validationForm3();">
+                    <input type="hidden" name="replySeq">
+                    <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                    <input type="hidden" name="communityType" th:value="${type}">
+                    <input type="hidden" name="comment" >
+                </form>
+                <form class="reply_write" name="replyDelete" th:action="@{/reply/replyDelete}" method="post">
+                    <input type="hidden" name="replySeq">
+                    <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+                    <input type="hidden" name="communityType" th:value="${type}">
+                </form>
             </div>
             <div class="btn_box">
                 <a class="btn btn_grey" href="javascript:window.history.back();">목록으로</a>
@@ -147,29 +151,23 @@
                     </div>
                 </div>
             </div>
-            <form name="deleteForm" th:action="@{/board/delete}" method="post">
+            <!--/*<form name="deleteForm" th:action="@{/board/delete}" method="post">
                 <input type="hidden" name="boardSeq" id="boardSeq" th:value="${data.board_seq}">
                 <input type="hidden" name="boardSettingSeq" id="boardSettingSeq" th:value="${boardSettingSeq}">
-            </form>
+            </form>*/-->
         </div>
-
     </article>
-
-
-
-
-
-
     <th:block layout:fragment="custom_css">
         <link rel="stylesheet" type="text/css" th:href="@{/css/toastui-editor-viewer.css}">
     </th:block>
     <th:block layout:fragment="custom_js">
         <script th:inline="javascript">
-        var tui_content = /*[[${data.content}]]*/ '';
+        var tui_content = /*[[${community.content}]]*/ '';
+        var detail = /*[[${detail}]]*/ '';
         </script>
         <script th:src="@{/js/libs/codemirror.js}"></script>
         <script th:src="@{/js/libs/toastui-editor-viewer.js}"></script>
-        <script th:src="@{/js/pages/board/board_view.js}"></script>
+        <script th:src="@{/js/pages/board/community_write.js}"></script>
     </th:block>
 </body>
 

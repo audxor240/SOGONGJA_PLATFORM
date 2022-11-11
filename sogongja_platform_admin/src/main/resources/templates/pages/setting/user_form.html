@@ -49,7 +49,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">아이디</label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 mt-2">
                                         <input type="hidden" th:field="*{id}">
                                         <span th:text="*{id}">아이디</span>
                                         <!--                                    소셜 로그인일 때만 노출-->
@@ -57,7 +57,7 @@
                                             <th:block th:if="${user.naverId != null}"><img th:src="@{/assets/images/icon/naver.png}"></th:block>
                                             <th:block th:if="${user.kakaoId != null}"><img th:src="@{/assets/images/icon/kakao.png}"></th:block>
                                             <th:block th:if="${user.googleId != null}"><img th:src="@{/assets/images/icon/google.png}"></th:block>
-                                    </span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -152,14 +152,23 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">이메일</label>
                                     <div class="col-sm-6">
-                                        <input type="text" th:field="*{email1}" placeholder="이메일" title="email" maxlength="30" class="form-control">
-                                        <input type="text" th:field="*{email2}" placeholder="이메일" title="email" maxlength="30" class="form-control">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <input type="text" th:field="*{email1}" placeholder="이메일" title="email" maxlength="30" class="form-control">
+                                            </div>
+                                            <div class="p-0 mt-2 text-center">@</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" th:field="*{email2}" placeholder="이메일" title="email" maxlength="30" class="form-control">
+                                            </div>
+                                            <div class="col-sm-4">
                                                 <select th:field="*{email3}" class="form-control">
                                                     <option th:selected="*{email2 == ''}" value="">직접입력</option>
                                                     <option th:selected="*{email2 == 'naver.com'}" value="naver.com">네이버</option>
                                                     <option th:selected="*{email2 == 'daum.net'}" value="daum.net">다음</option>
                                                     <option th:selected="*{email2 == 'gmail.com'}" value="gmail.com">지메일</option>
                                                 </select>
+                                            </div>
+                                        </div>
 
 <!--                                        <input type="text" maxlength="50" th:field="*{email}" class="form-control">-->
 <!--                                        <th:block-->
@@ -173,15 +182,21 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">전화번호</label>
                                     <div class="col-sm-6">
-                                        <ul class="tel_ul">
-                                            <li>
+                                        <div class="tel_ul row">
+                                            <div class="col-sm-3">
                                                 <select th:field="*{hp1}" required>
                                                     <option value="010">010</option>
                                                 </select>
-                                            </li>
-                                            <li><input type="text" class="number_only" th:field="*{hp2}" title="휴대번호" placeholder="0000" maxlength="4"></li>
-                                            <li><input type="text" class="number_only" th:field="*{hp3}" title="휴대번호" placeholder="0000" maxlength="4"></li>
-                                        </ul>
+                                            </div>
+                                            <div class="p-0 mt-2 text-center">-</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="number_only form-control" th:field="*{hp2}" title="휴대번호" placeholder="0000" maxlength="4">
+                                            </div>
+                                            <div class="p-0 mt-2 text-center">-</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="number_only form-control" th:field="*{hp3}" title="휴대번호" placeholder="0000" maxlength="4">
+                                            </div>
+                                        </div>
 <!--                                        <input type="text" maxlength="15" th:field="*{tel}"-->
 <!--                                               class="form-control number_only">-->
 <!--                                        <th:block th:include="fragments/form_invalid:: form_invalid('tel')"></th:block>-->
