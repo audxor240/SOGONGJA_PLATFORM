@@ -127,4 +127,17 @@
         WHERE COMMUNITY_SEQ      = #{community_seq} AND DEL_FLAG = 0
     </update>
 
+    <select id="getShopCommunityList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : CommunityMapper.xml, id : getShopCommunityList */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        , REPLACE(U.NICK_NAME,RIGHT(U.NICK_NAME,3),'***')                          AS NICK_NAME
+        FROM ST_COMMUNITY A
+        INNER JOIN ST_USER U ON A.REG_USER_SEQ = U.USER_SEQ
+        WHERE A.DEL_FLAG              = 0 AND A.COMMUNITY_TYPE = #{communityType}
+        ORDER BY COMMUNITY_SEQ DESC LIMIT 10
+        /*||ORDER BY COMMUNITY_SEQ DESC||*/
+    </select>
+
 </mapper>

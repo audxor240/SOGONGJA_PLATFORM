@@ -31,6 +31,10 @@ public class CommunityService extends BaseService {
         return communityMapper.getCommunityList(params, paging.getPaging());
     }
 
+    public List<Map<String, Object>> getShopCommunityList(String communityType) {
+        return communityMapper.getShopCommunityList(communityType);
+    }
+
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public int saveCommunity(Community community) throws IOException {
         int result = 0;
