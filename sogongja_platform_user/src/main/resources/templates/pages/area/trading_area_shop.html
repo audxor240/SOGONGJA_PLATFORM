@@ -139,10 +139,22 @@
                     <span></span>
                 </div>
                 <h4>상점 Community</h4>
-                <a href="#none">글쓰기</a>
+                <a th:href="@{/community(type=shop)}">글쓰기</a>
             </div>
             <ul class="community_pop_list">
-                <li>
+                <li th:each="item : ${shopCommunityList}">
+                    <div class="community_main">
+                        <div class="top_info">
+                            <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
+                            <h5>[[${item.subject}]]</h5>
+                        </div>
+                        <div class="down_info">
+                            <p>[[${item.nick_name}]]</p>
+                            <span>[[${item.reg_dt}]]</span>
+                        </div>
+                    </div>
+                </li>
+                <!--<li>
                     <div class="community_main">
                         <div class="top_info">
                             <span>서울시 강남구 숙박음식점</span>
@@ -165,19 +177,7 @@
                             <span>2022.10.25</span>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <div class="community_main">
-                        <div class="top_info">
-                            <span>서울시 강남구 숙박음식점</span>
-                            <h5>재적의원과반수의 출석과 어쩌구 저쩌구</h5>
-                        </div>
-                        <div class="down_info">
-                            <p>아이디 노출</p>
-                            <span>2022.10.25</span>
-                        </div>
-                    </div>
-                </li>
+                </li>-->
             </ul>
 
 <!--            커뮤니티 상세 보기-->

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.user.service.BoardService;
+import com.stoneitgt.sogongja.user.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class AreaController extends BaseController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private CommunityService communityService;
+
 	@GetMapping("/shop")
 	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
 
@@ -36,8 +40,10 @@ public class AreaController extends BaseController {
 //		}
 //		System.out.println("==========================================================");
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		List<Map<String, Object>> shopCommunityList = communityService.getShopCommunityList("shop");
 
 		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("shopCommunityList", shopCommunityList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);

@@ -112,16 +112,14 @@
                     <thead>
                     <tr>
                         <!--<th style="width: 11.5%;">No</th>-->
-                        <th >지역(시)</th>
-                        <th >지역(구)</th>
-                        <th th:if="${params.type == 'region'}">지역(동)</th>
-                        <th th:if="${params.type == 'shop'}">업종(대분류)</th>
-                        <th th:if="${params.type == 'shop'}">업종(중분류)</th>
+                        <th >지역</th>
+                        <th th:if="${params.type == 'shop'}">업종</th>
+                        <th th:if="${params.type == 'region'}">동</th>
                         <th >제목</th>
                         <th >작성자</th>
                         <th style="width: 11.5%;">작성일</th>
                         <!--<th style="width: 11.5%;">첨부파일</th>-->
-                        <th >댓글</th>
+                        <th style="width: 6%;">댓글</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -129,11 +127,9 @@
                     <th:block th:unless="${#lists.isEmpty(list)}">
                         <tr th:each="item : ${list}">
                             <!--/*<td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>*/-->
-                            <td th:text="${item.region_name1}"></td>
-                            <td th:text="${item.region_name2}"></td>
-                            <td th:if="${params.type == 'region'}" th:text="${item.region_name3}"></td>
-                            <td th:if="${params.type == 'shop'}" th:text="${item.category_name1}"></td>
-                            <td th:if="${params.type == 'shop'}" th:text="${item.category_name2}"></td>
+                            <td>[[${item.region_name1}]]/[[${item.region_name2}]]</td>
+                            <td th:if="${params.type == 'shop'}">[[${item.category_name1}]]/[[${item.category_name2}]]</td>
+                            <td th:if="${params.type == 'region'}">[[${item.region_name3}]]</td>
                             <td class="txl">
                                 <a th:href="@{|/community/${item.community_seq}|(type=${params.type})}" >[[${item.subject}]]</a>
                             </td>
