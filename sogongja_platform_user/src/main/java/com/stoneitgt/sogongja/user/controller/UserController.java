@@ -435,6 +435,25 @@ public class UserController extends BaseController {
 		return result;
 	}
 
+	@PostMapping("/signup/checked/email")
+	@ResponseBody
+	public Map<String, Object> checkedUserEmail(@RequestBody Map<String, Object> params) {
+		int resultCode = GlobalConstant.API_STATUS.SUCCESS;
+		//String nickName = StringUtil.getString(params.get("nickName"));
+		String email1 = StringUtil.getString(params.get("email1"));
+		String email2 = StringUtil.getString(params.get("email2"));
+
+		String email = email1+"@"+email2;
+
+		if (userService.existedUserEmail(email) >= 1) {
+			resultCode = -102;
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result_code", resultCode);
+		return result;
+	}
+
 	@PostMapping("/signup/withdraw")
 	@ResponseBody
 	public Map<String, Object> withdrawUser(@RequestBody Map<String, Object> params, HttpServletRequest request) {

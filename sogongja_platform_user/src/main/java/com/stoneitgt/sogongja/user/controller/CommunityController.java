@@ -95,6 +95,8 @@ public class CommunityController extends BaseController {
             returnUrl += community.getPageParams();
         }
         community.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+        community.setRegionName3(community.getRegionName3().trim());        //공백제거
+
         communityService.saveCommunity(community);
 
         if(community.getCommunityType().equals("shop")){

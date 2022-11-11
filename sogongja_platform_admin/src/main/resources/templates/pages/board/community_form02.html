@@ -6,10 +6,20 @@
 </head>
 <div layout:fragment="content">
   <nav th:replace="fragments/page_breadcrumb"></nav>
-  <form name="editForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
-    <input type="hidden" th:field="*{boardSeq}">
-    <input type="hidden" th:field="*{boardType}">
+  <form name="editForm" th:action="@{/community/form}" th:object="${community}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+    <input type="hidden" th:field="*{communitySeq}">
+    <input type="hidden" th:field="*{communityType}">
     <input type="hidden" th:field="*{content}">
+    <input type="hidden" th:field="*{regionName1}">
+    <input type="hidden" th:field="*{regionName2}">
+    <input type="hidden" th:field="*{regionName3}">
+    <input type="hidden" th:field="*{regionCode1}">
+    <input type="hidden" th:field="*{regionCode2}">
+    <input type="hidden" th:field="*{regionCode3}">
+    <input type="hidden" th:field="*{categoryName1}">
+    <input type="hidden" th:field="*{categoryName2}">
+    <input type="hidden" th:field="*{categoryCode1}">
+    <input type="hidden" th:field="*{categoryCode2}">
     <input type="hidden" name="menuCode" th:value="${menuCode}">
     <input type="hidden" name="pageParams" th:value="${pageParams}">
     <div class="row">
@@ -20,12 +30,12 @@
               <label class="col-sm-1 col-form-label">지역선택</label>
               <div class="row col-sm-11">
                 <div class="col-sm-3">
-                  <select class="form-control" required>
+                  <select class="form-control sidoBox" onchange="changeSido(this,'');" required>
                     <option value="">시도</option>
                   </select>
                 </div>
                 <div class="col-sm-3">
-                  <select class="form-control" required>
+                  <select class="form-control sigunguBox" onchange="changeSigungu(this,'');" required>
                     <option value="">시군구</option>
                   </select>
                 </div>
@@ -33,11 +43,11 @@
             </div>
 <!--            지역-->
             <div class="form-group row">
-              <label class="col-sm-1 col-form-label">행정동 선택</label>
+              <label class="col-sm-1 col-form-label">동 선택</label>
               <div class="col-sm-11 row">
                 <div class="col-sm-3">
-                  <select class="form-control" required>
-                    <option value="">행정동</option>
+                  <select class="form-control dongBox" required>
+                    <option value="">동</option>
                   </select>
                 </div>
               </div>
@@ -106,62 +116,61 @@
         </div>
       </div>
     </div>
-    <div>
+    <div th:if="${detail eq true and #lists.size(replyList) > 0}">
       <div class="col-md-12">
         <div class="row card p-3">
-          <div class="row m-3">
-            <span class="col-md-1"></span>
-            <div class="col-md-10 text-dark bg-light">
-              <div class="card-body">
-                <h5 class="card-title">2</h5>
-                <p class="card-text">댓글 내용 노출</p>
-                <p class="card-text"><small class="text-muted"><span>작성자</span> 작성 날짜 노출</small></p>
-              </div>
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-danger" type="button"><i class="btn-icon-prepend" data-feather="trash-2"></i></button>
-            </div>
-          </div>
 
-          <div class="row m-3">
+          <div class="row m-3" th:each="item,i : ${replyList}">
             <span class="col-md-1"></span>
             <div class="col-md-10 text-dark bg-light">
               <div class="card-body">
-                <h5 class="card-title">1</h5>
-                <p class="card-text">댓글 내용 노출</p>
-                <p class="card-text"><small class="text-muted"><span>작성자</span> 작성 날짜 노출</small></p>
+                <h5 class="card-title"></h5>
+                <p class="card-text">[[${item.comment}]]</p>
+                <p class="card-text"><small class="text-muted"><span>[[${item.nick_name}]]</span> [[${item.reg_dt}]]</small></p>
               </div>
             </div>
             <div class="col-md-1">
-              <button class="btn btn-danger" type="button"><i class="btn-icon-prepend" data-feather="trash-2"></i></button>
+              <button class="btn btn-danger delBtn" type="button" th:value="${item.reply_seq}"><i class="btn-icon-prepend" data-feather="trash-2"></i></button>
             </div>
           </div>
           <hr>
           <div class="row m-3">
             <span class="col-md-1"></span>
-            <textarea class="col-md-10 form-control" name="" id="" cols="30" rows="5"></textarea>
-            <button class="btn btn-primary col-md-1" type="button">댓글달기</button>
+            <textarea class="col-md-10 form-control" name="comment" id="comment1" cols="30" rows="5"></textarea>
+            <button class="btn btn-primary col-md-1" type="button" id="reply_w">댓글달기</button>
           </div>
-
         </div>
       </div>
-
-
     </div>
     <div class="row m-3">
       <div class="col-sm-12">
-        <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
+        <a class="btn btn-outline-primary btn-icon-text" th:href="@{/community/region}">
           <i class="btn-icon-prepend" data-feather="list"></i>목록
         </a>
-        <button type="button" class="btn btn-danger">삭제</button>
-        <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{boardSeq == 0}">
+        <button type="button" class="btn btn-danger communityDel-Btn" th:value="${community.communitySeq}">삭제</button>
+        <button type="submit" class="btn btn-secondary mr-2 btn-icon-text" th:unless="*{communitySeq == 0}">
           <i class="btn-icon-prepend" data-feather="edit"></i>수정
         </button>
-        <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{boardSeq == 0}">
+        <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{communitySeq == 0}">
           <i class="btn-icon-prepend" data-feather="edit"></i>등록
         </button>
       </div>
     </div>
+  </form>
+  <form name="replyWrite" th:action="@{/reply/replyWrite}" th:object="${reply}" method="post" onsubmit="return validationForm2();">
+    <input type="hidden" name="replySeq" value="0">
+    <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+    <input type="hidden" name="communityType" th:value="${type}">
+    <input type="hidden" name="comment" id="comment_w">
+  </form>
+  <form class="reply_write" name="replyDelete" th:action="@{/reply/replyDelete}" method="post">
+    <input type="hidden" name="replySeq">
+    <input type="hidden" name="communitySeq" th:value="${community.communitySeq}">
+    <input type="hidden" name="communityType" th:value="${type}">
+  </form>
+  <form name="deleteForm" th:action="@{/community/delete}" method="post">
+    <input type="hidden" name="communitySeq" id="communitySeq" th:value="${community.communitySeq}">
+    <input type="hidden" name="communityType" th:value="${type}">
   </form>
 </div>
 <th:block layout:fragment="custom_css">
@@ -171,15 +180,23 @@
 </th:block>
 <th:block layout:fragment="custom_js">
   <script th:inline="javascript">
-    var tui_content = /*[[${board.content}]]*/ '';
-    var board_type = /*[[${boardType}]]*/ '';
+    var tui_content = /*[[${community.content}]]*/ '';
+    var board_type = /*[[${communityType}]]*/ '';
+    var community_type = /*[[${communityType}]]*/ '';
+    var detail = /*[[${detail}]]*/ '';
+    var regionName1 = [[${community.regionName1}]];
+    var regionName2 = [[${community.regionName2}]];
+    var regionName3 = [[${community.regionName3}]];
+    var categoryName1 = [[${community.categoryName1}]];
+    var categoryName2 = [[${community.categoryName2}]];
     var editor;
   </script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
   <script th:src="@{/assets/js/libs/codemirror.js}"></script>
   <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
   <script th:src="@{/assets/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
   <script th:src="@{/assets/js/file-upload.js}"></script>
-  <script th:src="@{/assets/js/pages/board/board_form.js}"></script>
+  <script th:src="@{/assets/js/pages/community/community_form.js}"></script>
 </th:block>
 
 </html>
