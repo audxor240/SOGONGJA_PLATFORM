@@ -1,6 +1,5 @@
-package com.stoneitgt.sogongja.admin.mapper;
+package com.stoneitgt.sogongja.user.mapper;
 
-import com.stoneitgt.sogongja.domain.Faq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -11,15 +10,8 @@ import java.util.Map;
 public interface FaqMapper {
 
     List<Map<String, Object>> getFaqList(Map<String, Object> params, RowBounds rowBounds);
-    int insertFaqBoard(List<Faq> faq);
 
-    void deleteAllFaq(int loginUserSeq);
-
-    Faq getFaq(int faqSeq);
-
-    int updateFaq(Faq faq);
-
-    int deleteFaq(Map<String, Object> params);
+    Map<String, Object> getFaqTypeList(Map<String, Object> paramsMap);
 
     int selectTotalRecords();
 }

@@ -296,9 +296,4 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardSettingInfo(boardSettingSeq);
 	}
 
-	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-	public void saveFaqBoard(Excel data) throws IOException {
-		boardMapper.insertFaqBoard(data);
-
-	}
 }
