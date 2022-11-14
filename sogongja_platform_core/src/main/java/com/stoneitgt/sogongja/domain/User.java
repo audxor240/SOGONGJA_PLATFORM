@@ -45,6 +45,8 @@ public class User implements UserDetails {
 
 	private String checkedNickName;
 
+	private String checkedEmail;
+
 	// 비밀번호
 	private String password;
 

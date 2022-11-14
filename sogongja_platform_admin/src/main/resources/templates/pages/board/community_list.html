@@ -11,10 +11,10 @@
       <div class="tab_wrap">
         <div class="row">
           <div class="col-sm-2 tab active">
-            <a href="#none">상점 커뮤니티</a>
+            <a th:href="@{/community/shop}">상점 커뮤니티</a>
           </div>
           <div class="col-sm-2 tab">
-            <a href="#none">지역 커뮤니티</a>
+            <a th:href="@{/community/region}">지역 커뮤니티</a>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <form name="searchForm" th:action="@{|/board/type/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+          <form name="searchForm" th:action="@{/community/shop}" th:object="${params}" method="get">
             <th:block th:include="fragments/search_hidden"></th:block>
             <div class="row">
               <div class="col-sm-12">
@@ -33,12 +33,12 @@
                     <label class="col-sm-2 col-form-label">지역선택</label>
                   </div>
                   <div class="col-sm-3">
-                    <select class="form-control">
+                    <select class="form-control sidoBox" name="regionCode1" onchange="changeSido(this);">
                       <option value="">시도</option>
                     </select>
                   </div>
                   <div class="col-sm-3">
-                    <select class="form-control">
+                    <select class="form-control sigunguBox" name="regionCode2">
                       <option value="">시군구</option>
                     </select>
                   </div>
@@ -52,20 +52,22 @@
                     <label class="col-sm-2 col-form-label">업종선택</label>
                   </div>
                   <div class="col-sm-3">
-                    <select class="form-control">
+                    <select class="form-control main_type" name="categoryCode1">
                       <option value="">상업업종 대분류</option>
+                      <option th:each="item : ${researchShopGroupList}" th:value="${item.code_type1}" th:text="${item.nm_type1}"></option>
                     </select>
                   </div>
                   <div class="col-sm-3">
-                    <select class="form-control">
+                    <select class="form-control sub_type" name="categoryCode2">
                       <option value="">상권업종 중분류</option>
+                      <option th:each="item : ${researchShopSubGroupList}" th:value="${item.code_type2}" th:text="${item.nm_type2}" style="display: none"></option>
                     </select>
                   </div>
-                  <div class="col-sm-3">
+                  <!--<div class="col-sm-3">
                     <select class="form-control">
                       <option value="">상권업종 소분류</option>
                     </select>
-                  </div>
+                  </div>-->
                 </div>
               </div>
             </div>
@@ -93,8 +95,13 @@
       <div class="card">
         <div class="card-body">
           <div class="text-right">
-            <button class="btn btn-secondary btn-icon-text btn-danger">선택 삭제</button>
+            <button class="btn btn-secondary btn-icon-text btn-danger" id="del_community">선택 삭제</button>
+            <!--/*
             <a th:href="@{|/board/type/${boardType}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text" >
+              <i class="btn-icon-prepend" data-feather="edit"></i>등록
+            </a>
+            */-->
+            <a th:href="@{|/community/form?${pageParams}|}" class="btn btn-secondary btn-icon-text" >
               <i class="btn-icon-prepend" data-feather="edit"></i>등록
             </a>
           </div>
@@ -133,22 +140,22 @@
                   <!--선택 체크박스-->
                   <div class="form-check form-check-inline">
                     <label class="form-check-label" style="margin: 0 auto;">
-                      <input type="checkbox" id="allChk">
+                      <input type="checkbox" id="allChk" name="com_check" th:value="${item.community_seq}">
                     </label>
                   </div>
                 </td>
                 <td>
-                  <span class="badge badge-primary" th:if="${item.notice_flag == true}">공지</span>
-                  <th:block th:unless="${item.notice_flag == true}" th:text="${paging.total - item.rnum + 1}">1</th:block>
+                  <!--/*<span class="badge badge-primary" th:if="${item.notice_flag == true}">공지</span>*/-->
+                  <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                 </td>
-                <td>지역</td>
-                <td>업종</td>
+                <td>[[${item.region_name1}]]/[[${item.region_name2}]]</td>
+                <td>[[${item.category_name1}]]/[[${item.category_name2}]]</td>
                 <td>
-                  <a th:href="@{|/board/${item.board_setting_seq}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                  <a th:href="@{|/community/detail/${item.community_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                 </td>
                 <td th:text="${item.reg_username}">작성자</td>
                 <td th:text="${item.reg_dt}">작성일</td>
-                <td>댓글</td>
+                <td th:text="${item.reply_cnt}">댓글</td>
               </tr>
               </tbody>
             </table>
@@ -158,16 +165,16 @@
       </div>
     </div>
   </div>
-  <form name="deleteForm" th:action="@{/board/delete}" method="post">
-    <input type="hidden" name="boardSeq">
-    <input type="hidden" name="boardSettingSeq" th:value="${boardSettingSeq}">
-    <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+  <form name="deleteForm" th:action="@{/community/batchDelete}" method="post">
+    <input type="hidden" name="comStr">
+    <input type="hidden" name="communityType" value="shop">
   </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-  <script th:src="@{/assets/js/pages/board/board_list.js}"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+  <script th:src="@{/assets/js/pages/community/community_list.js}"></script>
 </th:block>
 
 </html>

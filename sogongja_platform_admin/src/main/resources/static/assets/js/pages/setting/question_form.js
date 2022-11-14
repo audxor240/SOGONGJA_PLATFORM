@@ -64,6 +64,10 @@ $(document).ready(function () {
         }
     });
 
+    if($("select[name=answerType]").val() == "2"){
+        $('.div2').show();
+    }
+
 
     // 항목 선택형 태그삭제
     $('.del_tag').click(function(){

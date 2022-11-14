@@ -1,4 +1,4 @@
-package com.stoneitgt.sogongja.user.mapper;
+package com.stoneitgt.sogongja.admin.mapper;
 
 import com.stoneitgt.sogongja.domain.Community;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,8 +12,6 @@ public interface CommunityMapper {
 
 
     List<Map<String, Object>> getCommunityList(Map<String, Object> params, RowBounds paging);
-
-    List<Map<String, Object>> getShopCommunityList(String communityType);
     int insertCommunity(Community community);
 
     int updateCommunity(Community community);
@@ -28,3 +26,4 @@ public interface CommunityMapper {
 
     int deleteCommunity(Map<String, Object> params);
 }
+

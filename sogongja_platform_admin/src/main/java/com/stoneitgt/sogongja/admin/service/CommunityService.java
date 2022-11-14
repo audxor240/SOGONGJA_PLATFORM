@@ -1,14 +1,11 @@
-package com.stoneitgt.sogongja.user.service;
+package com.stoneitgt.sogongja.admin.service;
 
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
+import com.stoneitgt.sogongja.admin.mapper.CommunityMapper;
+import com.stoneitgt.sogongja.admin.mapper.ReplyMapper;
 import com.stoneitgt.sogongja.domain.Community;
-import com.stoneitgt.sogongja.user.config.DataSourceConfig;
-import com.stoneitgt.sogongja.user.mapper.BoardMapper;
-import com.stoneitgt.sogongja.user.mapper.CommunityMapper;
-import com.stoneitgt.sogongja.user.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +26,6 @@ public class CommunityService extends BaseService {
 
     public List<Map<String, Object>> getCommunityList(Map<String, Object> params, Paging paging) {
         return communityMapper.getCommunityList(params, paging.getPaging());
-    }
-
-    public List<Map<String, Object>> getShopCommunityList(String communityType) {
-        return communityMapper.getShopCommunityList(communityType);
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
