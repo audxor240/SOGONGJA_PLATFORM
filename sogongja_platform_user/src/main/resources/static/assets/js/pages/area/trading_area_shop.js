@@ -354,62 +354,8 @@ console.log("newPositions :: "+JSON.stringify(newPositions));
 var clusterer = new kakao.maps.MarkerClusterer({
     map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
     averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-    minLevel: 3, // 클러스터 할 최소 지도 레벨
-    calculator: [10, 30, 50], // 클러스터의 크기 구분 값, 각 사이값마다 설정된 text나 style이 적용된다
-    texts: getTexts, // texts는 ['삐약', '꼬꼬', '꼬끼오', '치멘'] 이렇게 배열로도 설정할 수 있다
-    styles: [{ // calculator 각 사이 값 마다 적용될 스타일을 지정한다
-        width : '30px', height : '30px',
-        background: 'rgba(51, 204, 255, .8)',
-        borderRadius: '15px',
-        color: '#000',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        lineHeight: '31px'
-    },
-        {
-            width : '40px', height : '40px',
-            background: 'rgba(255, 153, 0, .8)',
-            borderRadius: '20px',
-            color: '#000',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            lineHeight: '41px'
-        },
-        {
-            width : '50px', height : '50px',
-            background: 'rgba(255, 51, 204, .8)',
-            borderRadius: '25px',
-            color: '#000',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            lineHeight: '51px'
-        },
-        {
-            width : '60px', height : '60px',
-            background: 'rgba(255, 80, 80, .8)',
-            borderRadius: '30px',
-            color: '#000',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            lineHeight: '61px'
-        }
-    ]
+    minLevel: 4 // 클러스터 할 최소 지도 레벨
 });
-
-// 클러스터 내부에 삽입할 문자열 생성 함수입니다
-function getTexts( count ) {
-
-    // 한 클러스터 객체가 포함하는 마커의 개수에 따라 다른 텍스트 값을 표시합니다
-    if(count < 1000) {
-        return '삐약';
-    } else if(count < 5000) {
-        return '꼬꼬';
-    } else if(count < 10000) {
-        return '꼬끼오';
-    } else {
-        return '치멘';
-    }
-}
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
