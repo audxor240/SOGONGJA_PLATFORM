@@ -470,6 +470,29 @@
           AND PLACE_TYPE = #{placeType}
     </select>
 
+    <insert id="insertFaqBoard" parameterType="com.stoneitgt.sogongja.domain.Excel">
+        /* file : BoardMapper.xml, id : insertFaqBoard */
+        INSERT
+        INTO ST_BOARD (
+        BOARD_TYPE
+        , SUBJECT
+        , CONTENT
+        , CATEGORY
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES (
+        #{boardType}
+        , #{subject}
+        , #{content}
+        , #{category}
+        , #{loginUserSeq}
+        , CURRENT_TIMESTAMP())
+
+        <selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

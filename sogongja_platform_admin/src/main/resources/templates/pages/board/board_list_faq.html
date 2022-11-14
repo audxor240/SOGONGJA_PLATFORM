@@ -10,7 +10,7 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <form name="searchForm" th:action="@{|/faq/|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <div class="col-sm-4">
@@ -19,8 +19,13 @@
                                         <label class="col-sm-2 col-form-label">분류선택</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select th:field="*{category}" class="form-control">
-                                            <option th:each="item : ${category}" th:value="${item.code}" th:text="${item.code_name}">전체</option>
+                                        <select class="form-control" th:field="*{type}">
+                                            <!--/*<option th:each="item : ${category}" th:value="${item.code}" th:text="${item.code_name}">전체</option>*/-->
+                                            <option value="">선택해주세요</option>
+                                            <option value="CON">소공자 컨설팅</option>
+                                            <option value="EDU">소공자 교육</option>
+                                            <option value="GUIDE">이용 가이드</option>
+                                            <option value="USER">소공자 회원</option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,8 +52,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-end">
-                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_education">선택삭제</button>
-                        <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_faq">선택삭제</button>
+                        <form th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                            <input type="file" id="fileExcel" name="file">
+                            <input type="hidden" name="excelType" value="faq">
+                            <button type="submit" class="btn col-sm-1 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
+                        </form>
                     </div>
                     <p class="card-description">
                         <th:block th:include="fragments/paging_result02:: paging_result('')"></th:block>
@@ -74,13 +83,13 @@
                                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                                 <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                     <td>
-                                        <input type="checkbox" name="" >
+                                        <input type="checkbox" name="faq_check" th:value="${item.faq_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
                                     <td>
-                                        <span class="badge" th:classappend="|badge-${item.category_class}|" th:text="${item.category_name}">유형</span></td>
+                                        <span class="badge" th:classappend="|badge-${item.type_color}|" th:text="${item.type_name}">유형</span></td>
                                     <td>
-                                        <a th:href="@{|/board/${boardType}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                        <a th:href="@{|/faq/${item.faq_seq}?${params}|}" th:text="${item.subject}">제목</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -91,16 +100,14 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/board/delete}" method="post">
-        <input type="hidden" name="boardSeq">
-        <input type="hidden" name="boardType" th:value="${boardType}">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    <form name="deleteForm" th:action="@{/faq/delete}" method="post">
+        <input type="hidden" name="faqStr">
     </form>
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/assets/js/pages/board/board_list.js}"></script>
+    <script th:src="@{/assets/js/pages/faq/faq_list.js}"></script>
 </th:block>
 
 </html>
