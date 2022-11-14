@@ -6,7 +6,8 @@
 
     <select id="getTitle" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getTitle */
-        SELECT SS.TITLE, SS.REG_DATE
+        SELECT SS.TITLE
+             , SS.REG_DATE
              , COUNT(*) AS REGISTERED
         FROM ST_USER_SURVEY US
                  INNER JOIN ST_SURVEY_SETTING SS
@@ -19,7 +20,7 @@
         SELECT UQ.*
         FROM ST_USER_QUESTION UQ
         WHERE UQ.REG_USER_SEQ = #{userSeq}
-        AND UQ.DEL_FLAG = 0;
+          AND UQ.DEL_FLAG = 0;
     </select>
 
     <select id="getQuestion" resultType="com.stoneitgt.common.LowerKeyMap">
@@ -28,13 +29,13 @@
         FROM ST_USER_QUESTION UQ
                  INNER JOIN ST_QUESTION_SETTING QS
                             ON UQ.QUESTION_SETTING_SEQ = QS.QUESTION_SETTING_SEQ
-        WHERE QS.QUESTION_SETTING_SEQ = #{param1} AND UQ.REG_USER_SEQ = #{param2};
+        WHERE UQ.USER_QUESTION_SEQ = #{param1}
     </select>
 
     <select id="getChoiceAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getChoiceAnswer */
         SELECT GROUP_CONCAT(UA2.ANSWER SEPARATOR '^') AS ANSWER
-             , if(UA2.RANK IS NULL , 0, 1) AS RANKED
+             , if(UA2.RANK IS NULL, 0, 1)             AS RANKED
         FROM ST_USER_QUESTION UQ
                  INNER JOIN ST_USER_ANSWER2 UA2 ON UQ.USER_QUESTION_SEQ = UA2.USER_QUESTION_SEQ
         WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
@@ -43,28 +44,28 @@
 
     <select id="getAddAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getAddAnswer */
-        SELECT
-            CASE UA1.`TYPE`
-                WHEN 1
-                    THEN GROUP_CONCAT(C3.NAME SEPARATOR '^')
-                WHEN 2
-                    THEN UA1.ADDRESS
-                ELSE null
-                END AS ANSWER,
-            CASE UA1.`TYPE`
-                WHEN 1
-                    THEN ''
-                WHEN 2
-                    THEN (SELECT GROUP_CONCAT(QSK.KEYWORD SEPARATOR '^')
-                          FROM ST_USER_KEYWORD UK
-                                   INNER JOIN ST_QUESTION_SETTING_KEYWORD QSK
-                                              ON UK.QUESTION_SETTING_KEYWORD_SEQ = QSK.QUESTION_SETTING_KEYWORD_SEQ)
-                ELSE ''
-                END AS KEYWORD,
-            if(UA1.RANK IS NULL , 0, 1) AS RANKED
+        SELECT CASE UA1.`TYPE`
+                   WHEN 1
+                       THEN (SELECT GROUP_CONCAT(C3.NAME SEPARATOR '^')
+                             FROM ST_USER_ANSWER1 UA1
+                                      INNER JOIN ST_CATEGORY3 C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ)
+                   WHEN 2
+                       THEN GROUP_CONCAT(UA1.ADDRESS SEPARATOR '^')
+                   ELSE null
+                   END                    AS ANSWER,
+               CASE UA1.`TYPE`
+                   WHEN 1
+                       THEN ''
+                   WHEN 2
+                       THEN (SELECT GROUP_CONCAT(QSK.KEYWORD SEPARATOR '^')
+                             FROM ST_USER_KEYWORD UK
+                                      INNER JOIN ST_QUESTION_SETTING_KEYWORD QSK
+                                                 ON UK.QUESTION_SETTING_KEYWORD_SEQ = QSK.QUESTION_SETTING_KEYWORD_SEQ)
+                   ELSE ''
+                   END                    AS KEYWORD,
+               if(UA1.RANK IS NULL, 0, 1) AS RANKED
         FROM ST_USER_QUESTION UQ
                  INNER JOIN ST_USER_ANSWER1 UA1 ON UQ.USER_QUESTION_SEQ = UA1.USER_QUESTION_SEQ
-                 INNER JOIN ST_CATEGORY3 C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ
         WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
         ORDER BY UA1.RANK ASC
     </select>
