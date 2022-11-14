@@ -10,7 +10,7 @@ public interface ServiceMatchingMapper {
 
     Map<String, Object> getTitle(int userSeq);
     List<Map<String, Object>> getQuestionList(int userSeq);
-    Map<String, Object> getQuestion(int questionSeq);
+    Map<String, Object> getQuestion(int questionSeq, int userSeq);
     Map<String, Object> getChoiceAnswer(int userQuestionSeq);
     Map<String, Object> getAddAnswer(int userQuestionSeq);
 
