@@ -33,9 +33,9 @@ public class MatchingService extends BaseService {
         for (Map<String, Object> question : questionList) {
 
             SurveyMatching surveyMatching = new SurveyMatching();
-            int questionSeq = Integer.parseInt((question.get("question_setting_seq").toString()));
+            int questionSeq = Integer.parseInt((question.get("user_question_seq").toString()));
 
-            Map<String, Object> questionDetail = serviceMatchingMapper.getQuestion(questionSeq, userSeq);
+            Map<String, Object> questionDetail = serviceMatchingMapper.getQuestion(questionSeq);
             int userQuestionSeq = Integer.parseInt(questionDetail.get("user_question_seq").toString());
             String coa = questionDetail.get("question_type").toString();
             surveyMatching.setQuestion(questionDetail.get("title").toString());
@@ -57,7 +57,7 @@ public class MatchingService extends BaseService {
                 } else {
                     String[] answers = choiceAnswer.get("answer").toString().split("\\^");
                     for (int i = 0; i < answers.length; i++) {
-                        answer += (i + 1) + ". " + answers[i];
+                        answer += (i + 1) + ". " + answers[i] + "<br/>";
                     }
                 }
                 surveyMatching.setAnswer(answer);
@@ -79,7 +79,7 @@ public class MatchingService extends BaseService {
                         }
                     } else {
                         for (int i = 0; i < answers.length; i++) {
-                            answer += (i + 1) + ". " + answers[i];
+                            answer += (i + 1) + ". " + answers[i] + "<br/>";
                         }
                     }
                     answer += "<br/>";
@@ -88,7 +88,7 @@ public class MatchingService extends BaseService {
                 String keyword = addAnswer.get("keyword").toString();
                 if (keyword.length() > 0) {
                     String[] keywords = keyword.split("\\^");
-
+                    answer += "키워드 <br/>";
                     if (ranked == 0) {
                         for (int i = 0; i < keywords.length; i++) {
                             answer += keywords[i];
@@ -98,7 +98,7 @@ public class MatchingService extends BaseService {
                         }
                     } else {
                         for (int i = 0; i < keywords.length; i++) {
-                            answer += (i + 1) + ". " + keywords[i];
+                            answer += (i + 1) + ". " + keywords[i] + "<br/>";
                         }
                     }
                 }
