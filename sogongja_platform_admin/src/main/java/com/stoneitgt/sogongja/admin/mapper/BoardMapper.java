@@ -69,6 +69,4 @@ public interface BoardMapper {
 	BoardSetting getBoardSettingInfo(int boardSettingSeq);
 
 	String getProjectCheck(Map<String,Object> project);
-
-	int insertFaqBoard(Excel excel);
 }
