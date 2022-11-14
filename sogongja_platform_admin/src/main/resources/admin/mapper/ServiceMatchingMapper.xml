@@ -18,16 +18,17 @@
         /* file : ServiceMatchingMapper.xml, id : findTitle */
         SELECT UQ.*
         FROM ST_USER_QUESTION UQ
-        WHERE UQ.REG_USER_SEQ = #{userSeq};
+        WHERE UQ.REG_USER_SEQ = #{userSeq}
+        AND UQ.DEL_FLAG = 0;
     </select>
 
-    <select id="getQuestion" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getQuestion" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getQuestion */
         SELECT UQ.USER_QUESTION_SEQ, QS.TITLE, QS.QUESTION_TYPE
         FROM ST_USER_QUESTION UQ
                  INNER JOIN ST_QUESTION_SETTING QS
                             ON UQ.QUESTION_SETTING_SEQ = QS.QUESTION_SETTING_SEQ
-        WHERE QS.QUESTION_SETTING_SEQ = #{questionSeq};
+        WHERE QS.QUESTION_SETTING_SEQ = #{param1} AND UQ.REG_USER_SEQ = #{param2};
     </select>
 
     <select id="getChoiceAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
@@ -45,7 +46,7 @@
         SELECT
             CASE UA1.`TYPE`
                 WHEN 1
-                    THEN (SELECT C3.NAME FROM ST_CATEGORY3 C3 WHERE C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ )
+                    THEN GROUP_CONCAT(C3.NAME SEPARATOR '^')
                 WHEN 2
                     THEN UA1.ADDRESS
                 ELSE null
@@ -63,6 +64,7 @@
             if(UA1.RANK IS NULL , 0, 1) AS RANKED
         FROM ST_USER_QUESTION UQ
                  INNER JOIN ST_USER_ANSWER1 UA1 ON UQ.USER_QUESTION_SEQ = UA1.USER_QUESTION_SEQ
+                 INNER JOIN ST_CATEGORY3 C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ
         WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
         ORDER BY UA1.RANK ASC
     </select>
