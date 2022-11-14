@@ -6,9 +6,8 @@
 </head>
 <div layout:fragment="content">
     <nav th:replace="fragments/page_breadcrumb"></nav>
-    <form name="editForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
-        <input type="hidden" th:field="*{boardSeq}">
-        <input type="hidden" th:field="*{boardType}">
+    <form name="editForm" th:action="@{/faq/form}" th:object="${faq}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
+        <input type="hidden" th:field="*{faqSeq}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">
         <div class="row">
@@ -20,13 +19,37 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">분류</label>
                                     <div class="col-sm-9">
-                                        <div class="form-check form-check-inline" th:each="item : ${category}">
+                                        <!--/*<div class="form-check form-check-inline" th:each="item : ${category}">
                                             <label class="form-check-label">
                                                 <input type="radio" class="form-check-input" th:field="*{category}" th:value="${item.code}" th:text="${item.code_name}" required="required">유형
                                                 <i class="input-frame"></i>
                                             </label>
+                                        </div>*/-->
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="type" required="required" th:checked="${faq.type == 'CON'}" value="CON">소공자 컨설팅
+                                                <i class="input-frame"></i>
+                                            </label>
                                         </div>
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('category')"></th:block>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="type"  required="required" th:checked="${faq.type == 'EDU'}" value="EDU">소공자 교육
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="type"  required="required" th:checked="${faq.type == 'USER'}" value="USER">소공자 회원
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="type"  required="required" th:checked="${faq.type == 'GUIDE'}" value="GUIDE">이용 가이드
+                                                <i class="input-frame"></i>
+                                            </label>
+                                        </div>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('type')"></th:block>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +59,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">질문</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" th:field="*{content}" required="required" rows="20"></textarea>
+                                        <textarea class="form-control" th:field="*{subject}" required="required" rows="20"></textarea>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
                                     </div>
                                 </div>
@@ -59,10 +82,10 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/board/${board.boardType}?${pageParams}|}">
+                <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/faq?${pageParams}|}">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
-                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{boardSeq == 0}">
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:unless="*{faqSeq == 0}">
                     <i class="btn-icon-prepend" data-feather="edit"></i>저장
                 </button>
             </div>
