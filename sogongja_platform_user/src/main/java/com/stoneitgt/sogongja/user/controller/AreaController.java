@@ -64,6 +64,7 @@ public class AreaController extends BaseController {
 	@PostMapping("/shop/details")
 	public @ResponseBody List<Map<String, Object>> shopAreaCountOrList(@RequestBody MapParameter params, Model model) {
 
+		if (params.getZoom() > 14) params.setZoom(14);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		String[] codeType1 = params.getCodeType1();
@@ -72,8 +73,6 @@ public class AreaController extends BaseController {
 			scope += "'" + codeType1[i] + "',";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
-
-		if (params.getZoom() > 14) params.setZoom(14);
 		paramsMap.put("scope", scope);
 		List<Map<String, Object>> results = new ArrayList<>();
 
