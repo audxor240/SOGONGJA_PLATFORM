@@ -87,7 +87,7 @@
       <div class="card">
         <div class="card-body">
           <div class="row justify-content-between">
-            <div class="col-sm-5 row pl-4">
+            <div class="col-sm-4 row pl-4">
               <label for="all_check" class="mt-2">
                 <input type="checkbox" id="all_check">
                 전체선택
@@ -104,10 +104,18 @@
                 </div>
               </th:block>
             </div>
-            <div class="row justify-content-end col-sm-6">
+            <div class="row justify-content-end col-sm-8">
               <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
               <button type="button" class="btn col-sm-2 btn-primary mr-1"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
-              <button type="button" class="btn col-sm-2 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i> 일괄등록</button>
+              <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                <div class="col-sm-8 mt-1 mr-3 custom-file">
+                  <input class="custom-file-input" type="file" id="fileExcel" name="file">
+                  <label class="custom-file-label" for="fileExcel">파일선택</label>
+                  <input type="hidden" name="excelType" value="faq">
+                </div>
+                <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
+                <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
+              </form>
             </div>
           </div>
           <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">

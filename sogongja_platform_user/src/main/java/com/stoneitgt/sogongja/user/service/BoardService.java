@@ -138,5 +138,10 @@ public class BoardService extends BaseService {
 		return boardMapper.getboardSettingInfo(boardSettingSeq);
 	}
 
+	public BoardSetting getboardSettingQnaInfo(){
+
+		return boardMapper.getboardSettingQnaInfo();
+	}
+
 
 }

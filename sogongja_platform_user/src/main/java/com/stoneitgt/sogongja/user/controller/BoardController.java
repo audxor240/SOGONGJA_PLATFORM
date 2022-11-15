@@ -69,6 +69,10 @@ public class BoardController extends BaseController {
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("boardType", boardType);
@@ -92,35 +96,33 @@ public class BoardController extends BaseController {
 
 	@GetMapping("/{boardSettingSeq}")
 	public String boardList(@PathVariable String boardSettingSeq, @RequestParam(required=false) String name, @ModelAttribute BaseParameter params, Model model) {
+		System.out.println("params >> "+params);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		paramsMap.put("boardSettingSeq", boardSettingSeq);
-		System.out.println("appProperties.getHost() :::>>>"+appProperties.getHost());
+
 		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
+
 		if(boardSetting.getName().equals("지원 및 정책 사업")){
-			return "redirect:"+appProperties.getHost()+"/board/project";
+			return "redirect:"+appProperties.getHost()+"/board/project?name="+name;
 		}
 
 		paramsMap.put("board_type", boardSetting.getFileDirectoryName());
 		List<Map<String, Object>> list = null;
 
-		/*if (BOARD_TYPE.FAQ.equals(boardType)) {
-			list = boardService.getBoardList(paramsMap);
-			model.addAttribute("categoryCount", boardService.getBoardCategoryCount(paramsMap));
-		} else {
-		*/
+		Paging paging = getUserPaging(params.getPage(), params.getSize());
 
-			Paging paging = getUserPaging(params.getPage(), params.getSize());
+		list = boardService.getBoardList(paramsMap, paging);
+		Integer total = boardService.selectTotalRecords();
+		paging.setTotal(total);
 
-			list = boardService.getBoardList(paramsMap, paging);
-			Integer total = boardService.selectTotalRecords();
-			paging.setTotal(total);
-			//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
-		System.out.println("paging : "+paging);
-			model.addAttribute("paging", paging);
-		//}
+		model.addAttribute("paging", paging);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("name", name);
@@ -130,19 +132,7 @@ public class BoardController extends BaseController {
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
 		String pageName = "";
-		/*
-		switch (boardType.toLowerCase()) {
-			case BOARD_TYPE.NEWS:
-			case BOARD_TYPE.NOTICE:
-			case BOARD_TYPE.COMMUNITY:
-			case BOARD_TYPE.QNA:
-				pageName = "board_list";
-				break;
-			default:
-				pageName = boardType.toLowerCase();
-				break;
-		}
-		*/
+
 		pageName = "board_list";
 		return "pages/board/" + pageName;
 	}
@@ -155,6 +145,10 @@ public class BoardController extends BaseController {
 		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("fileList", getFileList(boardSetting.getFileDirectoryName(), boardSeq));
 		model.addAttribute("boardSettingSeq", boardSettingSeq);
 		model.addAttribute("boardSetting", boardSetting);
@@ -181,12 +175,11 @@ public class BoardController extends BaseController {
 				return "pages/board/board_write";	//작성자 수정 form
 			}
 		}
-		System.out.println("boardSetting ::: "+boardSetting);
+
 		Map<String, Object> board = boardService.getBoard(boardSeq, boardSettingSeq);
 		model.addAttribute("data", board);
 
 		model.addAttribute("pageParams", getBaseParameterString(params));
-
 		return "pages/board/board_view";
 	}
 
@@ -206,6 +199,10 @@ public class BoardController extends BaseController {
 			case "faq": breadcrumb.put("parent_menu_name", "콘텐츠 관리"); breadcrumb.put("menu_name", "FAQ 관리"); break;
 			case "community": breadcrumb.put("parent_menu_name", "게시판 관리"); breadcrumb.put("menu_name", "커뮤니티 관리"); break;
 		}
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 
@@ -233,11 +230,11 @@ public class BoardController extends BaseController {
 				//return "pages/board/board_form_faq";
 			} else {
 				model.addAttribute("fileList", getFileList(FILE_REF_TYPE.BOARD, board.getBoardSeq()));
-				return "pages/board/board_write";
+				//return "pages/board/board_write";
 			}
 		}
 
-		String returnUrl = "redirect:"+appProperties.getHost()+"//board/" + board.getBoardSettingSeq()+ "?";
+		String returnUrl = "redirect:"+appProperties.getHost()+"/board/" + board.getBoardSettingSeq()+ "?";
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -272,8 +269,9 @@ public class BoardController extends BaseController {
 	}
 
 	@GetMapping("/project")
-	public String boardProjectList(@ModelAttribute BoardParameter params, Model model) {
+	public String boardProjectList(@ModelAttribute BoardParameter params,@RequestParam(required=false) String name, Model model) {
 
+		System.out.println("name :: "+name);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
@@ -283,14 +281,17 @@ public class BoardController extends BaseController {
 		paging.setTotal(total);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("paging", paging);
-
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("boardType", "project");
 		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("name", name);
 
 		return "pages/board/project_list";
 	}
@@ -344,7 +345,10 @@ public class BoardController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
 
-		System.out.println("boardSetting >> "+boardSetting);
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("board", board);
 		model.addAttribute("answer", answer);
 		model.addAttribute("boardSettingList", boardSettingList);

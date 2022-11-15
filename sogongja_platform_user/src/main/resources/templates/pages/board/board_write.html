@@ -23,7 +23,7 @@
         <div class="sub_container">
             <div class="faq_anchor_wrap">
                 <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
-                <div><a th:href="@{/board/type/faq}">자주하는 질문</a></div>
+                <div><a th:href="@{/faq}">자주하는 질문</a></div>
             </div>
             <form class="write_qna" name="qnaForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{boardSeq}">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="secret_btn_wrap">
                     <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small" th:field="*{secretUse}" value="Y">
-                    <label for="secret_read">비밀글</label>
+                    <label for="secret_read">비밀글222</label>
                 </div>
                 <div class="qna_text">
                     <div id="editor"></div>
@@ -59,7 +59,6 @@
                     <div class="answer_view_text">
                         <p>[[${answer.comment}]]</p>
                     </div>
-
                 </div>
                 <div class="btn_box">
                     <a href="javascript:window.history.back();" class="btn">목록으로</a>
