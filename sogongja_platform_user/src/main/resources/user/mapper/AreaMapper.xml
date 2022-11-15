@@ -101,11 +101,13 @@
 		FROM ST_RESEARCH_SHOP RS
 		<choose>
 			<when test="zoom != 14 and zoom != 0">
-				WHERE RS.LATITUDE BETWEEN #{x1} AND #{x2}
+				WHERE RS.CODE_TYPE1 IN (${scope})
+				AND RS.LATITUDE BETWEEN #{x1} AND #{x2}
 				AND RS.LONGITUDE BETWEEN #{y1} AND #{y2}
 				GROUP BY RS.EMD_CD
 			</when>
 			<otherwise>
+				WHERE RS.CODE_TYPE1 IN (${scope})
 				GROUP BY LEFT(RS.EMD_CD, 2)
 			</otherwise>
 		</choose>

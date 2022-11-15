@@ -1,6 +1,7 @@
 package com.stoneitgt.sogongja.user.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.domain.MapParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +53,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("shopCommunityList", shopCommunityList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		paramsMap.put("zoom", 14);
+		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
 		model.addAttribute("researchShop", areaService.countResearchShopToJSON(paramsMap));
 //		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);
@@ -60,10 +63,18 @@ public class AreaController extends BaseController {
 
 	@PostMapping("/shop/details")
 	public @ResponseBody List<Map<String, Object>> shopAreaCountOrList(@RequestBody MapParameter params, Model model) {
-		System.out.println("::::: " + params.getZoom());
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		String[] codeType1 = params.getCodeType1();
+		String scope = "";
+		for (int i = 0; i < codeType1.length; i++) {
+			scope += "'" + codeType1[i] + "',";
+		}
+		scope = StringUtils.removeEnd(scope, ",");
 
 		if (params.getZoom() > 14) params.setZoom(14);
-		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("scope", scope);
 		List<Map<String, Object>> results = new ArrayList<>();
 
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
