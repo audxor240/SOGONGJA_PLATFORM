@@ -6,9 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.stoneitgt.sogongja.domain.EducationBookmark;
-import com.stoneitgt.sogongja.domain.LoginForm;
-import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.domain.CounselingParameter;
 import com.stoneitgt.sogongja.user.service.*;
 import com.stoneitgt.util.ScriptUtils;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.stoneitgt.common.GlobalConstant.PAGE_SIZE;
 import com.stoneitgt.common.Paging;
-import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.EducationParameter;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
@@ -115,6 +112,10 @@ public class SolutionController extends BaseController {
 			recommendList = ecucationService.getEducationList(paramsMap);
 		}*/
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("list", eduList);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(eduList, paging));
 		model.addAttribute("paging", paging);
@@ -194,6 +195,10 @@ public class SolutionController extends BaseController {
 		//List<Map<String, Object>> recommendList = consultingService.getConsultingRecommendList(paramsMap, paging);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("list", conList);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(conList, paging));
 		model.addAttribute("paging", paging);

@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,10 @@ public class AreaController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 		List<Map<String, Object>> shopCommunityList = communityService.getShopCommunityList("shop");
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("shopCommunityList", shopCommunityList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
@@ -63,6 +68,10 @@ public class AreaController extends BaseController {
 //		System.out.println("==========================================================");
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
@@ -82,6 +91,10 @@ public class AreaController extends BaseController {
 //		System.out.println("==========================================================");
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);

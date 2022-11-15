@@ -50,4 +50,8 @@ public interface UserMapper {
 	Integer findUserPassword(User user);
 
 	void updateUserTypeAndSubType(User user);
+
+	List<Map<String, Object>> getQnaList(Map<String, Object> params, RowBounds rowBounds);
+
+	int selectTotalRecords();
 }

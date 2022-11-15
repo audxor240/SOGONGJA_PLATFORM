@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.stoneitgt.sogongja.domain.Education;
-import com.stoneitgt.sogongja.domain.EducationBookmark;
-import com.stoneitgt.sogongja.domain.User;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.service.*;
 import com.stoneitgt.util.ScriptUtils;
 import net.sf.json.JSONObject;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import com.stoneitgt.common.GlobalConstant.FILE_REF_TYPE;
 import com.stoneitgt.common.GlobalConstant.PAGE_SIZE;
 import com.stoneitgt.common.Paging;
-import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.domain.ConsultingParameter;
 import com.stoneitgt.sogongja.user.domain.CounselingParameter;
 import com.stoneitgt.sogongja.user.domain.EducationParameter;
@@ -111,10 +108,10 @@ public class StudyController extends BaseController {
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
-		//model.addAttribute("category1", getCodeList("CATEGORY_1", "전체"));
-		//model.addAttribute("category2", getCodeRefList("CATEGORY_2", params.getCategory1(), "전체"));
-		//model.addAttribute("category3", getCodeRefList("CATEGORY_3", params.getCategory2(), "전체"));
-		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("category1", category1List);
 		model.addAttribute("category2", category2List);
 		model.addAttribute("category3", category3List);
@@ -166,9 +163,10 @@ public class StudyController extends BaseController {
 		category3List = categoryService.getCategory3(param3);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
-		//model.addAttribute("conType", getCodeList("CON_TYPE", "전체"));
-		//model.addAttribute("conClass", getCodeRefList("CON_CLASS", params.getConType(), "전체"));
-		//model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG", "전체"));
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("category1", category1List);
 		model.addAttribute("category2", category2List);
 		model.addAttribute("category3", category3List);
@@ -194,6 +192,10 @@ public class StudyController extends BaseController {
 		}
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("data", consultingService.getConsulting(conSeq, user.getUserSeq()));
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("num", num);
@@ -217,6 +219,10 @@ public class StudyController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 		List<Map<String, Object>> supportList = supportService.getSupportList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("list", list);
 		//model.addAttribute("paging", StoneUtil.setTotalPaging(list, paging));
 		model.addAttribute("paging", paging);
@@ -237,6 +243,10 @@ public class StudyController extends BaseController {
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("data", counselingService.getCounseling(couSeq));
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.COUNSELING, couSeq));

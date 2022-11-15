@@ -5,10 +5,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.HttpClient;
 import com.stoneitgt.common.HttpResult;
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.domain.EmailToken;
 import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.properties.AppProperties;
 import com.stoneitgt.sogongja.user.security.AuthSuccessHandler;
+import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.MailService;
 import com.stoneitgt.sogongja.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +53,8 @@ public class LoginController {
 
     private final AppProperties appProperties;
     private final UserService userService;
+
+    private final BoardService boardService;
 
     private AuthenticationManager authenticationManager;
 
@@ -242,6 +246,10 @@ public class LoginController {
             throw new RuntimeException("잘못된 접근입니다. 기간이 만료 되었습니다..");
         }
 
+        //QNA게시판 시퀀스 정보
+        BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+        model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         model.addAttribute("email", email);
         model.addAttribute("token", emailtoken);
 
