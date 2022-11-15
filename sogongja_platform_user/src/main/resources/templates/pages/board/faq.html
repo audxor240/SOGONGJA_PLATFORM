@@ -21,7 +21,7 @@
         </section>
         <section class="wrap pt0">
             <div class="faq_search">
-                <form name="searchForm" th:action="@{|/board/type/${boardType}|}" th:object="${params}">
+                <form name="searchForm" th:action="@{|/faq|}" th:object="${params}">
                     <div class="sc_input">
                         <legend>자주하는 질문</legend>
                         <input type="text" th:field="*{keyword}" title="검색어 입력" placeholder="검색어 입력">
@@ -31,20 +31,21 @@
             </div>
             <div class="sub_container">
                 <ul class="tab faq_tab faq_tab_box">
-                    <li class="active">
-                        <a href="#n">전체 <th:block th:text="|(${categoryCount.total_cnt})|">(10)</th:block></a>
+                    <li class="active" >
+                        <a th:href="@{/faq}">전체 <th:block th:text="|(${typeList.total_cnt})|">(10)</th:block></a>
                     </li>
                     <li>
-                        <a href="#n">소공자 컨설팅 <th:block th:text="|(${categoryCount.con_cnt})|">(10)</th:block></a>
+                        <a href="#n">소공자 컨설팅 <th:block th:text="|(${typeList.con_cnt})|">(10)</th:block></a>
+                    </li>
+
+                    <li>
+                        <a href="#n">소공자 교육 <th:block th:text="|(${typeList.edu_cnt})|">(10)</th:block></a>
                     </li>
                     <li>
-                        <a href="#n">소공자 교육 <th:block th:text="|(${categoryCount.edu_cnt})|">(10)</th:block></a>
+                        <a href="#n">소공자 회원 <th:block th:text="|(${typeList.user_cnt})|">(10)</th:block></a>
                     </li>
                     <li>
-                        <a href="#n">소공자 회원 <th:block th:text="|(${categoryCount.user_cnt})|">(10)</th:block></a>
-                    </li>
-                    <li>
-                        <a href="#n">이용가이드 <th:block th:text="|(${categoryCount.guide_cnt})|">(10)</th:block></a>
+                        <a href="#n">이용가이드 <th:block th:text="|(${typeList.guide_cnt})|">(10)</th:block></a>
                     </li>
                 </ul>
                 <div class="faq_list_wrap">
@@ -63,7 +64,7 @@
                     <div class="tab_a tab_a2 faq_list">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
-                                <li th:if="${item.category == 'CON'}">
+                                <li th:if="${item.type == 'CON'}">
                                     <a href="#n" th:text="${item.subject}">소상공인 불공정피해 상담센터 운영방침이 어떻게 될까요?</a>
                                     <div class="accordion_cont" th:utext="${item.content}">
                                         누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. 누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다.
@@ -77,7 +78,7 @@
                     <div class="tab_a tab_a3 faq_list">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
-                                <li th:if="${item.category == 'EDU'}">
+                                <li th:if="${item.type == 'EDU'}">
                                     <a href="#n" th:text="${item.subject}">소상공인 불공정피해 상담센터 운영방침이 어떻게 될까요?</a>
                                     <div class="accordion_cont" th:utext="${item.content}">
                                         누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. 누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다.
@@ -91,7 +92,7 @@
                     <div class="tab_a tab_a4 faq_list">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
-                                <li th:if="${item.category == 'USER'}">
+                                <li th:if="${item.type == 'USER'}">
                                     <a href="#n" th:text="${item.subject}">소상공인 불공정피해 상담센터 운영방침이 어떻게 될까요?</a>
                                     <div class="accordion_cont" th:utext="${item.content}">
                                         누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. 누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다.
@@ -105,7 +106,7 @@
                     <div class="tab_a tab_a5 faq_list">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
-                                <li th:if="${item.category == 'GUIDE'}">
+                                <li th:if="${item.type == 'GUIDE'}">
                                     <a href="#n" th:text="${item.subject}">소상공인 불공정피해 상담센터 운영방침이 어떻게 될까요?</a>
                                     <div class="accordion_cont" th:utext="${item.content}">
                                         누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다. 군인 또는 군무원이 아닌 국민은 대한민국의 영역안에서는 중대한 군사상 기밀·초병·초소·유독음식물공급·포로·군용물에 관한 죄중 법률이 정한 경우와 비상계엄이 선포된 경우를 제외하고는 군사법원의 재판을 받지 아니한다. 누구든지 병역의무의 이행으로 인하여 불이익한 처우를 받지 아니한다. 국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 국가는 농수산물의 수급균형과 유통구조의 개선에 노력하여 가격안정을 도모함으로써 농·어민의 이익을 보호한다.
@@ -118,9 +119,9 @@
                     </div>
                 </div>
             </div>
-            <div class="btn_box">
+            <!--<div class="btn_box">
                 <a class="btn" href="qna_write.html">문의하기</a>
-            </div>
+            </div>-->
         </section>
     </article>
     <th:block layout:fragment="custom_js">

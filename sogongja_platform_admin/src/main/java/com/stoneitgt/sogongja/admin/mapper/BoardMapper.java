@@ -3,13 +3,9 @@ package com.stoneitgt.sogongja.admin.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.stoneitgt.sogongja.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
-
-import com.stoneitgt.sogongja.domain.Board;
-import com.stoneitgt.sogongja.domain.Law;
-import com.stoneitgt.sogongja.domain.Project;
 
 @Mapper
 public interface BoardMapper {

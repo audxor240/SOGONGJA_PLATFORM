@@ -20,9 +20,9 @@
 
         $('#all_check').on('click', function() {
             if($(this).is(":checked")){
-                $("[name=project_check]").attr("checked",true);
+                $("[name=project_check]").prop("checked",true);
             }else{
-                $("[name=project_check]").attr("checked",false);
+                $("[name=project_check]").prop("checked",false);
             }
         });
     });

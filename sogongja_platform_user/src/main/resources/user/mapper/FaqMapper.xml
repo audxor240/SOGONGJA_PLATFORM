@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.FaqMapper">
+    <select id="getFaqList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : FaqMapper.xml, id : getFaqList */
+        SELECT A.*
+        , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+        , U.USERNAME                          AS REG_USERNAME
+        FROM ST_FAQ A
+        INNER JOIN ST_USER U
+        ON A.REG_USER_SEQ = U.USER_SEQ
+        WHERE A.DEL_FLAG              = 0
+        <if test="type != null and type != ''">
+            AND A.TYPE              = #{type}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY A.FAQ_SEQ DESC
+        /*||ORDER BY FAQ_SEQ DESC||*/
+    </select>
+
+    <select id="getFaqTypeList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : FaqMapper.xml, id : getFaqTypeList */
+        SELECT MAX(IF(T.TYPE = 'CON', T.CNT, 0))   AS CON_CNT
+        , MAX(IF(T.TYPE = 'EDU', T.CNT, 0))   AS EDU_CNT
+        , MAX(IF(T.TYPE = 'USER', T.CNT, 0))  AS USER_CNT
+        , MAX(IF(T.TYPE = 'GUIDE', T.CNT, 0)) AS GUIDE_CNT
+        , SUM(CNT)                                AS TOTAL_CNT
+        FROM (  SELECT A.TYPE
+        , COUNT(*) AS CNT
+        FROM ST_FAQ A
+        WHERE A.DEL_FLAG   = 0
+
+        <if test="keyword != null and keyword != ''">
+            AND SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        GROUP BY A.TYPE
+        ) T
+
+    </select>
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+
+</mapper>

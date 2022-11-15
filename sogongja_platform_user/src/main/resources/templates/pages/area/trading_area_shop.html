@@ -69,48 +69,47 @@
         <div class="category_wrap">
             <ul id="category">
                 <li data-order="0">
-                    <label for="BK9">
-                        <input type="checkbox" name="cate" value="BK9" id="BK9" onchange="a()" checked />
+                    <label for="Q">
+                        <input type="checkbox" name="cate" value="Q" id="Q" onchange="a()" checked />
                         <span class="category_bg bank"></span>
-                        숙박
+                        음식
                     </label>
                 </li>
                 <li data-order="1">
-                    <label for="MT1">
-                        <input type="checkbox" name="cate" value="MT1" id="MT1" onchange="b()" checked />
+                    <label for="N">
+                        <input type="checkbox" name="cate" value="N" id="N" onchange="b()" checked />
                         <span class="category_bg mart"></span>
-                        수리·개인서비스
+                        관광·여가·오락
                     </label>
                 </li>
                 <li data-order="2">
-                    <label for="PM9">
-                        <input type="checkbox" name="cate" value="PM9" id="PM9" onchange="c()" checked />
+                    <label for="L">
+                        <input type="checkbox" name="cate" value="L" id="L" onchange="c()" checked />
                         <span class="category_bg pharmacy"></span>
-                        도·소매
+                        부동산
                     </label>
                 </li>
                 <li data-order="3">
-                    <label for="OL7">
-                        <input type="checkbox" name="cate" value="OL7" id="OL7" onchange="d()" checked />
+                    <label for="F">
+                        <input type="checkbox" name="cate" value="F" id="F" onchange="d()" checked />
                         <span class="category_bg oil"></span>
-                        예술·스포츠·여가
+                        생활서비스
                     </label>
                 </li>
                 <li data-order="4">
-                    <label for="CE7">
-                        <input type="checkbox" name="cate" value="CE7" id="CE7" onchange="e()" checked />
+                    <label for="D">
+                        <input type="checkbox" name="cate" value="D" id="D" onchange="e()" checked />
                         <span class="category_bg cafe"></span>
-                        시설관리·임대
+                        소매
                     </label>
                 </li>
                 <li data-order="5">
-                    <label for="CS2">
-                        <input type="checkbox" name="cate" value="CS2" id="CS2" onchange="f()" checked />
+                    <label for="O">
+                        <input type="checkbox" name="cate" value="O" id="O" onchange="f()" checked />
                         <span class="category_bg store"></span>
-                        과학·기술
+                        숙박
                     </label>
                 </li>
-                <!--            임시 추가-->
                 <li data-order="6">
                     <label for="P">
                         <input type="checkbox" name="cate" value="P" id="P" onchange="g()" checked />
@@ -123,7 +122,7 @@
                     <label for="R">
                         <input type="checkbox" name="cate" value="R" id="R" onchange="h()" checked />
                         <span class="category_bg rr"></span>
-                        학문교육
+                        학문·교육
                     </label>
                 </li>
 
@@ -235,7 +234,7 @@
 </div>
 <th:block th:include="fragments/common_js"></th:block>
 <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services,clusterer,drawing"></script>
 
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];

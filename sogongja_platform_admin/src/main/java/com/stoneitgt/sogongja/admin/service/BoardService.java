@@ -295,4 +295,5 @@ public class BoardService extends BaseService {
 
 		return boardMapper.getBoardSettingInfo(boardSettingSeq);
 	}
+
 }

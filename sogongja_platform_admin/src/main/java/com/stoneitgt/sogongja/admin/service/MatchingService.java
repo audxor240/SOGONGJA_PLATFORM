@@ -33,7 +33,7 @@ public class MatchingService extends BaseService {
         for (Map<String, Object> question : questionList) {
 
             SurveyMatching surveyMatching = new SurveyMatching();
-            int questionSeq = Integer.parseInt((question.get("question_setting_seq").toString()));
+            int questionSeq = Integer.parseInt((question.get("user_question_seq").toString()));
 
             Map<String, Object> questionDetail = serviceMatchingMapper.getQuestion(questionSeq);
             int userQuestionSeq = Integer.parseInt(questionDetail.get("user_question_seq").toString());
@@ -57,7 +57,7 @@ public class MatchingService extends BaseService {
                 } else {
                     String[] answers = choiceAnswer.get("answer").toString().split("\\^");
                     for (int i = 0; i < answers.length; i++) {
-                        answer += (i + 1) + ". " + answers[i];
+                        answer += (i + 1) + ". " + answers[i] + "<br/>";
                     }
                 }
                 surveyMatching.setAnswer(answer);
@@ -65,11 +65,11 @@ public class MatchingService extends BaseService {
                 Map<String, Object> addAnswer = serviceMatchingMapper.getAddAnswer(userQuestionSeq);
                 int ranked = Integer.parseInt(addAnswer.get("ranked").toString());
 
-                String answer = addAnswer.get("answer").toString() + "<br/>";
+                String answer = " ";
+                String answerRes = addAnswer.get("answer").toString();
 
-                String keyword = addAnswer.get("keyword").toString();
-                if (keyword.length() > 0) {
-                    String[] answers = keyword.split("\\^");
+                if (answerRes.length() > 0) {
+                    String[] answers = answerRes.split("\\^");
                     if (ranked == 0) {
                         for (int i = 0; i < answers.length; i++) {
                             answer += answers[i];
@@ -79,7 +79,26 @@ public class MatchingService extends BaseService {
                         }
                     } else {
                         for (int i = 0; i < answers.length; i++) {
-                            answer += (i + 1) + ". " + answers[i];
+                            answer += (i + 1) + ". " + answers[i] + "<br/>";
+                        }
+                    }
+                    answer += "<br/>";
+                }
+
+                String keyword = addAnswer.get("keyword").toString();
+                if (keyword.length() > 0) {
+                    String[] keywords = keyword.split("\\^");
+                    answer += "키워드 <br/>";
+                    if (ranked == 0) {
+                        for (int i = 0; i < keywords.length; i++) {
+                            answer += keywords[i];
+                            if (i < keywords.length - 1) {
+                                answer += ", ";
+                            }
+                        }
+                    } else {
+                        for (int i = 0; i < keywords.length; i++) {
+                            answer += (i + 1) + ". " + keywords[i] + "<br/>";
                         }
                     }
                 }
