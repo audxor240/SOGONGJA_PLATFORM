@@ -57,4 +57,6 @@ public interface BoardMapper {
 	List<Map<String, Object>> getboardSettingList();
 
 	BoardSetting getboardSettingInfo(int boardSettingSeq);
+
+	BoardSetting getboardSettingQnaInfo();
 }

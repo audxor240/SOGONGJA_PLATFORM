@@ -37,7 +37,7 @@
             <!--            <li><a th:href="@{/board/law}">법령 및 조례</a></li>-->
             <th:block th:unless="${#lists.isEmpty(boardSettingList)}">
                 <li  th:each="item : ${boardSettingList}">
-                    <a th:href="@{|/board/${item.board_setting_seq}?name=${item.name}|}">[[${item.name}]]</a>
+                    <a th:href="@{|/board/${item.board_setting_seq}?name=${item.file_directory_name}|}">[[${item.name}]]</a>
                 </li>
             </th:block>
         </ul>

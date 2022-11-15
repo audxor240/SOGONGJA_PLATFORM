@@ -30,15 +30,16 @@
                 <div class="search_list">
                     <p>전체 510건, 현재페이지 1/43</p>
                     <div>
-                        <form action="">
+                        <form name="searchForm" th:action="@{|/mypage/qna/${boardSettingSeq}|}" th:object="${params}">
+                            <th:block th:include="fragments/search_hidden"></th:block>
                             <legend>문의 및 답변</legend>
-                            <select name="" id="">
-                                <option value="">제목</option>
-                                <option value="">제목</option>
-                                <option value="">제목 + 내용</option>
+                            <select th:field="*{field}">
+                                <option value="subject">제목</option>
+                                <option value="content">내용</option>
+                                <option value="all">제목 + 내용</option>
                             </select>
-                            <input type="text" name="topKeyword" id="topKeyword" title="검색" placeholder="검색어를 입력하세요">
-                            <button type="button">검색</button>
+                            <input type="text" th:field="*{keyword}" title="검색" placeholder="검색어를 입력하세요">
+                            <button type="submit">검색</button>
                         </form>
                     </div>
                 </div>
@@ -49,44 +50,27 @@
                             <tr>
                                 <th style="width: 11.5%;">NO.</th>
                                 <th class="title txl">제목</th>
-                                <th style="width: 11.5%;">답변여부</th>
+                                <th style="width: 11.5%;">작성일</th>
                                 <th style="width: 11.5%;">첨부파일</th>
+                                <th style="width: 11.5%;">답변</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="color_606060">3</td>
-                                <td class="txl"><a th:href="@{/mypage/qna/view}">창업 정보 제공 및 상담</a></td>
-                                <td>답변완료</td>
-                                <td><span class="file">파일</span></td>
-                            </tr>
-                            <tr>
-                                <td class="color_606060">2</td>
-                                <td class="txl"><a th:href="@{/mypage/qna/view}">창업 정보 제공 및 상담</a></td>
-                                <td>답변완료</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="color_606060">1</td>
-                                <td class="txl"><a th:href="@{/mypage/qna/view}">'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요'아트누리'에서 예숭지원사업 한꺼번에 확인하고 신청하세요</a></td>
-                                <td>답변완료</td>
-                                <td><span class="file">파일</span></td>
-                            </tr>
+                            <th:block th:include="fragments/table_empty:: table_empty(4)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:unless="${#lists.isEmpty(list)}">
+                                <tr th:each="item : ${list}">
+                                    <td class="color_606060" th:text="${paging.total - item.rnum + 1}">3</td>
+                                    <td class="txl"><a th:href="@{|/mypage/qna/view/${boardSettingSeq}/${item.board_seq}|}">[[${item.subject}]]</a></td>
+                                    <td th:text="${item.reg_dt}">2021.01.01</td>
+                                    <td><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>
+                                    <td>[[${item.answer_seq == null?'답변 대기':'답변 완료'}]]</td>
+
+                                </tr>
+                            </th:block>
                         </tbody>
                     </table>
-                    <div class="list_info">
-                        <ul class="pagination">
-                            <li class="start"><a href="#n">처음으로</a></li>
-                            <li class="prev"><a href="#n">이전</a></li>
-                            <li class="active"><a href="#n">1</a></li>
-                            <li><a href="#n">2</a></li>
-                            <li><a href="#n">3</a></li>
-                            <li><a href="#n">4</a></li>
-                            <li><a href="#n">5</a></li>
-                            <li class="next"><a href="#n">다음</a></li>
-                            <li class="last"><a href="#n">끝으로</a></li>
-                        </ul>
-                    </div>
+                    <th:block th:include="fragments/paging"></th:block>
                     <div class="btn_box">
                         <a class="btn btn_grey" th:href="@{/mypage/qna/write}">문의하기</a>
                     </div>

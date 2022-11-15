@@ -271,5 +271,13 @@ public class UserService implements UserDetailsService {
 	public void updateUserTypeAndSubType(User user){
 		userMapper.updateUserTypeAndSubType(user);
 	}
+
+	public List<Map<String, Object>> getQnaList(Map<String, Object> params, Paging paging) {
+		return userMapper.getQnaList(params, paging.getPaging());
+	}
+
+	public Integer selectTotalRecords() {
+		return userMapper.selectTotalRecords();
+	}
 }
 

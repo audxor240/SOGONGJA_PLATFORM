@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.admin.controller;
 
+import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.sogongja.admin.service.ExcelService;
 import com.stoneitgt.sogongja.admin.service.FaqService;
 import org.apache.commons.io.FilenameUtils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +32,8 @@ public class ExcelController extends BaseController {
     private FaqService faqService;
 
     @PostMapping("/read")
-    public String readExcel(@RequestParam("file") MultipartFile file, @RequestParam("excelType") String excelType, Model model)
+    public String readExcel(@RequestParam("file") MultipartFile file, @RequestParam("excelType") String excelType,
+                            RedirectAttributes rttr, Model model)
             throws IOException { // 2
 
         List<Map<String,Object>> dataList = new ArrayList<>();
@@ -54,6 +57,7 @@ public class ExcelController extends BaseController {
         params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
 
         String returnUrl = excelService.insertExcel(worksheet,excelType, authenticationFacade.getLoginUserSeq());
+        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
 
         return returnUrl;
 

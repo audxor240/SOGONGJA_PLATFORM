@@ -74,7 +74,7 @@
                                     <a th:href="@{|/board/${item.board_setting_seq}?${pageParams}|}"><i data-feather="corner-right-down"></i></a>
                                 </td>
                                 <td class="text-right">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-setting-seq="${item.board_setting_seq}">삭제</button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-setting-seq="${item.board_setting_seq}" th:if="${item.file_directory_name != 'qna'}">삭제</button>
                                 </td>
                             </tr>
                             </tbody>

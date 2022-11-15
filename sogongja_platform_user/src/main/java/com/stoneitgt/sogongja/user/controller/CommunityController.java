@@ -70,6 +70,10 @@ public class CommunityController extends BaseController {
         List<Map<String, Object>> researchShopGroupList = communityService.getResearchShopGroupList();			//업종 대분류
         List<Map<String, Object>> researchShopSubGroupList = communityService.getResearchShopSubGroupList();	//업종 중분류
 
+        //QNA게시판 시퀀스 정보
+        BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+        model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         model.addAttribute("list", list);
         model.addAttribute("params", params);
         model.addAttribute("boardSettingList", boardSettingList);
@@ -129,6 +133,10 @@ public class CommunityController extends BaseController {
         List<Map<String, Object>> researchShopGroupList = communityService.getResearchShopGroupList();			//업종 대분류
         List<Map<String, Object>> researchShopSubGroupList = communityService.getResearchShopSubGroupList();	//업종 중분류
 
+        //QNA게시판 시퀀스 정보
+        BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+        model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         model.addAttribute("community", community);
         model.addAttribute("answer", answer);
         model.addAttribute("boardSettingList", boardSettingList);
@@ -187,6 +195,10 @@ public class CommunityController extends BaseController {
             }
         }
 
+        //QNA게시판 시퀀스 정보
+        BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+        model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         model.addAttribute("pageParams", getBaseParameterString(params));
         model.addAttribute("fileList", getFileList(GlobalConstant.FILE_REF_TYPE.COMMUNITY, communitySeq));
         model.addAttribute("boardSettingList", boardSettingList);

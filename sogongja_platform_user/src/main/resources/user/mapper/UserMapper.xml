@@ -235,4 +235,35 @@
 		WHERE USER_SEQ        = #{userSeq}
 	</update>
 
+	<select id="getQnaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : UserMapper.xml, id : getQnaList */
+		SELECT A.*
+		, DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+		, U.USERNAME                          AS REG_USERNAME
+		, (SELECT COUNT(1)
+		FROM ST_FILES F
+		WHERE F.DEL_FLAG = 0
+		AND F.REF_TYPE = 'QNA'
+		AND F.REF_SEQ  = A.BOARD_SEQ
+		) AS FILE_CNT
+		, SA.ANSWER_SEQ
+		FROM ST_BOARD A
+		INNER JOIN ST_USER U
+		ON A.REG_USER_SEQ = U.USER_SEQ
+		LEFT JOIN ST_BOARD_SETTING as BS ON BS.BOARD_SETTING_SEQ = A.BOARD_SETTING_SEQ
+		LEFT JOIN ST_ANSWER as SA ON SA.BOARD_SEQ = A.BOARD_SEQ
+		WHERE A.DEL_FLAG              = 0
+		AND A.BOARD_SETTING_SEQ            = #{boardSettingSeq}
+		<if test="keyword != null and keyword != ''">
+			AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+			AND A.REG_USER_SEQ = #{login_user_seq}
+		ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC
+		/*||ORDER BY NOTICE_FLAG DESC, BOARD_SEQ DESC||*/
+	</select>
+
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
 </mapper>

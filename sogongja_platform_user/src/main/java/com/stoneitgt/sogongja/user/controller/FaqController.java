@@ -2,6 +2,7 @@ package com.stoneitgt.sogongja.user.controller;
 
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.BaseParameter;
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.FaqService;
 import com.stoneitgt.util.StoneUtil;
@@ -48,7 +49,10 @@ public class FaqController extends BaseController {
 
         List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+        //QNA게시판 시퀀스 정보
+        BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+        model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         model.addAttribute("list", list);
         model.addAttribute("typeList", typeList);
         model.addAttribute("boardSettingList", boardSettingList);

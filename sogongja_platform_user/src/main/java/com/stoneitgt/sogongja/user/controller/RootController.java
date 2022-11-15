@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.domain.Event;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.BannerService;
@@ -50,10 +51,15 @@ public class RootController extends BaseController {
 		Map<String, Object> event = eventService.getEventInfo();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("pcBannerList", pcBannerList);
 		model.addAttribute("mobileBannerList", mobileBannerList);
 		model.addAttribute("event", event);
 		model.addAttribute("boardSettingList", boardSettingList);
+
 
 		return "pages/index";
 	}

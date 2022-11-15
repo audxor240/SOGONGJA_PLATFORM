@@ -5,9 +5,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.stoneitgt.sogongja.domain.QuestionSetting;
-import com.stoneitgt.sogongja.domain.Survey;
-import com.stoneitgt.sogongja.domain.UserSurvey;
+import com.stoneitgt.common.Paging;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.stoneitgt.common.GlobalConstant;
-import com.stoneitgt.sogongja.domain.User;
 import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
 import com.stoneitgt.util.StoneUtil;
 import com.stoneitgt.util.StringUtil;
@@ -42,9 +40,11 @@ public class UserController extends BaseController {
 	private QuestionService questionService;
 	@Autowired
 	private AnswerSettingService answerSettingService;
-
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private AnswerService answerService;
 	private final SocialLoginSupport socialLoginSupport;
 
 	@GetMapping("/signup")
@@ -53,7 +53,10 @@ public class UserController extends BaseController {
 		user.setUserType("I");
 		socialLoginSupport.setSocialOauthUrl(request, model);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		model.addAttribute("bankList", getCodeList("BANK"));
@@ -184,7 +187,10 @@ public class UserController extends BaseController {
 				model.addAttribute("typeCheck", "update");
 			}
 		}
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		userService.saveUser(user);
 
 		if (user.getUserSeq() == 0) {
@@ -212,7 +218,10 @@ public class UserController extends BaseController {
 		}
 
 		Survey survey = surveyService.getSurvey(surveySettingSeq);
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 		model.addAttribute("survey", survey);
 
@@ -321,6 +330,10 @@ public class UserController extends BaseController {
 			List.add(questionSetting);
 
 		}
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 		model.addAttribute("category1List", category1List);
 		model.addAttribute("category2List", category2List);
@@ -349,7 +362,10 @@ public class UserController extends BaseController {
 							  @RequestParam(value = "type" , required = false) String type,
 							  Model model) {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/signup_agree";
@@ -377,6 +393,10 @@ public class UserController extends BaseController {
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 
@@ -477,6 +497,10 @@ public class UserController extends BaseController {
 	@GetMapping("/find/id")
 	public String findId(Model model) {
 		User user = new User();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 		return "pages/user/find_id";
 	}
@@ -500,6 +524,10 @@ public class UserController extends BaseController {
 
 		user.setId(userService.findUserId(user));
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 
 		return "pages/user/find_id_result";
@@ -509,6 +537,10 @@ public class UserController extends BaseController {
 	@GetMapping("/find/password")
 	public String findPassword(Model model) {
 		User user = new User();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 		return "pages/user/find_password";
 	}
@@ -532,6 +564,10 @@ public class UserController extends BaseController {
 
 		user.setUserSeq(userService.findUserPassword(user));
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("user", user);
 
 		return "pages/user/find_password_result";
@@ -570,30 +606,77 @@ public class UserController extends BaseController {
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting boardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", boardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 
 		return "pages/user/mypage";
 	}
 
-	@GetMapping("/mypage/qna")
-	public String mypage_qna(Model model) {
+	@GetMapping("/mypage/qna/{boardSettingSeq}")
+	public String mypage_qna(@ModelAttribute BaseParameter params, @PathVariable String boardSettingSeq, Model model) {
+		System.out.println("boardSettingSeq :: "+boardSettingSeq);
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting boardSetting = boardService.getboardSettingQnaInfo();
 
+		params.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("boardSettingSeq", boardSettingSeq);
+		paramsMap.put("board_type", boardSetting.getFileDirectoryName());
+		Paging paging = getUserPaging(params.getPage(), params.getSize());
+
+		System.out.println("paramsMap :: "+paramsMap);
+		List<Map<String, Object>> list = boardService.getBoardList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+		System.out.println("list :: "+list);
+
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
+		model.addAttribute("list", list);
+		model.addAttribute("params", params);
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("paging", paging);
+		model.addAttribute("boardSettingSeq", boardSettingSeq);
+
 		return "pages/user/qna";
 	}
 
-	@GetMapping("/mypage/qna/view")
-	public String mypage_qnaView(Model model) {
+	@GetMapping("/mypage/qna/view/{boardSettingSeq}/{boardSeq}")
+	public String mypage_qnaView(@PathVariable int boardSettingSeq, @PathVariable int boardSeq, Model model) {
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+		Board board = boardService.getBoardDetail(boardSeq, qnaBoardSetting.getBoardSettingSeq());
+		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
+
+		Answer answer = null;
+		answer = answerService.getAnswerInfo(boardSeq);
+		if(answer == null){
+			answer = new Answer();
+		}
+
+		model.addAttribute("board", board);
+		model.addAttribute("answer", answer);
+		model.addAttribute("fileList", getFileList(qnaBoardSetting.getFileDirectoryName(), boardSeq));
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("boardSetting", boardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("detail", true);
 		model.addAttribute("user", user);
-		return "pages/user/qna_view";
+		return "pages/board/board_write";
 	}
 
 	@GetMapping("/mypage/qna/write")
@@ -601,6 +684,10 @@ public class UserController extends BaseController {
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
 		return "pages/user/qna_write";
@@ -632,6 +719,10 @@ public class UserController extends BaseController {
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
@@ -645,6 +736,10 @@ public class UserController extends BaseController {
 		QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
 		List<Map<String, Object>> keywordList = questionService.getQuestionSettingKeyword(questionSettingSeq);
 
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("keywordList", keywordList);
 		model.addAttribute("questionSettingSeq", questionSettingSeq);
 		model.addAttribute("questionSetting", questionSetting);
