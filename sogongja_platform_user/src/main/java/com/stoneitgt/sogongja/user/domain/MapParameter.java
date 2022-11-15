@@ -4,6 +4,8 @@ import com.stoneitgt.sogongja.domain.BaseParameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MapParameter extends BaseParameter {
@@ -17,4 +19,6 @@ public class MapParameter extends BaseParameter {
     private double lng;
 
     private int zoom;
+
+    private String[] codeType1;
 }
