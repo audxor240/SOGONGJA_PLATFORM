@@ -82,8 +82,33 @@
 	<select id="getResearchShopList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getResearchShopList */
 		SELECT *
-		FROM ST_RESEARCH_SHOP
+		FROM ST_RESEARCH_SHOP RS
+		WHERE RS.LATITUDE BETWEEN #{x1} AND #{x2}
+		  AND RS.LONGITUDE BETWEEN #{y1} AND #{y2}
+	</select>
 
+	<select id="countResearchShop" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : countResearchShop */
+		SELECT COUNT(*) AS COUNT
+		<choose>
+			<when test="zoom != 14 and zoom != 0">
+				, RS.EMD_CD AS CODE, RS.EMD_NM AS NAME
+			</when>
+			<otherwise>
+				, RS.EMD_CD AS CODE, '서울특별시' AS NAME
+			</otherwise>
+		</choose>
+		FROM ST_RESEARCH_SHOP RS
+		<choose>
+			<when test="zoom != 14 and zoom != 0">
+				WHERE RS.LATITUDE BETWEEN #{x1} AND #{x2}
+				AND RS.LONGITUDE BETWEEN #{y1} AND #{y2}
+				GROUP BY RS.EMD_CD
+			</when>
+			<otherwise>
+				GROUP BY LEFT(RS.EMD_CD, 2)
+			</otherwise>
+		</choose>
 	</select>
 
 </mapper>

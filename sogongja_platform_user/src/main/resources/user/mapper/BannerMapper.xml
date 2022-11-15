@@ -9,7 +9,7 @@
         FROM ST_BANNER AS B
         LEFT JOIN ST_FILES AS F ON F.REF_SEQ = B.BANNER_SEQ
         WHERE B.DEL_FLAG = 0 AND (USED is not null and USED != '') AND F.REF_TYPE = 'BANNER_IMAGE_PC' AND PC_ORDER != 0
-        ORDER BY PC_ORDER,B.REG_DATE
+        ORDER BY PC_ORDER ASC
         /*||ORDER BY BANNER_SEQ DESC||*/
     </select>
 
@@ -19,7 +19,7 @@
         FROM ST_BANNER AS B
                  LEFT JOIN ST_FILES AS F ON F.REF_SEQ = B.BANNER_SEQ
         WHERE B.DEL_FLAG = 0 AND (USED is not null and USED != '') AND F.REF_TYPE = 'BANNER_IMAGE_MOBILE' AND MOBILE_ORDER != 0
-        ORDER BY PC_ORDER,B.REG_DATE
+        ORDER BY MOBILE_ORDER ASC
         /*||ORDER BY BANNER_SEQ DESC||*/
     </select>
 
