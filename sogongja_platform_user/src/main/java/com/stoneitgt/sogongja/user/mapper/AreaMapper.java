@@ -18,4 +18,6 @@ public interface AreaMapper {
 
 	List<Map<String, Object>> getResearchShopList(Map<String, Object> params);
 
+	List<Map<String, Object>> countResearchShop(Map<String, Object> params);
+
 }
