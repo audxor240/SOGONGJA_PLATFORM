@@ -386,6 +386,11 @@ a.file-download { display: block; flex: 1 1 auto; }
 	margin-left: 10px;
 }
 
+/*파일 인풋 after*/
+.custom-file-label::after{
+	content:"파일첨부";
+}
+
 /* media */
 @media screen and (max-width:640px) {
 	.login_wrap { background-size: cover; }
