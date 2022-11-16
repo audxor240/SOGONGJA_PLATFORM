@@ -3,6 +3,8 @@ package com.stoneitgt.sogongja.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.admin.mapper.BoardMapper;
+import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +25,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private PasswordEncoder passwEncoder;
+
+	@Autowired
+	private BoardMapper boardMapper;
 
 	@Override
 	public User loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -79,8 +84,31 @@ public class UserService implements UserDetailsService {
 		return userMapper.saveUser(user);
 	}
 
-	public int deleteUser(Map<String, Object> params) {
-		return userMapper.deleteUser(params);
+	public void deleteUser(Map<String, Object> params) {
+
+		//교육/컨설팅 관심, 수강완료 삭제
+		userMapper.deleteAllEducationBookmark(params);
+		userMapper.deleteAllEducationWatching(params);
+		userMapper.deleteAllConsultingBookmark(params);
+		userMapper.deleteAllConsultingWatching(params);
+
+		//문의글 삭제
+		BoardSetting boardSetting = boardMapper.getboardSettingQnaInfo();	//게시판관리의 QNA시퀀스 조회
+		params.put("boardSettingSeq",boardSetting.getBoardSettingSeq());
+		userMapper.deleteAllQna(params);
+
+		//상점 커뮤니티, 지역 커뮤니티 글,댓글 삭제
+		userMapper.deleteAllCommunity(params);
+		userMapper.deleteAllReply(params);
+
+		//설문지 삭제
+		userMapper.deleteAllUserSurvey(params);
+		userMapper.deleteAllUserQuestion(params);
+		userMapper.deleteAllUserAnswer1(params);
+		userMapper.deleteAllUserAnswer2(params);
+		userMapper.deleteAllUserKeyword(params);
+		
+		userMapper.deleteUser(params);
 	}
 
 }

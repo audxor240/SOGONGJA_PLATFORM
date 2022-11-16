@@ -184,7 +184,8 @@ public class SettingController extends BaseController {
 		} else {
 			User user = (User) authentication.getPrincipal();
 			Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-			paramsMap.put("login_user_seq", user.getUserSeq());
+			paramsMap.put("login_user_seq", user.getUserSeq());	//행위자
+			paramsMap.put("userSeq", userSeq);	//사용자
 			userService.deleteUser(paramsMap);
 		}
 
