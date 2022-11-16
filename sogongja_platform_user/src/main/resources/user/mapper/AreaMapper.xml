@@ -83,7 +83,8 @@
 		/* file : AreaMapper.xml, id : getResearchShopList */
 		SELECT *
 		FROM ST_RESEARCH_SHOP RS
-		WHERE RS.LATITUDE BETWEEN #{x1} AND #{x2}
+		WHERE RS.CODE_TYPE1 IN (${scope})
+		  AND RS.LATITUDE BETWEEN #{x1} AND #{x2}
 		  AND RS.LONGITUDE BETWEEN #{y1} AND #{y2}
 	</select>
 
