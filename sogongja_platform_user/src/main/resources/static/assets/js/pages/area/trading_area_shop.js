@@ -1,10 +1,10 @@
 
 
 //기본 위치는 서울시청 좌표
-var clientLatitude = 37.5668260055;
-var clientLongitude = 126.9786567859;
+var clientLatitude = 37.49542431718493;
+var clientLongitude = 127.03320108651666;
 // 맵 기본 레벨
-var mapDefaultLevel = 10;
+var mapDefaultLevel = 3;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -350,12 +350,160 @@ for(var i =0; i < researchShop.length;i++){
 }
 console.log("newPositions :: "+JSON.stringify(newPositions));
 
-// 마커 클러스터러를 생성합니다
-var clusterer = new kakao.maps.MarkerClusterer({
-    map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-    averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-    minLevel: 4 // 클러스터 할 최소 지도 레벨
+
+
+
+
+
+var Qmarkers = [],
+    Nmarkers = [],
+    Lmarkers = [],
+    Fmarkers = [],
+    Dmarkers = [],
+    Omarkers = [],
+    Pmarkers = [],
+    Rmarkers = [];
+
+var areaJson = /*[[${areaJson}]]*/ [];
+var researchShop = /*[[${researchShop}]]*/ [];
+
+//ajax 요청하는 함수
+function ajaxPostSyn(url, data, callback, showLoading) {
+    // IE 기본값세팅
+    showLoading = typeof showLoading !== 'undefined' ? showLoading : true;
+    $.ajax({
+        async:false,
+        url: contextPath + url,
+        data: JSON.stringify(data),
+        method: "POST",
+        success: function(result) {
+            console.log('result : ', result);
+            if (callback) {
+                callback(result);
+            }
+        },
+        beforeSend: function() {
+            if (showLoading) {
+                $('.wrap-loading').removeClass('display-none');
+            }
+        },
+        complete: function() {
+            if (showLoading) {
+                $('.wrap-loading').addClass('display-none');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('error : ', error);
+        }
+    });
+}
+
+// 첫접속 시 현좌표 위경도, 줌레벨, x1,x2, y1,y2 값 담기 data 설정
+var level = map.getLevel();// 지도의 현재 레벨을 얻어옵니다
+var latlng = map.getCenter(); // 지도 중심좌표를 얻어옵니다
+var message ='지도 레벨은 ' + level + ' 이고' + '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
+message += '경도는 ' + latlng.getLng() + ' 입니다';
+console.log(message);
+
+var lat = map.getCenter().getLat(),
+    lng = map.getCenter().getLng(),
+    zoom = map.getLevel(),
+    x1=map.getBounds().getNorthEast().getLat(),
+    y2=map.getBounds().getNorthEast().getLng(),
+    y1=map.getBounds().getSouthWest().getLat(),
+    x2=map.getBounds().getSouthWest().getLng();
+
+var codeType1 = new Array();
+$("input[name=cate]").each(function(index, item){
+    codeType1.push($(item).val());
 });
+console.log( codeType1 )
+
+var datalat={
+    lat,
+    lng,
+    zoom,
+    x1,
+    x2,
+    y1,
+    y2,
+    codeType1,
+}
+console.log("첫 dataㅇㅁㅅㅁ", datalat);
+
+// 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, 'center_changed', function() {
+    var lat = map.getCenter().getLat(),
+        lng = map.getCenter().getLng(),
+        zoom = map.getLevel(),
+        x1=map.getBounds().getNorthEast().getLat(),
+        y2=map.getBounds().getNorthEast().getLng(),
+        y1=map.getBounds().getSouthWest().getLat(),
+        x2=map.getBounds().getSouthWest().getLng();
+
+    var datalat={
+        lat,
+        lng,
+        zoom,
+        x1,
+        x2,
+        y1,
+        y2,
+        codeType1
+    }
+    console.log("dataㅇㅁㅅㅁ", datalat);
+        ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
+        // console.log('result : ', result);
+        console.log("이게 데이터 갖고오는거임",result)
+
+        // if (result.result_code === 200) {
+        //     console.log(result)
+        // } else {
+        //     alert("2222")
+        // return false;
+        // }
+    });
+
+    if (zoom >= 10 && zoom <= 14) {
+        //10<level<14 일때, 시도 카운트 마커로 찍어주기
+        console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
+        //각 체크사항8가지 넣어야함
+    }
+    else if (zoom >= 7 && zoom <= 9) {
+        //7<level<9 일때, 시군구 카운트 마커로 찍기
+        console.log("//7<level<9 일때, 시군구 카운트 마커로 찍기")
+        //각 체크사항8가지 넣어야함
+    }
+    else if (zoom >= 4 && zoom <= 7) {
+        //4<level<7 일때, 행정동 카운트 마커로 찍기
+        console.log("//4<level<7 일때, 행정동 카운트 마커로 찍기")
+        //각 체크사항8가지 넣어야함
+
+        //상점 마커들 먼저 지워주기
+        // Qmarkers.forEach((va) => {
+        //     va.setMap(null);
+        // })
+        // Nmarkers.forEach((va) => {
+        //     va.setMap(null);
+        // })
+
+        var Qmarkers = [],
+            Nmarkers = [],
+            Lmarkers = [],
+            Fmarkers = [],
+            Dmarkers = [],
+            Omarkers = [],
+            Pmarkers = [],
+            Rmarkers = [];
+
+    }else {
+        //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
+        console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
+
+    }
+});
+
+
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
@@ -363,14 +511,6 @@ var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
     contentNode1 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
     contentNode2 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
 
-    markersBK9 = [], // 마커를 담을 배열입니다 1. Q음식
-    markersMT1 = [], // 마커를 담을 배열입니다 2. N관광여가오락
-    markersPM9 = [], // 마커를 담을 배열입니다 3. L=부동산
-    markersOL7 = [], // 마커를 담을 배열입니다 4. F=생활서비스
-    markersCE7 = [], // 마커를 담을 배열입니다 5. D=소매
-    markersCS2 = [], // 마커를 담을 배열입니다 6. O=숙박
-    markersP = [], // 마커를 담을 배열입니다 7. P=스포츠
-    markersR = [], // 마커를 담을 배열입니다 8. R=학문교육
     currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 
 // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
@@ -406,40 +546,36 @@ var O = document.getElementById("O");
 var P = document.getElementById("P");
 var R = document.getElementById("R");
 
-var Qmarkers = [],
-    Nmarkers = [],
-    Lmarkers = [],
-    Fmarkers = [],
-    Dmarkers = [],
-    Omarkers = [],
-    Pmarkers = [],
-    Rmarkers = [];
+
 //선택박스 체크시 각 카테고리의 마커 배열에 추가하는 함수 6개
 //배열을 6개로 안나누고는 특정마커 제거가 안되서 배열자체를 6개로 나눴음
 function a() {
     var bbb = newPositions.filter((v) => v.category_large_code == "Q");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = Q,
         cateMarker = Qmarkers;
     if (cateName.checked) {
+
         for (var i = 0; i < bbb.length; i++) {
             // 지도에 마커를 생성합니다
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
     } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-a();
+
 function b() {
     var bbb = newPositions.filter((v) => v.category_large_code == "N");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker02.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = N,
         cateMarker = Nmarkers;
     if (cateName.checked) {
@@ -448,18 +584,20 @@ function b() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
     } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-b();
+
 function c() {
     var bbb = newPositions.filter((v) => v.category_large_code == "L");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker03.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = L,
         cateMarker = Lmarkers;
     if (cateName.checked) {
@@ -468,18 +606,20 @@ function c() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
     } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-c();
+
 function d() {
     var bbb = newPositions.filter((v) => v.category_large_code == "F");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker04.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = F,
         cateMarker = Fmarkers;
     if (cateName.checked) {
@@ -488,18 +628,20 @@ function d() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
     } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-d();
+
 function e() {
     var bbb = newPositions.filter((v) => v.category_large_code == "D");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker05.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = D,
         cateMarker = Dmarkers;
     if (cateName.checked) {
@@ -508,18 +650,20 @@ function e() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
-    } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+    } else { // 체크 아니면 마커 지우기
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-e();
+
 function f() {
     var bbb = newPositions.filter((v) => v.category_large_code == "O");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker06.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = O,
         cateMarker = Omarkers;
     if (cateName.checked) {
@@ -528,19 +672,20 @@ function f() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
-    } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+    } else { // 체크 아니면 마커 지우기
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-f();
 
 function g() {
     var bbb = newPositions.filter((v) => v.category_large_code == "P");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker07.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = P,
         cateMarker = Pmarkers;
     if (cateName.checked) {
@@ -549,19 +694,20 @@ function g() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
-    } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+    } else { // 체크 아니면 마커 지우기
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-g();
 
 function h() {
     var bbb = newPositions.filter((v) => v.category_large_code == "R");//카테고리 대분류 필터
     var imageSrc =
-        "https://dummyimage.com/24x24/73ff00/0011ff"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        "/images/new/area/marker08.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
     var cateName = R,
         cateMarker = Rmarkers;
     if (cateName.checked) {
@@ -570,14 +716,16 @@ function h() {
             var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
             displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
             cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+            marker.setMap(map);
         }
-        clusterer.addMarkers(cateMarker); //클러스터리에 해당 마커를 추가합니다.
-    } else {
-        clusterer.removeMarkers(cateMarker);//클러스터리에 해당 마커를 제거합니다.
+    } else { // 체크 아니면 마커 지우기
+        cateMarker.forEach((va) => {
+            va.setMap(null);
+        })
         cateMarker = [];//해당 마커 배열을 제거합니다.
     }
 }
-h();
+
 
 function displayPlaces(marker, place, i) {
     // 마커와 검색결과 항목을 클릭 했을 때
@@ -622,10 +770,11 @@ function displayPlaceInfoHover(place) {
 }
 
 function content111(place) {
-    var content = '<div class="placeinfo">' +
+    var content =
+        '<div class="placeinfo">' +
         '   <p class="title" >' +
         place.storeName +
-        "</p>" +
+        "</p>"+
         '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
     content +=
         '    <span title="' +
@@ -660,36 +809,56 @@ function sideInfo(place) {
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
-            '<div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-            '<div class="sideinfo">' +
-            '   <p class="title" >' +
-            '<span class="storename">상점명 </span>' +
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">상점 정보</h4>'+
+            '<div class="location iconPlus">' +
+            place.road_address_name +
+            '</div>'+
+            '<div class="storegray iconPlus">' +
             place.storeName +
-            "</p>" +
-            '   <span title="' +
-            place.road_address_name +
-            '">' +
-            '<span class="road_address_name">도로명주소 </span>' +
-            place.road_address_name +
-            "</span>" +
-            '  <span class="jibun" title="' +
-            place.address_name +
-            '">(지번 : ' +
-            place.address_name +
-            ")</span>" +
-            '   <p class="subway" >' +
-            '<span class="subwayname">가까운 지하철역: </span>' +
+            '</div>'+
+            "</div>"+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">업종 정보</h4>'+
+            '<div class="listCtegory">' +
+            '<span class="lCategory">' +
+            place.largeCategory +
+            '</span>'+
+            '<span class="mCategory">' +
+            place.mediumCategory +
+            '</span>'+
+            '</div>'+
+            "</div>"+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">주변 정보</h4>' +
+            '<div class="subway iconPlus">지하철역' +
+            '<span class="position_name">' +
             place.subway +
-            "</p>" +
-            '   <p class="busStation" >' +
-            '<span class="busStationname">가까운 버스정류장: </span>' +
+            '</span>'+
+            '<span class="distance">거리</span>' +
+            '</div>'+
+            '<div class="bus iconPlus">버스' +
+            '<span class="position_name">' +
             place.busStation +
-            "</p>" +
-            '   <p class="issue" >' +
-            '<span class="issuename">최근이슈 : <준비중> </span>' +
-            "</p>" +
-            "</div>" +
-            '<div class="after"></div>';
+            '</span>'+
+            '<span class="distance">거리</span>'+
+            '</div>'+
+            '<div class="street iconPlus">도로' +
+            place.busStation +
+            '<span class="distance">거리</span>'+
+            '</div>'+
+            "</div>"+
+
+            '<div class="sideinfo">'+
+            '<h4 class="sideinfoTitle">최근 이슈</h4>'+
+            '<div class="issue">' +
+            '<span>로그인이 필요합니다.</span>'+
+            '<a>로그인/회원가입 하러가기</a>'+
+            '</div>'+
+            "</div>"+
+
+            '<button class="analysisBtn">상권활성화 예측지수</button>'+
+            '<div class="toggle_side" onclick="closeOverlay()" title="닫기"></div>';
     }
 }
 
