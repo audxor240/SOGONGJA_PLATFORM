@@ -279,5 +279,21 @@ public class UserService implements UserDetailsService {
 	public Integer selectTotalRecords() {
 		return userMapper.selectTotalRecords();
 	}
+
+	public List<Map<String, Object>> getLikeEducationList(Map<String, Object> params, Paging paging) {
+		return userMapper.getLikeEducationList(params, paging.getPaging());
+	}
+
+	public List<Map<String, Object>> getRecommendEducationList(Map<String, Object> params, Paging paging) {
+		return userMapper.getRecommendEducationList(params, paging.getPaging());
+	}
+
+	public List<Map<String, Object>> getLikeConsultingList(Map<String, Object> params, Paging paging) {
+		return userMapper.getLikeConsultingList(params, paging.getPaging());
+	}
+
+	public List<Map<String, Object>> getRecommendConsultingList(Map<String, Object> params, Paging paging) {
+		return userMapper.getRecommendConsultingList(params, paging.getPaging());
+	}
 }
 

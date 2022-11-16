@@ -19,6 +19,8 @@ public class GlobalConstant {
 		public static final int USER_PAGE_GROUP_SIZE = 5;
 		public static final int USER_EDUCATION= 9;
 		public static final int USER_EDUCATION_SOLUTION= 6;
+
+		public static final int USER_MYPAGE_EDUCATION= 6;
 	}
 
 	public static final class API_STATUS {

@@ -53,5 +53,12 @@ public interface UserMapper {
 
 	List<Map<String, Object>> getQnaList(Map<String, Object> params, RowBounds rowBounds);
 
+	List<Map<String, Object>> getLikeEducationList(Map<String, Object> params, RowBounds rowBounds);
+
+	List<Map<String, Object>> getRecommendEducationList(Map<String, Object> params, RowBounds rowBounds);
+
+	List<Map<String, Object>> getLikeConsultingList(Map<String, Object> params, RowBounds rowBounds);
+
+	List<Map<String, Object>> getRecommendConsultingList(Map<String, Object> params, RowBounds rowBounds);
 	int selectTotalRecords();
 }
