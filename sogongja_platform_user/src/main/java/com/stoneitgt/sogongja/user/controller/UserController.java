@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.domain.*;
+import com.stoneitgt.sogongja.user.domain.BoardParameter;
 import com.stoneitgt.sogongja.user.security.SocialLoginSupport;
 import com.stoneitgt.sogongja.user.service.*;
 import lombok.RequiredArgsConstructor;
@@ -777,6 +778,128 @@ public class UserController extends BaseController {
 
 		String returnUrl = "redirect:/";
 		return returnUrl;
+	}
+
+	@PostMapping("/user/like_edu")
+	public String getLikeEducation(Model model,@ModelAttribute BaseParameter params, @RequestBody Map<String, Object> data){
+
+		System.out.println("data >>> "+data);
+		List<Map<String,Object>> list = new ArrayList<>();
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
+
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.USER_MYPAGE_EDUCATION);
+
+		//관심 교육 정보 조회
+		list = userService.getLikeEducationList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("mypage", true);
+		model.addAttribute("pageType", "like_edu");
+
+		return "pages/user/mypage :: .like_edu";
+	}
+
+	@PostMapping("/user/recommend_edu")
+	public String getRecommendEducation(Model model,@ModelAttribute BaseParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.USER_MYPAGE_EDUCATION);
+
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+		}
+		//관심 교육 정보 조회
+		list = userService.getRecommendEducationList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("mypage", true);
+		model.addAttribute("pageType", "recommend_edu");
+
+		return "pages/user/mypage :: .recommend_edu";
+	}
+
+	@PostMapping("/user/like_con")
+	public String getLikeConsulting(Model model,@ModelAttribute BaseParameter params, @RequestBody Map<String, Object> data){
+
+		System.out.println("data >>> "+data);
+		List<Map<String,Object>> list = new ArrayList<>();
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
+
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.USER_MYPAGE_EDUCATION);
+
+		//관심 교육 정보 조회
+		list = userService.getLikeConsultingList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("mypage", true);
+		model.addAttribute("pageType", "like_con");
+
+		return "pages/user/mypage :: .like_con";
+	}
+
+	@PostMapping("/user/recommend_con")
+	public String getRecommendConsulting(Model model,@ModelAttribute BaseParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.USER_MYPAGE_EDUCATION);
+
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+		}
+		//관심 교육 정보 조회
+		list = userService.getRecommendConsultingList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("mypage", true);
+		model.addAttribute("pageType", "recommend_con");
+
+		return "pages/user/mypage :: .recommend_con";
 	}
 
 }

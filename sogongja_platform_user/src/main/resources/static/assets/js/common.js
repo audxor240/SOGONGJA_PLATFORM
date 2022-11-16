@@ -173,6 +173,17 @@ function commonSearchPaging(formName) {
     });
 }
 
+//마이페이지 > 교육 및 컨설팅 페이지 네이션
+function page_link(pageType, page){
+
+    switch (pageType){
+        case "like_edu":getLikeEduList(page); break;
+        case "recommend_edu":getRecommendEduList(page); break;
+        case "like_con":getLikeConList(page); break;
+        case "recommend_con":getRecommendConList(page); break;
+    }
+}
+
 function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
