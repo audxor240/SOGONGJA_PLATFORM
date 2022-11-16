@@ -91,38 +91,18 @@ public class AreaController extends BaseController {
 		return results;
 	}
 
-//	@GetMapping("/shop")
-//	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
-//
-//		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-////		List<Map<String, Object>> tradingAreaListToJSON = areaService.getTradingAreaListToJSON(paramsMap);
-////		System.out.println("==========================================================");
-////		for (Map<String, Object> t : tradingAreaListToJSON) {
-////			System.out.println(t);
-////		}
-////		System.out.println("==========================================================");
-//		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
-//		List<Map<String, Object>> shopCommunityList = communityService.getShopCommunityList("shop");
-//
-//		model.addAttribute("boardSettingList", boardSettingList);
-//		model.addAttribute("shopCommunityList", shopCommunityList);
-//		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
-//		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
-//		model.addAttribute("params", params);
-//		model.addAttribute("pageParams", getBaseParameterString(params));
-//		return "pages/area/trading_area_shop";
-//	}
+	@PostMapping("/shop/pubTrans")
+	public @ResponseBody Map<String, Object> shopPublicTransportInfo(@RequestBody Map<String, Object> params, Model model) {
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		return areaService.getResearchShopPublicTransport(paramsMap);
+	}
 
 	@GetMapping("/analysis")
 	public String analysis(@ModelAttribute BaseParameter params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-//		List<Map<String, Object>> tradingAreaListToJSON = areaService.getTradingAreaListToJSON(paramsMap);
-//		System.out.println("==========================================================");
-//		for (Map<String, Object> t : tradingAreaListToJSON) {
-//			System.out.println(t);
-//		}
-//		System.out.println("==========================================================");
+
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		//QNA게시판 시퀀스 정보
