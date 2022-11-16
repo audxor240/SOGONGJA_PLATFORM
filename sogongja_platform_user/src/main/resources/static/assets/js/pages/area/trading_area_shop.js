@@ -1,10 +1,10 @@
 
 
 //기본 위치는 서울시청 좌표
-var clientLatitude = 37.49542431718493;
-var clientLongitude = 127.03320108651666;
+var clientLatitude = 37.506280990844225;
+var clientLongitude = 127.04042161585487;
 // 맵 기본 레벨
-var mapDefaultLevel = 3;
+var mapDefaultLevel = 6;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -408,10 +408,10 @@ console.log(message);
 var lat = map.getCenter().getLat(),
     lng = map.getCenter().getLng(),
     zoom = map.getLevel(),
-    x1=map.getBounds().getNorthEast().getLat(),
+    x2=map.getBounds().getNorthEast().getLat(),
     y2=map.getBounds().getNorthEast().getLng(),
-    y1=map.getBounds().getSouthWest().getLat(),
-    x2=map.getBounds().getSouthWest().getLng();
+    x1=map.getBounds().getSouthWest().getLat(),
+    y1=map.getBounds().getSouthWest().getLng();
 
 var codeType1 = new Array();
 $("input[name=cate]").each(function(index, item){
@@ -436,12 +436,12 @@ kakao.maps.event.addListener(map, 'center_changed', function() {
     var lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
-        x1=map.getBounds().getNorthEast().getLat(),
+        x2=map.getBounds().getNorthEast().getLat(),
         y2=map.getBounds().getNorthEast().getLng(),
-        y1=map.getBounds().getSouthWest().getLat(),
-        x2=map.getBounds().getSouthWest().getLng();
+        x1=map.getBounds().getSouthWest().getLat(),
+        y1=map.getBounds().getSouthWest().getLng();
 
-    var datalat={
+    var datalat = {
         lat,
         lng,
         zoom,
@@ -454,7 +454,7 @@ kakao.maps.event.addListener(map, 'center_changed', function() {
     console.log("dataㅇㅁㅅㅁ", datalat);
         ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
         // console.log('result : ', result);
-        console.log("이게 데이터 갖고오는거임",result)
+        console.log("이게 데이터 갖고오는거임", result)
 
         // if (result.result_code === 200) {
         //     console.log(result)
