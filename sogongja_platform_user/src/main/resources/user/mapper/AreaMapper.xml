@@ -114,4 +114,15 @@
 		</choose>
 	</select>
 
+	<select id="getResearchShopPublicTransport" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getResearchShopPublicTransport */
+		SELECT *
+		FROM ST_RESEARCH_SHOP RS
+				 INNER JOIN ST_LOCATION_BUS_STATION LBS
+							ON RS.ARS_ID = LBS.ARS_ID
+				 INNER JOIN ST_LOCATION_SUBWAY_STATION LSS
+							ON RS.SUB_STA_NO = LSS.SUB_STA_NO
+		WHERE RS.SHOP_SEQ = #{shopSeq}
+	</select>
+
 </mapper>
