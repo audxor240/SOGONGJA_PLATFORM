@@ -52,7 +52,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("shopCommunityList", shopCommunityList);
 //		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
-		paramsMap.put("zoom", 14);
+		paramsMap.put("zoom", 6);
 		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
 		model.addAttribute("researchShop", areaService.countResearchShopToJSON(paramsMap));
 //		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
@@ -74,8 +74,8 @@ public class AreaController extends BaseController {
 		}
 		scope = StringUtils.removeEnd(scope, ",");
 		paramsMap.put("scope", scope);
-		List<Map<String, Object>> results = new ArrayList<>();
 
+		List<Map<String, Object>> results = new ArrayList<>();
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
 			// 리스트
 			results = areaService.getResearchShopToJSON(paramsMap);
