@@ -54,6 +54,10 @@ public class AreaController extends BaseController {
 //		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		paramsMap.put("zoom", 6);
 		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
+		paramsMap.put("x1", 37.47629323368353);
+		paramsMap.put("x2", 37.5362047082041);
+		paramsMap.put("y1", 126.95351224208618);
+		paramsMap.put("y2", 127.12726465022845);
 		model.addAttribute("researchShop", areaService.countResearchShopToJSON(paramsMap));
 //		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);
