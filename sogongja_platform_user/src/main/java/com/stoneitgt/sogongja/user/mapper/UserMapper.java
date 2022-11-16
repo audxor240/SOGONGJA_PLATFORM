@@ -41,7 +41,7 @@ public interface UserMapper {
 
 	int updatePassword(User user);
 
-	int deleteUser(Map<String, Object> params);
+	int deleteUser(int userSeq);
 
 	int withdrawUser(int userSeq);
 
@@ -61,4 +61,17 @@ public interface UserMapper {
 
 	List<Map<String, Object>> getRecommendConsultingList(Map<String, Object> params, RowBounds rowBounds);
 	int selectTotalRecords();
+
+	void deleteAllEducationBookmark(int userSeq);
+	void deleteAllEducationWatching(int userSeq);
+	void deleteAllConsultingBookmark(int userSeq);
+	void deleteAllConsultingWatching(int userSeq);
+	void deleteAllQna(int userSeq, int boardSettingSeq);
+	void deleteAllCommunity(int userSeq);
+	void deleteAllReply(int userSeq);
+	void deleteAllUserSurvey(int userSeq);
+	void deleteAllUserQuestion(int userSeq);
+	void deleteAllUserAnswer1(int userSeq);
+	void deleteAllUserAnswer2(int userSeq);
+	void deleteAllUserKeyword(int userSeq);
 }

@@ -195,7 +195,99 @@
 		     SET DEL_FLAG         = 1
 		       , DEL_USER_SEQ     = #{login_user_seq}
 		       , DEL_DATE         = CURRENT_TIMESTAMP()
-		   WHERE USER_SEQ         = #{user_seq}
+		   WHERE USER_SEQ         = #{userSeq}
+	</update>
+
+	<delete id="deleteAllEducationBookmark" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllEducationBookmark */
+		DELETE FROM ST_EDUCATION_BOOKMARK where DEL_FLAG = 0 and USER_SEQ = #{userSeq}
+	</delete>
+
+	<update id="deleteAllEducationWatching" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllEducationWatching */
+		DELETE FROM ST_EDUCATION_WATCHING where  USER_SEQ = #{userSeq}
+	</update>
+
+	<update id="deleteAllConsultingBookmark" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllConsultingBookmark */
+		DELETE FROM ST_CONSULTING_BOOKMARK where DEL_FLAG = 0 and USER_SEQ = #{userSeq}
+	</update>
+
+	<update id="deleteAllConsultingWatching" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllConsultingWatching */
+		DELETE FROM ST_CONSULTING_WATCHING where  USER_SEQ = #{userSeq}
+	</update>
+
+	<update id="deleteAllQna" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllQna */
+		UPDATE ST_BOARD
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq} and BOARD_SETTING_SEQ = #{boardSettingSeq}
+	</update>
+
+	<update id="deleteAllCommunity" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllCommunity */
+		UPDATE ST_COMMUNITY
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllReply" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllReply */
+		UPDATE ST_REPLY
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllUserSurvey" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllUserSurvey */
+		UPDATE ST_USER_SURVEY
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllUserQuestion" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllUserQuestion */
+		UPDATE ST_USER_QUESTION
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllUserAnswer1" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllUserAnswer1 */
+		UPDATE ST_USER_ANSWER1
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllUserAnswer2" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllUserAnswer2 */
+		UPDATE ST_USER_ANSWER2
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
+	</update>
+
+	<update id="deleteAllUserKeyword" parameterType="map" >
+		/* file : UserMapper.xml, id : deleteAllUserKeyword */
+		UPDATE ST_USER_KEYWORD
+		SET DEL_FLAG         = 1
+		  , DEL_USER_SEQ     = #{login_user_seq}
+		  , DEL_DATE         = CURRENT_TIMESTAMP()
+		WHERE DEL_FLAG = 0 AND REG_USER_SEQ         = #{userSeq}
 	</update>
 
 	<select id="selectTotalRecords" resultType="int">

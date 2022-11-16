@@ -29,12 +29,13 @@
                 <input type="hidden" th:field="*{boardSeq}">
                 <input type="hidden" th:field="*{boardSettingSeq}">
                 <input type="hidden" th:field="*{content}">
+                <input type="hidden" th:field="*{myPage}">
                 <div class="qna_title">
                     <input type="text" placeholder="질문 제목을 입력해주세요." th:field="*{subject}" maxlength="100" >
                 </div>
                 <div class="secret_btn_wrap">
                     <input type="checkbox" id="secret_read" class="checkbox_style checkbox_style_small" th:field="*{secretUse}" value="Y">
-                    <label for="secret_read">비밀글222</label>
+                    <label for="secret_read">비밀글</label>
                 </div>
                 <div class="qna_text">
                     <div id="editor"></div>

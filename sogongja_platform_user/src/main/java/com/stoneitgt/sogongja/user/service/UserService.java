@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.domain.*;
+import com.stoneitgt.sogongja.user.config.DataSourceConfig;
 import com.stoneitgt.sogongja.user.controller.SurveyService;
+import com.stoneitgt.sogongja.user.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +36,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private SurveyService surveyService;
+
+	@Autowired
+	private BoardMapper boardMapper;
 
 	@Override
 	public User loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -100,9 +105,9 @@ public class UserService implements UserDetailsService {
 		return userMapper.updatePassword(user);
 	}
 
-	public int deleteUser(Map<String, Object> params) {
+	/*public int deleteUser(Map<String, Object> params) {
 		return userMapper.deleteUser(params);
-	}
+	}*/
 
 	public boolean isCorrectPassword(int userSeq, String currentPassword) {
 		String password = userMapper.getUserPassword(userSeq);
@@ -294,6 +299,33 @@ public class UserService implements UserDetailsService {
 
 	public List<Map<String, Object>> getRecommendConsultingList(Map<String, Object> params, Paging paging) {
 		return userMapper.getRecommendConsultingList(params, paging.getPaging());
+	}
+
+	@Transactional
+	public void deleteUser(int userSeq){
+
+		//교육/컨설팅 관심, 수강완료 삭제
+		userMapper.deleteAllEducationBookmark(userSeq);
+		userMapper.deleteAllEducationWatching(userSeq);
+		userMapper.deleteAllConsultingBookmark(userSeq);
+		userMapper.deleteAllConsultingWatching(userSeq);
+
+		//문의글 삭제
+		BoardSetting boardSetting = boardMapper.getboardSettingQnaInfo();	//게시판관리의 QNA시퀀스 조회
+		userMapper.deleteAllQna(userSeq, boardSetting.getBoardSettingSeq());
+
+		//상점 커뮤니티, 지역 커뮤니티 글,댓글 삭제
+		userMapper.deleteAllCommunity(userSeq);
+		userMapper.deleteAllReply(userSeq);
+
+		//설문지 삭제
+		userMapper.deleteAllUserSurvey(userSeq);
+		userMapper.deleteAllUserQuestion(userSeq);
+		userMapper.deleteAllUserAnswer1(userSeq);
+		userMapper.deleteAllUserAnswer2(userSeq);
+		userMapper.deleteAllUserKeyword(userSeq);
+		//회원 삭제
+		userMapper.deleteUser(userSeq);
 	}
 }
 
