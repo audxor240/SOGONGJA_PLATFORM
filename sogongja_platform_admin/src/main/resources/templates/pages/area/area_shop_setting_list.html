@@ -27,7 +27,8 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm">
+                    <form name="searchForm" th:action="@{/areaSetting/shop}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group row">
@@ -35,8 +36,9 @@
                                         <label class="col-sm-2 col-form-label">대분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select class="form-control">
-                                            <option>전체</option>
+                                        <select class="form-control" th:field="*{category1}" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category1List}" th:value="${item.code_type1}">[[${item.nm_type1}]]</option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,8 +49,9 @@
                                         <label class="col-sm-2 col-form-label">중분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select class="form-control">
-                                            <option>전체</option>
+                                        <select class="form-control" th:field="*{category2}" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category2List}" th:value="${item.code_type2}" th:if="category2List != null">[[${item.nm_type2}]]</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,8 +62,9 @@
                                         <label class="col-sm-2 col-form-label">소분류</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <select class="form-control">
-                                            <option>전체</option>
+                                        <select class="form-control" th:field="*{category3}" onchange="selSubmit()">
+                                            <option value="">전체</option>
+                                            <option th:each="item : ${category3List}" th:value="${item.code_type3}" th:if="category3List != null">[[${item.nm_type3}]]</option>
                                         </select>
                                     </div>
                                 </div>
@@ -68,10 +72,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-1">
-                                <label class="col-sm-12 col-form-label">검색</label>
+                                <label class="col-sm-12 col-form-label">상호명</label>
                             </div>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+                                <input type="text" class="form-control" th:field="*{keyword}" placeholder="검색어를 입력하세요">
                             </div>
                             <button type="submit" class="col-sm-3 btn btn-primary btn-icon-text btn-search">
                                 <i class="btn-icon-prepend" data-feather="search"></i>검색
@@ -105,7 +109,7 @@
                             </th:block>
                         </div>
                         <div class="row justify-content-end col-sm-8">
-                            <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
+                            <button type="button" class="btn col-sm-2 btn-danger mr-1" id="del_reSearchShop">선택삭제</button>
                             <button type="button" class="btn col-sm-2 btn-primary mr-1"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
                             <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
                                 <div class="col-sm-8 mt-1 mr-3 custom-file">
@@ -118,9 +122,9 @@
                             </form>
                         </div>
                     </div>
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
-                    </form>
+                    </form>*/-->
                     <p class="card-description"></p>
                     <div class="table-responsive" style="text-align:center">
                         <table class="table table-hover" style="white-space: nowrap">
@@ -128,41 +132,84 @@
                             <tr>
                                 <th>선택</th>
                                 <th>#</th>
+                                <th>상점번호</th>
                                 <th>상호명</th>
-                                <th>지역명</th>
-                                <th>상권업종대분류코드</th>
-                                <th>상권업종대분류명</th>
-                                <th>상권업종중분류코드</th>
-                                <th>상권업종중분류명</th>
-                                <th>상권업종소분류코드</th>
-                                <th>상권업종소분류명</th>
-                                <th>등록일</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
+                                <th>지점명</th>
+                                <th>상권 업종 대분류 코드</th>
+                                <th>상권 업종 대분류명</th>
+                                <th>상권 업종 중분류 코드</th>
+                                <th>상권 업종 중분류명</th>
+                                <th>상권 업종 소분류 코드</th>
+                                <th>상권 업종 소분류명</th>
+                                <th>지번 코드</th>
+                                <th>지번 주소</th>
+                                <th>도로명 주소</th>
+                                <th>읍면동 코드</th>
+                                <th>읍면동명</th>
+                                <th>경도</th>
+                                <th>위도</th>
+                                <th>지하철 노선명 역명</th>
+                                <th>역 번호</th>
+                                <th>월 평균 지하철 총 승차 승객 수</th>
+                                <th>월 평균 지하철 총 하차 승객 수</th>
+                                <th>월 합계 지하철 총 승차 승객 수</th>
+                                <th>월 합계 지하철 총 하차 승객 수</th>
+                                <th>버스정류장 정류장명</th>
+                                <th>정류장 번호</th>
+                                <th>월 평균 버스정류장 승차 총 승객 수</th>
+                                <th>월 평균 버스정류장 하차 총 승객 수</th>
+                                <th>월 합계 버스정류장 승차 총 승객 수</th>
+                                <th>월 합계 버스정류장 하차 총 승객 수</th>
+                                <th>사용 승인일</th>
+                                <th>지상 층수</th>
+                                <th>지하 층수</th>
+                                <th>주용도 코드</th>
+                                <th>주용도 코드명</th>
+                                <th>기타 용도</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td><input type="checkbox" th:name="chk_shop"></td>
+                                <td><input type="checkbox" name="shop_check" th:value="${item.shop_seq}"></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>[[${item.shop_no}]]</td>
+                                <td>[[${item.shop_nm}]]</td>
+                                <td>[[${item.branch}]]</td>
+                                <td>[[${item.code_type1}]]</td>
+                                <td>[[${item.nm_type1}]]</td>
+                                <td>[[${item.code_type2}]]</td>
+                                <td>[[${item.nm_type2}]]</td>
+                                <td>[[${item.code_type3}]]</td>
+                                <td>[[${item.nm_type3}]]</td>
+                                <td>[[${item.addr_cd}]]</td>
+                                <td>[[${item.addr}]]</td>
+                                <td>[[${item.st_addr}]]</td>
+                                <td>[[${item.emd_cd}]]</td>
+                                <td>[[${item.emd_nm}]]</td>
+                                <td>[[${item.longitude}]]</td>
+                                <td>[[${item.latitude}]]</td>
+                                <td>[[${item.sub_sta_nm}]]</td>
+                                <td>[[${item.sub_sta_no}]]</td>
+                                <td>[[${item.ave_sub_pass_on}]]</td>
+                                <td>[[${item.ave_sub_pass_off}]]</td>
+                                <td>[[${item.sum_sub_pass_on}]]</td>
+                                <td>[[${item.sum_sub_pass_off}]]</td>
+                                <td>[[${item.bus_sta_nm}]]</td>
+                                <td>[[${item.ars_id}]]</td>
+                                <td>[[${item.ave_bus_pass_on}]]</td>
+                                <td>[[${item.ave_bus_pass_off}]]</td>
+                                <td>[[${item.sum_bus_pass_on}]]</td>
+                                <td>[[${item.sum_bus_pass_off}]]</td>
+                                <td>[[${item.apprv_date}]]</td>
+                                <td>[[${item.ct_grd}]]</td>
+                                <td>[[${item.ct_base}]]</td>
+                                <td>[[${item.pincp_use_cd}]]</td>
+                                <td>[[${item.princp_use}]]</td>
+                                <td>[[${item.other_use}]]</td>
                             </tr>
                             </tbody>
                         </table>
@@ -172,10 +219,8 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/board/settingDelete}" method="post">
-        <input type="hidden" name="boardSettingSeq">
-        <input type="hidden" name="boardType" th:value="${boardType}">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    <form name="deleteForm" th:action="@{/areaSetting/shop/delete}" method="post">
+        <input type="hidden" name="reSearchShopStr">
     </form>
 </div>
 <th:block layout:fragment="custom_css">
