@@ -83,11 +83,11 @@
                         <a th:href="@{|/consulting/form?${pageParams}|}" class="btn col-sm-1 btn-primary mr-1">
                             <i class="btn-icon-prepend" data-feather="edit"></i>컨설팅 등록
                         </a>
-                        <form class="col-sm-4 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                        <form class="col-sm-4 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
                             <div class="col-sm-8 mt-1 mr-3 custom-file">
                                 <input class="custom-file-input" type="file" id="fileExcel" name="file">
                                 <label class="custom-file-label" for="fileExcel">파일선택</label>
-                                <input type="hidden" name="excelType" value="faq">
+                                <input type="hidden" name="excelType" value="con">
                             </div>
                             <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->

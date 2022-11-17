@@ -103,4 +103,40 @@
 		SELECT FOUND_ROWS();
 	</select>
 
+	<insert id="insertCounselingExcel" parameterType="java.util.List">
+		/* file : CounselingMapper.xml, id : insertCounselingExcel */
+		INSERT
+		INTO ST_COUNSELING (
+		QUESTION
+		, CONTENT
+		, SUPPORT_ORG
+		, COU_URL
+		, TAGS
+		, FIELD
+		, YEAR
+		, COUNSELOR
+		, REG_USER_SEQ
+		, REG_DATE)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.question}
+			, #{item.content}
+			, #{item.supportOrg}
+			, #{item.couUrl}
+			, #{item.tags}
+			, #{item.field}
+			, #{item.year}
+			, #{item.counselor}
+			, #{item.loginUserSeq}
+			, CURRENT_TIMESTAMP()
+			)
+		</foreach>
+
+
+		<selectKey resultType="int" keyProperty="couSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
 </mapper>

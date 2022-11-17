@@ -119,4 +119,48 @@
 		SELECT FOUND_ROWS();
 	</select>
 
+	<select id="checkEducationSubject" parameterType="string" resultType="int">
+		/* file : EducationMapper.xml, id : getEducation */
+		SELECT count(*)
+		FROM ST_EDUCATION
+		WHERE DEL_FLAG = 0
+		  AND SUBJECT  = #{subject}
+	</select>
+
+	<insert id="insertEducationExcel" parameterType="java.util.List">
+		/* file : EducationMapper.xml, id : insertEducationExcel */
+		INSERT
+		INTO ST_EDUCATION (
+		SUBJECT
+		, CONTENT
+		, SUPPORT_ORG
+		, EDU_URL
+		, TAGS
+		, CATEGORY_1
+		, CATEGORY_2
+		, CATEGORY_3
+		, REG_USER_SEQ
+		, REG_DATE)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.subject}
+			, #{item.content}
+			, #{item.supportOrg}
+			, #{item.eduUrl}
+			, #{item.tags}
+			, #{item.category1}
+			, #{item.category2}
+			, #{item.category3}
+			, #{item.loginUserSeq}
+			, CURRENT_TIMESTAMP()
+			)
+		</foreach>
+
+
+		<selectKey resultType="int" keyProperty="eduSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
 </mapper>

@@ -234,14 +234,19 @@ public class BoardController extends BaseController {
 			}
 		}
 
-		String returnUrl = "redirect:"+appProperties.getHost()+"/board/" + board.getBoardSettingSeq()+ "?";
+		String returnUrl = "";
+		if(board.getMyPage() == true){
+			returnUrl = "redirect:" + appProperties.getHost() + "/mypage/qna/"+board.getBoardSettingSeq();
+		}else {
+			returnUrl = "redirect:" + appProperties.getHost() + "/board/" + board.getBoardSettingSeq() + "?";
 
-		if (board.getBoardSeq() == 0) {
-			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
-			returnUrl += "menuCode=" + menuCode;
-		} else {
-			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
-			returnUrl += board.getPageParams();
+			if (board.getBoardSeq() == 0) {
+				rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+				returnUrl += "menuCode=" + menuCode;
+			} else {
+				rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+				returnUrl += board.getPageParams();
+			}
 		}
 		board.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
 		BoardSetting boardSetting = boardService.getboardSettingInfo(board.getBoardSettingSeq());

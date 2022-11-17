@@ -470,8 +470,45 @@
           AND PLACE_TYPE = #{placeType}
     </select>
 
+    <select id="getboardSettingQnaInfo" resultType="com.stoneitgt.sogongja.domain.BoardSetting">
+        /* file : BoardMapper.xml, id : getboardSettingQnaInfo */
+        SELECT *
+        FROM ST_BOARD_SETTING
+        WHERE DEL_FLAG            = 0 AND FILE_DIRECTORY_NAME = 'qna'
+    </select>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>
+
+    <insert id="insertProjectExcel" parameterType="java.util.List">
+        /* file : BoardMapper.xml, id : insertProjectExcel */
+        INSERT
+        INTO ST_PROJECT (
+        PROJECT_TYPE
+        , PROJECT_YEAR
+        , SUBJECT
+        , PLACE_TYPE
+        , PROJECT_URL
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.projectType}
+            , #{item.projectYear}
+            , #{item.subject}
+            , #{item.placeType}
+            , #{item.projectUrl}
+            , #{item.loginUserSeq}
+            , CURRENT_TIMESTAMP()
+            )
+        </foreach>
+
+
+        <selectKey resultType="int" keyProperty="projectSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 
 </mapper>

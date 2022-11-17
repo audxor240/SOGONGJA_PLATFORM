@@ -25,7 +25,6 @@ public class FaqService extends BaseService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public void saveFaqBoard(List<Faq> faq) throws IOException {
         faqMapper.insertFaqBoard(faq);
-
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)

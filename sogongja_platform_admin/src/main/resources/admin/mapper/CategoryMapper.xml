@@ -195,6 +195,27 @@
 
     </select>
 
+    <select id="getCategory1Infomation" parameterType="string" resultType="com.stoneitgt.sogongja.domain.Category1">
+        /* file : CategoryMapper.xml, id : getCategory1Infomation */
+        select * from ST_CATEGORY1
+        where DEL_FLAG =0 AND NAME = REPLACE(#{category1Name},' ','');
+
+    </select>
+
+    <select id="getCategory2Infomation" parameterType="string" resultType="com.stoneitgt.sogongja.domain.Category2">
+        /* file : CategoryMapper.xml, id : getCategory2Infomation */
+        select * from ST_CATEGORY2
+        where DEL_FLAG =0 AND NAME like CONCAT('%', #{category2Name}, '%');
+
+    </select>
+
+    <select id="getCategory3Infomation" parameterType="string" resultType="com.stoneitgt.sogongja.domain.Category3">
+        /* file : CategoryMapper.xml, id : getCategory3Infomation */
+        select * from ST_CATEGORY3
+        where DEL_FLAG =0 AND NAME like CONCAT('%', #{category3Name}, '%');
+
+    </select>
+
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>

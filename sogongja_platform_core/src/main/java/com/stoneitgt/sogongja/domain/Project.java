@@ -18,8 +18,8 @@ public class Project {
 	private int projectSeq;
 
 	// 지원사업분류
-	//@NotBlank(message = "{field.required}")
-	//private String projectType;
+	@NotBlank(message = "{field.required}")
+	private String projectType;
 
 	// 지원사업년도
 	@NotBlank(message = "{field.required}")
@@ -58,4 +58,6 @@ public class Project {
 	private String regUsername;
 
 	private Map<String,Object> projectList ;
+
+	private String projectUrl;
 }
