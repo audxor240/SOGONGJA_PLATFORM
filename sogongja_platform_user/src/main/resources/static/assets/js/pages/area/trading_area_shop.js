@@ -1,10 +1,8 @@
-
-
 //기본 위치는 서울시청 좌표
 var clientLatitude = 37.506280990844225;
 var clientLongitude = 127.04042161585487;
 // 맵 기본 레벨
-var mapDefaultLevel = 13;
+var mapDefaultLevel = 14;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -23,6 +21,7 @@ if (navigator.geolocation) {
         await map.setCenter(moveLatLon);
     });
 }
+
 //현위치 설정
 function setCenter() {
     // 이동할 위도 경도 위치를 생성합니다
@@ -94,10 +93,12 @@ async function searchAddrFromCoords(coords, callback) {
     // 좌표로 행정동 주소 정보를 요청합니다
     await geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 }
+
 async function searchDetailAddrFromCoords(coords, callback) {
     // 좌표로 법정동 상세 주소 정보를 요청합니다
     await geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 }
+
 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 async function displayCenterInfo(result, status) {
     if (status === kakao.maps.services.Status.OK) {
@@ -127,11 +128,6 @@ async function displayCenterInfo(result, status) {
 }
 
 
-
-
-
-
-
 /*시도,시군구,행정동*/
 /*시도,시군구,행정동*/
 /*시도,시군구,행정동*/
@@ -158,6 +154,7 @@ async function fetchSido() {
         return data;
     } else {
         throw Error(data);
+
     }
 }
 
@@ -169,6 +166,7 @@ async function fetchSigungu(code) {
         return data;
     } else {
         throw Error(data);
+
     }
 }
 
@@ -181,6 +179,7 @@ async function fetchDong(code) {
         return data;
     } else {
         throw Error(data);
+
     }
 }
 
@@ -209,7 +208,7 @@ async function renderSigungu() {
         ...el, dong: el.name.split(" ", 2)[1]
     }));
     name = [...fiddong]
-
+    //문자열에서 시도를 제거하고 시군구만 담고 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
         let htmlSegment = `<li title="${sido.name}" id="${sido.name}" value="${sido.code}" onclick="onClickSearch(this)">
@@ -218,8 +217,8 @@ async function renderSigungu() {
         html += htmlSegment;
     });
     sigunguBox.innerHTML = html;
-
 }
+renderSigungu()
 function isdongTrue(el) {
     var dd = (el.name.split(" ", 4));
     if (dd.length === 4) {
@@ -231,13 +230,14 @@ async function renderDong() {
     let code = await sigunguCodeSet();
     let sidos = await fetchDong(code);
     var sidoList = sidos.regcodes;
+
     var name = [];
     let fiddong = sidoList.map((el, index, arr) => arr.find(isdongTrue)
         ? ({ ...el, dong: el.name.split(" ", 4)[2] + " " + el.name.split(" ", 4)[3] })
         : ({ ...el, dong: el.name.split(" ", 4)[2] })
     );
     name = [...fiddong]
-
+    //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
         let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
@@ -248,14 +248,19 @@ async function renderDong() {
     });
     dongBox.innerHTML = html;
 }
-
-//개별 시군구 리스트 클릭시에 자동 검색
+renderDong()
+//개별 시군구,행정동 리스트 클릭시에 자동 검색
 function searchSidoDongPlaces() {
     if (!currCategory) {
         return;
     }
     geocoder.addressSearch(currCategory, placesSearchCB, { useMapBounds: true })
+    sidoBox.className = '';
+    sigunguBox.className = '';
+    dongBox.className = '';
 }
+
+
 //시도 카테고리를 클릭했을 때 호출되는 함수입니다
 function onClickSidoSearch(el) {
     var id = el.id,
@@ -263,33 +268,18 @@ function onClickSidoSearch(el) {
     currCategory = id;
     searchSidoDongPlaces();
 }
-// 시군구 행정동 카테고리를 클릭했을 때 호출되는 함수입니다
+
+//시군구행정동 카테고리를 클릭했을 때 호출되는 함수입니다
 function onClickSearch(el) {
     var id = el.id,
         className = el.className;
     if (className === 'on') {
         currCategory = '';
-        changeCategoryClass();
     } else {
         currCategory = id;
-        changeCategoryClass(el);
         searchSidoDongPlaces();
     }
 }
-
-// // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-// function changeCategoryClass(el) {
-//     var category = document.getElementById('dongBox'),
-//         children = category.children,
-//         i;
-//     for (i = 0; i < children.length; i++) {
-//         children[i].className = '';
-//     }
-//
-//     if (el) {
-//         el.className = 'on';
-//     }
-// }
 
 //시군구 선택박스 닫기 열기
 var sidoBox = document.getElementById('sidoBox');
@@ -299,71 +289,37 @@ var dongBox = document.getElementById('dongBox');
 function changeSelectBox(type) {
     // 시도 카테고리가 클릭됐을 때
     if (type === 'sido') {
-        // 커피숍 카테고리를 선택된 스타일로 변경하고
+        // 시도 카테고리를 선택된 스타일로 변경하고
         sidoBox.className = 'menu_selected';
-        // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
+        // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
         sigunguBox.className = '';
         dongBox.className = '';
-    } else if (type === 'sigungu') { // 편의점 카테고리가 클릭됐을 때
-        // 편의점 카테고리를 선택된 스타일로 변경하고
+    } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
+        // 시군구 카테고리를 선택된 스타일로 변경하고
         sidoBox.className = '';
         sigunguBox.className = 'menu_selected';
         dongBox.className = '';
-    } else if (type === 'dong') { // 주차장 카테고리가 클릭됐을 때
-        // 주차장 카테고리를 선택된 스타일로 변경하고
+    } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
+        // 행정동 카테고리를 선택된 스타일로 변경하고
         sidoBox.className = '';
         sigunguBox.className = '';
         dongBox.className = 'menu_selected';
     }
 }
 
-const closeBtn = document.querySelector('body')
 mapContainer.addEventListener("click", e => {
     sidoBox.className = '';
     sigunguBox.className = '';
     dongBox.className = '';
 })
 
+
+
+
+
 /*동동이 관련*/
 /*동동이 관련*/
 /*동동이 관련*/
-
-var newPositions = [];
-for(var i =0; i < researchShop.length;i++){
-    var resaerchData = researchShop[i];
-    var data = new Object() ;
-    data.storeName = resaerchData.shop_nm ;
-    data.address_name = resaerchData.addr ;
-    data.road_address_name = resaerchData.st_addr ;
-    data.largeCategory = resaerchData.nm_type1 ;
-    data.mediumCategory = resaerchData.nm_type2 ;
-    data.smallcategory = resaerchData.nm_type3 ;
-    data.category_large_code = resaerchData.code_type1;
-    data.category_medium_code = resaerchData.code_type2 ;
-    data.category_small_code = resaerchData.code_type3 ;
-    data.x = resaerchData.latitude ;
-    data.y = resaerchData.longitude ;
-    data.subway = resaerchData.sub_station ;
-    data.busStation = resaerchData.bus_station ;
-
-    newPositions.push(data);
-}
-console.log("newPositions :: "+JSON.stringify(newPositions));
-
-
-
-
-
-
-var Qmarkers = [],
-    Nmarkers = [],
-    Lmarkers = [],
-    Fmarkers = [],
-    Dmarkers = [],
-    Omarkers = [],
-    Pmarkers = [],
-    Rmarkers = [];
-
 var areaJson = /*[[${areaJson}]]*/ [];
 var researchShop = /*[[${researchShop}]]*/ [];
 
@@ -372,53 +328,46 @@ function ajaxPostSyn(url, data, callback, showLoading) {
     // IE 기본값세팅
     showLoading = typeof showLoading !== 'undefined' ? showLoading : true;
     $.ajax({
-        async:false,
+        //async:true,
         url: contextPath + url,
         data: JSON.stringify(data),
         method: "POST",
-        success: function(result) {
+        success: function (result) {
             console.log('result : ', result);
             if (callback) {
                 callback(result);
             }
         },
-        beforeSend: function() {
+        beforeSend: function () {
             if (showLoading) {
                 $('.wrap-loading').removeClass('display-none');
             }
         },
-        complete: function() {
+        complete: function () {
             if (showLoading) {
                 $('.wrap-loading').addClass('display-none');
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('error : ', error);
         }
     });
 }
 
 // 첫접속 시 현좌표 위경도, 줌레벨, x1,x2, y1,y2 값 담기 data 설정
-var level = map.getLevel();// 지도의 현재 레벨을 얻어옵니다
-var latlng = map.getCenter(); // 지도 중심좌표를 얻어옵니다
-var message ='지도 레벨은 ' + level + ' 이고' + '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
-message += '경도는 ' + latlng.getLng() + ' 입니다';
-console.log(message);
-
 var lat = map.getCenter().getLat(),
     lng = map.getCenter().getLng(),
     zoom = map.getLevel(),
-    x2=map.getBounds().getNorthEast().getLat(),
-    y2=map.getBounds().getNorthEast().getLng(),
-    x1=map.getBounds().getSouthWest().getLat(),
-    y1=map.getBounds().getSouthWest().getLng();
-
+    x2 = map.getBounds().getNorthEast().getLat(),
+    y2 = map.getBounds().getNorthEast().getLng(),
+    x1 = map.getBounds().getSouthWest().getLat(),
+    y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
-$("input[name=cate]").prop("checked", true).each(function(index, item){
+$("input[name=cate]").prop("checked", true).each(function (index, item) {
     codeType1.push($(item).val());
 });
-console.log( "체크 카테고리",codeType1 )
+console.log("체크 카테고리", codeType1)
 
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
 $("input[name=cate]").click(function () {
@@ -439,7 +388,7 @@ $("input[name=cate]").click(function () {
     }
 })
 
-var datalat={
+var datalat = {
     lat,
     lng,
     zoom,
@@ -451,17 +400,24 @@ var datalat={
 }
 console.log("첫 data이겁니다!!", datalat);
 
-// 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'center_changed', changeMap);
+async function firstFunc() {
+    await sleep(300),
+        changeMap();
+};
+firstFunc();
 
-function changeMap() {
+
+// 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, "idle", changeMap)
+
+async function changeMap() {
     var lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
-        x2=map.getBounds().getNorthEast().getLat(),
-        y2=map.getBounds().getNorthEast().getLng(),
-        x1=map.getBounds().getSouthWest().getLat(),
-        y1=map.getBounds().getSouthWest().getLng();
+        x2 = map.getBounds().getNorthEast().getLat(),
+        y2 = map.getBounds().getNorthEast().getLng(),
+        x1 = map.getBounds().getSouthWest().getLat(),
+        y1 = map.getBounds().getSouthWest().getLng();
 
     var datalat = {
         lat,
@@ -474,79 +430,113 @@ function changeMap() {
         codeType1
     }
     console.log("data재요청입니다!", datalat);
-        ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
+    ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
         // console.log('result : ', result);
         console.log("이게 데이터 갖고오는거임", result)
-
         // if (result.result_code === 200) {
         //     console.log(result)
         // } else {
         //     alert("2222")
         // return false;
         // }
-
-
-    if (zoom >= 10 && zoom <= 14) {
-        //10<level<14 일때, 시도 카운트 마커로 찍어주기
-        console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
-        //각 체크사항8가지 넣어야함
-        geocoder.addressSearch(`${result.name}`, function(addressResult, status) {
-
-            // 정상적으로 검색이 완료됐으면
-            if (status === kakao.maps.services.Status.OK) {
-
-                var coords = new kakao.maps.LatLng(addressResult[0].y, addressResult[0].x);
-
-                // 결과값으로 받은 위치를 마커로 표시합니다
-                var marker = new kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                });
-
-            }
-        });
-    }
-    else if (zoom >= 7 && zoom <= 9) {
-        //7<level<9 일때, 시군구 카운트 마커로 찍기
-        console.log("//7<level<9 일때, 시군구 카운트 마커로 찍기")
-        //각 체크사항8가지 넣어야함
-    }
-    else if (zoom >= 4 && zoom <= 7) {
-        //4<level<7 일때, 행정동 카운트 마커로 찍기
-        console.log("//4<level<7 일때, 행정동 카운트 마커로 찍기")
-        //각 체크사항8가지 넣어야함
-
-        //상점 마커들 먼저 지워주기
-        // Qmarkers.forEach((va) => {
-        //     va.setMap(null);
-        // })
-        // Nmarkers.forEach((va) => {
-        //     va.setMap(null);
-        // })
-
-        var Qmarkers = [],
-            Nmarkers = [],
-            Lmarkers = [],
-            Fmarkers = [],
-            Dmarkers = [],
-            Omarkers = [],
-            Pmarkers = [],
-            Rmarkers = [];
-
-    }else {
-        //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
-        console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
-    }
-
-
-        });
+        if (zoom >= 4 && zoom <= 14) {
+            //10<level<14 일때, 시도 카운트 마커로 찍어주기
+            console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
+            setMarkers(null)//마커들을 싹 비워
+            resultSpread(result)//그리고 다시찍어
+        } else {
+            //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
+            console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
+            setMarkers(null)//마커를비우고
+            storeSpread(result)//다시찍어
+        }
+    });
 };
 
+//상점을 표시하는 마커
+function storeSpread(thing) {
+    var imageSrc =
+        ""; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    if (thing.TYPE1_CD == "Q") {
+        var imageSrc =
+            "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "N") {
+        var imageSrc =
+            "/images/new/area/marker02.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "L") {
+        var imageSrc =
+            "/images/new/area/marker03.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "F") {
+        var imageSrc =
+            "/images/new/area/marker04.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "D") {
+        var imageSrc =
+            "/images/new/area/marker05.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "O") {
+        var imageSrc =
+            "/images/new/area/marker06.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "P") {
+        var imageSrc =
+            "/images/new/area/marker07.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    } else if (thing.TYPE1_CD == "R") {
+        var imageSrc =
+            "/images/new/area/marker08.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    }
+    for (var i = 0; i < thing.length; i++) {
+        // 지도에 마커를 생성합니다
+        var marker = addMarker(thing, i, imageSrc)//위치,이미지를 마커에 등록
+        displayPlaces(marker, thing, i)//호버,클릭,사이드바 함수 등록
+        markers.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+        marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
+    }
+}
 
+//시도,행정동 카운트를 표시하는 마커
+function resultSpread(thing) {
+    thing.forEach((loco) => {
+        geocoder.addressSearch(loco.name, function (result, status) {
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                // console.log("djd?", coords)
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var content = '<div class ="countlabel"><div class="countsidobox">' +
+                    '<div class="center">' +
+                    loco.name +
+                    '</div><div class="right">' +
+                    loco.count +
+                    '</div></div></div>';
+                var marker = addlocoMarker(coords, content)
+            }
+        });
+    })
+}
+
+// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+var markers = [];
+
+// 시도,행정동 카운트용 커스텀마커를 생성하고 지도위에 표시하는 함수입니다
+function addlocoMarker(position, content) {
+    // 커스텀 마커를 생성합니다
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content
+    });
+    // 생성된 마커를 배열에 추가합니다
+    markers.push(customOverlay);
+    // 마커가 지도 위에 표시되도록 설정합니다
+    customOverlay.setMap(map);
+}
+
+function setMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-    placeOverlay2 = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+var placeOverlay = new kakao.maps.CustomOverlay({zIndex: 1}),
+    placeOverlay2 = new kakao.maps.CustomOverlay({zIndex: 1}),
     contentNode1 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
     contentNode2 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
 
@@ -575,196 +565,7 @@ function addEventHandle(target, type, callback) {
 
 // 커스텀 오버레이를 숨깁니다
 placeOverlay.setMap(null);
-
-var Q = document.getElementById("Q");
-var N = document.getElementById("N");
-var L = document.getElementById("L");
-var F = document.getElementById("F");
-var D = document.getElementById("D");
-var O = document.getElementById("O");
-var P = document.getElementById("P");
-var R = document.getElementById("R");
-
-
-//선택박스 체크시 각 카테고리의 마커 배열에 추가하는 함수 6개
-//배열을 6개로 안나누고는 특정마커 제거가 안되서 배열자체를 6개로 나눴음
-function a() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "Q");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = Q,
-        cateMarker = Qmarkers;
-    if (cateName.checked) {
-
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else {
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function b() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "N");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker02.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = N,
-        cateMarker = Nmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else {
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function c() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "L");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker03.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = L,
-        cateMarker = Lmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else {
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function d() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "F");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker04.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = F,
-        cateMarker = Fmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else {
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function e() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "D");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker05.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = D,
-        cateMarker = Dmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else { // 체크 아니면 마커 지우기
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function f() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "O");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker06.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = O,
-        cateMarker = Omarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else { // 체크 아니면 마커 지우기
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function g() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "P");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker07.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = P,
-        cateMarker = Pmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else { // 체크 아니면 마커 지우기
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
-function h() {
-    var bbb = newPositions.filter((v) => v.category_large_code == "R");//카테고리 대분류 필터
-    var imageSrc =
-        "/images/new/area/marker08.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    var cateName = R,
-        cateMarker = Rmarkers;
-    if (cateName.checked) {
-        for (var i = 0; i < bbb.length; i++) {
-            // 지도에 마커를 생성합니다
-            var marker = addMarker(bbb, i, imageSrc)//위치,이미지를 마커에 등록
-            displayPlaces(marker, bbb, i)//호버,클릭,사이드바 함수 등록
-            cateMarker.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-            marker.setMap(map);
-        }
-    } else { // 체크 아니면 마커 지우기
-        cateMarker.forEach((va) => {
-            va.setMap(null);
-        })
-        cateMarker = [];//해당 마커 배열을 제거합니다.
-    }
-}
-
+placeOverlay2.setMap(null);
 
 function displayPlaces(marker, place, i) {
     // 마커와 검색결과 항목을 클릭 했을 때
@@ -801,6 +602,7 @@ function displayPlaceInfo(place) {
     placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
     placeOverlay.setMap(map);
 }
+
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfoHover(place) {
     customInfo2(place);
@@ -813,7 +615,7 @@ function content111(place) {
         '<div class="placeinfo">' +
         '   <p class="title" >' +
         place.storeName +
-        "</p>"+
+        "</p>" +
         '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
     content +=
         '    <span title="' +
@@ -838,65 +640,67 @@ function customInfo(place) {
     var content1 = content111(place);
     contentNode1.innerHTML = content1;
 }
+
 //커스텀속에 인포
 function customInfo2(place) {
     var content1 = content111(place);
     contentNode2.innerHTML = content1;
 }
+
 //사이드바 인포
 function sideInfo(place) {
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
-            '<div class="sideinfo">'+
-            '<h4 class="sideinfoTitle">상점 정보</h4>'+
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">상점 정보</h4>' +
             '<div class="location iconPlus">' +
             place.road_address_name +
-            '</div>'+
+            '</div>' +
             '<div class="storegray iconPlus">' +
             place.storeName +
-            '</div>'+
-            "</div>"+
-            '<div class="sideinfo">'+
-            '<h4 class="sideinfoTitle">업종 정보</h4>'+
+            '</div>' +
+            "</div>" +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">업종 정보</h4>' +
             '<div class="listCtegory">' +
             '<span class="lCategory">' +
             place.largeCategory +
-            '</span>'+
+            '</span>' +
             '<span class="mCategory">' +
             place.mediumCategory +
-            '</span>'+
-            '</div>'+
-            "</div>"+
-            '<div class="sideinfo">'+
+            '</span>' +
+            '</div>' +
+            "</div>" +
+            '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">주변 정보</h4>' +
             '<div class="subway iconPlus">지하철역' +
             '<span class="position_name">' +
             place.subway +
-            '</span>'+
+            '</span>' +
             '<span class="distance">거리</span>' +
-            '</div>'+
+            '</div>' +
             '<div class="bus iconPlus">버스' +
             '<span class="position_name">' +
             place.busStation +
-            '</span>'+
-            '<span class="distance">거리</span>'+
-            '</div>'+
+            '</span>' +
+            '<span class="distance">거리</span>' +
+            '</div>' +
             '<div class="street iconPlus">도로' +
             place.busStation +
-            '<span class="distance">거리</span>'+
-            '</div>'+
-            "</div>"+
+            '<span class="distance">거리</span>' +
+            '</div>' +
+            "</div>" +
 
-            '<div class="sideinfo">'+
-            '<h4 class="sideinfoTitle">최근 이슈</h4>'+
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
             '<div class="issue">' +
-            '<span>로그인이 필요합니다.</span>'+
-            '<a>로그인/회원가입 하러가기</a>'+
-            '</div>'+
-            "</div>"+
+            '<span>로그인이 필요합니다.</span>' +
+            '<a>로그인/회원가입 하러가기</a>' +
+            '</div>' +
+            "</div>" +
 
-            '<button class="analysisBtn">상권활성화 예측지수</button>'+
+            '<button class="analysisBtn">상권활성화 예측지수</button>' +
             '<div class="toggle_side" onclick="closeOverlay()" title="닫기"></div>';
     }
 }
@@ -907,7 +711,7 @@ function closeOverlay() {
     document.getElementById("sidebar").style.display = "none";
 }
 
-$('.community_Btn').click(function() {
+$('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
 
