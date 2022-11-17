@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Faq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +81,11 @@ public class EducationService extends BaseService {
 		params.put("ref_seq", params.get("edu_seq"));
 		filesService.deleteFileAll(params);
 		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public void insertEducationExcel(List<Education> education) throws IOException {
+		educationMapper.insertEducationExcel(education);
 	}
 
 }

@@ -17,5 +17,19 @@
                 form.submit();
             }
         });
+
+        $("#fileExcel").on('change',function(event){
+            $(this).next('.custom-file-label').html(event.target.files[0].name);
+        });
     });
 })();
+
+function validationForm(){
+
+    if($("#fileExcel").val() == ""){
+        alert("파일을 선택해주세요");
+        return false;
+    }
+    return true;
+
+}

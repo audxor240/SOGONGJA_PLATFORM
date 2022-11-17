@@ -71,4 +71,6 @@ public interface BoardMapper {
 	String getProjectCheck(Map<String,Object> project);
 
 	BoardSetting getboardSettingQnaInfo();
+
+	int insertProjectExcel(List<Project> project);
 }

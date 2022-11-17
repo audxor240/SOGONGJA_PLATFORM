@@ -18,4 +18,6 @@ public interface SupportMapper {
     int deleteSupport(Support support);
 
     Support getSupportInfo(int supportSeq);
+
+    Support getSupport(String supporName);
 }

@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.admin.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Faq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -24,4 +25,7 @@ public interface EducationMapper {
 	int deleteEducation(Map<String, Object> params);
 
 	int selectTotalRecords();
+
+	int insertEducationExcel(List<Education> education);
+	int checkEducationSubject(String subject);
 }

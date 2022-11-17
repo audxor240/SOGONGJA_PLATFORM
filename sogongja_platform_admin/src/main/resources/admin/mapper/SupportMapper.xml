@@ -47,6 +47,13 @@
 
     </select>
 
+    <select id="getSupport" parameterType="string" resultType="com.stoneitgt.sogongja.domain.Support">
+        /* file : SupportMapper.xml, id : getSupport */
+        select * from ST_SUPPORT
+        where DEL_FLAG =0 AND SUPPORT_NAME like CONCAT('%', REPLACE(#{supportSeq},' ',''), '%');
+
+    </select>
+
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();

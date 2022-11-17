@@ -114,4 +114,54 @@
 		SELECT FOUND_ROWS();
 	</select>
 
+	<select id="checkConsultingSubject" parameterType="string" resultType="int">
+		/* file : ConsultingMapper.xml, id : checkConsultingSubject */
+		SELECT count(*)
+		FROM ST_CONSULTING
+		WHERE DEL_FLAG = 0
+		  AND SUBJECT  = #{subject}
+	</select>
+
+	<insert id="insertConsultingExcel" parameterType="java.util.List">
+		/* file : ConsultingMapper.xml, id : insertConsultingExcel */
+		INSERT
+		INTO ST_CONSULTING (
+		SUBJECT
+		, CONTENT
+		, SUPPORT_CONTENT
+		, SUPPORT_BY
+		, REGION
+		, SUPPORT_ORG
+		, CON_URL
+		, TAGS
+		, CATEGORY_1
+		, CATEGORY_2
+		, CATEGORY_3
+		, REG_USER_SEQ
+		, REG_DATE)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.subject}
+			, #{item.content}
+			, #{item.supportContent}
+			, #{item.supportBy}
+			, #{item.region}
+			, #{item.supportOrg}
+			, #{item.conUrl}
+			, #{item.tags}
+			, #{item.category1}
+			, #{item.category2}
+			, #{item.category3}
+			, #{item.loginUserSeq}
+			, CURRENT_TIMESTAMP()
+			)
+		</foreach>
+
+
+		<selectKey resultType="int" keyProperty="eduSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
 </mapper>

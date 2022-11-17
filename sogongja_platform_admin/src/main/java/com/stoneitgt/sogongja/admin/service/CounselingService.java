@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.sogongja.domain.Education;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +65,11 @@ public class CounselingService extends BaseService {
 		//params.put("ref_seq", params.get("con_seq"));
 		//filesService.deleteFileAll(params);
 		return result;
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public void insertCounselingExcel(List<Counseling> counseling) throws IOException {
+		consultingMapper.insertCounselingExcel(counseling);
 	}
 
 }
