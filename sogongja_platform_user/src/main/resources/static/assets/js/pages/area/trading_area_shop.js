@@ -2,7 +2,7 @@
 var clientLatitude = 37.506280990844225;
 var clientLongitude = 127.04042161585487;
 // 맵 기본 레벨
-var mapDefaultLevel = 14;
+var mapDefaultLevel = 3;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -442,49 +442,56 @@ async function changeMap() {
         if (zoom >= 4 && zoom <= 14) {
             //10<level<14 일때, 시도 카운트 마커로 찍어주기
             console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
+            // 커스텀 오버레이를 숨깁니다
+            placeOverlay.setMap(null);
+            placeOverlay2.setMap(null);
             setMarkers(null)//마커들을 싹 비워
-            resultSpread(result)//그리고 다시찍어
+            if(result.length>0) {
+                resultSpread(result)//그리고 다시찍어
+            }
         } else {
             //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
             console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
             setMarkers(null)//마커를비우고
-            storeSpread(result)//다시찍어
+            if(result.length>0) {
+                storeSpread(result)//다시찍어
+            }
         }
     });
 };
 
-//상점을 표시하는 마커
 function storeSpread(thing) {
-    var imageSrc =
-        ""; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    if (thing.TYPE1_CD == "Q") {
-        var imageSrc =
-            "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "N") {
-        var imageSrc =
-            "/images/new/area/marker02.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "L") {
-        var imageSrc =
-            "/images/new/area/marker03.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "F") {
-        var imageSrc =
-            "/images/new/area/marker04.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "D") {
-        var imageSrc =
-            "/images/new/area/marker05.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "O") {
-        var imageSrc =
-            "/images/new/area/marker06.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "P") {
-        var imageSrc =
-            "/images/new/area/marker07.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    } else if (thing.TYPE1_CD == "R") {
-        var imageSrc =
-            "/images/new/area/marker08.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-    }
-    for (var i = 0; i < thing.length; i++) {
+    var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        QimageSrc = "/images/new/area/marker01.png",
+        NimageSrc = "/images/new/area/marker02.png",
+        LimageSrc = "/images/new/area/marker03.png",
+        FimageSrc = "/images/new/area/marker04.png",
+        DimageSrc = "/images/new/area/marker05.png",
+        OimageSrc = "/images/new/area/marker06.png",
+        PimageSrc = "/images/new/area/marker07.png",
+        RimageSrc = "/images/new/area/marker08.png" ;
+       for (var i = 0; i < thing.length; i++) {
+           if (thing[i].code_type1 == "Q") {
+               var imageSrc = QimageSrc
+           } else if (thing[i].code_type1 == "N") {
+               var imageSrc = NimageSrc
+           } else if (thing[i].code_type1 == "L") {
+               var imageSrc = LimageSrc
+           } else if (thing[i].code_type1 == "F") {
+               var imageSrc = FimageSrc
+           } else if (thing[i].code_type1 == "D") {
+               var imageSrc = DimageSrc
+           } else if (thing[i].code_type1 == "O") {
+               var imageSrc = OimageSrc
+           } else if (thing[i].code_type1 == "P") {
+               var imageSrc =PimageSrc
+           } else if (thing[i].code_type1 == "R") {
+               var imageSrc =RimageSrc
+           } else {
+               var imageSrc ="/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+           }
         // 지도에 마커를 생성합니다
-        var marker = addMarker(thing, i, imageSrc)//위치,이미지를 마커에 등록
+        var marker = addMarker(thing, i, imageSrc);//위치,이미지를 마커에 등록
         displayPlaces(marker, thing, i)//호버,클릭,사이드바 함수 등록
         markers.push(marker);//지정 마커들을 해당 배열에 등록합니다.
         marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
@@ -567,25 +574,9 @@ function addEventHandle(target, type, callback) {
 placeOverlay.setMap(null);
 placeOverlay2.setMap(null);
 
-function displayPlaces(marker, place, i) {
-    // 마커와 검색결과 항목을 클릭 했을 때
-    // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-    (function sdf(marker, place) {
-        kakao.maps.event.addListener(marker, "click", function () {
-            displayPlaceInfo(place);
-        });
-        kakao.maps.event.addListener(marker, "mouseover", function () {
-            displayPlaceInfoHover(place);
-        });
-        kakao.maps.event.addListener(marker, "mouseout", function () {
-            placeOverlay2.setMap(null);
-        });
-    })(marker, place[i]);
-}
-
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
-    var position = new kakao.maps.LatLng(place[i].x, place[i].y),
+    var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
         imageSize = new kakao.maps.Size(8, 8), // 마커 이미지의 크기
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
@@ -595,18 +586,43 @@ function addMarker(place, i, imageSrc) {
     return marker;
 }
 
+function displayPlaces(marker, place, i) {
+    var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude);
+    // 마커와 검색결과 항목을 클릭 했을 때
+    // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+    (function sdf(marker, place) {
+        kakao.maps.event.addListener(marker, "click", function () {
+            displayPlaceInfo(place);
+            panTo(position)
+        });
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+            displayPlaceInfoHover(place);
+        });
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+            placeOverlay2.setMap(null);
+        });
+    })(marker, place[i]);
+}
+function panTo(position) {
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = position;
+
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    map.panTo(moveLatLon);
+}
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfo(place) {
     customInfo(place);
     sideInfo(place);
-    placeOverlay.setPosition(new kakao.maps.LatLng(place.x, place.y));
+    placeOverlay.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
     placeOverlay.setMap(map);
 }
 
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfoHover(place) {
     customInfo2(place);
-    placeOverlay2.setPosition(new kakao.maps.LatLng(place.x, place.y));
+    placeOverlay2.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
     placeOverlay2.setMap(map);
 }
 
@@ -614,19 +630,19 @@ function content111(place) {
     var content =
         '<div class="placeinfo">' +
         '   <p class="title" >' +
-        place.storeName +
+        place.shop_nm +
         "</p>" +
         '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
-    content +=
+        content +=
         '    <span title="' +
-        place.road_address_name +
+        place.addr +
         '">' +
-        place.road_address_name +
+        place.addr +
         "</span>" +
         '  <span class="jibun" title="' +
-        place.address_name +
+        place.st_addr +
         '">(지번 : ' +
-        place.address_name +
+        place.st_addr +
         ")</span>";
 
     content +=
@@ -655,20 +671,23 @@ function sideInfo(place) {
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">상점 정보</h4>' +
             '<div class="location iconPlus">' +
-            place.road_address_name +
+            place.addr +
             '</div>' +
             '<div class="storegray iconPlus">' +
-            place.storeName +
+            place.shop_nm +
             '</div>' +
             "</div>" +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">업종 정보</h4>' +
             '<div class="listCtegory">' +
             '<span class="lCategory">' +
-            place.largeCategory +
+            place.nm_type1 +
+            '</span>' +
+            '<span class="lCategory">' +
+            place.nm_type2 +
             '</span>' +
             '<span class="mCategory">' +
-            place.mediumCategory +
+            place.nm_type3 +
             '</span>' +
             '</div>' +
             "</div>" +
@@ -676,18 +695,14 @@ function sideInfo(place) {
             '<h4 class="sideinfoTitle">주변 정보</h4>' +
             '<div class="subway iconPlus">지하철역' +
             '<span class="position_name">' +
-            place.subway +
+            place.sub_sta_nm +
             '</span>' +
             '<span class="distance">거리</span>' +
             '</div>' +
             '<div class="bus iconPlus">버스' +
             '<span class="position_name">' +
-            place.busStation +
+            place.bus_sta_nm +
             '</span>' +
-            '<span class="distance">거리</span>' +
-            '</div>' +
-            '<div class="street iconPlus">도로' +
-            place.busStation +
             '<span class="distance">거리</span>' +
             '</div>' +
             "</div>" +
@@ -714,4 +729,3 @@ function closeOverlay() {
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
-
