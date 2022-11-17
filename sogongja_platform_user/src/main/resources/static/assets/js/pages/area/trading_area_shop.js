@@ -4,7 +4,7 @@
 var clientLatitude = 37.506280990844225;
 var clientLongitude = 127.04042161585487;
 // 맵 기본 레벨
-var mapDefaultLevel = 6;
+var mapDefaultLevel = 13;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -414,10 +414,30 @@ var lat = map.getCenter().getLat(),
     y1=map.getBounds().getSouthWest().getLng();
 
 var codeType1 = new Array();
-$("input[name=cate]").each(function(index, item){
+//첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
+$("input[name=cate]").prop("checked", true).each(function(index, item){
     codeType1.push($(item).val());
 });
-console.log( codeType1 )
+console.log( "체크 카테고리",codeType1 )
+
+//재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
+$("input[name=cate]").click(function () {
+    if ($(this).prop('checked')) {
+        console.log($(this).val())
+        if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
+            codeType1.push($(this).val());
+        }
+        console.log("재체크 카테고리", codeType1);
+    } else {
+        console.log($(this))
+        codeType1.forEach((item, index) => {
+            if (item == $(this).val()) {
+                codeType1.splice(index, 1);
+            }
+        })
+        console.log("해제체크 카테고리", codeType1);
+    }
+})
 
 var datalat={
     lat,
@@ -429,10 +449,12 @@ var datalat={
     y2,
     codeType1,
 }
-console.log("첫 dataㅇㅁㅅㅁ", datalat);
+console.log("첫 data이겁니다!!", datalat);
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'center_changed', function() {
+kakao.maps.event.addListener(map, 'center_changed', changeMap);
+
+function changeMap() {
     var lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
@@ -451,7 +473,7 @@ kakao.maps.event.addListener(map, 'center_changed', function() {
         y2,
         codeType1
     }
-    console.log("dataㅇㅁㅅㅁ", datalat);
+    console.log("data재요청입니다!", datalat);
         ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
         // console.log('result : ', result);
         console.log("이게 데이터 갖고오는거임", result)
@@ -462,12 +484,27 @@ kakao.maps.event.addListener(map, 'center_changed', function() {
         //     alert("2222")
         // return false;
         // }
-    });
+
 
     if (zoom >= 10 && zoom <= 14) {
         //10<level<14 일때, 시도 카운트 마커로 찍어주기
         console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
         //각 체크사항8가지 넣어야함
+        geocoder.addressSearch(`${result.name}`, function(addressResult, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(addressResult[0].y, addressResult[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+            }
+        });
     }
     else if (zoom >= 7 && zoom <= 9) {
         //7<level<9 일때, 시군구 카운트 마커로 찍기
@@ -499,9 +536,11 @@ kakao.maps.event.addListener(map, 'center_changed', function() {
     }else {
         //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
         console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
-
     }
-});
+
+
+        });
+};
 
 
 
