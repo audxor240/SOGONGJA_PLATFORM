@@ -21,4 +21,6 @@ public class MapParameter extends BaseParameter {
     private int zoom;
 
     private String[] codeType1;
+
+    private String areaCd;
 }

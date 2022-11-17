@@ -30,8 +30,10 @@
 							ON TAM.AREA_SEQ = TA.AREA_SEQ
 				 INNER JOIN ST_TRADING_AREA_TYPE TAT
 							ON TA.AREA_TYPE = TAT.AREA_TYPE
-		WHERE  TAM.LATITUDE BETWEEN #{x1} AND #{x2}
+		WHERE TAM.AREA_TYPE IN (${scope})
+		  AND TAM.LATITUDE BETWEEN #{x1} AND #{x2}
 		  AND TAM.LONGITUDE BETWEEN #{y1} AND #{y2}
+
 		GROUP BY TAM.AREA_SEQ
 	</select>
 
@@ -57,10 +59,9 @@
 	<select id="getResearchAreaList" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getResearchAreaList */
 		SELECT *
-			FROM ST_RESEARCH_AREA RA
-			INNER JOIN
-			    ( SELECT AREA_SEQ FROM ST_RESEARCH_AREA GROUP BY AREA_CD ORDER BY YEAR DESC, QRT DESC) AS TBL1
-		ON RA.AREA_SEQ = TBL1.AREA_SEQ
+		FROM (
+			SELECT * FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC ) AS TBL1
+		GROUP BY AREA_CD;
 	</select>
 
 	<select id="getRegionAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
@@ -145,6 +146,36 @@
 				 INNER JOIN ST_LOCATION_SUBWAY_STATION LSS
 							ON RS.SUB_STA_NO = LSS.SUB_STA_NO
 		WHERE RS.SHOP_SEQ = #{shopSeq}
+	</select>
+
+	<select id="getRecentMonth" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getRecentMonth */
+		SELECT YEAR, QRT
+		FROM ST_RESEARCH_AREA_COM
+		WHERE AREA_CD = #{areaCd}
+		GROUP BY YEAR, QRT
+		ORDER BY YEAR DESC ,QRT DESC
+		LIMIT 1
+	</select>
+
+	<select id="getResearchAreaComList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getResearchAreaComList */
+		SELECT *, SUM(RAC.CT_SHOP) AS STORES, SUM(RAC.PER_OPEN) + SUM(RAC.PER_CLOSE) AS OPCL,
+			   SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) +  SUM(RAC.SUM_17_21)+ SUM(RAC.SUM_21_24) AS SALES
+		FROM ST_RESEARCH_AREA_COM RAC
+				 INNER JOIN ST_COMMERCE_CODE CC
+							ON RAC.COM_CD2 = CC.JOIN_CD
+		WHERE RAC.AREA_CD = #{area_cd} AND RAC.YEAR = #{year} AND RAC.QRT = #{qrt}
+		GROUP BY CC.TYPE1_CD
+	</select>
+
+	<select id="getResearchAreaComDetail" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getResearchAreaComDetail */
+		SELECT *
+		FROM ST_RESEARCH_AREA_COM RAC
+				 INNER JOIN ST_COMMERCE_CODE CC
+							ON RAC.COM_CD2 = CC.JOIN_CD
+		WHERE RAC.AREA_CD = #{area_cd} AND RAC.YEAR = #{year} AND RAC.QRT = #{qrt}
 	</select>
 
 </mapper>
