@@ -77,8 +77,12 @@ public class AreaController extends BaseController {
 			scope += "'" + codeType1[i] + "',";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
-		paramsMap.put("scope", scope);
+		if (scope.length() == 0) {
+			paramsMap.put("scope", "''");
+		} else {
+			paramsMap.put("scope", scope);
 
+		}
 		List<Map<String, Object>> results = new ArrayList<>();
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
 			// 리스트
