@@ -73,4 +73,6 @@ public class Board {
 
 	private String nickName;
 
+	private Boolean myPage = false;
+
 }

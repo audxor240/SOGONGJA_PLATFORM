@@ -257,6 +257,9 @@
                 </div>
             </div>
         </div>
+        <form name="deleteUserForm" th:action="@{/user/deleteUser}" th:object="${user}" method="POST">
+
+        </form>
     </div>
 
 
@@ -318,6 +321,10 @@
         });
         $('.redline').on('click', function() {
             $('.secede_pop').hide();
+        });
+
+        $('#secedeDone_btn').on('click', function() {
+            document.forms.deleteUserForm.submit();
         });
     </script>
 </th:block>

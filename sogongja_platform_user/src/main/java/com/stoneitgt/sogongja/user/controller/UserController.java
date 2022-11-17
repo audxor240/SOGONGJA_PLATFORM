@@ -680,9 +680,9 @@ public class UserController extends BaseController {
 		return "pages/board/board_write";
 	}
 
-	@GetMapping("/mypage/qna/write")
-	public String mypage_qnaWrite(Model model) {
-		User user = new User();
+	@GetMapping("/mypage/qna/write/{boardSettingSeq}")
+	public String mypage_qnaWrite(@PathVariable String boardSettingSeq, Model model) {
+		/*User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		//QNA게시판 시퀀스 정보
@@ -691,7 +691,25 @@ public class UserController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
-		return "pages/user/qna_write";
+		 */
+		Board board = new Board();
+		Answer answer = new Answer();
+		board.setBoardSettingSeq(Integer.parseInt(boardSettingSeq));
+		board.setMyPage(true);
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		BoardSetting boardSetting = boardService.getboardSettingInfo(Integer.parseInt(boardSettingSeq));
+
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("board", board);
+		model.addAttribute("answer", answer);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("boardSetting", boardSetting);
+		model.addAttribute("name", boardSetting.getName());
+		model.addAttribute("detail", false);
+		return "pages/board/board_write";
 	}
 
 	@GetMapping("/mypage/info")
@@ -900,6 +918,14 @@ public class UserController extends BaseController {
 		model.addAttribute("pageType", "recommend_con");
 
 		return "pages/user/mypage :: .recommend_con";
+	}
+
+	@PostMapping("/user/deleteUser")
+	public String deleteUser(@ModelAttribute("user") User user, Model model) {
+
+		userService.deleteUser(authenticationFacade.getLoginUserSeq());
+
+		return "redirect:/logout";
 	}
 
 }
