@@ -515,8 +515,8 @@
     .category_bg
       background-position-x: -46px
 .placeinfo_wrap
-  +positionAt(absolute, $bottom:28px, $left: -150px)
-  width: 300px
+  +positionAt(absolute, $bottom:8px, $left: -122px)
+  width: 248px
 .placeinfo
   +positionAt(relative)
   width: 100%
@@ -549,8 +549,8 @@
     border-radius: 6px 6px 0 0
     margin: -1px -1px 0 -1px
     padding: 10px
-    color: #000
-    background: #ECEFF1
+    color: #fff
+    background: $blue
   .tel
     color: #0f7833
   .jibun
@@ -564,7 +564,8 @@
     color: #888
     width: 17px
     height: 17px
-    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png)
+    background: url(#{$assetPath}/new/icon/closeBtn.png) no-repeat
+    background-size: cover
 .after
   content: ""
   +positionAt(relative, $left: 50%)
@@ -644,6 +645,7 @@
         padding: 20px
         +flex_type($justify:space-between, $align: center)
         span
+          vertical-align: top
           display: inline-block
           font-size: 14px
         a
@@ -841,7 +843,7 @@
       color: #fff
 
 
-@include tablet
+@include mobile
   #map_wrap
     height: calc(100vh - 71px)
     top: 71px

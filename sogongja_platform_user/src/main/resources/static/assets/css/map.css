@@ -682,9 +682,9 @@
 
 .placeinfo_wrap {
   position: absolute;
-  bottom: 28px;
-  left: -150px;
-  width: 300px;
+  bottom: 8px;
+  left: -122px;
+  width: 248px;
 }
 
 .placeinfo {
@@ -724,8 +724,8 @@
   border-radius: 6px 6px 0 0;
   margin: -1px -1px 0 -1px;
   padding: 10px;
-  color: #000;
-  background: #ECEFF1;
+  color: #fff;
+  background: #1540BF;
 }
 .placeinfo .tel {
   color: #0f7833;
@@ -742,7 +742,8 @@
   color: #888;
   width: 17px;
   height: 17px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png);
+  background: url(../images/new/icon/closeBtn.png) no-repeat;
+  background-size: cover;
 }
 
 .after {
@@ -849,6 +850,7 @@
   align-items: center;
 }
 #sidebar .sideinfo .issue span {
+  vertical-align: top;
   display: inline-block;
   font-size: 14px;
 }
@@ -1105,7 +1107,7 @@
   color: #fff;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 767px) {
   #map_wrap {
     height: calc(100vh - 71px);
     top: 71px;
