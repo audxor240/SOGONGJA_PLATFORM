@@ -35,10 +35,12 @@ public interface CategoryMapper {
     Category1 getCategory1Info(int categorySeq);
     Category2 getCategory2Info(int categorySeq);
     Category3 getCategory3Info(int categorySeq);
-
     Category1 getCategory2DelInfo(int categorySeq);
-
     List<Map<String, Object>> getCategory2(Map<String, Object> params);
 
     List<Map<String, Object>> getCategory3(Map<String, Object> params);
+
+    Category1 getCategory1Infomation(String category1Name);
+    Category2 getCategory2Infomation(String category2Name);
+    Category3 getCategory3Infomation(String category3Name);
 }

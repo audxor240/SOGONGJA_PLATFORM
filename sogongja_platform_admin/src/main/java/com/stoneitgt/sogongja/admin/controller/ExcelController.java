@@ -36,8 +36,6 @@ public class ExcelController extends BaseController {
                             RedirectAttributes rttr, Model model)
             throws IOException { // 2
 
-        List<Map<String,Object>> dataList = new ArrayList<>();
-
         String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
 
         if (!extension.equals("xlsx") && !extension.equals("xls")) {

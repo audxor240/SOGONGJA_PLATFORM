@@ -79,7 +79,7 @@
                             </th:block>
                             <th:block sec:authorize="isAuthenticated()">
                                 <li><a th:href="@{/mypage}">마이페이지</a></li>
-                                <li><a th:href="@{/board/faq}">문의 및 답변</a></li>
+                                <li><a th:href="@{|/mypage/qna/${qnaBoardSetting.boardSettingSeq}|}">문의 및 답변</a></li>
                             </th:block>
                         </ul>
                     </div>

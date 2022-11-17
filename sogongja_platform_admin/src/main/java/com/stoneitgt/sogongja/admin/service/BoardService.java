@@ -296,4 +296,9 @@ public class BoardService extends BaseService {
 		return boardMapper.getBoardSettingInfo(boardSettingSeq);
 	}
 
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public void insertProjectExcel(List<Project> project) throws IOException {
+		boardMapper.insertProjectExcel(project);
+	}
+
 }
