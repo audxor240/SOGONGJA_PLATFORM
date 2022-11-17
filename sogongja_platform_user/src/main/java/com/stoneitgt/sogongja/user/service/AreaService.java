@@ -57,6 +57,7 @@ public class AreaService extends BaseService {
 					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
 			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
 					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+
 			String areaCd = map.get("area_cd").toString();
 			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
 					.filter(m -> m.get("area_cd").equals(areaCd)).collect(Collectors.toList());
@@ -66,6 +67,27 @@ public class AreaService extends BaseService {
 			map.put("info", info);
 		}
 
+		return list;
+	}
+
+	public List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params) {
+		String areaCd = params.get("area_cd").toString();
+		Map<String, Object> recentMonth = areaMapper.getRecentMonth(areaCd);
+		int year = Integer.parseInt(recentMonth.get("year").toString());
+		int qrt = Integer.parseInt(recentMonth.get("qrt").toString());
+		params.put("year", year);
+		params.put("qrt", qrt);
+//		return areaMapper.getResearchAreaComList(params);
+		List<Map<String, Object>> list = areaMapper.getResearchAreaComList(params);
+		List<Map<String, Object>> details = areaMapper.getResearchAreaComDetail(params);
+
+		for (Map<String, Object> map : list) {
+			String typeCd = map.get("type1_cd").toString();
+			List<Map<String, Object>> detail = (List<Map<String, Object>>) details.stream()
+					.filter(m -> m.get("type1_cd").equals(typeCd)).collect(Collectors.toList());
+			map.put("details", detail);
+
+		}
 		return list;
 	}
 

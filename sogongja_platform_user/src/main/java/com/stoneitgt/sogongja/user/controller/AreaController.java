@@ -77,8 +77,12 @@ public class AreaController extends BaseController {
 			scope += "'" + codeType1[i] + "',";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
-		paramsMap.put("scope", scope);
+		if (scope.length() == 0) {
+			paramsMap.put("scope", "''");
+		} else {
+			paramsMap.put("scope", scope);
 
+		}
 		List<Map<String, Object>> results = new ArrayList<>();
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
 			// 리스트
@@ -101,12 +105,6 @@ public class AreaController extends BaseController {
 	@GetMapping("/analysis")
 	public String analysis(@ModelAttribute MapParameter params, Model model) {
 
-		params.setZoom(6);
-		params.setX1(37.47629323368353);
-		params.setX2(37.5362047082041);
-		params.setY1(126.95351224208618);
-		params.setY2(127.12726465022845);
-
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
@@ -115,6 +113,12 @@ public class AreaController extends BaseController {
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
+		paramsMap.put("zoom", 6);
+		paramsMap.put("scope", "'A','D','R','U'");
+		paramsMap.put("x1", 37.47629323368353);
+		paramsMap.put("x2", 37.5362047082041);
+		paramsMap.put("y1", 126.95351224208618);
+		paramsMap.put("y2", 127.12726465022845);
 //		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("areaJson", areaService.getTradingAreaPartListToJSON(paramsMap));
 		model.addAttribute("params", params);
@@ -122,14 +126,19 @@ public class AreaController extends BaseController {
 		return "pages/area/trading_area_analysis";
 	}
 
-	@GetMapping("/analysis/total")
-	public @ResponseBody List<Map<String, Object>> analysisTotal(@ModelAttribute MapParameter params, Model model) {
+	@PostMapping("/analysis/area")
+	public @ResponseBody List<Map<String, Object>> analysisList(@RequestBody MapParameter params, Model model) {
 
+		// 줌에 따라 뒤에 데이터 내릴지 안내릴지
 
-		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-		// 지도 좌표와
 		List<Map<String, Object>> results = new ArrayList<>();
 		return results;
+	}
+
+	@PostMapping("/analysis/details")
+	public @ResponseBody List<Map<String, Object>> analysisDetail(@RequestBody MapParameter params, Model model) {
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		return areaService.getResearchAreaComList(paramsMap);
 	}
 
 	@GetMapping("/regional")
