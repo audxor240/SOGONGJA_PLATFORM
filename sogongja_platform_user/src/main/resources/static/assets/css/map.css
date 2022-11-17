@@ -652,28 +652,28 @@
   background-size: contain !important;
   margin-right: 10px;
 }
-#category li label input[type=checkbox]:checked ~ .bank {
+#category li label input[type=checkbox]:checked ~ .Q {
   background: url(../images/new/area/marker01.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .mart {
+#category li label input[type=checkbox]:checked ~ .N {
   background: url(../images/new/area/marker02.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .pharmacy {
+#category li label input[type=checkbox]:checked ~ .L {
   background: url(../images/new/area/marker03.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .oil {
+#category li label input[type=checkbox]:checked ~ .F {
   background: url(../images/new/area/marker04.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .cafe {
+#category li label input[type=checkbox]:checked ~ .D {
   background: url(../images/new/area/marker05.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .store {
+#category li label input[type=checkbox]:checked ~ .O {
   background: url(../images/new/area/marker06.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .pp {
+#category li label input[type=checkbox]:checked ~ .P {
   background: url(../images/new/area/marker07.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .rr {
+#category li label input[type=checkbox]:checked ~ .R {
   background: url(../images/new/area/marker08.png) no-repeat;
 }
 #category li .category_bg {
