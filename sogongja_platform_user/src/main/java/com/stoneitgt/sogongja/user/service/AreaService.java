@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +43,32 @@ public class AreaService extends BaseService {
 
 		return list;
 	}
+	public List<Map<String, Object>> getTradingAreaPartListToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getTradingAreaMapPartList(params);
+		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
+		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
+		List<Map<String, Object>> areaRecentlyList = areaMapper.getResearchAreaList();
+
+		for (Map<String, Object> map : list) {
+
+			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
+			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+			String areaCd = map.get("area_cd").toString();
+			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
+					.filter(m -> m.get("area_cd").equals(areaCd)).collect(Collectors.toList());
+
+			map.put("path", path);
+			map.put("hole", hole);
+			map.put("info", info);
+		}
+
+		return list;
+	}
+
 
 	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
 

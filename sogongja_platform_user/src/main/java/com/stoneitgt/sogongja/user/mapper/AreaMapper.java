@@ -11,6 +11,7 @@ public interface AreaMapper {
 	List<Map<String, Object>> getTradingAreaList(Map<String, Object> params);
 
 	List<Map<String, Object>> getTradingAreaMapList(String mapType);
+	List<Map<String, Object>> getResearchAreaList();
 
 	List<Map<String, Object>> getRegionAreaList(Map<String, Object> params);
 
@@ -20,5 +21,8 @@ public interface AreaMapper {
 
 	List<Map<String, Object>> countResearchShop(Map<String, Object> params);
 	Map<String, Object> getResearchShopPublicTransport(Map<String, Object> params);
+
+	List<Map<String, Object>> getTradingAreaMapPartList(Map<String, Object> params);
+
 
 }

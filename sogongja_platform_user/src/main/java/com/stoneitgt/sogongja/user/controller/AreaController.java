@@ -68,7 +68,7 @@ public class AreaController extends BaseController {
 	@PostMapping("/shop/details")
 	public @ResponseBody List<Map<String, Object>> shopAreaCountOrList(@RequestBody MapParameter params, Model model) {
 
-		if (params.getZoom() > 14) params.setZoom(14);
+		if (params.getZoom() > 8) params.setZoom(14);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		String[] codeType1 = params.getCodeType1();
@@ -99,7 +99,13 @@ public class AreaController extends BaseController {
 	}
 
 	@GetMapping("/analysis")
-	public String analysis(@ModelAttribute BaseParameter params, Model model) {
+	public String analysis(@ModelAttribute MapParameter params, Model model) {
+
+		params.setZoom(6);
+		params.setX1(37.47629323368353);
+		params.setX2(37.5362047082041);
+		params.setY1(126.95351224208618);
+		params.setY2(127.12726465022845);
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
@@ -107,13 +113,23 @@ public class AreaController extends BaseController {
 
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
-
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
-		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+//		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+		model.addAttribute("areaJson", areaService.getTradingAreaPartListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_analysis";
+	}
+
+	@GetMapping("/analysis/total")
+	public @ResponseBody List<Map<String, Object>> analysisTotal(@ModelAttribute MapParameter params, Model model) {
+
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		// 지도 좌표와
+		List<Map<String, Object>> results = new ArrayList<>();
+		return results;
 	}
 
 	@GetMapping("/regional")
