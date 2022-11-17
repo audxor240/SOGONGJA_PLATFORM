@@ -500,12 +500,12 @@ function resultSpread(thing) {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 // console.log("djd?", coords)
                 // 결과값으로 받은 위치를 마커로 표시합니다
-                var content = '<div class ="countlabel"><span class="left">' +
-                    '</span><span class="center">' +
+                var content = '<div class ="countlabel"><div class="countsidobox">' +
+                    '<div class="center">' +
                     loco.name +
-                    '</span><span class="right">' +
+                    '</div><div class="right">' +
                     loco.count +
-                    '</span></div>';
+                    '</div></div></div>';
                 var marker = addlocoMarker(coords, content)
             }
         });
