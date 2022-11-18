@@ -58,9 +58,9 @@ public class AreaService extends BaseService {
 			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
 					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
 
-			String areaCd = map.get("area_cd").toString();
+			int areaCd = Integer.parseInt(map.get("area_cd").toString());
 			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
-					.filter(m -> m.get("area_cd").equals(areaCd)).collect(Collectors.toList());
+					.filter(m -> Integer.parseInt(m.get("area_cd").toString()) == areaCd).collect(Collectors.toList());
 
 			map.put("path", path);
 			map.put("hole", hole);

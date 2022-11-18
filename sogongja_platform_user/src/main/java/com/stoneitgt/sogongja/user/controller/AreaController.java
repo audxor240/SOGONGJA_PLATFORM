@@ -130,6 +130,8 @@ public class AreaController extends BaseController {
 	public @ResponseBody List<Map<String, Object>> analysisList(@RequestBody MapParameter params, Model model) {
 
 		// 줌에 따라 뒤에 데이터 내릴지 안내릴지
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
 
 		List<Map<String, Object>> results = new ArrayList<>();
 		return results;

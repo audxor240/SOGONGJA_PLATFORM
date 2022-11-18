@@ -13,6 +13,7 @@ public interface AreaMapper {
 	List<Map<String, Object>> getTradingAreaMapList(String mapType);
 	List<Map<String, Object>> getResearchAreaList();
 
+
 	List<Map<String, Object>> getRegionAreaList(Map<String, Object> params);
 
 	List<Map<String, Object>> getRegionAreaMapList(String mapType);
