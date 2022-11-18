@@ -387,9 +387,19 @@ a.file-download { display: block; flex: 1 1 auto; }
 }
 
 /*파일 인풋 after*/
+.custom-file{
+	height:100%;
+}
+.custom-file label{
+	height:100%;
+	padding: 10px;
+}
 .custom-file-label::after{
+	height:100%;
+	padding: 10px;
 	content:"파일첨부";
 }
+
 
 /* media */
 @media screen and (max-width:640px) {
