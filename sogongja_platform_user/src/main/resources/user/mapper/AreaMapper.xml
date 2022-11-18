@@ -3,24 +3,24 @@
 
 <mapper namespace="com.stoneitgt.sogongja.user.mapper.AreaMapper">
 
-	<select id="getTradingAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getTradingAreaList */
-		  SELECT A.*
-		       , B.AREA_TYPE_NAME
-		       , B.STROKE_WEIGHT
-		       , B.STROKE_COLOR
-		       , B.STROKE_OPACITY
-		       , B.STROKE_STYLE
-		       , B.FILL_COLOR
-		       , B.FILL_OPACITY
-		       , B.OVER_FILL_COLOR
-		       , B.OVER_FILL_OPACITY
-		    FROM ST_TRADING_AREA A
-		       INNER JOIN ST_TRADING_AREA_TYPE B
-		               ON A.AREA_TYPE = B.AREA_TYPE
-		   WHERE A.DEL_FLAG          = 0
-		ORDER BY A.AREA_SEQ
-    </select>
+<!--	<select id="getTradingAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">-->
+<!--		/* file : AreaMapper.xml, id : getTradingAreaList */-->
+<!--		  SELECT A.*-->
+<!--		       , B.AREA_TYPE_NAME-->
+<!--		       , B.STROKE_WEIGHT-->
+<!--		       , B.STROKE_COLOR-->
+<!--		       , B.STROKE_OPACITY-->
+<!--		       , B.STROKE_STYLE-->
+<!--		       , B.FILL_COLOR-->
+<!--		       , B.FILL_OPACITY-->
+<!--		       , B.OVER_FILL_COLOR-->
+<!--		       , B.OVER_FILL_OPACITY-->
+<!--		    FROM ST_TRADING_AREA A-->
+<!--		       INNER JOIN ST_TRADING_AREA_TYPE B-->
+<!--		               ON A.AREA_TYPE = B.AREA_TYPE-->
+<!--		   WHERE A.DEL_FLAG          = 0-->
+<!--		ORDER BY A.AREA_SEQ-->
+<!--    </select>-->
 
 	<select id="getTradingAreaMapPartList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaMapPartList */
@@ -30,7 +30,7 @@
 							ON TAM.AREA_SEQ = TA.AREA_SEQ
 				 INNER JOIN ST_TRADING_AREA_TYPE TAT
 							ON TA.AREA_TYPE = TAT.AREA_TYPE
-		WHERE TAT.AREA_TYPE IN (${scope})
+		WHERE TAT.AREA_TYPE = #{code_type2}
 		  AND TAM.LATITUDE BETWEEN #{x1} AND #{x2}
 		  AND TAM.LONGITUDE BETWEEN #{y1} AND #{y2}
 		GROUP BY TAM.AREA_SEQ
@@ -55,22 +55,33 @@
 		       , B.MAP_SEQ
     </select>
 
-<!--	<select id="getResearchAreaList" resultType="com.stoneitgt.common.LowerKeyMap">-->
-<!--		/* file : AreaMapper.xml, id : getResearchAreaList */-->
+<!--	<select id="getTradingAreaList" resultType="com.stoneitgt.common.LowerKeyMap">-->
+<!--		/* file : AreaMapper.xml, id : getTradingAreaList */-->
 <!--		SELECT *-->
 <!--		FROM (-->
 <!--			SELECT * FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC ) AS TBL1-->
 <!--		GROUP BY AREA_CD;-->
 <!--	</select>-->
 
-	<select id="getResearchAreaList" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getResearchAreaList */
+	<select id="getTradingAreaGroupByList" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaGroupByList */
 		SELECT *, SUM(CT_SHOP) AS STORES, SUM(CT_OPEN) AS OPEN, SUM(CT_CLOSE) AS CLOSE, SUM(CT_OPEN) + SUM(CT_CLOSE) AS OPCL,
 		SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) +  SUM(RAC.SUM_17_21)+ SUM(RAC.SUM_21_24) AS SALES
+		, LEFT(COM_CD2,1) AS CODE
 		FROM ST_RESEARCH_AREA_COM RAC
 		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
 		  AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
-		GROUP BY AREA_CD;
+		  AND RAC.COM_CD2 != ''
+		GROUP BY AREA_CD, LEFT(COM_CD2,1)
+	</select>
+
+	<select id="getTradingAreaAllList" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaAllList */
+		SELECT *, LEFT(COM_CD2,1) AS CODE
+		FROM ST_RESEARCH_AREA_COM RAC
+		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+			AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+			AND RAC.COM_CD2 != ''
 	</select>
 
 	<select id="getRegionAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">

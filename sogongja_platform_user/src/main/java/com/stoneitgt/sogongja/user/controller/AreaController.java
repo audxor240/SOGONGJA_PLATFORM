@@ -51,7 +51,6 @@ public class AreaController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("shopCommunityList", shopCommunityList);
-//		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		paramsMap.put("zoom", 6);
 		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
 		paramsMap.put("x1", 37.47629323368353);
@@ -81,7 +80,6 @@ public class AreaController extends BaseController {
 			paramsMap.put("scope", "''");
 		} else {
 			paramsMap.put("scope", scope);
-
 		}
 		List<Map<String, Object>> results = new ArrayList<>();
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
@@ -114,26 +112,48 @@ public class AreaController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		paramsMap.put("zoom", 6);
-		paramsMap.put("scope", "'A','D','R','U'");
+		paramsMap.put("scope", "'A'");
 		paramsMap.put("x1", 37.47629323368353);
 		paramsMap.put("x2", 37.5362047082041);
 		paramsMap.put("y1", 126.95351224208618);
 		paramsMap.put("y2", 127.12726465022845);
-//		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
-		model.addAttribute("areaJson", areaService.getTradingAreaPartListToJSON(paramsMap));
+		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_analysis";
 	}
 
 	@PostMapping("/analysis/area")
-	public @ResponseBody List<Map<String, Object>> analysisList(@RequestBody MapParameter params, Model model) {
+	public @ResponseBody List<Map<String, Object>> analysisAreaList(@RequestBody MapParameter params, Model model) {
 
 		// 줌에 따라 뒤에 데이터 내릴지 안내릴지
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		List<Map<String, Object>> results = new ArrayList<>();
+		System.out.println(paramsMap.toString());
+		results = areaService.getTradingAreaListToJSON(paramsMap);
+		return results;
+	}
 
+	@PostMapping("/analysis/shop")
+	public @ResponseBody List<Map<String, Object>> analysisShopList(@RequestBody MapParameter params, Model model) {
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+
+		String[] codeType1 = params.getCodeType1();
+		String scope = "";
+		for (int i = 0; i < codeType1.length; i++) {
+			scope += "'" + codeType1[i] + "',";
+		}
+		scope = StringUtils.removeEnd(scope, ",");
+		if (scope.length() == 0) {
+			paramsMap.put("scope", "''");
+		} else {
+			paramsMap.put("scope", scope);
+		}
 
 		List<Map<String, Object>> results = new ArrayList<>();
+		System.out.println(paramsMap.toString());
+		results = areaService.getResearchShopToJSON(paramsMap);
 		return results;
 	}
 
@@ -147,12 +167,7 @@ public class AreaController extends BaseController {
 	public String regionalArea(@ModelAttribute BaseParameter params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-//		List<Map<String, Object>> tradingAreaListToJSON = areaService.getTradingAreaListToJSON(paramsMap);
-//		System.out.println("==========================================================");
-//		for (Map<String, Object> t : tradingAreaListToJSON) {
-//			System.out.println(t);
-//		}
-//		System.out.println("==========================================================");
+
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		//QNA게시판 시퀀스 정보
