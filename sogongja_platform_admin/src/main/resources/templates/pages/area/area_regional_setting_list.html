@@ -14,7 +14,10 @@
             <a th:href="@{/areaSetting/shop}">상점 데이터</a>
           </div>
           <div class="col-sm-2 tab">
-            <a th:href="@{/areaSetting/analysis}">상권 데이터</a>
+            <a th:href="@{/areaSetting/analysis}">상권 데이터(일반)</a>
+          </div>
+          <div class="col-sm-2 tab">
+            <a th:href="@{/areaSetting/analysis}">상권 데이터(업종)</a>
           </div>
           <div class="col-sm-2 tab active">
             <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
@@ -28,6 +31,23 @@
       <div class="card">
         <div class="card-body">
           <form name="searchForm">
+            <div class="btn-group btn-group-toggle p-2" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> 전체
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off"> 인구
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off"> 대표자 연령대별 사업체수
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option4" autocomplete="off"> 가구원수별 가구수
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option5" autocomplete="off"> 임대시세
+              </label>
+            </div>
             <div class="row">
               <div class="col-sm-3">
                 <div class="form-group row">
@@ -105,17 +125,17 @@
               </th:block>
             </div>
             <div class="row justify-content-end col-sm-8">
-              <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
-              <button type="button" class="btn col-sm-2 btn-primary mr-1"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
-              <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
-                <div class="col-sm-8 mt-1 mr-3 custom-file">
+              <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                <div class="col-sm-8 mr-2 custom-file">
                   <input class="custom-file-input" type="file" id="fileExcel" name="file">
                   <label class="custom-file-label" for="fileExcel">파일선택</label>
                   <input type="hidden" name="excelType" value="faq">
                 </div>
-                <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
+                <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
               </form>
+              <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
+              <button type="button" class="btn col-sm-2 btn-primary"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
             </div>
           </div>
           <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
