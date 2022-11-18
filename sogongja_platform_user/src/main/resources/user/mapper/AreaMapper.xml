@@ -30,10 +30,9 @@
 							ON TAM.AREA_SEQ = TA.AREA_SEQ
 				 INNER JOIN ST_TRADING_AREA_TYPE TAT
 							ON TA.AREA_TYPE = TAT.AREA_TYPE
-		WHERE TAM.AREA_TYPE IN (${scope})
+		WHERE TAT.AREA_TYPE IN (${scope})
 		  AND TAM.LATITUDE BETWEEN #{x1} AND #{x2}
 		  AND TAM.LONGITUDE BETWEEN #{y1} AND #{y2}
-
 		GROUP BY TAM.AREA_SEQ
 	</select>
 
@@ -56,11 +55,21 @@
 		       , B.MAP_SEQ
     </select>
 
+<!--	<select id="getResearchAreaList" resultType="com.stoneitgt.common.LowerKeyMap">-->
+<!--		/* file : AreaMapper.xml, id : getResearchAreaList */-->
+<!--		SELECT *-->
+<!--		FROM (-->
+<!--			SELECT * FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC ) AS TBL1-->
+<!--		GROUP BY AREA_CD;-->
+<!--	</select>-->
+
 	<select id="getResearchAreaList" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getResearchAreaList */
-		SELECT *
-		FROM (
-			SELECT * FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC ) AS TBL1
+		SELECT *, SUM(CT_SHOP) AS STORES, SUM(CT_OPEN) AS OPEN, SUM(CT_CLOSE) AS CLOSE, SUM(CT_OPEN) + SUM(CT_CLOSE) AS OPCL,
+		SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) +  SUM(RAC.SUM_17_21)+ SUM(RAC.SUM_21_24) AS SALES
+		FROM ST_RESEARCH_AREA_COM RAC
+		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		  AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
 		GROUP BY AREA_CD;
 	</select>
 
