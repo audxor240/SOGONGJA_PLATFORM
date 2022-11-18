@@ -20,7 +20,11 @@ public class MapParameter extends BaseParameter {
 
     private int zoom;
 
+    // 상점에서 사용
     private String[] codeType1;
+
+    // 상권 특구에 사용
+    private String codeType2 = "A";
 
     private String areaCd;
 }
