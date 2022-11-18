@@ -34,6 +34,15 @@ function setCenter() {
 // 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
+function resizeMap() {//지도 리사이즈 함수
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
+    mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
+    console.log("뷰포트 사이즈",window.innerWidth,window.innerHeight)
+    map.relayout();//화면사이즈 재렌더링
+}
+
+
 // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
 function zoomIn() {
     map.setLevel(map.getLevel() - 1);
@@ -411,6 +420,7 @@ firstFunc();
 kakao.maps.event.addListener(map, "idle", changeMap)
 
 async function changeMap() {
+    resizeMap()
     var lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
@@ -571,18 +581,31 @@ function addEventHandle(target, type, callback) {
 }
 
 // 커스텀 오버레이를 숨깁니다
-placeOverlay.setMap(null);
-placeOverlay2.setMap(null);
+placeOverlay.setMap(null);//클릭 시 마커+사이드바
+placeOverlay2.setMap(null);//호버 시 마커만
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
-    var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
-        imageSize = new kakao.maps.Size(8, 8), // 마커 이미지의 크기
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
-        marker = new kakao.maps.Marker({
-            position: position, // 마커의 위치
-            image: markerImage,
-        });
+    //if mapsize width 모바일일때 마커 크기 20으로
+    if(window.innerWidth < 767){
+        console.log("모바일사이즈");
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+}else {
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(8, 8), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+    }
+
     return marker;
 }
 
@@ -591,10 +614,12 @@ function displayPlaces(marker, place, i) {
     // 마커와 검색결과 항목을 클릭 했을 때
     // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
     (function sdf(marker, place) {
+        //클릭 시 마커+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(marker, "click", function () {
             displayPlaceInfo(place);
             panTo(position)
         });
+        //호버 시 마커만 보임
         kakao.maps.event.addListener(marker, "mouseover", function () {
             displayPlaceInfoHover(place);
         });
@@ -613,20 +638,20 @@ function panTo(position) {
 }
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfo(place) {
-    customInfo(place);
-    sideInfo(place);
+    customInfo(place);//클릭 시 마커
+    sideInfo(place);//사이드바
     placeOverlay.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
     placeOverlay.setMap(map);
 }
 
-// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+// 호버한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfoHover(place) {
-    customInfo2(place);
+    customInfo2(place);//호버시 마커
     placeOverlay2.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
     placeOverlay2.setMap(map);
 }
 
-function content111(place) {
+function content111(place) {//마커 호버 or 클릭 시 표시될 정보 도로명주소,상점명
     var content =
         '<div class="placeinfo">' +
         '   <p class="title" >' +
@@ -651,13 +676,13 @@ function content111(place) {
     return content
 }
 
-//커스텀속에 인포
+//클릭 커스텀속에 정보 내려줌
 function customInfo(place) {
     var content1 = content111(place);
     contentNode1.innerHTML = content1;
 }
 
-//커스텀속에 인포
+//호버 커스텀속에 정보 내려줌
 function customInfo2(place) {
     var content1 = content111(place);
     contentNode2.innerHTML = content1;
@@ -668,14 +693,16 @@ function sideInfo(place) {
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
+            '<div id="sidebody">' +
+            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
             '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">상점 정보</h4>' +
-            '<div class="location iconPlus">' +
-            place.addr +
-            '</div>' +
-            '<div class="storegray iconPlus">' +
-            place.shop_nm +
-            '</div>' +
+                '<h4 class="sideinfoTitle">상점 정보</h4>' +
+                '<div class="location iconPlus">' +
+                place.addr +
+                '</div>' +
+                '<div class="storegray iconPlus">' +
+                place.shop_nm +
+                '</div>' +
             "</div>" +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">업종 정보</h4>' +
@@ -716,7 +743,8 @@ function sideInfo(place) {
             "</div>" +
 
             '<button class="analysisBtn">상권활성화 예측지수</button>' +
-            '<div class="toggle_side" onclick="closeOverlay()" title="닫기"></div>';
+            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
+            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
 }
 
@@ -725,7 +753,35 @@ function closeOverlay() {
     placeOverlay.setMap(null);
     document.getElementById("sidebar").style.display = "none";
 }
+//사이드바 숨기기
+function sideNoneVisible() {
+    document.getElementById("sidebody").style.display = "none";
+}
+//사이드바 보이기
+function sideVisible() {
+    document.getElementById("sidebody").style.display = "block";
+}
 
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
+
+
+
+
+
+//거리계산함수
+var polyline=new kakao.maps.Polyline({
+    /* map:map, */
+    path : [
+        new daum.maps.LatLng(mlon,mlat),//상점위치
+        new daum.maps.LatLng(vlon,vlat)//지하철,버스 역 위치
+    ],
+    strokeWeight: 2,
+    strokeColor: '#FF00FF',
+    strokeOpacity: 0.8,
+    strokeStyle: 'dashed'
+});
+
+//return getTimeHTML(polyline.getLength());//미터단위로 길이 반환;
+console.log("길이"+polyline.getLength());

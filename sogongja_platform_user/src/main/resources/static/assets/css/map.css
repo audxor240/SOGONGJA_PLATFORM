@@ -379,31 +379,44 @@
 
 .custom_zoomcontrol {
   position: absolute;
-  top: 60px;
-  right: 20px;
-  width: 32px;
-  height: 73px;
-  overflow: hidden;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 102px;
   z-index: 1;
-  background-color: #f5f5f5;
-  box-shadow: 0 0 10px #ccc;
-  border-radius: 4px;
 }
 .custom_zoomcontrol span {
   background-color: #fff;
   display: block;
   width: 32px;
-  height: 36px;
+  height: 32px;
   text-align: center;
   cursor: pointer;
+  margin-left: 4px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  opacity: 0.7;
 }
 .custom_zoomcontrol span img {
   width: 15px;
-  padding: 12px 0;
+  padding: 8px 0;
   border: none;
 }
 .custom_zoomcontrol span:first-child {
   border-bottom: 1px solid #bfbfbf;
+}
+.custom_zoomcontrol span:hover {
+  opacity: 1;
+}
+.custom_zoomcontrol .current-local {
+  width: 36px;
+  height: 36px;
+  opacity: 0.7;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px;
+}
+.custom_zoomcontrol .current-local:hover {
+  opacity: 1;
 }
 
 .title {
@@ -489,20 +502,6 @@
 .addrlist ul li:hover {
   background-color: #eeeeee;
   color: #333;
-}
-
-.current-local {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1;
-  width: 36px;
-  height: 36px;
-  opacity: 0.7;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px;
-}
-.current-local:hover {
-  opacity: 1;
 }
 
 .searchInput {
@@ -601,10 +600,11 @@
 
 .category_wrap {
   position: fixed;
-  bottom: 60px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   overflow: hidden;
-  left: 25%;
   padding: 10px;
   z-index: 2;
 }
@@ -617,10 +617,8 @@
   border-radius: 50px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  min-width: 100px;
   list-style: none;
   border: 1px solid #efefef;
-  padding: 6px 10px;
   text-align: center;
   cursor: pointer;
   margin-right: 10px;
@@ -650,7 +648,7 @@
   height: 12px;
   min-width: 12px;
   background-size: contain !important;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 #category li label input[type=checkbox]:checked ~ .Q {
   background: url(../images/new/area/marker01.png) no-repeat;
@@ -678,6 +676,10 @@
 }
 #category li .category_bg {
   background-position-x: -46px;
+}
+#category li p {
+  padding: 0 10px;
+  white-space: nowrap;
 }
 
 .placeinfo_wrap {
@@ -767,30 +769,41 @@
   top: 105px;
   left: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 5;
   width: 400px;
   height: calc(100vh - 105px);
-  background-color: #e2e2e2;
 }
-#sidebar .sideinfo {
+#sidebar #sidebody {
+  background: #eee;
+}
+#sidebar #sidebody .sideCloseBtn {
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
+  background-size: cover;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+}
+#sidebar #sidebody .sideinfo {
   background-color: #fff;
   padding: 20px;
   margin-bottom: 10px;
 }
-#sidebar .sideinfo .sideinfoTitle {
+#sidebar #sidebody .sideinfo .sideinfoTitle {
   color: #1540bf;
   font-weight: bold;
   font-size: 14px;
   margin-bottom: 10px;
 }
-#sidebar .sideinfo .listCtegory {
+#sidebar #sidebody .sideinfo .listCtegory {
   display: flex;
 }
-#sidebar .sideinfo .listCtegory span {
+#sidebar #sidebody .sideinfo .listCtegory span {
   margin-right: 5px;
   font-size: 14px;
 }
-#sidebar .sideinfo .listCtegory span:after {
+#sidebar #sidebody .sideinfo .listCtegory span:after {
   content: "";
   display: inline-block;
   width: 6px;
@@ -801,14 +814,14 @@
   margin-right: 5px;
   margin-left: 5px;
 }
-#sidebar .sideinfo .listCtegory span:last-child:after {
+#sidebar #sidebody .sideinfo .listCtegory span:last-child:after {
   display: none;
 }
-#sidebar .sideinfo .iconPlus {
+#sidebar #sidebody .sideinfo .iconPlus {
   font-size: 14px;
   margin-bottom: 5px;
 }
-#sidebar .sideinfo .iconPlus:before {
+#sidebar #sidebody .sideinfo .iconPlus:before {
   content: "";
   display: inline-block;
   width: 14px;
@@ -816,52 +829,53 @@
   background-size: contain;
   margin-right: 10px;
 }
-#sidebar .sideinfo .iconPlus .position_name {
+#sidebar #sidebody .sideinfo .iconPlus .position_name {
   margin: 0 5px;
+  vertical-align: top;
 }
-#sidebar .sideinfo .iconPlus .distance {
+#sidebar #sidebody .sideinfo .iconPlus .distance {
   color: #969aaf;
   font-size: 14px;
   vertical-align: middle;
 }
-#sidebar .sideinfo .iconPlus.location {
+#sidebar #sidebody .sideinfo .iconPlus.location {
   background: url(../images/new/area/location.png) no-repeat;
 }
-#sidebar .sideinfo .iconPlus.storegray {
+#sidebar #sidebody .sideinfo .iconPlus.storegray {
   background: url(../images/new/area/storegray.png) no-repeat;
 }
-#sidebar .sideinfo .iconPlus.subway {
+#sidebar #sidebody .sideinfo .iconPlus.subway {
   background: url(../images/new/area/train.png) no-repeat;
 }
-#sidebar .sideinfo .iconPlus.bus {
+#sidebar #sidebody .sideinfo .iconPlus.bus {
   background: url(../images/new/area/bus.png) no-repeat;
 }
-#sidebar .sideinfo .iconPlus.street {
+#sidebar #sidebody .sideinfo .iconPlus.street {
   background: url(../images/new/area/car.png) no-repeat;
 }
-#sidebar .sideinfo .iconPlus.street:last-child {
+#sidebar #sidebody .sideinfo .iconPlus.street:last-child {
   margin-bottom: 0;
 }
-#sidebar .sideinfo .issue {
+#sidebar #sidebody .sideinfo .issue {
   background-color: #e2e2e2;
   padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-#sidebar .sideinfo .issue span {
+#sidebar #sidebody .sideinfo .issue span {
   vertical-align: top;
   display: inline-block;
   font-size: 14px;
 }
-#sidebar .sideinfo .issue a {
+#sidebar #sidebody .sideinfo .issue a {
   display: inline-block;
   color: #1540bf;
   cursor: pointer;
   font-size: 14px;
   border-bottom: solid 1px #1540bf;
 }
-#sidebar .sideinfo .issue a:after {
+#sidebar #sidebody .sideinfo .issue a:after {
   content: "";
   display: inline-block;
   width: 6px;
@@ -870,7 +884,27 @@
   border-right: solid 1px #1540bf;
   transform: rotate(45deg);
 }
-#sidebar .toggle_side {
+#sidebar #sidebody .analysisBtn {
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+  width: calc(100% - 40px);
+  background-color: #1540bf;
+  color: #fff;
+  text-align: left;
+}
+#sidebar #sidebody .analysisBtn:after {
+  content: "";
+  border-top: solid 2px #ffffff;
+  border-right: solid 2px #ffffff;
+  transform: rotate(45deg);
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+}
+#sidebar #sidebody .toggle_side {
   position: absolute;
   right: -30px;
   top: calc(50% - 30px);
@@ -880,7 +914,7 @@
   box-shadow: 14px 3px 24px rgba(0, 0, 0, 0.062745098);
   cursor: pointer;
 }
-#sidebar .toggle_side:after {
+#sidebar #sidebody .toggle_side:after {
   content: "";
   position: absolute;
   left: calc(50% - 7px);
@@ -891,26 +925,27 @@
   border-top: solid 2px #333;
   transform: rotate(225deg);
 }
-
-.analysisBtn {
-  position: relative;
-  margin: 20px;
-  padding: 20px;
-  width: calc(100% - 40px);
-  background-color: #1540bf;
-  color: #fff;
-  text-align: left;
+#sidebar .side_visible {
+  position: absolute;
+  left: 0px;
+  z-index: -1;
+  top: calc(50% - 30px);
+  width: 30px;
+  height: 60px;
+  background: #fff;
+  box-shadow: 14px 3px 24px rgba(0, 0, 0, 0.062745098);
+  cursor: pointer;
 }
-.analysisBtn:after {
+#sidebar .side_visible:after {
   content: "";
-  border-top: solid 2px #ffffff;
-  border-right: solid 2px #ffffff;
-  transform: rotate(45deg);
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 7px);
   width: 14px;
   height: 14px;
-  position: absolute;
-  top: 25px;
-  right: 20px;
+  border-right: solid 2px #333;
+  border-top: solid 2px #333;
+  transform: rotate(45deg);
 }
 
 .solution_btn {
@@ -1107,6 +1142,13 @@
   color: #fff;
 }
 
+.areabutton {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  background-color: #00c73c;
+}
+
 @media (max-width: 767px) {
   #map_wrap {
     height: calc(100vh - 71px);
@@ -1115,11 +1157,8 @@
   #map {
     height: calc(100% + 71px);
   }
-  .current-local {
-    top: 300px;
-  }
   .custom_zoomcontrol {
-    top: 340px;
+    top: 50%;
   }
   .community_wrap {
     top: 492px;

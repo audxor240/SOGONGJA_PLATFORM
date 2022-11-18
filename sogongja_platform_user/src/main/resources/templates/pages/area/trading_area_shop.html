@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:include="fragments/common_meta"></th:block>
-    <title>소공자플랫폼 상권연구소</title>
+    <title>소공자플랫폼 상점연구소</title>
     <meta property="og:url" content="">
     <meta property="og:title" content="소공자 플랫폼 | 상권연구소">
     <meta property="og:image" th:content="@{/images/img-logo-black.png}">
@@ -23,8 +23,11 @@
         <div id="map"></div>
         <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
         <div class="custom_zoomcontrol radius_border">
+            <button class="current-local" onclick="setCenter()"></button>
+            <div class="zoombox">
             <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
             <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+            </div>
         </div>
 
         <div class="addressSearchTop">
@@ -65,7 +68,7 @@
             <button type="button" class="search_pop_del">x</button>
         </div>
 
-        <button class="current-local" onclick="setCenter()"></button>
+
         <div class="category_wrap">
             <ul id="category">
                 <li data-order="0">
