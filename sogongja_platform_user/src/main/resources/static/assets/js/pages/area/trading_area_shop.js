@@ -756,19 +756,28 @@ function closeOverlay() {
 //사이드바 숨기기
 function sideNoneVisible() {
     document.getElementById("sidebody").style.display = "none";
+    $('#sidebar').addClass('on');
 }
 //사이드바 보이기
 function sideVisible() {
     document.getElementById("sidebody").style.display = "block";
+    $('#sidebar').removeClass('on');
 }
 
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
 
+$('.community_main_li').click(function () {
+    $(this).children('.detail_community').addClass('on');
+});
+$('.backbtn').click(function () {
+    $('.detail_community').removeClass('on');
+});
 
-
-
+$('.addresswidth').click(function (){
+    $('.searchInput').toggleClass('on');
+})
 
 //거리계산함수
 var polyline=new kakao.maps.Polyline({

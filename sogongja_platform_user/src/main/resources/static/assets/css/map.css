@@ -379,7 +379,7 @@
 
 .custom_zoomcontrol {
   position: absolute;
-  top: 50%;
+  top: 40%;
   right: 16px;
   transform: translateY(-50%);
   width: 36px;
@@ -393,10 +393,9 @@
   height: 32px;
   text-align: center;
   cursor: pointer;
-  margin-left: 4px;
   border: 1px solid #ddd;
   border-radius: 2px;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 .custom_zoomcontrol span img {
   width: 15px;
@@ -412,11 +411,21 @@
 .custom_zoomcontrol .current-local {
   width: 36px;
   height: 36px;
-  opacity: 0.7;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px;
+  opacity: 0.9;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -153px -450px;
 }
 .custom_zoomcontrol .current-local:hover {
   opacity: 1;
+}
+.custom_zoomcontrol .community_Btn {
+  background: #001658 url(../images/new/icon/icon-community.png) no-repeat;
+  width: 32px;
+  height: 32px;
+  background-size: cover;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  margin-top: 4px;
 }
 
 .title {
@@ -506,11 +515,10 @@
 
 .searchInput {
   width: 230px;
-  background-color: aquamarine;
+  background-color: none;
   position: relative;
 }
 .searchInput input {
-  border-right: none;
   padding-right: 40px;
 }
 .searchInput button {
@@ -605,8 +613,9 @@
   transform: translateX(-50%);
   display: flex;
   overflow: hidden;
-  padding: 10px;
+  padding: 6px;
   z-index: 2;
+  margin-left: 8px;
 }
 
 #category {
@@ -772,11 +781,14 @@
   z-index: 5;
   width: 400px;
   height: calc(100vh - 105px);
+  transition: ease-in-out 0.2ms;
+  overflow-y: scroll;
 }
 #sidebar #sidebody {
   background: #eee;
 }
 #sidebar #sidebody .sideCloseBtn {
+  cursor: pointer;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
   background-size: cover;
   position: absolute;
@@ -906,7 +918,7 @@
 }
 #sidebar #sidebody .toggle_side {
   position: absolute;
-  right: -30px;
+  right: 0;
   top: calc(50% - 30px);
   width: 30px;
   height: 60px;
@@ -926,7 +938,7 @@
   transform: rotate(225deg);
 }
 #sidebar .side_visible {
-  position: absolute;
+  position: fixed;
   left: 0px;
   z-index: -1;
   top: calc(50% - 30px);
@@ -951,7 +963,7 @@
 .solution_btn {
   position: absolute;
   right: 20px;
-  bottom: 40px;
+  bottom: 50px;
   background: #1540bf url(../images/new/icon/bg_solution_btn.png) no-repeat;
   width: 80px;
   height: 80px;
@@ -975,22 +987,15 @@
   top: 245px;
   right: 20px;
 }
-.community_wrap .community_Btn {
-  background: #001658 url(../images/new/icon/icon-community.png) no-repeat;
-  width: 32px;
-  height: 32px;
-  background-size: cover;
-  border-radius: 4px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
-  cursor: pointer;
-}
 .community_wrap .community_pop_wrap {
   display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
+  position: relative;
+  top: 0px;
+  right: 40px;
   width: 280px;
+  height: 300px;
   background-color: #e2e2e2;
+  overflow-y: scroll;
 }
 .community_wrap .community_pop_wrap .community_pop_title {
   background-color: #ffffff;
@@ -998,7 +1003,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 16px;
+  position: fixed;
+  width: 280px;
+  box-shadow: 0 0 10px #ddd;
+  z-index: 2;
 }
 .community_wrap .community_pop_wrap .community_pop_title h4 {
   font-size: 14px;
@@ -1015,13 +1024,21 @@
   padding: 5px;
   text-align: center;
 }
+.community_wrap .community_pop_wrap .community_pop_list {
+  height: 400px;
+  margin-top: 66px;
+}
 .community_wrap .community_pop_wrap .community_pop_list > li {
   background-color: #fff;
   border-bottom: solid 1px #eceff1;
-  padding: 20px;
+  padding: 10px;
 }
 .community_wrap .community_pop_wrap .community_pop_list > li:last-child {
   border-bottom: none;
+}
+.community_wrap .community_pop_wrap .community_pop_list > li:before {
+  content: "";
+  height: 40px;
 }
 .community_wrap .community_pop_wrap.on {
   display: block;
@@ -1059,7 +1076,7 @@
 
 .coment_list li {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 10px;
 }
 .coment_list li .coment_main {
   display: flex;
@@ -1074,6 +1091,7 @@
 }
 .coment_list li .coment_main p {
   width: calc(100% - 20px);
+  font-size: 11px;
 }
 .coment_list li .down_info {
   display: flex;
@@ -1100,25 +1118,41 @@
 .coment_form input {
   border: solid 1px #d2d2d2;
   background-color: #fff;
-  padding: 0 1rem;
-  width: 70%;
+  padding: 0 0.5rem;
+  width: 80%;
   height: 40px;
+  font-size: 13px;
 }
 .coment_form button {
   background-color: #1540bf;
   color: #ffffff;
-  width: 30%;
+  width: 50px;
   height: 40px;
 }
 
+.detail_community {
+  display: none;
+  position: absolute;
+  top: 66px;
+  left: 0;
+}
+.detail_community.on {
+  display: block;
+}
+.detail_community .backbtn {
+  font-size: 13px;
+  padding: 8px 16px;
+  background: #ddd;
+  color: #5e5e5e;
+}
 .detail_community .community_main {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 10px;
   display: block;
 }
 
-.countlabel {
+#map .countlabel {
   background: rgba(0, 0, 0, 0.7);
   color: #fff;
   width: 50px;
@@ -1129,14 +1163,14 @@
   justify-content: center;
   align-items: center;
 }
-.countlabel .countsidobox {
+#map .countlabel .countsidobox {
   display: block;
 }
-.countlabel .countsidobox .center {
+#map .countlabel .countsidobox .center {
   font-size: 7px;
   color: #fff;
 }
-.countlabel .countsidobox .right {
+#map .countlabel .countsidobox .right {
   font-weight: bold;
   font-size: 13px;
   color: #fff;
@@ -1149,6 +1183,25 @@
   background-color: #00c73c;
 }
 
+@media (max-width: 1400px) {
+  #map_wrap {
+    height: calc(100vh - 71px);
+    top: 71px;
+  }
+  #map_wrap .addressSearchTop {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    left: auto;
+    transform: none;
+  }
+  #sidebar {
+    position: fixed;
+    top: 71px;
+    left: 0;
+    height: calc(100vh - 71px);
+  }
+}
 @media (max-width: 767px) {
   #map_wrap {
     height: calc(100vh - 71px);
@@ -1158,7 +1211,7 @@
     height: calc(100% + 71px);
   }
   .custom_zoomcontrol {
-    top: 50%;
+    top: 40%;
   }
   .community_wrap {
     top: 492px;
@@ -1198,8 +1251,8 @@
     transition: 0.4s;
   }
   .category_wrap {
-    left: 0;
-    bottom: 20px;
+    left: 50%;
+    bottom: 12px;
     overflow: scroll;
     width: 98%;
   }
@@ -1209,63 +1262,115 @@
   .solution_btn {
     width: 60px;
     height: 60px;
-    bottom: 70px;
+    bottom: 50px;
     padding: 13px;
   }
   .solution_btn a {
     font-size: 12px;
   }
-  .searchInput {
-    display: none;
-  }
   .community_pop_list {
     height: 600px;
     overflow: scroll;
   }
-  .addressSearchTop {
-    width: auto;
-    top: 10px;
+  #map_wrap .addressSearchTop {
+    position: absolute;
+    top: 16px;
+    right: 16px;
     left: auto;
-    right: 80px;
+    width: auto;
     transform: translateX(10px);
   }
-  .hAddr {
+  #map_wrap .searchInput {
+    display: block;
+    position: fixed;
+    top: 0px;
+    right: 16px;
+    width: 44px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
+  #map_wrap .searchInput.on {
+    background-color: #fff;
+    width: 100%;
+  }
+  #map_wrap .searchInput input {
+    border: none;
+    padding: 0;
+    height: 44px;
+    width: 100%;
+    padding-right: 44px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  #map_wrap .searchInput.addresswidth {
+    height: 42px;
+  }
+  #map_wrap .hAddr {
     display: flex;
     width: auto;
     height: auto;
     float: none;
     margin-top: 0;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1254901961);
-    padding: 3px 10px;
+    margin-right: 70px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    padding: 0px 4px;
   }
-  .addrlist {
-    background-color: #fff;
+  #map_wrap .addrlist {
+    background-color: transparent;
     border-radius: 10px;
   }
-  .addrlist span {
+  #map_wrap .addrlist span {
+    background-color: transparent;
     display: inline-block;
     width: auto;
     font-weight: bold;
     border: none;
     height: auto;
   }
-  .addrlist span:after {
+  #map_wrap .addrlist span:after {
     display: none;
   }
-  .msearch_pop_wrap {
+  #map_wrap .msearch_pop_wrap {
     display: block;
   }
   #sidebar {
     width: 100%;
-    top: auto;
-    bottom: -60vh;
-    height: auto;
+    position: fixed;
+    top: 71px;
     z-index: 4;
   }
-  #sidebar.up {
-    bottom: 0;
+  #sidebar.on {
+    height: auto;
+  }
+  #sidebar .side_visible {
+    position: fixed;
+    top: calc(100% - 30px);
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 60px;
+    z-index: -1;
+  }
+  #sidebar .side_visible:after {
+    transform: rotate(-45deg);
+    position: fixed;
+    left: calc(50% - 7px);
+  }
+  #sidebar #sidebody .toggle_side {
+    position: fixed;
+    top: 72px;
+    right: 50%;
+    transform: translateX(50%);
+    height: 30px;
+    width: 60px;
+    box-shadow: none;
+    z-index: 999;
+  }
+  #sidebar #sidebody .toggle_side:after {
+    transform: rotate(135deg);
   }
 }
 
