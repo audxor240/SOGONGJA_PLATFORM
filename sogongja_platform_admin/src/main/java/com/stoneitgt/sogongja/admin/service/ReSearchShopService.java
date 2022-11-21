@@ -34,6 +34,10 @@ public class ReSearchShopService extends BaseService{
         return reSearchShopMapper.getReSearchShopCategoty3(category2);
     }
 
+    public List<Map<String,Object>> getReSearchShopAll(Map<String, Object> params){
+        return reSearchShopMapper.getReSearchShopAll(params);
+    }
+
     public Integer selectTotalRecords() {
         return reSearchShopMapper.selectTotalRecords();
     }
