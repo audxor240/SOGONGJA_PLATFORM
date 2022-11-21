@@ -159,7 +159,7 @@
 
 	<select id="getResearchShopPublicTransport" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getResearchShopPublicTransport */
-		SELECT *
+		SELECT LBS.LONGITUDE AS buslng, LBS.LATITUDE AS buslat, LSS.LONGITUDE AS sublng, LSS.LATITUDE AS sublat
 		FROM ST_RESEARCH_SHOP RS
 				 INNER JOIN ST_LOCATION_BUS_STATION LBS
 							ON RS.ARS_ID = LBS.ARS_ID
