@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class AreaSettingController extends BaseController {
     private ReSearchShopService reSearchShopService;
 
     @GetMapping("/shop")
-    public String areaShopSettingList(@ModelAttribute ReSearchShopParameter params, Model model) {
+    public String areaShopSettingList(@ModelAttribute ReSearchShopParameter params, Model model, HttpServletResponse response) {
 
         Paging paging = new Paging();
         paging.setPage(params.getPage());
@@ -63,6 +65,13 @@ public class AreaSettingController extends BaseController {
         model.addAttribute("params", params);
         model.addAttribute("breadcrumb", breadcrumb);
         model.addAttribute("pageParams", getBaseParameterString(params));
+        model.addAttribute("excelDown", true);  //엑셀다운로드 사용하는 페이지인지 여부
+
+        /*Cookie cookie = new Cookie("fileDownloadToken", "TRUE");
+        System.out.println("cookie11 :: "+cookie.getDomain());
+        System.out.println("cookie22 :: "+cookie.getValue());
+        System.out.println("cookie33 :: "+cookie.getName());
+        response.addCookie(cookie);*/
 
         return "pages/area/area_shop_setting_list";
     }
