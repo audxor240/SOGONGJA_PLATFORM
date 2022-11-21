@@ -840,12 +840,14 @@ $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
 
-$('.community_main_li').click(function (e) {
-    $(this).find('.detail_community').css('display', 'block');
+$('.community_main').click(function () {
+    // $(this).find('.detail_community').css('display', 'block');
+    $(this).next('.detail_community').addClass('on');
 });
 
-$('.backbtn').click(function (e) {
-    $('.detail_community').css('display', 'none');
+$('.backbtn').click(function () {
+    // $('.detail_community').css('display', 'none');
+    $('.detail_community').removeClass('on');
 });
 
 $('.addresswidth').click(function (){
