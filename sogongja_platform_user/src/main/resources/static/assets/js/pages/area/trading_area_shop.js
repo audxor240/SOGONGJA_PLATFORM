@@ -631,6 +631,7 @@ function panTo(position) {
 function displayPlaceInfo(place) {
     customInfo(place);//클릭 시 마커
     sideInfo(place);//사이드바
+    $('#sidebar').removeClass('on');
     placeOverlay.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
     placeOverlay.setMap(map);
 }
@@ -681,81 +682,141 @@ function customInfo2(place) {
 
 //사이드바 인포
 function sideInfo(place) {
-    var datatrans = { shopSeq : place.shop_seq }
-    console.log("trans데이터", datatrans,place.shop_seq )
-    ajaxPostSyn('/trading-area/shop/pubTrans', datatrans, function (resultsubway) {
-        console.log("이게trans데이터 갖고오는거임", resultsubway)
-    })
-    //거리계산함수
-//     var polyline=new kakao.maps.Polyline({
-//         /* map:map, */
-//         path : [
-//             new kakao.maps.LatLng(mlon,mlat),//상점위치
-//             new kakao.maps.LatLng(vlon,vlat)//지하철,버스 역 위치
-//         ],
-//         strokeWeight: 2,
-//         strokeColor: '#FF00FF',
-//         strokeOpacity: 0.8,
-//         strokeStyle: 'dashed'
-//     });
-// //return getTimeHTML(polyline.getLength());//미터단위로 길이 반환;
-//     console.log("길이"+polyline.getLength());
-
+    document.getElementById("sidebar").style.display = "block";
     if (place) {
-        document.getElementById("sidebar").style.display = "block";
-        document.getElementById("sidebar").innerHTML =
-            '<div id="sidebody">' +
-            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
-            '<div class="sideinfo">' +
-                '<h4 class="sideinfoTitle">상점 정보</h4>' +
-                '<div class="location iconPlus">' +
-                place.addr +
-                '</div>' +
-                '<div class="storegray iconPlus">' +
-                place.shop_nm +
-                '</div>' +
-            "</div>" +
-            '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">업종 정보</h4>' +
-            '<div class="listCtegory">' +
-            '<span class="lCategory">' +
-            place.nm_type1 +
-            '</span>' +
-            '<span class="lCategory">' +
-            place.nm_type2 +
-            '</span>' +
-            '<span class="mCategory">' +
-            place.nm_type3 +
-            '</span>' +
-            '</div>' +
-            "</div>" +
-            '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">주변 정보</h4>' +
-            '<div class="subway iconPlus">지하철역' +
-            '<span class="position_name">' +
-            place.sub_sta_nm +
-            '</span>' +
-            '<span class="distance">거리</span>' +
-            '</div>' +
-            '<div class="bus iconPlus">버스' +
-            '<span class="position_name">' +
-            place.bus_sta_nm +
-            '</span>' +
-            '<span class="distance">거리</span>' +
-            '</div>' +
-            "</div>" +
-
-            '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-            '<div class="issue">' +
-            '<span>로그인이 필요합니다.</span>' +
-            '<a>로그인/회원가입 하러가기</a>' +
-            '</div>' +
-            "</div>" +
-
-            '<button class="analysisBtn">상권활성화 예측지수</button>' +
-            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
-            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        var datatrans = { shopSeq : place.shop_seq }
+        ajaxPostSyn('/trading-area/shop/pubTrans', datatrans, function (resultsubway) {
+            //거리계산함수
+            var buspolyline = new kakao.maps.Polyline({
+                /* map:map, */
+                path: [
+                    new kakao.maps.LatLng(place.longitude, place.latitude),// 상점 위치
+                    new kakao.maps.LatLng(resultsubway.buslng, resultsubway.buslat)//지하철,버스 역 위치
+                ]
+            });
+            var subwaypolyline = new kakao.maps.Polyline({
+                /* map:map, */
+                path: [
+                    new kakao.maps.LatLng(place.longitude, place.latitude),// 상점 위치
+                    new kakao.maps.LatLng(resultsubway.sublng, resultsubway.sublat)//지하철,버스 역 위치
+                ]
+            });
+            if(resultsubway.buslng > 0) {//빈값아니면 거리 계산
+                var buspos = buspolyline.getLength().toFixed(2);
+                var subpos = subwaypolyline.getLength().toFixed(2)
+                console.log("버스길이" + buspos);
+                console.log("지하철길이" + subpos);
+                document.getElementById("sidebar").innerHTML =
+                    '<div id="sidebody">' +
+                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">상점 정보</h4>' +
+                    '<div class="location iconPlus">' +
+                    place.addr +
+                    '</div>' +
+                    '<div class="storegray iconPlus">' +
+                    place.shop_nm +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">업종 정보</h4>' +
+                    '<div class="listCtegory">' +
+                    '<span class="lCategory">' +
+                    place.nm_type1 +
+                    '</span>' +
+                    '<span class="lCategory">' +
+                    place.nm_type2 +
+                    '</span>' +
+                    '<span class="mCategory">' +
+                    place.nm_type3 +
+                    '</span>' +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">주변 정보</h4>' +
+                    '<div class="subway iconPlus">지하철역' +
+                    '<span class="position_name">' +
+                    place.sub_sta_nm +
+                    '</span>' +
+                    '<span class="distance">' +
+                    subpos+
+                    'm</span>' +
+                    '</div>' +
+                    '<div class="bus iconPlus">버스' +
+                    '<span class="position_name">' +
+                    place.bus_sta_nm +
+                    '</span>' +
+                    '<span class="distance">' +
+                    buspos+
+                    'm</span>' +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+                    '<div class="issue">' +
+                    '<span>로그인이 필요합니다.</span>' +
+                    '<a>로그인/회원가입 하러가기</a>' +
+                    '</div>' +
+                    "</div>" +
+                    '<button class="analysisBtn">상권활성화 예측지수</button>' +
+                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
+                    '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+            }else{
+                document.getElementById("sidebar").innerHTML =
+                    '<div id="sidebody">' +
+                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">상점 정보</h4>' +
+                    '<div class="location iconPlus">' +
+                    place.addr +
+                    '</div>' +
+                    '<div class="storegray iconPlus">' +
+                    place.shop_nm +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">업종 정보</h4>' +
+                    '<div class="listCtegory">' +
+                    '<span class="lCategory">' +
+                    place.nm_type1 +
+                    '</span>' +
+                    '<span class="lCategory">' +
+                    place.nm_type2 +
+                    '</span>' +
+                    '<span class="mCategory">' +
+                    place.nm_type3 +
+                    '</span>' +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">주변 정보</h4>' +
+                    '<div class="subway iconPlus">지하철역' +
+                    '<span class="position_name">' +
+                    place.sub_sta_nm +
+                    '</span>' +
+                    '<span class="distance">'+
+                    '</span>' +
+                    '</div>' +
+                    '<div class="bus iconPlus">버스' +
+                    '<span class="position_name">' +
+                    place.bus_sta_nm +
+                    '</span>' +
+                    '<span class="distance">' +
+                    '</span>' +
+                    '</div>' +
+                    "</div>" +
+                    '<div class="sideinfo">' +
+                    '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+                    '<div class="issue">' +
+                    '<span>로그인이 필요합니다.</span>' +
+                    '<a>로그인/회원가입 하러가기</a>' +
+                    '</div>' +
+                    "</div>" +
+                    '<button class="analysisBtn">상권활성화 예측지수</button>' +
+                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
+                    '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+            }
+    })
     }
 }
 
