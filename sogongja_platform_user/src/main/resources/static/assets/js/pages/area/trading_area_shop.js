@@ -38,7 +38,6 @@ function resizeMap() {//지도 리사이즈 함수
     var mapContainer = document.getElementById('map');
     mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
     mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
-    console.log("뷰포트 사이즈",window.innerWidth,window.innerHeight)
     map.relayout();//화면사이즈 재렌더링
 }
 
@@ -342,7 +341,7 @@ function ajaxPostSyn(url, data, callback, showLoading) {
         data: JSON.stringify(data),
         method: "POST",
         success: function (result) {
-            console.log('result : ', result);
+            //console.log('result : ', result);
             if (callback) {
                 callback(result);
             }
@@ -376,7 +375,6 @@ var codeType1 = new Array();
 $("input[name=cate]").prop("checked", true).each(function (index, item) {
     codeType1.push($(item).val());
 });
-console.log("체크 카테고리", codeType1)
 
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
 $("input[name=cate]").click(function () {
@@ -385,7 +383,6 @@ $("input[name=cate]").click(function () {
         if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
             codeType1.push($(this).val());
         }
-        console.log("재체크 카테고리", codeType1);
     } else {
         console.log($(this))
         codeType1.forEach((item, index) => {
@@ -393,7 +390,6 @@ $("input[name=cate]").click(function () {
                 codeType1.splice(index, 1);
             }
         })
-        console.log("해제체크 카테고리", codeType1);
     }
 })
 
@@ -407,7 +403,6 @@ var datalat = {
     y2,
     codeType1,
 }
-console.log("첫 data이겁니다!!", datalat);
 
 async function firstFunc() {
     await sleep(300),
@@ -441,27 +436,23 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
     ajaxPostSyn('/trading-area/shop/details', datalat, function (result) {
-        // console.log('result : ', result);
-        console.log("이게 데이터 갖고오는거임", result)
+        console.log("이게 상점데이터 갖고오는거임", result)
         // if (result.result_code === 200) {
-        //     console.log(result)
         // } else {
         //     alert("2222")
         // return false;
         // }
         if (zoom >= 4 && zoom <= 14) {
             //10<level<14 일때, 시도 카운트 마커로 찍어주기
-            console.log("10<level<14 일때, 시도 카운트 마커로 찍어주기")
-            // 커스텀 오버레이를 숨깁니다
+            // 마커+사이드바 를 닫아요
             placeOverlay.setMap(null);
-            placeOverlay2.setMap(null);
+            document.getElementById("sidebar").style.display = "none";
             setMarkers(null)//마커들을 싹 비워
             if(result.length>0) {
                 resultSpread(result)//그리고 다시찍어
             }
         } else {
             //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
-            console.log("//level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기")
             setMarkers(null)//마커를비우고
             if(result.length>0) {
                 storeSpread(result)//다시찍어
@@ -515,7 +506,6 @@ function resultSpread(thing) {
             // 정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK) {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                // console.log("djd?", coords)
                 // 결과값으로 받은 위치를 마커로 표시합니다
                 var content = '<div class ="countlabel"><div class="countsidobox">' +
                     '<div class="center">' +
@@ -588,7 +578,6 @@ placeOverlay2.setMap(null);//호버 시 마커만
 function addMarker(place, i, imageSrc) {
     //if mapsize width 모바일일때 마커 크기 20으로
     if(window.innerWidth < 767){
-        console.log("모바일사이즈");
         var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
             imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
@@ -598,7 +587,7 @@ function addMarker(place, i, imageSrc) {
             });
 }else {
         var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
-            imageSize = new kakao.maps.Size(8, 8), // 마커 이미지의 크기
+            imageSize = new kakao.maps.Size(10, 10), // 마커 이미지의 크기
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
             marker = new kakao.maps.Marker({
                 position: position, // 마커의 위치
