@@ -24,34 +24,44 @@ public class AreaService extends BaseService {
 		return areaMapper.getTradingAreaList(params);
 	}
 
+//	public List<Map<String, Object>> getTradingAreaListToJSON(Map<String, Object> params) {
+//
+//		List<Map<String, Object>> list = areaMapper.getTradingAreaList(params);
+//		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
+//		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
+//
+//		for (Map<String, Object> map : list) {
+//			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
+//			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
+//					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+//			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
+//					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+//
+//			map.put("path", path);
+//			map.put("hole", hole);
+//		}
+//
+//		return list;
+//	}
+	// 상권연구
 	public List<Map<String, Object>> getTradingAreaListToJSON(Map<String, Object> params) {
 
-		List<Map<String, Object>> list = areaMapper.getTradingAreaList(params);
+		List<Map<String, Object>> list = areaMapper.getTradingAreaMapPartList(params);
+		int zoom = Integer.parseInt(params.get("zoom").toString());
+		System.out.println("list size :" + list.size() );
 		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
 		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
 
-		for (Map<String, Object> map : list) {
-			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
-			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
-					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
-			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
-					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
-			map.put("path", path);
-			map.put("hole", hole);
+		if (zoom > 5) {
+			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
+		} else {
+			areaRecentlyList = areaMapper.getTradingAreaAllList();
 		}
 
-		return list;
-	}
-	public List<Map<String, Object>> getTradingAreaPartListToJSON(Map<String, Object> params) {
-
-		List<Map<String, Object>> list = areaMapper.getTradingAreaMapPartList(params);
-		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
-		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
-		List<Map<String, Object>> areaRecentlyList = areaMapper.getResearchAreaList();
 
 		for (Map<String, Object> map : list) {
-
 			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
 			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
 					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
@@ -69,6 +79,7 @@ public class AreaService extends BaseService {
 
 		return list;
 	}
+
 
 	public List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params) {
 		String areaCd = params.get("area_cd").toString();
@@ -91,7 +102,7 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
-
+	// 상점연구
 	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
 
 		List<Map<String, Object>> list = areaMapper.getResearchShopList(params);
@@ -100,6 +111,7 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+	// 상점연구
 	public List<Map<String, Object>> countResearchShopToJSON(Map<String, Object> params) {
 
 		List<Map<String, Object>> list = areaMapper.countResearchShop(params);
@@ -108,6 +120,7 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+	// 상점연구 - 대중교통
 	public Map<String, Object> getResearchShopPublicTransport(Map<String, Object> params) {
 
 		return areaMapper.getResearchShopPublicTransport(params);
