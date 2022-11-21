@@ -69,6 +69,7 @@
 .table_style {
   width: 100%;
   table-layout: fixed;
+  background-color: #fff;
 }
 .table_style thead {
   border-top: 4px solid #1540bf;
@@ -2342,8 +2343,9 @@
 .pop_up_wrap .pop_up03 {
   position: absolute;
   top: 100px;
-  width: 1000px;
-  left: calc(50% - 500px);
+  width: 78%;
+  max-width: 767px;
+  left: calc(50% - 383.5px);
   background-color: #fff;
 }
 .pop_up_wrap .pop_up03 .adress_pop_close {
@@ -3228,6 +3230,43 @@ select {
   }
   .loginForm .login_sns ul li a {
     justify-content: center;
+  }
+  .pop_up_wrap .pop_up03 {
+    left: 10%;
+  }
+  .pop_up_wrap .pop_up03 .pop_main .pop_text {
+    padding: 0 10px;
+  }
+  .pop_up_wrap .pop_up03 .pop_main .pop_btn {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .adrsss_wrap {
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .adrsss_wrap .pop_sub_title {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .adrsss_wrap .adress_find {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .adrsss_wrap .adress_find input {
+    width: 100%;
+  }
+  .adrsss_wrap .adress_find button {
+    width: 100%;
+    padding: 10px;
+  }
+  .adrsss_wrap .tag_adress_choice_wrap {
+    width: 100%;
+  }
+  .adrsss_wrap .tag_adress_choice_wrap .tag_adress_choice_ex {
+    height: auto;
+    line-height: 1.8;
+    padding: 10px;
   }
 }
 @media (max-width: 420px) {
