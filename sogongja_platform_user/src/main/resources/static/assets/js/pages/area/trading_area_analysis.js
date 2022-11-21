@@ -1,6 +1,6 @@
 // 맵 기본 레벨
-var mapDefaultLevel = 6;
-
+var mapDefaultLevel = 3;
+//
 // 기본 위치는 서울시청
 var clientLatitude = 37.506280990844225;
 var clientLongitude = 127.04042161585487;
@@ -25,36 +25,35 @@ if (navigator.geolocation) {
         map.setCenter(moveLatLon);
     });
 }
-
+//정리되면 이위로 지우자
 // console.log('areaJson : ', areaJson);
 //
 // var coords = new daum.maps.Coords(307506.045518573, 549572.690761664);
 // var latlng = coords.toLatLng(); // daum.maps.LatLng 객체 반환
 // console.log('latlng.toString()  : ', latlng.toString());
+//정리되면 이위로 지우자
+//정리되면 이위로 지우자
+//정리되면 이위로 지우자
 
 // 다각형을 생성하고 지도에 표시합니다
 var polygons = [];
-
-for (var i = 0, len = areaJson.length; i < len; i++) {
-    displayArea(areaJson[i]);
-}
-
+//첫화면상권로드
+// for (var i = 0, len = areaJson.length; i < len; i++) {
+//     displayArea(areaJson[i]);
+// }
 
 // 다각형을 생상하고 이벤트를 등록하는 함수입니다
 function displayArea(area) {
-
     var points = [];
     var path = [];
     $.each(area.path, function (index, item) {
         path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
         points.push([item.latitude, item.longitude]);
     });
-
     var hole = [];
     $.each(area.hole, function (index, item) {
         hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
     });
-
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
         path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -65,7 +64,6 @@ function displayArea(area) {
         fillColor: area.fill_color,
         fillOpacity: area.fill_opacity
     });
-
     var infos = area.info;
     var stores = 0;
     var open = 0;
@@ -77,7 +75,6 @@ function displayArea(area) {
         close += infos[i].close;
         sales += infos[i].sales;
     }
-
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
@@ -123,135 +120,8 @@ function displayArea(area) {
         infowindow.setMap(map);
     });
 
-
     polygon.setMap(map);
     polygons.push(polygon)
-}
-
-
-// // 첫접속 시 현좌표 위경도, 줌레벨, x1,x2, y1,y2 값 담기 data 설정
-// var lat = map.getCenter().getLat(),
-//     lng = map.getCenter().getLng(),
-//     zoom = map.getLevel(),
-//     x2 = map.getBounds().getNorthEast().getLat(),
-//     y2 = map.getBounds().getNorthEast().getLng(),
-//     x1 = map.getBounds().getSouthWest().getLat(),
-//     y1 = map.getBounds().getSouthWest().getLng();
-// var codeType1 = new Array();
-// var codeType2 = 'A';
-//
-// var datalat = {
-//     lat,
-//     lng,
-//     zoom,
-//     x1,
-//     x2,
-//     y1,
-//     y2,
-//     codeType1,
-//     codeType2
-// }
-// console.log("첫 data이겁니다!!", datalat);
-//
-//
-// // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-// kakao.maps.event.addListener(map, "idle", changeMap)
-//
-// async function changeMap() {
-//     var lat = map.getCenter().getLat(),
-//         lng = map.getCenter().getLng(),
-//         zoom = map.getLevel(),
-//         x2 = map.getBounds().getNorthEast().getLat(),
-//         y2 = map.getBounds().getNorthEast().getLng(),
-//         x1 = map.getBounds().getSouthWest().getLat(),
-//         y1 = map.getBounds().getSouthWest().getLng(),
-//         codeType2 = $('input[name="cate2"]:checked').val();
-//
-//     var datalat = {
-//         lat,
-//         lng,
-//         zoom,
-//         x1,
-//         x2,
-//         y1,
-//         y2,
-//         codeType1,
-//         codeType2
-//     }
-//     console.log("data재요청입니다!", datalat);
-//     removePolygons(map)
-//     ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
-//
-//         console.log("이게 데이터 갖고오는거임", result)
-//         areaJson = result;
-//         for (var i = 0, len = areaJson.length; i < len; i++) {
-//             displayArea(areaJson[i]);
-//         }
-//     });
-//
-//     if (zoom < 6) {
-//         console.log("zoom 이 5이하시 shop 리스트 호출")
-//         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
-//             console.log("상점 데이터 뿌려주기", result)
-//
-//         });
-//     }
-// };
-//
-//
-// function removePolygons(map) {
-//     for (var i = 0; i < polygons.length; i++) {
-//         polygons[i].setMap(null);
-//     }
-// }
-
-//ajax 요청하는 함수
-function ajaxPostSyn(url, data, callback, showLoading) {
-    // IE 기본값세팅
-    showLoading = typeof showLoading !== 'undefined' ? showLoading : true;
-    $.ajax({
-        //async:true,
-        url: contextPath + url,
-        data: JSON.stringify(data),
-        method: "POST",
-        success: function (result) {
-            console.log('result : ', result);
-            if (callback) {
-                callback(result);
-            }
-        },
-        beforeSend: function () {
-            if (showLoading) {
-                $('.wrap-loading').removeClass('display-none');
-            }
-        },
-        complete: function () {
-            if (showLoading) {
-                $('.wrap-loading').addClass('display-none');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('error : ', error);
-        }
-    });
-}
-
-function changeType1() {
-
-    //라디오 버튼 값을 가져온다.
-    var type1 = $('input[name="type1"]:checked').val()
-    if (type1 === 'stores') {
-        // display block / none
-    } else if (type1 === 'open') {
-
-
-    } else if (type1 === 'close') {
-
-
-    } else if (type1 === 'sales') {
-
-
-    }
 }
 
 
@@ -307,7 +177,7 @@ var datalat = {
 function sleep(ms) {
     return new Promise((r) => setTimeout(r, ms));
 }
-
+//첫화면 지도 로드되면 3초뒤에 실행시킴
 async function firstFunc() {
     await sleep(300),
         changeMap();
@@ -317,7 +187,6 @@ firstFunc();
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)
-
 async function changeMap() {
     resizeMap()
     var lat = map.getCenter().getLat(),
@@ -341,21 +210,27 @@ async function changeMap() {
         codeType2
     }
     console.log("data재요청입니다!", datalat);
-    removePolygons(map)
+    removePolygons(map)//상권삭제
+    setMarkers(null)//상점삭제
     ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
-
-        console.log("이게 데이터 갖고오는거임", result)
+        console.log("이게 상권데이터 갖고오는거임", result)
         areaJson = result;
         for (var i = 0, len = areaJson.length; i < len; i++) {
             displayArea(areaJson[i]);
         }
     });
-    setMarkers(null)
+
     if (zoom < 4) {
+        removePolygons(map)//상권삭제
+        setMarkers(null)//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출")
+
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
-            storeSpread(result)
+            storeSpread(result)//상점찍기
+            for (var i = 0, len = areaJson.length; i < len; i++) {
+                displayArea(areaJson[i]);//상권찍기
+            }
         });
     }
 };
@@ -367,25 +242,29 @@ function removePolygons(map) {
 }
 
 function changeType1() {
-
-    //라디오 버튼 값을 가져온다.
+    //탭에서 라디오 버튼 값을 가져온다.
     var type1 = $('input[name="type1"]:checked').val()
-    if (type1 === 'stores') {
+    if (type1 === 'stores') {//상점수탭
         // display block / none
-    } else if (type1 === 'open') {
+    } else if (type1 === 'open') {//개업수
 
 
-    } else if (type1 === 'close') {
+    } else if (type1 === 'close') {//폐업수
 
 
-    } else if (type1 === 'sales') {
+    } else if (type1 === 'sales') {//추정매출
 
 
     }
 }
+
+
+
+//상점뿌리기함수 이거 trading_area_common에 못넣나??
+//상점뿌리기
+//상점뿌리기
 // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
 var markers = [];
-
 function storeSpread(thing) {
     var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         QimageSrc = "/images/new/area/marker01.png",
@@ -422,7 +301,6 @@ function storeSpread(thing) {
         marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
     }
 }
-
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
     //if mapsize width 모바일일때 마커 크기 20으로
@@ -443,20 +321,14 @@ function addMarker(place, i, imageSrc) {
                 image: markerImage,
             });
     }
-
     return marker;
 }
-
 //마커다시그림
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
-
-function resizeMap() {//지도 리사이즈 함수
-    var mapContainer = document.getElementById('map');
-    mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
-    mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
-    map.relayout();//화면사이즈 재렌더링
-}
+//상점뿌리기함수 이거 trading_area_common에 못넣나??
+//상점뿌리기
+//상점뿌리기끝
