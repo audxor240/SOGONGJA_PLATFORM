@@ -97,7 +97,11 @@ public class AreaController extends BaseController {
 	public @ResponseBody Map<String, Object> shopPublicTransportInfo(@RequestBody Map<String, Object> params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-		return areaService.getResearchShopPublicTransport(paramsMap);
+		try {
+			return areaService.getResearchShopPublicTransport(paramsMap);
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 
 	@GetMapping("/analysis")
@@ -123,10 +127,9 @@ public class AreaController extends BaseController {
 		return "pages/area/trading_area_analysis";
 	}
 
+	// 중심 좌표 이동에 따른 polygon 데이터 api
 	@PostMapping("/analysis/area")
 	public @ResponseBody List<Map<String, Object>> analysisAreaList(@RequestBody MapParameter params, Model model) {
-
-		// 줌에 따라 뒤에 데이터 내릴지 안내릴지
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());
