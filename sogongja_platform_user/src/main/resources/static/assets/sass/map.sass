@@ -772,6 +772,20 @@
     height: 300px
     background-color: #e2e2e2
     overflow-y: scroll
+    -ms-overflow-style: none /* 인터넷 익스플로러 */
+    scrollbar-width: none /* 파이어폭스 */
+    &::-webkit-scrollbar
+      display: none /* 크롬, 사파리, 오페라, 엣지 */
+    .community_more
+      text-align: center
+      padding: 8px 16px
+      margin: 0 auto
+      margin-bottom: 20px
+      background: #ffffff
+      border: 2px solid $blue
+      color: $blue
+      width: 200px
+      font-size: 13px
     .community_pop_title
       background-color: #ffffff
       +flex_type($justify:space-between, $align:center)
@@ -795,7 +809,7 @@
         padding: 5px
         text-align: center
     .community_pop_list
-      height: 400px
+      height: 100%
       margin-top: 66px
       > li
         background-color: #fff
@@ -877,6 +891,9 @@
   position: absolute
   top: 66px
   left: 0
+  background: #e2e2e2
+  height: 100%
+  padding-bottom: 20px
   &.on
     display: block
   .backbtn
@@ -915,6 +932,104 @@
 .areabutton
   +positionAt(absolute, $top: 50%, $right:20px)
   background-color: #00c73c
+.areaTap
+  +positionAt(fixed, $top: 220px, $left:20px)
+  z-index: 1
+  li
+    list-style: none
+    float: left
+    padding: 10px
+    border: 1px solid #eee
+    background-color: #fff
+    &.on
+      color: #fff
+      background-color: #0f7833
+#areaCategory
+  +positionAt(absolute, $bottom: 120px, $right:10px)
+  border-radius: 5px
+  border: 1px solid #909090
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
+  background: #fff
+  overflow: hidden
+  z-index: 2
+  li
+    float: left
+    list-style: none
+    width: 100px
+    border-right: 1px solid #acacac
+    padding: 6px 0
+    text-align: center
+    cursor: pointer
+
+#filter
+  +positionAt(fixed, $top: 156px, $right:200px)
+  z-index: 2
+  .filterIcon
+    background-color: blue
+    width: 60px
+    height: 20px
+    text-align: center
+  .filterbox
+    +positionAt(absolute, $right:0px)
+    display: none
+    background-color: #fff
+    width: 600px
+    height: auto
+    padding: 20px
+    span
+      float: right
+    ul
+    &.timeSelect
+      background-color: #bbb
+      padding: 2px
+      &:after
+        content: ""
+        display: block
+        clear: both
+      li
+        float: left
+        width: 85px
+        font-size: 11px
+        list-style: none
+        padding: 2px
+        margin-left: 8px
+        border: 1px solid #ddd
+        background-color: #fff
+    &.mainSectors
+      background-color: #bbb
+      padding: 2px
+      &:after
+        content: ""
+        display: block
+        clear: both
+      li
+        float: left
+        width: 180px
+        font-size: 11px
+        list-style: none
+        padding: 2px
+        margin: 4px
+        border: 1px solid #ddd
+        background-color: #fff
+    &.midSectors
+      background-color: #bbb
+      padding: 2px
+      &:after
+        content: ""
+        display: block
+        clear: both
+      li
+        float: left
+        width: 270px
+        font-size: 11px
+        list-style: none
+        padding: 2px
+        margin: 4px
+        border: 1px solid #ddd
+        background-color: #fff
+    .midSecBox
+      height: 100px
+      overflow-y: scroll
 
 
 @include tablet
@@ -933,26 +1048,27 @@
     height: calc(100vh - 71px)
     top: 71px
   #map
-    height: calc(100% + 71px)
+    height: 100%
   .custom_zoomcontrol
     top: 40%
-
   .community_wrap
     top: 492px
     .community_pop_wrap
-      top: auto
+      top: 71px
       right: 0
       width: 100%
       left: 0
       position: fixed
-      bottom: -300px
+      bottom: 0
       z-index: 4
       border-radius: 10px 10px 0 0
       transition: 0.4s
+      height: calc(100% - 71px)
       .community_pop_title
         padding: 10px 20px 20px
         border-radius: 10px 10px 0 0
         flex-wrap: wrap
+        width: 100%
         > a
           display: none
         .m_scroll_btn
@@ -982,9 +1098,8 @@
     padding: 13px
     a
       font-size: 12px
-
   .community_pop_list
-    height: 600px
+    height: 100%
     overflow: scroll
   #map_wrap
     .addressSearchTop

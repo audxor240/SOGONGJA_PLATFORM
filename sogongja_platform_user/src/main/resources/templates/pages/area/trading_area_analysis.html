@@ -20,6 +20,77 @@
     <div id="map_wrap">
         <div id="map"></div>
 
+        <ul class="areaTap">
+            <li>상점수</li>
+            <li>
+                <select name="">
+                    <option value="none" disabled selected style="display: none">개폐업수</option>
+                    <option value="korean">개업수</option>
+                    <option value="english">폐업수</option>
+                </select>
+            </li>
+            <li>추정매출</li>
+        </ul>
+
+        <div id="filter">
+            <div class="filterIcon">필터</div>
+            <div class="filterbox">
+                <h4>필터박스<span>X</span></h4>
+                시간선택
+                <ul class="timeSelect">
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                    <li>
+                        <input type="checkbox" name="areacate" value="gwangwang" onchange="" checked />
+                        00:00~06:00
+                    </li>
+                </ul>
+                업종변경
+                <h5>대분류 선택</h5>
+                <ul class="mainSectors">
+                    <li>
+                        <input type="radio" name="areacate" value="gwangwang" onchange="" checked />
+                        전체
+                    </li>
+                    <li>
+                        <input type="radio" name="areacate" value="gwangwang" onchange="" />
+                        숙박·음식
+                    </li>
+                </ul>
+                <h5>중분류 선택</h5>
+                <div class="midSecBox">
+                    <ul class="midSectors">
+                        <li>
+                            <input type="radio" name="areacate" value="gwangwang" onchange="" checked />
+                            전체
+                        </li>
+                        <li>
+                            <input type="radio" name="areacate" value="gwangwang" onchange="" />
+                            숙박·음식
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="categoryArea_wrap">
             <ul id="areaCategory">
                 <li data-order="0">
@@ -153,8 +224,10 @@
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
+<script th:src="@{/js/pages/area/area_function.js}"></script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
 <script th:src="@{/js/pages/area/chart_list.js}"></script>
+<script th:src="@{/js/pages/area/trading_area_common.js}"></script>
 <script th:src="@{/js/pages/area/trading_area_analysis.js}"></script>
 </body>
 
