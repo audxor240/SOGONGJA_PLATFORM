@@ -611,6 +611,8 @@ function addMarker(place, i, imageSrc) {
 
 function displayPlaces(marker, place, i) {
     var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude);
+    // var datatrans = { shopSeq : place[i].shopSeq }
+    // console.log("trans데이터", datatrans)
     // 마커와 검색결과 항목을 클릭 했을 때
     // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
     (function sdf(marker, place) {
@@ -690,6 +692,26 @@ function customInfo2(place) {
 
 //사이드바 인포
 function sideInfo(place) {
+    var datatrans = { shopSeq : place.shop_seq }
+    console.log("trans데이터", datatrans,place.shop_seq )
+    ajaxPostSyn('/trading-area/shop/pubTrans', datatrans, function (resultsubway) {
+        console.log("이게trans데이터 갖고오는거임", resultsubway)
+    })
+    //거리계산함수
+//     var polyline=new kakao.maps.Polyline({
+//         /* map:map, */
+//         path : [
+//             new kakao.maps.LatLng(mlon,mlat),//상점위치
+//             new kakao.maps.LatLng(vlon,vlat)//지하철,버스 역 위치
+//         ],
+//         strokeWeight: 2,
+//         strokeColor: '#FF00FF',
+//         strokeOpacity: 0.8,
+//         strokeStyle: 'dashed'
+//     });
+// //return getTimeHTML(polyline.getLength());//미터단위로 길이 반환;
+//     console.log("길이"+polyline.getLength());
+
     if (place) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").innerHTML =
@@ -779,18 +801,3 @@ $('.addresswidth').click(function (){
     $('.searchInput').toggleClass('on');
 })
 
-//거리계산함수
-var polyline=new kakao.maps.Polyline({
-    /* map:map, */
-    path : [
-        new daum.maps.LatLng(mlon,mlat),//상점위치
-        new daum.maps.LatLng(vlon,vlat)//지하철,버스 역 위치
-    ],
-    strokeWeight: 2,
-    strokeColor: '#FF00FF',
-    strokeOpacity: 0.8,
-    strokeStyle: 'dashed'
-});
-
-//return getTimeHTML(polyline.getLength());//미터단위로 길이 반환;
-console.log("길이"+polyline.getLength());
