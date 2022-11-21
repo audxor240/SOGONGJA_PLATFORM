@@ -840,11 +840,12 @@ $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
 
-$('.community_main_li').click(function () {
-    $(this).children('.detail_community').addClass('on');
+$('.community_main_li').click(function (e) {
+    $(this).find('.detail_community').css('display', 'block');
 });
-$('.backbtn').click(function () {
-    $('.detail_community').removeClass('on');
+
+$('.backbtn').click(function (e) {
+    $('.detail_community').css('display', 'none');
 });
 
 $('.addresswidth').click(function (){
