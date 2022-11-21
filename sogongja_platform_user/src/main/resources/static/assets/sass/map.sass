@@ -463,6 +463,7 @@
   .choice_pop_wrap
     +positionAt(absolute, $top: 0, $left:0)
     display: none
+
 .category_wrap
   +positionAt(fixed, $left:50%, $bottom:20px)
   transform: translateX(-50%)
@@ -527,7 +528,7 @@
       padding: 0 10px
       white-space: nowrap
 .placeinfo_wrap
-  +positionAt(absolute, $bottom:4px, $left: -122px)
+  +positionAt(absolute, $bottom:6px, $left: -122px)
   width: 248px
 .placeinfo
   +positionAt(relative)
@@ -606,6 +607,7 @@
   &::-webkit-scrollbar
     display: none /* 크롬, 사파리, 오페라, 엣지 */
   #sidebody
+    height: 100%
     background: #eee
     .sideCloseBtn
       cursor: pointer

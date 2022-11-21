@@ -13,9 +13,7 @@
     <!--/* Common css */-->
     <th:block th:include="fragments/common_css"></th:block>
 </head>
-<style>
 
-</style>
 <body class="area">
 <article >
     <div th:replace="~{fragments/header :: header}"></div>
@@ -126,11 +124,12 @@
                         <p>학문·교육</p>
                     </label>
                 </li>
-
             </ul>
         </div>
+    </div>
 
-    </div> <div id="sidebar"></div>
+    <div id="sidebar"></div>
+
     <div class="community_wrap">
          <div class="community_pop_wrap">
             <div class="community_pop_title">
@@ -193,12 +192,8 @@
                             <button type="button">댓글</button>
                         </form>
                     </div>
-
                 </li>
-
             </ul>
-
-
         </div>
     </div>
 
@@ -209,6 +204,7 @@
         </a>
     </div>
 </article>
+
 <div class="wrap-loading display-none">
     <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
 </div>

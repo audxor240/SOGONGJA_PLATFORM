@@ -15,23 +15,147 @@
 </head>
 
 <body class="area">
-    <article >
-        <div th:replace="~{fragments/header :: header}"></div>
-            <div id="map_wrap">
-                <div id="map" style="width:100%;height:100%;"></div>
-            </div>
-    </article>
-    <div class="wrap-loading display-none">
-        <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
+<article >
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div id="map_wrap">
+        <div id="map"></div>
+
+        <div class="categoryArea_wrap">
+            <ul id="areaCategory">
+                <li data-order="0">
+                    <label for="Aa">
+                        <input type="radio" name="cate2" value="A" id="Aa" onchange="changeMap()" checked/>
+                        <span class="category_bg Q"></span>
+                        <p>골목상권</p>
+                    </label>
+                </li>
+                <li data-order="1">
+                    <label for="Ua">
+                        <input type="radio" name="cate2" value="U" id="Ua" onchange="changeMap()"/>
+                        <span class="category_bg N"></span>
+                        <p>관광특구</p>
+                    </label>
+                </li>
+                <li data-order="2">
+                    <label for="Da">
+                        <input type="radio" name="cate2" value="D" id="Da" onchange="changeMap()"/>
+                        <span class="category_bg L"></span>
+                        <p>발달상권</p>
+                    </label>
+                </li>
+                <li data-order="3">
+                    <label for="Ra">
+                        <input type="radio" name="cate2" value="R" id="Ra" onchange="changeMap()"/>
+                        <span class="category_bg F"></span>
+                        <p>전통시장</p>
+                    </label>
+                </li>
+                <li data-order="4">
+                    <label for="stores">
+                        <input type="radio" name="type1" id="stores" onchange="changeType1()" checked/>
+                        <span class="category_bg Q"></span>
+                        <p>상점수</p>
+                    </label>
+                </li>
+                <li data-order="5">
+                    <label for="open">
+                        <input type="radio" name="type1" id="open" onchange="changeType1()"/>
+                        <span class="category_bg N"></span>
+                        <p>개업수</p>
+                    </label>
+                </li>
+                <li data-order="6">
+                    <label for="close">
+                        <input type="radio" name="type1" id="close" onchange="changeType1()"/>
+                        <span class="category_bg N"></span>
+                        <p>폐업수</p>
+                    </label>
+                </li>
+                <li data-order="7">
+                    <label for="sales">
+                        <input type="radio" name="type1" id="sales" onchange="changeType1()"/>
+                        <span class="category_bg L"></span>
+                        <p>추정매출</p>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="category_wrap">
+            <ul id="category">
+                <li data-order="0">
+                    <label for="Q">
+                        <input type="checkbox" name="cate" value="Q" id="Q" onchange="changeMap()" checked/>
+                        <span class="category_bg Q"></span>
+                        <p>음식</p>
+                    </label>
+                </li>
+                <li data-order="1">
+                    <label for="N">
+                        <input type="checkbox" name="cate" value="N" id="N" onchange="changeMap()" checked/>
+                        <span class="category_bg N"></span>
+                        <p>관광·여가·오락</p>
+                    </label>
+                </li>
+                <li data-order="2">
+                    <label for="L">
+                        <input type="checkbox" name="cate" value="L" id="L" onchange="changeMap()" checked/>
+                        <span class="category_bg L"></span>
+                        <p>부동산</p>
+                    </label>
+                </li>
+                <li data-order="3">
+                    <label for="F">
+                        <input type="checkbox" name="cate" value="F" id="F" onchange="changeMap()" checked/>
+                        <span class="category_bg F"></span>
+                        <p>생활서비스</p>
+                    </label>
+                </li>
+                <li data-order="4">
+                    <label for="D">
+                        <input type="checkbox" name="cate" value="D" id="D" onchange="changeMap()" checked/>
+                        <span class="category_bg D"></span>
+                        <p>소매</p>
+                    </label>
+                </li>
+                <li data-order="5">
+                    <label for="O">
+                        <input type="checkbox" name="cate" value="O" id="O" onchange="changeMap()" checked/>
+                        <span class="category_bg O"></span>
+                        <p>숙박</p>
+                    </label>
+                </li>
+                <li data-order="6">
+                    <label for="P">
+                        <input type="checkbox" name="cate" value="P" id="P"onchange="changeMap()"checked/>
+                        <span class="category_bg P"></span>
+                        <p>스포츠</p>
+                    </label>
+                </li>
+
+                <li data-order="7">
+                    <label for="R">
+                        <input type="checkbox" name="cate" value="R" id="R" onchange="changeMap()" checked/>
+                        <span class="category_bg R"></span>
+                        <p>학문·교육</p>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
     </div>
-    <th:block th:include="fragments/common_js"></th:block>
-    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
-    <script th:inline="javascript">
+</article>
+<div class="wrap-loading display-none">
+    <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
+</div>
+<th:block th:include="fragments/common_js"></th:block>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
+<script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
-    </script>
-    <script th:src="@{/js/pages/area/chart.js}"></script>
-    <script th:src="@{/js/pages/area/chart_list.js}"></script>
-    <script th:src="@{/js/pages/area/trading_area_analysis.js}"></script>
+</script>
+<script th:src="@{/js/pages/area/chart.js}"></script>
+<script th:src="@{/js/pages/area/chart_list.js}"></script>
+<script th:src="@{/js/pages/area/trading_area_analysis.js}"></script>
 </body>
 
 </html>

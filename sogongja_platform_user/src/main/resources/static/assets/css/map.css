@@ -693,7 +693,7 @@
 
 .placeinfo_wrap {
   position: absolute;
-  bottom: 4px;
+  bottom: 6px;
   left: -122px;
   width: 248px;
 }
@@ -793,6 +793,7 @@
   display: none;
 }
 #sidebar #sidebody {
+  height: 100%;
   background: #eee;
 }
 #sidebar #sidebody .sideCloseBtn {
