@@ -43,6 +43,32 @@ public class AreaService extends BaseService {
 //
 //		return list;
 //	}
+
+	// 상점연구
+	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getResearchShopList(params);
+
+
+		return list;
+	}
+
+	// 상점연구
+	public List<Map<String, Object>> countResearchShopToJSON(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.countResearchShop(params);
+
+
+		return list;
+	}
+
+	// 상점연구 - 대중교통
+	public Map<String, Object> getResearchShopPublicTransport(Map<String, Object> params) {
+
+		return areaMapper.getResearchShopPublicTransport(params);
+
+	}
+
 	// 상권연구
 	public List<Map<String, Object>> getTradingAreaListToJSON(Map<String, Object> params) {
 
@@ -80,6 +106,13 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+	// 상권연구
+	public List<Map<String, Object>> getTradingAreaShopList(Map<String, Object> params) {
+
+		List<Map<String, Object>> list = areaMapper.getTradingAreaShopList(params);
+
+		return list;
+	}
 
 	public List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params) {
 		String areaCd = params.get("area_cd").toString();
@@ -100,31 +133,6 @@ public class AreaService extends BaseService {
 
 		}
 		return list;
-	}
-
-	// 상점연구
-	public List<Map<String, Object>> getResearchShopToJSON(Map<String, Object> params) {
-
-		List<Map<String, Object>> list = areaMapper.getResearchShopList(params);
-
-
-		return list;
-	}
-
-	// 상점연구
-	public List<Map<String, Object>> countResearchShopToJSON(Map<String, Object> params) {
-
-		List<Map<String, Object>> list = areaMapper.countResearchShop(params);
-
-
-		return list;
-	}
-
-	// 상점연구 - 대중교통
-	public Map<String, Object> getResearchShopPublicTransport(Map<String, Object> params) {
-
-		return areaMapper.getResearchShopPublicTransport(params);
-
 	}
 
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {

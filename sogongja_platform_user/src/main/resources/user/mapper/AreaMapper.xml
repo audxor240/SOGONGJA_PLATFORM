@@ -168,6 +168,14 @@
 		WHERE RS.SHOP_SEQ = #{shopSeq}
 	</select>
 
+	<select id="getTradingAreaShopList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaShopList */
+		SELECT RS.CODE_TYPE1, RS.LONGITUDE, RS.LATITUDE
+		FROM ST_RESEARCH_SHOP RS
+		WHERE RS.CODE_TYPE1 IN (${scope})
+		  AND RS.LATITUDE BETWEEN #{x1} AND #{x2}
+		  AND RS.LONGITUDE BETWEEN #{y1} AND #{y2}
+	</select>
 	<select id="getRecentMonth" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getRecentMonth */
 		SELECT YEAR, QRT

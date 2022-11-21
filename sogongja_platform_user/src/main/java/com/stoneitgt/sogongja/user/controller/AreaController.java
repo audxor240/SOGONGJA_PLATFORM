@@ -100,7 +100,7 @@ public class AreaController extends BaseController {
 
 	@GetMapping("/analysis")
 	public String analysis(@ModelAttribute MapParameter params, Model model) {
-
+		long beforeTime = System.currentTimeMillis();
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
@@ -118,16 +118,25 @@ public class AreaController extends BaseController {
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
+		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+		System.out.println("시간차이(m) : "+secDiffTime);
 		return "pages/area/trading_area_analysis";
 	}
 
 	// 중심 좌표 이동에 따른 polygon 데이터 api
 	@PostMapping("/analysis/area")
 	public @ResponseBody List<Map<String, Object>> analysisAreaList(@RequestBody MapParameter params, Model model) {
+		long beforeTime = System.currentTimeMillis();
+
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());
 		results = areaService.getTradingAreaListToJSON(paramsMap);
+
+		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+		System.out.println("시간차이(m) : "+secDiffTime);
 		return results;
 	}
 
@@ -150,7 +159,7 @@ public class AreaController extends BaseController {
 
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());
-		results = areaService.getResearchShopToJSON(paramsMap);
+		results = areaService.getTradingAreaShopList(paramsMap);
 		return results;
 	}
 

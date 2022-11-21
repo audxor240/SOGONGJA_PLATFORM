@@ -33,7 +33,8 @@ public interface AreaMapper {
 	List<Map<String, Object>> getTradingAreaGroupByList();
 	// 상권연구
 	List<Map<String, Object>> getTradingAreaAllList();
-
+	//상권연구
+	List<Map<String, Object>> getTradingAreaShopList(Map<String, Object> params);
 
 	Map<String, Object> getRecentMonth(String areaCd);
 	List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params);
