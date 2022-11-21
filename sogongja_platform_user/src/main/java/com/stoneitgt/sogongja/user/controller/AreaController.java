@@ -1,9 +1,6 @@
 package com.stoneitgt.sogongja.user.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.domain.MapParameter;
@@ -97,11 +94,8 @@ public class AreaController extends BaseController {
 	public @ResponseBody Map<String, Object> shopPublicTransportInfo(@RequestBody Map<String, Object> params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-		try {
-			return areaService.getResearchShopPublicTransport(paramsMap);
-		} catch (NullPointerException e) {
-			return null;
-		}
+		Map<String, Object> result = areaService.getResearchShopPublicTransport(paramsMap);
+		return result == null ?  new HashMap<String, Object>() : result;
 	}
 
 	@GetMapping("/analysis")
