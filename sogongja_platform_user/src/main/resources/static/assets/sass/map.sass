@@ -292,28 +292,46 @@
           width: 35%
 
 .custom_zoomcontrol
-  +positionAt(absolute, $top : 60px,$right : 20px)
-  width: 32px
-  height: 73px
-  overflow: hidden
+  +positionAt(absolute, $top : 40%, $right : 16px)
+  transform: translateY(-50%)
+  width: 36px
+  height: 102px
   z-index: 1
-  background-color: #f5f5f5
-  box-shadow: 0 0 10px #ccc
-  border-radius: 4px
   span
     background-color: #fff
     display: block
     width: 32px
-    height: 36px
+    height: 32px
     text-align: center
     cursor: pointer
+
+    border: 1px solid #ddd
+    border-radius: 2px
+    opacity: 0.9
     img
       width: 15px
-      padding: 12px 0
+      padding: 8px 0
       border: none
     &:first-child
       border-bottom: 1px solid #bfbfbf
-
+    &:hover
+      opacity: 1
+  .current-local
+    width: 36px
+    height: 36px
+    opacity: 0.9
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -153px -450px
+    &:hover
+      opacity: 1
+  .community_Btn
+    background: #001658 url(#{$assetPath}/new/icon/icon-community.png) no-repeat
+    width: 32px
+    height: 32px
+    background-size: cover
+    border-radius: 4px
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
+    cursor: pointer
+    margin-top: 4px
 
 
 
@@ -381,22 +399,12 @@
       &:hover
         background-color: #eeeeee
         color: #333
-.current-local
-  +positionAt(absolute, $top: 20px, $right: 20px )
-  z-index: 1
-  width: 36px
-  height: 36px
-  opacity: 0.7
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat -150px -450px
-  &:hover
-      opacity: 1
 
 .searchInput
   width: 230px
-  background-color: aquamarine
+  background-color: none
   position: relative
   input
-    border-right: none
     padding-right: 40px
   button
     +positionAt(absolute, $top: 1px, $right: 1px)
@@ -456,12 +464,13 @@
     +positionAt(absolute, $top: 0, $left:0)
     display: none
 .category_wrap
-  +positionAt(fixed, $bottom:60px)
+  +positionAt(fixed, $left:50%, $bottom:20px)
+  transform: translateX(-50%)
   +flex_type()
   overflow: hidden
-  left: 25%
-  padding: 10px
+  padding: 6px
   z-index: 2
+  margin-left: 8px
 #category
   width: 100%
   +flex_type()
@@ -469,10 +478,10 @@
     border-radius: 50px
     background: #fff
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3)
-    min-width: 100px
+    //min-width: 100px
     list-style: none
     border: 1px solid #efefef
-    padding: 6px 10px
+    //padding: 6px 10px
     text-align: center
     cursor: pointer
     margin-right: 10px
@@ -494,7 +503,7 @@
         height: 12px
         min-width: 12px
         background-size: contain !important
-        margin-right: 10px
+        margin-left: 10px
       input[type="checkbox"]:checked ~ .Q
         background: url(#{$assetPath}/new/area/marker01.png) no-repeat
       input[type="checkbox"]:checked ~ .N
@@ -514,6 +523,9 @@
     .on
     .category_bg
       background-position-x: -46px
+    p
+      padding: 0 10px
+      white-space: nowrap
 .placeinfo_wrap
   +positionAt(absolute, $bottom:8px, $left: -122px)
   width: 248px
@@ -581,89 +593,135 @@
   display: none
   +positionAt(fixed, $top:105px, $left:0)
   position: fixed
-  z-index: 1
+  z-index: 5
   width: 400px
   height: calc(100vh - 105px)
-  background-color: #e2e2e2
-  .sideinfo
-      background-color: #fff
-      padding: 20px
-      margin-bottom: 10px
-      .sideinfoTitle
-        color: #1540bf
-        font-weight: bold
-        font-size: 14px
-        margin-bottom: 10px
-      .listCtegory
-        display: flex
-        span
-          margin-right: 5px
-          font-size: 14px
-          &:after
-            content: ""
-            display: inline-block
-            width: 6px
-            height: 6px
-            border-top: solid 2px #ccc
-            border-right: solid 2px #ccc
-            transform: rotate(45deg)
-            margin-right: 5px
-            margin-left: 5px
-        span:last-child
-          &:after
-            display: none
-      .iconPlus
-        font-size: 14px
-        margin-bottom: 5px
-        &:before
-          content: ""
-          display: inline-block
-          width: 14px
-          height: 14px
-          background-size: contain
-          margin-right: 10px
-        .position_name
-          margin: 0 5px
-        .distance
-          color: #969aaf
-          font-size: 14px
-          vertical-align: middle
-      .iconPlus.location
-        background: url(#{$assetPath}/new/area/location.png) no-repeat
-      .iconPlus.storegray
-        background: url(#{$assetPath}/new/area/storegray.png) no-repeat
-      .iconPlus.subway
-        background: url(#{$assetPath}/new/area/train.png) no-repeat
-      .iconPlus.bus
-        background: url(#{$assetPath}/new/area/bus.png) no-repeat
-      .iconPlus.street
-        background: url(#{$assetPath}/new/area/car.png) no-repeat
-        &:last-child
-          margin-bottom: 0
-      .issue
-        background-color: #e2e2e2
+  transition: ease-in-out .2ms
+  overflow-y: scroll
+  #sidebody
+    background: #eee
+    .sideCloseBtn
+      cursor: pointer
+      background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png')
+      background-size: cover
+      +positionAt(absolute, $top:10px, $right:10px)
+      width: 20px
+      height: 20px
+    .sideinfo
+        background-color: #fff
         padding: 20px
-        +flex_type($justify:space-between, $align: center)
-        span
-          vertical-align: top
-          display: inline-block
-          font-size: 14px
-        a
-          display: inline-block
+        margin-bottom: 10px
+        .sideinfoTitle
           color: #1540bf
-          cursor: pointer
+          font-weight: bold
           font-size: 14px
-          border-bottom: solid 1px #1540bf
-          &:after
+          margin-bottom: 10px
+        .listCtegory
+          display: flex
+          span
+            margin-right: 5px
+            font-size: 14px
+            &:after
+              content: ""
+              display: inline-block
+              width: 6px
+              height: 6px
+              border-top: solid 2px #ccc
+              border-right: solid 2px #ccc
+              transform: rotate(45deg)
+              margin-right: 5px
+              margin-left: 5px
+          span:last-child
+            &:after
+              display: none
+        .iconPlus
+          font-size: 14px
+          margin-bottom: 5px
+          &:before
             content: ""
             display: inline-block
-            width: 6px
-            height: 6px
-            border-top: solid 1px #1540bf
-            border-right: solid 1px #1540bf
-            transform: rotate(45deg)
-  .toggle_side
-    +positionAt(absolute, $right:-30px)
+            width: 14px
+            height: 14px
+            background-size: contain
+            margin-right: 10px
+          .position_name
+            margin: 0 5px
+            vertical-align: top
+          .distance
+            color: #969aaf
+            font-size: 14px
+            vertical-align: middle
+        .iconPlus.location
+          background: url(#{$assetPath}/new/area/location.png) no-repeat
+        .iconPlus.storegray
+          background: url(#{$assetPath}/new/area/storegray.png) no-repeat
+        .iconPlus.subway
+          background: url(#{$assetPath}/new/area/train.png) no-repeat
+        .iconPlus.bus
+          background: url(#{$assetPath}/new/area/bus.png) no-repeat
+        .iconPlus.street
+          background: url(#{$assetPath}/new/area/car.png) no-repeat
+          &:last-child
+            margin-bottom: 0
+        .issue
+          background-color: #e2e2e2
+          padding: 20px
+          +flex_type($justify:space-between, $align: center)
+          span
+            vertical-align: top
+            display: inline-block
+            font-size: 14px
+          a
+            display: inline-block
+            color: #1540bf
+            cursor: pointer
+            font-size: 14px
+            border-bottom: solid 1px #1540bf
+            &:after
+              content: ""
+              display: inline-block
+              width: 6px
+              height: 6px
+              border-top: solid 1px #1540bf
+              border-right: solid 1px #1540bf
+              transform: rotate(45deg)
+    .analysisBtn
+      +positionAt(relative)
+      margin: 20px
+      padding: 20px
+      width: calc(100% - 40px)
+      background-color: #1540bf
+      color: #fff
+      text-align: left
+      &:after
+        content: ""
+        border-top: solid 2px #ffffff
+        border-right: solid 2px #ffffff
+        transform: rotate(45deg)
+        width: 14px
+        height: 14px
+        +positionAt(absolute, $top: 25px, $right: 20px)
+    .toggle_side
+      +positionAt(absolute, $right:0)
+      top: calc(50% - 30px)
+      width: 30px
+      height: 60px
+      background: #fff
+      box-shadow: 14px 3px 24px #00000010
+      cursor: pointer
+      &:after
+        content: ""
+        +positionAt(absolute)
+        left: calc(50% - 7px)
+        top: calc(50% - 7px)
+        width: 14px
+        height: 14px
+        border-right: solid 2px #333
+        border-top: solid 2px #333
+        transform: rotate(225deg)
+  .side_visible
+    +positionAt(fixed, $left:0px)
+    z-index: -1
     top: calc(50% - 30px)
     width: 30px
     height: 60px
@@ -673,31 +731,15 @@
     &:after
       content: ""
       +positionAt(absolute)
-      left: calc(50% - 7px)
+      left: calc(50% - 12px)
       top: calc(50% - 7px)
       width: 14px
       height: 14px
       border-right: solid 2px #333
       border-top: solid 2px #333
-      transform: rotate(225deg)
-.analysisBtn
-  +positionAt(relative)
-  margin: 20px
-  padding: 20px
-  width: calc(100% - 40px)
-  background-color: #1540bf
-  color: #fff
-  text-align: left
-  &:after
-    content: ""
-    border-top: solid 2px #ffffff
-    border-right: solid 2px #ffffff
-    transform: rotate(45deg)
-    width: 14px
-    height: 14px
-    +positionAt(absolute, $top: 25px, $right: 20px)
+      transform: rotate(45deg)
 .solution_btn
-  +positionAt(absolute, $bottom:40px, $right:20px)
+  +positionAt(absolute, $bottom:50px, $right:20px)
   background: #1540bf url(#{$assetPath}/new/icon/bg_solution_btn.png) no-repeat
   width: 80px
   height: 80px
@@ -714,24 +756,22 @@
     transition: 0.4s
 .community_wrap
   +positionAt(absolute, $top: 245px, $right: 20px)
-  .community_Btn
-    background: #001658 url(#{$assetPath}/new/icon/icon-community.png) no-repeat
-    width: 32px
-    height: 32px
-    background-size: cover
-    border-radius: 4px
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
-    cursor: pointer
   .community_pop_wrap
     display: none
-    +positionAt(absolute, $top: 40px, $right:0)
+    +positionAt(relative, $top: 0px, $right:40px)
     width: 280px
+    height: 300px
     background-color: #e2e2e2
+    overflow-y: scroll
     .community_pop_title
       background-color: #ffffff
       +flex_type($justify:space-between, $align:center)
       margin-bottom: 10px
-      padding: 20px
+      padding: 16px
+      position: fixed
+      width: 280px
+      box-shadow : 0 0 10px #ddd
+      z-index: 2
       h4
         font-size: 14px
         font-weight: bold
@@ -746,12 +786,17 @@
         padding: 5px
         text-align: center
     .community_pop_list
+      height: 400px
+      margin-top: 66px
       > li
         background-color: #fff
         border-bottom: solid 1px #eceff1
-        padding: 20px
+        padding: 10px
         &:last-child
           border-bottom: none
+        &:before
+          content: ""
+          height: 40px
   .community_pop_wrap.on
     display: block
 .community_main
@@ -780,7 +825,7 @@
 .coment_list
   li
     background-color: #ffffff
-    padding: 20px
+    padding: 10px
     .coment_main
       +flex_type
       margin-bottom: 10px
@@ -792,6 +837,7 @@
         margin-right: 6px
       p
         width: calc(100% - 20px)
+        font-size: 11px
     .down_info
       +flex_type($justify:space-between, $align:center)
       padding-left: 20px
@@ -808,40 +854,70 @@
   input
     border: solid 1px #d2d2d2
     background-color: #fff
-    padding: 0 rem(16)
-    width: 70%
+    padding: 0 rem(8)
+    width: 80%
     height: 40px
+    font-size: 13px
   button
     background-color: #1540bf
     color: #ffffff
-    width: 30%
+    width: 50px
     height: 40px
 .detail_community
+  display: none
+  position: absolute
+  top: 66px
+  left: 0
+  &.on
+    display: block
+  .backbtn
+    font-size: 13px
+    padding: 8px 16px
+    background: #ddd
+    color: #5e5e5e
   .community_main
     background-color: #ffffff
-    padding: 20px
+    padding: 10px
     margin-bottom: 10px
     display: block
-.countlabel
-  background: rgba(0, 0, 0, 0.7)
-  color: #fff
-  width: 50px
-  height: 50px
-  text-align: center
-  border-radius: 100%
-  display: flex
-  justify-content: center
-  align-items: center
-  .countsidobox
-    display: block
-    .center
-      font-size: 7px
-      color: #fff
-    .right
-      font-weight: bold
-      font-size: 13px
-      color: #fff
+#map
+  .countlabel
+    background: rgba(0, 0, 0, 0.7)
+    color: #fff
+    width: 50px
+    height: 50px
+    text-align: center
+    border-radius: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .countsidobox
+      display: block
+      .center
+        font-size: 7px
+        color: #fff
+      .right
+        font-weight: bold
+        font-size: 13px
+        color: #fff
 
+
+//상권 시작
+.areabutton
+  +positionAt(absolute, $top: 50%, $right:20px)
+  background-color: #00c73c
+
+
+@include tablet
+  #map_wrap
+    height: calc(100vh - 71px)
+    top: 71px
+    .addressSearchTop
+      +positionAt(absolute, $top: 16px, $right:16px, $left:auto)
+      transform: none
+  #sidebar
+    +positionAt(fixed, $top:71px, $left:0)
+    height: calc(100vh - 71px)
 
 @include mobile
   #map_wrap
@@ -849,10 +925,9 @@
     top: 71px
   #map
     height: calc(100% + 71px)
-  .current-local
-    top: 300px
   .custom_zoomcontrol
-    top: 340px
+    top: 40%
+
   .community_wrap
     top: 492px
     .community_pop_wrap
@@ -884,8 +959,8 @@
       bottom: 100vh
       transition: 0.4s
   .category_wrap
-    left: 0
-    bottom: 20px
+    left: 50%
+    bottom: 12px
     overflow: scroll
     width: 98%
   #category
@@ -894,52 +969,92 @@
   .solution_btn
     width: 60px
     height: 60px
-    bottom: 70px
+    bottom: 50px
     padding: 13px
     a
       font-size: 12px
-  .searchInput
-    display: none
+
   .community_pop_list
     height: 600px
     overflow: scroll
-  .addressSearchTop
-    width: auto
-    top: 10px
-    left: auto
-    right: 80px
-    transform: translateX(10px)
-  .hAddr
-    display: flex
-    width: auto
-    height: auto
-    float: none
-    margin-top: 0
-    background-color: #fff
-    border-radius: 10px
-    box-shadow: 0 0 10px #00000020
-    padding: 3px 10px
-  .addrlist
-    background-color: #fff
-    border-radius: 10px
-    span
-      display: inline-block
+  #map_wrap
+    .addressSearchTop
+      +positionAt(absolute, $top: 16px, $right:16px, $left:auto)
       width: auto
-      font-weight: bold
-      border: none
+      transform: translateX(10px)
+    .searchInput
+      display: block
+      +positionAt(fixed, $top: 0px, $right:16px)
+      width: 44px
+      border-radius: 4px
+      overflow: hidden
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+      &.on
+        background-color: #fff
+        width: 100%
+      input
+        border: none
+        padding: 0
+        height: 44px
+        width: 100%
+        padding-right: 44px
+        background-color: #fff
+        border-radius: 4px
+      button
+      &.addresswidth
+       height: 42px
+    .hAddr
+      display: flex
+      width: auto
       height: auto
-      &:after
-        display: none
-  .msearch_pop_wrap
-    display: block
+      float: none
+      margin-top: 0
+      margin-right: 70px
+      background-color: rgba(255,255,255,0.7)
+      border-radius: 4px
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+      padding: 0px 4px
+    .addrlist
+      background-color: transparent
+      border-radius: 10px
+      span
+        background-color: transparent
+        display: inline-block
+        width: auto
+        font-weight: bold
+        border: none
+        height: auto
+        &:after
+          display: none
+    .msearch_pop_wrap
+      display: block
   #sidebar
     width: 100%
-    top: auto
-    bottom: -60vh
-    height: auto
+    +positionAt(fixed, $top: 71px)
     z-index: 4
-  #sidebar.up
-    bottom: 0
+    &.on
+      height: auto
+  #sidebar
+    .side_visible
+      +positionAt(fixed, $top: calc(100% - 30px), $left:50%)
+      transform: translateX(-50%)
+      height: 30px
+      width: 60px
+      z-index: -1
+      &:after
+        transform: rotate(-45deg)
+        +positionAt(fixed, $left:calc(50% - 7px))
+    #sidebody
+      .toggle_side
+        +positionAt(fixed, $top: 72px, $right:50%)
+        transform: translateX(50%)
+        height: 30px
+        width: 60px
+        box-shadow: none
+        z-index: 999
+        &:after
+          transform: rotate(135deg)
+
 @include mobile
 
 
