@@ -36,7 +36,7 @@ var lat = map.getCenter().getLat(),
     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 var codeType3 = 1;
-
+var polygons = [];
 var circles = [];
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
@@ -59,7 +59,6 @@ $("input[name=cate]").click(function () {
         })
     }
 })
-
 
 var datalat = {
     lat,
@@ -97,6 +96,15 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
+
+    if (zoom > 7) {
+        removeCircles(map);
+    } else {
+        for (var i = 0; i < circles.length; i++) {
+            circles[i].setMap(map);
+        }
+    }
+
     if (zoom < 4) {
         setMarkers(null);//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출");
@@ -110,6 +118,25 @@ async function changeMap() {
 
 }
 
+async function changeType() {
+    resizeMap()
+    removePolygons(map)//상권삭제
+    removeCircles(map);
+    circles.splice(0);
+
+    codeType3 = $('input[name="cate2"]:checked').val();
+    var datatype = {codeType3}
+
+    ajaxPostSyn('/trading-area/regional/type', datatype, function (result) {
+        console.log("라디오 변경 될때 circle 다시 찍어주기", result)
+        areaJson = result;
+        for (var i = 0, len = areaJson.length; i < len; i++) {
+            displayArea(areaJson[i]);
+        }
+    });
+
+}
+
 
 
 // 다각형을 생성하고 지도에 표시합니다
@@ -120,6 +147,18 @@ for (var i = 0, len = areaJson.length; i < len; i++) {
 function priceToString(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+function removePolygons(map) {
+    for (var i = 0; i < polygons.length; i++) {
+        polygons[i].setMap(null);
+    }
+}
+function removeCircles(map) {
+    for (var i = 0; i < circles.length; i++) {
+        circles[i].setMap(null);
+    }
+}
+
 
 // 다각형을 생상하고 이벤트를 등록하는 함수입니다
 function displayArea(area) {
@@ -138,7 +177,6 @@ function displayArea(area) {
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
-        map: map, // 다각형을 표시할 지도 객체
         path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
         strokeWeight: area.stroke_weight,
         strokeColor: area.stroke_color,
@@ -148,11 +186,6 @@ function displayArea(area) {
         fillOpacity: area.fill_opacity
     });
 
-    var infos = area.info;
-
-    for (var i = 0, len = infos.length; i < len; i++) {
-        // console.log(infos[i])
-    }
 
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
@@ -163,13 +196,25 @@ function displayArea(area) {
         });
     });
 
-    var circle = new kakao.maps.Marker({
-        position: centroid(area.path)
+    var info = area.info;
+    var content = '';
+    if (codeType3 === '1') {
+        // content = info.stores + ',' + info.franc;
+        content = '111';
+    } else if (codeType3 === '2') {
+        // content = info.sum_popul;
+        content = '222';
+    } else if (codeType3 === '3') {
+        // content = info.rt_all;
+        content = '333';
+    }
+
+    var circle = new kakao.maps.CustomOverlay({
+        position: centroid(area.path),
+        content: content
     });
     circles.push(circle);
     circle.setMap(map);
-
-
 
 
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
@@ -202,10 +247,12 @@ function displayArea(area) {
         });
     });
 
+    polygon.setMap(map);
+    polygons.push(polygon)
+
 }
 
 function centroid (points) {
-    console.log(points.length)
     var i, j, len, p1, p2, f, area, x, y;
 
     area = x = y = 0;

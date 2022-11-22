@@ -82,7 +82,7 @@ public class AreaService extends BaseService {
 		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
 		if (zoom > 5) {
-			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
+//			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
 		} else {
 			areaRecentlyList = areaMapper.getTradingAreaAllList();
 		}
@@ -137,11 +137,12 @@ public class AreaService extends BaseService {
 	}
 
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {
+		System.out.println(params.toString());
 
 		List<Map<String, Object>> list = areaMapper.getRegionAreaList(params);
 		List<Map<String, Object>> mapPathList = areaMapper.getRegionAreaMapList("PATH");
 		List<Map<String, Object>> mapHoleList = areaMapper.getRegionAreaMapList("HOLE");
-		List<Map<String, Object>> regionList = areaMapper.getRegionAreaInfoList();
+		List<Map<String, Object>> regionList = areaMapper.getRegionAreaInfoList(params);
 
 
 		for (Map<String, Object> map : list) {

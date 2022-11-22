@@ -15,7 +15,7 @@ public interface AreaMapper {
 	// 지역연구
 	List<Map<String, Object>> getRegionAreaMapList(String mapType);
 	// 지역연구
-	List<Map<String, Object>> getRegionAreaInfoList();
+	List<Map<String, Object>> getRegionAreaInfoList(Map<String, Object> params);
 	// 지역연구
 	List<Map<String, Object>> getRegionAreaDetail(Map<String, Object> params);
 
