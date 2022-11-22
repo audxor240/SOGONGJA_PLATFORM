@@ -243,7 +243,10 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
-if (zoom >= 7 && zoom <= 14) { //zoom 7,8 계속 재 조회함
+    if(zoom > 9 && zoom <= 14){//zoom 9,10,11,12,13,14
+        //그냥 서울에 1개 찍자.
+
+    }else if (zoom >= 7 && zoom <= 9) { //zoom 7,8,9 계속 재 조회함
         removePolygons(map)//areajson에 쓰던 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
