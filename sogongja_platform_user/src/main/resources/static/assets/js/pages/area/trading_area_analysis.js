@@ -1,46 +1,42 @@
-// 맵 기본 레벨
-var mapDefaultLevel = 3;
-//
-// 기본 위치는 서울시청
-var clientLatitude = 37.506280990844225;
-var clientLongitude = 127.04042161585487;
-var mapContainer = document.getElementById('map'),
-    mapOption = {
-        center: new kakao.maps.LatLng(clientLatitude, clientLongitude),
-        level: mapDefaultLevel
-    };
-
-var map = new kakao.maps.Map(mapContainer, mapOption),
-    infowindow = new kakao.maps.InfoWindow({
-        removable: false
-    });
-
-if (navigator.geolocation) {
-    // 현재 접속 사용자 위치 정보
-    navigator.geolocation.getCurrentPosition(function (pos) {
-        clientLatitude = pos.coords.latitude;
-        clientLongitude = pos.coords.longitude;
-
-        var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
-        map.setCenter(moveLatLon);
-    });
-}
-//정리되면 이위로 지우자
-// console.log('areaJson : ', areaJson);
-//
-// var coords = new daum.maps.Coords(307506.045518573, 549572.690761664);
-// var latlng = coords.toLatLng(); // daum.maps.LatLng 객체 반환
-// console.log('latlng.toString()  : ', latlng.toString());
-//정리되면 이위로 지우자
-//정리되면 이위로 지우자
-//정리되면 이위로 지우자
-
+// 지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
 // 다각형을 생성하고 지도에 표시합니다
-var polygons = [];
-//첫화면상권로드
-// for (var i = 0, len = areaJson.length; i < len; i++) {
-//     displayArea(areaJson[i]);
-// }
+var polygons = [];       //폴리곤 그려줄 path
+var points = [];        //중심좌표 구하기 위한 지역구 좌표들
+var countmarkers=[]; //상점수 개업수 폐업수 추정매출 카운트마커 배열
+console.log("첫상권",areaJson,areaJson.length)
+//첫화면 상권로드
+for (var i = 0, len = areaJson.length; i < len; i++) {
+    displayArea(areaJson[i]);
+}
+
+var areaCustomOverlay = new kakao.maps.CustomOverlay({zIndex: 1})
+areaContentNode = document.createElement("div");// 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
+areaContentNode.className = "areainfo_wrap";
+// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
+// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
+addEventHandle(areaContentNode, "mousedown", kakao.maps.event.preventMap);
+addEventHandle(areaContentNode, "touchstart", kakao.maps.event.preventMap);
+// 커스텀 오버레이 컨텐츠를 설정합니다
+areaCustomOverlay.setContent(areaContentNode);
+// 커스텀 오버레이를 숨깁니다
+areaCustomOverlay.setMap(null);//첫화면 일단지워
+
+//상점수 탭바뀜처리 펑션 RETURN으로필요
+function setcontent(area, stores){
+    var content = '<div class ="countlabel">' +
+        '<div class="countsidobox">' +
+        '<div class="center">' +
+        area.area_name +
+        '</div><div class="right">' +
+        stores +//상점수일때
+        '</div></div></div>';
+    return content
+}
+
+
+
 
 // 다각형을 생상하고 이벤트를 등록하는 함수입니다
 function displayArea(area) {
@@ -50,10 +46,10 @@ function displayArea(area) {
         path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
         points.push([item.latitude, item.longitude]);
     });
-    var hole = [];
-    $.each(area.hole, function (index, item) {
-        hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-    });
+    // var hole = [];
+    // $.each(area.hole, function (index, item) {
+    //     hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+    // });
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
         path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -65,10 +61,10 @@ function displayArea(area) {
         fillOpacity: area.fill_opacity
     });
     var infos = area.info;
-    var stores = 0;
-    var open = 0;
-    var close = 0;
-    var sales = 0;
+    var stores = 0;//상점수
+    var open = 0;//개업수
+    var close = 0;//폐업수
+    var sales = 0;//추정매출
     for (var i = 0, len = infos.length; i < len; i++) {
         stores += infos[i].stores;
         open += infos[i].open;
@@ -82,12 +78,14 @@ function displayArea(area) {
             fillColor: area.over_fill_color,
             fillOpacity: area.over_fill_opacity
         });
+        if(zoom>4){//zoom 14~7 : 호버해야 보임
+            console.log("상구너에 호버중임")
+            // 커스텀 마커를 생성합니다
+            areaCustomOverlay.setPosition(centroid(area.path));
+            areaCustomOverlay.setMap(map);
+            areaContentNode.innerHTML = setcontent(area, stores)
+        }
     });
-
-    // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
-    // kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
-    //     // customOverlay.setPosition(mouseEvent.latLng);
-    // });
 
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
@@ -97,10 +95,16 @@ function displayArea(area) {
             fillOpacity: area.fill_opacity
         });
         // customOverlay.setMap(null);
+        if(zoom>4){//zoom 14~7 : 호버아웃 사라짐
+            areaCustomOverlay.setMap(null);
+         }
     });
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
+        var infowindow = new kakao.maps.InfoWindow({
+            removable: false
+        });
         var content = '';
         content += '<div class="customoverlay map_tooltip">';
         content += '  <h3>' + area.area_title + '</h3>';
@@ -116,7 +120,7 @@ function displayArea(area) {
         content += '</div>';
 
         infowindow.setContent(content);
-        infowindow.setPosition(mouseEvent.latLng);
+        infowindow.setPosition(centroid(area.path));
         infowindow.setMap(map);
     });
 
@@ -124,6 +128,28 @@ function displayArea(area) {
     polygons.push(polygon)
 }
 
+//상점수,개폐업수,추정매출 카운트를 표시하는 마커
+function countSpread(thing) {
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var content = '<div class ="countlabel">' +
+            '<div class="countsidobox">' +
+            '<div class="center">' +
+            thing.name +
+            '</div><div class="right">' +
+            loco.count +
+            '</div></div></div>';
+        // 커스텀 마커를 생성합니다
+        var customOverlay = new kakao.maps.CustomOverlay({
+            position: position,
+            content: content
+        });
+        // 생성된 마커를 배열에 추가합니다
+        markers.push(customOverlay);
+        // 마커가 지도 위에 표시되도록 설정합니다
+        customOverlay.setMap(map);
+
+}
 
 //상점
 //상점
@@ -145,21 +171,25 @@ $("input[name=cate]").prop("checked", true).each(function (index, item) {
     codeType1.push($(item).val());
 });
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
-$("input[name=cate]").click(function () {
-    if ($(this).prop('checked')) {
-        console.log($(this).val())
-        if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
-            codeType1.push($(this).val());
-        }
-    } else {
-        console.log($(this))
-        codeType1.forEach((item, index) => {
-            if (item == $(this).val()) {
-                codeType1.splice(index, 1);
+if(zoom<4){
+    //줌 4이하일때만 동작 html에서도 ★★★줌4 이상 이면 안보이게 하든가 해야될듯
+    $("input[name=cate]").click(function () {
+        if ($(this).prop('checked')) {
+            console.log($(this).val())
+            if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
+                codeType1.push($(this).val());
             }
-        })
-    }
-})
+        } else {
+            console.log($(this))
+            codeType1.forEach((item, index) => {
+                if (item == $(this).val()) {
+                    codeType1.splice(index, 1);
+                }
+            })
+        }
+    })
+}
+
 
 var datalat = {
     lat,
@@ -173,20 +203,22 @@ var datalat = {
     codeType2
 }
 
-//시간딜레이 함수
-function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms));
-}
-//첫화면 지도 로드되면 3초뒤에 실행시킴
-async function firstFunc() {
-    await sleep(300),
-        changeMap();
-};
-firstFunc();
+// //시간딜레이 함수
+// function sleep(ms) {
+//     return new Promise((r) => setTimeout(r, ms));
+// }
+//
+// //첫화면 지도 로드되면 3초뒤에 실행시킴
+// async function firstFunc() {
+//     await sleep(300),
+//         changeMap();
+// };
+// firstFunc();
 
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)
+//지도중심 이동 시, zoom>6 상권 로드 /zoom<6 areajson = 상권 /zoom<4 상점 로드.
 async function changeMap() {
     resizeMap()
     var lat = map.getCenter().getLat(),
@@ -196,8 +228,8 @@ async function changeMap() {
         y2 = map.getBounds().getNorthEast().getLng(),
         x1 = map.getBounds().getSouthWest().getLat(),
         y1 = map.getBounds().getSouthWest().getLng();
-        codeType2 = $('input[name="cate2"]:checked').val();
-        console.log(":::::" + codeType2)
+    codeType2 = $('input[name="cate2"]:checked').val();
+    console.log(":::::" + codeType2)
     var datalat = {
         lat,
         lng,
@@ -210,27 +242,30 @@ async function changeMap() {
         codeType2
     }
     console.log("data재요청입니다!", datalat);
-    removePolygons(map)//상권삭제
-    setMarkers(null)//상점삭제
-    ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
-        console.log("이게 상권데이터 갖고오는거임", result)
-        areaJson = result;
+
+    if(zoom > 8 && zoom <= 14){//zoom 9,10,11,12,13,14
+        //그냥 서울에 1개 찍자.
+
+    }else if (zoom >= 7 && zoom <= 8) { //zoom 7,8 계속 재 조회함
+        removePolygons(map)//areajson에 쓰던 상권 삭제
+        ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+            console.log("이게 상권데이터 갖고오는거임", result)
+            areaJson = result;
+            for (var i = 0, len = areaJson.length; i < len; i++) {
+                displayArea(areaJson[i]);
+            }
+        });
+    }else if(zoom>=4 && zoom<7) { //zoom 4,5,6 일때 areajson 쓰고 조회안함
+        setMarkers(null)//상점삭제
         for (var i = 0, len = areaJson.length; i < len; i++) {
             displayArea(areaJson[i]);
         }
-    });
-
-    if (zoom < 4) {
-        removePolygons(map)//상권삭제
+    } else { //level < 4, zoom 3,2,1 일때 상점 마커들 찍어주기
         setMarkers(null)//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출")
-
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점찍기
-            for (var i = 0, len = areaJson.length; i < len; i++) {
-                displayArea(areaJson[i]);//상권찍기
-            }
         });
     }
 };
@@ -240,7 +275,27 @@ function removePolygons(map) {
         polygons[i].setMap(null);
     }
 }
+//폴리곤 중심좌표임
+function centroid(points) {
+    var i, j, len, p1, p2, f, area, x, y;
 
+    area = x = y = 0;
+
+    for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+
+        p1 = points[i];
+        p2 = points[j];
+
+        f = p1.longitude * p2.latitude - p2.longitude * p1.latitude;
+        x += (p1.latitude + p2.latitude) * f;
+        y += (p1.longitude + p2.longitude) * f;
+        area += f * 3;
+    }
+    return new kakao.maps.LatLng(x / area, y / area)
+}
+
+
+//탭 설정시 상위값에 카운트 숫자 달라짐
 function changeType1() {
     //탭에서 라디오 버튼 값을 가져온다.
     var type1 = $('input[name="type1"]:checked').val()
@@ -259,12 +314,12 @@ function changeType1() {
 }
 
 
-
 //상점뿌리기함수 이거 trading_area_common에 못넣나??
 //상점뿌리기
 //상점뿌리기
 // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
 var markers = [];
+
 function storeSpread(thing) {
     var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         QimageSrc = "/images/new/area/marker01.png",
@@ -301,6 +356,7 @@ function storeSpread(thing) {
         marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
     }
 }
+
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
     //if mapsize width 모바일일때 마커 크기 20으로
@@ -323,12 +379,14 @@ function addMarker(place, i, imageSrc) {
     }
     return marker;
 }
+
 //마커다시그림
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
+
 //상점뿌리기함수 이거 trading_area_common에 못넣나??
 //상점뿌리기
 //상점뿌리기끝
