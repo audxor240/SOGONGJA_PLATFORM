@@ -41,6 +41,19 @@
         select * from ST_RESEARCH_SHOP where CODE_TYPE3 LIKE CONCAT('%', #{category2}, '%') group by CODE_TYPE3;
     </select>
 
+    <select id="getReSearchShopAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchShopMapper.xml, id : getReSearchShopAll */
+        select * from ST_RESEARCH_SHOP
+        where 1=1
+        <if test="seqData != null and seqData != ''">
+            AND SHOP_SEQ IN
+            <foreach collection="seqData" item="item" index='i' open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by SHOP_SEQ desc limit 2000;
+    </select>
+
     <update id="deleteReSearchShop" parameterType="map" >
         /* file : EducationMapper.xml, id : deleteEducation */
         UPDATE ST_RESEARCH_SHOP

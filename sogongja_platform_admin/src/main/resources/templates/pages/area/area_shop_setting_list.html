@@ -108,9 +108,18 @@
                                 </div>
                             </th:block>
                         </div>
+                        <div id="loding" style="display: none">
+                            <img th:src="@{/assets/images/spinner.svg}">
+                        </div>
                         <div class="row justify-content-end col-sm-8">
                             <button type="button" class="btn col-sm-2 btn-danger mr-1" id="del_reSearchShop">선택삭제</button>
-                            <button type="button" class="btn col-sm-2 btn-primary mr-1"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
+                            <!--/*<form name="excelDown" action="/api/excel/download" method="get" onsubmit="return validationForm();">
+                                <input type="hidden" name="seqStr">
+                                <input type="hidden" name="colHeader">
+                                <input type="hidden" name="colHeaderName">
+                                <input type="hidden" name="excelType" value="shop">*/-->
+                                <button type="button" class="btn col-sm-2 btn-primary mr-1" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
+                            <!--</form>-->
                             <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
                                 <div class="col-sm-8 mt-1 mr-3 custom-file">
                                     <input class="custom-file-input" type="file" id="fileExcel" name="file">
@@ -122,50 +131,57 @@
                             </form>
                         </div>
                     </div>
+                    <form name="excelDown" id="excelDown" th:action="@{/api/excel/download}" method="POST">
+                    <!--/*<form name="excelDown" id="excelDown" th:action="@{/excel/download}" method="POST">*/-->
+                        <input type="hidden" name="seqStr">
+                        <input type="hidden" name="colHeader">
+                        <input type="hidden" name="colHeaderName">
+                        <input type="hidden" name="excelType" value="shop">
+                    </form>
                     <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                     </form>*/-->
                     <p class="card-description"></p>
                     <div class="table-responsive" style="text-align:center">
-                        <table class="table table-hover" style="white-space: nowrap">
+                        <table id="list_table" class="table table-hover" style="white-space: nowrap">
                             <thead>
                             <tr>
                                 <th>선택</th>
-                                <th>#</th>
-                                <th>상점번호</th>
-                                <th>상호명</th>
-                                <th>지점명</th>
-                                <th>상권 업종 대분류 코드</th>
-                                <th>상권 업종 대분류명</th>
-                                <th>상권 업종 중분류 코드</th>
-                                <th>상권 업종 중분류명</th>
-                                <th>상권 업종 소분류 코드</th>
-                                <th>상권 업종 소분류명</th>
-                                <th>지번 코드</th>
-                                <th>지번 주소</th>
-                                <th>도로명 주소</th>
-                                <th>읍면동 코드</th>
-                                <th>읍면동명</th>
-                                <th>경도</th>
-                                <th>위도</th>
-                                <th>지하철 노선명 역명</th>
-                                <th>역 번호</th>
-                                <th>월 평균 지하철 총 승차 승객 수</th>
-                                <th>월 평균 지하철 총 하차 승객 수</th>
-                                <th>월 합계 지하철 총 승차 승객 수</th>
-                                <th>월 합계 지하철 총 하차 승객 수</th>
-                                <th>버스정류장 정류장명</th>
-                                <th>정류장 번호</th>
-                                <th>월 평균 버스정류장 승차 총 승객 수</th>
-                                <th>월 평균 버스정류장 하차 총 승객 수</th>
-                                <th>월 합계 버스정류장 승차 총 승객 수</th>
-                                <th>월 합계 버스정류장 하차 총 승객 수</th>
-                                <th>사용 승인일</th>
-                                <th>지상 층수</th>
-                                <th>지하 층수</th>
-                                <th>주용도 코드</th>
-                                <th>주용도 코드명</th>
-                                <th>기타 용도</th>
+                                <th id="shop_seq">#</th>
+                                <th id="shop_no">상점번호</th>
+                                <th id="shop_nm">상호명</th>
+                                <th id="branch">지점명</th>
+                                <th id="code_type1">상권 업종 대분류 코드</th>
+                                <th id="nm_type1">상권 업종 대분류명</th>
+                                <th id="code_type2">상권 업종 중분류 코드</th>
+                                <th id="nm_type2">상권 업종 중분류명</th>
+                                <th id="code_type3">상권 업종 소분류 코드</th>
+                                <th id="nm_type3">상권 업종 소분류명</th>
+                                <th id="addr_cd">지번 코드</th>
+                                <th id="addr">지번 주소</th>
+                                <th id="st_addr">도로명 주소</th>
+                                <th id="emd_cd">읍면동 코드</th>
+                                <th id="emd_nm">읍면동명</th>
+                                <th id="longitude">경도</th>
+                                <th id="latitude">위도</th>
+                                <th id="sub_sta_nm">지하철 노선명 역명</th>
+                                <th id="sub_sta_no">역 번호</th>
+                                <th id="ave_sub_pass_on">월 평균 지하철 총 승차 승객 수</th>
+                                <th id="ave_sub_pass_off">월 평균 지하철 총 하차 승객 수</th>
+                                <th id="sum_sub_pass_on">월 합계 지하철 총 승차 승객 수</th>
+                                <th id="sum_sub_pass_off">월 합계 지하철 총 하차 승객 수</th>
+                                <th id="bus_sta_nm">버스정류장 정류장명</th>
+                                <th id="ars_id">정류장 번호</th>
+                                <th id="ave_bus_pass_on">월 평균 버스정류장 승차 총 승객 수</th>
+                                <th id="ave_bus_pass_off">월 평균 버스정류장 하차 총 승객 수</th>
+                                <th id="sum_bus_pass_on">월 합계 버스정류장 승차 총 승객 수</th>
+                                <th id="sum_bus_pass_off">월 합계 버스정류장 하차 총 승객 수</th>
+                                <th id="apprv_date">사용 승인일</th>
+                                <th id="ct_grd">지상 층수</th>
+                                <th id="ct_base">지하 층수</th>
+                                <th id="pincp_use_cd">주용도 코드</th>
+                                <th id="princp_use">주용도 코드명</th>
+                                <th id="other_use">기타 용도</th>
 
                             </tr>
                             </thead>
@@ -225,9 +241,18 @@
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
-<th:block layout:fragment="custom_js">
+<th:block layout:fragment="custom_js" th:inline="javascript">
+    var excelDown = [[${excelDown}]];
     <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
+    <script th:src="@{/assets/js/libs/jquery.fileDownload.js}"></script>
     <script th:src="@{/assets/js/pages/area/area.js}"></script>
+    <script>
+        //var cookie = getCookie('SOGONGJA_ADMIN_JSESSIONID');
+        /*if (cookie != "") {
+            console.log("쿠키값은 : " + cookie);
+        }*/
+
+    </script>
 </th:block>
 
 </html>

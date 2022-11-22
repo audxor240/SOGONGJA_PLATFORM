@@ -1,6 +1,7 @@
 package com.stoneitgt.sogongja.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -81,7 +82,7 @@ public class AreaService extends BaseService {
 		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
 		if (zoom > 5) {
-			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
+//			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
 		} else {
 			areaRecentlyList = areaMapper.getTradingAreaAllList();
 		}
@@ -136,10 +137,13 @@ public class AreaService extends BaseService {
 	}
 
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {
+		System.out.println(params.toString());
 
 		List<Map<String, Object>> list = areaMapper.getRegionAreaList(params);
 		List<Map<String, Object>> mapPathList = areaMapper.getRegionAreaMapList("PATH");
 		List<Map<String, Object>> mapHoleList = areaMapper.getRegionAreaMapList("HOLE");
+		List<Map<String, Object>> regionList = areaMapper.getRegionAreaInfoList(params);
+
 
 		for (Map<String, Object> map : list) {
 			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
@@ -148,11 +152,22 @@ public class AreaService extends BaseService {
 			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
 					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
 
+			String emdCd = map.get("emd_cd").toString();
+
+			List<Map<String, Object>> info = (List<Map<String, Object>>) regionList.stream()
+					.filter(m -> m.get("emd_cd").equals(emdCd)).collect(Collectors.toList());
+
 			map.put("path", path);
 			map.put("hole", hole);
+			map.put("info", info);
 		}
 
 		return list;
+	}
+
+	public List<Map<String, Object>> getRegionAreaDetailListToJSON(Map<String, Object> params) {
+
+		return areaMapper.getRegionAreaDetail(params);
 	}
 
 	public List<Map<String, Object>> getTradingAreaMapList(String mapType) {

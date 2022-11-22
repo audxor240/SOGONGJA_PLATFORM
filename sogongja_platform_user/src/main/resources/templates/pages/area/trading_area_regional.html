@@ -57,6 +57,11 @@
   <div class="wrap">
     <div id="map_wrap">
       <div id="map" style="width:100%;height:100%;"></div>
+      <ul class="areaTap">
+        <li><input type="radio" name="cate2" value="1" onchange="changeType()" checked>상점수</li>
+        <li><input type="radio" name="cate2" value="2" onchange="changeType()">인구수</li>
+        <li><input type="radio" name="cate2" value="3" onchange="changeType()">주요이슈</li>
+      </ul>
       <!-- <div class="selectbox">
           <ul>
               <li>
@@ -408,6 +413,67 @@
           </div>
         </div>
       </div>
+      <div class="category_wrap">
+        <ul id="category">
+          <li data-order="0">
+            <label for="Q">
+              <input type="checkbox" name="cate" value="Q" id="Q" onchange="changeMap()" checked/>
+              <span class="category_bg Q"></span>
+              <p>음식</p>
+            </label>
+          </li>
+          <li data-order="1">
+            <label for="N">
+              <input type="checkbox" name="cate" value="N" id="N" onchange="changeMap()" checked/>
+              <span class="category_bg N"></span>
+              <p>관광·여가·오락</p>
+            </label>
+          </li>
+          <li data-order="2">
+            <label for="L">
+              <input type="checkbox" name="cate" value="L" id="L" onchange="changeMap()" checked/>
+              <span class="category_bg L"></span>
+              <p>부동산</p>
+            </label>
+          </li>
+          <li data-order="3">
+            <label for="F">
+              <input type="checkbox" name="cate" value="F" id="F" onchange="changeMap()" checked/>
+              <span class="category_bg F"></span>
+              <p>생활서비스</p>
+            </label>
+          </li>
+          <li data-order="4">
+            <label for="D">
+              <input type="checkbox" name="cate" value="D" id="D" onchange="changeMap()" checked/>
+              <span class="category_bg D"></span>
+              <p>소매</p>
+            </label>
+          </li>
+          <li data-order="5">
+            <label for="O">
+              <input type="checkbox" name="cate" value="O" id="O" onchange="changeMap()" checked/>
+              <span class="category_bg O"></span>
+              <p>숙박</p>
+            </label>
+          </li>
+          <li data-order="6">
+            <label for="P">
+              <input type="checkbox" name="cate" value="P" id="P"onchange="changeMap()"checked/>
+              <span class="category_bg P"></span>
+              <p>스포츠</p>
+            </label>
+          </li>
+
+          <li data-order="7">
+            <label for="R">
+              <input type="checkbox" name="cate" value="R" id="R" onchange="changeMap()" checked/>
+              <span class="category_bg R"></span>
+              <p>학문·교육</p>
+            </label>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </article>
@@ -418,6 +484,7 @@
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
 <script th:inline="javascript">
   var areaJson = /*[[${areaJson}]]*/ [];
+  console.log(areaJson);
 </script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
 <script th:src="@{/js/pages/area/chart_list.js}"></script>

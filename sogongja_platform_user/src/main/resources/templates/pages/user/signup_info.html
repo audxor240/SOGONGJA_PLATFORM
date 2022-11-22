@@ -105,20 +105,20 @@
                                 </tr>
                                 <tr>
                                     <th>Email <span class="required">(필수)</span></th>
-                                    <td>
-                                        <ul class="email_ul">
+                                    <td class="td_m_set">
+                                        <ul class="email_ul sign_email">
                                             <li><input type="text" name="email1" id="email1" required placeholder="이메일" title="email" maxlength="30" th:value="${email1}" th:readonly="${type ne 'none'}"></li>
                                             <li><input type="text" name="email2" id="email2" required placeholder="이메일" title="email" maxlength="30" th:value="${email2}" th:readonly="${type ne 'none'}"></li>
-                                            <li>
-                                                <select th:field="*{email3}" th:readonly="${type ne 'none'}">
-                                                    <option value="">직접입력</option>
-                                                    <option value="naver.com">네이버</option>
-                                                    <option value="daum.net">다음</option>
-                                                    <option value="gmail.com">지메일</option>
-                                                </select>
-                                            </li>
                                         </ul>
-                                        <button type="button" id="btn-checked-email">중복확인</button>
+                                        <div class="checking_email_wrap">
+                                            <select th:field="*{email3}" th:readonly="${type ne 'none'}">
+                                                <option value="">직접입력</option>
+                                                <option value="naver.com">네이버</option>
+                                                <option value="daum.net">다음</option>
+                                                <option value="gmail.com">지메일</option>
+                                            </select>
+                                            <button type="button" id="btn-checked-email">중복확인</button>
+                                        </div>
                                         <th:block th:include="fragments/form_invalid:: form_invalid('email')"></th:block>
                                     </td>
                                 </tr>
@@ -139,7 +139,7 @@
                                 <caption>부가 정보 입력</caption>
                                 <tr>
                                     <th style="width: 25%;">이용자 유형<span class="required">(필수)</span></th>
-                                    <td style="width: 75%;">
+                                    <td class="td_m_set" style="width: 75%;">
                                         <ul class="radio_depth01">
                                             <li>
                                                 <input type="radio" name="type" id="type01_01" value="1"  checked="checked">
