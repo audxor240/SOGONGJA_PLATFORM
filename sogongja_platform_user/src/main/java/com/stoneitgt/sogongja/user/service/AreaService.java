@@ -107,6 +107,7 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
+
 	// 상권연구
 	public List<Map<String, Object>> getTradingAreaShopList(Map<String, Object> params) {
 
