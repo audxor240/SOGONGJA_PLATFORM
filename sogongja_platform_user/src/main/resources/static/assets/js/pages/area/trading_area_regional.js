@@ -36,6 +36,30 @@ var lat = map.getCenter().getLat(),
     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 var codeType3 = 1;
+
+
+//첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
+$("input[name=cate]").prop("checked", true).each(function (index, item) {
+    codeType1.push($(item).val());
+});
+//재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
+$("input[name=cate]").click(function () {
+    if ($(this).prop('checked')) {
+        console.log($(this).val())
+        if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
+            codeType1.push($(this).val());
+        }
+    } else {
+        console.log($(this))
+        codeType1.forEach((item, index) => {
+            if (item == $(this).val()) {
+                codeType1.splice(index, 1);
+            }
+        })
+    }
+})
+
+
 var datalat = {
     lat,
     lng,
@@ -72,16 +96,17 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
-    ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+    if (zoom < 4) {
+        setMarkers(null);//상점삭제
+        console.log("zoom 이 5이하시 shop 리스트 호출");
+        ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
+            console.log("상점 데이터 뿌려주기", result)
+            storeSpread(result)//상점찍기
+        });
+    } else {
+        setMarkers(null);//상점삭제
+    }
 
-        if (zoom < 4) {
-            console.log("zoom 이 5이하시 shop 리스트 호출")
-            ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
-                console.log("상점 데이터 뿌려주기", result)
-                storeSpread(result)
-            });
-        }
-    });
 }
 
 
@@ -190,13 +215,79 @@ $(document).on('click', '.customoverlay_close', function () {
     infowindow.setMap(null);
 });
 
-// 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'zoom_changed', function () {
-    // 지도의 현재 레벨을 얻어옵니다
-    var level = map.getLevel();
-    $('.area_title').css('font-size', (mapDefaultLevel / level) + 'rem');
-});
-
+//상점뿌리기
+// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+function resizeMap() {//지도 리사이즈 함수
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
+    mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
+    map.relayout();//화면사이즈 재렌더링
+}
+var markers = [];
+function storeSpread(thing) {
+    var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        QimageSrc = "/images/new/area/marker01.png",
+        NimageSrc = "/images/new/area/marker02.png",
+        LimageSrc = "/images/new/area/marker03.png",
+        FimageSrc = "/images/new/area/marker04.png",
+        DimageSrc = "/images/new/area/marker05.png",
+        OimageSrc = "/images/new/area/marker06.png",
+        PimageSrc = "/images/new/area/marker07.png",
+        RimageSrc = "/images/new/area/marker08.png";
+    for (var i = 0; i < thing.length; i++) {
+        if (thing[i].code_type1 == "Q") {
+            var imageSrc = QimageSrc
+        } else if (thing[i].code_type1 == "N") {
+            var imageSrc = NimageSrc
+        } else if (thing[i].code_type1 == "L") {
+            var imageSrc = LimageSrc
+        } else if (thing[i].code_type1 == "F") {
+            var imageSrc = FimageSrc
+        } else if (thing[i].code_type1 == "D") {
+            var imageSrc = DimageSrc
+        } else if (thing[i].code_type1 == "O") {
+            var imageSrc = OimageSrc
+        } else if (thing[i].code_type1 == "P") {
+            var imageSrc = PimageSrc
+        } else if (thing[i].code_type1 == "R") {
+            var imageSrc = RimageSrc
+        } else {
+            var imageSrc = "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        }
+        // 지도에 마커를 생성합니다
+        var marker = addMarker(thing, i, imageSrc);//위치,이미지를 마커에 등록
+        markers.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+        marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
+    }
+}
+// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addMarker(place, i, imageSrc) {
+    //if mapsize width 모바일일때 마커 크기 20으로
+    if (window.innerWidth < 767) {
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+    } else {
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(10, 10), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+    }
+    return marker;
+}
+//마커다시그림
+function setMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
 //ajax 요청하는 함수
 function ajaxPostSyn(url, data, callback, showLoading) {
     // IE 기본값세팅
