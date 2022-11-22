@@ -37,6 +37,7 @@ var lat = map.getCenter().getLat(),
 var codeType1 = new Array();
 var codeType3 = 1;
 
+var circles = [];
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
 $("input[name=cate]").prop("checked", true).each(function (index, item) {
@@ -162,6 +163,15 @@ function displayArea(area) {
         });
     });
 
+    var circle = new kakao.maps.Marker({
+        position: centroid(area.path)
+    });
+    circles.push(circle);
+    circle.setMap(map);
+
+
+
+
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
     // kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
     //     // customOverlay.setPosition(mouseEvent.latLng);
@@ -194,20 +204,23 @@ function displayArea(area) {
 
 }
 
-//centroid 알고리즘 (폴리곤 중심좌표 구하기 위함)
-function centroid(point) {
+function centroid (points) {
+    console.log(points.length)
     var i, j, len, p1, p2, f, area, x, y;
-    var area = x = y = 0;
-    for (i = 0, len = point.length, j = len - 1; i < len; j = i++) {
-        p1 = point[i];
-        p2 = point[j];
-        f = p1[1] * p2[0] - p2[1] * p1[0];
-        x += (p1[0] + p2[0]) * f;
-        y += (p1[1] + p2[1]) * f;
+
+    area = x = y = 0;
+
+    for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+
+        p1 = points[i];
+        p2 = points[j];
+
+        f = p1.longitude * p2.latitude - p2.longitude * p1.latitude;
+        x += (p1.latitude + p2.latitude) * f;
+        y += (p1.longitude + p2.longitude) * f;
         area += f * 3;
     }
-
-    return new kakao.maps.LatLng(x / area, y / area);
+    return new kakao.maps.LatLng(x / area, y / area)
 }
 
 // 인포윈도우 닫기 이벤트
