@@ -63,24 +63,18 @@
 <!--		GROUP BY AREA_CD;-->
 <!--	</select>-->
 
+
 	<select id="getTradingAreaGroupByList" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaGroupByList */
-		SELECT RAC.AREA_CD, RAC.AREA_NM, RAC.AREA_DIV_CD
+		SELECT *, SUM(CT_SHOP) AS STORES, SUM(CT_OPEN) AS OPEN, SUM(CT_CLOSE) AS CLOSE, SUM(CT_OPEN) + SUM(CT_CLOSE) AS OPCL,
+		SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) +  SUM(RAC.SUM_17_21)+ SUM(RAC.SUM_21_24) AS SALES
+		, LEFT(COM_CD2,1) AS CODE
 		FROM ST_RESEARCH_AREA_COM RAC
-		GROUP BY RAC.AREA_CD
+		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		  AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		  AND RAC.COM_CD2 != ''
+		GROUP BY AREA_CD, LEFT(COM_CD2,1)
 	</select>
-
-<!--	<select id="getTradingAreaGroupByList" resultType="com.stoneitgt.common.LowerKeyMap">-->
-<!--		/* file : AreaMapper.xml, id : getTradingAreaGroupByList */-->
-<!--		SELECT *, SUM(CT_SHOP) AS STORES, SUM(CT_OPEN) AS OPEN, SUM(CT_CLOSE) AS CLOSE, SUM(CT_OPEN) + SUM(CT_CLOSE) AS OPCL,-->
-<!--		SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) +  SUM(RAC.SUM_17_21)+ SUM(RAC.SUM_21_24) AS SALES-->
-<!--		, LEFT(COM_CD2,1) AS CODE-->
-<!--		FROM ST_RESEARCH_AREA_COM RAC-->
-<!--		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )-->
-<!--		  AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )-->
-<!--		  AND RAC.COM_CD2 != ''-->
-<!--		GROUP BY AREA_CD, LEFT(COM_CD2,1)-->
-<!--	</select>-->
 
 	<select id="getTradingAreaAllList" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaAllList */
