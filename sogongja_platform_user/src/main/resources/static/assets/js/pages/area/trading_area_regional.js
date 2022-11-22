@@ -77,7 +77,7 @@ kakao.maps.event.addListener(map, "idle", changeMap)
 
 async function changeMap() {
     resizeMap()
-    var lat = map.getCenter().getLat(),
+    lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
         x2 = map.getBounds().getNorthEast().getLat(),
@@ -95,7 +95,6 @@ async function changeMap() {
         codeType1
     }
     console.log("data재요청입니다!", datalat);
-
 
     if (zoom > 7) {
         removeCircles(map);
@@ -198,7 +197,6 @@ function displayArea(area) {
 
     var info = area.info;
     var content = '';
-    console.log("codeType3 : " + codeType3)
     if (codeType3 === '1') {
         // content = info.stores + ',' + info.franc;
         content = '111';
@@ -209,13 +207,14 @@ function displayArea(area) {
         // content = info.rt_all;
         content = '333';
     }
-    console.log("content : " + content)
     var circle = new kakao.maps.CustomOverlay({
         position: centroid(area.path),
         content: content
     });
     circles.push(circle);
-    circle.setMap(map);
+    if (zoom < 8) {
+        circle.setMap(map);
+    }
 
 
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
