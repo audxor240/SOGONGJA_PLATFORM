@@ -243,10 +243,7 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
-    if(zoom > 8 && zoom <= 14){//zoom 9,10,11,12,13,14
-        //그냥 서울에 1개 찍자.
-
-    }else if (zoom >= 7 && zoom <= 8) { //zoom 7,8 계속 재 조회함
+if (zoom >= 7 && zoom <= 14) { //zoom 7,8 계속 재 조회함
         removePolygons(map)//areajson에 쓰던 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
@@ -257,9 +254,9 @@ async function changeMap() {
         });
     }else if(zoom>=4 && zoom<7) { //zoom 4,5,6 일때 areajson 쓰고 조회안함
         setMarkers(null)//상점삭제
-        for (var i = 0, len = areaJson.length; i < len; i++) {
-            displayArea(areaJson[i]);
-        }
+        // for (var i = 0, len = areaJson.length; i < len; i++) {
+        //     displayArea(areaJson[i]);
+        // }
     } else { //level < 4, zoom 3,2,1 일때 상점 마커들 찍어주기
         setMarkers(null)//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출")
