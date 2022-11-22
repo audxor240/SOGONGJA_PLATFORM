@@ -5,6 +5,8 @@ $(document).ready(function() {
 
     showAlert(result_code);
 
+    excelColumnSetting();
+
     // $('#execDaumAddr').on('click', execDaumPostcode);
     //
 
@@ -502,3 +504,23 @@ function getCheckedValue(name) {
     });
     return values;
 }
+
+//엑셀 다운로드 받을 컬럼 지정
+function excelColumnSetting(){
+
+    var tr = $('#list_table thead tr');
+    var td = tr.children();
+    var colHeaderArr = [];
+    var colHeaderNameArr = [];
+    td.each(function(index, item) {
+        if($(this).attr('id') != undefined){
+            colHeaderArr.push($(this).attr('id'));
+            colHeaderNameArr.push($(this).text());
+        }
+    });
+    $("[name=colHeader]").val(colHeaderArr);
+    $("[name=colHeaderName]").val(colHeaderNameArr);
+
+}
+
+

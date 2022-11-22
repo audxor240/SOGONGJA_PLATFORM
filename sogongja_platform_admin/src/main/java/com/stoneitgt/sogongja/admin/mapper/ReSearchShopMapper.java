@@ -15,6 +15,7 @@ public interface ReSearchShopMapper {
     List<Map<String,Object>> getReSearchShopCategoty1();
     List<Map<String,Object>> getReSearchShopCategoty2(String category1);
     List<Map<String,Object>> getReSearchShopCategoty3(String category2);
+    List<Map<String,Object>> getReSearchShopAll(Map<String, Object> params);
 
     int selectTotalRecords();
 

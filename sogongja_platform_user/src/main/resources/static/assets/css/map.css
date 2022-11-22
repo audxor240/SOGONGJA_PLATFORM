@@ -1005,6 +1005,22 @@
   height: 300px;
   background-color: #e2e2e2;
   overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.community_wrap .community_pop_wrap::-webkit-scrollbar {
+  display: none;
+}
+.community_wrap .community_pop_wrap .community_more {
+  text-align: center;
+  padding: 8px 16px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 2px solid #1540BF;
+  color: #1540BF;
+  width: 200px;
+  font-size: 13px;
 }
 .community_wrap .community_pop_wrap .community_pop_title {
   background-color: #ffffff;
@@ -1034,7 +1050,7 @@
   text-align: center;
 }
 .community_wrap .community_pop_wrap .community_pop_list {
-  height: 400px;
+  height: 100%;
   margin-top: 66px;
 }
 .community_wrap .community_pop_wrap .community_pop_list > li {
@@ -1144,6 +1160,9 @@
   position: absolute;
   top: 66px;
   left: 0;
+  background: #e2e2e2;
+  height: 100%;
+  padding-bottom: 20px;
 }
 .detail_community.on {
   display: block;
@@ -1192,6 +1211,131 @@
   background-color: #00c73c;
 }
 
+.areaTap {
+  position: fixed;
+  top: 220px;
+  left: 20px;
+  z-index: 1;
+}
+.areaTap li {
+  list-style: none;
+  float: left;
+  padding: 10px;
+  border: 1px solid #eee;
+  background-color: #fff;
+}
+.areaTap li.on {
+  color: #fff;
+  background-color: #0f7833;
+}
+
+#areaCategory {
+  position: absolute;
+  right: 10px;
+  bottom: 120px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+}
+#areaCategory li {
+  float: left;
+  list-style: none;
+  width: 100px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+#filter {
+  position: fixed;
+  top: 156px;
+  right: 200px;
+  z-index: 2;
+}
+#filter .filterIcon {
+  background-color: blue;
+  width: 60px;
+  height: 20px;
+  text-align: center;
+}
+#filter .filterbox {
+  position: absolute;
+  right: 0px;
+  display: none;
+  background-color: #fff;
+  width: 600px;
+  height: auto;
+  padding: 20px;
+}
+#filter .filterbox span {
+  float: right;
+}
+#filter .filterbox.timeSelect {
+  background-color: #bbb;
+  padding: 2px;
+}
+#filter .filterbox.timeSelect:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+#filter .filterbox.timeSelect li {
+  float: left;
+  width: 85px;
+  font-size: 11px;
+  list-style: none;
+  padding: 2px;
+  margin-left: 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+#filter .filterbox.mainSectors {
+  background-color: #bbb;
+  padding: 2px;
+}
+#filter .filterbox.mainSectors:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+#filter .filterbox.mainSectors li {
+  float: left;
+  width: 180px;
+  font-size: 11px;
+  list-style: none;
+  padding: 2px;
+  margin: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+#filter .filterbox.midSectors {
+  background-color: #bbb;
+  padding: 2px;
+}
+#filter .filterbox.midSectors:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+#filter .filterbox.midSectors li {
+  float: left;
+  width: 270px;
+  font-size: 11px;
+  list-style: none;
+  padding: 2px;
+  margin: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+#filter .filterbox .midSecBox {
+  height: 100px;
+  overflow-y: scroll;
+}
+
 @media (max-width: 1400px) {
   #map_wrap {
     height: calc(100vh - 71px);
@@ -1217,7 +1361,7 @@
     top: 71px;
   }
   #map {
-    height: calc(100% + 71px);
+    height: 100%;
   }
   .custom_zoomcontrol {
     top: 40%;
@@ -1226,20 +1370,22 @@
     top: 492px;
   }
   .community_wrap .community_pop_wrap {
-    top: auto;
+    top: 71px;
     right: 0;
     width: 100%;
     left: 0;
     position: fixed;
-    bottom: -300px;
+    bottom: 0;
     z-index: 4;
     border-radius: 10px 10px 0 0;
     transition: 0.4s;
+    height: calc(100% - 71px);
   }
   .community_wrap .community_pop_wrap .community_pop_title {
     padding: 10px 20px 20px;
     border-radius: 10px 10px 0 0;
     flex-wrap: wrap;
+    width: 100%;
   }
   .community_wrap .community_pop_wrap .community_pop_title > a {
     display: none;
@@ -1278,7 +1424,7 @@
     font-size: 12px;
   }
   .community_pop_list {
-    height: 600px;
+    height: 100%;
     overflow: scroll;
   }
   #map_wrap .addressSearchTop {
