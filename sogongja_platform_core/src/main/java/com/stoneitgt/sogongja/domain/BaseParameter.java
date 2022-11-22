@@ -40,4 +40,6 @@ public class BaseParameter extends Paging {
 	private String menuCode;
 
 	private String type;
+
+	private String subType;
 }

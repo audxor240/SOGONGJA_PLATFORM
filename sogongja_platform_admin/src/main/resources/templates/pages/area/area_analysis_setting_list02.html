@@ -14,10 +14,10 @@
                         <a th:href="@{/areaSetting/shop}">상점 데이터</a>
                     </div>
                     <div class="col-sm-2 tab">
-                        <a th:href="@{/areaSetting/analysis}">상권 데이터(일반)</a>
+                        <a th:href="@{/areaSetting/analysis?type=1&subType=0}">상권 데이터(일반)</a>
                     </div>
                     <div class="col-sm-2 tab active">
-                        <a th:href="@{/areaSetting/analysis}">상권 데이터(업종)</a>
+                        <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
                     </div>
                     <div class="col-sm-2 tab">
                         <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
@@ -30,24 +30,26 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm">
-
+                    <form name="searchForm" th:action="@{/areaSetting/analysis(type=${params.type},subType=${params.subType})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                        <input type="hidden" th:field="*{type}">
+                        <input type="hidden" th:field="*{subType}">
                         <div class="btn-group btn-group-toggle p-2" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> 전체
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '0'?'active':''}">
+                                <input type="radio" name="analysis_options" id="option0" value="analysis0" th:checked="${params.subType == '0'}"> 전체
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> 점포
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '6'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option6" value="analysis6" th:checked="${params.subType == '6'}"> 점포
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"> 추정매출
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '7'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option7" value="analysis7" th:checked="${params.subType == '7'}"> 추정 매출
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option4" autocomplete="off"> 개폐업
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '8'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option8" value="analysis8" th:checked="${params.subType == '8'}"> 개폐업
                             </label>
                         </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group row">
                                     <div class="col-sm-4">
@@ -85,12 +87,14 @@
                                 </div>
                             </div>
                         </div>
+                        -->
+
                         <div class="row">
                             <div class="col-sm-1">
-                                <label class="col-sm-12 col-form-label">검색</label>
+                                <label class="col-sm-12 col-form-label">상권명</label>
                             </div>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+                                <input type="text" class="form-control" th:field="*{keyword}" placeholder="검색어를 입력하세요">
                             </div>
                             <button type="submit" class="col-sm-3 btn btn-primary btn-icon-text btn-search">
                                 <i class="btn-icon-prepend" data-feather="search"></i>검색
@@ -123,6 +127,9 @@
                                 </div>
                             </th:block>
                         </div>
+                        <div id="loding" style="display: none">
+                            <img th:src="@{/assets/images/spinner.svg}">
+                        </div>
                         <div class="row justify-content-end col-sm-8">
                             <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
                                 <div class="col-sm-8 mr-2 custom-file">
@@ -134,54 +141,95 @@
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
                             </form>
                             <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
-                            <button type="button" class="btn col-sm-2 btn-primary"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
+                            <button type="button" class="btn col-sm-2 btn-primary" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
                         </div>
                     </div>
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
-                        <th:block th:include="fragments/search_hidden"></th:block>
+                    <form name="excelDown" id="excelDown" th:action="@{/api/excel/download}" method="POST">
+                        <!--/*<form name="excelDown" id="excelDown" th:action="@{/excel/download}" method="POST">*/-->
+                        <input type="hidden" name="seqStr">
+                        <input type="hidden" name="colHeader">
+                        <input type="hidden" name="colHeaderName">
+                        <input type="hidden" name="excelType" value="">
                     </form>
+                    <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                    </form>*/-->
                     <p class="card-description"></p>
                     <div class="table-responsive" style="text-align:center">
-                        <table class="table table-hover" style="white-space: nowrap">
+                        <table id="list_table" class="table table-hover" style="white-space: nowrap">
                             <thead>
                             <tr>
                                 <th>선택</th>
-                                <th>#</th>
-                                <th>상호명</th>
-                                <th>지역명</th>
-                                <th>상권업종대분류코드</th>
-                                <th>상권업종대분류명</th>
-                                <th>상권업종중분류코드</th>
-                                <th>상권업종중분류명</th>
-                                <th>상권업종소분류코드</th>
-                                <th>상권업종소분류명</th>
-                                <th>등록일</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
+                                <th id="id" >#</th>
+                                <!-- 상권업종(Default) -->
+                                <th id="year" >년도</th>
+                                <th id="qrt" >분기</th>
+                                <th id="area_div_cd" >상권 구분 코드</th>
+                                <th id="area_div_nm">상권 구분 코드명</th>
+                                <th id="area_cd" >상권 코드</th>
+                                <th id="area_nm" >상권명</th>
+                                <th id="com_cd">서비스 업종 코드</th>
+                                <th id="com_cd2">100대 생활밀접 업종 코드</th>
+                                <th id="com_nm">서비스 업종 코드명</th>
+
+                                <!-- 상권업종(점포) -->
+                                <th id="ct_shop" th:if="${areaColmunParameter.ctShop}">점포 수</th>
+                                <th id="ct_shop_sim" th:if="${areaColmunParameter.ctShopSim}">유사 업종 점포 수</th>
+                                <th id="ct_franchise" th:if="${areaColmunParameter.ctFranchise}">프랜차이즈 점포 수</th>
+
+                                <!-- 상권업종(추정매출) -->
+                                <th id="sum_00_06" th:if="${areaColmunParameter.sum0006}">시간대 00~06 매출 금액</th>
+                                <th id="sum_06_11" th:if="${areaColmunParameter.sum0611}">시간대 06~11 매출 금액</th>
+                                <th id="sum_11_14" th:if="${areaColmunParameter.sum1114}">시간대 11~14 매출 금액</th>
+                                <th id="sum_14_17" th:if="${areaColmunParameter.sum1417}">시간대 14~17 매출 금액</th>
+                                <th id="sum_17_21" th:if="${areaColmunParameter.sum1721}">시간대 17~21 매출 금액</th>
+                                <th id="ct_shop" th:if="${areaColmunParameter.sum2124}">시간대 21~24 매출 금액</th>
+
+                                <!-- 상권업종(개폐업) -->
+                                <th id="per_open" th:if="${areaColmunParameter.perOpen}">개업률</th>
+                                <th id="ct_open" th:if="${areaColmunParameter.ctOpen}">개업 점포 수</th>
+                                <th id="per_close"th:if="${areaColmunParameter.perClose}">폐업률</th>
+                                <th id="ct_close"th:if="${areaColmunParameter.ctClose}">폐업 점포 수</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td><input type="checkbox" th:name="chk_shop"></td>
+                                <td><input type="checkbox" th:name="research_check" th:value="${item.id}" ></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <!-- 상권업종(Default) -->
+                                <td th:text="${item.year}">년도(year)</td>
+                                <td th:text="${item.qrt}">분기(qrt)</td>
+                                <td th:text="${item.area_div_cd}">상권 구분 코드(area_div_cd)</td>
+                                <td th:text="${item.area_div_nm}">상권 구분 코드명(area_div_nm)</td>
+                                <td th:text="${item.area_cd}">상권 코드(area_cd)</td>
+                                <td th:text="${item.area_nm}">상권명(area_nm)</td>
+                                <td th:text="${item.com_cd}">서비스 업종 코드(com_cd)</td>
+                                <td th:text="${item.com_cd2}">100대 생활밀접 업종 코드(com_cd2)</td>
+                                <td th:text="${item.com_nm}">서비스 업종 코드명(com_nm)</td>
+
+                                <!-- 상권업종(점포) -->
+                                <td th:if="${areaColmunParameter.ctShop}" th:text="${item.ct_shop}">점포 수(ct_shop)</td>
+                                <td th:if="${areaColmunParameter.ctShopSim}"  th:text="${#numbers.formatInteger(item.ct_shop_sim,0,'COMMA')}">유사 업종 점포 수(ct_shop_sim)</td>
+                                <td th:if="${areaColmunParameter.ctFranchise}" th:text="${#numbers.formatInteger(item.ct_franchise,0,'COMMA')}">프랜차이즈 점포 수(ct_franchise)</td>
+
+                                <!-- 상권업종(추정매출) -->
+                                <td th:if="${areaColmunParameter.sum0006}" th:text="${item.sum_00_06}">시간대 00~06 매출 금액(sum_00_06)</td>
+                                <td th:if="${areaColmunParameter.sum0611}" th:text="${item.sum_06_11}">시간대 06~11 매출 금액(sum_06_11)</td>
+                                <td th:if="${areaColmunParameter.sum1114}" th:text="${item.sum_11_14}">시간대 11~14 매출 금액(sum_11_14)</td>
+                                <td th:if="${areaColmunParameter.sum1417}" th:text="${item.sum_14_17}">시간대 14~17 매출 금액(sum_14_17)</td>
+                                <td th:if="${areaColmunParameter.sum1721}" th:text="${item.sum_17_21}">시간대 17~21 매출 금액(sum_17_21)</td>
+                                <td th:if="${areaColmunParameter.sum2124}" th:text="${item.sum_21_24}">시간대 21~24 매출 금액(sum_21_24)</td>
+
+                                <!-- 상권업종(개폐업) -->
+                                <td th:if="${areaColmunParameter.perOpen}" th:text="${item.per_open}">개업률(per_open)</td>
+                                <td th:if="${areaColmunParameter.ctOpen}" th:text="${item.ct_open}">개업 점포 수(ct_open)</td>
+                                <td th:if="${areaColmunParameter.perClose}" th:text="${item.per_close}">폐업률(per_close)</td>
+                                <td th:if="${areaColmunParameter.ctClose}" th:text="${item.ct_close}">폐업 점포 수(ct_close)</td>
+
                             </tr>
                             </tbody>
                         </table>
@@ -199,7 +247,10 @@
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
-<th:block layout:fragment="custom_js">
+<th:block layout:fragment="custom_js" th:inline="javascript">
+    <script>
+        var type = [[${params.type}]];
+    </script>
     <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
     <script th:src="@{/assets/js/pages/area/area.js}"></script>
 </th:block>
