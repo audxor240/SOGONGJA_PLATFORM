@@ -140,6 +140,22 @@ public class AreaController extends BaseController {
 		return results;
 	}
 
+	@PostMapping("/analysis/test")
+	public @ResponseBody List<Map<String, Object>> test(@RequestBody MapParameter params, Model model) {
+		long beforeTime = System.currentTimeMillis();
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		List<Map<String, Object>> results = new ArrayList<>();
+		System.out.println(paramsMap.toString());
+		results = areaService.getTradingAreaListToJSON(paramsMap);
+
+		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+		System.out.println("시간차이(m) : "+secDiffTime);
+		return results;
+	}
+
+
 	@PostMapping("/analysis/shop")
 	public @ResponseBody List<Map<String, Object>> analysisShopList(@RequestBody MapParameter params, Model model) {
 
