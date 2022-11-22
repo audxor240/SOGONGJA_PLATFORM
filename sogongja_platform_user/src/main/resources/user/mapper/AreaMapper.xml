@@ -24,17 +24,29 @@
 
 	<select id="getTradingAreaMapPartList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaMapPartList */
-		SELECT *
+		SELECT TAM.AREA_SEQ, TAM.AREA_NAME, TA.AREA_TYPE, TA.AREA_CD
 		FROM ST_TRADING_AREA_MAP TAM
 				 INNER JOIN ST_TRADING_AREA TA
 							ON TAM.AREA_SEQ = TA.AREA_SEQ
-				 INNER JOIN ST_TRADING_AREA_TYPE TAT
-							ON TA.AREA_TYPE = TAT.AREA_TYPE
-		WHERE TAT.AREA_TYPE = #{code_type2}
+		WHERE TA.AREA_TYPE = #{code_type2}
 		  AND TAM.LATITUDE BETWEEN #{x1} AND #{x2}
 		  AND TAM.LONGITUDE BETWEEN #{y1} AND #{y2}
 		GROUP BY TAM.AREA_SEQ
 	</select>
+
+<!--	<select id="getTradingAreaMapPartList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">-->
+<!--		/* file : AreaMapper.xml, id : getTradingAreaMapPartList */-->
+<!--		SELECT *-->
+<!--		FROM ST_TRADING_AREA_MAP TAM-->
+<!--				 INNER JOIN ST_TRADING_AREA TA-->
+<!--							ON TAM.AREA_SEQ = TA.AREA_SEQ-->
+<!--				 INNER JOIN ST_TRADING_AREA_TYPE TAT-->
+<!--							ON TA.AREA_TYPE = TAT.AREA_TYPE-->
+<!--		WHERE TAT.AREA_TYPE = #{code_type2}-->
+<!--		  AND TAM.LATITUDE BETWEEN #{x1} AND #{x2}-->
+<!--		  AND TAM.LONGITUDE BETWEEN #{y1} AND #{y2}-->
+<!--		GROUP BY TAM.AREA_SEQ-->
+<!--	</select>-->
 
 	<select id="getTradingAreaMapList" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaMapList */
