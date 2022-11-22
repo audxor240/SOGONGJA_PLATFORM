@@ -170,7 +170,7 @@ public class AreaController extends BaseController {
 	}
 
 	@GetMapping("/regional")
-	public String regionalArea(@ModelAttribute BaseParameter params, Model model) {
+	public String regionalArea(@ModelAttribute MapParameter params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
@@ -185,6 +185,13 @@ public class AreaController extends BaseController {
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_regional";
+	}
+
+	@PostMapping("/regional/type")
+	public @ResponseBody List<Map<String, Object>> regionsType(@RequestBody MapParameter params, Model model) {
+		System.out.println(params.toString());
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		return areaService.getRegionAreaListToJSON(paramsMap);
 	}
 
 	@PostMapping("/regional/details")
