@@ -472,7 +472,11 @@
   padding: 6px
   z-index: 2
   margin-left: 8px
-#category
+  &.area
+    +positionAt(fixed, $left:50%, $bottom:50px)
+  &.storelist
+    display: none
+.category
   width: 100%
   +flex_type()
   li
@@ -929,109 +933,117 @@
 
 
 //상권 시작
-.areabutton
-  +positionAt(absolute, $top: 50%, $right:20px)
-  background-color: #00c73c
-.areaTap
-  +positionAt(fixed, $top: 220px, $left:20px)
-  z-index: 1
-  li
-    list-style: none
-    float: left
-    padding: 10px
-    border: 1px solid #eee
-    background-color: #fff
-    &.on
-      color: #fff
-      background-color: #0f7833
-#areaCategory
-  +positionAt(absolute, $bottom: 120px, $right:10px)
-  border-radius: 5px
-  border: 1px solid #909090
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
-  background: #fff
-  overflow: hidden
-  z-index: 2
-  li
-    float: left
-    list-style: none
-    width: 100px
-    border-right: 1px solid #acacac
-    padding: 6px 0
+#map_wrap
+  .areaTap
+    +positionAt(absolute, $top: 20px, $left:20px)
+    z-index: 1
+    li
+      list-style: none
+      float: left
+      padding: 10px
+      border: 1px solid #eee
+      background-color: #fff
+      &.on
+        color: #fff
+        background-color: #0f7833
+        ul
+        &.openclose_list
+          display: none
+  #areaCategory
+    +positionAt(absolute, $bottom: 120px, $right:10px)
+    border-radius: 5px
+    border: 1px solid #909090
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
+    background: #fff
+    overflow: hidden
+    z-index: 2
+    li
+      float: left
+      list-style: none
+      width: 100px
+      border-right: 1px solid #acacac
+      padding: 6px 0
+      text-align: center
+      cursor: pointer
+  #filter
+    +positionAt(fixed, $top: 156px, $right:200px)
+    z-index: 2
+    .filterIcon
+      background-color: blue
+      width: 60px
+      height: 20px
+      text-align: center
+    .filterbox
+      +positionAt(absolute, $right:0px)
+      display: none
+      background-color: #fff
+      width: 600px
+      height: auto
+      padding: 20px
+      span
+        float: right
+      ul
+      &.timeSelect
+        background-color: #bbb
+        padding: 2px
+        &:after
+          content: ""
+          display: block
+          clear: both
+        li
+          float: left
+          width: 85px
+          font-size: 11px
+          list-style: none
+          padding: 2px
+          margin-left: 8px
+          border: 1px solid #ddd
+          background-color: #fff
+      &.mainSectors
+        background-color: #bbb
+        padding: 2px
+        &:after
+          content: ""
+          display: block
+          clear: both
+        li
+          float: left
+          width: 180px
+          font-size: 11px
+          list-style: none
+          padding: 2px
+          margin: 4px
+          border: 1px solid #ddd
+          background-color: #fff
+      &.midSectors
+        background-color: #bbb
+        padding: 2px
+        &:after
+          content: ""
+          display: block
+          clear: both
+        li
+          float: left
+          width: 270px
+          font-size: 11px
+          list-style: none
+          padding: 2px
+          margin: 4px
+          border: 1px solid #ddd
+          background-color: #fff
+      .midSecBox
+        height: 100px
+        overflow-y: scroll
+#map
+  .areaIn
+    //background-color: rgba(0,0,0,0.4)
     text-align: center
-    cursor: pointer
-
-#filter
-  +positionAt(fixed, $top: 156px, $right:200px)
-  z-index: 2
-  .filterIcon
-    background-color: blue
-    width: 60px
-    height: 20px
-    text-align: center
-  .filterbox
-    +positionAt(absolute, $right:0px)
-    display: none
-    background-color: #fff
-    width: 600px
-    height: auto
-    padding: 20px
-    span
-      float: right
-    ul
-    &.timeSelect
-      background-color: #bbb
-      padding: 2px
-      &:after
-        content: ""
-        display: block
-        clear: both
-      li
-        float: left
-        width: 85px
-        font-size: 11px
-        list-style: none
-        padding: 2px
-        margin-left: 8px
-        border: 1px solid #ddd
-        background-color: #fff
-    &.mainSectors
-      background-color: #bbb
-      padding: 2px
-      &:after
-        content: ""
-        display: block
-        clear: both
-      li
-        float: left
-        width: 180px
-        font-size: 11px
-        list-style: none
-        padding: 2px
-        margin: 4px
-        border: 1px solid #ddd
-        background-color: #fff
-    &.midSectors
-      background-color: #bbb
-      padding: 2px
-      &:after
-        content: ""
-        display: block
-        clear: both
-      li
-        float: left
-        width: 270px
-        font-size: 11px
-        list-style: none
-        padding: 2px
-        margin: 4px
-        border: 1px solid #ddd
-        background-color: #fff
-    .midSecBox
-      height: 100px
-      overflow-y: scroll
-
-
+    font-size: 8px
+    font-weight: bold
+    color: #2E750D
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
+    p
+      color: #BF7116
 @include tablet
   #map_wrap
     height: calc(100vh - 71px)
@@ -1088,7 +1100,7 @@
     bottom: 12px
     overflow: scroll
     width: 98%
-  #category
+  .category
     li
       min-width: 140px
   .solution_btn

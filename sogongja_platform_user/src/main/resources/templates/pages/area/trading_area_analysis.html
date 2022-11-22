@@ -20,16 +20,59 @@
     <div id="map_wrap">
         <div id="map"></div>
 
+        <!-- 공통요소 " 지도 확대, 축소 컨트롤 div 입니다 -->
+        <div class="custom_zoomcontrol radius_border">
+            <button class="current-local" onclick="setCenter()"></button>
+            <div class="zoombox">
+                <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
+                <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+            </div>
+        </div>
+        <div class="addressSearchTop">
+            <div class="hAddr">
+                <span class="title"></span>
+                <div class="addrlist">
+                    <span id="centerAddr1" onclick="changeSelectBox('sido')"></span>
+                    <ul id="sidoBox">시도</ul>
+                </div>
+                <div class="addrlist">
+                    <span id="centerAddr2" onclick="changeSelectBox('sigungu')"></span>
+                    <ul id="sigunguBox">시군구 조회중</ul>
+                </div>
+                <div class="addrlist">
+                    <span id="centerAddr3" onclick="changeSelectBox('dong')"></span>
+                    <ul id="dongBox">행정동 조회중</ul>
+                </div>
+            </div>
+            <div class="searchInput">
+                <form onsubmit="searchPlaces2(); return false;" id="search-place">
+                    <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+                    <input type="text" style="display:none">
+                    <button type="submit" class="addresswidth"></button>
+                    <button type="button" style="display:none"></button>
+                </form>
+            </div>
+        </div>
+        <div class="msearch_pop">
+            <div class="msearch">
+                <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+                <button type="button" class=""></button>
+            </div>
+            <button type="button" class="search_pop_del">x</button>
+        </div>
+        <!-- 공통요소 주소창 검색 -->
+
+
         <ul class="areaTap">
-            <li>상점수</li>
+            <li><input type="radio" name="areaTab" value="stores" checked>상점수</li>
             <li>
-                <select name="">
-                    <option value="none" disabled selected style="display: none">개폐업수</option>
-                    <option value="korean">개업수</option>
-                    <option value="english">폐업수</option>
-                </select>
+                <div class="openclose">개폐업수</div>
+                <ul class="openclose_list" style="display: none">
+                    <li><input type="radio" name="areaTab" value="open">개업수</li>
+                    <li><input type="radio" name="areaTab" value="close">폐업수</li>
+                </ul>
             </li>
-            <li>추정매출</li>
+            <li><input type="radio" name="areaTab" value="sales">추정매출</li>
         </ul>
 
         <div id="filter">
@@ -91,8 +134,8 @@
             </div>
         </div>
 
-        <div class="categoryArea_wrap">
-            <ul id="areaCategory">
+        <div class="category_wrap area">
+            <ul class="category">
                 <li data-order="0">
                     <label for="Aa">
                         <input type="radio" name="cate2" value="A" id="Aa" onchange="changeMap()" checked/>
@@ -121,39 +164,11 @@
                         <p>전통시장</p>
                     </label>
                 </li>
-                <li data-order="4">
-                    <label for="stores">
-                        <input type="radio" name="type1" id="stores" onchange="changeType1()" checked/>
-                        <span class="category_bg Q"></span>
-                        <p>상점수</p>
-                    </label>
-                </li>
-                <li data-order="5">
-                    <label for="open">
-                        <input type="radio" name="type1" id="open" onchange="changeType1()"/>
-                        <span class="category_bg N"></span>
-                        <p>개업수</p>
-                    </label>
-                </li>
-                <li data-order="6">
-                    <label for="close">
-                        <input type="radio" name="type1" id="close" onchange="changeType1()"/>
-                        <span class="category_bg N"></span>
-                        <p>폐업수</p>
-                    </label>
-                </li>
-                <li data-order="7">
-                    <label for="sales">
-                        <input type="radio" name="type1" id="sales" onchange="changeType1()"/>
-                        <span class="category_bg L"></span>
-                        <p>추정매출</p>
-                    </label>
-                </li>
-            </ul>
+              </ul>
         </div>
 
-        <div class="category_wrap">
-            <ul id="category">
+        <div class="category_wrap storelist">
+            <ul class="category">
                 <li data-order="0">
                     <label for="Q">
                         <input type="checkbox" name="cate" value="Q" id="Q" onchange="changeMap()" checked/>
@@ -220,7 +235,8 @@
     <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
 </div>
 <th:block th:include="fragments/common_js"></th:block>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services,clusterer,drawing"></script>
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
