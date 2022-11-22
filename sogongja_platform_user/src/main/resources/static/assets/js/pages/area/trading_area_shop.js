@@ -197,10 +197,9 @@ function addEventHandle(target, type, callback) {
         target.attachEvent("on" + type, callback);
     }
 }
-
 // 커스텀 오버레이를 숨깁니다
-placeOverlay.setMap(null);//클릭 시 마커+사이드바
-placeOverlay2.setMap(null);//호버 시 마커만
+placeOverlay.setMap(null);//클릭 시 보여줄 마커인포+사이드바
+placeOverlay2.setMap(null);//호버 시 보여줄 마커인포
 
 function displayPlaces(marker, place, i) {
     var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude);
@@ -209,15 +208,16 @@ function displayPlaces(marker, place, i) {
     // 마커와 검색결과 항목을 클릭 했을 때
     // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
     (function sdf(marker, place) {
-        //클릭 시 마커+사이드바 보이고, 지도중심으로 이동
+        //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(marker, "click", function () {
             displayPlaceInfo(place);
             panTo(position)
         });
-        //호버 시 마커만 보임
+        //호버 시 마커인포만 보임
         kakao.maps.event.addListener(marker, "mouseover", function () {
             displayPlaceInfoHover(place);
         });
+        //마우스 나가면 마커인포사라짐
         kakao.maps.event.addListener(marker, "mouseout", function () {
             placeOverlay2.setMap(null);
         });
@@ -226,7 +226,7 @@ function displayPlaces(marker, place, i) {
 
 // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 function displayPlaceInfo(place) {
-    customInfo(place);//클릭 시 마커
+    customInfo(place);//클릭 시 마커인포
     sideInfo(place);//사이드바
     $('#sidebar').removeClass('on');
     placeOverlay.setPosition(new kakao.maps.LatLng(place.latitude, place.longitude));
