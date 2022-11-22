@@ -209,7 +209,11 @@ function displayArea(area) {
     }
     var circle = new kakao.maps.CustomOverlay({
         position: centroid(area.path),
-        content: content
+        content: '<div class ="countlabel">' +
+            '<div class="countsidobox">' +
+            '<div class="right">' +
+            content +
+            '</div></div></div>'
     });
     circles.push(circle);
     if (zoom < 8) {
