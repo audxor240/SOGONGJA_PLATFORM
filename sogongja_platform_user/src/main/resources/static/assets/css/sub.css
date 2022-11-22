@@ -9,6 +9,9 @@
 .wrap.pt0 {
   padding-top: 0;
 }
+.wrap.faq_search_pt20 {
+  padding-top: 0;
+}
 
 .sub_visual {
   margin-top: 6.5625rem;
@@ -2869,7 +2872,43 @@
     height: 3rem;
   }
 }
+@media (max-width: 1600px) {
+  .wrap.faq_search_pt20 {
+    padding-top: 2.5rem;
+  }
+  .faq_search {
+    width: 100%;
+    margin: 0 auto 2.5rem;
+    padding: 1.25rem;
+  }
+  .faq_search .sc_input button {
+    width: 1.5625rem;
+    height: 1.5625rem;
+  }
+  .faq_tab_box {
+    width: 100%;
+  }
+  .faq_tab_box li {
+    width: 20%;
+  }
+}
 @media (max-width: 767px) {
+  .faq_tab_box {
+    flex-wrap: wrap;
+  }
+  .faq_tab_box li:nth-child(1),
+.faq_tab_box li:nth-child(2),
+.faq_tab_box li:nth-child(3) {
+    width: 33.3333333333%;
+  }
+  .faq_tab_box li:nth-child(3) {
+    border-right: 1px solid #d5d5d5;
+  }
+  .faq_tab_box li:nth-child(4),
+.faq_tab_box li:nth-child(5) {
+    border-top: none;
+    width: 50%;
+  }
   input[type=text],
 input[type=password],
 select {
