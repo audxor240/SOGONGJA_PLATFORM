@@ -35,7 +35,7 @@ var lat = map.getCenter().getLat(),
     x1 = map.getBounds().getSouthWest().getLat(),
     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
-var codeType3 = 1;
+var codeType3 = '1';
 var polygons = [];
 var circles = [];
 
@@ -198,6 +198,7 @@ function displayArea(area) {
 
     var info = area.info;
     var content = '';
+    console.log("codeType3 : " + codeType3)
     if (codeType3 === '1') {
         // content = info.stores + ',' + info.franc;
         content = '111';
@@ -208,7 +209,7 @@ function displayArea(area) {
         // content = info.rt_all;
         content = '333';
     }
-
+    console.log("content : " + content)
     var circle = new kakao.maps.CustomOverlay({
         position: centroid(area.path),
         content: content
