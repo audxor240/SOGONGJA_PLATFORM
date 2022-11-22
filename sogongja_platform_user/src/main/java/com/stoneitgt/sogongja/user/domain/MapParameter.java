@@ -26,5 +26,9 @@ public class MapParameter extends BaseParameter {
     // 상권 특구에 사용
     private String codeType2 = "A";
 
+    // 지역연구 에 사용
+    private int codeType3 = 1;
+
     private String areaCd;
+    private String emdCd;
 }
