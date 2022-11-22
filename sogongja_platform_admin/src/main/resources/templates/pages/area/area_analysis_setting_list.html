@@ -14,10 +14,10 @@
                         <a th:href="@{/areaSetting/shop}">상점 데이터</a>
                     </div>
                     <div class="col-sm-2 tab active">
-                        <a th:href="@{/areaSetting/analysis}">상권 데이터(일반)</a>
+                        <a th:href="@{/areaSetting/analysis?type=1&subType=0}">상권 데이터(일반)</a>
                     </div>
                     <div class="col-sm-2 tab">
-                        <a th:href="@{/areaSetting/analysis}">상권 데이터(업종)</a>
+                        <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
                     </div>
                     <div class="col-sm-2 tab">
                         <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
@@ -30,30 +30,41 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm">
-
+                    <form name="searchForm" th:action="@{/areaSetting/analysis(type=${params.type},subType=${params.subType})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                        <input type="hidden" th:field="*{type}">
+                        <input type="hidden" th:field="*{subType}">
                         <div class="btn-group btn-group-toggle p-2" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> 전체
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '0'?'active':''}">
+                                <input type="radio" name="analysis_options" id="option0" value="analysis0" th:checked="${params.subType == '0'}"> 전체
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> 상권
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '1'?'active':''}" th:if="${params.type == '1'}">
+                                <input type="radio" name="analysis_options" id="option1" value="analysis1" th:checked="${params.subType == '1'}"> 상권
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"> 인구
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '2'?'active':''}" th:if="${params.type == '1'}">
+                                <input type="radio" name="analysis_options" id="option2" value="analysis2" th:checked="${params.subType == '2'}"> 인구
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option4" autocomplete="off"> 소득소비
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '3'?'active':''}" th:if="${params.type == '1'}">
+                                <input type="radio" name="analysis_options" id="option3" value="analysis3" th:checked="${params.subType == '3'}"> 소득소비
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option5" autocomplete="off"> 아파트
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '4'?'active':''}" th:if="${params.type == '1'}">
+                                <input type="radio" name="analysis_options" id="option4" value="analysis4" th:checked="${params.subType == '4'}"> 아파트
                             </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" id="option6" autocomplete="off"> 상권안정화지표
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '5'?'active':''}" th:if="${params.type == '1'}">
+                                <input type="radio" name="analysis_options" id="option5" value="analysis5" th:checked="${params.subType == '5'}"> 상권안정화지표
+                            </label>
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '6'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option6" value="analysis6" th:checked="${params.subType == '6'}"> 점포
+                            </label>
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '7'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option7" value="analysis7" th:checked="${params.subType == '7'}"> 추정 매출
+                            </label>
+                            <label class="btn btn-secondary" th:classappend="${params.subType == '8'?'active':''}" th:if="${params.type == '2'}">
+                                <input type="radio" name="analysis_options" id="option8" value="analysis8" th:checked="${params.subType == '8'}"> 개폐업
                             </label>
                         </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group row">
                                     <div class="col-sm-4">
@@ -91,12 +102,14 @@
                                 </div>
                             </div>
                         </div>
+                        -->
+
                         <div class="row">
                             <div class="col-sm-1">
-                                <label class="col-sm-12 col-form-label">검색</label>
+                                <label class="col-sm-12 col-form-label">상권명</label>
                             </div>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+                                <input type="text" class="form-control" th:field="*{keyword}" placeholder="검색어를 입력하세요">
                             </div>
                             <button type="submit" class="col-sm-3 btn btn-primary btn-icon-text btn-search">
                                 <i class="btn-icon-prepend" data-feather="search"></i>검색
@@ -129,6 +142,9 @@
                                 </div>
                             </th:block>
                         </div>
+                        <div id="loding" style="display: none">
+                            <img th:src="@{/assets/images/spinner.svg}">
+                        </div>
                         <div class="row justify-content-end col-sm-8">
                             <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
                                 <div class="col-sm-8 mr-2 custom-file">
@@ -140,54 +156,235 @@
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
                             </form>
                             <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
-                            <button type="button" class="btn col-sm-2 btn-primary"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
+                            <button type="button" class="btn col-sm-2 btn-primary" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
                         </div>
                     </div>
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
-                        <th:block th:include="fragments/search_hidden"></th:block>
+                    <form name="excelDown" id="excelDown" th:action="@{/api/excel/download}" method="POST">
+                        <!--/*<form name="excelDown" id="excelDown" th:action="@{/excel/download}" method="POST">*/-->
+                        <input type="hidden" name="seqStr">
+                        <input type="hidden" name="colHeader">
+                        <input type="hidden" name="colHeaderName">
+                        <input type="hidden" name="excelType" value="">
+                        <input type="hidden" name="type" th:value="${params.type}">
+                        <input type="hidden" name="subType" th:value="${params.subType}">
                     </form>
+                    <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                        <th:block th:include="fragments/search_hidden"></th:block>
+                    </form>*/-->
                     <p class="card-description"></p>
                     <div class="table-responsive" style="text-align:center">
-                        <table class="table table-hover" style="white-space: nowrap">
+                        <table id="list_table" class="table table-hover" style="white-space: nowrap">
                             <thead>
                             <tr>
                                 <th>선택</th>
-                                <th>#</th>
-                                <th>상호명</th>
-                                <th>지역명</th>
-                                <th>상권업종대분류코드</th>
-                                <th>상권업종대분류명</th>
-                                <th>상권업종중분류코드</th>
-                                <th>상권업종중분류명</th>
-                                <th>상권업종소분류코드</th>
-                                <th>상권업종소분류명</th>
-                                <th>등록일</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
-                                <th>1234123</th>
+                                <th id="area_seq" >#</th>
+                                <th id="year" >년도</th>
+                                <th id="qrt" >분기</th>
+                                <th id="area_div_cd" >상권 구분 코드</th>
+                                <th id="area_div_nm" th:if="${param.type == '2'}">상권 구분 코드명</th>
+                                <th id="area_cd" >상권 코드</th>
+                                <th id="area_nm" >상권명</th>
+                                <th id="join" th:if="${areaColmunParameter.join}">병합코드</th>
+                                <th id="liv_popul" th:if="${areaColmunParameter.livPopul}">총 생활인구</th>
+                                <th id="m_popul" th:if="${areaColmunParameter.mPopul}">남성 생활인구</th>
+                                <th id="f_popul" th:if="${areaColmunParameter.fPopul}">여성 생활인구</th>
+                                <th id="age_10_d_1" th:if="${areaColmunParameter.age10D1}">10대 주중시간1 생활인구</th>
+                                <th id="age_10_d_2" th:if="${areaColmunParameter.age10D2}">10대 주중시간2 생활인구</th>
+                                <th id="age_10_d_3" th:if="${areaColmunParameter.age10D3}">10대 주중시간3 생활인구</th>
+                                <th id="age_10_d_4" th:if="${areaColmunParameter.age10D4}">10대 주중시간4 생활인구</th>
+                                <th id="age_10_d_5" th:if="${areaColmunParameter.age10D5}">10대 주중시간5 생활인구</th>
+                                <th id="age_10_d_6" th:if="${areaColmunParameter.age10D6}">10대 주중시간6 생활인구</th>
+                                <th id="age_20_d_1" th:if="${areaColmunParameter.age20D1}">20대 주중시간1 생활인구</th>
+                                <th id="age_20_d_2" th:if="${areaColmunParameter.age20D2}">20대 주중시간2 생활인구</th>
+                                <th id="age_20_d_3" th:if="${areaColmunParameter.age20D3}">20대 주중시간3 생활인구</th>
+                                <th id="age_20_d_4" th:if="${areaColmunParameter.age20D4}">20대 주중시간4 생활인구</th>
+                                <th id="age_20_d_5" th:if="${areaColmunParameter.age20D5}">20대 주중시간5 생활인구</th>
+                                <th id="age_20_d_6" th:if="${areaColmunParameter.age20D6}">20대 주중시간6 생활인구</th>
+                                <th id="age_30_d_1" th:if="${areaColmunParameter.age30D1}">30대 주중시간1 생활인구</th>
+                                <th id="age_30_d_2" th:if="${areaColmunParameter.age30D2}">30대 주중시간2 생활인구</th>
+                                <th id="age_30_d_3" th:if="${areaColmunParameter.age30D3}">30대 주중시간3 생활인구</th>
+                                <th id="age_30_d_4" th:if="${areaColmunParameter.age30D4}">30대 주중시간4 생활인구</th>
+                                <th id="age_30_d_5" th:if="${areaColmunParameter.age30D5}">30대 주중시간5 생활인구</th>
+                                <th id="age_30_d_6" th:if="${areaColmunParameter.age30D6}">30대 주중시간6 생활인구</th>
+                                <th id="age_40_d_1" th:if="${areaColmunParameter.age40D1}">40대 주중시간1 생활인구</th>
+                                <th id="age_40_d_2" th:if="${areaColmunParameter.age40D2}">40대 주중시간2 생활인구</th>
+                                <th id="age_40_d_3" th:if="${areaColmunParameter.age40D3}">40대 주중시간3 생활인구</th>
+                                <th id="age_40_d_4" th:if="${areaColmunParameter.age40D4}">40대 주중시간4 생활인구</th>
+                                <th id="age_40_d_5" th:if="${areaColmunParameter.age40D5}">40대 주중시간5 생활인구</th>
+                                <th id="age_40_d_6" th:if="${areaColmunParameter.age40D6}">40대 주중시간6 생활인구</th>
+                                <th id="age_50_d_1" th:if="${areaColmunParameter.age50D1}">50대 주중시간1 생활인구</th>
+                                <th id="age_50_d_2" th:if="${areaColmunParameter.age50D2}">50대 주중시간2 생활인구</th>
+                                <th id="age_50_d_3" th:if="${areaColmunParameter.age50D3}">50대 주중시간3 생활인구</th>
+                                <th id="age_50_d_4" th:if="${areaColmunParameter.age50D4}">50대 주중시간4 생활인구</th>
+                                <th id="age_50_d_5" th:if="${areaColmunParameter.age50D5}">50대 주중시간5 생활인구</th>
+                                <th id="age_50_d_6" th:if="${areaColmunParameter.age50D6}">50대 주중시간6 생활인구</th>
+                                <th id="age_60_d_1" th:if="${areaColmunParameter.age60D1}">60대 주중시간1 생활인구</th>
+                                <th id="age_60_d_2" th:if="${areaColmunParameter.age60D2}">60대 주중시간2 생활인구</th>
+                                <th id="age_60_d_3" th:if="${areaColmunParameter.age60D3}">60대 주중시간3 생활인구</th>
+                                <th id="age_60_d_4" th:if="${areaColmunParameter.age60D4}">60대 주중시간4 생활인구</th>
+                                <th id="age_60_d_5" th:if="${areaColmunParameter.age60D5}">60대 주중시간5 생활인구</th>
+                                <th id="age_60_d_6" th:if="${areaColmunParameter.age60D6}">60대 주중시간6 생활인구</th>
+                                <th id="age_10_w_1" th:if="${areaColmunParameter.age10W1}">10대 주말시간1 생활인구</th>
+                                <th id="age_10_w_2" th:if="${areaColmunParameter.age10W2}">10대 주말시간2 생활인구</th>
+                                <th id="age_10_w_3" th:if="${areaColmunParameter.age10W3}">10대 주말시간3 생활인구</th>
+                                <th id="age_10_w_4" th:if="${areaColmunParameter.age10W4}">10대 주말시간4 생활인구</th>
+                                <th id="age_10_w_5" th:if="${areaColmunParameter.age10W5}">10대 주말시간5 생활인구</th>
+                                <th id="age_10_w_6" th:if="${areaColmunParameter.age10W6}">10대 주말시간6 생활인구</th>
+                                <th id="age_20_w_1" th:if="${areaColmunParameter.age20W1}">20대 주말시간1 생활인구</th>
+                                <th id="age_20_w_2" th:if="${areaColmunParameter.age20W2}">20대 주말시간2 생활인구</th>
+                                <th id="age_20_w_3" th:if="${areaColmunParameter.age20W3}">20대 주말시간3 생활인구</th>
+                                <th id="age_20_w_4" th:if="${areaColmunParameter.age20W4}">20대 주말시간4 생활인구</th>
+                                <th id="age_20_w_5" th:if="${areaColmunParameter.age20W5}">20대 주말시간5 생활인구</th>
+                                <th id="age_20_w_6" th:if="${areaColmunParameter.age20W6}">20대 주말시간6 생활인구</th>
+                                <th id="age_30_w_1" th:if="${areaColmunParameter.age30W1}">30대 주말시간1 생활인구</th>
+                                <th id="age_30_w_2" th:if="${areaColmunParameter.age30W2}">30대 주말시간2 생활인구</th>
+                                <th id="age_30_w_3" th:if="${areaColmunParameter.age30W3}">30대 주말시간3 생활인구</th>
+                                <th id="age_30_w_4" th:if="${areaColmunParameter.age30W4}">30대 주말시간4 생활인구</th>
+                                <th id="age_30_w_5" th:if="${areaColmunParameter.age30W5}">30대 주말시간5 생활인구</th>
+                                <th id="age_30_w_6" th:if="${areaColmunParameter.age30W6}">30대 주말시간6 생활인구</th>
+                                <th id="age_40_w_1" th:if="${areaColmunParameter.age40W1}">40대 주말시간1 생활인구</th>
+                                <th id="age_40_w_2" th:if="${areaColmunParameter.age40W2}">40대 주말시간2 생활인구</th>
+                                <th id="age_40_w_3" th:if="${areaColmunParameter.age40W3}">40대 주말시간3 생활인구</th>
+                                <th id="age_40_w_4" th:if="${areaColmunParameter.age40W4}">40대 주말시간4 생활인구</th>
+                                <th id="age_40_w_5" th:if="${areaColmunParameter.age40W5}">40대 주말시간5 생활인구</th>
+                                <th id="age_40_w_6" th:if="${areaColmunParameter.age40W6}">40대 주말시간6 생활인구</th>
+                                <th id="age_50_w_1" th:if="${areaColmunParameter.age50W1}">50대 주말시간1 생활인구</th>
+                                <th id="age_50_w_2" th:if="${areaColmunParameter.age50W2}">50대 주말시간2 생활인구</th>
+                                <th id="age_50_w_3" th:if="${areaColmunParameter.age50W3}">50대 주말시간3 생활인구</th>
+                                <th id="age_50_w_4" th:if="${areaColmunParameter.age50W4}">50대 주말시간4 생활인구</th>
+                                <th id="age_50_w_5" th:if="${areaColmunParameter.age50W5}">50대 주말시간5 생활인구</th>
+                                <th id="age_50_w_6" th:if="${areaColmunParameter.age50W6}">50대 주말시간6 생활인구</th>
+                                <th id="age_60_w_1" th:if="${areaColmunParameter.age60W1}">60대 주말시간1 생활인구</th>
+                                <th id="age_60_w_2" th:if="${areaColmunParameter.age60W2}">60대 주말시간2 생활인구</th>
+                                <th id="age_60_w_3" th:if="${areaColmunParameter.age60W3}">60대 주말시간3 생활인구</th>
+                                <th id="age_60_w_4" th:if="${areaColmunParameter.age60W4}">60대 주말시간4 생활인구</th>
+                                <th id="age_60_w_5" th:if="${areaColmunParameter.age60W5}">60대 주말시간5 생활인구</th>
+                                <th id="age_60_w_6" th:if="${areaColmunParameter.age60W6}">60대 주말시간6 생활인구</th>
+                                <th id="st_popul" th:if="${areaColmunParameter.stPopul}">길 단위 상존인구</th>
+                                <th id="bd_popul" th:if="${areaColmunParameter.bdPopul}">건물 단위 상존인구</th>
+                                <th id="r_popul" th:if="${areaColmunParameter.rPopul}">주거인구</th>
+                                <th id="w_popul" th:if="${areaColmunParameter.wPopul}">직장인구</th>
+                                <th id="sum_food_ex" th:if="${areaColmunParameter.sumFoodEx}">식료품 지출 총 금액</th>
+                                <th id="sum_clt_ex" th:if="${areaColmunParameter.sumCltEx}">의류 지출 총 금액</th>
+                                <th id="sum_nec_ex" th:if="${areaColmunParameter.sumNecEx}">생활용품 지출 총 금액</th>
+                                <th id="sum_med_ex" th:if="${areaColmunParameter.sumMedEx}">의료비 지출 총 금액</th>
+                                <th id="sum_trp_ex" th:if="${areaColmunParameter.sumTrpEx}">교통 지출 총 금액</th>
+                                <th id="sum_lei_ex" th:if="${areaColmunParameter.sumLeiEx}">여가 지출 총 금액</th>
+                                <th id="sum_cul_ex" th:if="${areaColmunParameter.sumCulEx}">문화 지출 총 금액</th>
+                                <th id="sum_edu_ex" th:if="${areaColmunParameter.sumEduEx}">교육 지출 총 금액</th>
+                                <th id="sum_ent_ex" th:if="${areaColmunParameter.sumEntEx}">유흥 지출 총 금액</th>
+                                <th id="ct_apt_com" th:if="${areaColmunParameter.ctAptCom}">아파트 단지 수</th>
+                                <th id="ct_apt_hou" th:if="${areaColmunParameter.ctAptHou}">아파트 세대 수</th>
+                                <th id="idx_stb_area" th:if="${areaColmunParameter.idxStbArea}">상권안정화지수</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td><input type="checkbox" th:name="chk_shop"></td>
+                                <td><input type="checkbox" th:name="research_check" th:value="${item.area_seq}"></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td th:text="${item.year}">년도(year)</td>
+                                <td th:text="${item.qrt}">분기(qrt)</td>
+                                <td th:text="${item.area_div_cd}">상권 구분 코드(area_div_cd)</td>
+                                <td th:text="${item.area_div_nm}" th:if="${areaColmunParameter.areaDivNm}">상권 구분 코드명(area_div_nm)</td>
+                                <td th:text="${item.area_cd}">상권 코드(area_cd)</td>
+                                <td th:text="${item.area_nm}">상권명(area_nm)</td>
+                                <td th:if="${areaColmunParameter.join}" th:text="${item.join}">병합코드(join)</td>
+                                <td th:if="${areaColmunParameter.livPopul}" th:text="${#numbers.formatInteger(item.liv_popul,0,'COMMA')}">총 생활인구(liv_popul)</td>
+                                <td th:if="${areaColmunParameter.mPopul}" th:text="${#numbers.formatInteger(item.liv_popul,0,'COMMA')}">남성 생활인구(m_popul)</td>
+                                <td th:if="${areaColmunParameter.fPopul}" th:text="${#numbers.formatInteger(item.f_popul,0,'COMMA')}">여성 생활인구(f_popul)</td>
+                                <td th:if="${areaColmunParameter.age10D1}" th:text="${#numbers.formatInteger(item.age_10_d_1,0,'COMMA')}">10대 주중시간1 생활인구(age_10D1)</td>
+                                <td th:if="${areaColmunParameter.age10D2}" th:text="${#numbers.formatInteger(item.age_10_d_2,0,'COMMA')}">10대 주중시간2 생활인구(age_10D2)</td>
+                                <td th:if="${areaColmunParameter.age10D3}" th:text="${#numbers.formatInteger(item.age_10_d_3,0,'COMMA')}">10대 주중시간3 생활인구(age_10D3)</td>
+                                <td th:if="${areaColmunParameter.age10D4}" th:text="${#numbers.formatInteger(item.age_10_d_4,0,'COMMA')}">10대 주중시간4 생활인구(age_10D4)</td>
+                                <td th:if="${areaColmunParameter.age10D5}" th:text="${#numbers.formatInteger(item.age_10_d_5,0,'COMMA')}">10대 주중시간5 생활인구(age_10D5)</td>
+                                <td th:if="${areaColmunParameter.age10D6}" th:text="${#numbers.formatInteger(item.age_10_d_6,0,'COMMA')}">10대 주중시간6 생활인구(age_10D6)</td>
+                                <td th:if="${areaColmunParameter.age20D1}" th:text="${#numbers.formatInteger(item.age_20_d_1,0,'COMMA')}">20대 주중시간1 생활인구(age_20D1)</td>
+                                <td th:if="${areaColmunParameter.age20D2}" th:text="${#numbers.formatInteger(item.age_20_d_2,0,'COMMA')}">20대 주중시간2 생활인구(age_20D2)</td>
+                                <td th:if="${areaColmunParameter.age20D3}" th:text="${#numbers.formatInteger(item.age_20_d_3,0,'COMMA')}">20대 주중시간3 생활인구(age_20D3)</td>
+                                <td th:if="${areaColmunParameter.age20D4}" th:text="${#numbers.formatInteger(item.age_20_d_4,0,'COMMA')}">20대 주중시간4 생활인구(age_20D4)</td>
+                                <td th:if="${areaColmunParameter.age20D5}" th:text="${#numbers.formatInteger(item.age_20_d_5,0,'COMMA')}">20대 주중시간5 생활인구(age_20D5)</td>
+                                <td th:if="${areaColmunParameter.age20D6}" th:text="${#numbers.formatInteger(item.age_20_d_6,0,'COMMA')}">20대 주중시간6 생활인구(age_20D6)</td>
+                                <td th:if="${areaColmunParameter.age30D1}" th:text="${#numbers.formatInteger(item.age_30_d_1,0,'COMMA')}">30대 주중시간1 생활인구(age_30D1)</td>
+                                <td th:if="${areaColmunParameter.age30D2}" th:text="${#numbers.formatInteger(item.age_30_d_2,0,'COMMA')}">30대 주중시간2 생활인구(age_30D2)</td>
+                                <td th:if="${areaColmunParameter.age30D3}" th:text="${#numbers.formatInteger(item.age_30_d_3,0,'COMMA')}">30대 주중시간3 생활인구(age_30D3)</td>
+                                <td th:if="${areaColmunParameter.age30D4}" th:text="${#numbers.formatInteger(item.age_30_d_4,0,'COMMA')}">30대 주중시간4 생활인구(age_30D4)</td>
+                                <td th:if="${areaColmunParameter.age30D5}" th:text="${#numbers.formatInteger(item.age_30_d_5,0,'COMMA')}">30대 주중시간5 생활인구(age_30D5)</td>
+                                <td th:if="${areaColmunParameter.age30D6}" th:text="${#numbers.formatInteger(item.age_30_d_6,0,'COMMA')}">30대 주중시간6 생활인구(age_30D6)</td>
+                                <td th:if="${areaColmunParameter.age40D1}" th:text="${#numbers.formatInteger(item.age_40_d_1,0,'COMMA')}">40대 주중시간1 생활인구(age_40D1)</td>
+                                <td th:if="${areaColmunParameter.age40D2}" th:text="${#numbers.formatInteger(item.age_40_d_2,0,'COMMA')}">40대 주중시간2 생활인구(age_40D2)</td>
+                                <td th:if="${areaColmunParameter.age40D3}" th:text="${#numbers.formatInteger(item.age_40_d_3,0,'COMMA')}">40대 주중시간3 생활인구(age_40D3)</td>
+                                <td th:if="${areaColmunParameter.age40D4}" th:text="${#numbers.formatInteger(item.age_40_d_4,0,'COMMA')}">40대 주중시간4 생활인구(age_40D4)</td>
+                                <td th:if="${areaColmunParameter.age40D5}" th:text="${#numbers.formatInteger(item.age_40_d_5,0,'COMMA')}">40대 주중시간5 생활인구(age_40D5)</td>
+                                <td th:if="${areaColmunParameter.age40D6}" th:text="${#numbers.formatInteger(item.age_40_d_6,0,'COMMA')}">40대 주중시간6 생활인구(age_40D6)</td>
+                                <td th:if="${areaColmunParameter.age50D1}" th:text="${#numbers.formatInteger(item.age_50_d_1,0,'COMMA')}">50대 주중시간1 생활인구(age_50D1)</td>
+                                <td th:if="${areaColmunParameter.age50D2}" th:text="${#numbers.formatInteger(item.age_50_d_2,0,'COMMA')}">50대 주중시간2 생활인구(age_50D2)</td>
+                                <td th:if="${areaColmunParameter.age50D3}" th:text="${#numbers.formatInteger(item.age_50_d_3,0,'COMMA')}">50대 주중시간3 생활인구(age_50D3)</td>
+                                <td th:if="${areaColmunParameter.age50D4}" th:text="${#numbers.formatInteger(item.age_50_d_4,0,'COMMA')}">50대 주중시간4 생활인구(age_50D4)</td>
+                                <td th:if="${areaColmunParameter.age50D5}" th:text="${#numbers.formatInteger(item.age_50_d_5,0,'COMMA')}">50대 주중시간5 생활인구(age_50D5)</td>
+                                <td th:if="${areaColmunParameter.age50D6}" th:text="${#numbers.formatInteger(item.age_50_d_6,0,'COMMA')}">50대 주중시간6 생활인구(age_50D6)</td>
+                                <td th:if="${areaColmunParameter.age60D1}" th:text="${#numbers.formatInteger(item.age_60_d_1,0,'COMMA')}">60대 주중시간1 생활인구(age_60D1)</td>
+                                <td th:if="${areaColmunParameter.age60D2}" th:text="${#numbers.formatInteger(item.age_60_d_2,0,'COMMA')}">60대 주중시간2 생활인구(age_60D2)</td>
+                                <td th:if="${areaColmunParameter.age60D3}" th:text="${#numbers.formatInteger(item.age_60_d_3,0,'COMMA')}">60대 주중시간3 생활인구(age_60D3)</td>
+                                <td th:if="${areaColmunParameter.age60D4}" th:text="${#numbers.formatInteger(item.age_60_d_4,0,'COMMA')}">60대 주중시간4 생활인구(age_60D4)</td>
+                                <td th:if="${areaColmunParameter.age60D5}" th:text="${#numbers.formatInteger(item.age_60_d_5,0,'COMMA')}">60대 주중시간5 생활인구(age_60D5)</td>
+                                <td th:if="${areaColmunParameter.age60D6}" th:text="${#numbers.formatInteger(item.age_60_d_6,0,'COMMA')}">60대 주중시간6 생활인구(age_60D6)</td>
+                                <td th:if="${areaColmunParameter.age10W1}" th:text="${#numbers.formatInteger(item.age_10_w_1,0,'COMMA')}">10대 주말시간1 생활인구(age_10W1)</td>
+                                <td th:if="${areaColmunParameter.age10W2}" th:text="${#numbers.formatInteger(item.age_10_w_2,0,'COMMA')}">10대 주말시간2 생활인구(age_10W2)</td>
+                                <td th:if="${areaColmunParameter.age10W3}" th:text="${#numbers.formatInteger(item.age_10_w_3,0,'COMMA')}">10대 주말시간3 생활인구(age_10W3)</td>
+                                <td th:if="${areaColmunParameter.age10W4}" th:text="${#numbers.formatInteger(item.age_10_w_4,0,'COMMA')}">10대 주말시간4 생활인구(age_10W4)</td>
+                                <td th:if="${areaColmunParameter.age10W5}" th:text="${#numbers.formatInteger(item.age_10_w_5,0,'COMMA')}">10대 주말시간5 생활인구(age_10W5)</td>
+                                <td th:if="${areaColmunParameter.age10W6}" th:text="${#numbers.formatInteger(item.age_10_w_6,0,'COMMA')}">10대 주말시간6 생활인구(age_10W6)</td>
+                                <td th:if="${areaColmunParameter.age20W1}" th:text="${#numbers.formatInteger(item.age_20_w_1,0,'COMMA')}">20대 주말시간1 생활인구(age_20W1)</td>
+                                <td th:if="${areaColmunParameter.age20W2}" th:text="${#numbers.formatInteger(item.age_20_w_2,0,'COMMA')}">20대 주말시간2 생활인구(age_20W2)</td>
+                                <td th:if="${areaColmunParameter.age20W3}" th:text="${#numbers.formatInteger(item.age_20_w_3,0,'COMMA')}">20대 주말시간3 생활인구(age_20W3)</td>
+                                <td th:if="${areaColmunParameter.age20W4}" th:text="${#numbers.formatInteger(item.age_20_w_4,0,'COMMA')}">20대 주말시간4 생활인구(age_20W4)</td>
+                                <td th:if="${areaColmunParameter.age20W5}" th:text="${#numbers.formatInteger(item.age_20_w_5,0,'COMMA')}">20대 주말시간5 생활인구(age_20W5)</td>
+                                <td th:if="${areaColmunParameter.age20W6}" th:text="${#numbers.formatInteger(item.age_20_w_6,0,'COMMA')}">20대 주말시간6 생활인구(age_20W6)</td>
+                                <td th:if="${areaColmunParameter.age30W1}" th:text="${#numbers.formatInteger(item.age_30_w_1,0,'COMMA')}">30대 주말시간1 생활인구(age_30W1)</td>
+                                <td th:if="${areaColmunParameter.age30W2}" th:text="${#numbers.formatInteger(item.age_30_w_2,0,'COMMA')}">30대 주말시간2 생활인구(age_30W2)</td>
+                                <td th:if="${areaColmunParameter.age30W3}" th:text="${#numbers.formatInteger(item.age_30_w_3,0,'COMMA')}">30대 주말시간3 생활인구(age_30W3)</td>
+                                <td th:if="${areaColmunParameter.age30W4}" th:text="${#numbers.formatInteger(item.age_30_w_4,0,'COMMA')}">30대 주말시간4 생활인구(age_30W4)</td>
+                                <td th:if="${areaColmunParameter.age30W5}" th:text="${#numbers.formatInteger(item.age_30_w_5,0,'COMMA')}">30대 주말시간5 생활인구(age_30W5)</td>
+                                <td th:if="${areaColmunParameter.age30W6}" th:text="${#numbers.formatInteger(item.age_30_w_6,0,'COMMA')}">30대 주말시간6 생활인구(age_30W6)</td>
+                                <td th:if="${areaColmunParameter.age40W1}" th:text="${#numbers.formatInteger(item.age_40_w_1,0,'COMMA')}">40대 주말시간1 생활인구(age_40W1)</td>
+                                <td th:if="${areaColmunParameter.age40W2}" th:text="${#numbers.formatInteger(item.age_40_w_2,0,'COMMA')}">40대 주말시간2 생활인구(age_40W2)</td>
+                                <td th:if="${areaColmunParameter.age40W3}" th:text="${#numbers.formatInteger(item.age_40_w_3,0,'COMMA')}">40대 주말시간3 생활인구(age_40W3)</td>
+                                <td th:if="${areaColmunParameter.age40W4}" th:text="${#numbers.formatInteger(item.age_40_w_4,0,'COMMA')}">40대 주말시간4 생활인구(age_40W4)</td>
+                                <td th:if="${areaColmunParameter.age40W5}" th:text="${#numbers.formatInteger(item.age_40_w_5,0,'COMMA')}">40대 주말시간5 생활인구(age_40W5)</td>
+                                <td th:if="${areaColmunParameter.age40W6}" th:text="${#numbers.formatInteger(item.age_40_w_6,0,'COMMA')}">40대 주말시간6 생활인구(age_40W6)</td>
+                                <td th:if="${areaColmunParameter.age50W1}" th:text="${#numbers.formatInteger(item.age_50_w_1,0,'COMMA')}">50대 주말시간1 생활인구(age_50W1)</td>
+                                <td th:if="${areaColmunParameter.age50W2}" th:text="${#numbers.formatInteger(item.age_50_w_2,0,'COMMA')}">50대 주말시간2 생활인구(age_50W2)</td>
+                                <td th:if="${areaColmunParameter.age50W3}" th:text="${#numbers.formatInteger(item.age_50_w_3,0,'COMMA')}">50대 주말시간3 생활인구(age_50W3)</td>
+                                <td th:if="${areaColmunParameter.age50W4}" th:text="${#numbers.formatInteger(item.age_50_w_4,0,'COMMA')}">50대 주말시간4 생활인구(age_50W4)</td>
+                                <td th:if="${areaColmunParameter.age50W5}" th:text="${#numbers.formatInteger(item.age_50_w_5,0,'COMMA')}">50대 주말시간5 생활인구(age_50W5)</td>
+                                <td th:if="${areaColmunParameter.age50W6}" th:text="${#numbers.formatInteger(item.age_50_w_6,0,'COMMA')}">50대 주말시간6 생활인구(age_50W6)</td>
+                                <td th:if="${areaColmunParameter.age60W1}" th:text="${#numbers.formatInteger(item.age_60_w_1,0,'COMMA')}">60대 주말시간1 생활인구(age_60W1)</td>
+                                <td th:if="${areaColmunParameter.age60W2}" th:text="${#numbers.formatInteger(item.age_60_w_2,0,'COMMA')}">60대 주말시간2 생활인구(age_60W2)</td>
+                                <td th:if="${areaColmunParameter.age60W3}" th:text="${#numbers.formatInteger(item.age_60_w_3,0,'COMMA')}">60대 주말시간3 생활인구(age_60W3)</td>
+                                <td th:if="${areaColmunParameter.age60W4}" th:text="${#numbers.formatInteger(item.age_60_w_4,0,'COMMA')}">60대 주말시간4 생활인구(age_60W4)</td>
+                                <td th:if="${areaColmunParameter.age60W5}" th:text="${#numbers.formatInteger(item.age_60_w_5,0,'COMMA')}">60대 주말시간5 생활인구(age_60W5)</td>
+                                <td th:if="${areaColmunParameter.age60W6}" th:text="${#numbers.formatInteger(item.age_60_w_6,0,'COMMA')}">60대 주말시간6 생활인구(age_60W6)</td>
+                                <td th:if="${areaColmunParameter.stPopul}" th:text="${#numbers.formatInteger(item.st_popul,0,'COMMA')}">길 단위 상존인구(st_popul)</td>
+                                <td th:if="${areaColmunParameter.bdPopul}" th:text="${#numbers.formatInteger(item.bd_popul,0,'COMMA')}">건물 단위 상존인구(bd_popul</td>
+                                <td th:if="${areaColmunParameter.rPopul}" th:text="${#numbers.formatInteger(item.r_popul,0,'COMMA')}">주거인구(r_popul)</td>
+                                <td th:if="${areaColmunParameter.wPopul}" th:text="${#numbers.formatInteger(item.w_popul,0,'COMMA')}">직장인구(w_popul)</td>
+
+                                <td th:if="${areaColmunParameter.sumFoodEx}" th:text="${#numbers.formatInteger(item.sum_food_ex,0,'COMMA')}">식료품 지출 총 금액(sum_food_ex)</td>
+                                <td th:if="${areaColmunParameter.sumCltEx}" th:text="${#numbers.formatInteger(item.sum_clt_ex,0,'COMMA')}">의류 지출 총 금액(sum_clt_ex)</td>
+                                <td th:if="${areaColmunParameter.sumNecEx}" th:text="${#numbers.formatInteger(item.sum_nec_ex,0,'COMMA')}">생활용품 지출 총 금액(sum_nec_ex)</td>
+                                <td th:if="${areaColmunParameter.sumMedEx}" th:text="${#numbers.formatInteger(item.sum_med_ex,0,'COMMA')}">의료비 지출 총 금액(sum_med_ex)</td>
+                                <td th:if="${areaColmunParameter.sumTrpEx}" th:text="${#numbers.formatInteger(item.sum_trp_ex,0,'COMMA')}">교통 지출 총 금액(sum_trp_ex)</td>
+                                <td th:if="${areaColmunParameter.sumLeiEx}" th:text="${#numbers.formatInteger(item.sum_lei_ex,0,'COMMA')}">여가 지출 총 금액(sum_lei_ex)</td>
+                                <td th:if="${areaColmunParameter.sumCulEx}" th:text="${#numbers.formatInteger(item.sum_cul_ex,0,'COMMA')}">문화 지출 총 금액(sum_cul_ex)</td>
+                                <td th:if="${areaColmunParameter.sumEduEx}" th:text="${#numbers.formatInteger(item.sum_edu_ex,0,'COMMA')}">교육 지출 총 금액(sum_edu_ex)</td>
+                                <td th:if="${areaColmunParameter.sumEntEx}" th:text="${#numbers.formatInteger(item.sum_ent_ex,0,'COMMA')}">유흥 지출 총 금액(sum_ent_ex)</td>
+                                <td th:if="${areaColmunParameter.ctAptCom}" th:text="${#numbers.formatInteger(item.ct_apt_com,0,'COMMA')}">아파트 단지 수(ct_apt_com)</td>
+                                <td th:if="${areaColmunParameter.ctAptHou}" th:text="${#numbers.formatInteger(item.ct_apt_hou,0,'COMMA')}">아파트 세대 수(ct_apt_hou)</td>
+                                <td th:if="${areaColmunParameter.idxStbArea}" th:text="${item.idx_stb_area}">상권안정화지수(idx_stb_area)</td>
                             </tr>
                             </tbody>
                         </table>
@@ -205,7 +402,10 @@
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
-<th:block layout:fragment="custom_js">
+<th:block layout:fragment="custom_js" th:inline="javascript">
+    <script>
+        var type = [[${params.type}]];
+    </script>
     <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
     <script th:src="@{/assets/js/pages/area/area.js}"></script>
 </th:block>

@@ -33,6 +33,9 @@ public class ExcelService extends BaseService {
     private BoardService boardService;
 
     @Autowired
+    private ReSearchShopService reSearchShopService;
+
+    @Autowired
     private SupportMapper supportMapper;
 
     @Autowired
@@ -43,6 +46,9 @@ public class ExcelService extends BaseService {
     private ConsultingMapper consultingMapper;
     @Autowired
     private BoardMapper boardMapper;
+
+    @Autowired
+    private ReSearchShopMapper reSearchShopMapper;
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public String insertExcel(Sheet worksheet, String excelType, int loginUserSeq) throws IOException {
@@ -55,6 +61,7 @@ public class ExcelService extends BaseService {
             case "cou": couDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/counseling"; break;  //상담사례
             case "pro": proDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/board/project"; break;     //지원 및 정책
             case "faq": faqDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/faq"; break;         //faq
+            case "shop": areaShopDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/shop"; break;         //상점데이터
         }
 
         return returnUrl;
@@ -274,6 +281,77 @@ public class ExcelService extends BaseService {
         }
         System.out.println("dataList :: "+dataList);
         boardService.insertProjectExcel(dataList);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void areaShopDataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
+
+        //faqService.deleteAllFaq(loginUserSeq);  //faq 전체 삭제
+        System.out.println("START-------------------!!!!!!!!!!!!!!!!");
+        List<ReSearchShop> dataList = new ArrayList<>();
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            Row row = worksheet.getRow(i);
+
+            ReSearchShop data = new ReSearchShop();
+
+            System.out.println("Setting COUNT :: "+i);
+
+            int shopNo = Integer.parseInt(row.getCell(0).getStringCellValue());
+            int reSearchShopCnt = reSearchShopMapper.checkReSearchShop(shopNo);
+            if(reSearchShopCnt > 0){ //같은 상점이 있으면 패스
+                continue;
+            }
+
+            String apprvDate = "0000-00-00 00:00:00";
+            if(!row.getCell(28).getStringCellValue().equals("")){
+                apprvDate = row.getCell(28).getStringCellValue();
+            }
+
+            data.setShopNo(shopNo);
+            data.setShopNm(row.getCell(1).getStringCellValue());
+            data.setBranch(row.getCell(2).getStringCellValue());
+            data.setCodeType1(row.getCell(3).getStringCellValue());
+            data.setNmType1(row.getCell(4).getStringCellValue());
+            data.setCodeType2(row.getCell(5).getStringCellValue());
+            data.setNmType2(row.getCell(6).getStringCellValue());
+            data.setCodeType3(row.getCell(7).getStringCellValue());
+            data.setNmType3(row.getCell(8).getStringCellValue());
+            data.setAddrCd(row.getCell(9).getStringCellValue());
+            data.setAddr(row.getCell(10).getStringCellValue());
+            data.setStAddr(row.getCell(11).getStringCellValue());
+            data.setEmdCd(row.getCell(12).getStringCellValue());
+            data.setEmdNm(row.getCell(13).getStringCellValue());
+            data.setLongitude(Float.parseFloat(row.getCell(14).getStringCellValue()));
+            data.setLatitude(Float.parseFloat(row.getCell(15).getStringCellValue()));
+            data.setSubStaNm(row.getCell(16).getStringCellValue());
+            data.setSubStaNo(row.getCell(17).getStringCellValue());
+            data.setAveSubPassOn(Float.parseFloat(row.getCell(18).getStringCellValue()));
+            data.setAveSubPassOff(Float.parseFloat(row.getCell(19).getStringCellValue()));
+            data.setSumSubPassOn(Float.parseFloat(row.getCell(20).getStringCellValue()));
+            data.setSumSubPassOff(Float.parseFloat(row.getCell(21).getStringCellValue()));
+            data.setBusStaNm(row.getCell(22).getStringCellValue());
+            data.setArsId(row.getCell(23).getStringCellValue());
+            data.setAveBusPassOn(Float.parseFloat(row.getCell(24).getStringCellValue()));
+            data.setAveBusPassOff(Float.parseFloat(row.getCell(25).getStringCellValue()));
+            data.setSumBusPassOn(Float.parseFloat(row.getCell(26).getStringCellValue()));
+            data.setSumBusPassOff(Float.parseFloat(row.getCell(27).getStringCellValue()));
+            data.setApprvDate(apprvDate);
+            data.setCtGrd(Integer.parseInt(row.getCell(29).getStringCellValue()));
+            data.setCtBase(Integer.parseInt(row.getCell(30).getStringCellValue()));
+            data.setPincpUseCd(Integer.parseInt(row.getCell(31).getStringCellValue()));
+            data.setPincpUse(row.getCell(32).getStringCellValue());
+            data.setOtherUse(row.getCell(33).getStringCellValue());
+            data.setLoginUserSeq(loginUserSeq);
+
+            dataList.add(data);
+
+            if(apprvDate.equals("")){
+                System.out.println("data :: "+data);
+                return;
+            }
+        }
+        reSearchShopService.insertReSearchShopExcel(dataList);
     }
 
 }

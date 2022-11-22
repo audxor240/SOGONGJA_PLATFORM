@@ -1,6 +1,7 @@
 package com.stoneitgt.sogongja.admin.mapper;
 
 import com.stoneitgt.sogongja.domain.Board;
+import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.ReSearchShop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -20,4 +21,8 @@ public interface ReSearchShopMapper {
     int selectTotalRecords();
 
     int deleteReSearchShop(Map<String, Object> params);
+
+    int insertReSearchShopExcel(List<ReSearchShop> ReSearchShop);
+
+    int checkReSearchShop(int shopNo);
 }

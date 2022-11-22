@@ -51,17 +51,113 @@
                 #{item}
             </foreach>
         </if>
-        order by SHOP_SEQ desc limit 2000;
+        order by SHOP_SEQ desc ;
     </select>
 
     <update id="deleteReSearchShop" parameterType="map" >
-        /* file : EducationMapper.xml, id : deleteEducation */
+        /* file : ReSearchShopMapper.xml, id : deleteEducation */
         UPDATE ST_RESEARCH_SHOP
         SET DEL_FLAG     = 1
           , DEL_USER_SEQ = #{login_user_seq}
           , DEL_DATE     = CURRENT_TIMESTAMP()
         WHERE SHOP_SEQ      = #{shop_seq}
     </update>
+
+    <insert id="insertReSearchShopExcel" parameterType="java.util.List">
+        /* file : ReSearchShopMapper.xml, id : insertReSearchShopExcel */
+        INSERT
+        INTO ST_RESEARCH_SHOP (
+        SHOP_NO
+        , SHOP_NM
+        , BRANCH
+        , CODE_TYPE1
+        , NM_TYPE1
+        , CODE_TYPE2
+        , NM_TYPE2
+        , CODE_TYPE3
+        , NM_TYPE3
+        , ADDR_CD
+        , ADDR
+        , ST_ADDR
+        , EMD_CD
+        , EMD_NM
+        , LONGITUDE
+        , LATITUDE
+        , SUB_STA_NM
+        , SUB_STA_NO
+        , AVE_SUB_PASS_ON
+        , AVE_SUB_PASS_OFF
+        , SUM_SUB_PASS_ON
+        , SUM_SUB_PASS_OFF
+        , BUS_STA_NM
+        , ARS_ID
+        , AVE_BUS_PASS_ON
+        , AVE_BUS_PASS_OFF
+        , SUM_BUS_PASS_ON
+        , SUM_BUS_PASS_OFF
+        , APPRV_DATE
+        , CT_GRD
+        , CT_BASE
+        , PINCP_USE_CD
+        , PRINCP_USE
+        , OTHER_USE
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.shopNo}
+            , #{item.shopNm}
+            , #{item.branch}
+            , #{item.codeType1}
+            , #{item.nmType1}
+            , #{item.codeType2}
+            , #{item.nmType2}
+            , #{item.codeType3}
+            , #{item.nmType3}
+            , #{item.addrCd}
+            , #{item.addr}
+            , #{item.stAddr}
+            , #{item.emdCd}
+            , #{item.emdNm}
+            , #{item.longitude}
+            , #{item.latitude}
+            , #{item.subStaNm}
+            , #{item.subStaNo}
+            , #{item.aveSubPassOn}
+            , #{item.aveSubPassOff}
+            , #{item.sumSubPassOn}
+            , #{item.sumSubPassOff}
+            , #{item.busStaNm}
+            , #{item.arsId}
+            , #{item.aveBusPassOn}
+            , #{item.aveBusPassOff}
+            , #{item.sumBusPassOn}
+            , #{item.sumBusPassOff}
+            , #{item.apprvDate}
+            , #{item.ctGrd}
+            , #{item.ctBase}
+            , #{item.pincpUseCd}
+            , #{item.pincpUse}
+            , #{item.otherUse}
+            , #{item.loginUserSeq}
+            , CURRENT_TIMESTAMP()
+            )
+        </foreach>
+
+
+        <selectKey resultType="int" keyProperty="shopSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="checkReSearchShop" parameterType="int" resultType="int">
+        /* file : ReSearchShopMapper.xml, id : checkReSearchShop */
+        SELECT count(*)
+        FROM ST_RESEARCH_SHOP
+        WHERE DEL_FLAG = 0
+          AND SHOP_NO  = #{shopNo}
+    </select>
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
