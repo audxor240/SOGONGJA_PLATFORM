@@ -474,8 +474,7 @@
   margin-left: 8px
   &.area
     +positionAt(fixed, $left:50%, $bottom:50px)
-  &.storelist
-    display: none
+
 .category
   width: 100%
   +flex_type()
@@ -937,18 +936,49 @@
   .areaTap
     +positionAt(absolute, $top: 20px, $left:20px)
     z-index: 1
-    li
+    >li
       list-style: none
       float: left
-      padding: 10px
-      border: 1px solid #eee
-      background-color: #fff
+      width: 100px
       &.on
         color: #fff
         background-color: #0f7833
-        ul
-        &.openclose_list
-          display: none
+      .openclose
+        text-align: center
+        padding: 14px
+        color: #bbb
+        background-color: #fff
+        &.on
+          background: #E9F0FF
+          border: 1px solid $blue
+          border-radius: 4px
+          color: $blue
+      .openclose_list
+        margin-top: 6px
+        display: none
+        &.on
+          display: block
+          border-radius: 4px
+          overflow: hidden
+          li
+            float: none
+      input[type=radio]
+        display: none
+        &:checked + label
+          border: 1px solid $blue
+          color: $blue
+          border-radius: 4px
+          background: #E9F0FF
+      label
+        display: block
+        height: 100%
+        width: 100%
+        padding: 14px
+        color: #bbb
+        text-align: center
+        background-color: #fff
+
+
   #areaCategory
     +positionAt(absolute, $bottom: 120px, $right:10px)
     border-radius: 5px
@@ -966,20 +996,25 @@
       text-align: center
       cursor: pointer
   #filter
-    +positionAt(fixed, $top: 156px, $right:200px)
+    +positionAt(absolute, $top: 16px, $left:calc(50% + 364px))
+    transform: translateX(-50%)
     z-index: 2
     .filterIcon
-      background-color: blue
-      width: 60px
-      height: 20px
+      background-color: $blue
+      padding: 14px 30px
       text-align: center
+      color: #fff
+      border-radius: 4px
     .filterbox
       +positionAt(absolute, $right:0px)
+      margin-top: 8px
       display: none
       background-color: #fff
       width: 600px
       height: auto
-      padding: 20px
+      padding: 16px
+      &.on
+        display: block
       span
         float: right
       ul
@@ -1054,11 +1089,18 @@
   #sidebar
     +positionAt(fixed, $top:71px, $left:0)
     height: calc(100vh - 71px)
+  #map_wrap
+    #filter
+      +positionAt(absolute, $top: 72px, $right:20px, $left:auto)
+      transform: none
 
 @include mobile
   #map_wrap
     height: calc(100vh - 71px)
     top: 71px
+    &.area_map
+      top: 110px
+      height: calc(100vh - 110px)
   #map
     height: 100%
   .custom_zoomcontrol
@@ -1190,8 +1232,11 @@
         z-index: 999
         &:after
           transform: rotate(135deg)
-
-@include mobile
-
+  #map_wrap
+    .areaTap
+      +positionAt(fixed, $top: 72px, $right:0, $left:0)
+      width: 100%
+      >li
+        width: 33.33%
 
 @include maxMobile
