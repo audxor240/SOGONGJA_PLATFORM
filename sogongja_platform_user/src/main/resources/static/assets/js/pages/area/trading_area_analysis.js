@@ -24,17 +24,20 @@ areaCustomOverlay.setContent(areaContentNode);
 areaCustomOverlay.setMap(null);//첫화면 일단지워
 
 //상점수 탭바뀜처리 펑션 RETURN으로필요
-function setcontent(area, stores){
-    var content = '<div class ="countlabel">' +
+function setAreaContent(area, stores){
+    var content =
+        '<div class ="arealabel">' +
         '<div class="countsidobox">' +
         '<div class="center">' +
         area.area_name +
-        '</div><div class="right">' +
+        '</div>' +
+        '<div class="right">' +
         stores +//상점수일때
-        '</div></div></div>';
+        '</div>' +
+        '</div>' +
+        '</div>';
     return content
 }
-
 
 
 
@@ -46,20 +49,48 @@ function displayArea(area) {
         path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
         points.push([item.latitude, item.longitude]);
     });
-    // var hole = [];
-    // $.each(area.hole, function (index, item) {
-    //     hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-    // });
+
     // 다각형을 생성합니다
-    var polygon = new kakao.maps.Polygon({
-        path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-        strokeWeight: area.stroke_weight,
-        strokeColor: area.stroke_color,
-        strokeOpacity: area.stroke_opacity,
-        strokeStyle: area.stroke_style,
-        fillColor: area.fill_color,
-        fillOpacity: area.fill_opacity
-    });
+
+        if(area.area_type=="D"){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#2E750D',
+                strokeOpacity:1,
+                fillColor: '#2E750D',
+                fillOpacity: 0.4
+            });
+        }else if(area.area_type=="A"){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#BF7116',
+                strokeOpacity:1,
+                fillColor: '#BF7116',
+                fillOpacity: 0.4
+            });
+        }else if(area.area_type=="U"){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                strokeOpacity:1,
+                fillColor: '#DD4C79',
+                fillOpacity: 0.4
+            });
+    }else{
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                strokeOpacity:1,
+                fillColor: '#1540BF',
+                fillOpacity: 0.4
+            });
+    }
+
+
     var infos = area.info;
     var stores = 0;//상점수
     var open = 0;//개업수
@@ -71,33 +102,48 @@ function displayArea(area) {
         close += infos[i].close;
         sales += infos[i].sales;
     }
+    var position = centroid(area.path)
+
+    // 결과값으로 받은 위치를 마커로 표시합니다
+    var content =
+        '<div class="areaIn">' +
+        '<p class="areacenter">' +
+        area.area_name +
+        '</p><p class="arearight">' +
+        stores +
+        '</p></div>';
+    // 커스텀 마커를 생성합니다
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content
+    });
+    // 생성된 마커를 배열에 추가합니다
+    countmarkers.push(customOverlay);
+    // 마커가 지도 위에 표시되도록 설정합니다
+    customOverlay.setMap(map);
+
+
+
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
         polygon.setOptions({
-            fillColor: area.over_fill_color,
-            fillOpacity: area.over_fill_opacity
+            fillOpacity: 0.8
         });
-        if(zoom>4){//zoom 14~7 : 호버해야 보임
-            console.log("상구너에 호버중임")
-            // 커스텀 마커를 생성합니다
-            areaCustomOverlay.setPosition(centroid(area.path));
-            areaCustomOverlay.setMap(map);
-            areaContentNode.innerHTML = setcontent(area, stores)
-        }
+        // if(zoom<7){//zoom 14~7
+        //     // 커스텀 마커를 생성합니다
+        //     areaCustomOverlay.setPosition(centroid(area.path));
+        //     areaCustomOverlay.setMap(map);
+        //     areaContentNode.innerHTML = setAreaContent(area, stores)
+        // }
     });
 
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
         polygon.setOptions({
-            fillColor: area.fill_color,
-            fillOpacity: area.fill_opacity
+            fillOpacity: 0.4
         });
-        // customOverlay.setMap(null);
-        if(zoom>4){//zoom 14~7 : 호버아웃 사라짐
-            areaCustomOverlay.setMap(null);
-         }
     });
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
@@ -172,6 +218,8 @@ $("input[name=cate]").prop("checked", true).each(function (index, item) {
 });
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
 if(zoom<4){
+    $('.category_wrap.storelist').css('display', 'block');
+    console.log("상점 카테 보임")
     //줌 4이하일때만 동작 html에서도 ★★★줌4 이상 이면 안보이게 하든가 해야될듯
     $("input[name=cate]").click(function () {
         if ($(this).prop('checked')) {
@@ -243,11 +291,12 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
-    if(zoom > 9 && zoom <= 14){//zoom 9,10,11,12,13,14
+
+    if(zoom > 8 && zoom <= 14){//zoom 9,10,11,12,13,14
         //그냥 서울에 1개 찍자.
 
-    }else if (zoom >= 7 && zoom <= 9) { //zoom 7,8,9 계속 재 조회함
-        removePolygons(map)//areajson에 쓰던 상권 삭제
+    }else if (zoom >= 7 && zoom <= 8) { //zoom 7,8,9 계속 재 조회함
+        removePolygons(map)//areajㅁson에 쓰던 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
             areaJson = result;
@@ -257,9 +306,14 @@ async function changeMap() {
         });
     }else if(zoom>=4 && zoom<7) { //zoom 4,5,6 일때 areajson 쓰고 조회안함
         setMarkers(null)//상점삭제
-        // for (var i = 0, len = areaJson.length; i < len; i++) {
-        //     displayArea(areaJson[i]);
-        // }
+        removePolygons(map)//areajson에 쓰던 상권 삭제
+        ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+            console.log("이게 상권데이터 갖고오는거임", result)
+            areaJson = result;
+            for (var i = 0, len = areaJson.length; i < len; i++) {
+                displayArea(areaJson[i]);
+            }
+        });
     } else { //level < 4, zoom 3,2,1 일때 상점 마커들 찍어주기
         setMarkers(null)//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출")
@@ -390,3 +444,14 @@ function setMarkers(map) {
 //상점뿌리기함수 이거 trading_area_common에 못넣나??
 //상점뿌리기
 //상점뿌리기끝
+
+
+// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, "idle", async function () {
+    await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
+        console.log("위치변경")
+    await sleep(2000),
+        // 선택박스에 시군구코드 기준으로 리스트뿌리기
+        renderSigungu(),
+        renderDong()
+});

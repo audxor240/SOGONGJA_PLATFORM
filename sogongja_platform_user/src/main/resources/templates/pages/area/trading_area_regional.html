@@ -413,6 +413,7 @@
           </div>
         </div>
       </div>
+
       <div class="category_wrap">
         <ul id="category">
           <li data-order="0">
@@ -481,7 +482,8 @@
   <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
 </div>
 <th:block th:include="fragments/common_js"></th:block>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d14360c2f4885b7f30157d53c4575f04"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services,clusterer,drawing"></script>
 <script th:inline="javascript">
   var areaJson = /*[[${areaJson}]]*/ [];
   console.log(areaJson);

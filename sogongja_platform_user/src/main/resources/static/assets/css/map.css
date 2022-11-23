@@ -617,12 +617,20 @@
   z-index: 2;
   margin-left: 8px;
 }
+.category_wrap.area {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+}
+.category_wrap.storelist {
+  display: none;
+}
 
-#category {
+.category {
   width: 100%;
   display: flex;
 }
-#category li {
+.category li {
   border-radius: 50px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
@@ -632,26 +640,26 @@
   cursor: pointer;
   margin-right: 10px;
 }
-#category li:hover {
+.category li:hover {
   background: #efefef;
 }
-#category li:last-child {
+.category li:last-child {
   margin-right: 0;
   border-right: 0;
 }
-#category li .on {
+.category li .on {
   background: #eee;
 }
-#category li label {
+.category li label {
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
-#category li label input[type=checkbox] {
+.category li label input[type=checkbox] {
   display: none;
 }
-#category li label .category_bg {
+.category li label .category_bg {
   background: url(../images/new/area/marker_null.png) no-repeat;
   width: 12px;
   height: 12px;
@@ -659,34 +667,34 @@
   background-size: contain !important;
   margin-left: 10px;
 }
-#category li label input[type=checkbox]:checked ~ .Q {
+.category li label input[type=checkbox]:checked ~ .Q {
   background: url(../images/new/area/marker01.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .N {
+.category li label input[type=checkbox]:checked ~ .N {
   background: url(../images/new/area/marker02.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .L {
+.category li label input[type=checkbox]:checked ~ .L {
   background: url(../images/new/area/marker03.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .F {
+.category li label input[type=checkbox]:checked ~ .F {
   background: url(../images/new/area/marker04.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .D {
+.category li label input[type=checkbox]:checked ~ .D {
   background: url(../images/new/area/marker05.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .O {
+.category li label input[type=checkbox]:checked ~ .O {
   background: url(../images/new/area/marker06.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .P {
+.category li label input[type=checkbox]:checked ~ .P {
   background: url(../images/new/area/marker07.png) no-repeat;
 }
-#category li label input[type=checkbox]:checked ~ .R {
+.category li label input[type=checkbox]:checked ~ .R {
   background: url(../images/new/area/marker08.png) no-repeat;
 }
-#category li .category_bg {
+.category li .category_bg {
   background-position-x: -46px;
 }
-#category li p {
+.category li p {
   padding: 0 10px;
   white-space: nowrap;
 }
@@ -1204,32 +1212,27 @@
   color: #fff;
 }
 
-.areabutton {
+#map_wrap .areaTap {
   position: absolute;
-  top: 50%;
-  right: 20px;
-  background-color: #00c73c;
-}
-
-.areaTap {
-  position: fixed;
-  top: 220px;
+  top: 20px;
   left: 20px;
   z-index: 1;
 }
-.areaTap li {
+#map_wrap .areaTap li {
   list-style: none;
   float: left;
   padding: 10px;
   border: 1px solid #eee;
   background-color: #fff;
 }
-.areaTap li.on {
+#map_wrap .areaTap li.on {
   color: #fff;
   background-color: #0f7833;
 }
-
-#areaCategory {
+#map_wrap .areaTap li.on.openclose_list {
+  display: none;
+}
+#map_wrap #areaCategory {
   position: absolute;
   right: 10px;
   bottom: 120px;
@@ -1240,7 +1243,7 @@
   overflow: hidden;
   z-index: 2;
 }
-#areaCategory li {
+#map_wrap #areaCategory li {
   float: left;
   list-style: none;
   width: 100px;
@@ -1249,20 +1252,19 @@
   text-align: center;
   cursor: pointer;
 }
-
-#filter {
+#map_wrap #filter {
   position: fixed;
   top: 156px;
   right: 200px;
   z-index: 2;
 }
-#filter .filterIcon {
+#map_wrap #filter .filterIcon {
   background-color: blue;
   width: 60px;
   height: 20px;
   text-align: center;
 }
-#filter .filterbox {
+#map_wrap #filter .filterbox {
   position: absolute;
   right: 0px;
   display: none;
@@ -1271,19 +1273,19 @@
   height: auto;
   padding: 20px;
 }
-#filter .filterbox span {
+#map_wrap #filter .filterbox span {
   float: right;
 }
-#filter .filterbox.timeSelect {
+#map_wrap #filter .filterbox.timeSelect {
   background-color: #bbb;
   padding: 2px;
 }
-#filter .filterbox.timeSelect:after {
+#map_wrap #filter .filterbox.timeSelect:after {
   content: "";
   display: block;
   clear: both;
 }
-#filter .filterbox.timeSelect li {
+#map_wrap #filter .filterbox.timeSelect li {
   float: left;
   width: 85px;
   font-size: 11px;
@@ -1293,16 +1295,16 @@
   border: 1px solid #ddd;
   background-color: #fff;
 }
-#filter .filterbox.mainSectors {
+#map_wrap #filter .filterbox.mainSectors {
   background-color: #bbb;
   padding: 2px;
 }
-#filter .filterbox.mainSectors:after {
+#map_wrap #filter .filterbox.mainSectors:after {
   content: "";
   display: block;
   clear: both;
 }
-#filter .filterbox.mainSectors li {
+#map_wrap #filter .filterbox.mainSectors li {
   float: left;
   width: 180px;
   font-size: 11px;
@@ -1312,16 +1314,16 @@
   border: 1px solid #ddd;
   background-color: #fff;
 }
-#filter .filterbox.midSectors {
+#map_wrap #filter .filterbox.midSectors {
   background-color: #bbb;
   padding: 2px;
 }
-#filter .filterbox.midSectors:after {
+#map_wrap #filter .filterbox.midSectors:after {
   content: "";
   display: block;
   clear: both;
 }
-#filter .filterbox.midSectors li {
+#map_wrap #filter .filterbox.midSectors li {
   float: left;
   width: 270px;
   font-size: 11px;
@@ -1331,9 +1333,20 @@
   border: 1px solid #ddd;
   background-color: #fff;
 }
-#filter .filterbox .midSecBox {
+#map_wrap #filter .filterbox .midSecBox {
   height: 100px;
   overflow-y: scroll;
+}
+
+#map .areaIn {
+  text-align: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #2E750D;
+  text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}
+#map .areaIn p {
+  color: #BF7116;
 }
 
 @media (max-width: 1400px) {
@@ -1411,7 +1424,7 @@
     overflow: scroll;
     width: 98%;
   }
-  #category li {
+  .category li {
     min-width: 140px;
   }
   .solution_btn {

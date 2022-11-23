@@ -95,7 +95,7 @@ nowSpot();
 // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", async function () {
     await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
-
+console.log("위치변경")
         await sleep(2000),
         // 선택박스에 시군구코드 기준으로 리스트뿌리기
         renderSigungu(),
@@ -280,6 +280,11 @@ function onClickSearch(el) {
         searchSidoDongPlaces();
     }
 }
+mapContainer.addEventListener("click", e => {
+    sidoBox.className = '';
+    sigunguBox.className = '';
+    dongBox.className = '';
+})
 
 //시군구 선택박스 닫기 열기
 var sidoBox = document.getElementById('sidoBox');
@@ -307,11 +312,7 @@ function changeSelectBox(type) {
     }
 }
 
-mapContainer.addEventListener("click", e => {
-    sidoBox.className = '';
-    sigunguBox.className = '';
-    dongBox.className = '';
-})
+
 
 function panTo(position) {
     // 이동할 위도 경도 위치를 생성합니다
