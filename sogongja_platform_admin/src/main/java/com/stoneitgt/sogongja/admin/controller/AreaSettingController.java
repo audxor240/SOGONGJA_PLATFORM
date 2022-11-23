@@ -4,7 +4,9 @@ import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.ReSearchShopParameter;
 import com.stoneitgt.sogongja.admin.service.BoardService;
+import com.stoneitgt.sogongja.admin.service.ReSearchAreaService;
 import com.stoneitgt.sogongja.admin.service.ReSearchShopService;
+import com.stoneitgt.sogongja.domain.AreaColmunParameter;
 import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.domain.ReSearchShop;
 import com.stoneitgt.util.StoneUtil;
@@ -28,6 +30,9 @@ public class AreaSettingController extends BaseController {
 
     @Autowired
     private ReSearchShopService reSearchShopService;
+
+    @Autowired
+    private ReSearchAreaService reSearchAreaService;
 
     @GetMapping("/shop")
     public String areaShopSettingList(@ModelAttribute ReSearchShopParameter params, Model model, HttpServletResponse response) {
@@ -78,32 +83,84 @@ public class AreaSettingController extends BaseController {
 
     @GetMapping("/analysis")
     public String areaAnalysisSettingList(@ModelAttribute BaseParameter params, Model model) {
-
+        System.out.println("params :: "+params);
         Paging paging = new Paging();
         paging.setPage(params.getPage());
         paging.setSize(params.getSize());
 
         Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-
         Map<String, Object> breadcrumb = new HashMap<String, Object>();
 
+        String resultUrl = "";
+        AreaColmunParameter areaColmunParameter = new AreaColmunParameter();
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-        list = boardService.getBoardSettingList(paramsMap, paging);
+        if(params.getType().equals("1")) {
+            resultUrl = "pages/area/area_analysis_setting_list";
+            list = reSearchAreaService.getReSearchAreaList(paramsMap, paging);  //상권 데이터(일반)
+            if (params.getSubType().equals("0") || params.getSubType().equals("2")) {   //인구
+                areaColmunParameter.Area2Dto(true);
+            }
+
+            if (params.getSubType().equals("0") || params.getSubType().equals("3")) {   //소득소비
+                areaColmunParameter.Area3Dto(true);
+            }
+
+            if (params.getSubType().equals("0") || params.getSubType().equals("4")) {   //아파트
+                areaColmunParameter.setJoin(true);
+                areaColmunParameter.setCtAptCom(true);
+                areaColmunParameter.setCtAptHou(true);
+            }
+
+            if (params.getSubType().equals("0") || params.getSubType().equals("5")) {   //상권안정화지표
+                areaColmunParameter.setJoin(true);
+                areaColmunParameter.setIdxStbArea(true);
+            }
+        }else{
+            resultUrl = "pages/area/area_analysis_setting_list02";
+            list = reSearchAreaService.getReSearchAreaComList(paramsMap, paging);  //상권 데이터(업종)
+            if (params.getSubType().equals("0") || params.getSubType().equals("6")) {   //점포
+
+                areaColmunParameter.Area2DefaultDto(true);
+                areaColmunParameter.setCtShop(true);
+                areaColmunParameter.setCtShopSim(true);
+                areaColmunParameter.setCtFranchise(true);
+            }
+            if (params.getSubType().equals("0") || params.getSubType().equals("7")) {   //추정매출
+                areaColmunParameter.Area2DefaultDto(true);
+                areaColmunParameter.setSum0006(true);
+                areaColmunParameter.setSum0611(true);
+                areaColmunParameter.setSum1114(true);
+                areaColmunParameter.setSum1417(true);
+                areaColmunParameter.setSum1721(true);
+                areaColmunParameter.setSum2124(true);
+            }
+            if (params.getSubType().equals("0") || params.getSubType().equals("7")) {   //개폐업
+                areaColmunParameter.Area2DefaultDto(true);
+                areaColmunParameter.setPerOpen(true);
+                areaColmunParameter.setCtOpen(true);
+                areaColmunParameter.setPerClose(true);
+                areaColmunParameter.setCtClose(true);
+            }
+
+        }
+
+
         breadcrumb.put("parent_menu_name", "커머스 연구소 데이터");
         breadcrumb.put("menu_name", "상권데이터 관리");
-
+        System.out.println("areaColmunParameter :: "+areaColmunParameter);
         Integer total = boardService.selectTotalRecords();
         paging.setTotal(total);
 
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);
         model.addAttribute("params", params);
+        model.addAttribute("areaColmunParameter", areaColmunParameter);
 
         model.addAttribute("breadcrumb", breadcrumb);
         model.addAttribute("pageParams", getBaseParameterString(params));
-
-        return "pages/area/area_analysis_setting_list";
+        System.out.println("resultUrl :: "+resultUrl);
+        return resultUrl;
     }
 
     @GetMapping("/regional")
@@ -125,6 +182,7 @@ public class AreaSettingController extends BaseController {
 
         Integer total = boardService.selectTotalRecords();
         paging.setTotal(total);
+
 
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);

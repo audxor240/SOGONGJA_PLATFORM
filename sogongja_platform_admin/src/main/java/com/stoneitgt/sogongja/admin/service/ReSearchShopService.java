@@ -6,11 +6,13 @@ import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
 import com.stoneitgt.sogongja.admin.mapper.BoardMapper;
 import com.stoneitgt.sogongja.admin.mapper.ReSearchShopMapper;
 import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.ReSearchShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +47,10 @@ public class ReSearchShopService extends BaseService{
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public void deleteReSearchShop(Map<String, Object> params) {
         reSearchShopMapper.deleteReSearchShop(params);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void insertReSearchShopExcel(List<ReSearchShop> ReSearchShop) throws IOException {
+        reSearchShopMapper.insertReSearchShopExcel(ReSearchShop);
     }
 }

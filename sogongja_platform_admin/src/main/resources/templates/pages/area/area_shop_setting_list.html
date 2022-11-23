@@ -14,7 +14,10 @@
                         <a th:href="@{/areaSetting/shop}">상점 데이터</a>
                     </div>
                     <div class="col-sm-2 tab">
-                        <a th:href="@{/areaSetting/analysis}">상권 데이터</a>
+                        <a th:href="@{/areaSetting/analysis?type=1&subType=0}">상권 데이터(일반)</a>
+                    </div>
+                    <div class="col-sm-2 tab">
+                        <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
                     </div>
                     <div class="col-sm-2 tab">
                         <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
@@ -120,11 +123,11 @@
                                 <input type="hidden" name="excelType" value="shop">*/-->
                                 <button type="button" class="btn col-sm-2 btn-primary mr-1" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
                             <!--</form>-->
-                            <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                            <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
                                 <div class="col-sm-8 mt-1 mr-3 custom-file">
                                     <input class="custom-file-input" type="file" id="fileExcel" name="file">
                                     <label class="custom-file-label" for="fileExcel">파일선택</label>
-                                    <input type="hidden" name="excelType" value="faq">
+                                    <input type="hidden" name="excelType" value="shop">
                                 </div>
                                 <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
@@ -186,9 +189,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:include="fragments/table_empty:: table_empty(34)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                                <td><input type="checkbox" name="shop_check" th:value="${item.shop_seq}"></td>
+                                <td><input type="checkbox" name="research_check" th:value="${item.shop_seq}"></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
@@ -242,17 +245,12 @@
 <th:block layout:fragment="custom_css">
 </th:block>
 <th:block layout:fragment="custom_js" th:inline="javascript">
-    var excelDown = [[${excelDown}]];
+    <script>
+        var type = "";
+    </script>
     <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
     <script th:src="@{/assets/js/libs/jquery.fileDownload.js}"></script>
     <script th:src="@{/assets/js/pages/area/area.js}"></script>
-    <script>
-        //var cookie = getCookie('SOGONGJA_ADMIN_JSESSIONID');
-        /*if (cookie != "") {
-            console.log("쿠키값은 : " + cookie);
-        }*/
-
-    </script>
 </th:block>
 
 </html>

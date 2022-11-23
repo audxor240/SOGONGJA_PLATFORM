@@ -45,4 +45,6 @@ public class ReSearchShop {
     private String category2;
     private String category3;
 
+    private int loginUserSeq;
+
 }

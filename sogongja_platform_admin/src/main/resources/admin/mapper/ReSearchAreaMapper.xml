@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.ReSearchAreaMapper">
+
+    <select id="getReSearchAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchAreaList */
+        SELECT *
+        FROM ST_RESEARCH_AREA
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+            AND AREA_NM LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        ORDER BY AREA_SEQ DESC
+        /*||ORDER BY AREA_SEQ DESC||*/
+
+    </select>
+
+    <select id="getReSearchAreaComList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchAreaComList */
+        SELECT *
+        FROM ST_RESEARCH_AREA_COM
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+            AND AREA_NM LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        ORDER BY ID DESC
+        /*||ORDER BY ID DESC||*/
+
+    </select>
+
+    <select id="getReSearchShopCategoty1" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchShopCategoty1 */
+        select * from ST_RESEARCH_SHOP group by CODE_TYPE1;
+    </select>
+
+    <select id="getReSearchShopCategoty2" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchShopCategoty2 */
+        select * from ST_RESEARCH_SHOP where CODE_TYPE2 LIKE CONCAT('%', #{category1}, '%') group by CODE_TYPE2;
+    </select>
+
+    <select id="getReSearchShopCategoty3" parameterType="string" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchShopCategoty3 */
+        select * from ST_RESEARCH_SHOP where CODE_TYPE3 LIKE CONCAT('%', #{category2}, '%') group by CODE_TYPE3;
+    </select>
+
+    <select id="getReSearchAreaAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchAreaAll */
+        select * from ST_RESEARCH_AREA
+        where 1=1
+        <if test="seqData != null and seqData != ''">
+            AND AREA_SEQ IN
+            <foreach collection="seqData" item="item" index='i' open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by AREA_SEQ desc;
+    </select>
+
+    <select id="getReSearchAreaComAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchAreaMapper.xml, id : getReSearchAreaComAll */
+        select * from ST_RESEARCH_AREA_COM
+        where 1=1
+        <if test="seqData != null and seqData != ''">
+            AND ID IN
+            <foreach collection="seqData" item="item" index='i' open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by ID desc;
+    </select>
+
+    <update id="deleteReSearchShop" parameterType="map" >
+        /* file : EducationMapper.xml, id : deleteEducation */
+        UPDATE ST_RESEARCH_SHOP
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE SHOP_SEQ      = #{shop_seq}
+    </update>
+
+    <select id="selectTotalRecords" resultType="int">
+        SELECT FOUND_ROWS();
+    </select>
+</mapper>
