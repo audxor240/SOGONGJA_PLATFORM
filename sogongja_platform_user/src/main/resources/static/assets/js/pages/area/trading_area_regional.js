@@ -137,7 +137,6 @@ async function changeType() {
 }
 
 
-
 // 다각형을 생성하고 지도에 표시합니다
 for (var i = 0, len = areaJson.length; i < len; i++) {
     displayArea(areaJson[i]);
@@ -152,6 +151,7 @@ function removePolygons(map) {
         polygons[i].setMap(null);
     }
 }
+
 function removeCircles(map) {
     for (var i = 0; i < circles.length; i++) {
         circles[i].setMap(null);
@@ -197,16 +197,17 @@ function displayArea(area) {
 
     var info = area.info;
     var content = '';
-    if (codeType3 === '1') {
-        // content = info.stores + ',' + info.franc;
-        content = '111';
-    } else if (codeType3 === '2') {
-        // content = info.sum_popul;
-        content = '222';
-    } else if (codeType3 === '3') {
-        // content = info.rt_all;
-        content = '333';
+    if (info.length > 0) {
+        if (codeType3 === '1') {
+            content = Math.round(info[0].franc / info[0].stores * 100) + '%' + Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%';
+        } else if (codeType3 === '2') {
+            content = info[0].sum_popul;
+
+        } else if (codeType3 === '3') {
+            content = info[0].rt_all;
+        }
     }
+
     var circle = new kakao.maps.CustomOverlay({
         position: centroid(area.path),
         content: '<div class ="countlabel">' +
@@ -245,7 +246,6 @@ function displayArea(area) {
             codeType3: codeType3
         }
         ajaxPostSyn('/trading-area/regional/details', data, function (result) {
-
             console.log("이게 데이터 갖고오는거임", result)
 
         });
@@ -256,7 +256,7 @@ function displayArea(area) {
 
 }
 
-function centroid (points) {
+function centroid(points) {
     var i, j, len, p1, p2, f, area, x, y;
 
     area = x = y = 0;
@@ -287,7 +287,9 @@ function resizeMap() {//지도 리사이즈 함수
     mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
     map.relayout();//화면사이즈 재렌더링
 }
+
 var markers = [];
+
 function storeSpread(thing) {
     var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         QimageSrc = "/images/new/area/marker01.png",
@@ -324,6 +326,7 @@ function storeSpread(thing) {
         marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
     }
 }
+
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
     //if mapsize width 모바일일때 마커 크기 20으로
@@ -346,12 +349,14 @@ function addMarker(place, i, imageSrc) {
     }
     return marker;
 }
+
 //마커다시그림
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
+
 //ajax 요청하는 함수
 function ajaxPostSyn(url, data, callback, showLoading) {
     // IE 기본값세팅
