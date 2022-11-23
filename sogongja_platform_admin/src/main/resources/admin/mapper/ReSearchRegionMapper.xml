@@ -7,7 +7,7 @@
         /* file : ReSearchRegionMapper.xml, id : getReSearchRegionList */
         SELECT *
         FROM ST_RESEARCH_REGION
-        where 1=1
+        where 1=1 and DEL_FLAG = 0
 
         <if test="region_name1 != null and region_name1 != ''">
             AND CTPRVN_NM LIKE CONCAT('%', #{region_name1}, '%')
@@ -116,5 +116,14 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+
+    <update id="deleteReSearchRegion" parameterType="map" >
+        /* file : ReSearchAreaMapper.xml, id : deleteReSearchRegion */
+        UPDATE ST_RESEARCH_REGION
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE REGION_SEQ      = #{seq}
+    </update>
 
 </mapper>

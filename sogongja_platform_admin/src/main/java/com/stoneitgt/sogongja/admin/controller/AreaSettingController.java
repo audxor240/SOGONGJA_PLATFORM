@@ -230,21 +230,28 @@ public class AreaSettingController extends BaseController {
     }
 
     @PostMapping("/shop/delete")
-    public String deleteReSearchShop(@RequestParam String reSearchShopStr, @RequestParam(required = false) String menuCode,
+    public String deleteReSearchShop(@RequestParam String seqStr, @RequestParam String type,
                                   Model model, RedirectAttributes rttr) throws IOException {
 
-        List<String> reSearchShopArr = Arrays.asList(reSearchShopStr.split(","));
+        List<String> seqArr = Arrays.asList(seqStr.split(","));
 
-        for(int i =0; i < reSearchShopArr.size();i++) {
-            int shopSeq = Integer.parseInt(reSearchShopArr.get(i));
+        String returnUrl = "";
+        for(int i =0; i < seqArr.size();i++) {
+            int seq = Integer.parseInt(seqArr.get(i));
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("shop_seq", shopSeq);
+            params.put("seq", seq);
             params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-            reSearchShopService.deleteReSearchShop(params);
+            switch (type){
+                case "shop": reSearchShopService.deleteReSearchShop(params); returnUrl = "redirect:/areaSetting/shop"; break;
+                case "area": reSearchAreaService.deleteReSearchArea(params); returnUrl = "redirect:/areaSetting/analysis?type=1&subType=0"; break;
+                case "areaCom": reSearchAreaService.deleteReSearchAreaCom(params); returnUrl = "redirect:/areaSetting/analysis?type=2&subType=0"; break;
+                case "region": reSearchRegionService.deleteReSearchRegion(params); returnUrl = "redirect:/areaSetting/regional?type=region0"; break;
+            }
+
         }
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
 
-        return "redirect:/areaSetting/shop";
+        return returnUrl;
     }
 
 

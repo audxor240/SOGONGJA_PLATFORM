@@ -140,7 +140,7 @@
                                 <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
                             </form>
-                            <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
+                            <button type="button" class="btn col-sm-2 btn-danger mr-1" id="del_reSearch">선택삭제</button>
                             <button type="button" class="btn col-sm-2 btn-primary" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
                         </div>
                     </div>
@@ -243,10 +243,9 @@
             </div>
         </div>
     </div>
-    <form name="deleteForm" th:action="@{/board/settingDelete}" method="post">
-        <input type="hidden" name="boardSettingSeq">
-        <input type="hidden" name="boardType" th:value="${boardType}">
-        <input type="hidden" name="menuCode" th:value=${params.menuCode}>
+    <form name="deleteForm" th:action="@{/areaSetting/shop/delete}" method="post">
+        <input type="hidden" name="seqStr">
+        <input type="hidden" name="type" value="areaCom">
     </form>
 </div>
 <th:block layout:fragment="custom_css">

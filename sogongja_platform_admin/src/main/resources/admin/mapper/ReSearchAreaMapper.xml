@@ -7,7 +7,7 @@
         /* file : ReSearchAreaMapper.xml, id : getReSearchAreaList */
         SELECT *
         FROM ST_RESEARCH_AREA
-        where 1=1
+        where 1=1 and DEL_FLAG = 0
 
         <if test="keyword != null and keyword != ''">
             AND AREA_NM LIKE CONCAT('%', #{keyword}, '%')
@@ -22,7 +22,7 @@
         /* file : ReSearchAreaMapper.xml, id : getReSearchAreaComList */
         SELECT *
         FROM ST_RESEARCH_AREA_COM
-        where 1=1
+        where 1=1 and DEL_FLAG = 0
 
         <if test="keyword != null and keyword != ''">
             AND AREA_NM LIKE CONCAT('%', #{keyword}, '%')
@@ -365,6 +365,7 @@
         <selectKey resultType="int" keyProperty="areaSeq" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
+
     </insert>
 
     <select id="checkReSearchArea" parameterType="string" resultType="int">
@@ -381,5 +382,23 @@
         FROM ST_RESEARCH_AREA_COM
         WHERE DEL_FLAG = 0 and AREA_CD = #{area_cd} and EMD_CD = #{emd_cd} and AREA_NM = #{area_nm} and COM_CD = #{com_cd} and COM_CD2 = #{com_cd2} and COM_NM = #{com_nm}
     </select>
+
+    <update id="deleteReSearchArea" parameterType="map" >
+        /* file : ReSearchAreaMapper.xml, id : deleteReSearchArea */
+        UPDATE ST_RESEARCH_AREA
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE AREA_SEQ      = #{seq}
+    </update>
+
+    <update id="deleteReSearchAreaCom" parameterType="map" >
+        /* file : ReSearchAreaMapper.xml, id : deleteReSearchAreaCom */
+        UPDATE ST_RESEARCH_AREA_COM
+        SET DEL_FLAG     = 1
+          , DEL_USER_SEQ = #{login_user_seq}
+          , DEL_DATE     = CURRENT_TIMESTAMP()
+        WHERE ID      = #{seq}
+    </update>
 
 </mapper>

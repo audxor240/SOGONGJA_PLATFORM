@@ -7,7 +7,7 @@
         /* file : ReSearchShopMapper.xml, id : getReSearchShopList */
         SELECT *
         FROM ST_RESEARCH_SHOP
-        where 1=1
+        where 1=1 and DEL_FLAG = 0
 
         <if test="keyword != null and keyword != ''">
             AND SHOP_NM LIKE CONCAT('%', #{keyword}, '%')
@@ -60,7 +60,7 @@
         SET DEL_FLAG     = 1
           , DEL_USER_SEQ = #{login_user_seq}
           , DEL_DATE     = CURRENT_TIMESTAMP()
-        WHERE SHOP_SEQ      = #{shop_seq}
+        WHERE SHOP_SEQ      = #{seq}
     </update>
 
     <insert id="insertReSearchShopExcel" parameterType="java.util.List">
