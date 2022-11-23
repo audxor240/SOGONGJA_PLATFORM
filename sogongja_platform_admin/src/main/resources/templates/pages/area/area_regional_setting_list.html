@@ -14,13 +14,13 @@
             <a th:href="@{/areaSetting/shop}">상점 데이터</a>
           </div>
           <div class="col-sm-2 tab">
-            <a th:href="@{/areaSetting/analysis}">상권 데이터(일반)</a>
+            <a th:href="@{/areaSetting/analysis?type=1&subType=0}">상권 데이터(일반)</a>
           </div>
           <div class="col-sm-2 tab">
-            <a th:href="@{/areaSetting/analysis02}">상권 데이터(업종)</a>
+            <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
           </div>
           <div class="col-sm-2 tab active">
-            <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
+            <a th:href="@{|/areaSetting/regional?type=region0|}">지역(동) 데이터</a>
           </div>
         </div>
       </div>
@@ -30,68 +30,79 @@
     <div class="col-12 col-xl-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <form name="searchForm">
+          <form name="searchForm" th:action="@{/areaSetting/regional(type=${params.type})}" th:object="${params}" method="get" >
+            <th:block th:include="fragments/search_hidden"></th:block>
+            <input type="hidden" th:field="*{type}">
+            <input type="hidden" th:field="*{subType}">
             <div class="btn-group btn-group-toggle p-2" data-toggle="buttons">
-              <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked> 전체
+              <label class="btn btn-secondary" th:classappend="${params.type == 'region0'?'active':''}">
+                <input type="radio" name="region_options" id="option0" value="region0" th:checked="${params.type == 'region0'}"> 전체
               </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off"> 인구
+
+              <label class="btn btn-secondary" th:classappend="${params.type == 'region1'?'active':''}" >
+                <input type="radio" name="region_options" id="option9" value="region1" th:checked="${params.type == 'region1'}"> 인구
               </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option3" autocomplete="off"> 대표자 연령대별 사업체수
+              <label class="btn btn-secondary" th:classappend="${params.type == 'region2'?'active':''}" >
+                <input type="radio" name="region_options" id="option10" value="region2" th:checked="${params.type == 'region02'}"> 대표자 연령대별 사업체수
               </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option4" autocomplete="off"> 가구원수별 가구수
+              <label class="btn btn-secondary" th:classappend="${params.type == 'region3'?'active':''}" >
+                <input type="radio" name="region_options" id="option11" value="region3" th:checked="${params.type == 'region03'}"> 가구원수별 가구수
               </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option5" autocomplete="off"> 임대시세
+              <label class="btn btn-secondary" th:classappend="${params.type == 'region4'?'active':''}" >
+                <input type="radio" name="region_options" id="option12" value="region4" th:checked="${params.type == 'region04'}"> 임대시세
               </label>
             </div>
-            <!--<div class="row">
-              <div class="col-sm-3">
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="col-sm-2 col-form-label">대분류</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <select class="form-control">
-                      <option>전체</option>
-                    </select>
-                  </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="col-sm-2 col-form-label">지역(시)</label>
+                        </div>
+                        <div class="col-sm-8">
+                          <!--<select class="sidoBox" name="regionCode1" onchange="changeSido(this);">
+                            <option value="" selected>선택해주세요</option>
+                          </select>-->
+                          <input type="text" class="form-control" th:field="*{regionName1}" placeholder="검색어를 입력하세요">
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="col-sm-2 col-form-label">중분류</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <select class="form-control">
-                      <option>전체</option>
-                    </select>
-                  </div>
+                <div class="col-sm-3">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="col-sm-2 col-form-label">지역(구)</label>
+                        </div>
+                        <div class="col-sm-8">
+                          <!--<select class="sigunguBox" name="regionCode2" onchange="changeSigungu(this);">
+                            <option value="" selected>선택해주세요</option>
+                          </select>-->
+                          <input type="text" class="form-control" th:field="*{regionName2}" placeholder="검색어를 입력하세요">
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="col-sm-2 col-form-label">소분류</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <select class="form-control">
-                      <option>전체</option>
-                    </select>
-                  </div>
+                <div class="col-sm-3">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="col-sm-2 col-form-label">지역(동)</label>
+                        </div>
+                        <div class="col-sm-8">
+                          <!--<select class="dongBox" name="regionCode3">
+                            <option value="" selected>선택해주세요</option>
+                          </select>-->
+                          <input type="text" class="form-control" th:field="*{regionName3}" placeholder="검색어를 입력하세요">
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>-->
+
+            </div>
+
+
             <div class="row">
               <div class="col-sm-1">
-                <label class="col-sm-12 col-form-label">검색</label>
+                <label class="col-sm-12 col-form-label">상권명</label>
               </div>
               <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+                <input type="text" class="form-control" th:field="*{keyword}" placeholder="검색어를 입력하세요">
               </div>
               <button type="submit" class="col-sm-3 btn btn-primary btn-icon-text btn-search">
                 <i class="btn-icon-prepend" data-feather="search"></i>검색
@@ -124,65 +135,124 @@
                 </div>
               </th:block>
             </div>
+            <div id="loding" style="display: none">
+              <img th:src="@{/assets/images/spinner.svg}">
+            </div>
             <div class="row justify-content-end col-sm-8">
-              <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+              <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <div class="col-sm-8 mr-2 custom-file">
                   <input class="custom-file-input" type="file" id="fileExcel" name="file">
                   <label class="custom-file-label" for="fileExcel">파일선택</label>
-                  <input type="hidden" name="excelType" value="faq">
+                  <input type="hidden" name="excelType" value="region">
                 </div>
                 <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
               </form>
               <button type="button" class="btn col-sm-2 btn-danger mr-1">선택삭제</button>
-              <button type="button" class="btn col-sm-2 btn-primary"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
+              <button type="button" class="btn col-sm-2 btn-primary" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud" style="width:20px;"></i> 내려받기</button>
             </div>
           </div>
-          <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
-            <th:block th:include="fragments/search_hidden"></th:block>
+          <form name="excelDown" id="excelDown" th:action="@{/api/excel/download}" method="POST">
+            <!--/*<form name="excelDown" id="excelDown" th:action="@{/excel/download}" method="POST">*/-->
+            <input type="hidden" name="seqStr">
+            <input type="hidden" name="colHeader">
+            <input type="hidden" name="colHeaderName">
+            <input type="hidden" name="excelType" value="region">
+            <input type="hidden" name="type" th:value="${params.type}">
           </form>
+          <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+              <th:block th:include="fragments/search_hidden"></th:block>
+          </form>*/-->
           <p class="card-description"></p>
           <div class="table-responsive" style="text-align:center">
-            <table class="table table-hover" style="white-space: nowrap">
+            <table id="list_table" class="table table-hover" style="white-space: nowrap">
               <thead>
               <tr>
                 <th>선택</th>
-                <th>#</th>
-                <th>상호명</th>
-                <th>지역명</th>
-                <th>상권업종대분류코드</th>
-                <th>상권업종대분류명</th>
-                <th>상권업종중분류코드</th>
-                <th>상권업종중분류명</th>
-                <th>상권업종소분류코드</th>
-                <th>상권업종소분류명</th>
-                <th>등록일</th>
-                <th>1234123</th>
-                <th>1234123</th>
-                <th>1234123</th>
-                <th>1234123</th>
+                <th id="id" >#</th>
+                <!-- 지역(Default) -->
+                <th id="year" >년도</th>
+                <th id="qrt" >분기</th>
+                <th id="ctprvn_cd" >시도코드</th>
+                <th id="ctprvn_nm" >시도명</th>
+                <th id="signgu_cd" >시군구코드</th>
+                <th id="signgu_nm" >시군구명</th>
+                <th id="emd_cd" >읍면동코드</th>
+                <th id="emd_nm" >읍면동명</th>
+
+                <!-- 지역(인구) -->
+                <th id="sum_popul" th:if="${regionColmunParameter.sumPopul}">인구 합계</th>
+                <th id="r_popul" th:if="${regionColmunParameter.rPopul}">주거 인구</th>
+                <th id="w_popul" th:if="${regionColmunParameter.wPopul}">직장 인구</th>
+
+                <!-- 지역(대표자 연령대별 사업체수) -->
+                <th id="ct_shop_u20s" th:if="${regionColmunParameter.ctShopU20s}">대표자연령_20대 이하(29세 이하)_사업체수</th>
+                <th id="ct_shop_30s" th:if="${regionColmunParameter.ctShop30s}">대표자연령_30대(30~39)_사업체수</th>
+                <th id="ct_shop_40s" th:if="${regionColmunParameter.ctShop40s}">대표자연령_40대(40~49)_사업체수</th>
+                <th id="ct_shop_50s" th:if="${regionColmunParameter.ctShop50s}">대표자연령_50대(50~59)_사업체수</th>
+                <th id="ct_shop_o60s" th:if="${regionColmunParameter.ctShopO60s}">대표자연령_60대 이상_사업체수</th>
+
+                <!-- 지역(가구원수별 가구수) -->
+                <th id="house_1" th:if="${regionColmunParameter.house1}">1인 가구</th>
+                <th id="house_2" th:if="${regionColmunParameter.house2}">2인 가구</th>
+                <th id="house_3" th:if="${regionColmunParameter.house3}">3인 가구</th>
+                <th id="house_4" th:if="${regionColmunParameter.house4}">4인 가구</th>
+                <th id="house_5" th:if="${regionColmunParameter.house5}">5인 가구</th>
+                <th id="house_6" th:if="${regionColmunParameter.house6}">6인 가구</th>
+                <th id="house_7" th:if="${regionColmunParameter.house7}">7인 가구</th>
+
+                <!-- 지역(임대시세) -->
+                <th id="rt_all" th:if="${regionColmunParameter.rtAll}">전체 임대시세</th>
+                <th id="rt_1f" th:if="${regionColmunParameter.rt1f}">1층 임대 시세</th>
+                <th id="rt_other" th:if="${regionColmunParameter.rtOther}">1층 외 임대 시세</th>
+
               </tr>
               </thead>
               <tbody>
-              <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+              <th:block th:include="fragments/table_empty:: table_empty(24)" th:if="${#lists.isEmpty(list)}"></th:block>
               <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                <td><input type="checkbox" th:name="chk_shop"></td>
+                <input type="hidden" id="paging.total" th:value="${paging.total}">
+                <input type="hidden" id="item.rnum" th:value="${item.rnum}">
+                <td><input type="checkbox" th:name="research_check" th:value="${item.region_seq}" ></td>
                 <td>
                   <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <!-- 지역(Default) -->
+                <td th:text="${item.year}">년도(year)</td>
+                <td th:text="${item.qrt}">분기(qrt)</td>
+                <td th:text="${item.ctprvn_cd}">시도코드</td>
+                <td th:text="${item.ctprvn_nm}">시도명</td>
+                <td th:text="${item.signgu_cd}">시군구코드</td>
+                <td th:text="${item.signgu_nm}">시군구명</td>
+                <td th:text="${item.emd_cd}">읍면동코드</td>
+                <td th:text="${item.emd_nm}">읍면동명</td>
+
+                <!-- 지역(인구) -->
+                <td th:if="${regionColmunParameter.sumPopul}" th:text="${#numbers.formatInteger(item.sum_popul,0,'COMMA')}">인구 합계</td>
+                <td th:if="${regionColmunParameter.rPopul}"  th:text="${#numbers.formatInteger(item.r_popul,0,'COMMA')}">주거 인구</td>
+                <td th:if="${regionColmunParameter.wPopul}" th:text="${#numbers.formatInteger(item.w_popul,0,'COMMA')}">직장 인구</td>
+
+                <!-- 지역(대표자 연령대별 사업체수) -->
+                <td th:if="${regionColmunParameter.ctShopU20s}" th:text="${#numbers.formatInteger(item.ct_shop_u20s,0,'COMMA')}">대표자연령_20대 이하(29세 이하)_사업체수</td>
+                <td th:if="${regionColmunParameter.ctShop30s}" th:text="${#numbers.formatInteger(item.ct_shop_30s,0,'COMMA')}">대표자연령_30대(30~39)_사업체수</td>
+                <td th:if="${regionColmunParameter.ctShop40s}" th:text="${#numbers.formatInteger(item.ct_shop_40s,0,'COMMA')}">대표자연령_40대(40~49)_사업체수</td>
+                <td th:if="${regionColmunParameter.ctShop50s}" th:text="${#numbers.formatInteger(item.ct_shop_50s,0,'COMMA')}">대표자연령_50대(50~59)_사업체수</td>
+                <td th:if="${regionColmunParameter.ctShopO60s}" th:text="${#numbers.formatInteger(item.ct_shop_o60s,0,'COMMA')}">대표자연령_60대 이상_사업체수</td>
+
+                <!-- 지역(가구원수별 가구수) -->
+                <td th:if="${regionColmunParameter.house1}" th:text="${#numbers.formatInteger(item.house_1,0,'COMMA')}">1인 가구</td>
+                <td th:if="${regionColmunParameter.house2}" th:text="${#numbers.formatInteger(item.house_2,0,'COMMA')}">2인 가구</td>
+                <td th:if="${regionColmunParameter.house3}" th:text="${#numbers.formatInteger(item.house_3,0,'COMMA')}">3인 가구</td>
+                <td th:if="${regionColmunParameter.house4}" th:text="${#numbers.formatInteger(item.house_4,0,'COMMA')}">4인 가구</td>
+                <td th:if="${regionColmunParameter.house5}" th:text="${#numbers.formatInteger(item.house_5,0,'COMMA')}">5인 가구</td>
+                <td th:if="${regionColmunParameter.house6}" th:text="${#numbers.formatInteger(item.house_6,0,'COMMA')}">6인 가구</td>
+                <td th:if="${regionColmunParameter.house7}" th:text="${#numbers.formatInteger(item.house_7,0,'COMMA')}">7인 가구</td>
+
+                <!-- 지역(임대시세) -->
+                <td th:if="${regionColmunParameter.rtAll}" th:text="${#numbers.formatInteger(item.rt_all,0,'COMMA')}">전체 임대시세</td>
+                <td th:if="${regionColmunParameter.rt1f}" th:text="${#numbers.formatInteger(item.rt_1f,0,'COMMA')}">1층 임대 시세</td>
+                <td th:if="${regionColmunParameter.rtOther}" th:text="${#numbers.formatInteger(item.rt_other,0,'COMMA')}">1층 외 임대 시세</td>
+
               </tr>
               </tbody>
             </table>
@@ -200,7 +270,12 @@
 </div>
 <th:block layout:fragment="custom_css">
 </th:block>
-<th:block layout:fragment="custom_js">
+<th:block layout:fragment="custom_js" th:inline="javascript">
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+  <script>
+    var type = [[${params.type}]];
+    var region = true;
+  </script>
   <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
   <script th:src="@{/assets/js/pages/area/area.js}"></script>
 </th:block>

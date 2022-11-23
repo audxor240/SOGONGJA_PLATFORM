@@ -14,7 +14,7 @@
         </if>
 
         ORDER BY AREA_SEQ DESC
-        /*||ORDER BY AREA_SEQ DESC||*/
+
 
     </select>
 
@@ -75,7 +75,7 @@
     </select>
 
     <update id="deleteReSearchShop" parameterType="map" >
-        /* file : EducationMapper.xml, id : deleteEducation */
+        /* file : ReSearchAreaMapper.xml, id : deleteEducation */
         UPDATE ST_RESEARCH_SHOP
         SET DEL_FLAG     = 1
           , DEL_USER_SEQ = #{login_user_seq}
@@ -86,4 +86,300 @@
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
     </select>
+
+    <insert id="insertReSearchAreaExcel" parameterType="java.util.List">
+        /* file : ReSearchAreaMapper.xml, id : insertReSearchAreaExcel */
+        INSERT
+        INTO ST_RESEARCH_AREA (
+        YEAR
+        , QRT
+        , AREA_DIV_CD
+        , AREA_CD
+        , AREA_NM
+        , `JOIN`
+        , LIV_POPUL
+        , M_POPUL
+        , F_POPUL
+        , AGE_10_D_1
+        , AGE_10_D_2
+        , AGE_10_D_3
+        , AGE_10_D_4
+        , AGE_10_D_5
+        , AGE_10_D_6
+        , AGE_20_D_1
+        , AGE_20_D_2
+        , AGE_20_D_3
+        , AGE_20_D_4
+        , AGE_20_D_5
+        , AGE_20_D_6
+        , AGE_30_D_1
+        , AGE_30_D_2
+        , AGE_30_D_3
+        , AGE_30_D_4
+        , AGE_30_D_5
+        , AGE_30_D_6
+        , AGE_40_D_1
+        , AGE_40_D_2
+        , AGE_40_D_3
+        , AGE_40_D_4
+        , AGE_40_D_5
+        , AGE_40_D_6
+        , AGE_50_D_1
+        , AGE_50_D_2
+        , AGE_50_D_3
+        , AGE_50_D_4
+        , AGE_50_D_5
+        , AGE_50_D_6
+        , AGE_60_D_1
+        , AGE_60_D_2
+        , AGE_60_D_3
+        , AGE_60_D_4
+        , AGE_60_D_5
+        , AGE_60_D_6
+        , AGE_10_W_1
+        , AGE_10_W_2
+        , AGE_10_W_3
+        , AGE_10_W_4
+        , AGE_10_W_5
+        , AGE_10_W_6
+        , AGE_20_W_1
+        , AGE_20_W_2
+        , AGE_20_W_3
+        , AGE_20_W_4
+        , AGE_20_W_5
+        , AGE_20_W_6
+        , AGE_30_W_1
+        , AGE_30_W_2
+        , AGE_30_W_3
+        , AGE_30_W_4
+        , AGE_30_W_5
+        , AGE_30_W_6
+        , AGE_40_W_1
+        , AGE_40_W_2
+        , AGE_40_W_3
+        , AGE_40_W_4
+        , AGE_40_W_5
+        , AGE_40_W_6
+        , AGE_50_W_1
+        , AGE_50_W_2
+        , AGE_50_W_3
+        , AGE_50_W_4
+        , AGE_50_W_5
+        , AGE_50_W_6
+        , AGE_60_W_1
+        , AGE_60_W_2
+        , AGE_60_W_3
+        , AGE_60_W_4
+        , AGE_60_W_5
+        , AGE_60_W_6
+        , ST_POPUL
+        , BD_POPUL
+        , R_POPUL
+        , W_POPUL
+        , SUM_FOOD_EX
+        , SUM_CLT_EX
+        , SUM_NEC_EX
+        , SUM_MED_EX
+        , SUM_TRP_EX
+        , SUM_LEI_EX
+        , SUM_CUL_EX
+        , SUM_EDU_EX
+        , SUM_ENT_EX
+        , CT_APT_COM
+        , CT_APT_HOU
+        , IDX_STB_AREA
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.year}
+            , #{item.qrt}
+            , #{item.areaDivCd}
+            , #{item.areaCd}
+            , #{item.areaNm}
+            , #{item.join}
+            , #{item.livPopul}
+            , #{item.mPopul}
+            , #{item.fPopul}
+            , #{item.age10D1}
+            , #{item.age10D2}
+            , #{item.age10D3}
+            , #{item.age10D4}
+            , #{item.age10D5}
+            , #{item.age10D6}
+            , #{item.age20D1}
+            , #{item.age20D2}
+            , #{item.age20D3}
+            , #{item.age20D4}
+            , #{item.age20D5}
+            , #{item.age20D6}
+            , #{item.age30D1}
+            , #{item.age30D2}
+            , #{item.age30D3}
+            , #{item.age30D4}
+            , #{item.age30D5}
+            , #{item.age30D6}
+            , #{item.age40D1}
+            , #{item.age40D2}
+            , #{item.age40D3}
+            , #{item.age40D4}
+            , #{item.age40D5}
+            , #{item.age40D6}
+            , #{item.age50D1}
+            , #{item.age50D2}
+            , #{item.age50D3}
+            , #{item.age50D4}
+            , #{item.age50D5}
+            , #{item.age50D6}
+            , #{item.age60D1}
+            , #{item.age60D2}
+            , #{item.age60D3}
+            , #{item.age60D4}
+            , #{item.age60D5}
+            , #{item.age60D6}
+            , #{item.age10W1}
+            , #{item.age10W2}
+            , #{item.age10W3}
+            , #{item.age10W4}
+            , #{item.age10W5}
+            , #{item.age10W6}
+            , #{item.age20W1}
+            , #{item.age20W2}
+            , #{item.age20W3}
+            , #{item.age20W4}
+            , #{item.age20W5}
+            , #{item.age20W6}
+            , #{item.age30W1}
+            , #{item.age30W2}
+            , #{item.age30W3}
+            , #{item.age30W4}
+            , #{item.age30W5}
+            , #{item.age30W6}
+            , #{item.age40W1}
+            , #{item.age40W2}
+            , #{item.age40W3}
+            , #{item.age40W4}
+            , #{item.age40W5}
+            , #{item.age40W6}
+            , #{item.age50W1}
+            , #{item.age50W2}
+            , #{item.age50W3}
+            , #{item.age50W4}
+            , #{item.age50W5}
+            , #{item.age50W6}
+            , #{item.age60W1}
+            , #{item.age60W2}
+            , #{item.age60W3}
+            , #{item.age60W4}
+            , #{item.age60W5}
+            , #{item.age60W6}
+            , #{item.stPopul}
+            , #{item.bdPopul}
+            , #{item.rPopul}
+            , #{item.wPopul}
+            , #{item.sumFoodEx}
+            , #{item.sumCltEx}
+            , #{item.sumNecEx}
+            , #{item.sumMedEx}
+            , #{item.sumTrpEx}
+            , #{item.sumLeiEx}
+            , #{item.sumCulEx}
+            , #{item.sumEduEx}
+            , #{item.sumEntEx}
+            , #{item.ctAptCom}
+            , #{item.ctAptHou}
+            , #{item.idxStbArea}
+            , #{item.loginUserSeq}
+            , CURRENT_TIMESTAMP()
+            )
+        </foreach>
+
+
+        <selectKey resultType="int" keyProperty="areaSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertReSearchAreaComExcel" parameterType="java.util.List">
+        /* file : ReSearchAreaMapper.xml, id : insertReSearchAreaComExcel */
+        INSERT
+        INTO ST_RESEARCH_AREA_COM (
+        YEAR
+        , QRT
+        , AREA_DIV_CD
+        , AREA_DIV_NM
+        , AREA_CD
+        , EMD_CD
+        , AREA_NM
+        , COM_CD
+        , COM_CD2
+        , COM_NM
+        , CT_SHOP
+        , CT_SHOP_SIM
+        , PER_OPEN
+        , CT_OPEN
+        , PER_CLOSE
+        , CT_CLOSE
+        , CT_FRANCHISE
+        , SUM_00_06
+        , SUM_06_11
+        , SUM_11_14
+        , SUM_14_17
+        , SUM_17_21
+        , SUM_21_24
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.year}
+            , #{item.qrt}
+            , #{item.areaDivCd}
+            , #{item.areaDivNm}
+            , #{item.areaCd}
+            , #{item.emdCd}
+            , #{item.areaNm}
+            , #{item.comCd}
+            , #{item.comCd2}
+            , #{item.comNm}
+            , #{item.ctShop}
+            , #{item.ctShopSim}
+            , #{item.perOpen}
+            , #{item.ctOpen}
+            , #{item.perClose}
+            , #{item.ctClose}
+            , #{item.ctFranchise}
+            , #{item.sum0006}
+            , #{item.sum0611}
+            , #{item.sum1114}
+            , #{item.sum1417}
+            , #{item.sum1721}
+            , #{item.sum2124}
+            , #{item.loginUserSeq}
+            , CURRENT_TIMESTAMP()
+            )
+        </foreach>
+
+
+        <selectKey resultType="int" keyProperty="areaSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="checkReSearchArea" parameterType="string" resultType="int">
+        /* file : ReSearchAreaMapper.xml, id : checkReSearchArea */
+        SELECT count(*)
+        FROM ST_RESEARCH_AREA
+        WHERE DEL_FLAG = 0
+          AND `JOIN`  = #{join}
+    </select>
+
+    <select id="checkReSearchAreaCom" parameterType="map" resultType="int">
+        /* file : ReSearchAreaMapper.xml, id : checkReSearchAreaCom */
+        SELECT count(*)
+        FROM ST_RESEARCH_AREA_COM
+        WHERE DEL_FLAG = 0 and AREA_CD = #{area_cd} and EMD_CD = #{emd_cd} and AREA_NM = #{area_nm} and COM_CD = #{com_cd} and COM_CD2 = #{com_cd2} and COM_NM = #{com_nm}
+    </select>
+
 </mapper>

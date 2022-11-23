@@ -103,4 +103,6 @@ public class ReSearchArea {
     private int ctAptCom	;
     private int ctAptHou	;
     private int idxStbArea	;
+
+    private int loginUserSeq;
 }

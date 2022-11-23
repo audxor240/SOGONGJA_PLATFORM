@@ -36,6 +36,12 @@ public class ExcelService extends BaseService {
     private ReSearchShopService reSearchShopService;
 
     @Autowired
+    private ReSearchAreaService reSearchAreaService;
+
+    @Autowired
+    private ReSearchRegionService reSearchRegionService;
+
+    @Autowired
     private SupportMapper supportMapper;
 
     @Autowired
@@ -49,11 +55,15 @@ public class ExcelService extends BaseService {
 
     @Autowired
     private ReSearchShopMapper reSearchShopMapper;
+    @Autowired
+    private ReSearchAreaMapper reSearchAreaMapper;
+
+    @Autowired
+    private ReSearchRegionMapper reSearchRegionMapper;
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public String insertExcel(Sheet worksheet, String excelType, int loginUserSeq) throws IOException {
-
-        List<Map<String,Object>> return_data = null;
+        System.out.println("excelType >>> "+excelType);
         String returnUrl = "";
         switch (excelType){
             case "edu": eduDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/education"; break;   //교육
@@ -61,7 +71,10 @@ public class ExcelService extends BaseService {
             case "cou": couDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/counseling"; break;  //상담사례
             case "pro": proDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/board/project"; break;     //지원 및 정책
             case "faq": faqDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/faq"; break;         //faq
-            case "shop": areaShopDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/shop"; break;         //상점데이터
+            case "shop": reSearchShopDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/shop"; break;         //상점데이터
+            case "analysis1": reSearchArea1DataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/analysis?type=1&subType=0"; break;         //상점데이터(일반)
+            case "analysis2": reSearchArea2DataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/analysis?type=2&subType=0"; break;         //상점데이터(업종)
+            case "region": reSearchRegionDataInsert(worksheet, loginUserSeq); returnUrl = "redirect:/areaSetting/regional?type=region0"; break;         //상점데이터(업종)
         }
 
         return returnUrl;
@@ -284,9 +297,8 @@ public class ExcelService extends BaseService {
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
-    public void areaShopDataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
+    public void reSearchShopDataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
 
-        //faqService.deleteAllFaq(loginUserSeq);  //faq 전체 삭제
         System.out.println("START-------------------!!!!!!!!!!!!!!!!");
         List<ReSearchShop> dataList = new ArrayList<>();
         for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
@@ -352,6 +364,283 @@ public class ExcelService extends BaseService {
             }
         }
         reSearchShopService.insertReSearchShopExcel(dataList);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void reSearchArea1DataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
+
+        System.out.println("START-------------------!!!!!!!!!!!!!!!!");
+        List<ReSearchArea> dataList = new ArrayList<>();
+        int line = 5000;
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            Row row = worksheet.getRow(i);
+
+            ReSearchArea data = new ReSearchArea();
+
+            System.out.println("Setting COUNT :: "+i);
+
+            String join = row.getCell(5).getStringCellValue();
+            int reSearchAreaCnt = reSearchAreaMapper.checkReSearchArea(join);
+            if(reSearchAreaCnt > 0){ //같은 상권이 있으면 패스
+                continue;
+            }
+
+            data.setYear(Integer.parseInt(row.getCell(0).getStringCellValue()));
+            data.setQrt(Integer.parseInt(row.getCell(1).getStringCellValue()));
+            data.setAreaDivCd(row.getCell(2).getStringCellValue());
+            data.setAreaCd(row.getCell(3).getStringCellValue());
+            data.setAreaNm(row.getCell(4).getStringCellValue());
+            data.setJoin(row.getCell(5).getStringCellValue());
+            data.setLivPopul(Integer.parseInt(row.getCell(6).getStringCellValue()));
+            data.setMPopul(Integer.parseInt(row.getCell(7).getStringCellValue()));
+            data.setFPopul(Integer.parseInt(row.getCell(8).getStringCellValue()));
+            data.setAge10D1(Integer.parseInt(row.getCell(9).getStringCellValue()));
+            data.setAge10D2(Integer.parseInt(row.getCell(10).getStringCellValue()));
+            data.setAge10D3(Integer.parseInt(row.getCell(11).getStringCellValue()));
+            data.setAge10D4(Integer.parseInt(row.getCell(12).getStringCellValue()));
+            data.setAge10D5(Integer.parseInt(row.getCell(13).getStringCellValue()));
+            data.setAge10D6(Integer.parseInt(row.getCell(14).getStringCellValue()));
+            data.setAge20D1(Integer.parseInt(row.getCell(15).getStringCellValue()));
+            data.setAge20D2(Integer.parseInt(row.getCell(16).getStringCellValue()));
+            data.setAge20D3(Integer.parseInt(row.getCell(17).getStringCellValue()));
+            data.setAge20D4(Integer.parseInt(row.getCell(18).getStringCellValue()));
+            data.setAge20D5(Integer.parseInt(row.getCell(19).getStringCellValue()));
+            data.setAge20D6(Integer.parseInt(row.getCell(20).getStringCellValue()));
+            data.setAge30D1(Integer.parseInt(row.getCell(21).getStringCellValue()));
+            data.setAge30D2(Integer.parseInt(row.getCell(22).getStringCellValue()));
+            data.setAge30D3(Integer.parseInt(row.getCell(23).getStringCellValue()));
+            data.setAge30D4(Integer.parseInt(row.getCell(24).getStringCellValue()));
+            data.setAge30D5(Integer.parseInt(row.getCell(25).getStringCellValue()));
+            data.setAge30D6(Integer.parseInt(row.getCell(26).getStringCellValue()));
+            data.setAge40D1(Integer.parseInt(row.getCell(27).getStringCellValue()));
+            data.setAge40D2(Integer.parseInt(row.getCell(28).getStringCellValue()));
+            data.setAge40D3(Integer.parseInt(row.getCell(29).getStringCellValue()));
+            data.setAge40D4(Integer.parseInt(row.getCell(30).getStringCellValue()));
+
+            data.setAge40D5(Integer.parseInt(row.getCell(31).getStringCellValue()));
+            data.setAge40D6(Integer.parseInt(row.getCell(32).getStringCellValue()));
+            data.setAge50D1(Integer.parseInt(row.getCell(33).getStringCellValue()));
+            data.setAge50D2(Integer.parseInt(row.getCell(34).getStringCellValue()));
+            data.setAge50D3(Integer.parseInt(row.getCell(35).getStringCellValue()));
+            data.setAge50D4(Integer.parseInt(row.getCell(36).getStringCellValue()));
+            data.setAge50D5(Integer.parseInt(row.getCell(37).getStringCellValue()));
+            data.setAge50D6(Integer.parseInt(row.getCell(38).getStringCellValue()));
+            data.setAge60D1(Integer.parseInt(row.getCell(39).getStringCellValue()));
+            data.setAge60D2(Integer.parseInt(row.getCell(40).getStringCellValue()));
+            data.setAge60D3(Integer.parseInt(row.getCell(41).getStringCellValue()));
+            data.setAge60D4(Integer.parseInt(row.getCell(42).getStringCellValue()));
+            data.setAge60D5(Integer.parseInt(row.getCell(43).getStringCellValue()));
+            data.setAge60D6(Integer.parseInt(row.getCell(44).getStringCellValue()));
+            data.setAge10W1(Integer.parseInt(row.getCell(45).getStringCellValue()));
+            data.setAge10W2(Integer.parseInt(row.getCell(46).getStringCellValue()));
+            data.setAge10W3(Integer.parseInt(row.getCell(47).getStringCellValue()));
+            data.setAge10W4(Integer.parseInt(row.getCell(48).getStringCellValue()));
+            data.setAge10W5(Integer.parseInt(row.getCell(49).getStringCellValue()));
+            data.setAge10W6(Integer.parseInt(row.getCell(50).getStringCellValue()));
+            data.setAge20W1(Integer.parseInt(row.getCell(51).getStringCellValue()));
+            data.setAge20W2(Integer.parseInt(row.getCell(52).getStringCellValue()));
+            data.setAge20W3(Integer.parseInt(row.getCell(53).getStringCellValue()));
+            data.setAge20W4(Integer.parseInt(row.getCell(54).getStringCellValue()));
+            data.setAge20W5(Integer.parseInt(row.getCell(55).getStringCellValue()));
+            data.setAge20W6(Integer.parseInt(row.getCell(56).getStringCellValue()));
+            data.setAge30W1(Integer.parseInt(row.getCell(57).getStringCellValue()));
+            data.setAge30W2(Integer.parseInt(row.getCell(58).getStringCellValue()));
+            data.setAge30W3(Integer.parseInt(row.getCell(59).getStringCellValue()));
+            data.setAge30W4(Integer.parseInt(row.getCell(60).getStringCellValue()));
+
+            data.setAge30W5(Integer.parseInt(row.getCell(61).getStringCellValue()));
+            data.setAge30W6(Integer.parseInt(row.getCell(62).getStringCellValue()));
+            data.setAge40W1(Integer.parseInt(row.getCell(63).getStringCellValue()));
+            data.setAge40W2(Integer.parseInt(row.getCell(64).getStringCellValue()));
+            data.setAge40W3(Integer.parseInt(row.getCell(65).getStringCellValue()));
+            data.setAge40W4(Integer.parseInt(row.getCell(66).getStringCellValue()));
+            data.setAge40W5(Integer.parseInt(row.getCell(67).getStringCellValue()));
+            data.setAge40W6(Integer.parseInt(row.getCell(68).getStringCellValue()));
+            data.setAge50W1(Integer.parseInt(row.getCell(69).getStringCellValue()));
+            data.setAge50W2(Integer.parseInt(row.getCell(70).getStringCellValue()));
+            data.setAge50W3(Integer.parseInt(row.getCell(71).getStringCellValue()));
+            data.setAge50W4(Integer.parseInt(row.getCell(72).getStringCellValue()));
+            data.setAge50W5(Integer.parseInt(row.getCell(73).getStringCellValue()));
+            data.setAge50W6(Integer.parseInt(row.getCell(74).getStringCellValue()));
+            data.setAge60W1(Integer.parseInt(row.getCell(75).getStringCellValue()));
+            data.setAge60W2(Integer.parseInt(row.getCell(76).getStringCellValue()));
+            data.setAge60W3(Integer.parseInt(row.getCell(77).getStringCellValue()));
+            data.setAge60W4(Integer.parseInt(row.getCell(78).getStringCellValue()));
+            data.setAge60W5(Integer.parseInt(row.getCell(79).getStringCellValue()));
+            data.setAge60W6(Integer.parseInt(row.getCell(80).getStringCellValue()));
+            data.setStPopul(Integer.parseInt(row.getCell(81).getStringCellValue()));
+            data.setBdPopul(Integer.parseInt(row.getCell(82).getStringCellValue()));
+            data.setRPopul(Integer.parseInt(row.getCell(83).getStringCellValue()));
+            data.setWPopul(Integer.parseInt(row.getCell(84).getStringCellValue()));
+            data.setSumFoodEx(Integer.parseInt(row.getCell(85).getStringCellValue()));
+            data.setSumCltEx(Integer.parseInt(row.getCell(86).getStringCellValue()));
+            data.setSumNecEx(Integer.parseInt(row.getCell(87).getStringCellValue()));
+            data.setSumMedEx(Integer.parseInt(row.getCell(88).getStringCellValue()));
+            data.setSumTrpEx(Integer.parseInt(row.getCell(89).getStringCellValue()));
+            data.setSumLeiEx(Integer.parseInt(row.getCell(90).getStringCellValue()));
+
+            data.setSumCulEx(Integer.parseInt(row.getCell(91).getStringCellValue()));
+            data.setSumEduEx(Integer.parseInt(row.getCell(92).getStringCellValue()));
+            data.setSumEntEx(Integer.parseInt(row.getCell(93).getStringCellValue()));
+            data.setCtAptCom(Integer.parseInt(row.getCell(94).getStringCellValue()));
+            data.setCtAptHou(Integer.parseInt(row.getCell(95).getStringCellValue()));
+            data.setIdxStbArea(Integer.parseInt(row.getCell(96).getStringCellValue()));
+
+            data.setLoginUserSeq(loginUserSeq);
+
+            dataList.add(data);
+
+            //5000row 잘라서 insert
+            if(i == line){
+                reSearchAreaService.insertReSearchAreaExcel(dataList);
+                dataList = new ArrayList<>();
+                line = line+5000;
+            }
+
+        }
+        if(dataList.size() > 0){    //추가할 데이터가 남아있으면 마지막으로 insert해준다
+            reSearchAreaService.insertReSearchAreaExcel(dataList);
+        }
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void reSearchArea2DataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
+
+        System.out.println("START-------------------!!!!!!!!!!!!!!!!");
+        List<ReSearchAreaCom> dataList = new ArrayList<>();
+        int line = 5000;
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            Row row = worksheet.getRow(i);
+
+            ReSearchAreaCom data = new ReSearchAreaCom();
+
+            System.out.println("Setting COUNT :: "+i);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("area_cd",row.getCell(4).getStringCellValue());
+            map.put("emd_cd",row.getCell(5).getStringCellValue());
+            map.put("area_nm",row.getCell(6).getStringCellValue());
+            map.put("com_cd",row.getCell(7).getStringCellValue());
+            map.put("com_cd2",row.getCell(8).getStringCellValue());
+            map.put("com_nm",row.getCell(9).getStringCellValue());
+
+            //String join = row.getCell(5).getStringCellValue();
+            int reSearchAreaComCnt = reSearchAreaMapper.checkReSearchAreaCom(map);
+            if(reSearchAreaComCnt > 0){ //같은 상권이 있으면 패스
+                continue;
+            }
+
+            data.setYear(Integer.parseInt(row.getCell(0).getStringCellValue()));
+            data.setQrt(Integer.parseInt(row.getCell(1).getStringCellValue()));
+            data.setAreaDivCd(row.getCell(2).getStringCellValue());
+            data.setAreaDivNm(row.getCell(3).getStringCellValue());
+            data.setAreaCd(Integer.parseInt(row.getCell(4).getStringCellValue()));
+            data.setEmdCd(row.getCell(5).getStringCellValue());
+            data.setAreaNm(row.getCell(6).getStringCellValue());
+            data.setComCd(row.getCell(7).getStringCellValue());
+            data.setComCd2(row.getCell(8).getStringCellValue());
+            data.setComNm(row.getCell(9).getStringCellValue());
+            data.setCtShop(Integer.parseInt(row.getCell(10).getStringCellValue()));
+            data.setCtShopSim(Integer.parseInt(row.getCell(11).getStringCellValue()));
+            data.setPerOpen(Integer.parseInt(row.getCell(12).getStringCellValue()));
+            data.setCtOpen(Integer.parseInt(row.getCell(13).getStringCellValue()));
+            data.setPerClose(Integer.parseInt(row.getCell(14).getStringCellValue()));
+            data.setCtClose(Integer.parseInt(row.getCell(15).getStringCellValue()));
+            data.setCtFranchise(Integer.parseInt(row.getCell(16).getStringCellValue()));
+            data.setSum0006(Integer.parseInt(row.getCell(17).getStringCellValue()));
+            data.setSum0611(Integer.parseInt(row.getCell(18).getStringCellValue()));
+            data.setSum1114(Integer.parseInt(row.getCell(19).getStringCellValue()));
+            data.setSum1417(Integer.parseInt(row.getCell(20).getStringCellValue()));
+            data.setSum1721(Integer.parseInt(row.getCell(21).getStringCellValue()));
+            data.setSum2124(Integer.parseInt(row.getCell(22).getStringCellValue()));
+
+            data.setLoginUserSeq(loginUserSeq);
+
+            dataList.add(data);
+
+            //5000row 잘라서 insert
+            if(i == line){
+                reSearchAreaService.insertReSearchAreaComExcel(dataList);
+                dataList = new ArrayList<>();
+                line = line+5000;
+            }
+
+        }
+        if(dataList.size() > 0){    //추가할 데이터가 남아있으면 마지막으로 insert해준다
+            reSearchAreaService.insertReSearchAreaComExcel(dataList);
+        }
+   }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void reSearchRegionDataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
+
+        System.out.println("START-------------------!!!!!!!!!!!!!!!!");
+        List<ReSearchRegion> dataList = new ArrayList<>();
+        int line = 5000;
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            Row row = worksheet.getRow(i);
+
+            ReSearchRegion data = new ReSearchRegion();
+
+            System.out.println("Setting COUNT :: "+i);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("year",row.getCell(0).getStringCellValue());
+            map.put("qrt",row.getCell(1).getStringCellValue());
+            map.put("emd_cd",row.getCell(5).getStringCellValue());
+            map.put("cmd_nm",row.getCell(6).getStringCellValue());
+
+            //String join = row.getCell(5).getStringCellValue();
+            int reSearchRegionCnt = reSearchRegionMapper.checkReSearchRegion(map);
+            if(reSearchRegionCnt > 0){ //같은 상권이 있으면 패스
+                continue;
+            }
+
+            data.setYear(Integer.parseInt(row.getCell(0).getStringCellValue()));
+            data.setQrt(Integer.parseInt(row.getCell(1).getStringCellValue()));
+            data.setCtprvnCd(row.getCell(2).getStringCellValue());
+            data.setCtprvnNm(row.getCell(3).getStringCellValue());
+            data.setSignguCd(row.getCell(4).getStringCellValue());
+            data.setSignguNm(row.getCell(5).getStringCellValue());
+            data.setEmdCd(row.getCell(6).getStringCellValue());
+            data.setEmdNm(row.getCell(7).getStringCellValue());
+            data.setSumPopul(Integer.parseInt(row.getCell(8).getStringCellValue()));
+            data.setRPopul(Integer.parseInt(row.getCell(9).getStringCellValue()));
+            data.setWPopul(Integer.parseInt(row.getCell(10).getStringCellValue()));
+            data.setHouse1(Integer.parseInt(row.getCell(11).getStringCellValue()));
+            data.setHouse2(Integer.parseInt(row.getCell(12).getStringCellValue()));
+            data.setHouse3(Integer.parseInt(row.getCell(13).getStringCellValue()));
+            data.setHouse4(Integer.parseInt(row.getCell(14).getStringCellValue()));
+            data.setHouse5(Integer.parseInt(row.getCell(15).getStringCellValue()));
+            data.setHouse6(Integer.parseInt(row.getCell(16).getStringCellValue()));
+            data.setHouse7(Integer.parseInt(row.getCell(17).getStringCellValue()));
+            data.setCtShopU20s(Integer.parseInt(row.getCell(18).getStringCellValue()));
+            data.setCtShop30s(Integer.parseInt(row.getCell(19).getStringCellValue()));
+            data.setCtShop40s(Integer.parseInt(row.getCell(20).getStringCellValue()));
+            data.setCtShop50s(Integer.parseInt(row.getCell(21).getStringCellValue()));
+            data.setCtShopO60s(Integer.parseInt(row.getCell(22).getStringCellValue()));
+            data.setRtAll(Integer.parseInt(row.getCell(23).getStringCellValue()));
+            data.setRt1f(Integer.parseInt(row.getCell(24).getStringCellValue()));
+            data.setRtOther(Integer.parseInt(row.getCell(25).getStringCellValue()));
+
+            data.setLoginUserSeq(loginUserSeq);
+
+            dataList.add(data);
+
+            //5000row 잘라서 insert
+            if(i == line){
+                reSearchRegionService.insertReSearchRegionExcel(dataList);
+                dataList = new ArrayList<>();
+                line = line+5000;
+            }
+
+        }
+        if(dataList.size() > 0){    //추가할 데이터가 남아있으면 마지막으로 insert해준다
+            reSearchRegionService.insertReSearchRegionExcel(dataList);
+        }
     }
 
 }

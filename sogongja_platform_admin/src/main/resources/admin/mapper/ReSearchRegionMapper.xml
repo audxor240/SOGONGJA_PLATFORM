@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.admin.mapper.ReSearchRegionMapper">
+
+    <select id="getReSearchRegionList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchRegionMapper.xml, id : getReSearchRegionList */
+        SELECT *
+        FROM ST_RESEARCH_REGION
+        where 1=1
+
+        <if test="region_name1 != null and region_name1 != ''">
+            AND CTPRVN_NM LIKE CONCAT('%', #{region_name1}, '%')
+        </if>
+
+        <if test="region_name2 != null and region_name2 != ''">
+            AND SIGNGU_NM LIKE CONCAT('%', #{region_name2}, '%')
+        </if>
+
+        <if test="region_name3 != null and region_name3 != ''">
+            AND EMD_NM LIKE CONCAT('%', #{region_name3}, '%')
+        </if>
+
+        ORDER BY REGION_SEQ DESC
+
+    </select>
+
+    <select id="getReSearchRegionAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReSearchRegionMapper.xml, id : getReSearchRegionAll */
+        select * from ST_RESEARCH_REGION
+        where 1=1
+        <if test="seqData != null and seqData != ''">
+            AND REGION_SEQ IN
+            <foreach collection="seqData" item="item" index='i' open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by REGION_SEQ desc;
+    </select>
+
+    <select id="checkReSearchRegion" parameterType="map" resultType="int">
+        /* file : ReSearchRegionMapper.xml, id : checkReSearchRegion */
+        SELECT count(*)
+        FROM ST_RESEARCH_REGION
+        WHERE DEL_FLAG = 0 and YEAR = #{year} and QRT = #{qrt} and EMD_CD = #{emd_cd} and EMD_NM = #{cmd_nm}
+    </select>
+
+    <insert id="insertReSearchRegionExcel" parameterType="java.util.List">
+        /* file : ReSearchRegionMapper.xml, id : insertReSearchRegionExcel */
+        INSERT
+        INTO ST_RESEARCH_REGION (
+        YEAR
+        , QRT
+        , CTPRVN_CD
+        , CTPRVN_NM
+        , SIGNGU_CD
+        , SIGNGU_NM
+        , EMD_CD
+        , EMD_NM
+        , SUM_POPUL
+        , R_POPUL
+        , W_POPUL
+        , HOUSE_1
+        , HOUSE_2
+        , HOUSE_3
+        , HOUSE_4
+        , HOUSE_5
+        , HOUSE_6
+        , HOUSE_7
+        , CT_SHOP_U20S
+        , CT_SHOP_30S
+        , CT_SHOP_40S
+        , CT_SHOP_50S
+        , CT_SHOP_O60S
+        , RT_ALL
+        , RT_1F
+        , RT_OTHER
+        , REG_USER_SEQ
+        , REG_DATE)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.year}
+            , #{item.qrt}
+            , #{item.ctprvnCd}
+            , #{item.ctprvnNm}
+            , #{item.signguCd}
+            , #{item.signguNm}
+            , #{item.emdCd}
+            , #{item.emdNm}
+            , #{item.sumPopul}
+            , #{item.rPopul}
+            , #{item.wPopul}
+            , #{item.house1}
+            , #{item.house2}
+            , #{item.house3}
+            , #{item.house4}
+            , #{item.house5}
+            , #{item.house6}
+            , #{item.house7}
+            , #{item.ctShopU20s}
+            , #{item.ctShop30s}
+            , #{item.ctShop40s}
+            , #{item.ctShop50s}
+            , #{item.ctShopO60s}
+            , #{item.rtAll}
+            , #{item.rt1f}
+            , #{item.rtOther}
+            , #{item.loginUserSeq}
+            , CURRENT_TIMESTAMP()
+            )
+        </foreach>
+
+
+        <selectKey resultType="int" keyProperty="areaSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+</mapper>

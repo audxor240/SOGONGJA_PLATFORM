@@ -1,10 +1,16 @@
 package com.stoneitgt.sogongja.admin.service;
 
 import com.stoneitgt.common.Paging;
+import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
 import com.stoneitgt.sogongja.admin.mapper.ReSearchAreaMapper;
+import com.stoneitgt.sogongja.domain.ReSearchArea;
+import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
+import com.stoneitgt.sogongja.domain.ReSearchShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +34,15 @@ public class ReSearchAreaService extends BaseService{
 
     public List<Map<String,Object>> getReSearchAreaComAll(Map<String, Object> params){
         return reSearchAreaMapper.getReSearchAreaComAll(params);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void insertReSearchAreaExcel(List<ReSearchArea> reSearchArea) throws IOException {
+        reSearchAreaMapper.insertReSearchAreaExcel(reSearchArea);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void insertReSearchAreaComExcel(List<ReSearchAreaCom> reSearchAreaCom) throws IOException {
+        reSearchAreaMapper.insertReSearchAreaComExcel(reSearchAreaCom);
     }
 }

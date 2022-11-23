@@ -64,7 +64,7 @@ public class ExcelController extends BaseController {
 
         String returnUrl = excelService.insertExcel(worksheet,excelType, authenticationFacade.getLoginUserSeq());
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
-
+        System.out.println("returnUrl >>>>>>>>>>>>>>> "+returnUrl);
         return returnUrl;
 
     }

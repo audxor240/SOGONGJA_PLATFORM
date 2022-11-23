@@ -122,6 +122,11 @@ $("input[name='analysis_options']").change(function(){
     window.location.href="/areaSetting/analysis?type="+typeNum+"&subType="+subTypeNum;
 });
 
+$("input[name='region_options']").change(function(){
+
+    window.location.href="/areaSetting/regional?type="+$(this).val();
+});
+
 //엑셀 다운로드 받을 컬럼 지정
 function excelColumnSetting(){
 
@@ -156,3 +161,4 @@ function validationForm(){
     return true;
 
 }
+
