@@ -1,5 +1,3 @@
-// 지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
 // 다각형을 생성하고 지도에 표시합니다
 var polygons = [];       //폴리곤 그려줄 path
 var points = [];        //중심좌표 구하기 위한 지역구 좌표들
@@ -41,7 +39,7 @@ function setAreaContent(area, stores){
 
 
 
-// 다각형을 생상하고 이벤트를 등록하는 함수입니다
+// 다각형 + 상권명을 생상하고 이벤트를 등록하는 함수입니다
 function displayArea(area) {
     var points = [];
     var path = [];
@@ -51,7 +49,6 @@ function displayArea(area) {
     });
 
     // 다각형을 생성합니다
-
         if(area.area_type=="D"){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -216,27 +213,8 @@ var codeType2 = 'A';
 $("input[name=cate]").prop("checked", true).each(function (index, item) {
     codeType1.push($(item).val());
 });
-//재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
-if(zoom<4){
-    $('.category_wrap.storelist').css('display', 'block');
-    console.log("상점 카테 보임")
-    //줌 4이하일때만 동작 html에서도 ★★★줌4 이상 이면 안보이게 하든가 해야될듯
-    $("input[name=cate]").click(function () {
-        if ($(this).prop('checked')) {
-            console.log($(this).val())
-            if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
-                codeType1.push($(this).val());
-            }
-        } else {
-            console.log($(this))
-            codeType1.forEach((item, index) => {
-                if (item == $(this).val()) {
-                    codeType1.splice(index, 1);
-                }
-            })
-        }
-    })
-}
+
+
 
 
 var datalat = {
@@ -291,12 +269,36 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
+//재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
+    if(zoom<4){
+        $('#storelist').css('display', 'block');
+        console.log("상점 카테 보임")
+        //줌 4이하일때만 동작 html에서도 ★★★줌4 이상 이면 안보이게 하든가 해야될듯
+        $("input[name=cate]").click(function () {
+            if ($(this).prop('checked')) {
+                console.log($(this).val())
+                if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
+                    codeType1.push($(this).val());
+                }
+            } else {
+                console.log($(this))
+                codeType1.forEach((item, index) => {
+                    if (item == $(this).val()) {
+                        codeType1.splice(index, 1);
+                    }
+                })
+            }
+        })
+    }else {
+        $('#storelist').css('display', 'none');
+    }
 
-    if(zoom > 8 && zoom <= 14){//zoom 9,10,11,12,13,14
-        //그냥 서울에 1개 찍자.
+ if(zoom >= 8 && zoom <= 14){//zoom 9,10,11,12,13,14
+        //상권명+상점수 커스텀 안찍음
 
-    }else if (zoom >= 7 && zoom <= 8) { //zoom 7,8,9 계속 재 조회함
-        removePolygons(map)//areajㅁson에 쓰던 상권 삭제
+    }else if (zoom > 6 && zoom < 8) { //zoom 6, 7 계속 재 조회함
+     //상권명+상점수 커스텀 지우기
+        removePolygons(map)//areajson에 쓰던 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
             areaJson = result;
@@ -304,7 +306,18 @@ async function changeMap() {
                 displayArea(areaJson[i]);
             }
         });
-    }else if(zoom>=4 && zoom<7) { //zoom 4,5,6 일때 areajson 쓰고 조회안함
+ }else if (zoom == 6) { //zoom 6
+     //상권명 상점수는 지우기
+     removePolygons(map)//areajson에 쓰던 상권 삭제
+     ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+         console.log("이게 상권데이터 갖고오는거임", result)
+         areaJson = result;
+         for (var i = 0, len = areaJson.length; i < len; i++) {
+             displayArea(areaJson[i]);
+         }
+     });
+    }else if(zoom >=4 && zoom < 6) { //zoom 4,5 일때
+     //상권명 + 상점수(이건 5부터) 커스텀 찍음
         setMarkers(null)//상점삭제
         removePolygons(map)//areajson에 쓰던 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
@@ -314,7 +327,7 @@ async function changeMap() {
                 displayArea(areaJson[i]);
             }
         });
-    } else { //level < 4, zoom 3,2,1 일때 상점 마커들 찍어주기
+    } else { //level < 4, zoom 3,2,1 일때 상점 마커들 추가 찍어주기
         setMarkers(null)//상점삭제
         console.log("zoom 이 5이하시 shop 리스트 호출")
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
@@ -352,7 +365,7 @@ function centroid(points) {
 //탭 설정시 상위값에 카운트 숫자 달라짐
 function changeType1() {
     //탭에서 라디오 버튼 값을 가져온다.
-    var type1 = $('input[name="type1"]:checked').val()
+    var type1 = $('input[name="areaTab"]:checked').val()
     if (type1 === 'stores') {//상점수탭
         // display block / none
     } else if (type1 === 'open') {//개업수
@@ -455,3 +468,36 @@ kakao.maps.event.addListener(map, "idle", async function () {
         renderSigungu(),
         renderDong()
 });
+
+
+
+
+
+
+
+$('.filterIcon').click(function (){
+    $('.filterbox').toggleClass('on')
+})
+$(".openclose").click(function (){
+    $('.openclose_list').toggleClass('on')
+})
+$(".openclose_list").click(function (){
+    $('.openclose_list').removeClass('on')
+})
+//개폐업수 탭 색상 변경
+$('input[name="areaTab"]').click(function (){
+    if($('input[name="areaTab"]:checked').val()=="open"){
+        $(".openclose").text("개업수");
+        $(".openclose").addClass("on")
+        //개업수 체크이면 text 개업수로 변경
+    }else if($('input[name="areaTab"]:checked').val()=="close"){
+        $(".openclose").text("폐업수")
+        $(".openclose").addClass("on")
+        //폐업수 체크이면 text 폐업수로 변경
+    }else{
+        $(".openclose").text("개폐업수")
+        $(".openclose").removeClass("on")
+        $(".openclose_list").removeClass("on")
+        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
+    }
+})
