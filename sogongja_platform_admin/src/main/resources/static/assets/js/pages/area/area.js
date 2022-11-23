@@ -6,16 +6,16 @@
 
         excelColumnSetting();
 
-        $('#del_reSearchShop').on('click', function() {
-            if (confirm('해당 상점을 삭제하시겠습니까?')) {
+        $('#del_reSearch').on('click', function() {
+            if (confirm('해당 데이터를 삭제하시겠습니까?')) {
 
-                var reSearchShopStr = "";
-                $("input[name=shop_check]:checked").each(function(){
-                    reSearchShopStr += $(this).val()+",";
+                var seqStr = "";
+                $("input[name=research_check]:checked").each(function(){
+                    seqStr += $(this).val()+",";
                 })
-                reSearchShopStr = reSearchShopStr.slice(0,-1);
+                seqStr = seqStr.slice(0,-1);
                 var form = document.forms.deleteForm;
-                form.reSearchShopStr.value = reSearchShopStr;
+                form.seqStr.value = seqStr;
 
                 form.submit();
             }

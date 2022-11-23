@@ -5,6 +5,7 @@ import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
 import com.stoneitgt.sogongja.admin.mapper.ReSearchRegionMapper;
 import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
 import com.stoneitgt.sogongja.domain.ReSearchRegion;
+import com.stoneitgt.sogongja.domain.ReSearchShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +31,10 @@ public class ReSearchRegionService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public void insertReSearchRegionExcel(List<ReSearchRegion> reSearchRegion) throws IOException {
         reSearchRegionMapper.insertReSearchRegionExcel(reSearchRegion);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void deleteReSearchRegion(Map<String, Object> params) {
+        reSearchRegionMapper.deleteReSearchRegion(params);
     }
 }

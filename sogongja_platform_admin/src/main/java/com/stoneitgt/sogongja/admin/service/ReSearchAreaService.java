@@ -45,4 +45,14 @@ public class ReSearchAreaService extends BaseService{
     public void insertReSearchAreaComExcel(List<ReSearchAreaCom> reSearchAreaCom) throws IOException {
         reSearchAreaMapper.insertReSearchAreaComExcel(reSearchAreaCom);
     }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void deleteReSearchArea(Map<String, Object> params) {
+        reSearchAreaMapper.deleteReSearchArea(params);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void deleteReSearchAreaCom(Map<String, Object> params) {
+        reSearchAreaMapper.deleteReSearchAreaCom(params);
+    }
 }

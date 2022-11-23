@@ -18,4 +18,6 @@ public interface ReSearchRegionMapper {
     int checkReSearchRegion(Map<String, Object> map);
 
     int insertReSearchRegionExcel(List<ReSearchRegion> reSearchRegion);
+
+    int deleteReSearchRegion(Map<String, Object> params);
 }
