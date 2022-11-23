@@ -1,5 +1,8 @@
 package com.stoneitgt.sogongja.admin.mapper;
 
+import com.stoneitgt.sogongja.domain.ReSearchArea;
+import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
+import com.stoneitgt.sogongja.domain.ReSearchShop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -15,4 +18,12 @@ public interface ReSearchAreaMapper {
 
     List<Map<String,Object>> getReSearchAreaAll(Map<String, Object> params);
     List<Map<String,Object>> getReSearchAreaComAll(Map<String, Object> params);
+
+    int insertReSearchAreaExcel(List<ReSearchArea> reSearchArea);
+
+    int insertReSearchAreaComExcel(List<ReSearchAreaCom> reSearchAreaCom);
+
+    int checkReSearchArea(String join);
+
+    int checkReSearchAreaCom(Map<String, Object> map);
 }

@@ -88,7 +88,7 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			String targetUrl = savedRequest.getRedirectUrl();
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		} else {
-			redirectStrategy.sendRedirect(request, response, "/main");
+			redirectStrategy.sendRedirect(request, response, "/setting/user");
 		}
 	}
 }

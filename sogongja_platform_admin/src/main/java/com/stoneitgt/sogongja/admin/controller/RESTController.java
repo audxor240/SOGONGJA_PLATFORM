@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.stoneitgt.sogongja.admin.service.CategoryService;
-import com.stoneitgt.sogongja.admin.service.ReSearchAreaService;
-import com.stoneitgt.sogongja.admin.service.ReSearchShopService;
+import com.stoneitgt.sogongja.admin.service.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant.API_STATUS;
-import com.stoneitgt.sogongja.admin.service.CodeService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +39,9 @@ public class RESTController extends BaseController {
 
 	@Autowired
 	private ReSearchAreaService reSearchAreaService;
+
+	@Autowired
+	private ReSearchRegionService reSearchRegionService;
 
 	private boolean downloadCheck = false;
 
@@ -112,7 +112,7 @@ public class RESTController extends BaseController {
 				sheetName = "전체";
 				break;
 			case "analysis1":
-				excelName = "상권 데이터(일반)";
+
 				list = reSearchAreaService.getReSearchAreaAll(param);
 				if(subType.equals("0")){
 					sheetName = "전체";
@@ -127,9 +127,10 @@ public class RESTController extends BaseController {
 				}else if(subType.equals("5")){
 					sheetName = "상권안정화지표";
 				}
+				excelName = "상권 데이터(일반)-"+sheetName;
 				break;
 			case "analysis2":
-				excelName = "상권 데이터(업종)";
+
 				list = reSearchAreaService.getReSearchAreaComAll(param);
 				if(subType.equals("0")){
 					sheetName = "전체";
@@ -140,8 +141,24 @@ public class RESTController extends BaseController {
 				}else if(subType.equals("3")){
 					sheetName = "개폐업";
 				}
+				excelName = "상권 데이터(업종)-"+sheetName;
 				break;
-			case "region":  excelName = "지역 데이터"; break;
+			case "region":
+				list = reSearchRegionService.getReSearchRegionAll(param);
+				if(type.equals("region0")){
+					sheetName = "전체";
+				}else if(type.equals("region1")){
+					sheetName = "인구";
+				}else if(type.equals("region2")){
+					sheetName = "대표자 연령대별 사업체수";
+				}else if(type.equals("region3")){
+					sheetName = "가구원수별 가구수";
+				}else if(type.equals("region4")){
+					sheetName = "임대시세";
+				}
+
+				excelName = "지역 데이터-"+sheetName;
+				break;
 		}
 
 		SXSSFSheet sheet = wb.createSheet(sheetName);

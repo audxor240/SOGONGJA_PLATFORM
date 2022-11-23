@@ -20,7 +20,7 @@
                         <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
                     </div>
                     <div class="col-sm-2 tab">
-                        <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
+                        <a th:href="@{|/areaSetting/regional?type=region0|}">지역(동) 데이터</a>
                     </div>
                 </div>
             </div>
@@ -146,11 +146,11 @@
                             <img th:src="@{/assets/images/spinner.svg}">
                         </div>
                         <div class="row justify-content-end col-sm-8">
-                            <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                            <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
                                 <div class="col-sm-8 mr-2 custom-file">
                                     <input class="custom-file-input" type="file" id="fileExcel" name="file">
                                     <label class="custom-file-label" for="fileExcel">파일선택</label>
-                                    <input type="hidden" name="excelType" value="faq">
+                                    <input type="hidden" name="excelType" value="analysis1">
                                 </div>
                                 <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
@@ -280,8 +280,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:include="fragments/table_empty:: table_empty(97)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                <input type="hidden" id="paging.total" th:value="${paging.total}">
+                                <input type="hidden" id="item.rnum" th:value="${item.rnum}">
                                 <td><input type="checkbox" th:name="research_check" th:value="${item.area_seq}"></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>

@@ -5,10 +5,9 @@ import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.domain.ReSearchShopParameter;
 import com.stoneitgt.sogongja.admin.service.BoardService;
 import com.stoneitgt.sogongja.admin.service.ReSearchAreaService;
+import com.stoneitgt.sogongja.admin.service.ReSearchRegionService;
 import com.stoneitgt.sogongja.admin.service.ReSearchShopService;
-import com.stoneitgt.sogongja.domain.AreaColmunParameter;
-import com.stoneitgt.sogongja.domain.BaseParameter;
-import com.stoneitgt.sogongja.domain.ReSearchShop;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.util.StoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +32,9 @@ public class AreaSettingController extends BaseController {
 
     @Autowired
     private ReSearchAreaService reSearchAreaService;
+
+    @Autowired
+    private ReSearchRegionService reSearchRegionService;
 
     @GetMapping("/shop")
     public String areaShopSettingList(@ModelAttribute ReSearchShopParameter params, Model model, HttpServletResponse response) {
@@ -164,8 +166,8 @@ public class AreaSettingController extends BaseController {
     }
 
     @GetMapping("/regional")
-    public String areaRegionalSettingList(@ModelAttribute BaseParameter params, Model model) {
-
+    public String areaRegionalSettingList(@ModelAttribute RegionParameter params, Model model) {
+        System.out.println("params :: "+params);
         Paging paging = new Paging();
         paging.setPage(params.getPage());
         paging.setSize(params.getSize());
@@ -174,19 +176,52 @@ public class AreaSettingController extends BaseController {
 
         Map<String, Object> breadcrumb = new HashMap<String, Object>();
 
+        RegionColmunParameter regionColmunParameter = new RegionColmunParameter();
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-        list = boardService.getBoardSettingList(paramsMap, paging);
+        if(params.getType().equals("region0") || params.getType().equals("region1")) {
+            regionColmunParameter.setSumPopul(true);
+            regionColmunParameter.setRPopul(true);
+            regionColmunParameter.setWPopul(true);
+        }
+
+        if(params.getType().equals("region0") || params.getType().equals("region2")) {
+            regionColmunParameter.setCtShopU20s(true);
+            regionColmunParameter.setCtShop30s(true);
+            regionColmunParameter.setCtShop40s(true);
+            regionColmunParameter.setCtShop50s(true);
+            regionColmunParameter.setCtShopO60s(true);
+        }
+
+        if(params.getType().equals("region0") || params.getType().equals("region3")) {
+            regionColmunParameter.setHouse1(true);
+            regionColmunParameter.setHouse2(true);
+            regionColmunParameter.setHouse3(true);
+            regionColmunParameter.setHouse4(true);
+            regionColmunParameter.setHouse5(true);
+            regionColmunParameter.setHouse6(true);
+            regionColmunParameter.setHouse7(true);
+        }
+
+        if(params.getType().equals("region0") || params.getType().equals("region4")) {
+            regionColmunParameter.setRtAll(true);
+            regionColmunParameter.setRt1f(true);
+            regionColmunParameter.setRtOther(true);
+        }
+
+        //list = boardService.getBoardSettingList(paramsMap, paging);
+        list = reSearchRegionService.getReSearchRegionList(paramsMap, paging);  //지역 데이터
         breadcrumb.put("parent_menu_name", "커머스 연구소 데이터");
         breadcrumb.put("menu_name", "지역데이터 관리");
 
         Integer total = boardService.selectTotalRecords();
         paging.setTotal(total);
 
-
+        System.out.println("regionColmunParameter : "+regionColmunParameter);
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);
         model.addAttribute("params", params);
+        model.addAttribute("regionColmunParameter", regionColmunParameter);
 
         model.addAttribute("breadcrumb", breadcrumb);
         model.addAttribute("pageParams", getBaseParameterString(params));

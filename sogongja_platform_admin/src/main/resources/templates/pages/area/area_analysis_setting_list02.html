@@ -20,7 +20,7 @@
                         <a th:href="@{/areaSetting/analysis?type=2&subType=0}">상권 데이터(업종)</a>
                     </div>
                     <div class="col-sm-2 tab">
-                        <a th:href="@{/areaSetting/regional}">지역(동) 데이터</a>
+                        <a th:href="@{|/areaSetting/regional?type=region0|}">지역(동) 데이터</a>
                     </div>
                 </div>
             </div>
@@ -131,11 +131,11 @@
                             <img th:src="@{/assets/images/spinner.svg}">
                         </div>
                         <div class="row justify-content-end col-sm-8">
-                            <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data">
+                            <form class="row justify-content-end mr-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
                                 <div class="col-sm-8 mr-2 custom-file">
                                     <input class="custom-file-input" type="file" id="fileExcel" name="file">
                                     <label class="custom-file-label" for="fileExcel">파일선택</label>
-                                    <input type="hidden" name="excelType" value="faq">
+                                    <input type="hidden" name="excelType" value="analysis2">
                                 </div>
                                 <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                                 <!--                            <button type="button" class="btn col-sm-1 btn-success"><i class="btn-icon-prepend" data-feather="file-text"></i>일괄등록</button>-->
@@ -167,6 +167,7 @@
                                 <th id="area_div_cd" >상권 구분 코드</th>
                                 <th id="area_div_nm">상권 구분 코드명</th>
                                 <th id="area_cd" >상권 코드</th>
+                                <th id="emd_cd" >읍면동 코드</th>
                                 <th id="area_nm" >상권명</th>
                                 <th id="com_cd">서비스 업종 코드</th>
                                 <th id="com_cd2">100대 생활밀접 업종 코드</th>
@@ -183,7 +184,7 @@
                                 <th id="sum_11_14" th:if="${areaColmunParameter.sum1114}">시간대 11~14 매출 금액</th>
                                 <th id="sum_14_17" th:if="${areaColmunParameter.sum1417}">시간대 14~17 매출 금액</th>
                                 <th id="sum_17_21" th:if="${areaColmunParameter.sum1721}">시간대 17~21 매출 금액</th>
-                                <th id="ct_shop" th:if="${areaColmunParameter.sum2124}">시간대 21~24 매출 금액</th>
+                                <th id="sum_21_24" th:if="${areaColmunParameter.sum2124}">시간대 21~24 매출 금액</th>
 
                                 <!-- 상권업종(개폐업) -->
                                 <th id="per_open" th:if="${areaColmunParameter.perOpen}">개업률</th>
@@ -194,8 +195,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:include="fragments/table_empty:: table_empty(24)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                                <input type="hidden" id="paging.total" th:value="${paging.total}">
+                                <input type="hidden" id="item.rnum" th:value="${item.rnum}">
                                 <td><input type="checkbox" th:name="research_check" th:value="${item.id}" ></td>
                                 <td>
                                     <th:block th:text="${paging.total - item.rnum + 1}">1</th:block>
@@ -206,6 +209,7 @@
                                 <td th:text="${item.area_div_cd}">상권 구분 코드(area_div_cd)</td>
                                 <td th:text="${item.area_div_nm}">상권 구분 코드명(area_div_nm)</td>
                                 <td th:text="${item.area_cd}">상권 코드(area_cd)</td>
+                                <td th:text="${item.emd_cd}">읍면동 코드(emd_cd)</td>
                                 <td th:text="${item.area_nm}">상권명(area_nm)</td>
                                 <td th:text="${item.com_cd}">서비스 업종 코드(com_cd)</td>
                                 <td th:text="${item.com_cd2}">100대 생활밀접 업종 코드(com_cd2)</td>
