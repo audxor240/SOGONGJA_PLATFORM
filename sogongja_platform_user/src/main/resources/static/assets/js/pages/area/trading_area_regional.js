@@ -196,13 +196,15 @@ function displayArea(area) {
     });
 
     var info = area.info;
+    var total = 0;
     var content = '';
     if (info.length > 0) {
         if (codeType3 === '1') {
+            total = info[0].stores;
             content = Math.round(info[0].franc / info[0].stores * 100) + '%' + Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%';
         } else if (codeType3 === '2') {
+            total = info[0].sum_popul;
             content = info[0].sum_popul;
-
         } else if (codeType3 === '3') {
             content = info[0].rt_all;
         }
@@ -247,6 +249,19 @@ function displayArea(area) {
         }
         ajaxPostSyn('/trading-area/regional/details', data, function (result) {
             console.log("이게 데이터 갖고오는거임", result)
+
+            if (result.length > 0) {
+                if (codeType3 === '1') {
+                    $('.tab_title>p>span').text( total);
+                    for (var i = 0; i < result.length; i++) {
+
+                    }
+                } else if (codeType3 === '2') {
+                    $('.tab_title>p>span').text( total);
+                } else if (codeType3 === '3') {
+                    $('.tab_title>p>span').text( total);
+                }
+            }
 
         });
     });
