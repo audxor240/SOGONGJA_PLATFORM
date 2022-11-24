@@ -20,7 +20,7 @@
             <div class="lnb">
                 <ul class="container">
                     <li><a th:href="@{/mypage}">교육 및 컨설팅</a></li>
-                    <li class="active"><a th:href="@{/mypage/qna}">문의 및 답변</a></li>
+                    <li class="active"><a th:href="@{|/mypage/qna/${qnaBoardSetting.boardSettingSeq}|}">문의 및 답변</a></li>
                     <li><a th:href="@{/mypage/info}">회원정보 변경</a></li>
                 </ul>
             </div>

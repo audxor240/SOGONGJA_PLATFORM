@@ -32,7 +32,9 @@ $(function(){
 $( document ).ready(function() {
 	cookiedata = document.cookie;
 	if ( cookiedata.indexOf("ncookie=done") < 0 ){
-		document.getElementById('event_pop').style.display = "block";    //  팝업창 아이디
+		if(eventSeq != "") {
+			document.getElementById('event_pop').style.display = "block";    //  팝업창 아이디
+		}
 	} else {
 		document.getElementById('event_pop').style.display = "none";    // 팝업창 아이디
 	}
