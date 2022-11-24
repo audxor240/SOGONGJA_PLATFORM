@@ -109,12 +109,12 @@ public class AreaController extends BaseController {
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
-		paramsMap.put("zoom", 6);
+		paramsMap.put("zoom", 5);
 		paramsMap.put("scope", "'A'");
-		paramsMap.put("x1", 37.47629323368353);
-		paramsMap.put("x2", 37.5362047082041);
-		paramsMap.put("y1", 126.95351224208618);
-		paramsMap.put("y2", 127.12726465022845);
+		paramsMap.put("x1", 37.49345754382203);
+		paramsMap.put("x2", 37.51567561625099);
+		paramsMap.put("y1", 126.99710515824563);
+		paramsMap.put("y2", 127.0666010904294);
 		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
