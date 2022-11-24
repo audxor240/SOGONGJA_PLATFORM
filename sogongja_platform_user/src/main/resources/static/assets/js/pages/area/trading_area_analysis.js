@@ -20,6 +20,7 @@ console.log("첫상권", areaJson, areaJson.length)
 //첫화면 상권로드
 for (var i = 0, len = areaJson.length; i < len; i++) {
     displayArea(areaJson[i]);
+    areanameSpread(areaJson[i]);// 상권이름그려줌
 }
 $('#storelist').css('display', 'none');//상점 카테고리 삭제
 
@@ -47,15 +48,9 @@ function displayArea(area) {
         points.push([item.latitude, item.longitude]);
     });
     var hole = [];
-    $.each(area.hole, function(index, item) {
+    $.each(area.hole, function (index, item) {
         hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
     });
-    //상점수,개폐업,추정매출
-    var info = area.info
-
-
-
-
     // 다각형을 생성합니다
     if (area.area_type == "D") {
         var polygon = new kakao.maps.Polygon({
@@ -66,26 +61,6 @@ function displayArea(area) {
             fillColor: '#2E750D',
             fillOpacity: 0.4
         });
-        var content =
-            '<div class="areaIn color2E750D">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div>' +
-            '<p class="store-num">' +
-            "상점수" +
-            '</p>' +
-            '<p class="open-num">' +
-            "개업수" +
-            '</p>' +
-            '<p class="close-num">' +
-            "폐업수" +
-            '</p>' +
-            '<p class="sales-num">' +
-            "추정매출수" +
-            '</p>' +
-            '</div>' +
-            '</div>';
     } else if (area.area_type == "A") {
         var polygon = new kakao.maps.Polygon({
             path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -95,26 +70,6 @@ function displayArea(area) {
             fillColor: '#BF7116',
             fillOpacity: 0.4
         });
-        var content =
-            '<div class="areaIn colorBF7116">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div>' +
-            '<p class="store-num">' +
-            "상점수" +
-            '</p>' +
-            '<p class="open-num">' +
-            "개업수" +
-            '</p>' +
-            '<p class="close-num">' +
-            "폐업수" +
-            '</p>' +
-            '<p class="sales-num">' +
-            "추정매출수" +
-            '</p>' +
-            '</div>' +
-            '</div>';
     } else if (area.area_type == "U") {
         var polygon = new kakao.maps.Polygon({
             path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -124,26 +79,6 @@ function displayArea(area) {
             fillColor: '#DD4C79',
             fillOpacity: 0.4
         });
-        var content =
-            '<div class="areaIn colorDD4C79">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div>' +
-            '<p class="store-num">' +
-            "상점수" +
-            '</p>' +
-            '<p class="open-num">' +
-            "개업수" +
-            '</p>' +
-            '<p class="close-num">' +
-            "폐업수" +
-            '</p>' +
-            '<p class="sales-num">' +
-            "추정매출수" +
-            '</p>' +
-            '</div>' +
-            '</div>';
     } else {
         var polygon = new kakao.maps.Polygon({
             path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -153,43 +88,12 @@ function displayArea(area) {
             fillColor: '#1540BF',
             fillOpacity: 0.4
         });
-        var content =
-            '<div class="areaIn color1540BF>' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div>' +
-                '<p class="store-num">' +
-                "상점수" +
-                '</p>' +
-                '<p class="open-num">' +
-                "개업수" +
-                '</p>' +
-                '<p class="close-num">' +
-                "폐업수" +
-                '</p>' +
-                '<p class="sales-num">' +
-                "추정 매출 수" +
-                '</p>' +
-            '</div>' +
-            '</div>';
     }
-
     polygon.setMap(map);
     polygons.push(polygon)
-    // 커스텀 상권이름 마커를 생성합니다
-    var position = centroid(area.path)
-    var customOverlay = new kakao.maps.CustomOverlay({
-        position: position,
-        content: content
-    });
-// 생성된 마커를 배열에 추가합니다
-    areanameMarkers.push(customOverlay);
-// 마커가 지도 위에 표시되도록 설정합니다
-    customOverlay.setMap(map);
 
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
-    kakao.maps.event.addListener(customOverlay, 'mouseover', function (mouseEvent) {
+    kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
         polygon.setOptions({
             fillOpacity: 0.8
         });
@@ -207,6 +111,157 @@ function displayArea(area) {
         // else 그 외 업종
     });
 
+}
+
+// const arr1 = [1, 2, 3, 4, 5];
+// const sum = arr1.reduce((stack, el)=>{
+//     return stack + el;
+// }, 0);
+// console.log(sum);
+
+function areanameSpread(area) {
+    // 커스텀 상권이름 마커를 생성합니다
+    var infos= area.info
+    console.log(infos)
+//상점수 개점수 폐점수 추정매출6개 //업종분류
+    var stores = 0;//상점수
+    var open = 0;//개업수
+    var close = 0;//폐업수
+
+    var sum_00_06= 0;//00_06추정매출
+    var sum_06_11= 0;//06_11추정매출
+    var sum_11_14= 0;//11_14추정매출
+    var sum_14_17= 0;//14_17추정매출
+    var sum_17_21= 0;//17_21추정매출
+    var sum_21_24= 0;//21_24추정매출
+    var sum_all= 0;//all추정매출
+
+    for (var i = 0, len = infos.length; i < len; i++) {
+        stores += infos[i].ct_shop;
+        open += infos[i].ct_open;
+        close += infos[i].ct_close;
+
+        sum_00_06 += infos[i].sum_00_06;
+        sum_06_11 += infos[i].sum_06_11;
+        sum_11_14 += infos[i].sum_11_14;
+        sum_14_17 += infos[i].sum_14_17;
+        sum_17_21 += infos[i].sum_17_21;
+        sum_21_24 += infos[i].sum_21_24;
+    }
+    var sum_all= sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
+    console.log(sum_all)//전체임
+
+    var maincate=$('input[name="area_maincate"]:checked').val() //대분류
+    var midcate=$('input[name="area_midcate"]:checked').val() //중분류
+    for (var v = 0; v < infos.length; v++) {
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+
+             }else {// 그게 아니면 단일그래프가 떠야한다
+            //그 안에서 분류
+
+                if (midcate == info[v].com_cd2) {//단일업종 전체아니고 1가지일때
+                    // 모든합계 var store =
+                } else {//단일업종 전체일때
+
+                }
+            }
+    }
+
+
+    if (area.area_type == "D") {
+        var content =
+            '<div class="areaIn color2E750D">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            "상점수" +
+            '</p>' +
+            '<p class="open-num num">' +
+            "개업수" +
+            '</p>' +
+            '<p class="close-num num">' +
+            "폐업수" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            "추정매출수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    } else if (area.area_type == "A") {
+        var content =
+            '<div class="areaIn colorBF7116">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            "상점수" +
+            '</p>' +
+            '<p class="open-num num">' +
+            "개업수" +
+            '</p>' +
+            '<p class="close-num num">' +
+            "폐업수" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            "추정매출수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    } else if (area.area_type == "U") {
+        var content =
+            '<div class="areaIn colorDD4C79">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            "상점수" +
+            '</p>' +
+            '<p class="open-num num">' +
+            "개업수" +
+            '</p>' +
+            '<p class="close-num num">' +
+            "폐업수" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            "추정매출수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    } else {
+        var content =
+            '<div class="areaIn color1540BF>' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            "상점수" +
+            '</p>' +
+            '<p class="open-num num">' +
+            "개업수" +
+            '</p>' +
+            '<p class="close-num num">' +
+            "폐업수" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            "추정매출수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }
+    var position = centroid(area.path);
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content
+    });
+// 생성된 마커를 배열에 추가합니다
+    areanameMarkers.push(customOverlay);
+// 마커가 지도 위에 표시되도록 설정합니다
+    customOverlay.setMap(map);
 }
 
 
@@ -240,6 +295,9 @@ async function changeMap() {
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
         //시도,시군구 단위 자체 마커
         removePolygons(map)// 상권 삭제
+        for (var i = 0; i < areanameMarkers.length; i++) {
+            areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+        }
         $('.areaTap').css('display', 'none');
         $('#filter').css('display', 'none');
         for (var i = 0; i < countmarkers.length; i++) {
@@ -247,6 +305,7 @@ async function changeMap() {
         }
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             resultSpread(result)//다시그려
+
         });
     } else if (zoom >= 4 && zoom < 6) { //zoom 4,5 일때
         //상권패스  +커스텀마커: 상권명 + 상점수
@@ -268,6 +327,7 @@ async function changeMap() {
             console.log("이게 상권데이터 갖고오는거임", result)
             for (var i = 0, len = result.length; i < len; i++) {
                 displayArea(result[i]);//상권 패스 다시 그려줌
+                areanameSpread(result[i]);// 상권이름그려줌
             }
         });
     } else { //level < 4, zoom 3,2,1 일때
@@ -423,13 +483,15 @@ $(".openclose").click(function () {
 $(".openclose_list").click(function () {
     $('.openclose_list').removeClass('on')
 })
+
+
 //개폐업수 탭 색상 변경
 $('input[name="areaTab"]').click(function () {
     if ($('input[name="areaTab"]:checked').val() == "open") {//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
         //개업수 체크이면 text 개업수로 변경
-        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
+        $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
         //개업수 카운트 디스플레이 block
         $(".open-num").css('display', 'block');
         $(".open-num").siblings().css('display', 'none');
@@ -437,7 +499,7 @@ $('input[name="areaTab"]').click(function () {
         $(".openclose").text("폐업수")
         $(".openclose").addClass("on")
         //폐업수 체크이면 text 폐업수로 변경
-        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
+        $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
         //폐업수 카운트 디스플레이 block
         $(".close-num").css('display', 'block');
         $(".close-num").siblings().css('display', 'none');
@@ -446,7 +508,7 @@ $('input[name="areaTab"]').click(function () {
         $(".openclose").removeClass("on")
         $(".openclose_list").removeClass("on")
         //개업수 폐업수 선택아니면 개폐업수
-        $('.timeSelect').css('display', 'block');//시간선택 ul 보이기
+        $('.timeSelect_wrap').css('display', 'block');//시간선택 ul 보이기
         //추정매출 카운트 디스플레이
         $(".sales-num").css('display', 'block');
         $(".sales-num").siblings().css('display', 'none');
@@ -455,12 +517,15 @@ $('input[name="areaTab"]').click(function () {
         $(".openclose").removeClass("on")
         $(".openclose_list").removeClass("on")
         //개업수 폐업수 선택아니면 개폐업수
-        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
+        $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
         //상점수 카운트 디스플레이
         $(".store-num").css('display', 'block');
         $(".store-num").siblings().css('display', 'none');
     }
 })
+
+
+
 $('input[name="area_maincate"]').click(function () {
     if ($('input[name="area_maincate"]:checked').val() == "all") {
 //대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘
