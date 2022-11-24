@@ -30,24 +30,30 @@
                 </form>
             </div>
             <div class="sub_container">
+                <div class="m_tab_faq"></div>
                 <ul class="tab faq_tab faq_tab_box">
                     <li class="active" >
                         <a th:href="@{/faq}">전체 <th:block th:text="|(${typeList.total_cnt})|">(10)</th:block></a>
                     </li>
-                    <li>
+                    <li class="m_hide">
                         <a href="#n">소공자 컨설팅 <th:block th:text="|(${typeList.con_cnt})|">(10)</th:block></a>
                     </li>
-
-                    <li>
+                    <li class="m_hide">
                         <a href="#n">소공자 교육 <th:block th:text="|(${typeList.edu_cnt})|">(10)</th:block></a>
                     </li>
-                    <li>
+                    <li class="m_hide">
                         <a href="#n">소공자 회원 <th:block th:text="|(${typeList.user_cnt})|">(10)</th:block></a>
                     </li>
-                    <li>
+                    <li class="m_hide">
                         <a href="#n">이용가이드 <th:block th:text="|(${typeList.guide_cnt})|">(10)</th:block></a>
                     </li>
                 </ul>
+                <div class="m_more_faq">
+                    <span>더보기</span>
+                </div>
+                <div class="m_folding_faq">
+                    <span>접기</span>
+                </div>
                 <div class="faq_list_wrap">
                     <div class="tab_a tab_a1 faq_list">
                         <ul class="accordion">
