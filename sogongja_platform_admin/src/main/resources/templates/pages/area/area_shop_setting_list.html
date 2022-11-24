@@ -123,9 +123,10 @@
                                 <input type="hidden" name="excelType" value="shop">*/-->
                                 <button type="button" class="btn col-sm-2 btn-primary mr-1" id="excelDownLoad"><i class="icon-cloud-download" data-feather="download-cloud"></i> 내려받기</button>
                             <!--</form>-->
-                            <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST" enctype="multipart/form-data" onsubmit="return validationForm();">
+
+                            <form class="col-sm-7 row justify-content-end ml-2" th:action="@{/excel/read}" method="POST"  onsubmit="return validationForm();">
                                 <div class="col-sm-8 mt-1 mr-3 custom-file">
-                                    <input class="custom-file-input" type="file" id="fileExcel" name="file">
+                                    <input class="custom-file-input" type="file" id="fileExcel" name="file" accept=".xls,.xlsx">
                                     <label class="custom-file-label" for="fileExcel">파일선택</label>
                                     <input type="hidden" name="excelType" value="shop">
                                 </div>
@@ -250,7 +251,6 @@
         var type = "";
     </script>
     <script th:src="@{/assets/js/pages/board/board_setting_list.js}"></script>
-    <script th:src="@{/assets/js/libs/jquery.fileDownload.js}"></script>
     <script th:src="@{/assets/js/pages/area/area.js}"></script>
 </th:block>
 

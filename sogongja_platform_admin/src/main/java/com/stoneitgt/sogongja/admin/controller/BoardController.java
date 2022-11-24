@@ -383,7 +383,7 @@ public class BoardController extends BaseController {
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
 		boardService.deleteBoardSetting(params);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/" + boardSettingSeq + "?menuCode=" + menuCode;
+		return "redirect:/board/settingList";
 	}
 
 	@GetMapping("/project")

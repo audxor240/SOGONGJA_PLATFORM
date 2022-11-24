@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
@@ -10,7 +10,7 @@
         <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
+                    <form name="searchForm" th:action="@{/board/settingList}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
                         <div class="row">
                             <label class="col-sm-8 col-form-label">게시판 목록</label>

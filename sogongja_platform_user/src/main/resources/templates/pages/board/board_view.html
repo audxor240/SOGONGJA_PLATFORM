@@ -30,8 +30,6 @@
                         <p>
                             작성일 <th:block th:text="${data.reg_dt}">2021.01.01</th:block>
                         </p>
-                        <input type="hidden" id="test9090" th:value="${session.ss_user.authorities}">
-                        <input type="hidden" id="test8080" th:value="${session.ss_user}">
                         <th:block sec:authorize="isAuthenticated()">
                             <div class="view_change" th:if="${session.ss_user.userType != null}">
                                 <div class="moreBtn_wrap">
