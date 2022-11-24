@@ -365,3 +365,80 @@ function addEventHandle(target, type, callback) {
         target.attachEvent("on" + type, callback);
     }
 }
+
+
+//상점뿌리기함수
+//상점뿌리기
+//상점뿌리기
+// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+var markers = [];
+
+function storeSpread(thing) {
+    var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        QimageSrc = "/images/new/area/marker01.png",
+        NimageSrc = "/images/new/area/marker02.png",
+        LimageSrc = "/images/new/area/marker03.png",
+        FimageSrc = "/images/new/area/marker04.png",
+        DimageSrc = "/images/new/area/marker05.png",
+        OimageSrc = "/images/new/area/marker06.png",
+        PimageSrc = "/images/new/area/marker07.png",
+        RimageSrc = "/images/new/area/marker08.png";
+    for (var i = 0; i < thing.length; i++) {
+        if (thing[i].code_type1 == "Q") {
+            var imageSrc = QimageSrc
+        } else if (thing[i].code_type1 == "N") {
+            var imageSrc = NimageSrc
+        } else if (thing[i].code_type1 == "L") {
+            var imageSrc = LimageSrc
+        } else if (thing[i].code_type1 == "F") {
+            var imageSrc = FimageSrc
+        } else if (thing[i].code_type1 == "D") {
+            var imageSrc = DimageSrc
+        } else if (thing[i].code_type1 == "O") {
+            var imageSrc = OimageSrc
+        } else if (thing[i].code_type1 == "P") {
+            var imageSrc = PimageSrc
+        } else if (thing[i].code_type1 == "R") {
+            var imageSrc = RimageSrc
+        } else {
+            var imageSrc = "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        }
+        // 지도에 마커를 생성합니다
+        var marker = addMarker(thing, i, imageSrc);//위치,이미지를 마커에 등록
+        markers.push(marker);//지정 마커들을 해당 배열에 등록합니다.
+        marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
+    }
+}
+
+// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addMarker(place, i, imageSrc) {
+    //if mapsize width 모바일일때 마커 크기 20으로
+    if (window.innerWidth < 767) {
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+    } else {
+        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
+            imageSize = new kakao.maps.Size(10, 10), // 마커 이미지의 크기
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+            marker = new kakao.maps.Marker({
+                position: position, // 마커의 위치
+                image: markerImage,
+            });
+    }
+    return marker;
+}
+//마커다시그림
+function setMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+//상점뿌리기함수
+//상점뿌리기
+//상점뿌리기끝
