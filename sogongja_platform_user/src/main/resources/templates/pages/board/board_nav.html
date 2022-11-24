@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="lnb" th:fragment="board_nav">
+    <div class="m_tab">[[${boardSetting.name}]]</div>
     <ul class="container">
        <!-- <li th:class="${boardType == 'notice'} ? 'active'"><a th:href="@{/board/notice}">공지사항</a></li>-->
         <!--<li th:class="${boardType == 'news'} ? 'active'"><a th:href="@{/board/news}">보도자료</a></li>-->

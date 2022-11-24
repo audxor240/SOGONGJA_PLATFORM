@@ -365,17 +365,6 @@ if ($(".header").length > 0) {
     });
 
 }
-if (window.location.pathname == '/') {
-    document.querySelector("body").className += 'main';
-} else if (window.location.pathname == '/service/education' || window.location.pathname == '/service/consulting/case' || window.location.pathname == '/service/consulting/view' || window.location.pathname == '/service/consulting') {
-    document.querySelector(".service").className += ' active';
-} else if (window.location.pathname == '/solution/education' || window.location.pathname == '/solution/consulting' || window.location.pathname == '/solution/question') {
-    document.querySelector(".solution").className += ' active';
-} else if (window.location.pathname == '/board/news' || window.location.pathname == '/board/notice' || window.location.pathname == '/board/faq' || window.location.pathname == '/board/policy' || window.location.pathname == '/board/statute' || window.location.pathname == '/board/board_view') {
-    document.querySelector(".board").className += ' active';
-} else {
-    document.querySelector("body").className += '';
-}
 
 $(function(){
     // 모바일 header
@@ -401,4 +390,48 @@ $(function(){
         $(this).addClass("on").siblings().removeClass("on");
     });
 
+    //모바일 sub header
+    $(".m_tab").click(function(){
+        $(this).siblings('ul').toggleClass("on");
+        $(this).toggleClass("on");
+    });
+
+
+
+    $(window).resize(function(){
+        if (window.innerWidth > 767) {  // 다바이스 크기가 767이상일때
+            $('.m_hide').show();
+        } else {
+            // faq
+            $('.m_hide').hide();
+            $('.faq_tab_box').removeClass('on');
+            $('.m_folding_faq').removeClass('on');
+            $('.m_more_faq').show();
+
+            $(".m_more_faq").click(function(){
+                $(this).hide();
+                $('.m_hide').show();
+                $('.m_folding_faq').addClass('on');
+                $('.faq_tab_box').addClass('on');
+            });
+            $(".m_folding_faq").click(function(){
+                $(this).removeClass('on');
+                $('.m_hide').hide();
+                $('.m_more_faq').show();
+                $('.faq_tab_box').removeClass('on');
+            });
+        }
+    }).resize();
+
 });
+if (window.location.pathname == '/') {
+    document.querySelector("body").className += 'main';
+} else if (window.location.pathname == '/service/education' || window.location.pathname == '/service/consulting/case' || window.location.pathname == '/service/consulting/view' || window.location.pathname == '/service/consulting') {
+    document.querySelector(".service").className += ' active';
+} else if (window.location.pathname == '/solution/education' || window.location.pathname == '/solution/consulting' || window.location.pathname == '/solution/question') {
+    document.querySelector(".solution").className += ' active';
+} else if (window.location.pathname == '/board/news' || window.location.pathname == '/board/notice' || window.location.pathname == '/board/faq' || window.location.pathname == '/board/policy' || window.location.pathname == '/board/statute' || window.location.pathname == '/board/board_view') {
+    document.querySelector(".board").className += ' active';
+} else {
+    document.querySelector("body").className += '';
+}
