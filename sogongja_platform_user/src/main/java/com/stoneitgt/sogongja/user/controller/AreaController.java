@@ -130,8 +130,6 @@ public class AreaController extends BaseController {
 	public @ResponseBody List<Map<String, Object>> analysisAreaList(@RequestBody MapParameter params, Model model) {
 		long beforeTime = System.currentTimeMillis();
 
-		params.setZoom(10);
-
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());

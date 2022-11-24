@@ -47,7 +47,6 @@ function displayArea(area) {
         path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
         points.push([item.latitude, item.longitude]);
     });
-
     // 다각형을 생성합니다
         if(area.area_type=="D"){
             var polygon = new kakao.maps.Polygon({
@@ -127,12 +126,6 @@ function displayArea(area) {
         polygon.setOptions({
             fillOpacity: 0.8
         });
-        // if(zoom<7){//zoom 14~7
-        //     // 커스텀 마커를 생성합니다
-        //     areaCustomOverlay.setPosition(centroid(area.path));
-        //     areaCustomOverlay.setMap(map);
-        //     areaContentNode.innerHTML = setAreaContent(area, stores)
-        // }
     });
 
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
@@ -170,6 +163,7 @@ function displayArea(area) {
     polygon.setMap(map);
     polygons.push(polygon)
 }
+
 
 //상점수,개폐업수,추정매출 카운트를 표시하는 마커
 function countSpread(thing) {
@@ -229,19 +223,6 @@ var datalat = {
     codeType2
 }
 
-// //시간딜레이 함수
-// function sleep(ms) {
-//     return new Promise((r) => setTimeout(r, ms));
-// }
-//
-// //첫화면 지도 로드되면 3초뒤에 실행시킴
-// async function firstFunc() {
-//     await sleep(300),
-//         changeMap();
-// };
-// firstFunc();
-
-
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)
 //지도중심 이동 시, zoom>6 상권 로드 /zoom<6 areajson = 상권 /zoom<4 상점 로드.
@@ -293,19 +274,21 @@ async function changeMap() {
         $('#storelist').css('display', 'none');
     }
 
- if(zoom >= 8 && zoom <= 14){//zoom 9,10,11,12,13,14
+ if(zoom >= 10 && zoom <= 14){//zoom 10,11,12,13,14
         //상권명+상점수 커스텀 안찍음
-
-    }else if (zoom > 6 && zoom < 8) { //zoom 6, 7 계속 재 조회함
+     ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+         console.log("이게 상권데이터 갖고오는거임", result)
+         areaJson = result;
+               console.log(areaJson)
+     });
+    }else if (zoom >= 7 && zoom < 10) { //zoom  7,8,9  시군구 조회함
      //상권명+상점수 커스텀 지우기
-        removePolygons(map)//areajson에 쓰던 상권 삭제
+        removePolygons(map)// 상권 삭제
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
             areaJson = result;
-            for (var i = 0, len = areaJson.length; i < len; i++) {
-                displayArea(areaJson[i]);
-            }
-        });
+                console.log(areaJson)
+          });
  }else if (zoom == 6) { //zoom 6
      //상권명 상점수는 지우기
      removePolygons(map)//areajson에 쓰던 상권 삭제
@@ -337,6 +320,7 @@ async function changeMap() {
     }
 };
 
+//폴리곤지우기
 function removePolygons(map) {
     for (var i = 0; i < polygons.length; i++) {
         polygons[i].setMap(null);
@@ -345,14 +329,10 @@ function removePolygons(map) {
 //폴리곤 중심좌표임
 function centroid(points) {
     var i, j, len, p1, p2, f, area, x, y;
-
     area = x = y = 0;
-
     for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
-
         p1 = points[i];
         p2 = points[j];
-
         f = p1.longitude * p2.latitude - p2.longitude * p1.latitude;
         x += (p1.latitude + p2.latitude) * f;
         y += (p1.longitude + p2.longitude) * f;
@@ -362,7 +342,7 @@ function centroid(points) {
 }
 
 
-//탭 설정시 상위값에 카운트 숫자 달라짐
+//상점수 개폐업수 추정매출 탭 설정시 상위값에 카운트 숫자 달라짐
 function changeType1() {
     //탭에서 라디오 버튼 값을 가져온다.
     var type1 = $('input[name="areaTab"]:checked').val()
@@ -370,122 +350,28 @@ function changeType1() {
         // display block / none
     } else if (type1 === 'open') {//개업수
 
-
     } else if (type1 === 'close') {//폐업수
-
 
     } else if (type1 === 'sales') {//추정매출
 
-
     }
 }
 
 
-//상점뿌리기함수 이거 trading_area_common에 못넣나??
-//상점뿌리기
-//상점뿌리기
-// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
-var markers = [];
-
-function storeSpread(thing) {
-    var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        QimageSrc = "/images/new/area/marker01.png",
-        NimageSrc = "/images/new/area/marker02.png",
-        LimageSrc = "/images/new/area/marker03.png",
-        FimageSrc = "/images/new/area/marker04.png",
-        DimageSrc = "/images/new/area/marker05.png",
-        OimageSrc = "/images/new/area/marker06.png",
-        PimageSrc = "/images/new/area/marker07.png",
-        RimageSrc = "/images/new/area/marker08.png";
-    for (var i = 0; i < thing.length; i++) {
-        if (thing[i].code_type1 == "Q") {
-            var imageSrc = QimageSrc
-        } else if (thing[i].code_type1 == "N") {
-            var imageSrc = NimageSrc
-        } else if (thing[i].code_type1 == "L") {
-            var imageSrc = LimageSrc
-        } else if (thing[i].code_type1 == "F") {
-            var imageSrc = FimageSrc
-        } else if (thing[i].code_type1 == "D") {
-            var imageSrc = DimageSrc
-        } else if (thing[i].code_type1 == "O") {
-            var imageSrc = OimageSrc
-        } else if (thing[i].code_type1 == "P") {
-            var imageSrc = PimageSrc
-        } else if (thing[i].code_type1 == "R") {
-            var imageSrc = RimageSrc
-        } else {
-            var imageSrc = "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        }
-        // 지도에 마커를 생성합니다
-        var marker = addMarker(thing, i, imageSrc);//위치,이미지를 마커에 등록
-        markers.push(marker);//지정 마커들을 해당 배열에 등록합니다.
-        marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정합니다
-    }
-}
-
-// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(place, i, imageSrc) {
-    //if mapsize width 모바일일때 마커 크기 20으로
-    if (window.innerWidth < 767) {
-        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
-            imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
-            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
-            marker = new kakao.maps.Marker({
-                position: position, // 마커의 위치
-                image: markerImage,
-            });
-    } else {
-        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
-            imageSize = new kakao.maps.Size(10, 10), // 마커 이미지의 크기
-            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
-            marker = new kakao.maps.Marker({
-                position: position, // 마커의 위치
-                image: markerImage,
-            });
-    }
-    return marker;
-}
-
-//마커다시그림
-function setMarkers(map) {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-    }
-}
-
-//상점뿌리기함수 이거 trading_area_common에 못넣나??
-//상점뿌리기
-//상점뿌리기끝
-
-
-// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, "idle", async function () {
-    await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
-        console.log("위치변경")
-    await sleep(2000),
-        // 선택박스에 시군구코드 기준으로 리스트뿌리기
-        renderSigungu(),
-        renderDong()
-});
-
-
-
-
-
-
-
+//업종선택 클릭시 필터창
 $('.filterIcon').click(function (){
     $('.filterbox').toggleClass('on')
 })
+//개폐업수 클릭시 개업or폐업수선택
 $(".openclose").click(function (){
     $('.openclose_list').toggleClass('on')
 })
+//개업수 폐업수 선택하면 리스트닫힘
 $(".openclose_list").click(function (){
     $('.openclose_list').removeClass('on')
 })
 //개폐업수 탭 색상 변경
-$('input[name="areaTab"]').click(function (){
+$('.openclose').click(function (){
     if($('input[name="areaTab"]:checked').val()=="open"){
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
@@ -494,10 +380,57 @@ $('input[name="areaTab"]').click(function (){
         $(".openclose").text("폐업수")
         $(".openclose").addClass("on")
         //폐업수 체크이면 text 폐업수로 변경
-    }else{
+    }else{        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
         $(".openclose").text("개폐업수")
         $(".openclose").removeClass("on")
         $(".openclose_list").removeClass("on")
-        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
+    }
+})
+
+$('input[name="areaTab"]').click(function (){
+    if($('input[name="areaTab"]:checked').val()=="sales"){//근데 추정매출이면 필터에 시간선택 보임
+        $('.timeSelect').css('display', 'block');//시간선택 ul 보이기
+    }
+})
+
+
+
+$('input[name="area_maincate"]').click(function (){
+    if($('input[name="area_maincate"]:checked').val()=="all"){
+//대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘
+        $('.midSectors').css('display', 'none')
+        $('.all-mid-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="I"){
+//1숙박·음식
+        $('.midSectors').css('display', 'none')
+        $('.all-I-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="S"){
+//2수리·개인서비스
+        $('.midSectors').css('display', 'none')
+        $('.all-S-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="G"){
+//3도·소매
+        $('.midSectors').css('display', 'none')
+        $('.all-G-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="R"){
+//4예술·스포츠·여가
+        $('.midSectors').css('display', 'none')
+        $('.all-R-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="N"){
+//5시설관리·임대
+        $('.midSectors').css('display', 'none')
+        $('.all-N-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="M"){
+//6과학·기술
+        $('.midSectors').css('display', 'none')
+        $('.all-M-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="L"){
+//7부동산
+        $('.midSectors').css('display', 'none')
+        $('.all-L-sector').css('display', 'block')
+    }else if($('input[name="area_maincate"]:checked').val()=="P"){
+//8교육
+        $('.midSectors').css('display', 'none')
+        $('.all-P-sector').css('display', 'block')
     }
 })
