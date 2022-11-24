@@ -358,6 +358,8 @@ function changeType1() {
 }
 
 
+
+
 //업종선택 클릭시 필터창
 $('.filterIcon').click(function (){
     $('.filterbox').toggleClass('on')
@@ -371,30 +373,31 @@ $(".openclose_list").click(function (){
     $('.openclose_list').removeClass('on')
 })
 //개폐업수 탭 색상 변경
-$('.openclose').click(function (){
-    if($('input[name="areaTab"]:checked').val()=="open"){
+$('input[name="areaTab"]').click(function (){
+    if($('input[name="areaTab"]:checked').val()=="open"){//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
         //개업수 체크이면 text 개업수로 변경
-    }else if($('input[name="areaTab"]:checked').val()=="close"){
+        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
+    }else if($('input[name="areaTab"]:checked').val()=="close"){//폐업수
         $(".openclose").text("폐업수")
         $(".openclose").addClass("on")
         //폐업수 체크이면 text 폐업수로 변경
-    }else{        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
+        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
+    }else if($('input[name="areaTab"]:checked').val()=="sales"){//추정매출
         $(".openclose").text("개폐업수")
         $(".openclose").removeClass("on")
         $(".openclose_list").removeClass("on")
-    }
-})
-
-$('input[name="areaTab"]').click(function (){
-    if($('input[name="areaTab"]:checked').val()=="sales"){//근데 추정매출이면 필터에 시간선택 보임
+        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
         $('.timeSelect').css('display', 'block');//시간선택 ul 보이기
+    }else {//상점수 탭일때
+        $(".openclose").text("개폐업수")
+        $(".openclose").removeClass("on")
+        $(".openclose_list").removeClass("on")
+        //개업수 폐업수 암것도 선택아니면 그냥 개폐업수 회색글씨
+        $('.timeSelect').css('display', 'none');//시간선택 ul 가리기
     }
 })
-
-
-
 $('input[name="area_maincate"]').click(function (){
     if($('input[name="area_maincate"]:checked').val()=="all"){
 //대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘

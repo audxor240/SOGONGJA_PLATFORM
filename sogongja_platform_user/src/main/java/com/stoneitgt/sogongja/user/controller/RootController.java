@@ -57,6 +57,7 @@ public class RootController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("pcBannerList", pcBannerList);
 		model.addAttribute("mobileBannerList", mobileBannerList);
+		System.out.println("event >> "+event);
 		model.addAttribute("event", event);
 		model.addAttribute("boardSettingList", boardSettingList);
 

@@ -18,13 +18,13 @@
 
         editor.setMarkdown(tui_content);
 
-        $("#fileUse").change(function(){
+        /*$("#fileUse").change(function(){
             if($("#fileUse").is(":checked")){
                 $("#file_dir").show();
             }else{
                 $("#file_dir").hide();
             }
-        });
+        });*/
 
     });
 
@@ -46,12 +46,16 @@ function validationForm() {
     }
     $('#description').val(desc);
 
-    if($("#fileUse").is(":checked")){
+    //if($("#fileUse").is(":checked")){
         if(fileDirectoryName == ""){
-            alert("첨부파일 저장 디렉토리명을 입력해주세요.");
+            alert("게시판명칭을 입력해주세요.");
             return false;
         }
-    }
+    //}
 
     return true;
+}
+
+function handleOnInput(e)  {
+    e.value = e.value.replace(/[^A-Za-z]/ig, '')
 }
