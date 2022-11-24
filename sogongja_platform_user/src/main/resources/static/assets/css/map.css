@@ -653,7 +653,8 @@
   align-items: center;
   cursor: pointer;
 }
-.category li label input[type=checkbox] {
+.category li label input[type=checkbox],
+.category li label input[type=radio] {
   display: none;
 }
 .category li label .category_bg {
@@ -688,6 +689,18 @@
 .category li label input[type=checkbox]:checked ~ .R {
   background: url(../images/new/area/marker08.png) no-repeat;
 }
+.category li label input[type=radio]:checked ~ .Aa {
+  background: url(../images/new/area/marker32.png) no-repeat;
+}
+.category li label input[type=radio]:checked ~ .Ua {
+  background: url(../images/new/area/marker33.png) no-repeat;
+}
+.category li label input[type=radio]:checked ~ .Da {
+  background: url(../images/new/area/marker34.png) no-repeat;
+}
+.category li label input[type=radio]:checked ~ .Ra {
+  background: url(../images/new/area/marker35.png) no-repeat;
+}
 .category li .category_bg {
   background-position-x: -46px;
 }
@@ -714,7 +727,7 @@
 }
 .placeinfo:nth-of-type(n) {
   border: 0;
-  box-shadow: 0px 1px 2px #888;
+  box-shadow: 0 1px 2px #888;
 }
 .placeinfo a,
 .placeinfo a:hover,
@@ -1313,28 +1326,86 @@
 #map_wrap #filter .filterbox.on {
   display: block;
 }
-#map_wrap #filter .filterbox span {
-  float: right;
+#map_wrap #filter .filterbox .filterbox_title {
+  display: flex;
+  justify-content: space-between;
+}
+#map_wrap #filter .filterbox .filterbox_title h3 {
+  display: flex;
+  align-items: center;
+  color: #1540BF;
+  font-size: 1rem;
+  font-weight: bold;
+}
+#map_wrap #filter .filterbox .filterbox_title h3 span {
+  display: inline-block;
+  background: url(../images/new/area/filter.png) no-repeat;
+  width: 12px;
+  height: 12px;
+  margin-right: 10px;
+}
+#map_wrap #filter .filterbox .filterbox_title .close_filter {
+  background: transparent;
+  padding: 0;
+  background: url(../images/mobile_open_button.png) no-repeat 50%;
+  width: 24px;
+  background-size: contain;
+  cursor: pointer;
+  height: 24px;
+}
+#map_wrap #filter .filterbox .fileter_sub_title {
+  color: #1540BF;
+  font-size: 0.875rem;
+  font-weight: bold;
 }
 #map_wrap #filter .filterbox .timeSelect {
-  display: none;
-  background-color: #bbb;
-  padding: 2px;
-}
-#map_wrap #filter .filterbox .timeSelect:after {
-  content: "";
-  display: block;
-  clear: both;
+  padding: 8px 8px 30px;
+  background-color: #F3F3F3;
+  display: flex;
 }
 #map_wrap #filter .filterbox .timeSelect li {
-  float: left;
-  width: 85px;
-  font-size: 11px;
-  list-style: none;
-  padding: 2px;
-  margin-left: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  width: 16.6666666667%;
+  background-color: #D9D9D9;
+  position: relative;
+}
+#map_wrap #filter .filterbox .timeSelect li label {
+  background-color: #D9D9D9;
+  width: 100%;
+  height: 100%;
+}
+#map_wrap #filter .filterbox .timeSelect li span.time_before {
+  position: absolute;
+  bottom: -27px;
+  left: 0;
+  color: #D9D9D9;
+}
+#map_wrap #filter .filterbox .timeSelect li span.time_after {
+  position: absolute;
+  right: 0;
+  bottom: -27px;
+  color: #D9D9D9;
+}
+#map_wrap #filter .filterbox .timeSelect li:after {
+  position: absolute;
+  bottom: -7px;
+  display: block;
+  content: "";
+  width: 1px;
+  height: 7px;
+  background-color: #969AAF;
+}
+#map_wrap #filter .filterbox .timeSelect li:nth-child(1):before {
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  display: block;
+  content: "";
+  width: 1px;
+  height: 7px;
+  background-color: #969AAF;
+}
+#map_wrap #filter .filterbox span {
+  float: right;
 }
 #map_wrap #filter .filterbox.mainSectors {
   background-color: #bbb;
@@ -1485,9 +1556,6 @@
     bottom: 12px;
     overflow: scroll;
     width: 98%;
-  }
-  .category li {
-    min-width: 140px;
   }
   .solution_btn {
     width: 60px;

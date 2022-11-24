@@ -499,7 +499,8 @@
     label
       +flex-type($align:center, $justify:center)
       cursor: pointer
-      input[type="checkbox"]
+      input[type="checkbox"],
+      input[type="radio"]
         display: none
       .category_bg
         background: url(#{$assetPath}/new/area/marker_null.png) no-repeat
@@ -508,6 +509,7 @@
         min-width: 12px
         background-size: contain !important
         margin-left: 10px
+      //상점연구
       input[type="checkbox"]:checked ~ .Q
         background: url(#{$assetPath}/new/area/marker01.png) no-repeat
       input[type="checkbox"]:checked ~ .N
@@ -524,7 +526,15 @@
         background: url(#{$assetPath}/new/area/marker07.png) no-repeat
       input[type="checkbox"]:checked ~ .R
         background: url(#{$assetPath}/new/area/marker08.png) no-repeat
-    .on
+      //상권연구
+      input[type="radio"]:checked ~ .Aa
+        background: url(#{$assetPath}/new/area/marker32.png) no-repeat
+      input[type="radio"]:checked ~ .Ua
+        background: url(#{$assetPath}/new/area/marker33.png) no-repeat
+      input[type="radio"]:checked ~ .Da
+        background: url(#{$assetPath}/new/area/marker34.png) no-repeat
+      input[type="radio"]:checked ~ .Ra
+        background: url(#{$assetPath}/new/area/marker35.png) no-repeat
     .category_bg
       background-position-x: -46px
     p
@@ -543,7 +553,7 @@
   background: #fff
   &:nth-of-type(n)
     border: 0
-    box-shadow: 0px 1px 2px #888
+    box-shadow: 0 1px 2px #888
   a,
   a:hover,
   a:active
@@ -1015,26 +1025,68 @@
       padding: 16px
       &.on
         display: block
+      .filterbox_title
+        display: flex
+        justify-content: space-between
+        h3
+          +flex_type($align: center)
+          color: #1540BF
+          font-size: rem(16)
+          font-weight: bold
+          span
+            display: inline-block
+            background: url(#{$assetPath}/new/area/filter.png) no-repeat
+            width: 12px
+            height: 12px
+            margin-right: 10px
+        .close_filter
+            background: transparent
+            padding: 0
+            background: url(#{$assetPath}/mobile_open_button.png) no-repeat 50%
+            width: 24px
+            background-size: contain
+            cursor: pointer
+            height: 24px
+      .fileter_sub_title
+        color: #1540BF
+        font-size: rem(14)
+        font-weight: bold
+      .timeSelect
+        padding: 8px 8px 30px
+        background-color: #F3F3F3
+        +flex_type()
+        li
+          width: calc(100%/6)
+          background-color: #D9D9D9
+          +positionAt(relative)
+          label
+            background-color: #D9D9D9
+            width: 100%
+            height: 100%
+          span.time_before
+            +positionAt(absolute, $bottom:-27px, $left:0)
+            color: #D9D9D9
+          span.time_after
+            +positionAt(absolute, $bottom:-27px, $right:0)
+            color: #D9D9D9
+          &:after
+            +positionAt(absolute, $bottom:-7px)
+            display: block
+            content: ""
+            width: 1px
+            height: 7px
+            background-color: #969AAF
+          &:nth-child(1)
+            &:before
+              +positionAt(absolute, $bottom:-7px, $left:0)
+              display: block
+              content: ""
+              width: 1px
+              height: 7px
+              background-color: #969AAF
+
       span
         float: right
-      ul
-      .timeSelect
-        display: none
-        background-color: #bbb
-        padding: 2px
-        &:after
-          content: ""
-          display: block
-          clear: both
-        li
-          float: left
-          width: 85px
-          font-size: 11px
-          list-style: none
-          padding: 2px
-          margin-left: 8px
-          border: 1px solid #ddd
-          background-color: #fff
       &.mainSectors
         background-color: #bbb
         padding: 2px
@@ -1091,6 +1143,11 @@
     &.color1540BF
       p
         color: #1540BF
+
+
+
+
+
 
 @include tablet
   #map_wrap
@@ -1155,9 +1212,6 @@
     bottom: 12px
     overflow: scroll
     width: 98%
-  .category
-    li
-      min-width: 140px
   .solution_btn
     width: 60px
     height: 60px
