@@ -1316,16 +1316,17 @@
 #map_wrap #filter .filterbox span {
   float: right;
 }
-#map_wrap #filter .filterbox.timeSelect {
+#map_wrap #filter .filterbox .timeSelect {
+  display: none;
   background-color: #bbb;
   padding: 2px;
 }
-#map_wrap #filter .filterbox.timeSelect:after {
+#map_wrap #filter .filterbox .timeSelect:after {
   content: "";
   display: block;
   clear: both;
 }
-#map_wrap #filter .filterbox.timeSelect li {
+#map_wrap #filter .filterbox .timeSelect li {
   float: left;
   width: 85px;
   font-size: 11px;
@@ -1354,16 +1355,17 @@
   border: 1px solid #ddd;
   background-color: #fff;
 }
-#map_wrap #filter .filterbox.midSectors {
+#map_wrap #filter .filterbox .midSectors {
+  display: none;
   background-color: #bbb;
   padding: 2px;
 }
-#map_wrap #filter .filterbox.midSectors:after {
+#map_wrap #filter .filterbox .midSectors:after {
   content: "";
   display: block;
   clear: both;
 }
-#map_wrap #filter .filterbox.midSectors li {
+#map_wrap #filter .filterbox .midSectors li {
   float: left;
   width: 270px;
   font-size: 11px;
