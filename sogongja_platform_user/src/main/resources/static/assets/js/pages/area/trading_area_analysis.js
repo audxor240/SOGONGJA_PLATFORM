@@ -362,16 +362,13 @@ function changeType1() {
 $('.filterIcon').click(function (){
     $('.filterbox').toggleClass('on')
 })
-//개폐업수 클릭시 개업or폐업수선택
-$(".openclose").click(function (){
-    $('.openclose_list').toggleClass('on')
-})
 //개업수 폐업수 선택하면 리스트닫힘
 $(".openclose_list").click(function (){
     $('.openclose_list').removeClass('on')
 })
 //개폐업수 탭 색상 변경
 $('.openclose').click(function (){
+    $('.openclose_list').toggleClass('on')
     if($('input[name="areaTab"]:checked').val()=="open"){
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
