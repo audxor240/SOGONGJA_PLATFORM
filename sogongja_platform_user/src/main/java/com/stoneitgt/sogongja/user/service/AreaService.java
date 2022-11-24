@@ -82,11 +82,9 @@ public class AreaService extends BaseService {
 
 		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
-		if (zoom > 6) {
+		if (zoom > 5) {
 			System.out.println(params.toString());
 			return areaMapper.getTradingAreaCountList(params);
-		} else if (zoom > 5) {
-//			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
 		} else {
 			areaRecentlyList = areaMapper.getTradingAreaAllList();
 		}
