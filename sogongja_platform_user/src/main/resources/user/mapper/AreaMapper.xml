@@ -25,7 +25,7 @@
 
 	<select id="getTradingAreaMapPartList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaMapPartList */
-		SELECT TAM.AREA_SEQ, TAM.AREA_NAME, TA.AREA_TYPE, TA.AREA_CD
+		SELECT *
 		FROM ST_TRADING_AREA_MAP TAM
 				 INNER JOIN ST_TRADING_AREA TA
 							ON TAM.AREA_SEQ = TA.AREA_SEQ
@@ -88,13 +88,13 @@
 
 	<select id="getTradingAreaCountList" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getTradingAreaCountList */
-		SELECT COUNT(*)
+		SELECT COUNT(*) AS COUNT
 		<choose>
 			<when test="zoom gte 10">
-				, LEFT(EMD_CD, 2)
+				, LEFT(EMD_CD, 2) AS EMDCD
 			</when>
 			<otherwise>
-				, LEFT(EMD_CD, 5)
+				, LEFT(EMD_CD, 5) AS EMDCD
 			</otherwise>
 		</choose>
 		FROM ST_RESEARCH_AREA RA

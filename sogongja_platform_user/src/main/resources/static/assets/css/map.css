@@ -1387,8 +1387,17 @@
   color: #2E750D;
   text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
-#map .areaIn p {
+#map .areaIn.color2E750D p {
+  color: #2E750D;
+}
+#map .areaIn.colorBF7116 p {
   color: #BF7116;
+}
+#map .areaIn.colorDD4C79 p {
+  color: #DD4C79;
+}
+#map .areaIn.color1540BF p {
+  color: #1540BF;
 }
 
 @media (max-width: 1400px) {

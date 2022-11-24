@@ -1,4 +1,3 @@
-
 /*동동이 관련*/
 /*동동이 관련*/
 /*동동이 관련*/
@@ -6,23 +5,12 @@
 // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
 var markers = [];
 
-var datalat = {
-    lat,
-    lng,
-    zoom,
-    x1,
-    x2,
-    y1,
-    y2,
-    codeType1,
-}
 //첫접속시 3초뒤에 상점ajax로드함
 async function firstFunc() {
-    await sleep(300),
+    await sleep(200),
         changeMap();
 };
 firstFunc();
-
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)
@@ -36,7 +24,6 @@ async function changeMap() {
         y2 = map.getBounds().getNorthEast().getLng(),
         x1 = map.getBounds().getSouthWest().getLat(),
         y1 = map.getBounds().getSouthWest().getLng();
-
     var datalat = {
         lat,
         lng,
@@ -55,13 +42,13 @@ async function changeMap() {
             placeOverlay.setMap(null);
             document.getElementById("sidebar").style.display = "none";
             setMarkers(null)//마커들을 싹 비워
-            if(result.length>0) {
+            if (result.length > 0) {
                 resultSpread(result)//그리고 다시찍어
             }
         } else {
             //level < 4, 지도 확대가 3,2,1 일때 상점 마커들 찍어주기
             setMarkers(null)//마커를비우고
-            if(result.length>0) {
+            if (result.length > 0) {
                 storeSpread(result)//다시찍어
             }
         }
@@ -74,6 +61,7 @@ function setMarkers(map) {
         markers[i].setMap(map);
     }
 }
+
 //상점마커 점 그리기
 function storeSpread(thing) {
     var imageSrc = "", // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -84,7 +72,7 @@ function storeSpread(thing) {
         DimageSrc = "/images/new/area/marker05.png",
         OimageSrc = "/images/new/area/marker06.png",
         PimageSrc = "/images/new/area/marker07.png",
-        RimageSrc = "/images/new/area/marker08.png" ;
+        RimageSrc = "/images/new/area/marker08.png";
     for (var i = 0; i < thing.length; i++) {
         if (thing[i].code_type1 == "Q") {
             var imageSrc = QimageSrc
@@ -99,11 +87,11 @@ function storeSpread(thing) {
         } else if (thing[i].code_type1 == "O") {
             var imageSrc = OimageSrc
         } else if (thing[i].code_type1 == "P") {
-            var imageSrc =PimageSrc
+            var imageSrc = PimageSrc
         } else if (thing[i].code_type1 == "R") {
-            var imageSrc =RimageSrc
+            var imageSrc = RimageSrc
         } else {
-            var imageSrc ="/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            var imageSrc = "/images/new/area/marker01.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
         }
         // 지도에 마커를 생성합니다
         var marker = addMarker(thing, i, imageSrc);//위치,이미지를 마커에 등록
@@ -197,6 +185,7 @@ function addEventHandle(target, type, callback) {
         target.attachEvent("on" + type, callback);
     }
 }
+
 // 커스텀 오버레이를 숨깁니다
 placeOverlay.setMap(null);//클릭 시 보여줄 마커인포+사이드바
 placeOverlay2.setMap(null);//호버 시 보여줄 마커인포
@@ -247,7 +236,7 @@ function content111(place) {//마커 호버 or 클릭 시 표시될 정보 도�
         place.shop_nm +
         "</p>" +
         '<div class="close" onclick="closeOverlay()" title="닫기"></div>';
-        content +=
+    content +=
         '    <span title="' +
         place.addr +
         '">' +
@@ -281,7 +270,7 @@ function customInfo2(place) {
 function sideInfo(place) {
     document.getElementById("sidebar").style.display = "block";
     if (place) {
-        var datatrans = { shopSeq : place.shop_seq }//지하철버스좌표 post 조회하기
+        var datatrans = {shopSeq: place.shop_seq}//지하철버스좌표 post 조회하기
         ajaxPostSyn('/trading-area/shop/pubTrans', datatrans, function (resultsubway) {
             //거리계산함수
             var buspolyline = new kakao.maps.Polyline({
@@ -298,14 +287,14 @@ function sideInfo(place) {
                     new kakao.maps.LatLng(resultsubway.sublng, resultsubway.sublat)//지하철,버스 역 위치
                 ]
             });
-            if(resultsubway.buslng > 0) {//빈값아니면 거리 계산
+            if (resultsubway.buslng > 0) {//빈값아니면 거리 계산
                 var buspos = buspolyline.getLength().toFixed(2);
                 var subpos = subwaypolyline.getLength().toFixed(2)
                 console.log("버스길이" + buspos);
                 console.log("지하철길이" + subpos);
                 document.getElementById("sidebar").innerHTML =
                     '<div id="sidebody">' +
-                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
+                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
                     '<div class="sideinfo">' +
                     '<h4 class="sideinfoTitle">상점 정보</h4>' +
                     '<div class="location iconPlus">' +
@@ -336,7 +325,7 @@ function sideInfo(place) {
                     place.sub_sta_nm +
                     '</span>' +
                     '<span class="distance">' +
-                    subpos+
+                    subpos +
                     'm</span>' +
                     '</div>' +
                     '<div class="bus iconPlus">버스' +
@@ -344,7 +333,7 @@ function sideInfo(place) {
                     place.bus_sta_nm +
                     '</span>' +
                     '<span class="distance">' +
-                    buspos+
+                    buspos +
                     'm</span>' +
                     '</div>' +
                     "</div>" +
@@ -356,12 +345,12 @@ function sideInfo(place) {
                     '</div>' +
                     "</div>" +
                     '<button class="analysisBtn">상권활성화 예측지수</button>' +
-                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
+                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
-            }else{
+            } else {
                 document.getElementById("sidebar").innerHTML =
                     '<div id="sidebody">' +
-                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>'+
+                    '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
                     '<div class="sideinfo">' +
                     '<h4 class="sideinfoTitle">상점 정보</h4>' +
                     '<div class="location iconPlus">' +
@@ -391,7 +380,7 @@ function sideInfo(place) {
                     '<span class="position_name">' +
                     place.sub_sta_nm +
                     '</span>' +
-                    '<span class="distance">'+
+                    '<span class="distance">' +
                     '</span>' +
                     '</div>' +
                     '<div class="bus iconPlus">버스' +
@@ -410,10 +399,10 @@ function sideInfo(place) {
                     '</div>' +
                     "</div>" +
                     '<button class="analysisBtn">상권활성화 예측지수</button>' +
-                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>'+
+                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
             }
-    })
+        })
     }
 }
 
@@ -422,11 +411,13 @@ function closeOverlay() {
     placeOverlay.setMap(null);
     document.getElementById("sidebar").style.display = "none";
 }
+
 //사이드바 숨기기
 function sideNoneVisible() {
     document.getElementById("sidebody").style.display = "none";
     $('#sidebar').addClass('on');
 }
+
 //사이드바 보이기
 function sideVisible() {
     document.getElementById("sidebody").style.display = "block";
@@ -441,16 +432,14 @@ $('.m_scroll_btn').click(function () {
     $('.community_pop_wrap').removeClass('on');
 });
 $('.community_main').click(function () {
-    // $(this).find('.detail_community').css('display', 'block');
     $(this).next('.detail_community').addClass('on');
 });
 
 $('.backbtn').click(function () {
-    // $('.detail_community').css('display', 'none');
     $('.detail_community').removeClass('on');
 });
 
-$('.addresswidth').click(function (){
+$('.addresswidth').click(function () {
     $('.searchInput').toggleClass('on');
 })
 
