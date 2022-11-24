@@ -169,7 +169,7 @@ function displayArea(area) {
                 "폐업수" +
                 '</p>' +
                 '<p class="sales-num">' +
-                "추정매출수" +
+                "추정 매출 수" +
                 '</p>' +
             '</div>' +
             '</div>';
