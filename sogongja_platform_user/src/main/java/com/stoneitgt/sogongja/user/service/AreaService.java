@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +82,10 @@ public class AreaService extends BaseService {
 
 		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
-		if (zoom > 5) {
+		if (zoom > 6) {
+			System.out.println(params.toString());
+			return areaMapper.getTradingAreaCountList(params);
+		} else if (zoom > 5) {
 //			areaRecentlyList = areaMapper.getTradingAreaGroupByList();
 		} else {
 			areaRecentlyList = areaMapper.getTradingAreaAllList();
