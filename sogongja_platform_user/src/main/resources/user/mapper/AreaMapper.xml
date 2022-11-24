@@ -86,6 +86,31 @@
 			AND RAC.COM_CD2 != ''
 	</select>
 
+	<select id="getTradingAreaCountList" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaCountList */
+		SELECT COUNT(*)
+		<choose>
+			<when test="zoom gte 10">
+				, LEFT(EMD_CD, 2)
+			</when>
+			<otherwise>
+				, LEFT(EMD_CD, 5)
+			</otherwise>
+		</choose>
+		FROM ST_RESEARCH_AREA RA
+		WHERE RA.AREA_DIV_CD = #{code_type2}
+		  AND RA.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		  AND RA.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		<choose>
+			<when test="zoom gte 10">
+				GROUP BY LEFT(EMD_CD, 2)
+			</when>
+			<otherwise>
+				GROUP BY LEFT(EMD_CD, 5)
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="getRegionAreaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getRegionAreaList */
 		SELECT A.*

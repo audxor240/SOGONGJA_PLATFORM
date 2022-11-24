@@ -124,25 +124,38 @@ public class AreaController extends BaseController {
 		return "pages/area/trading_area_analysis";
 	}
 
+//	@GetMapping("/analysis/test")
+//	public String analysisTest(@ModelAttribute MapParameter params, Model model) {
+//		long beforeTime = System.currentTimeMillis();
+//		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+//
+//		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+//
+//		//QNA게시판 시퀀스 정보
+//		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+//		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+//		model.addAttribute("boardSettingList", boardSettingList);
+//		paramsMap.put("zoom", 6);
+//		paramsMap.put("scope", "'A'");
+//		paramsMap.put("x1", 37.47629323368353);
+//		paramsMap.put("x2", 37.5362047082041);
+//		paramsMap.put("y1", 126.95351224208618);
+//		paramsMap.put("y2", 127.12726465022845);
+//		model.addAttribute("areaJson", areaService.getTradingAreaListToJSON(paramsMap));
+//		model.addAttribute("params", params);
+//		model.addAttribute("pageParams", getBaseParameterString(params));
+//		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+//		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+//		System.out.println("시간차이(m) : "+secDiffTime);
+//		return "pages/area/trading_area_test";
+//	}
+
 	// 중심 좌표 이동에 따른 polygon 데이터 api
 	@PostMapping("/analysis/area")
 	public @ResponseBody List<Map<String, Object>> analysisAreaList(@RequestBody MapParameter params, Model model) {
 		long beforeTime = System.currentTimeMillis();
 
-		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-		List<Map<String, Object>> results = new ArrayList<>();
-		System.out.println(paramsMap.toString());
-		results = areaService.getTradingAreaListToJSON(paramsMap);
-
-		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
-		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
-		System.out.println("시간차이(m) : "+secDiffTime);
-		return results;
-	}
-
-	@PostMapping("/analysis/test")
-	public @ResponseBody List<Map<String, Object>> test(@RequestBody MapParameter params, Model model) {
-		long beforeTime = System.currentTimeMillis();
+		params.setZoom(10);
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		List<Map<String, Object>> results = new ArrayList<>();
