@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,29 +43,24 @@ public class ExcelController extends BaseController {
     @PostMapping("/read")
     public String readExcel(@RequestParam("file") MultipartFile file, @RequestParam("excelType") String excelType,
                             RedirectAttributes rttr, Model model)
-            throws IOException { // 2
+            throws Exception { // 2
 
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        long startTime = System.currentTimeMillis();
 
-        if (!extension.equals("xlsx") && !extension.equals("xls")) {
-            throw new IOException("엑셀파일만 업로드 해주세요.");
-        }
-        Workbook workbook = null;
+        ExcelSheetHandler excelSheetHandler = ExcelSheetHandler.readExcel(file);   //엑셀 읽어옴
 
-        if (extension.equals("xlsx")) {
-            workbook = new XSSFWorkbook(file.getInputStream());
-        } else if (extension.equals("xls")) {
-            workbook = new HSSFWorkbook(file.getInputStream());
-        }
+        // excelDatas >>> [[nero@nate.com, Seoul], [jijeon@gmail.com, Busan], [jy.jeon@naver.com, Jeju]]
+        List<List<String>> excelDatas = excelSheetHandler.getRows();
 
-        Sheet worksheet = workbook.getSheetAt(0);
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
-
-        String returnUrl = excelService.insertExcel(worksheet,excelType, authenticationFacade.getLoginUserSeq());
+        String returnUrl = excelService.insertExcel(excelDatas,excelType, authenticationFacade.getLoginUserSeq());
         rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
-        System.out.println("returnUrl >>>>>>>>>>>>>>> "+returnUrl);
+
+        //System.out.println("row 개수 :::: "+excelDatas.size());
+        long endTime = System.currentTimeMillis();
+        long resutTime = endTime - startTime;
+        System.out.println(" 소요시간  : " + resutTime/1000 + "(ms)");
+
         return returnUrl;
 
     }

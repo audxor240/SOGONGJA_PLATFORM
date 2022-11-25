@@ -2,6 +2,7 @@ package com.stoneitgt.sogongja.admin.service;
 
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
+import com.stoneitgt.sogongja.admin.controller.ExcelHandler;
 import com.stoneitgt.sogongja.admin.mapper.ReSearchRegionMapper;
 import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
 import com.stoneitgt.sogongja.domain.ReSearchRegion;
@@ -24,8 +25,8 @@ public class ReSearchRegionService {
         return reSearchRegionMapper.getReSearchRegionList(params, paging.getPaging());
     }
 
-    public List<Map<String,Object>> getReSearchRegionAll(Map<String, Object> params){
-        return reSearchRegionMapper.getReSearchRegionAll(params);
+    public List<Map<String,Object>> getReSearchRegionAll(ExcelHandler excelHandler){
+        return reSearchRegionMapper.getReSearchRegionAll(excelHandler);
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)

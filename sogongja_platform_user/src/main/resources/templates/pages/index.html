@@ -488,9 +488,6 @@
         </main>
     </article>
     <th:block layout:fragment="custom_js">
-        <script th:inline="javascript">
-            var eventSeq = [[${event.event_seq}]];
-        </script>
         <script th:src="@{/js/libs/swiper.min.js}"></script>
         <script th:src="@{/js/pages/index.js}"></script>
     </th:block>

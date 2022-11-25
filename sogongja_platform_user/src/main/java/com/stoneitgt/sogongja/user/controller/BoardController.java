@@ -276,7 +276,7 @@ public class BoardController extends BaseController {
 	@GetMapping("/project")
 	public String boardProjectList(@ModelAttribute BoardParameter params,@RequestParam(required=false) String name, Model model) {
 
-		System.out.println("name :: "+name);
+		//System.out.println("name :: "+name);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		Paging paging = getUserPaging(params.getPage(), params.getSize());
@@ -288,8 +288,11 @@ public class BoardController extends BaseController {
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+		BoardSetting boardSetting = new BoardSetting();
+		boardSetting.setName("지원 및 정책사업");
 
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("boardSetting", boardSetting);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		model.addAttribute("params", params);
