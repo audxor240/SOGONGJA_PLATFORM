@@ -94,7 +94,7 @@
                     <span class="close_filter"></span>
                 </div>
                 <div class="timeSelect_wrap">
-                    <h4 class="fileter_sub_title">시간선택</h4>
+                    <h4 class="fileter_main_title">시간선택</h4>
                     <ul class="timeSelect">
                         <li>
                             <span class="time_before">00:00</span>
@@ -130,50 +130,53 @@
                     </ul>
                 </div>
                 <div class="Sectors_wrap">
-                    <h4 >업종선택</h4>
-                    <h5>대분류 선택</h5>
-                    <ul class="mainSectors">
-                        <li>
-                            <input type="radio" name="area_maincate" value="all" id="all-sector" onchange="" checked />
-                            <label for="all-sector">전체</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="I" id="I-sector" onchange="" />
-                            <label for="I-sector">숙박·음식</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="S" id="S-sector" onchange="" />
-                            <label for="S-sector">수리·개인서비스</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="G" id="G-sector" onchange="" />
-                            <label for="G-sector">도·소매</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="R" id="R-sector" onchange="" />
-                            <label for="R-sector">예술·스포츠·여가</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="N" id="N-sector" onchange="" />
-                            <label for="N-sector">시설관리·임대</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="M" id="M-sector" onchange="" />
-                            <label for="M-sector">과학·기술</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="L" id="L-sector" onchange="" />
-                            <label for="L-sector">부동산</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="area_maincate" value="P" id="P-sector" onchange="" />
-                            <label for="P-sector">교육</label>
-                        </li>
-                    </ul>
-                    <h5>중분류 선택</h5>
+                    <h4 class="fileter_main_title">업종선택</h4>
+                    <h5 class="fileter_sub_title">대분류 선택</h5>
+                    <div class="mainSectors_wrap">
+                        <ul class="mainSectors">
+                            <li>
+                                <input type="radio" name="area_maincate" value="all" id="all-sector" onchange="" checked />
+                                <label for="all-sector">전체</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="I" id="I-sector" onchange="" />
+                                <label for="I-sector">숙박·음식</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="S" id="S-sector" onchange="" />
+                                <label for="S-sector">수리·개인서비스</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="G" id="G-sector" onchange="" />
+                                <label for="G-sector">도·소매</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="R" id="R-sector" onchange="" />
+                                <label for="R-sector">예술·스포츠·여가</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="N" id="N-sector" onchange="" />
+                                <label for="N-sector">시설관리·임대</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="M" id="M-sector" onchange="" />
+                                <label for="M-sector">과학·기술</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="L" id="L-sector" onchange="" />
+                                <label for="L-sector">부동산</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_maincate" value="P" id="P-sector" onchange="" />
+                                <label for="P-sector">교육</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <h5 class="fileter_sub_title">중분류 선택</h5>
                     <div class="midSecBox">
                         <ul class="midSectors all-mid-sector">
                             <li>
+                                <span class="checked_img"></span>
                                 <input type="radio" name="area_midcate" value="all-mid-sector" id="all-mid-sector" onchange="" checked />
                                 <label for="all-mid-sector">전체 업종</label>
                             </li>
