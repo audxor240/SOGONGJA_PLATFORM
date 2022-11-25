@@ -38,13 +38,19 @@ public interface AreaMapper {
 	// 상권연구
 	List<Map<String, Object>> getTradingAreaAllList();
 	// 상권연구
+	List<Map<String, Object>> getTest(String scope);
+	// 상권연구
 	List<Map<String, Object>> getTradingAreaCountList(Map<String, Object> params);
 	//상권연구
 	List<Map<String, Object>> getTradingAreaShopList(Map<String, Object> params);
 
-	Map<String, Object> getRecentMonth(String areaCd);
-	List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params);
-	List<Map<String, Object>> getResearchAreaComDetail(Map<String, Object> params);
+
+//	Map<String, Object> getRecentMonth(String areaCd);
+//	List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params);
+//	List<Map<String, Object>> getResearchAreaComDetail(Map<String, Object> params);
+	Map<String, Object> getTradingAreaDetails(String areaCd);
+	List<Map<String, Object>> getTradingAreaStaIdx(String areaCd);
+
 
 
 }

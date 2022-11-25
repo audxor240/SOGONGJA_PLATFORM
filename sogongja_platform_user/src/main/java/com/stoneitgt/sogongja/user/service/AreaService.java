@@ -76,20 +76,21 @@ public class AreaService extends BaseService {
 
 		List<Map<String, Object>> list = areaMapper.getTradingAreaMapPartList(params);
 		int zoom = Integer.parseInt(params.get("zoom").toString());
-		System.out.println("list size :" + list.size() );
+		if (zoom > 5) {
+			System.out.println(params.toString());
+			return areaMapper.getTradingAreaCountList(params);
+		}
+
 		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
 		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
 
 		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
 
-		if (zoom > 5) {
-			System.out.println(params.toString());
-			return areaMapper.getTradingAreaCountList(params);
-		} else {
-			areaRecentlyList = areaMapper.getTradingAreaAllList();
-		}
+
+		areaRecentlyList = areaMapper.getTradingAreaAllList();
 
 
+		List<String> temp = new ArrayList();
 		for (Map<String, Object> map : list) {
 			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
 			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
@@ -106,8 +107,62 @@ public class AreaService extends BaseService {
 			map.put("info", info);
 		}
 
+
 		return list;
 	}
+
+	// 상권연구  테스트
+	public List<Map<String, Object>> getTest(Map<String, Object> params) {
+
+		int zoom = Integer.parseInt(params.get("zoom").toString());
+		if (zoom > 5) {
+			System.out.println(params.toString());
+			return areaMapper.getTradingAreaCountList(params);
+		}
+
+		List<Map<String, Object>> list = areaMapper.getTradingAreaMapPartList(params);
+
+
+		System.out.println("list size :" + list.size() );
+		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
+		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
+
+		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
+
+
+		List<String> temp = new ArrayList();
+		for (Map<String, Object> map : list) {
+			int areaSeq = StringUtil.getIntValue(map.get("area_seq"));
+			List<Map<String, Object>> path = (List<Map<String, Object>>) mapPathList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+			List<Map<String, Object>> hole = (List<Map<String, Object>>) mapHoleList.stream()
+					.filter(m -> StringUtil.getIntValue(m.get("area_seq")) == areaSeq).collect(Collectors.toList());
+
+			String areaCd = map.get("area_cd").toString();
+			temp.add(areaCd);
+
+			map.put("path", path);
+			map.put("hole", hole);
+		}
+
+		String scope = new String();
+		for (String tem : temp) {
+			scope +=  tem + ",";
+		}
+		scope = StringUtils.removeEnd(scope, ",");
+		areaRecentlyList = areaMapper.getTest(scope);
+
+		for (Map<String, Object> map : list) {
+			String areaCd = map.get("area_cd").toString();
+			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
+					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
+
+			map.put("info", info);
+		}
+
+		return list;
+	}
+
 
 
 	// 상권연구
@@ -118,25 +173,29 @@ public class AreaService extends BaseService {
 		return list;
 	}
 
-	public List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params) {
+	public Map<String, Object> getResearchAreaComList(Map<String, Object> params) {
 		String areaCd = params.get("area_cd").toString();
-		Map<String, Object> recentMonth = areaMapper.getRecentMonth(areaCd);
-		int year = Integer.parseInt(recentMonth.get("year").toString());
-		int qrt = Integer.parseInt(recentMonth.get("qrt").toString());
-		params.put("year", year);
-		params.put("qrt", qrt);
-//		return areaMapper.getResearchAreaComList(params);
-		List<Map<String, Object>> list = areaMapper.getResearchAreaComList(params);
-		List<Map<String, Object>> details = areaMapper.getResearchAreaComDetail(params);
+		Map<String, Object> tradingAreaDetails = areaMapper.getTradingAreaDetails(areaCd);
+		tradingAreaDetails.put("graph", areaMapper.getTradingAreaStaIdx(areaCd));
 
-		for (Map<String, Object> map : list) {
-			String typeCd = map.get("type1_cd").toString();
-			List<Map<String, Object>> detail = (List<Map<String, Object>>) details.stream()
-					.filter(m -> m.get("type1_cd").equals(typeCd)).collect(Collectors.toList());
-			map.put("details", detail);
-
-		}
-		return list;
+		return tradingAreaDetails;
+//		Map<String, Object> recentMonth = areaMapper.getRecentMonth(areaCd);
+//		int year = Integer.parseInt(recentMonth.get("year").toString());
+//		int qrt = Integer.parseInt(recentMonth.get("qrt").toString());
+//		params.put("year", year);
+//		params.put("qrt", qrt);
+////		return areaMapper.getResearchAreaComList(params);
+//		List<Map<String, Object>> list = areaMapper.getResearchAreaComList(params);
+//		List<Map<String, Object>> details = areaMapper.getResearchAreaComDetail(params);
+//
+//		for (Map<String, Object> map : list) {
+//			String typeCd = map.get("type1_cd").toString();
+//			List<Map<String, Object>> detail = (List<Map<String, Object>>) details.stream()
+//					.filter(m -> m.get("type1_cd").equals(typeCd)).collect(Collectors.toList());
+//			map.put("details", detail);
+//
+//		}
+//		return list;
 	}
 
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {
