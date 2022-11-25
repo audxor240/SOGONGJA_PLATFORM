@@ -6,7 +6,7 @@
 // 맵 기본 레벨
 var mapDefaultLevel = 6;
 
-//기본 위치는 서울시청 좌표
+//기본 위치는 강남구 좌표
 var clientLatitude = 37.506280990844225;
 var clientLongitude = 127.04042161585487;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
@@ -95,7 +95,6 @@ nowSpot();
 // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", async function () {
     await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
-console.log("위치변경")
         await sleep(2000),
         // 선택박스에 시군구코드 기준으로 리스트뿌리기
         renderSigungu(),

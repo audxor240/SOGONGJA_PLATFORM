@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
-    <title>맞춤형 컨설팅</title>
+    <title>맞춤 컨설팅</title>
     <meta property="og:url" content="">
     <meta property="og:url" content="">
     <meta property="og:title" content="소공자 플랫폼 | 맞춤형 컨설팅">
@@ -16,10 +16,11 @@
     <article layout:fragment="content">
         <section class="sub_visual">
             <div class="container">
-                <h2 class="border_title">소공자 과외방</h2>
+                <h2 class="border_title">맞춤 컨설팅</h2>
                 <p>입력한 정보를 기반으로 나에게 필요한 교육 및 컨설팅 콘텐츠를 맞춤형으로 제공해드립니다.</p>
             </div>
             <div class="lnb">
+                <div class="m_tab">맞춤 컨설팅</div>
                 <ul class="container">
                     <li class=""><a th:href="@{/study/education}">소상공인 교육</a></li>
                     <li class=""><a th:href="@{/study/consulting}">소공자 컨설팅</a></li>
@@ -36,7 +37,7 @@
                             <form name="searchForm1" th:action="@{/solution/consulting}" th:object="${params}">
                                 <input type="hidden" th:field="*{conWatchingView1}" >
                                 <input type="hidden" th:field="*{conWatchingView2}" >
-                                <div>
+                                <div class="mb_20">
                                     <input type="checkbox" id="con_watching_hide1" class="checkbox_style c181818" th:checked="${params.conWatchingView1 == true}">
                                     <label for="con_watching_hide1">이미 받은 컨설팅 감추기</label>
                                 </div>
@@ -72,7 +73,7 @@
                             </th:block>
                             <th:block th:if="${#lists.isEmpty(recommendList)}">
                                 <tr>
-                                    <td colspan="5">
+                                    <td class="none_contents_wrap" colspan="5">
                                         <div class="none_contents" >
                                             <span></span>
                                             <p>컨텐츠가 존재하지 않습니다.</p>
@@ -129,7 +130,7 @@
                             </th:block>
                             <th:block th:if="${#lists.isEmpty(list)}">
                                 <tr>
-                                    <td colspan="5">
+                                    <td class="none_contents_wrap" colspan="5">
                                         <div class="none_contents" >
                                             <span></span>
                                             <p>컨텐츠가 존재하지 않습니다.</p>

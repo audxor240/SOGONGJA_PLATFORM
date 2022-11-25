@@ -27,6 +27,25 @@
 	.lnb
 		background-color: #eceff1
 		padding: 0
+		.m_tab
+			display: none
+			font-size: rem(18)
+			font-weight: 700
+			padding: rem(20) rem(52)
+			background-color: #eceff1
+			color: #1540bf
+			border-bottom: 2px solid #1540bf
+			cursor: pointer
+			&:after
+				display: inline-block
+				content: ""
+				width: 12px
+				height: 12px
+				border-top: solid 3px #1540bf
+				border-right: solid 3px #1540bf
+				transform: rotate(135deg)
+				margin-left: 20px
+				margin-bottom: 2px
 		ul
 			+flex_type($justify: center, $align: center)
 			li
@@ -172,6 +191,7 @@
 .txl
 	text-align: left
 .sub_container
+	+positionAt(relative)
 	max-width: 1400px
 	margin: 0 auto
 	.solution_edu
@@ -328,6 +348,7 @@
 			&:nth-child(3n+3)
 				margin-right: 0
 			.thumb_img
+				background-position: center
 				background-size: cover
 				position: relative
 				height: rem(239)
@@ -1134,6 +1155,9 @@
 			width: rem(18)
 			height: rem(18)
 			text-indent: -9999px
+.m_more_faq,
+.m_folding_faq
+	display: none
 .faq_tab_box
 	+flex_type($justify: center, $align: center)
 	margin-bottom: rem(40)
@@ -2137,7 +2161,9 @@
 			+positionAt(absolute,$top:6px , $left:50px)
 			z-index: 1
 .none_contents
-	margin: 60px auto
+	padding: 40px 0 60px
+	background: #fff
+	margin: 0 auto
 	span
 		display: block
 		background: url(#{$assetPath}/img-empty.png) no-repeat 50%
@@ -2201,6 +2227,8 @@
 					margin-bottom: 0
 	.sub_visual
 		.lnb
+			.m_tab
+				padding: rem(20) rem(30)
 			ul
 				li
 					a
@@ -2236,6 +2264,8 @@
 		width: 100%
 		margin: 0 auto rem(40)
 		padding: rem(20)
+		border-radius: 10px
+		box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.04)
 		.sc_input
 			button
 				width: rem(25)
@@ -2244,21 +2274,75 @@
 		width: 100%
 		li
 			width: calc(100%/5)
+		li.m_hide
+			display: block
 
 
 @include mobile
+	.faq_search
+		margin: 0 auto rem(20)
+	.m_more_faq
+		min-width: 95px
+		display: block
+		+positionAt(absolute, $top: 20px, $left: 110px)
+		border-radius: 50px
+		border: 1px solid #d5d5d5
+		background: #fff
+		text-align: center
+		span
+			display: inline-block
+			padding: rem(10) 0
+			color: #d5d5d5
+		&:after
+			content: ""
+			display: inline-block
+			width: 8px
+			height: 8px
+			border-right: solid 1px #d5d5d5
+			border-top: solid 1px #d5d5d5
+			transform: rotate(135deg)
+	.m_folding_faq
+		display: none
+		margin: -40px auto 0
+		text-align: center
+		span
+			display: inline-block
+			padding: rem(10) 0
+			color: #1540bf
+			font-weight: bold
+		&:after
+			content: ""
+			display: inline-block
+			width: 10px
+			height: 10px
+			border-right: solid 2px #1540bf
+			border-top: solid 2px #1540bf
+			transform: rotate(-45deg)
+			margin-bottom: -6px
+			margin-left: 10px
+	.m_folding_faq.on
+		display: block
 	.faq_tab_box
+		margin-bottom: 0
 		flex-wrap: wrap
-		li:nth-child(1),
-		li:nth-child(2),
-		li:nth-child(3)
-			width: calc(100%/3)
-		li:nth-child(3)
-			border-right: 1px solid #d5d5d5
-		li:nth-child(4),
-		li:nth-child(5)
-			border-top: none
-			width: calc(100%/2)
+		border-radius: 10px 10px 0 0
+		justify-content: flex-start
+		background: #fff
+		padding: 20px 0 10px 20px
+		li
+			min-width: 110px
+			border-radius: 50px
+			margin: 0 5px 10px 0
+			border: 1px solid #d5d5d5
+			a
+				padding: rem(10) 0
+		li:first-child
+			width: 80px
+			min-width: 80px
+		li.m_hide
+			display: none
+		&.on
+			padding: 20px 0 40px 20px
 	input[type="text"],
 	input[type="password"],
 	select
@@ -2310,11 +2394,26 @@
 			h2
 				font-size: rem(40)
 		.lnb
+			background-color: #fff
+			.m_tab
+				display: block
+				background-color: #eceff1
+			.m_tab.on
+				&:after
+					transform: rotate(-45deg)
+					margin-bottom: -5px
 			ul
-				flex-wrap: wrap
-				+flex_type($justify: flex-start)
+				display: none
+			ul.on
+				display: block
 				li
-					width: calc(100%/2)
+					width: 100%
+					border-bottom: 1px solid #D9D9D9
+					&.active
+						border-bottom: 1px solid #D9D9D9
+					a
+						display: block
+
 	.reply_view
 		.reply_view_top
 			a
@@ -2470,6 +2569,9 @@
 						overflow: hidden
 					&:nth-child(6)
 						width: 30%
+				td.none_contents_wrap
+					width: 100%
+					height: 100%
 			&:first-child
 				border-top: 4px solid #1540bf
 			&:nth-child(2n)
