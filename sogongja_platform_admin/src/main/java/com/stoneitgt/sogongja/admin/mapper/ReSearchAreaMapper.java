@@ -17,7 +17,7 @@ public interface ReSearchAreaMapper {
 
     List<Map<String, Object>> getReSearchAreaComList(Map<String, Object> params, RowBounds rowBounds);
 
-    List<Map<String,Object>> getReSearchAreaAll(ExcelHandler excelHandler);
+    void getReSearchAreaAll(ExcelHandler excelHandler);
     void getReSearchAreaComAll(ExcelHandler excelHandler);
 
     int insertReSearchAreaExcel(List<ReSearchArea> reSearchArea);

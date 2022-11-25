@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -424,10 +425,9 @@ public class ExcelService extends BaseService {
             for(int i =0; i < dataRow.size();i++){
                 String str = dataRow.get(i);
                 //System.out.println("str :: "+str);
-                String apprvDate = "0000-00-00 00:00:00";
-                if(!str.equals("")){
-                    apprvDate = str;
-                }
+                String apprvDate = "";
+
+
                 switch (i){
                     case 0:
                         shopNo = Integer.parseInt(str);
@@ -460,7 +460,20 @@ public class ExcelService extends BaseService {
                     case 25: data.setAveBusPassOff(Float.parseFloat(str)); break;
                     case 26: data.setSumBusPassOn(Float.parseFloat(str)); break;
                     case 27: data.setSumBusPassOff(Float.parseFloat(str)); break;
-                    case 28: data.setApprvDate(apprvDate); break;
+                    case 28:
+                        if(!str.equals("") && !str.equals(null)){
+                            apprvDate = str;
+                        }else{
+                            apprvDate = "0000-00-00 00:00:00";
+                        }
+                        /*System.out.println("apprvDate 11:: "+apprvDate);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        System.out.println("apprvDate 22:: "+apprvDate);
+                        apprvDate = simpleDateFormat.format(apprvDate);
+                        System.out.println(simpleDateFormat.format(apprvDate));
+                         */
+                        data.setApprvDate(apprvDate);
+                        break;
                     case 29: data.setCtGrd(Integer.parseInt(str)); break;
                     case 30: data.setCtBase(Integer.parseInt(str)); break;
                     case 31: data.setPincpUseCd(Integer.parseInt(str)); break;
@@ -482,7 +495,7 @@ public class ExcelService extends BaseService {
                 reSearchShopService.insertReSearchShopExcel(dataList);
                 System.out.println("insert END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 dataList = new ArrayList<>();
-                line = line+5000;
+                line = line+100;
             }
             j++;
         }
@@ -666,38 +679,38 @@ public class ExcelService extends BaseService {
                 //System.out.println("str :: "+str);
 
                 switch (i){
-                    case 0 : data.setYear(Integer.parseInt(str)); break;
-                    case 1 : data.setQrt(Integer.parseInt(str)); break;
-                    case 2 : data.setAreaDivCd(str); break;
-                    case 3 : data.setAreaDivNm(str); break;
-                    case 4 : data.setAreaCd(Integer.parseInt(str)); map.put("area_cd",str); break;
-                    case 5 : data.setEmdCd(str); map.put("emd_cd",str); break;
-                    case 6 : data.setAreaNm(str);  map.put("area_nm",str); break;
-                    case 7 : data.setComCd(str);  map.put("com_cd",str); break;
-                    case 8 : data.setComCd2(str); map.put("com_cd2",str); break;
-                    case 9 : data.setComNm(str); map.put("com_nm",str); break;
-                    case 10 : data.setCtShop(Integer.parseInt(str)); break;
-                    case 11 : data.setCtShopSim(Integer.parseInt(str)); break;
-                    case 12 : data.setPerOpen(Integer.parseInt(str)); break;
-                    case 13 : data.setCtOpen(Integer.parseInt(str)); break;
-                    case 14 : data.setPerClose(Integer.parseInt(str)); break;
-                    case 15 : data.setCtClose(Integer.parseInt(str)); break;
-                    case 16 : data.setCtFranchise(Integer.parseInt(str)); break;
-                    case 17 : data.setSum0006(Integer.parseInt(str)); break;
-                    case 18 : data.setSum0611(Integer.parseInt(str)); break;
-                    case 19 : data.setSum1114(Integer.parseInt(str)); break;
-                    case 20 : data.setSum1417(Integer.parseInt(str)); break;
-                    case 21 : data.setSum1721(Integer.parseInt(str)); break;
-                    case 22 : data.setSum2124(Integer.parseInt(str)); break;
+                    case 0 : data.setYear(Integer.parseInt(str)); break;    //년도
+                    case 1 : data.setQrt(Integer.parseInt(str)); break;     //분기
+                    case 2 : data.setAreaDivCd(str); break;                 //상권 구분 코드
+                    case 3 : data.setAreaDivNm(str); break;                 //상권 구분 코드명
+                    case 4 : data.setAreaCd(Integer.parseInt(str)); map.put("area_cd",str); break;  //상권 코드
+                    case 5 : data.setEmdCd(str); map.put("emd_cd",str); break;  //읍면동코드
+                    case 6 : data.setAreaNm(str);  map.put("area_nm",str); break;   //상권명
+                    case 7 : data.setComCd(str);  map.put("com_cd",str); break;     //서비스 업종 코드
+                    case 8 : data.setComCd2(str); map.put("com_cd2",str); break;    //100대 생활 밀접 업종 코드
+                    case 9 : data.setComNm(str); map.put("com_nm",str); break;      //서비스 업종 코드명
+                    case 10 : data.setCtShop(Integer.parseInt(str)); break;         //접포수
+                    case 11 : data.setCtShopSim(Integer.parseInt(str)); break;      //유사업종 점포수
+                    case 12 : data.setCtFranchise(Integer.parseInt(str)); break;        //프렌차이즈 점포수
+                    case 13 : data.setSum0006(Integer.parseInt(str)); break;         //시간대 00~06 매출 금액
+                    case 14 : data.setSum0611(Integer.parseInt(str)); break;       //시간대 06~11 매출 금액
+                    case 15 : data.setSum1114(Integer.parseInt(str)); break;        //시간대 11~14 매출 금액
+                    case 16 : data.setSum1417(Integer.parseInt(str)); break;    //시간대 14~17 매출 금액
+                    case 17 : data.setSum1721(Integer.parseInt(str)); break;        //시간대 17~21 매출 금액
+                    case 18 : data.setSum2124(Integer.parseInt(str)); break;        //시간대 21~24 매출 금액
+                    case 19 : data.setPerOpen(Integer.parseInt(str)); break;        //개업률
+                    case 20 : data.setCtOpen(Integer.parseInt(str)); break;        //개업점포 수
+                    case 21 : data.setPerClose(Integer.parseInt(str)); break;        //폐업률
+                    case 22 : data.setCtClose(Integer.parseInt(str)); break;        //폐업점포 수
 
                 }
 
                 data.setLoginUserSeq(loginUserSeq);
             }
-            int reSearchAreaComCnt = reSearchAreaMapper.checkReSearchAreaCom(map);
+            /*int reSearchAreaComCnt = reSearchAreaMapper.checkReSearchAreaCom(map);
             if(reSearchAreaComCnt > 0){ //같은 상권이 있으면 패스
                 continue;
-            }
+            }*/
             dataList.add(data);
 
             //5000row 잘라서 insert

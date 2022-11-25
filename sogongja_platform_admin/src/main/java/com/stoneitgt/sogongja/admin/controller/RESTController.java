@@ -151,7 +151,9 @@ public class RESTController extends BaseController {
 		//해당 메서드 인자값으로 excelHandler를 넘겨준다
 		//selectDbService(excelHandler); //각자 db 조회하는 서비스..(DAO, Mapper 등등)
 		//조회하면서 row하나씩 엑셀로 만들어준다
+		System.out.println("excelType >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+excelType);
 		switch (excelType) {
+			//무조건 void적용 ,return 없어야함
 			case "shop": reSearchShopService.getReSearchShopAll(excelHandler); break;
 			case "analysis1": reSearchAreaService.getReSearchAreaAll(excelHandler); break;
 			case "analysis2": reSearchAreaService.getReSearchAreaComAll(excelHandler); break;

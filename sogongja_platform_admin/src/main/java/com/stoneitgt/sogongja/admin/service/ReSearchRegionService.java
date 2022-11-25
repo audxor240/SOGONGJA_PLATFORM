@@ -25,8 +25,8 @@ public class ReSearchRegionService {
         return reSearchRegionMapper.getReSearchRegionList(params, paging.getPaging());
     }
 
-    public List<Map<String,Object>> getReSearchRegionAll(ExcelHandler excelHandler){
-        return reSearchRegionMapper.getReSearchRegionAll(excelHandler);
+    public void getReSearchRegionAll(ExcelHandler excelHandler){
+        reSearchRegionMapper.getReSearchRegionAll(excelHandler);
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)

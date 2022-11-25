@@ -31,3 +31,4 @@ public class ReSearchAreaCom {
 
     private int loginUserSeq;
 }
+

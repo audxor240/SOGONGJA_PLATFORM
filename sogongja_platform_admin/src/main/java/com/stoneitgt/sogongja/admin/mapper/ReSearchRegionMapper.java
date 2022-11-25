@@ -14,7 +14,7 @@ public interface ReSearchRegionMapper {
 
     List<Map<String, Object>> getReSearchRegionList(Map<String, Object> params, RowBounds rowBounds);
 
-    List<Map<String,Object>> getReSearchRegionAll(ExcelHandler excelHandler);
+    void getReSearchRegionAll(ExcelHandler excelHandler);
 
     int checkReSearchRegion(Map<String, Object> map);
 
