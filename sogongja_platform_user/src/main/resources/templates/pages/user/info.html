@@ -18,6 +18,7 @@
             <h2 class="border_title"><span th:text="|${session.ss_user.username}님|">김나모님</span> 반갑습니다.</h2>
         </div>
         <div class="lnb">
+            <div class="m_tab">회원정보 변경</div>
             <ul class="container">
                 <li><a th:href="@{/mypage}">교육 및 컨설팅</a></li>
                 <li><a th:href="@{|/mypage/qna/${qnaBoardSetting.boardSettingSeq}|}">문의 및 답변</a></li>
