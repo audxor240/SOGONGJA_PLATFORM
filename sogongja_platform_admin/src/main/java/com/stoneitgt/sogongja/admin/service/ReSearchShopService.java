@@ -37,8 +37,8 @@ public class ReSearchShopService extends BaseService{
         return reSearchShopMapper.getReSearchShopCategoty3(category2);
     }
 
-    public List<Map<String,Object>> getReSearchShopAll(ExcelHandler excelHandler){
-        return reSearchShopMapper.getReSearchShopAll(excelHandler);
+    public void getReSearchShopAll(ExcelHandler excelHandler){
+        reSearchShopMapper.getReSearchShopAll(excelHandler);
     }
 
     public Integer selectTotalRecords() {

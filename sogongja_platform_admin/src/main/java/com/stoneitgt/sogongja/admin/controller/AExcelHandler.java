@@ -1,9 +1,6 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class AExcelHandler extends ExcelHandler{
 
@@ -14,7 +11,6 @@ public class AExcelHandler extends ExcelHandler{
 
     @Override
     public void createExcelBody(HashMap<String, String> map,String excelType) {
-
         int cellNum = 0;
 
         //1. row생성

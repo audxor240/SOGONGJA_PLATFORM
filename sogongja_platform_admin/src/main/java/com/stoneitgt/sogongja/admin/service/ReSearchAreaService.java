@@ -29,8 +29,8 @@ public class ReSearchAreaService extends BaseService{
         return reSearchAreaMapper.getReSearchAreaComList(params, paging.getPaging());
     }
 
-    public List<Map<String,Object>> getReSearchAreaAll(ExcelHandler excelHandler){
-        return reSearchAreaMapper.getReSearchAreaAll(excelHandler);
+    public void getReSearchAreaAll(ExcelHandler excelHandler){
+        reSearchAreaMapper.getReSearchAreaAll(excelHandler);
     }
 
     /*public List<Map<String,Object>> getReSearchAreaComAll(Map<String, Object> params){
