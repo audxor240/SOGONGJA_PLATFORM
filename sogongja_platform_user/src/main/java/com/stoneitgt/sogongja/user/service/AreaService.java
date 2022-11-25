@@ -175,8 +175,10 @@ public class AreaService extends BaseService {
 
 	public Map<String, Object> getResearchAreaComList(Map<String, Object> params) {
 		String areaCd = params.get("area_cd").toString();
-		Map<String, Object> tradingAreaDetails = areaMapper.getTradingAreaDetails(areaCd);
+		calculateRadius(params);
+		Map<String, Object> tradingAreaDetails = areaMapper.getTradingAreaDetails(params);
 		tradingAreaDetails.put("graph", areaMapper.getTradingAreaStaIdx(areaCd));
+
 
 		return tradingAreaDetails;
 //		Map<String, Object> recentMonth = areaMapper.getRecentMonth(areaCd);
@@ -196,6 +198,30 @@ public class AreaService extends BaseService {
 //
 //		}
 //		return list;
+	}
+
+	public void calculateRadius(Map<String, Object> params) {
+		double max = 0;
+		List<Map<String, Object>> mapList = areaMapper.getTradingAreaMapSingle(params);
+		double lat1 = Double.parseDouble(params.get("lat").toString());
+		double lng1 = Double.parseDouble(params.get("lng").toString());
+		for (Map<String, Object> map : mapList) {
+			double lat2 = Double.parseDouble(map.get("latitude").toString());
+			double lng2 = Double.parseDouble(map.get("longitude").toString());
+
+			double dLat = Math.toRadians(lat2 - lat1);
+			double dLon = Math.toRadians(lng2 - lng1);
+
+			double a = Math.sin(dLat/2)* Math.sin(dLat/2)+ Math.cos(Math.toRadians(lat1))* Math.cos(Math.toRadians(lat2))* Math.sin(dLon/2)* Math.sin(dLon/2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			double d =6371* c * 1000;    // Distance in m
+			System.out.println(d + "m");
+			if (d > max) {
+				max = d;
+			}
+
+		}
+		params.put("meter", ((int) max + 200));
 	}
 
 	public List<Map<String, Object>> getRegionAreaListToJSON(Map<String, Object> params) {

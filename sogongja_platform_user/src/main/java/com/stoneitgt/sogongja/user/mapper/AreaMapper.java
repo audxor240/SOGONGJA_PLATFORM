@@ -48,8 +48,9 @@ public interface AreaMapper {
 //	Map<String, Object> getRecentMonth(String areaCd);
 //	List<Map<String, Object>> getResearchAreaComList(Map<String, Object> params);
 //	List<Map<String, Object>> getResearchAreaComDetail(Map<String, Object> params);
-	Map<String, Object> getTradingAreaDetails(String areaCd);
+	Map<String, Object> getTradingAreaDetails(Map<String, Object> params);
 	List<Map<String, Object>> getTradingAreaStaIdx(String areaCd);
+	List<Map<String, Object>> getTradingAreaMapSingle(Map<String, Object> params);
 
 
 

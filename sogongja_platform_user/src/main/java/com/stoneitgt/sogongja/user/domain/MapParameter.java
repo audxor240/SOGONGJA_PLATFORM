@@ -30,5 +30,6 @@ public class MapParameter extends BaseParameter {
     private int codeType3 = 1;
 
     private String areaCd;
+    private String areaSeq;
     private String emdCd;
 }
