@@ -614,13 +614,14 @@
   display: flex;
   overflow: hidden;
   padding: 6px;
-  z-index: 2;
+  z-index: 1;
   margin-left: 8px;
 }
 .category_wrap.area {
   position: fixed;
   bottom: 50px;
   left: 50%;
+  z-index: 2;
 }
 
 .category {
@@ -690,16 +691,16 @@
   background: url(../images/new/area/marker08.png) no-repeat;
 }
 .category li label input[type=radio]:checked ~ .Aa {
-  background: url(../images/new/area/marker32.png) no-repeat;
-}
-.category li label input[type=radio]:checked ~ .Ua {
   background: url(../images/new/area/marker33.png) no-repeat;
 }
+.category li label input[type=radio]:checked ~ .Ua {
+  background: url(../images/new/area/marker35.png) no-repeat;
+}
 .category li label input[type=radio]:checked ~ .Da {
-  background: url(../images/new/area/marker34.png) no-repeat;
+  background: url(../images/new/area/marker32.png) no-repeat;
 }
 .category li label input[type=radio]:checked ~ .Ra {
-  background: url(../images/new/area/marker35.png) no-repeat;
+  background: url(../images/new/area/marker34.png) no-repeat;
 }
 .category li .category_bg {
   background-position-x: -46px;
@@ -1304,7 +1305,7 @@
   top: 16px;
   left: calc(50% + 364px);
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;
 }
 #map_wrap #filter .filterIcon {
   background-color: #1540BF;
@@ -1321,7 +1322,8 @@
   background-color: #fff;
   width: 600px;
   height: auto;
-  padding: 16px;
+  padding: 20px;
+  z-index: 3;
 }
 #map_wrap #filter .filterbox.on {
   display: block;
@@ -1340,53 +1342,74 @@
 #map_wrap #filter .filterbox .filterbox_title h3 span {
   display: inline-block;
   background: url(../images/new/area/filter.png) no-repeat;
-  width: 12px;
-  height: 12px;
-  margin-right: 10px;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 5px;
+  background-size: contain;
+  margin-top: 3px;
 }
 #map_wrap #filter .filterbox .filterbox_title .close_filter {
   background: transparent;
   padding: 0;
   background: url(../images/mobile_open_button.png) no-repeat 50%;
-  width: 24px;
+  width: 30px;
   background-size: contain;
   cursor: pointer;
-  height: 24px;
+  height: 30px;
 }
-#map_wrap #filter .filterbox .fileter_sub_title {
+#map_wrap #filter .filterbox .fileter_main_title {
   color: #1540BF;
   font-size: 0.875rem;
   font-weight: bold;
+  margin: 20px 0 5px 0;
 }
-#map_wrap #filter .filterbox .timeSelect {
-  padding: 8px 8px 30px;
+#map_wrap #filter .filterbox .fileter_sub_title {
+  color: #606060;
+  font-size: 0.75rem;
+  margin: 5px 0 2px 0;
+}
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect {
+  padding: 20px 20px 40px;
   background-color: #F3F3F3;
   display: flex;
 }
-#map_wrap #filter .filterbox .timeSelect li {
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li {
   width: 16.6666666667%;
   background-color: #D9D9D9;
   position: relative;
 }
-#map_wrap #filter .filterbox .timeSelect li label {
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li label {
   background-color: #D9D9D9;
   width: 100%;
   height: 100%;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
 }
-#map_wrap #filter .filterbox .timeSelect li span.time_before {
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li input[type=checkbox] {
+  display: none;
+}
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li input[type=checkbox]:checked ~ label {
+  background-color: #709BFF;
+}
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li span.time_before {
   position: absolute;
   bottom: -27px;
-  left: 0;
+  left: -2px;
   color: #D9D9D9;
 }
-#map_wrap #filter .filterbox .timeSelect li span.time_after {
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li span.time_after {
+  position: absolute;
+  right: -20px;
+  bottom: -27px;
+  color: #D9D9D9;
+}
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li:after {
   position: absolute;
   right: 0;
-  bottom: -27px;
-  color: #D9D9D9;
-}
-#map_wrap #filter .filterbox .timeSelect li:after {
-  position: absolute;
   bottom: -7px;
   display: block;
   content: "";
@@ -1394,7 +1417,13 @@
   height: 7px;
   background-color: #969AAF;
 }
-#map_wrap #filter .filterbox .timeSelect li:nth-child(1):before {
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li:last-child span.time_after {
+  position: absolute;
+  right: -2px;
+  bottom: -27px;
+  color: #D9D9D9;
+}
+#map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li:first-child:before {
   position: absolute;
   bottom: -7px;
   left: 0;
@@ -1404,51 +1433,100 @@
   height: 7px;
   background-color: #969AAF;
 }
-#map_wrap #filter .filterbox span {
-  float: right;
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap {
+  background-color: #F3F3F3;
 }
-#map_wrap #filter .filterbox.mainSectors {
-  background-color: #bbb;
-  padding: 2px;
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors {
+  padding: 20px 20px 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-#map_wrap #filter .filterbox.mainSectors:after {
-  content: "";
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li {
+  width: calc(33.3333333333% - 5px);
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li label {
   display: block;
-  clear: both;
+  width: 100%;
+  height: 36px;
+  line-height: 34px;
+  text-align: center;
+  background-color: #ffffff;
+  border: solid 1px #969AAF;
+  color: #969AAF;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 2px;
 }
-#map_wrap #filter .filterbox.mainSectors li {
-  float: left;
-  width: 180px;
-  font-size: 11px;
-  list-style: none;
-  padding: 2px;
-  margin: 4px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-}
-#map_wrap #filter .filterbox .midSectors {
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li input[type=radio] {
   display: none;
-  background-color: #bbb;
-  padding: 2px;
 }
-#map_wrap #filter .filterbox .midSectors:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-#map_wrap #filter .filterbox .midSectors li {
-  float: left;
-  width: 270px;
-  font-size: 11px;
-  list-style: none;
-  padding: 2px;
-  margin: 4px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+#map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li input[type=radio]:checked ~ label {
+  background-color: #1540BF;
+  border: solid 1px #1540BF;
+  color: #fff;
 }
 #map_wrap #filter .filterbox .midSecBox {
-  height: 100px;
   overflow-y: scroll;
+  height: 200px;
+}
+#map_wrap #filter .filterbox .midSecBox::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #F3F3F3;
+}
+#map_wrap #filter .filterbox .midSecBox::-webkit-scrollbar-thumb {
+  background: #1540BF;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors {
+  display: none;
+  flex-wrap: wrap;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors.on {
+  display: flex;
+  justify-content: space-between;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li {
+  width: calc(50% - 4px);
+  margin-bottom: 10px;
+  background-color: #ffffff;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li input[type=radio] {
+  display: none;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li input[type=radio]:checked ~ label {
+  border: solid 1px #1540BF;
+  color: #1540BF;
+  background-color: #E9F0FF;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li input[type=radio]:checked ~ label:before {
+  background: url(../images/new/area/checkOn.png) no-repeat 50%;
+  background-size: contain;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li label {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  width: 100%;
+  height: 40px;
+  background: #fff;
+  border: solid 1px #D9D9D9;
+  text-align: center;
+  line-height: 34px;
+  color: #D9D9D9;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+#map_wrap #filter .filterbox .midSecBox .midSectors li label:before {
+  content: "";
+  display: inline-block;
+  background: url(../images/new/area/checkOff.png) no-repeat 50%;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  margin-right: 5px;
 }
 
 #map .areaIn {
@@ -1483,12 +1561,6 @@
     left: auto;
     transform: none;
   }
-  #sidebar {
-    position: fixed;
-    top: 71px;
-    left: 0;
-    height: calc(100vh - 71px);
-  }
   #map_wrap #filter {
     position: absolute;
     top: 72px;
@@ -1496,16 +1568,20 @@
     left: auto;
     transform: none;
   }
+  #map_wrap .areaTap {
+    position: fixed;
+    top: 143px;
+    right: 136px;
+    left: auto;
+  }
+  #sidebar {
+    position: fixed;
+    top: 71px;
+    left: 0;
+    height: calc(100vh - 71px);
+  }
 }
 @media (max-width: 767px) {
-  #map_wrap {
-    height: calc(100vh - 71px);
-    top: 71px;
-  }
-  #map_wrap.area_map {
-    top: 110px;
-    height: calc(100vh - 110px);
-  }
   #map {
     height: 100%;
   }
@@ -1569,6 +1645,63 @@
   .community_pop_list {
     height: 100%;
     overflow: scroll;
+  }
+  #map_wrap {
+    height: calc(100vh - 71px);
+    top: 71px;
+  }
+  #map_wrap.area_map {
+    top: 110px;
+    height: calc(100vh - 110px);
+  }
+  #map_wrap #filter .filterbox {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 268px);
+    border-radius: 20px 20px 0 0;
+  }
+  #map_wrap #filter .filterbox .midSecBox .midSectors li {
+    width: 100%;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect {
+    padding: 10px 10px 40px;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li label {
+    color: transparent;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li input[type=checkbox]:checked ~ label {
+    color: transparent;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li span.time_before {
+    color: #1540BF;
+    font-size: 0.625rem;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li span.time_after {
+    color: #1540BF;
+    font-size: 0.625rem;
+    right: -12px;
+  }
+  #map_wrap #filter .filterbox .timeSelect_wrap .timeSelect li:last-child span.time_after {
+    color: #1540BF;
+    font-size: 0.625rem;
+  }
+  #map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap {
+    overflow-x: scroll;
+  }
+  #map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors {
+    padding: 10px 10px 5px;
+    flex-wrap: nowrap;
+  }
+  #map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li {
+    min-width: 100px;
+    margin-right: 5px;
+  }
+  #map_wrap #filter .filterbox .Sectors_wrap .mainSectors_wrap .mainSectors li label {
+    border-radius: 50px;
+    height: 30px;
+    line-height: 28px;
   }
   #map_wrap .addressSearchTop {
     position: absolute;

@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.admin.mapper;
 
+import com.stoneitgt.sogongja.admin.controller.ExcelHandler;
 import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
 import com.stoneitgt.sogongja.domain.ReSearchRegion;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +14,7 @@ public interface ReSearchRegionMapper {
 
     List<Map<String, Object>> getReSearchRegionList(Map<String, Object> params, RowBounds rowBounds);
 
-    List<Map<String,Object>> getReSearchRegionAll(Map<String, Object> params);
+    List<Map<String,Object>> getReSearchRegionAll(ExcelHandler excelHandler);
 
     int checkReSearchRegion(Map<String, Object> map);
 

@@ -25,7 +25,7 @@
 
     </select>
 
-    <select id="getReSearchRegionAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getReSearchRegionAll" parameterType="map" resultType="map" fetchSize="-2147483648">
         /* file : ReSearchRegionMapper.xml, id : getReSearchRegionAll */
         select * from ST_RESEARCH_REGION
         where 1=1

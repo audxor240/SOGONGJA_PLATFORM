@@ -80,40 +80,20 @@ public class RESTController extends BaseController {
 	public void excelDownload(HttpServletResponse response, @RequestParam String seqStr, @RequestParam String excelType, @RequestParam List<String> colHeader, @RequestParam List<String> colHeaderName,
 								@RequestParam(required=false, defaultValue= "0") String type, @RequestParam(required=false, defaultValue= "0") String subType, HttpServletRequest request) throws IOException {
 	//public void excelDownload(HttpServletResponse response, @RequestBody Map<String, Object> params) throws IOException {
-//        Workbook wb = new HSSFWorkbook();
 
-		Map<String, Object> param = new HashMap<String, Object>();
-		List<String> seqArr = new ArrayList<>();
-		if(!seqStr.equals("")){
-			seqArr = Arrays.asList(seqStr.split(","));
-		}else{
-			seqArr = null;
-		}
+		//LOGGER.info("*****************poi 라이브러리를 활용한 대용량 엑셀다운로드 로직 START*****************");
 
-		param.put("seqData", seqArr);
-
-		List<Map<String,Object>> list = new ArrayList<>();
-
-
-
-		SXSSFWorkbook wb = new SXSSFWorkbook();
-
-		Row row = null;
-		Cell cell = null;
-		int rowNum = 0;
+		long startTime = System.currentTimeMillis();
 
 		String excelName = "";
 		String sheetName = "";
-		System.out.println("param :: "+param);
 		switch (excelType){
 			case "shop":
 				excelName = "상점 데이터";
-				list = reSearchShopService.getReSearchShopAll(param);
 				sheetName = "전체";
 				break;
 			case "analysis1":
 
-				list = reSearchAreaService.getReSearchAreaAll(param);
 				if(subType.equals("0")){
 					sheetName = "전체";
 				}else if(subType.equals("1")){
@@ -130,8 +110,6 @@ public class RESTController extends BaseController {
 				excelName = "상권 데이터(일반)-"+sheetName;
 				break;
 			case "analysis2":
-
-				list = reSearchAreaService.getReSearchAreaComAll(param);
 				if(subType.equals("0")){
 					sheetName = "전체";
 				}else if(subType.equals("1")){
@@ -144,7 +122,6 @@ public class RESTController extends BaseController {
 				excelName = "상권 데이터(업종)-"+sheetName;
 				break;
 			case "region":
-				list = reSearchRegionService.getReSearchRegionAll(param);
 				if(type.equals("region0")){
 					sheetName = "전체";
 				}else if(type.equals("region1")){
@@ -161,57 +138,34 @@ public class RESTController extends BaseController {
 				break;
 		}
 
-		SXSSFSheet sheet = wb.createSheet(sheetName);
-		sheet.setRandomAccessWindowSize(1000);
-		// Header
-		row = sheet.createRow(rowNum++);
-		cell = row.createCell(0);
-		for(int i =0; i < colHeader.size();i++){
-			String colName = colHeaderName.get(i);
-			cell = row.createCell(i);   //n번째
-			cell.setCellValue(colName); //컬럼이름
-		}
-
-		for(int j = 0; j < list.size();j++){
-
-			Map<String,Object> item = list.get(j);
-			row = sheet.createRow(rowNum++);    //n번째 row
-			System.out.println("COUNT :: "+rowNum);
-			for(int p = 0;p < colHeader.size();p++){
-
-				String colValue = colHeader.get(p);
-
-				String val = "";
-				if(item.get(colValue) != null){
-					val = item.get(colValue).toString();
-				}
-				cell = row.createCell(p);           //n번째 row의 열
-				cell.setCellValue(val);     //열의 값
-
-				if (rowNum % 5000 == 0) {
-					System.out.println("FLUSH --------------------------------@@@@");
-					((SXSSFSheet) sheet).flushRows(5000);
-				}
-			}
-		}
-
 		//한글 깨짐으로 인코딩 처리
 		String outputFileName = new String(excelName.getBytes("KSC5601"), "8859_1");
 
+		//엑셀생성(header 생성, 액셀헤더생성 -> 액셀바디생성 -> 액셀파일쓰기)
+		//String[] header = {"번호","구분","컬럼1","컬럼2","컬럼3","컬럼4"};
+		String[] header = colHeaderName.toArray(new String[0]);
 
-		response.setContentType("ms-vnd/excel");
-		//response.setContentType("application/vnd.ms-excel; charset=euc-kr");
-//        response.setHeader("Content-Disposition", "attachment;filename=example.xls");
-		response.setHeader("Content-Disposition", "attachment;filename="+outputFileName+".xlsx");
-		Cookie cookie = new Cookie("fileDownloadToken", "TRUE");
-		response.addCookie(cookie);
+		ExcelHandler excelHandler = new AExcelHandler(header, outputFileName,sheetName,500, excelType);
+		excelHandler.createExcelHeader();	//헤더를 만들어준다
 
-		downloadCheck = true;
+		//해당 메서드 인자값으로 excelHandler를 넘겨준다
+		//selectDbService(excelHandler); //각자 db 조회하는 서비스..(DAO, Mapper 등등)
+		//조회하면서 row하나씩 엑셀로 만들어준다
+		switch (excelType) {
+			case "shop": reSearchShopService.getReSearchShopAll(excelHandler); break;
+			case "analysis1": reSearchAreaService.getReSearchAreaAll(excelHandler); break;
+			case "analysis2": reSearchAreaService.getReSearchAreaComAll(excelHandler); break;
+			case "region": reSearchRegionService.getReSearchRegionAll(excelHandler); break;
+		}
 
-		// Excel File Output
-		wb.write(response.getOutputStream());
-		wb.close();
+		downloadCheck = true;	//완료처리
+		long endTime = System.currentTimeMillis();
+		long resutTime = endTime - startTime;
 
+		System.out.println(" 소요시간  : " + resutTime/1000 + "(ms)");
+		excelHandler.writeExcelFile(response);
+
+		//LOGGER.info("*****************poi 라이브러리를 활용한 대용량 엑셀다운로드 로직 END*****************");
 	}
 
 	@PostMapping("/excel/downloadCheck")

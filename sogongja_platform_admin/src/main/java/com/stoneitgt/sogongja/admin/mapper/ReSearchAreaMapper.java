@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.admin.mapper;
 
+import com.stoneitgt.sogongja.admin.controller.ExcelHandler;
 import com.stoneitgt.sogongja.domain.ReSearchArea;
 import com.stoneitgt.sogongja.domain.ReSearchAreaCom;
 import com.stoneitgt.sogongja.domain.ReSearchShop;
@@ -16,8 +17,8 @@ public interface ReSearchAreaMapper {
 
     List<Map<String, Object>> getReSearchAreaComList(Map<String, Object> params, RowBounds rowBounds);
 
-    List<Map<String,Object>> getReSearchAreaAll(Map<String, Object> params);
-    List<Map<String,Object>> getReSearchAreaComAll(Map<String, Object> params);
+    List<Map<String,Object>> getReSearchAreaAll(ExcelHandler excelHandler);
+    void getReSearchAreaComAll(ExcelHandler excelHandler);
 
     int insertReSearchAreaExcel(List<ReSearchArea> reSearchArea);
 
