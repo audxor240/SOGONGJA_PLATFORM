@@ -195,6 +195,7 @@ public class AreaController extends BaseController {
 	public @ResponseBody Map<String, Object> analysisDetail(@RequestBody MapParameter params, Model model) {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		return areaService.getResearchAreaComList(paramsMap);
+
 	}
 
 	@GetMapping("/regional")
