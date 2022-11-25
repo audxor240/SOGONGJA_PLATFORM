@@ -3,6 +3,7 @@ package com.stoneitgt.sogongja.admin.service;
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
 import com.stoneitgt.sogongja.admin.config.DataSourceConfig;
+import com.stoneitgt.sogongja.admin.controller.ExcelHandler;
 import com.stoneitgt.sogongja.admin.mapper.BoardMapper;
 import com.stoneitgt.sogongja.admin.mapper.ReSearchShopMapper;
 import com.stoneitgt.sogongja.domain.BoardSetting;
@@ -36,8 +37,8 @@ public class ReSearchShopService extends BaseService{
         return reSearchShopMapper.getReSearchShopCategoty3(category2);
     }
 
-    public List<Map<String,Object>> getReSearchShopAll(Map<String, Object> params){
-        return reSearchShopMapper.getReSearchShopAll(params);
+    public List<Map<String,Object>> getReSearchShopAll(ExcelHandler excelHandler){
+        return reSearchShopMapper.getReSearchShopAll(excelHandler);
     }
 
     public Integer selectTotalRecords() {

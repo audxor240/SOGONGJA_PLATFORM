@@ -150,7 +150,7 @@ public class AreaSettingController extends BaseController {
 
         breadcrumb.put("parent_menu_name", "커머스 연구소 데이터");
         breadcrumb.put("menu_name", "상권데이터 관리");
-        System.out.println("areaColmunParameter :: "+areaColmunParameter);
+
         Integer total = boardService.selectTotalRecords();
         paging.setTotal(total);
 

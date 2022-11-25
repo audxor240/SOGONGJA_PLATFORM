@@ -48,7 +48,7 @@
         select * from ST_RESEARCH_SHOP where CODE_TYPE3 LIKE CONCAT('%', #{category2}, '%') group by CODE_TYPE3;
     </select>
 
-    <select id="getReSearchAreaAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getReSearchAreaAll" parameterType="map" resultType="map" fetchSize="-2147483648">
         /* file : ReSearchAreaMapper.xml, id : getReSearchAreaAll */
         select * from ST_RESEARCH_AREA
         where 1=1
@@ -61,7 +61,7 @@
         order by AREA_SEQ desc;
     </select>
 
-    <select id="getReSearchAreaComAll" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getReSearchAreaComAll" parameterType="map" resultType="map" fetchSize="-2147483648">
         /* file : ReSearchAreaMapper.xml, id : getReSearchAreaComAll */
         select * from ST_RESEARCH_AREA_COM
         where 1=1

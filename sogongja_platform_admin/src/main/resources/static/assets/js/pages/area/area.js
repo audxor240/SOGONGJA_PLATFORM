@@ -36,11 +36,6 @@
     });
 
     $("#fileExcel").on('change',function(event){
-        console.log("event.target :: "+event.target);
-        console.log("event.target.result :: "+event.target.result);
-        console.log("event.target.value :: "+event.target.value);
-        console.log("event.target.files[0].value :: "+event.target.files[0].value);
-        console.log("event.target.files[0].name :: "+event.target.files[0].name);
         $(this).next('.custom-file-label').html(event.target.files[0].name);
     });
 
