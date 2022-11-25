@@ -19,7 +19,6 @@
     <div th:replace="~{fragments/header :: header}"></div>
     <div id="map_wrap" class="area_map">
         <div id="map"></div>
-
         <!-- 공통요소 " 지도 확대, 축소 컨트롤 div 입니다 -->
         <div class="custom_zoomcontrol radius_border">
             <button class="current-local" onclick="setCenter()"></button>
@@ -60,7 +59,7 @@
             </div>
             <button type="button" class="search_pop_del">x</button>
         </div>
-        <!-- 공통요소 주소창 검색 -->
+        <!-- 공통요소 주소창 검색 끝-->
 
         <!--상점수 개폐업수 추정매출 탭 -->
         <ul class="areaTap">
@@ -571,8 +570,11 @@
                 </div>
             </div>
         </div>
+        <!-- 필터끝 -->
 
+        <div id="sidebar"></div>  <!-- 사이드바 -->
 
+        <!-- 상권 상점 카테고리 범례 -->
         <div class="category_wrap area">
             <ul class="category">
                 <li data-order="0">
@@ -667,6 +669,7 @@
                 </li>
             </ul>
         </div>
+        <!-- 상권 상점 카테고리 범례 -->
 
     </div>
 </article>
