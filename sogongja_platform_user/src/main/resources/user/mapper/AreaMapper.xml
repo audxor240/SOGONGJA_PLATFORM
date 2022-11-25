@@ -244,17 +244,32 @@
 <!--		WHERE RAC.AREA_CD = #{area_cd} AND RAC.YEAR = #{year} AND RAC.QRT = #{qrt}-->
 <!--	</select>-->
 
-	<select id="getTradingAreaDetails" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getTradingAreaDetails */
+	<select id="getTradingAreaMapSingle" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaMapSingle */
 		SELECT *
+		FROM ST_TRADING_AREA_MAP TAM
+		WHERE TAM.AREA_SEQ = #{area_seq};
+	</select>
+
+	<select id="getTradingAreaDetails" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaDetails */
+		SELECT * ,
+		  (SELECT COUNT(*)
+					FROM ST_APT A
+					WHERE ST_Distance_Sphere(POINT(${lng}, ${lat}) , POINT(A.LONGITUDE, A.LATITUDE)) <![CDATA[<=]]> ${meter})
+		    AS CT_NAPT_COM,
+			   		IFNULL ((SELECT SUM(A.CT_APT_HOU)
+					FROM ST_APT A
+					WHERE ST_Distance_Sphere(POINT(${lng}, ${lat}) , POINT(A.LONGITUDE, A.LATITUDE)) <![CDATA[<=]]> ${meter}) , 0)
+			AS CT_NAPT_HOU
 		FROM ST_RESEARCH_AREA RA
-		WHERE RA.AREA_CD = #{areaCd}
-		  AND  RA.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
-			AND RA.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		WHERE RA.AREA_CD = #{area_cd}
+		AND  RA.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		AND RA.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
 	</select>
 
 	<select id="getTradingAreaStaIdx" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getTradingAreaDetails */
+		/* file : AreaMapper.xml, id : getTradingAreaStaIdx */
 		SELECT RA.AREA_SEQ AS AREA_SEQ, RA.YEAR AS YEAR, RA.QRT AS QRT, RA.IDX_STB_AREA AS IDX_STB_AREA
 		FROM ST_RESEARCH_AREA RA
 		WHERE RA.AREA_CD = #{areaCd}
