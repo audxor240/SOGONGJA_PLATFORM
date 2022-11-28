@@ -113,6 +113,9 @@ public class EducationController extends BaseController {
 		param3.put("category2Seq",education.getCategory2());
 		List<Map<String, Object>> category3List = categoryService.getCategory3(param3);
 
+		List<Map<String, Object>> imageList2 = getFileList(FILE_REF_TYPE.EDUCATION_IMAGE, eduSeq);
+
+
 
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION, eduSeq));

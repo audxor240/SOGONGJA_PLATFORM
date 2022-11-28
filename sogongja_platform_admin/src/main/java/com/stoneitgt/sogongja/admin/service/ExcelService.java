@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,13 +140,28 @@ public class ExcelService extends BaseService {
     public void eduDataInsert(List<List<String>> excelDatas, int loginUserSeq) throws IOException {
 
         long startTime = System.currentTimeMillis();
+
         List<Education> dataList = new ArrayList<>();
+        List<Files> f_dataList = new ArrayList<>();
+
+        //마지막으로 등록된 교육정보 조회
+        Education education = educationService.getLastEducationInfo();
+        int edu_seq = 0 ;
+        if(education != null ){
+            edu_seq = education.getEduSeq();
+        }
+        int next_edu_Seq = 0;
+
         int line = 5000;
         int j = 1;
         for(List<String> dataRow : excelDatas){ // row 하나를 읽어온다.
             System.out.println("count----->> "+j);
             Education data = new Education();
+            Files f_data = new Files();
             String subject = "";
+            String file_ext = "";
+
+            next_edu_Seq = edu_seq +j;
             for(int i =0; i < dataRow.size();i++){
                 String str = dataRow.get(i);
                 //System.out.println("str :: "+str);
@@ -176,21 +192,49 @@ public class ExcelService extends BaseService {
                     case 7 :
                         String category3Name = str;
                         Category3 category3 = categoryMapper.getCategory3Infomation(category3Name);
-                        data.setCategory3(String.valueOf(category3.getCategory3Seq())); break;
+                        data.setCategory3(String.valueOf(category3.getCategory3Seq()));
+                        break;
+                    case 8 :
+                        if(str.equals("")){ //파일명이 없으면 null처리
+                            f_data.setFileName("null");
+                        }else{
+                            String[] file_namr_arr = str.split("\\.");
+                            file_ext = file_namr_arr[1];    //파일명 확장자
+                        }
+
+                        f_data.setRefType("EDUCATION_IMAGE");
+                        f_data.setRefSeq(next_edu_Seq);
+                        f_data.setFileName(str);
+                        break;
+                    case 9 :
+                        if(!str.equals("")) { //파일경로가 없으면
+                            f_data.setFilePath(str);
+                            f_data.setThumbnailPath(str + "_thumb." + file_ext);
+                        }
+                        break;
+                    case 10 :f_data.setCrawlUrl(str); break;
                 }
                 data.setLoginUserSeq(loginUserSeq);
+                f_data.setLoginUserSeq(loginUserSeq);
+
             }
+
             int subjectCnt = educationMapper.checkEducationSubject(subject);
             if(subjectCnt > 0){ //같은 이름의 교육이 있으면 패스
                 continue;
             }
-            dataList.add(data);
 
+            dataList.add(data);
+            //if(!f_data.getFileName().equals(null)){ //파일명이 null이 아니면 추가해준다
+                f_dataList.add(f_data);
+            //}
+            System.out.println("f_dataList :: "+f_dataList);
             //5000row 잘라서 insert
             if(j == line){
                 System.out.println("insert Start !!!!!!!!!!!");
                 System.out.println("dataList.size() >> "+dataList.size());
                 educationService.insertEducationExcel(dataList);
+                educationService.insertEducationExcelFile(f_dataList);
                 System.out.println("insert END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 dataList = new ArrayList<>();
                 line = line+5000;
@@ -199,6 +243,7 @@ public class ExcelService extends BaseService {
         }
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
             educationService.insertEducationExcel(dataList);
+            educationService.insertEducationExcelFile(f_dataList);
         }
 
         long endTime = System.currentTimeMillis();
@@ -461,17 +506,12 @@ public class ExcelService extends BaseService {
                     case 26: data.setSumBusPassOn(Float.parseFloat(str)); break;
                     case 27: data.setSumBusPassOff(Float.parseFloat(str)); break;
                     case 28:
-                        if(!str.equals("") && !str.equals(null)){
-                            apprvDate = str;
+                        if(str.equals("") || str.contains("0000-00-00")){
+                            apprvDate = null;
                         }else{
-                            apprvDate = "0000-00-00 00:00:00";
+                            apprvDate = str;
                         }
-                        /*System.out.println("apprvDate 11:: "+apprvDate);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        System.out.println("apprvDate 22:: "+apprvDate);
-                        apprvDate = simpleDateFormat.format(apprvDate);
-                        System.out.println(simpleDateFormat.format(apprvDate));
-                         */
+
                         data.setApprvDate(apprvDate);
                         break;
                     case 29: data.setCtGrd(Integer.parseInt(str)); break;
@@ -495,7 +535,7 @@ public class ExcelService extends BaseService {
                 reSearchShopService.insertReSearchShopExcel(dataList);
                 System.out.println("insert END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 dataList = new ArrayList<>();
-                line = line+100;
+                line = line+5000;
             }
             j++;
         }

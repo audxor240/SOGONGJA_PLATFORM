@@ -51,14 +51,17 @@
                                 </div>
                             </th:block>
                             <li th:each="item : ${recommendList}" th:unless="${#lists.isEmpty(recommendList)}">
-                                <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|" th:if="${item.thumbnail_path ne null}">
                                     <div class="view_favorite">
-                                        <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
                                         <input type="hidden" id="edu_mark_seq" th:value="${item.edu_mark_seq}">
                                         <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
-                                        <!--                                    수강완료되었을 때-->
-                                        <!--                                    <span class="edu_done"></span>-->
-                                        <!--                                    수강완료 전-->
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                    </div>
+                                </div>
+                                <div class="thumb_img" th:style="|background-image: url('@{|${item.crawl_url}|}');|" th:unless="${item.thumbnail_path ne null}">
+                                    <div class="view_favorite">
+                                        <input type="hidden" id="edu_mark_seq" th:value="${item.edu_mark_seq}">
+                                        <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
                                         <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                     </div>
                                 </div>
@@ -106,9 +109,14 @@
                     <ul class="edu_list af">
                         <th:block th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                 <li class="thumnail">
-                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|" th:if="${item.thumbnail_path ne null}">
                                         <div class="view_favorite">
-                                            <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                            <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="thumb_img" th:style="|background-image: url('@{|${item.crawl_url}|}');|" th:unless="${item.thumbnail_path ne null}">
+                                        <div class="view_favorite">
                                             <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
                                             <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                         </div>

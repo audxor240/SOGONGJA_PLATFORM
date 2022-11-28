@@ -128,7 +128,8 @@
                                                         <button type="button" class="btn btn-danger btn-delete-file" th:data-file-seq="${item.file_seq}">삭제</button>
                                                     </span>
                                                 </div>
-                                                <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300">
+                                                <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300" th:if="${item.thumbnail_path ne null}">
+                                                <img th:src="@{|${item.crawl_url}|}" th:alt="${item.file_name}" width="300" th:unless="${item.thumbnail_path ne null}">
                                             </div>
                                         </th:block>
                                     </div>

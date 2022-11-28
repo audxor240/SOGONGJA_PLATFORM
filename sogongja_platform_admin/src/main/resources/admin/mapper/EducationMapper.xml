@@ -15,6 +15,7 @@
 		    , U.USERNAME                          AS REG_USERNAME
 			, F.THUMBNAIL_PATH
 			, F.FILE_NAME
+			, F.CRAWL_URL
 		  FROM ST_EDUCATION E
 		  INNER JOIN ST_USER U ON E.REG_USER_SEQ = U.USER_SEQ
 		  inner join ST_CATEGORY1 as CATE1 ON CATE1.CATEGORY1_SEQ = E.CATEGORY_1
@@ -162,5 +163,44 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+
+	<insert id="insertEducationExcelFile" parameterType="java.util.List">
+		/* file : EducationMapper.xml, id : insertEducationExcelFile */
+		INSERT
+		INTO ST_FILES (
+		REF_TYPE
+		, REF_SEQ
+		, FILE_NAME
+		, FILE_PATH
+		, THUMBNAIL_PATH
+		, CRAWL_URL
+		, REG_USER_SEQ
+		, REG_DATE)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.refType}
+			, #{item.refSeq}
+			, #{item.fileName}
+			, #{item.filePath}
+			, #{item.thumbnailPath}
+			, #{item.crawlUrl}
+			, #{item.loginUserSeq}
+			, CURRENT_TIMESTAMP()
+			)
+		</foreach>
+
+
+		<selectKey resultType="int" keyProperty="fileSeq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<select id="getLastEducationInfo" parameterType="int" resultType="com.stoneitgt.sogongja.domain.Education">
+		/* file : EducationMapper.xml, id : getLastEducationInfo */
+		SELECT *
+		FROM ST_EDUCATION
+		WHERE DEL_FLAG = 0 order by EDU_SEQ desc limit 1;
+	</select>
 
 </mapper>

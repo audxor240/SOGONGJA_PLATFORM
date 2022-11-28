@@ -15,6 +15,7 @@
 		     , F.FILE_SEQ
 		     , F.FILE_PATH
 		     , F.THUMBNAIL_PATH
+			 , F.CRAWL_URL
 			 , EB.EDU_MARK_SEQ
 			 , EW.EDU_WATCHING_SEQ
 		  FROM ST_EDUCATION E
@@ -74,6 +75,7 @@
 		, U.USERNAME                          AS REG_USERNAME
 		, F.FILE_SEQ
 		, F.FILE_PATH
+		, F.CRAWL_URL
 		, F.THUMBNAIL_PATH
 		, EB.EDU_MARK_SEQ
 		, EW.EDU_WATCHING_SEQ
