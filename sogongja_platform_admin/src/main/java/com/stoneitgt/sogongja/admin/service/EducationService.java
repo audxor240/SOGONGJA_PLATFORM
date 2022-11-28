@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stoneitgt.sogongja.domain.Faq;
+import com.stoneitgt.sogongja.domain.Files;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +87,17 @@ public class EducationService extends BaseService {
 	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
 	public void insertEducationExcel(List<Education> education) throws IOException {
 		educationMapper.insertEducationExcel(education);
+	}
+
+	@Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+	public void insertEducationExcelFile(List<Files> files) throws IOException {
+		System.out.println("CHECK--insertEducationExcelFile");
+		educationMapper.insertEducationExcelFile(files);
+	}
+
+
+	public Education getLastEducationInfo() {
+		return educationMapper.getLastEducationInfo();
 	}
 
 }

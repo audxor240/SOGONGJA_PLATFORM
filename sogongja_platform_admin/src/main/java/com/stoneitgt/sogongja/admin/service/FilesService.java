@@ -76,7 +76,8 @@ public class FilesService {
 			filesMapper.insertFile(files);
 
 			String filePath = FileUtil.getUploadFilePath(directory);
-			files.setFilePath(filePath + files.getFileSeq());
+			//files.setFilePath(filePath + files.getFileSeq());
+			files.setFilePath(filePath + attachFile.getOriginalFilename());
 
 			File file = FileUtil.uploadFile(systemProperties.getUploadFilePath() + files.getFilePath(), attachFile);
 
@@ -178,5 +179,60 @@ public class FilesService {
 			session.disconnect();
 		}
 //        log.info("+++++++++++++++++++++++ Disconnect to sftp:/" + host);
+	}
+
+	public int saveExcelFiles(MultipartFile attachFile, String fileTitle, String directory, int refSeq, int loginUserSeq,
+						 boolean isThumb) throws IOException {
+
+		long fileSize = attachFile.getSize();
+
+		if (fileSize > 0) {
+			Files files = new Files();
+			files.setFileName(attachFile.getOriginalFilename());
+			files.setFileSize(fileSize);
+			files.setFileByte(FileUtil.sizeOfAsString(fileSize));
+			files.setRefType(directory.toUpperCase());
+			files.setRefSeq(refSeq);
+			files.setFileExt(FileUtil.getFileExtension(files.getFileName()));
+			files.setFileTitle(fileTitle);
+			files.setLoginUserSeq(loginUserSeq);
+
+			filesMapper.insertFile(files);
+
+			String filePath = FileUtil.getUploadFilePath(directory);
+			//files.setFilePath(filePath + files.getFileSeq());
+			files.setFilePath(filePath + attachFile.getOriginalFilename());
+
+			File file = FileUtil.uploadFile(systemProperties.getUploadFilePath() + files.getFilePath(), attachFile);
+
+			files.setFileContentType(FileUtil.getFileContentType(file));
+
+			// 썸네일 생성 시 파일 타입이 이미지인 경우
+			if (isThumb && files.getFileContentType().contains("image")) {
+				File thumb = new File(systemProperties.getThumbnailFilePath() + files.getFilePath() + "_thumb.jpg");
+				FileUtils.forceMkdirParent(thumb);
+				int width = 0;
+				int height = 0;
+				System.out.println("files.getRefType() :::: "+files.getRefType());
+
+				//배너 사이즈 변경
+				if(files.getRefType().equals("BANNER_IMAGE_PC") || files.getRefType().equals("BANNER_IMAGE_MOBILE")){
+					width = 2000;
+					height = 2000;
+				}else{
+					width = 600;
+					height = 600;
+				}
+				Thumbnails.of(file).size(width, height).outputFormat("jpg").toFile(thumb);
+
+				files.setThumbnailPath(files.getFilePath() + "_thumb.jpg");
+			}
+
+			filesMapper.updateFile(files);
+
+			return files.getFileSeq();
+		}
+
+		return 0;
 	}
 }

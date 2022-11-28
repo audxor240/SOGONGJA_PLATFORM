@@ -43,4 +43,6 @@ public class Files {
 
 	// 로그인 사용자
 	private int loginUserSeq;
+
+	private String crawlUrl;
 }

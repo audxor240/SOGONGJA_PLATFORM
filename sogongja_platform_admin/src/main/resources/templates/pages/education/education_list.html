@@ -134,7 +134,10 @@
                                         <input type="checkbox" name="edu_check" th:value="${item.edu_seq}">
                                     </td>
                                     <td th:text="${paging.total - item.rnum + 1}">1</td>
-                                    <td><img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300"></td>
+                                    <td>
+                                        <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300" th:if="${item.thumbnail_path ne null}">
+                                        <img th:src="@{|${item.crawl_url}|}" th:alt="${item.file_name}" width="300" th:unless="${item.thumbnail_path ne null}">
+                                    </td>
                                     <td>
                                         <a th:href="@{|/education/${item.edu_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                         <span th:if="${item.recommend_flag}" class="badge badge-primary">추천</span>
