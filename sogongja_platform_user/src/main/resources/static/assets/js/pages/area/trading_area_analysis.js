@@ -16,32 +16,33 @@ var polygons = [];   //폴리곤 그려줄 path
 var points = [];  //중심좌표 구하기 위한 지역구 좌표들
 var countmarkers = []; //시군구시도 카운트마커 배열
 var areanameMarkers = []; //상권이름 마커 배열
+var roundmarkers = []; //상권이름 동그란 마커 배열
+var clickmarkers = []; //상권이름 동그란 마커 배열
 console.log("첫상권", areaJson, areaJson.length)
 //첫화면 상권로드
+    areaSpread(areaJson)
+//    displayArea(areaJson);
 for (var i = 0, len = areaJson.length; i < len; i++) {
-    displayArea(areaJson[i]);
     areanameSpread(areaJson[i]);// 상권이름그려줌
 }
 $('#storelist').css('display', 'none');//상점 카테고리 삭제
 
 
 // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-var placeOverlay = new kakao.maps.CustomOverlay({zIndex: 1}),
-    placeOverlay2 = new kakao.maps.CustomOverlay({zIndex: 1}),
-    contentNode1 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-    contentNode2 = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-    currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
-contentNode1.className = "placeinfo_wrap";
-contentNode2.className = "placeinfo_wrap";
-// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
-addEventHandle(contentNode1, "mousedown", kakao.maps.event.preventMap);
-addEventHandle(contentNode1, "touchstart", kakao.maps.event.preventMap);
-// 커스텀 오버레이 컨텐츠를 설정합니다
-placeOverlay.setContent(contentNode1);
-placeOverlay2.setContent(contentNode2);
-
+var areaOverlay1 = new kakao.maps.CustomOverlay({zIndex: 1}),
+    areaOverlay2 = new kakao.maps.CustomOverlay({zIndex: 1}),
+    areacontentNode1 = document.createElement("div"), // 클릭 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+    areacontentNode2 = document.createElement("div"); // 호버 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+    // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
+    areacontentNode1.className = "areaIn";
+    areacontentNode2.className = "areahoverIn";
+    // 클릭하는 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
+    // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
+    addEventHandle(areacontentNode1, "mousedown", kakao.maps.event.preventMap);
+    addEventHandle(areacontentNode1, "touchstart", kakao.maps.event.preventMap);
+    // 커스텀 오버레이 컨텐츠를 설정합니다
+    areaOverlay1.setContent(areacontentNode1);
+    areaOverlay2.setContent(areacontentNode2);
 //마커오버레이 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
 function addEventHandle(target, type, callback) {
     if (target.addEventListener) {
@@ -50,40 +51,96 @@ function addEventHandle(target, type, callback) {
         target.attachEvent("on" + type, callback);
     }
 }
-
 // 커스텀 오버레이를 숨깁니다
-placeOverlay.setMap(null);//클릭 시 보여줄 마커인포+사이드바
-placeOverlay2.setMap(null);//호버 시 보여줄 마커인포
+areaOverlay1.setMap(null);//클릭 시 보여줄 마커인포+사이드바
+areaOverlay2.setMap(null);//호버 시 보여줄 마커인포
 
-function content111(place) {//마커 호버 or 클릭 시 표시될 정보 도로명주소,상점명
-    var content =
-        '<div class="placeinfo">' +
-        '   <p class="title" >' +
-        '상권 정보' +
-        "</p>" +
-        '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
-        '<span title="' +
-        '상권 정보' +
-        '">' +
-        '상권 정보' +
-        "</span>" +
-        '  <span class="jibun" title="' +
-        '상권 정보' +
-        '">(지번 : ' +
-        '상권 정보' +
-        ")</span>";
 
-    content +=
-        "</div>" +
-        '<div class="after"></div>';
-    return content
+
+//상권뿌려줌
+function areaSpread(area){
+    for (var i = 0; i < area.length; i++) {
+       var polygon = displayArea(area[i]);//폴리곤 그림
+        polygon.setMap(map);
+        polygons.push(polygon)
+        displayPath(polygon, area, i) //호버, 클릭, 사이드 바 함수 등록
+    }
+}
+// 다각형 + 상권명을 생상하고 이벤트를 등록하는 함수입니다 맵크기 6~이하일때만 그림
+function displayArea(area) {
+    var points = [];
+    var path = [];
+    $.each(area.path, function (index, item) {
+        path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+        points.push([item.latitude, item.longitude]);
+    });
+    var hole = [];
+    $.each(area.hole, function (index, item) {
+        hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+    });
+    // 다각형을 생성합니다
+    if (area.area_type == "D") {
+        var polygon = new kakao.maps.Polygon({
+            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+            strokeWeight: 2,
+            strokeColor: '#2E750D',
+            strokeOpacity: 1,
+            fillColor: '#2E750D',
+            fillOpacity: 0.4
+        });
+    } else if (area.area_type == "A") {
+        var polygon = new kakao.maps.Polygon({
+            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+            strokeWeight: 2,
+            strokeColor: '#BF7116',
+            strokeOpacity: 1,
+            fillColor: '#BF7116',
+            fillOpacity: 0.4
+        });
+    } else if (area.area_type == "U") {
+        var polygon = new kakao.maps.Polygon({
+            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+            strokeWeight: 2,
+            strokeColor: '#DD4C79',
+            strokeOpacity: 1,
+            fillColor: '#DD4C79',
+            fillOpacity: 0.4
+        });
+    } else {
+        var polygon = new kakao.maps.Polygon({
+            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+            strokeWeight: 2,
+            strokeColor: '#1540BF',
+            strokeOpacity: 1,
+            fillColor: '#1540BF',
+            fillOpacity: 0.4
+        });
+    }
+    return polygon
 }
 
-//클릭 커스텀속에 정보 내려줌
-function customInfo(place) {
-    var content1 = content111(place);
-    contentNode1.innerHTML = content1;
+function displayPath(polygon, area, i) {
+        // 마커와 검색결과 항목을 호버, 호버아웃, 클릭 했을 때
+    // 장소정보를 표출하도록 이벤트를 등록합니다
+    (function sdf(polygon, area) {
+        //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
+        kakao.maps.event.addListener(polygon, "click", function () {
+            areaInClick(area)
+            sideInfo(area)
+        });
+        //호버 시 마커인포만 보임
+        kakao.maps.event.addListener(polygon, "mouseover", function () {
+          //  areaInhoverFunc(area)
+        });
+        //마우스 나가면 마커인포사라짐
+        kakao.maps.event.addListener(polygon, "mouseout", function () {
+         //   areaInhoverOut(area)
+        });
+    })(polygon, area[i]);
 }
+
+
+
 
 //사이드바 인포
 function sideInfo(place) {
@@ -144,85 +201,107 @@ function sideInfo(place) {
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
 }
-
-
-
-// 다각형 + 상권명을 생상하고 이벤트를 등록하는 함수입니다 맵크기 6~이하일때만 그림
-function displayArea(area) {
-    var points = [];
-    var path = [];
-    $.each(area.path, function (index, item) {
-        path.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-        points.push([item.latitude, item.longitude]);
-    });
-    var hole = [];
-    $.each(area.hole, function (index, item) {
-        hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-    });
-    // 다각형을 생성합니다
-    if (area.area_type == "D") {
-        var polygon = new kakao.maps.Polygon({
-            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-            strokeWeight: 2,
-            strokeColor: '#2E750D',
-            strokeOpacity: 1,
-            fillColor: '#2E750D',
-            fillOpacity: 0.4
-        });
-    } else if (area.area_type == "A") {
-        var polygon = new kakao.maps.Polygon({
-            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-            strokeWeight: 2,
-            strokeColor: '#BF7116',
-            strokeOpacity: 1,
-            fillColor: '#BF7116',
-            fillOpacity: 0.4
-        });
-    } else if (area.area_type == "U") {
-        var polygon = new kakao.maps.Polygon({
-            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-            strokeWeight: 2,
-            strokeColor: '#DD4C79',
-            strokeOpacity: 1,
-            fillColor: '#DD4C79',
-            fillOpacity: 0.4
-        });
-    } else {
-        var polygon = new kakao.maps.Polygon({
-            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-            strokeWeight: 2,
-            strokeColor: '#1540BF',
-            strokeOpacity: 1,
-            fillColor: '#1540BF',
-            fillOpacity: 0.4
-        });
-    }
-    polygon.setMap(map);
-    polygons.push(polygon)
-
-    // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
-    kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-        polygon.setOptions({
-            fillOpacity: 0.8
-        });
-    });
-    // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
-    kakao.maps.event.addListener(polygon, 'mouseout', function () {
-        polygon.setOptions({
-            fillOpacity: 0.4
-        });
-    });
-    // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
-    kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-        console.log(area.area_cd)
-        data = {areaCd: area.area_cd};
-        ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
-            console.log("이게 상권상세 데이터 갖고오는거임", result)
-
-        });
-    });
-
+//오버레이닫음
+function closeOverlay() {
+    areaOverlay1.setMap(null);
+    document.getElementById("sidebar").style.display = "none";
 }
+var areatab = $('input[name="areaTab"]')
+areatab.addEventListener('click', function(event){
+
+});
+function contentFunc(area){
+    if ($('input[name="areaTab"]:checked').val() == "stores"){
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            "상점수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }else if($('input[name="areaTab"]:checked').val() == "open"){
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+             '<p class="open-num num">' +
+            "개업수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }else if($('input[name="areaTab"]:checked').val() == "close"){
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="close-num num">' +
+            "폐업수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }else if($('input[name="areaTab"]:checked').val() == "sales"){
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="sales-num num">' +
+            "추정매출수" +
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }else{
+        content=""
+    }
+    return content
+}
+
+function areaInClick(area){
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }
+    var content= contentFunc(area)
+    var position = centroid(area.path);
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content,
+        zIndex: 100
+
+    });
+    // 동그란 마커를 배열에 추가합니다
+    clickmarkers.push(customOverlay);
+    //  동그란 마커가 지도 위에 표시되도록 설정합니다
+    customOverlay.setMap(map);
+}
+
+function areaInhoverFunc(area){
+    var content= contentFunc(area);
+    var position = centroid(area.path);
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content,
+    });
+    // 동그란 마커를 배열에 추가합니다
+    roundmarkers.push(customOverlay);
+    //  동그란 마커가 지도 위에 표시되도록 설정합니다
+    customOverlay.setMap(map);
+}
+
+function areaInhoverOut(area){
+    for (var i = 0; i < roundmarkers.length; i++) {
+        roundmarkers[i].setMap(null);
+    }
+}
+
 
 
 function areanameSpread(area) {
@@ -263,7 +342,7 @@ function areanameSpread(area) {
         if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
         } else {// 그게 아니면 단일그래프가 떠야한다
             //그 안에서 분류
-            if (midcate == info[v].com_cd2) {//단일업종 전체아니고 1가지일때
+            if (midcate == infos[v].com_cd2) {//단일업종 전체아니고 1가지일때
                 // 모든합계 var store =
             } else {//단일업종 전체일때
             }
@@ -277,16 +356,16 @@ function areanameSpread(area) {
             '</p>' +
             '<div class="areanum">' +
             '<p class="store-num num">' +
-            "상점수" +
+            stores +
             '</p>' +
             '<p class="open-num num">' +
-            "개업수" +
+            open  +
             '</p>' +
             '<p class="close-num num">' +
-            "폐업수" +
+            close +
             '</p>' +
             '<p class="sales-num num">' +
-            "추정매출수" +
+            sum_all +
             '</p>' +
             '</div>' +
             '</div>';
@@ -298,16 +377,16 @@ function areanameSpread(area) {
             '</p>' +
             '<div class="areanum">' +
             '<p class="store-num num">' +
-            "상점수" +
+            stores +
             '</p>' +
             '<p class="open-num num">' +
-            "개업수" +
+            open  +
             '</p>' +
             '<p class="close-num num">' +
-            "폐업수" +
+            close +
             '</p>' +
             '<p class="sales-num num">' +
-            "추정매출수" +
+            sum_all +
             '</p>' +
             '</div>' +
             '</div>';
@@ -319,16 +398,16 @@ function areanameSpread(area) {
             '</p>' +
             '<div class="areanum">' +
             '<p class="store-num num">' +
-            "상점수" +
+            stores +
             '</p>' +
             '<p class="open-num num">' +
-            "개업수" +
+            open  +
             '</p>' +
             '<p class="close-num num">' +
-            "폐업수" +
+            close +
             '</p>' +
             '<p class="sales-num num">' +
-            "추정매출수" +
+            sum_all +
             '</p>' +
             '</div>' +
             '</div>';
@@ -340,16 +419,16 @@ function areanameSpread(area) {
             '</p>' +
             '<div class="areanum">' +
             '<p class="store-num num">' +
-            "상점수" +
+            stores +
             '</p>' +
             '<p class="open-num num">' +
-            "개업수" +
+            open  +
             '</p>' +
             '<p class="close-num num">' +
-            "폐업수" +
+            close +
             '</p>' +
             '<p class="sales-num num">' +
-            "추정매출수" +
+            sum_all +
             '</p>' +
             '</div>' +
             '</div>';
@@ -359,7 +438,7 @@ function areanameSpread(area) {
     var position = centroid(area.path);
     var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
-        content: content
+        content: content,
     });
 // 생성된 마커를 배열에 추가합니다
     areanameMarkers.push(customOverlay);
@@ -427,8 +506,8 @@ async function changeMap() {
         $('#filter').css('display', 'block');
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
+            areaSpread(result);//상권 패스 다시 그려줌
             for (var i = 0, len = result.length; i < len; i++) {
-                displayArea(result[i]);//상권 패스 다시 그려줌
                 areanameSpread(result[i]);// 상권이름그려줌
             }
         });

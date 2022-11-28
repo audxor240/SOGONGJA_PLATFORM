@@ -1188,10 +1188,35 @@
   .areaIn
     //background-color: rgba(0,0,0,0.4)
     text-align: center
-    font-size: 8px
     font-weight: bold
     color: #2E750D
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
+    height: 0px
+    width: 82px
+    padding: 0px
+    border-radius: 50%
+    white-space: normal
+    word-break: break-all
+    p
+      //+positionAt(absolute)
+      font-size: 8px
+      &.areacenter
+        //+positionAt(absolute, $top:12px, $left:50%)
+        //transform: translateX(-50%)
+        //width: 80px
+    .areanum
+      +positionAt(relative)
+      p
+        +positionAt(absolute,$left:50%)
+        transform: translateX(-50%)
+        text-align: center
+        width: 80px
+        &.open-num
+          display: none
+        &.close-num
+          display: none
+        &.sales-num
+          display: none
     &.color2E750D
       p
         color: #2E750D
@@ -1205,10 +1230,32 @@
       p
         color: #1540BF
 
-
-
-
-
+#map
+  .areahoverIn
+    text-align: center
+    font-size: 7px
+    font-weight: bold
+    color: #fff
+    background: #000
+    height: 77px
+    width: 77px
+    padding: 10px
+    border-radius: 50%
+    white-space: normal
+    word-break: break-all
+    p
+      +positionAt(absolute,$left:50%,$top:25%)
+      transform: translate(-50%,-25%)
+      width: 62px
+      color: #fff
+    .areanum
+      +positionAt(relative,$top:36px)
+      p
+        +positionAt(absolute,$top:4px,$left:50%)
+        color: #fff
+        width: 100%
+        transform: translateX(-50%)
+        text-align: center
 
 @include tablet
   #map_wrap

@@ -54,7 +54,7 @@ $('#excelDownLoad').on('click', function(e) {
     })
     seqStr = seqStr.slice(0,-1);
 
-    $("#loding").show();
+    $(".wrap-loading").show();
     var form = document.forms.excelDown;
     form.seqStr.value = seqStr;
     form.submit();
@@ -78,7 +78,7 @@ $('#excelDownLoad').on('click', function(e) {
             },
             success: function (result) {
                 if(result.code == "200"){
-                    $("#loding").hide();
+                    $(".wrap-loading").hide();
                     clearInterval(FILEDOWNLOAD_INTERVAL);
                 }
 
