@@ -1033,13 +1033,13 @@
 .community_wrap .community_pop_wrap .community_more {
   text-align: center;
   padding: 8px 16px;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 10px auto 20px;
   background: #ffffff;
   border: 2px solid #1540BF;
   color: #1540BF;
   width: 200px;
   font-size: 13px;
+  cursor: pointer;
 }
 .community_wrap .community_pop_wrap .community_pop_title {
   background-color: #ffffff;
@@ -1068,8 +1068,10 @@
   padding: 5px;
   text-align: center;
 }
+.community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
+  display: none;
+}
 .community_wrap .community_pop_wrap .community_pop_list {
-  height: 100%;
   margin-top: 66px;
 }
 .community_wrap .community_pop_wrap .community_pop_list > li {
@@ -1157,7 +1159,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  background: #ddd;
+  padding: 10px;
 }
 .coment_form input {
   border: solid 1px #d2d2d2;
@@ -1177,11 +1180,12 @@
 .detail_community {
   display: none;
   position: absolute;
-  top: 66px;
+  top: 60px;
   left: 0;
   background: #e2e2e2;
   height: 100%;
   padding-bottom: 20px;
+  width: 100%;
 }
 .detail_community.on {
   display: block;

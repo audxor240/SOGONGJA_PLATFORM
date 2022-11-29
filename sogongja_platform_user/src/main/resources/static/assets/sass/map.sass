@@ -793,13 +793,13 @@
     .community_more
       text-align: center
       padding: 8px 16px
-      margin: 0 auto
-      margin-bottom: 20px
+      margin: 10px auto 20px
       background: #ffffff
       border: 2px solid $blue
       color: $blue
       width: 200px
       font-size: 13px
+      cursor: pointer
     .community_pop_title
       background-color: #ffffff
       +flex_type($justify:space-between, $align:center)
@@ -822,8 +822,9 @@
         font-size: 12px
         padding: 5px
         text-align: center
+      .m_scroll_btn
+        display: none
     .community_pop_list
-      height: 100%
       margin-top: 66px
       > li
         background-color: #fff
@@ -887,7 +888,8 @@
         font-size: 12px
 .coment_form
   +flex_type($justify:center, $align:center)
-  margin: 10px
+  background: #ddd
+  padding: 10px
   input
     border: solid 1px #d2d2d2
     background-color: #fff
@@ -903,11 +905,12 @@
 .detail_community
   display: none
   position: absolute
-  top: 66px
+  top: 60px
   left: 0
   background: #e2e2e2
   height: 100%
   padding-bottom: 20px
+  width: 100%
   &.on
     display: block
   .backbtn
