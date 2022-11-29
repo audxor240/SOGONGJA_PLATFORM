@@ -140,8 +140,9 @@
                 <a th:href="@{/community(type=shop)}">글쓰기</a>
             </div>
             <ul class="community_pop_list">
-                <li class="community_main_li" th:each="item : ${shopCommunityList}">
-                    <div class="community_main">
+                <li class="community_main_li" th:each="item : ${shopCommunityList}" th:unless="${#lists.isEmpty(shopCommunityList)}">
+                    <div class="community_main" style="cursor: pointer">
+                        <input type="hidden" id="communitySeq" th:value="${item.community_seq}">
                         <div class="top_info">
                             <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
                             <h5>[[${item.subject}]]</h5>
@@ -153,43 +154,40 @@
                     </div>
                     <!--            커뮤니티 상세 보기-->
                     <div class="detail_community">
-                        <div class="backbtn">← 뒤로가기</div>
+                        <div class="backbtn" style="cursor: pointer">← 뒤로가기</div>
                         <div class="community_main">
                             <div class="top_info">
-                                <span>서울시 강남구 숙박음식점</span>
-                                <h5>재적의원과반수의 출석과 어쩌구 sdfsdf저쩌구</h5>
+                                <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
+                                <h5>[[${item.subject}]]</h5>
                             </div>
                             <p>
-                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
+                                [[${item.content}]]
                             </p>
                             <div class="down_info">
-                                <p>아이디 노출</p>
-                                <span>2022.10.25</span>
+                                <p>[[${item.nick_name}]]</p>
+                                <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
                             </div>
                         </div>
-                        <ul class="coment_list">
-                            <li>
-                                <div class="coment_main">
-                                    <span></span>
-                                    <p>
-                                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                        커뮤니티 글의 내용이 입력됩니다.커뮤니티 글의 내용이 입력됩니다.
-                                    </p>
-                                </div>
-                                <div class="down_info">
-                                    <p>아이디 노출</p>
-                                    <span>2022.10.25</span>
-                                </div>
-                            </li>
-                        </ul>
-                        <form action="" class="coment_form">
-                            <input type="text">
-                            <button type="button">댓글</button>
+                        <div class="reply_list">
+                            <ul class="coment_list" th:each="item : ${replyList}" th:unless="${#lists.isEmpty(replyList)}">
+                                <li>
+                                    <div class="coment_main">
+                                        <span></span>
+                                        <p>
+                                            [[${item.comment}]]
+                                        </p>
+                                    </div>
+                                    <div class="down_info">
+                                        <p>[[${item.nick_name}]]</p>
+                                        <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <form id="reply_add" name="reply_add" class="coment_form" >
+                            <input type="hidden" name="communitySeq" th:value="${item.community_seq}">
+                            <input type="text" name="comment">
+                            <button type="button" id="reply_btn">댓글</button>
                         </form>
                     </div>
                 </li>

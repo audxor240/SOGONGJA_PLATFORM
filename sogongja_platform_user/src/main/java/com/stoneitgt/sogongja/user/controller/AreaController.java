@@ -1,11 +1,14 @@
 package com.stoneitgt.sogongja.user.controller;
 
+import java.io.IOException;
 import java.util.*;
 
 import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.stoneitgt.sogongja.domain.QuestionSetting;
 import com.stoneitgt.sogongja.user.domain.MapParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
+import com.stoneitgt.sogongja.user.service.ReplyService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,9 @@ public class AreaController extends BaseController {
 
 	@Autowired
 	private CommunityService communityService;
+
+	@Autowired
+	private ReplyService replyService;
 
 	@GetMapping("/shop")
 	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
@@ -63,7 +69,7 @@ public class AreaController extends BaseController {
 
 	@PostMapping("/shop/details")
 	public @ResponseBody List<Map<String, Object>> shopAreaCountOrList(@RequestBody MapParameter params, Model model) {
-
+		System.out.println("params-------"+params);
 		if (params.getZoom() > 8) params.setZoom(14);
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
@@ -233,5 +239,26 @@ public class AreaController extends BaseController {
 	@GetMapping("/info")
 	public String info(Model model) {
 		return "pages/area/trading_area_info";
+	}
+
+	@PostMapping("/reply")
+	public String getReplyList(Model model,@RequestBody Map<String, Object> params) throws IOException {
+
+
+		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
+		model.addAttribute("replyList", replyList);
+
+		return "pages/area/trading_area_shop"+ " :: .reply_list";
+	}
+
+	@PostMapping("/reply/add")
+	public String addReply(Model model,@RequestBody Map<String, Object> params) throws IOException {
+
+		params.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
+		replyService.addReply(params);
+		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
+		model.addAttribute("replyList", replyList);
+
+		return "pages/area/trading_area_shop"+ " :: .reply_list";
 	}
 }

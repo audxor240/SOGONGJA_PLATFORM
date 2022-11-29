@@ -41,4 +41,13 @@ public class ReplyService extends BaseService {
     public void deleteReplyAll(Map<String, Object> params) {
         replyMapper.deleteReplyAll(params);
     }
+
+    public List<Map<String, Object>> getCommunityReplyList(Map<String, Object> params) {
+        return replyMapper.getCommunityReplyList(params);
+    }
+
+    @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
+    public void addReply(Map<String, Object> params) {
+            replyMapper.addReply(params);
+    }
 }

@@ -19,4 +19,8 @@ public interface ReplyMapper {
     void deleteReply(Map<String, Object> params);
 
     void deleteReplyAll(Map<String, Object> params);
+
+    List<Map<String, Object>> getCommunityReplyList(Map<String, Object> params);
+
+    void addReply(Map<String, Object> params);
 }

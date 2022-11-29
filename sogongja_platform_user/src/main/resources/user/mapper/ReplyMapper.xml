@@ -63,5 +63,33 @@
           , DEL_DATE     = CURRENT_TIMESTAMP()
         WHERE COMMUNITY_SEQ    = #{community_seq}
     </update>
+
+    <select id="getCommunityReplyList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ReplyMapper.xml, id : getCommunityReplyList */
+        select R.* , U.NICK_NAME
+        from ST_REPLY as R
+                 left join ST_USER as U ON U.USER_SEQ = R.REG_USER_SEQ
+        where COMMUNITY_SEQ = #{communitySeq} and R.DEL_FLAG = 0
+
+    </select>
+
+    <insert id="addReply" parameterType="map">
+        /* file : ReplyMapper.xml, id : addReply */
+        INSERT
+        INTO ST_REPLY (
+        COMMUNITY_SEQ
+        , COMMENT
+        , REG_USER_SEQ
+        )
+        VALUES (
+        #{communitySeq}
+        , #{comment}
+        , #{loginUserSeq}
+        )
+
+        <selectKey resultType="int" keyProperty="replySeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
     
 </mapper>
