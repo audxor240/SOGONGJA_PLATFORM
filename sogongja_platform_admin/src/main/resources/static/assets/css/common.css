@@ -54,6 +54,7 @@ a.file-download { display: block; flex: 1 1 auto; }
 /* ajax loading image */
 .wrap-loading { z-index: 1060; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background: rgba(0, 0, 0, 0.2); /*not in ie */ filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */ }
 .wrap-loading div { position: fixed; top: 50%; left: 50%; margin-left: -200px; margin-top: -200px; }
+.wrap-loading p {color: #fff; font-size: 18px; font-weight: bold; position: absolute; top: 50vh; left: calc(50% - 107px);}
 .display-block { display: block; }
 .display-none { display: none; }
 
