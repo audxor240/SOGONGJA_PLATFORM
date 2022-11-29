@@ -432,7 +432,56 @@ $('.m_scroll_btn').click(function () {
     $('.community_pop_wrap').removeClass('on');
 });
 $('.community_main').click(function () {
+    let communitySeq = $(this).find("#communitySeq").val();
+    var data = {
+        communitySeq: communitySeq
+    }
+
+    /*ajaxPost('/api/reply', data, function(result) {
+
+        $.each(result.data, function(index, itcategory2_seq + '">' + item.name + '</option>';
+        });em) {
+            strHTML += '<option value="' + item.
+        $('#category2').html(strHTML);
+        $('#category3').html(strEmpty);
+
+
+    });*/
+
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        //dataType:"json",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+
+            let fragment = res.responseText
+            $(".reply_list").replaceWith(fragment);
+            $(".reply_list").show();
+            //alert(res.responseJSON.message);
+            return false;
+        }
+    }).done(function (fragment) {
+        //여기로 안들어옴.....
+        $(".reply_list").replaceWith(fragment);
+        $(".reply_list").show();
+        //$(".loading_box").hide();
+
+    });
+
     $(this).next('.detail_community').addClass('on');
+
+
 });
 
 $('.backbtn').click(function () {
@@ -443,3 +492,45 @@ $('.addresswidth').click(function () {
     $('.searchInput').toggleClass('on');
 })
 
+$('#reply_btn').click(function () {
+
+    let communitySeq = $(this).parent("#reply_add").find("[name=communitySeq]").val();
+    let comment = $(this).parent("#reply_add").find("[name=comment]").val();
+    console.log("communitySeq ::: "+communitySeq);
+    var data = {
+        communitySeq: communitySeq,
+        comment: comment
+    }
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply/add",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        //dataType:"json",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+
+            let fragment = res.responseText
+            $(".reply_list").replaceWith(fragment);
+            $(".reply_list").show();
+            //alert(res.responseJSON.message);
+            return false;
+        }
+    }).done(function (fragment) {
+        //여기로 안들어옴.....
+        console.log("fragment >>> "+fragment);
+        $(".reply_list").replaceWith(fragment);
+        $(".reply_list").show();
+        //$(".loading_box").hide();
+
+    });
+
+});

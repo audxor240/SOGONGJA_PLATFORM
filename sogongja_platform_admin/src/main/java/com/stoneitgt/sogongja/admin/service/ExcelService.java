@@ -460,7 +460,7 @@ public class ExcelService extends BaseService {
         long startTime = System.currentTimeMillis();
 
         List<ReSearchShop> dataList = new ArrayList<>();
-        int line = 5000;
+        int line = 1000;
         int j = 1;
         for(List<String> dataRow : excelDatas){ // row 하나를 읽어온다.
             System.out.println("count----->> "+j);
@@ -535,7 +535,7 @@ public class ExcelService extends BaseService {
                 reSearchShopService.insertReSearchShopExcel(dataList);
                 System.out.println("insert END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 dataList = new ArrayList<>();
-                line = line+5000;
+                line = line+1000;
             }
             j++;
         }
