@@ -86,8 +86,8 @@
 			AND RAC.COM_CD2 != ''
 	</select>
 
-	<select id="getTest" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getTest */
+	<select id="getTradingAreCategory1" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreCategory1 */
 		SELECT *, LEFT(COM_CD2,1) AS CODE
 		FROM ST_RESEARCH_AREA_COM RAC
 		WHERE RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
@@ -96,8 +96,8 @@
 		  AND RAC.AREA_CD IN (${scope})
 	</select>
 
-	<select id="getTest2" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
-		/* file : AreaMapper.xml, id : getTest2 */
+	<select id="getTradingAreCategory2" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreCategory2 */
 		SELECT RAC.AREA_CD AS AREA_CD, SUM(RAC.CT_SHOP) AS STORES, SUM(RAC.CT_OPEN) AS OPEN, SUM(RAC.CT_CLOSE) AS CLOSE
 		, SUM(RAC.SUM_00_06) + SUM(RAC.SUM_06_11) + SUM(RAC.SUM_11_14) + SUM(RAC.SUM_14_17) + SUM(RAC.SUM_17_21) + SUM(RAC.SUM_21_24) AS SALES
 		,LEFT(COM_CD2,1) AS CODE
