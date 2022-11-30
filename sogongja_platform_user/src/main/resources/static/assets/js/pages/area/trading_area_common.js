@@ -356,15 +356,6 @@ $("input[name=cate]").click(function () {
     }
 })
 
-//마커오버레이 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
-function addEventHandle(target, type, callback) {
-    if (target.addEventListener) {
-        target.addEventListener(type, callback);
-    } else {
-        target.attachEvent("on" + type, callback);
-    }
-}
-
 
 //상점뿌리기함수
 //상점뿌리기
