@@ -1240,24 +1240,24 @@
     font-weight: bold
     color: #fff
     background: #000
-    height: 77px
-    width: 77px
-    padding: 10px
+    width: auto
+    height: auto
+    padding: 40px
     border-radius: 50%
     white-space: normal
     word-break: break-all
     p
       +positionAt(absolute,$left:50%,$top:25%)
       transform: translate(-50%,-25%)
-      width: 62px
+      width: 78px
       color: #fff
     .areanum
-      +positionAt(relative,$top:36px)
+      +positionAt(absolute,$top:70%,$left:50%)
+      width: 78px
+      transform: translate(-50%, -70%)
       p
-        +positionAt(absolute,$top:4px,$left:50%)
         color: #fff
         width: 100%
-        transform: translateX(-50%)
         text-align: center
 
 @include tablet
