@@ -69,9 +69,12 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: root
-      password: softlabsdusgn
+#      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+#      username: root
+#      password: softlabsdusgn
+      jdbc-url: jdbc:log4jdbc:mariadb://sogongja-aurora-prod-instance.cluster-cyoshxr7pnby.ap-northeast-2.rds.amazonaws.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: admin
+      password: thrhdwk5834#
 
 system:
   slack-send: false
@@ -175,9 +178,12 @@ spring:
       on-profile: prod
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja
-      password: sogongja@2021!
+#      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+#      username: sogongja
+#      password: sogongja@2021!
+      jdbc-url: jdbc:log4jdbc:mariadb://sogongja-aurora-prod-instance.cluster-cyoshxr7pnby.ap-northeast-2.rds.amazonaws.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: admin
+      password: thrhdwk5834#
       
 system:
   slack-send: false

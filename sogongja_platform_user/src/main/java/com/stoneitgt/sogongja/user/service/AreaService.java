@@ -151,13 +151,16 @@ public class AreaService extends BaseService {
 		}
 		scope = StringUtils.removeEnd(scope, ",");
 		areaRecentlyList = areaMapper.getTest(scope);
+		List<Map<String, Object>> test2 = areaMapper.getTest2(scope);
 
 		for (Map<String, Object> map : list) {
 			String areaCd = map.get("area_cd").toString();
 			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
 					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
-
+			List<Map<String, Object>> info2 = (List<Map<String, Object>>) test2.stream()
+					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
 			map.put("info", info);
+			map.put("info2", info2);
 		}
 
 		return list;
