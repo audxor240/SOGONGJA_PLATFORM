@@ -40,6 +40,8 @@ public interface AreaMapper {
 	// 상권연구
 	List<Map<String, Object>> getTest(String scope);
 	// 상권연구
+	List<Map<String, Object>> getTest2(String scope);
+	// 상권연구
 	List<Map<String, Object>> getTradingAreaCountList(Map<String, Object> params);
 	//상권연구
 	List<Map<String, Object>> getTradingAreaShopList(Map<String, Object> params);
