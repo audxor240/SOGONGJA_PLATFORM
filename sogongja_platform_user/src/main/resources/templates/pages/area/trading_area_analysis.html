@@ -13,8 +13,25 @@
     <!--/* Common css */-->
     <th:block th:include="fragments/common_css"></th:block>
 </head>
-
+<style>
+    .green{
+        display: none;
+    }
+    .main-stop {
+        stop-color: red;
+    }
+    .alt-stop {
+        stop-color: green;
+    }
+</style>
 <body class="area">
+<svg width="0" height="0" class="green">
+    <linearGradient id="gradient">
+        <stop class="main-stop" offset="0%" />
+        <stop class="alt-stop" offset="100%" />
+    </linearGradient>
+</svg>
+
 <article >
     <div th:replace="~{fragments/header :: header}"></div>
     <div id="map_wrap" class="area_map">
@@ -575,7 +592,7 @@
         </div>
         <!-- 필터끝 -->
 
-        <div id="sideareabar"></div>  <!-- 사이드바 -->
+        <div id="sidebar" class="sidebar_area"></div>  <!-- 사이드바 -->
 
         <!-- 상권 상점 카테고리 범례 -->
         <div class="category_wrap area">
@@ -681,7 +698,7 @@
 </div>
 <th:block th:include="fragments/common_js"></th:block>
 <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services,clusterer,drawing"></script>
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca&libraries=services,clusterer,drawing"></script>
 <script th:inline="javascript">
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
