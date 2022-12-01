@@ -718,38 +718,116 @@ function areanameSpread(area) {
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
-    for (var i = 0; i < infos.length; i++) {
-        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-                stores += infos[i].ct_shop;
-                open += infos[i].ct_open;
-                close += infos[i].ct_close;
+    console.log("대분류 : " + maincate + " 중분류 : " + midcate )
+    if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+        console.log("대분류 전체")
+        for (var i = 0; i < infos.length; i++) {
 
-                sum_00_06 += infos[i].sum_00_06;
-                sum_06_11 += infos[i].sum_06_11;
-                sum_11_14 += infos[i].sum_11_14;
-                sum_14_17 += infos[i].sum_14_17;
-                sum_17_21 += infos[i].sum_17_21;
-                sum_21_24 += infos[i].sum_21_24;
+            stores += infos[i].ct_shop;
+            open += infos[i].ct_open;
+            close += infos[i].ct_close;
 
-            document.getElementById("SUM_00_06").value = sum_00_06;
-            document.getElementById("SUM_06_11").value = sum_06_11;
-            document.getElementById("SUM_11_14").value = sum_11_14;
-            document.getElementById("SUM_14_17").value = sum_14_17;
-            document.getElementById("SUM_17_21").value = sum_17_21;
-            document.getElementById("SUM_21_24").value = sum_21_24;
+            sum_00_06 += infos[i].sum_00_06;
+            sum_06_11 += infos[i].sum_06_11;
+            sum_11_14 += infos[i].sum_11_14;
+            sum_14_17 += infos[i].sum_14_17;
+            sum_17_21 += infos[i].sum_17_21;
+            sum_21_24 += infos[i].sum_21_24;
 
-        } else {// 그게 아니면 단일그래프가 떠야한다
+        }
+    } else {
+        if (midcate.includes('all')) {
+            console.log("대분류 분류 중분류 전체")
 
-            //그 안에서 분류
-            if (midcate == infos[i].com_cd2) {//단일업종 전체아니고 1가지일때
+            for (var i = 0; i < infos.length; i++) {
+                if (maincate === infos[i].code) {
+                    stores += infos[i].ct_shop;
+                    open += infos[i].ct_open;
+                    close += infos[i].ct_close;
 
-                // 모든합계 var store =
-            } else {//단일업종 전체일때
+                    sum_00_06 += infos[i].sum_00_06;
+                    sum_06_11 += infos[i].sum_06_11;
+                    sum_11_14 += infos[i].sum_11_14;
+                    sum_14_17 += infos[i].sum_14_17;
+                    sum_17_21 += infos[i].sum_17_21;
+                    sum_21_24 += infos[i].sum_21_24;
 
+                }
+            }
+        } else {
+            console.log("대분류 분류 중분류 분류")
+
+            for (var i = 0; i < infos.length; i++) {
+                if (midcate === infos[i].com_cd2) {
+                    stores += infos[i].ct_shop;
+                    open += infos[i].ct_open;
+                    close += infos[i].ct_close;
+
+                    sum_00_06 += infos[i].sum_00_06;
+                    sum_06_11 += infos[i].sum_06_11;
+                    sum_11_14 += infos[i].sum_11_14;
+                    sum_14_17 += infos[i].sum_14_17;
+                    sum_17_21 += infos[i].sum_17_21;
+                    sum_21_24 += infos[i].sum_21_24;
+
+                }
             }
         }
+
     }
-    var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
+    document.getElementById("SUM_00_06").value = sum_00_06;
+    document.getElementById("SUM_06_11").value = sum_06_11;
+    document.getElementById("SUM_11_14").value = sum_11_14;
+    document.getElementById("SUM_14_17").value = sum_14_17;
+    document.getElementById("SUM_17_21").value = sum_17_21;
+    document.getElementById("SUM_21_24").value = sum_21_24;
+
+    const query = 'input[name="timecate"]:checked';
+    const selectedEls = document.querySelectorAll(query);
+    selectedEls.forEach((el) =>{
+        console.log(el.id)
+        sum_all += parseInt(el.value);
+    });
+    document.getElementById("resultsum").value = sum_all;
+
+    // for (var i = 0; i < infos.length; i++) {
+    //     if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+    //             stores += infos[i].ct_shop;
+    //             open += infos[i].ct_open;
+    //             close += infos[i].ct_close;
+    //
+    //             sum_00_06 += infos[i].sum_00_06;
+    //             sum_06_11 += infos[i].sum_06_11;
+    //             sum_11_14 += infos[i].sum_11_14;
+    //             sum_14_17 += infos[i].sum_14_17;
+    //             sum_17_21 += infos[i].sum_17_21;
+    //             sum_21_24 += infos[i].sum_21_24;
+    //
+    //         document.getElementById("SUM_00_06").value = sum_00_06;
+    //         document.getElementById("SUM_06_11").value = sum_06_11;
+    //         document.getElementById("SUM_11_14").value = sum_11_14;
+    //         document.getElementById("SUM_14_17").value = sum_14_17;
+    //         document.getElementById("SUM_17_21").value = sum_17_21;
+    //         document.getElementById("SUM_21_24").value = sum_21_24;
+    //
+    //         const query = 'input[name="timecate"]:checked';
+    //         const selectedEls = document.querySelectorAll(query);
+    //         selectedEls.forEach((el) =>{
+    //             sum_all += parseInt(el.value);
+    //         });
+    //         document.getElementById("resultsum").value = sum_all;
+    //     } else {// 그게 아니면 단일그래프가 떠야한다
+    //
+    //         // //그 안에서 분류
+    //         // if (midcate == infos[i].com_cd2) {//단일업종 전체아니고 1가지일때
+    //         //
+    //         //     // 모든합계 var store =
+    //         // } else {//단일업종 전체일때
+    //         //
+    //         // }
+    //     }
+    // }
+    // var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
     console.log("상점수", stores, '개폐점수', open, close, "추정매출총합과 6가지", sum_all, sum_00_06, sum_06_11, sum_11_14, sum_14_17, sum_17_21, sum_21_24)//전체임
     var sum_all_comma= sum_all.toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -858,6 +936,7 @@ function areanameSpread(area) {
     } else {
         var content = ""
     }
+    console.log(content)
     var position = centroid(area.path);
     var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
@@ -867,6 +946,17 @@ function areanameSpread(area) {
     areanameMarkers.push(customOverlay);
 // 마커가 지도 위에 표시되도록 설정합니다
     customOverlay.setMap(map);
+
+    changeAreaTab()
+
+    // var areaTab = $('input[name=areaTab]:checked').val();
+    // if (areaTab === 'sales') {
+    //     console.log('areaTab : ' + areaTab)
+    //     $(".store-num").css('display', 'none');
+    //     $(".open-num").css('display', 'none');
+    //     $(".close-num").css('display', 'none');
+    //     $(".sales-num").css('display', 'block');
+    // }
 }
 
 
@@ -929,9 +1019,10 @@ async function changeMap() {
         $('#filter').css('display', 'block');
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
-            areaSpread(result);//상권 패스 다시 그려줌
-            for (var i = 0, len = result.length; i < len; i++) {
-                areanameSpread(result[i]);// 상권이름그려줌
+            areaJson = result;
+            areaSpread(areaJson);//상권 패스 다시 그려줌
+            for (var i = 0, len = areaJson.length; i < len; i++) {
+                areanameSpread(areaJson[i]);// 상권이름그려줌
             }
         });
     } else { //level < 4, zoom 3,2,1 일때
@@ -1068,12 +1159,14 @@ $(".openclose_list").click(function () {
 
 
 //개폐업수 탭 색상 변경
-$('input[name="areaTab"]').click(function () {
+function changeAreaTab() {
+    var areaTab = $('input[name=areaTab]:checked').val();
+    console.log("zzzz : " + areaTab)
     document.getElementById("sidebar").style.display = "none";
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
     }
-    if ($('input[name="areaTab"]:checked').val() == "open") {//개업수
+    if (areaTab === "open") {//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
         //개업수 체크이면 text 개업수로 변경
@@ -1081,7 +1174,7 @@ $('input[name="areaTab"]').click(function () {
         //개업수 카운트 디스플레이 block
         $(".open-num").css('display', 'block');
         $(".open-num").siblings().css('display', 'none');
-    } else if ($('input[name="areaTab"]:checked').val() == "close") {//폐업수
+    } else if (areaTab === "close") {//폐업수
         $(".openclose").text("폐업수")
         $(".openclose").addClass("on")
         //폐업수 체크이면 text 폐업수로 변경
@@ -1089,7 +1182,7 @@ $('input[name="areaTab"]').click(function () {
         //폐업수 카운트 디스플레이 block
         $(".close-num").css('display', 'block');
         $(".close-num").siblings().css('display', 'none');
-    } else if ($('input[name="areaTab"]:checked').val() == "sales") {//추정매출
+    } else if (areaTab === "sales") {//추정매출
         $(".openclose").text("개폐업수")
         $(".openclose").removeClass("on")
         $(".openclose_list").removeClass("on")
@@ -1108,7 +1201,50 @@ $('input[name="areaTab"]').click(function () {
         $(".store-num").css('display', 'block');
         $(".store-num").siblings().css('display', 'none');
     }
-})
+}
+// $('input[name="areaTab"]').click(function () {
+//     var areaTab = $('input[name=areaTab]:checked').val();
+//     console.log("zzzz : " + areaTab)
+//     document.getElementById("sidebar").style.display = "none";
+//     for (var i = 0; i < clickmarkers.length; i++) {
+//         clickmarkers[i].setMap(null);
+//     }
+//     if (areaTab === "open") {//개업수
+//         $(".openclose").text("개업수");
+//         $(".openclose").addClass("on")
+//         //개업수 체크이면 text 개업수로 변경
+//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
+//         //개업수 카운트 디스플레이 block
+//         $(".open-num").css('display', 'block');
+//         $(".open-num").siblings().css('display', 'none');
+//     } else if (areaTab === "close") {//폐업수
+//         $(".openclose").text("폐업수")
+//         $(".openclose").addClass("on")
+//         //폐업수 체크이면 text 폐업수로 변경
+//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
+//         //폐업수 카운트 디스플레이 block
+//         $(".close-num").css('display', 'block');
+//         $(".close-num").siblings().css('display', 'none');
+//     } else if (areaTab === "sales") {//추정매출
+//         $(".openclose").text("개폐업수")
+//         $(".openclose").removeClass("on")
+//         $(".openclose_list").removeClass("on")
+//         //개업수 폐업수 선택아니면 개폐업수
+//         $('.timeSelect_wrap').css('display', 'block');//시간선택 ul 보이기
+//         //추정매출 카운트 디스플레이
+//         $(".sales-num").css('display', 'block');
+//         $(".sales-num").siblings().css('display', 'none');
+//     } else {//상점수 탭일때
+//         $(".openclose").text("개폐업수")
+//         $(".openclose").removeClass("on")
+//         $(".openclose_list").removeClass("on")
+//         //개업수 폐업수 선택아니면 개폐업수
+//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
+//         //상점수 카운트 디스플레이
+//         $(".store-num").css('display', 'block');
+//         $(".store-num").siblings().css('display', 'none');
+//     }
+// })
 
 
 $('input[name="area_maincate"]').click(function () {
@@ -1148,6 +1284,22 @@ $('input[name="area_maincate"]').click(function () {
 //8교육
         $('.midSectors').removeClass("on")
         $('.all-P-sector').addClass("on")
+    }
+})
+
+$('input[name="area_maincate"]').click(function () {
+    console.log("LLLLLLLLLLLLLLLLL : " + $(this).val());
+    var temp = 'all-' + $(this).val() +  '-sector';
+    $("input:radio[id=" + temp +"]").prop("checked", true);
+})
+
+
+$('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate"]').click(function () {
+    for (var i = 0; i < areanameMarkers.length; i++) {
+        areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+    }
+    for (var i = 0, len = areaJson.length; i < len; i++) {
+        areanameSpread(areaJson[i]);
     }
 })
 
