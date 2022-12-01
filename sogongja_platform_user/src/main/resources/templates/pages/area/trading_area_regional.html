@@ -3,13 +3,13 @@
 
 <head>
   <th:block th:include="fragments/common_meta"></th:block>
-  <title>소공자플랫폼 상권연구소</title>
+  <title>소공자플랫폼 지역연구소</title>
   <meta property="og:url" content="">
-  <meta property="og:title" content="소공자 플랫폼 | 상권연구소">
+  <meta property="og:title" content="소공자 플랫폼 | 지역연구소">
   <meta property="og:image" th:content="@{/images/img-logo-black.png}">
-  <meta property="og:description" content="소공자 플랫폼 상권연구소">
+  <meta property="og:description" content="소공자 플랫폼 지역연구소">
   <meta name="keywords" content="소공자 플랫폼, 상권연구소, 상권분석정보, 상권특성정보, 지역특성정보">
-  <meta name="description" content="소공자 플랫폼 상권연구소">
+  <meta name="description" content="소공자 플랫폼 지역연구소">
   <!--/* Common css */-->
   <th:block th:include="fragments/common_css"></th:block>
 </head>
@@ -17,47 +17,8 @@
 <body class="area">
 <article >
   <div th:replace="~{fragments/header :: header}"></div>
-  <div class="map_header">
-    <div class="hd">
-      <h1><a th:href="@{/}">소공자플랫폼 상권분석</a></h1>
-      <div class="flex_between">
-        <ul class="map_tab_list">
-          <li class="active">
-            <a href="#n" id="panTo">발달상권</a>
-          </li>
-          <li>
-            <a href="#n">골목상권</a>
-          </li>
-          <li>
-            <a href="#n">전통시장</a>
-          </li>
-          <li>
-            <a href="#n">관광특구</a>
-          </li>
-        </ul>
-        <div class="right_hd">
-          <ul>
-            <th:block sec:authorize="!isAuthenticated()">
-              <li><a th:href="@{/login}">로그인</a></li>
-              <li><a th:href="@{/signup}">회원가입</a></li>
-            </th:block>
-            <th:block sec:authorize="isAuthenticated()">
-              <li><a th:href="@{/mypage}">마이페이지</a></li>
-            </th:block>
-            <li><a href="#">사용자가이드</a></li>
-            <li class="map_menu"><a href="#">메뉴</a></li>
-          </ul>
-          <div class="menu">
-            <ul th:replace="fragments/menu"></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <div id="map_wrap">
-      <div id="map" style="width:100%;height:100%;"></div>
-
+  <div id="map_wrap">
+      <div id="map"></div>
       <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
       <div class="custom_zoomcontrol radius_border">
         <button class="current-local" onclick="setCenter()"></button>
@@ -67,41 +28,60 @@
         </div>
         <div class="community_Btn" sec:authorize="isAuthenticated()"></div>
       </div>
+    <div class="addressSearchTop">
+      <div class="hAddr">
+        <span class="title"></span>
+        <div class="addrlist">
+          <span id="centerAddr1" onclick="changeSelectBox('sido')"></span>
+          <ul id="sidoBox">시도</ul>
+        </div>
+        <div class="addrlist">
+          <span id="centerAddr2" onclick="changeSelectBox('sigungu')"></span>
+          <ul id="sigunguBox">시군구 조회중</ul>
+        </div>
+        <div class="addrlist">
+          <span id="centerAddr3" onclick="changeSelectBox('dong')"></span>
+          <ul id="dongBox">행정동 조회중</ul>
+        </div>
+      </div>
+      <div class="searchInput">
+        <form onsubmit="searchPlaces2(); return false;" id="search-place">
+          <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+          <input type="text" style="display:none">
+          <button type="submit" class="addresswidth"></button>
+          <button type="button" style="display:none"></button>
+        </form>
+      </div>
+    </div>
+    <div class="msearch_pop">
+      <div class="msearch">
+        <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
+        <button type="button" class=""></button>
+      </div>
+      <button type="button" class="search_pop_del">x</button>
+    </div>
+    <!-- 공통요소 주소창 검색 끝-->
 
+    <!--상점수 개폐업수 추정매출 탭 -->
       <ul class="areaTap">
-        <li><input type="radio" name="cate2" value="1" onchange="changeType()" checked>상점수</li>
-        <li><input type="radio" name="cate2" value="2" onchange="changeType()">인구수</li>
-        <li><input type="radio" name="cate2" value="3" onchange="changeType()">주요이슈</li>
+        <li>
+          <input type="radio" name="cate2" value="1" id="store_region" onchange="changeType()" checked>
+          <label for="store_region">상점수</label>
+        </li>
+        <li>
+          <input type="radio" name="cate2" value="2" id="population_region" onchange="changeType()">
+          <label for="population_region">인구수</label>
+        </li>
+        <li>
+          <input type="radio" name="cate2" value="3" id="rental_region" onchange="changeType()">
+          <label for="rental_region" >임대시세</label>
+        </li>
       </ul>
-      <!-- <div class="selectbox">
-          <ul>
-              <li>
-                  <select name="" id="">
-                      <option value="">서울시</option>
-                      <option value="">서울시</option>
-                      <option value="">서울시</option>
-                  </select>
-              </li>
-              <li>
-                  <select name="" id="">
-                      <option value="">송파구</option>
-                      <option value="">송파구</option>
-                      <option value="">송파구</option>
-                  </select>
-              </li>
-              <li>
-                  <select name="" id="">
-                      <option value="">문정동</option>
-                      <option value="">문정동</option>
-                      <option value="">문정동</option>
-                  </select>
-              </li>
-          </ul>
-      </div> -->
 
 
-      <div class="category_wrap">
-        <ul id="category">
+    <!-- 상점 카테고리 범례 -->
+      <div class="category_wrap region">
+        <ul class="category">
           <li data-order="0">
             <label for="Q">
               <input type="checkbox" name="cate" value="Q" id="Q" onchange="changeMap()" checked/>
@@ -161,6 +141,7 @@
           </li>
         </ul>
       </div>
+
     </div>
 
   <div class="community_wrap">
