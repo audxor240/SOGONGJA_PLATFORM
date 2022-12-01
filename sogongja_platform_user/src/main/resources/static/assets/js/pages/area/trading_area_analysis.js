@@ -596,7 +596,38 @@ function closeOverlay() {
 //
 // });
 function contentFunc(area){
-    if ($('input[name="areaTab"]:checked').val() == "stores"){
+    var maincate = $('input[name="area_maincate"]:checked').val() //대분류
+    var midcate = $('input[name="area_midcate"]:checked').val() //중분류
+    console.log('enter contentFunc 대분류: ' + maincate + ' 중분류 : ' + midcate)
+
+
+    var areaTab = $('input[name="areaTab"]:checked').val();
+    if (areaTab === "stores"){
+        var stores = 0;
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+            console.log("대분류 전체")
+            var info2 = area.info2;
+            for (var i = 0; i < info2.length; i++) {
+                stores += info2[i].stores;
+            }
+        } else {
+            var infos = area.info;
+            if (midcate.includes('all')) {
+                console.log("대분류 분류 중분류 전체")
+                for (var i = 0; i < infos.length; i++) {
+                    if (maincate === infos[i].code) {
+                        stores += infos[i].ct_shop;
+                    }
+                }
+            } else {
+                console.log("대분류 분류 중분류 분류")
+                for (var i = 0; i < infos.length; i++) {
+                    if (midcate === infos[i].com_cd2) {
+                        stores += infos[i].ct_shop;
+                    }
+                }
+            }
+        }
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -604,11 +635,36 @@ function contentFunc(area){
             '</p>' +
             '<div class="areanum">' +
             '<p class="store-num num">' +
-            "상점수" +
+            stores +
             '</p>' +
             '</div>' +
             '</div>';
-    }else if($('input[name="areaTab"]:checked').val() == "open"){
+    }else if(areaTab === "open"){
+        var open = 0;
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+            console.log("대분류 전체")
+            var info2 = area.info2;
+            for (var i = 0; i < info2.length; i++) {
+                open += info2[i].open;
+            }
+        } else {
+            var infos = area.info;
+            if (midcate.includes('all')) {
+                console.log("대분류 분류 중분류 전체")
+                for (var i = 0; i < infos.length; i++) {
+                    if (maincate === infos[i].code) {
+                        open += infos[i].ct_open;
+                    }
+                }
+            } else {
+                console.log("대분류 분류 중분류 분류")
+                for (var i = 0; i < infos.length; i++) {
+                    if (midcate === infos[i].com_cd2) {
+                        open += infos[i].ct_open;
+                    }
+                }
+            }
+        }
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -616,11 +672,36 @@ function contentFunc(area){
             '</p>' +
             '<div class="areanum">' +
              '<p class="open-num num">' +
-            "개업수" +
+            open +
             '</p>' +
             '</div>' +
             '</div>';
-    }else if($('input[name="areaTab"]:checked').val() == "close"){
+    }else if(areaTab === "close"){
+        var close = 0;
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+            console.log("대분류 전체")
+            var info2 = area.info2;
+            for (var i = 0; i < info2.length; i++) {
+                close += info2[i].close;
+            }
+        } else {
+            var infos = area.info;
+            if (midcate.includes('all')) {
+                console.log("대분류 분류 중분류 전체")
+                for (var i = 0; i < infos.length; i++) {
+                    if (maincate === infos[i].code) {
+                        close += infos[i].ct_close;
+                    }
+                }
+            } else {
+                console.log("대분류 분류 중분류 분류")
+                for (var i = 0; i < infos.length; i++) {
+                    if (midcate === infos[i].com_cd2) {
+                        close += infos[i].ct_close;
+                    }
+                }
+            }
+        }
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -628,11 +709,12 @@ function contentFunc(area){
             '</p>' +
             '<div class="areanum">' +
             '<p class="close-num num">' +
-            "폐업수" +
+            close +
             '</p>' +
             '</div>' +
             '</div>';
-    }else if($('input[name="areaTab"]:checked').val() == "sales"){
+    }else if(areaTab === "sales"){
+        var sales = 0;
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -640,7 +722,7 @@ function contentFunc(area){
             '</p>' +
             '<div class="areanum">' +
             '<p class="sales-num num">' +
-            "추정매출수" +
+            sales +
             '</p>' +
             '</div>' +
             '</div>';
@@ -705,16 +787,6 @@ function areanameSpread(area) {
     var sum_17_21 = 0;//17_21추정매출
     var sum_21_24 = 0;//21_24추정매출
     var sum_all = 0;//all추정매출
-
-
-    // $('input[name="timecate"]').click(function () {
-    //     for (var i = 0; i < areanameMarkers.length; i++) {
-    //         areanameMarkers[i].setMap(null);//상권이름 마커 비우고 다시그림
-    //     }
-    // })
-
-
-
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
@@ -949,14 +1021,6 @@ function areanameSpread(area) {
 
     changeAreaTab()
 
-    // var areaTab = $('input[name=areaTab]:checked').val();
-    // if (areaTab === 'sales') {
-    //     console.log('areaTab : ' + areaTab)
-    //     $(".store-num").css('display', 'none');
-    //     $(".open-num").css('display', 'none');
-    //     $(".close-num").css('display', 'none');
-    //     $(".sales-num").css('display', 'block');
-    // }
 }
 
 
