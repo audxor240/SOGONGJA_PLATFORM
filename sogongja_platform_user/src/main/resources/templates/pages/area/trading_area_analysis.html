@@ -81,24 +81,24 @@
         <!--상점수 개폐업수 추정매출 탭 -->
         <ul class="areaTap">
             <li>
-                <input type="radio" name="areaTab" value="stores" id="stores" checked>
+                <input type="radio" name="areaTab" value="stores" id="stores" checked onclick="changeAreaTab()">
                 <label for="stores">상점수</label>
             </li>
             <li>
                 <div class="openclose">개폐업수</div>
                 <ul class="openclose_list">
                     <li>
-                        <input type="radio" name="areaTab" value="open" id="open">
+                        <input type="radio" name="areaTab" value="open" id="open" onclick="changeAreaTab()">
                         <label for="open">개업수</label>
                     </li>
                     <li>
-                        <input type="radio" name="areaTab" value="close" id="close">
+                        <input type="radio" name="areaTab" value="close" id="close" onclick="changeAreaTab()">
                         <label for="close">폐업수</label>
                     </li>
                 </ul>
             </li>
             <li class="sales">
-                <input type="radio" name="areaTab" value="sales" id="sales">
+                <input type="radio" name="areaTab" value="sales" id="sales" onclick="changeAreaTab()">
                 <label for="sales">추정매출</label>
             </li>
         </ul>
@@ -113,34 +113,35 @@
                 <div class="timeSelect_wrap">
                     <h4 class="fileter_main_title">시간선택</h4>
                     <ul class="timeSelect">
+                        <input type="hidden" id="resultsum" >
                         <li>
                             <span class="time_before">00:00</span>
-                            <input type="checkbox" name="timecate" value="SUM_00_06" id="SUM_00_06" onchange="areanameSpread() " checked />
+                            <input type="checkbox" name="timecate" value="SUM_00_06" id="SUM_00_06" checked />
                             <label for="SUM_00_06">00:00~06:00</label>
                             <span class="time_after">06:00</span>
                         </li>
                         <li>
-                            <input type="checkbox" name="timecate" value="SUM_06_11" id="SUM_06_11" onchange="" checked />
+                            <input type="checkbox" name="timecate" value="SUM_06_11" id="SUM_06_11" checked />
                             <label for="SUM_06_11">06:00~11:00</label>
                             <span class="time_after">11:00</span>
                         </li>
                         <li>
-                            <input type="checkbox" name="timecate" value="SUM_11_14" id="SUM_11_14" onchange="" checked />
+                            <input type="checkbox" name="timecate" value="SUM_11_14" id="SUM_11_14" checked />
                             <label for="SUM_11_14">11:00~14:00</label>
                             <span class="time_after">14:00</span>
                         </li>
                         <li>
-                            <input type="checkbox" name="timecate" value="SUM_14_17" id="SUM_14_17" onchange="" checked />
+                            <input type="checkbox" name="timecate" value="SUM_14_17" id="SUM_14_17" checked />
                             <label for="SUM_14_17">14:00~17:00</label>
                             <span class="time_after">17:00</span>
                         </li>
                         <li>
-                            <input type="checkbox" name="timecate" value="SUM_17_21" id="SUM_17_21" onchange="" checked />
+                            <input type="checkbox" name="timecate" value="SUM_17_21" id="SUM_17_21" checked />
                             <label for="SUM_17_21">17:00~21:00</label>
                             <span class="time_after">21:00</span>
                         </li>
                         <li>
-                            <input type="checkbox" name="timecate" value="SUM_21_24" id="SUM_21_24" onchange="" checked />
+                            <input type="checkbox" name="timecate" value="SUM_21_24" id="SUM_21_24" checked />
                             <label for="SUM_21_24">21:00~24:00</label>
                             <span class="time_after">24:00</span>
                         </li>
@@ -201,389 +202,393 @@
                         </ul>
                         <ul class="midSectors all-I-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-I-sector" id="all-I-sector" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-I-sector" id="all-I-sector"/>
                                 <label for="all-I-sector">전체 숙박·음식</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I9001" id="I9001" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I9001" id="I9001"/>
                                 <label for="I9001">고시원</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1914" id="I1914" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1914" id="I1914"/>
                                 <label for="I1914">분식전문점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1223" id="I1223" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1223" id="I1223"/>
                                 <label for="I1223">양식전문점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1002" id="I1002" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1002" id="I1002"/>
                                 <label for="I1002">여관</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1204" id="I1204" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1204" id="I1204"/>
                                 <label for="I1204">일식전문점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1903" id="I1903" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1903" id="I1903"/>
                                 <label for="I1903">제과점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1201" id="I1201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1201" id="I1201"/>
                                 <label for="I1201">중식음식점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1913" id="I1913" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1913" id="I1913"/>
                                 <label for="I1913">치킨전문점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I2201" id="I2201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I2201" id="I2201"/>
                                 <label for="I2201">커피-음료</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1102" id="I1102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1102" id="I1102"/>
                                 <label for="I1102">한식음식점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I2109" id="I2109" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I2109" id="I2109"/>
                                 <label for="I2109">호프-간이주점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1005" id="I1005" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1005" id="I1005"/>
                                 <label for="I1005">게스트하우스</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="I1908" id="I1908" onchange=""   />
+                                <input type="radio" name="area_midcate" value="I1908" id="I1908"/>
                                 <label for="I1908">패스트푸드점</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-S-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-S-sector" id="all-S-sector" onchange=""   />
+                                <input type="radio" name="area_midcate" value="all-S-sector" id="all-S-sector"/>
                                 <label for="all-S-sector">전체 수리·개인서비스</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S3102" id="S3102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S3102" id="S3102"/>
                                 <label for="S3102">가전제품수리</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S1103" id="S1103" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S1103" id="S1103"/>
                                 <label for="S1103">네일숍</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S1101" id="S1101" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S1101" id="S1101"/>
                                 <label for="S1101">미용실</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S9101" id="S9101" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S9101" id="S9101"/>
                                 <label for="S9101">세탁소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S2102" id="S2102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S2102" id="S2102"/>
                                 <label for="S2102">자동차수리</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S6313" id="S6313" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S6313" id="S6313"/>
                                 <label for="S6313">자전거 및 기타운송장비</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S1201" id="S1201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S1201" id="S1201"/>
                                 <label for="S1201">통신기기수리</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S1102" id="S1102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S1102" id="S1102"/>
                                 <label for="S1102">피부관리실</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S2103" id="S2103" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S2103" id="S2103"/>
                                 <label for="S2103">자동차미용</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="S2201" id="S2201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="S2201" id="S2201"/>
                                 <label for="S2201">모터사이클 및 부품</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-G-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-G-sector" id="all-G-sector" onchange=""   />
+                                <input type="radio" name="area_midcate" value="all-G-sector" id="all-G-sector"/>
                                 <label for="all-G-sector">전체 도·소매</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G5201" id="G5201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G5201" id="G5201"/>
                                 <label for="G5201">가구</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4401" id="G4401" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4401" id="G4401"/>
                                 <label for="G4401">가방</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G3206" id="G3206" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G3206" id="G3206"/>
                                 <label for="G3206">가전제품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G6102" id="G6102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G6102" id="G6102"/>
                                 <label for="G6102">문구</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G5919" id="G5919" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G5919" id="G5919"/>
                                 <label for="G5919">복권방</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G6101" id="G6101" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G6101" id="G6101"/>
                                 <label for="G6101">서적</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4208" id="G4208" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4208" id="G4208"/>
                                 <label for="G4208">섬유제품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G2110" id="G2110" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G2110" id="G2110"/>
                                 <label for="G2110">수산물판매</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G1902" id="G1902" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G1902" id="G1902"/>
                                 <label for="G1902">슈퍼마켓</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8301" id="G8301" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8301" id="G8301"/>
                                 <label for="G8301">시계및귀금속</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4301" id="G4301" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4301" id="G4301"/>
                                 <label for="G4301">신발</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G5906" id="G5906" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G5906" id="G5906"/>
                                 <label for="G5906">악기</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G9903" id="G9903" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G9903" id="G9903"/>
                                 <label for="G9903">안경</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G6403" id="G6403" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G6403" id="G6403"/>
                                 <label for="G6403">완구</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G6307" id="G6307" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G6307" id="G6307"/>
                                 <label for="G6307">운동/경기용품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4104" id="G4104" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4104" id="G4104"/>
                                 <label for="G4104">유아의류</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G2104" id="G2104" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G2104" id="G2104"/>
                                 <label for="G2104">육류판매</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8107" id="G8107" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8107" id="G8107"/>
                                 <label for="G8107">의료기기</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G5910" id="G5910" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G5910" id="G5910"/>
                                 <label for="G5910">인테리어</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4105" id="G4105" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4105" id="G4105"/>
                                 <label for="G4105">일반의류</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G2102" id="G2102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G2102" id="G2102"/>
                                 <label for="G2102">자동차부품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G9102" id="G9102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G9102" id="G9102"/>
                                 <label for="G9102">전자상거래업</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8601" id="G8601" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8601" id="G8601"/>
                                 <label for="G8601">중고가구</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G1201" id="G1201" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G1201" id="G1201"/>
                                 <label for="G1201">중고차판매</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G2111" id="G2111" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G2111" id="G2111"/>
                                 <label for="G2111">청과상</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G3101" id="G3101" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G3101" id="G3101"/>
                                 <label for="G3101">컴퓨터및주변장치판매</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G1903" id="G1903" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G1903" id="G1903"/>
                                 <label for="G1903">편의점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G4102" id="G4102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G4102" id="G4102"/>
                                 <label for="G4102">한복점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G3105" id="G3105" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G3105" id="G3105"/>
                                 <label for="G3105">핸드폰</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8108" id="G8108" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8108" id="G8108"/>
                                 <label for="G8108">화장품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8501" id="G8501" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8501" id="G8501"/>
                                 <label for="G8501">화초</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G2124" id="G2124" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G2124" id="G2124"/>
                                 <label for="G2124">반찬가게</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8409" id="G8409" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8409" id="G8409"/>
                                 <label for="G8409">예술품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8102" id="G8102" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8102" id="G8102"/>
                                 <label for="G8102">의약품</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G8604" id="G8604" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G8604" id="G8604"/>
                                 <label for="G8604">재생용품 판매점</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="G7103" id="G7103" onchange=""   />
+                                <input type="radio" name="area_midcate" value="G7103" id="G7103"/>
                                 <label for="G7103">주유소</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-R-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-R-sector" id="all-R-sector" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-R-sector" id="all-R-sector"/>
                                 <label for="all-R-sector">전체 예술·스포츠·여가</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R2202" id="R2202" onchange="" />
+                                <input type="radio" name="area_midcate" value="R2202" id="R2202"/>
                                 <label for="R2202">PC방</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R2904" id="R2904" onchange="" />
+                                <input type="radio" name="area_midcate" value="R2904" id="R2904"/>
                                 <label for="R2904">기타오락장</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R2203" id="R2203" onchange="" />
+                                <input type="radio" name="area_midcate" value="R2203" id="R2203" />
                                 <label for="R2203">노래방</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1306" id="R1306" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1306" id="R1306"/>
                                 <label for="R1306">당구장</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R2105" id="R2105" onchange="" />
+                                <input type="radio" name="area_midcate" value="R2105" id="R2105"/>
                                 <label for="R2105">독서실</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1305" id="R1305" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1305" id="R1305"/>
                                 <label for="R1305">볼링장</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R2201" id="R2201" onchange="" />
+                                <input type="radio" name="area_midcate" value="R2201" id="R2201"/>
                                 <label for="R2201">전자게임장</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1104" id="R1104" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1104" id="R1104"/>
                                 <label for="R1104">녹음실</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1319" id="R1319" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1319" id="R1319" />
                                 <label for="R1319">스포츠클럽</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1341" id="R1341" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1341" id="R1341"/>
                                 <label for="R1341">스포츠 강습</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="R1309" id="R1309" onchange="" />
+                                <input type="radio" name="area_midcate" value="R1309" id="R1309"/>
                                 <label for="R1309">골프연습장</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-N-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-N-sector" id="all-N-sector" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-N-sector" id="all-N-sector"/>
                                 <label for="all-N-sector">전체 시설관리·임대</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="N2904" id="N2904" onchange="" />
+                                <input type="radio" name="area_midcate" value="N2904" id="N2904"/>
                                 <label for="N2904">가정용품임대</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="N2912" id="N2912" onchange="" />
+                                <input type="radio" name="area_midcate" value="N2912" id="N2912"/>
                                 <label for="N2912">의류임대</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="N2101" id="N2101" onchange="" />
+                                <input type="radio" name="area_midcate" value="N2101" id="N2101"/>
                                 <label for="N2101">건축물청소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="N2902" id="N2902" onchange="" />
+                                <input type="radio" name="area_midcate" value="N2902" id="N2902"/>
                                 <label for="N2902">비디오/서적임대</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-M-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-M-sector" id="all-M-sector" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-M-sector" id="all-M-sector"/>
                                 <label for="all-M-sector">전체 과학·기술</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M1001" id="M1001" onchange="" />
+                                <input type="radio" name="area_midcate" value="M1001" id="M1001"/>
                                 <label for="M1001">변호사사무소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M1002" id="M1002" onchange="" />
+                                <input type="radio" name="area_midcate" value="M1002" id="M1002"/>
                                 <label for="M1002">변리사사무소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M3001" id="M3001" onchange="" />
+                                <input type="radio" name="area_midcate" value="M3001" id="M3001"/>
                                 <label for="M3001">사진관</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M2003" id="M2003" onchange="" />
+                                <input type="radio" name="area_midcate" value="M2003" id="M2003"/>
                                 <label for="M2003">세무사사무소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M9002" id="M9002" onchange="" />
+                                <input type="radio" name="area_midcate" value="M9002" id="M9002"/>
                                 <label for="M9002">통번역서비스</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M2002" id="M2002" onchange="" />
+                                <input type="radio" name="area_midcate" value="M2002" id="M2002"/>
                                 <label for="M2002">회계사사무소</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="M1003" id="M1003" onchange="" />
+                                <input type="radio" name="area_midcate" value="M1003" id="M1003"/>
                                 <label for="M1003">기타법무서비스</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-L-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="L2201" id="L2201" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-L-sector" id="all-L-sector"/>
+                                <label for="all-L-sector">전체 부동산</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="area_midcate" value="L2201" id="L2201" />
                                 <label for="L2201">부동산중개업</label>
                             </li>
                         </ul>
                         <ul class="midSectors all-P-sector">
                             <li>
-                                <input type="radio" name="area_midcate" value="all-P-sector" id="all-P-sector" onchange="" />
+                                <input type="radio" name="area_midcate" value="all-P-sector" id="all-P-sector"/>
                                 <label for="all-P-sector">전체 교육</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="P6211" id="P6211" onchange="" />
+                                <input type="radio" name="area_midcate" value="P6211" id="P6211"/>
                                 <label for="P6211">외국어학원</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="P6901" id="P6901" onchange="" />
+                                <input type="radio" name="area_midcate" value="P6901" id="P6901"/>
                                 <label for="P6901">컴퓨터학원</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="P6607" id="P6607" onchange="" />
+                                <input type="radio" name="area_midcate" value="P6607" id="P6607"/>
                                 <label for="P6607">예술학원</label>
                             </li>
                             <li>
-                                <input type="radio" name="area_midcate" value="P6304" id="P6304" onchange="" />
+                                <input type="radio" name="area_midcate" value="P6304" id="P6304"/>
                                 <label for="P6304">일반교습학원</label>
                             </li>
                         </ul>
