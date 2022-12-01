@@ -54,13 +54,13 @@ public class AreaController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("shopCommunityList", shopCommunityList);
-		paramsMap.put("zoom", 6);
+		paramsMap.put("zoom", 3);
 		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
-		paramsMap.put("x1", 37.47629323368353);
-		paramsMap.put("x2", 37.5362047082041);
-		paramsMap.put("y1", 126.95351224208618);
-		paramsMap.put("y2", 127.12726465022845);
-		model.addAttribute("researchShop", areaService.countResearchShopToJSON(paramsMap));
+		paramsMap.put("x1", 37.50658952070604);
+		paramsMap.put("x2", 37.512142525036836);
+		paramsMap.put("y1", 127.03342091976654);
+		paramsMap.put("y2", 127.05079677392048);
+		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 //		model.addAttribute("researchShop", areaService.getResearchShopToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -210,6 +210,7 @@ public class AreaController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		List<Map<String, Object>> regionCommunityList = communityService.getShopCommunityList("region");
 
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
@@ -217,6 +218,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
+		model.addAttribute("regionCommunityList",regionCommunityList);
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_regional";

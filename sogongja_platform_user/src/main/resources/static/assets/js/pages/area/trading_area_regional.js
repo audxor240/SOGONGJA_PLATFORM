@@ -402,3 +402,93 @@ function ajaxPostSyn(url, data, callback, showLoading) {
         }
     });
 }
+
+$('.community_Btn').click(function () {
+    $('.community_pop_wrap').toggleClass('on');
+});
+$('.m_scroll_btn').click(function () {
+    $('.community_pop_wrap').removeClass('on');
+});
+$('.community_main').click(function () {
+    let communitySeq = $(this).find("#communitySeq").val();
+    if (communitySeq === undefined) {
+        $('.detail_community').removeClass('on');
+        return false;
+    }
+
+    var data = {
+        communitySeq: communitySeq
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        dataType:"text",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+            console.log("error")
+            return false;
+        }
+    }).done(function (fragment) {
+        console.log(fragment)
+        $(".reply_list").replaceWith(fragment);
+        $(".reply_list").show();
+        //$(".loading_box").hide();
+
+    });
+    $(this).next('.detail_community').addClass('on');
+});
+
+$('.backbtn').click(function () {
+    $('.detail_community').removeClass('on');
+});
+
+$('#reply_btn').click(function () {
+
+    let communitySeq = $(this).parent("#reply_add").find("[name=communitySeq]").val();
+    let comment = $(this).parent("#reply_add").find("[name=comment]").val();
+    console.log("communitySeq ::: "+communitySeq);
+    var data = {
+        communitySeq: communitySeq,
+        comment: comment
+    }
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply/add",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        dataType:"text",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (fragment) {
+            console.log("fragment >>> "+fragment);
+            $(".reply_list").replaceWith(fragment);
+            $(".reply_list").show();
+            //$(".loading_box").hide();
+        },
+        error: function (res) {
+            return false;
+        }
+    }).done(function (fragment) {
+        $('input[name=comment]').val("");
+    });
+
+
+
+});
