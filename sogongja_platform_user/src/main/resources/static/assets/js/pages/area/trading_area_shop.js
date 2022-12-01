@@ -6,11 +6,7 @@
 var markers = [];
 
 //첫접속시 3초뒤에 상점ajax로드함
-async function firstFunc() {
-    await sleep(200),
-        changeMap();
-};
-firstFunc();
+resultSpread(researchShop)//그리고 다시찍어
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)
@@ -126,6 +122,36 @@ function addMarker(place, i, imageSrc) {
 
 //시도,행정동 카운트를 표시하는 마커
 function resultSpread(thing) {
+    if(thing.code=="11620685"){
+        thing.name=="신사동"
+    }else if(thing.code=="1168011200"){
+        thing.name=="자곡동"
+    }else if(thing.code=="11680521"){
+        thing.name=="율현동"
+    }else if(thing.code=="11680545"){
+        thing.name=="압구정동"
+    }else if(thing.code=="11680565"){
+        thing.name=="청담동"
+    }else if(thing.code=="11680580"){
+        thing.name=="삼성1동"
+    }else if(thing.code=="11680600"){
+        thing.name=="대치1동"
+    }else if(thing.code=="11680640"){
+        thing.name=="역삼1동"
+    }else if(thing.code=="11680655"){
+        thing.name=="도곡1동"
+    }else if(thing.code=="11680660"){
+        thing.name=="개포1동"
+    }else if(thing.code=="11680700"){
+        thing.name=="세곡동"
+    }else if(thing.code=="11680545"){
+        thing.name=="일원1동"
+    }else if(thing.code=="11680545"){
+        thing.name=="수서동"
+    }else{
+        thing.name=="서울시"
+    }
+
     thing.forEach((loco) => {
         geocoder.addressSearch(loco.name, function (result, status) {
             // 정상적으로 검색이 완료됐으면

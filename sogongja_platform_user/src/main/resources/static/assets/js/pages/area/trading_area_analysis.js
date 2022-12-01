@@ -206,10 +206,10 @@ function closeOverlay() {
     areaOverlay1.setMap(null);
     document.getElementById("sidebar").style.display = "none";
 }
-var areatab = $('input[name="areaTab"]')
-areatab.addEventListener('click', function(event){
-
-});
+// var areatab = $('input[name="areaTab"]')
+// areatab.addEventListener('click', function(event){
+//
+// });
 function contentFunc(area){
     if ($('input[name="areaTab"]:checked').val() == "stores"){
         var content =
@@ -296,7 +296,7 @@ function areaInhoverFunc(area){
     customOverlay.setMap(map);
 }
 
-function areaInhoverOut(area){
+function areaInhoverOut(){
     for (var i = 0; i < roundmarkers.length; i++) {
         roundmarkers[i].setMap(null);
     }
@@ -635,7 +635,6 @@ function removePolygons(map) {
         polygons[i].setMap(null);
     }
 }
-
 //폴리곤 중심좌표임
 function centroid(points) {
     var i, j, len, p1, p2, f, area, x, y;
@@ -668,6 +667,9 @@ $(".openclose_list").click(function () {
 
 //개폐업수 탭 색상 변경
 $('input[name="areaTab"]').click(function () {
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }
     if ($('input[name="areaTab"]:checked').val() == "open") {//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
