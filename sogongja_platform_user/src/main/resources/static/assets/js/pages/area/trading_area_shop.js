@@ -127,6 +127,9 @@ async function displayCenterInfo(result, status) {
                 infoDiv2.className = sigunguCode;
                 infoDiv2.title = sigunguCode;
                 infoDiv3.innerHTML = result[i].region_3depth_name;
+                renderSido()
+                renderSigungu()
+                renderDong()
                 break;
             }
         }
@@ -190,7 +193,7 @@ async function renderSido() {
     });
     sidoBox.innerHTML = html;
 }
-renderSido()
+
 
 //2-1시군구 리스트 선택박스 렌더링
 async function renderSigungu() {
@@ -212,7 +215,7 @@ async function renderSigungu() {
     });
     sigunguBox.innerHTML = html;
 }
-renderSigungu()
+
 
 function isdongTrue(el) {
     var dd = (el.name.split(" ", 4));
@@ -228,10 +231,10 @@ async function renderDong() {
     var sidoList = sidos.regcodes;
 
     var name = [];
-    let fiddong = sidoList.map((el, index, arr) => arr.find(isdongTrue)
-        ? ({ ...el, dong: el.name.split(" ", 4)[2] + " " + el.name.split(" ", 4)[3] })
-        : ({ ...el, dong: el.name.split(" ", 4)[2] })
-    );
+    let fiddong = sidoList.map((el, index, arr) => ({
+        ...el,
+        dong: el.name.split(" ")[3] != undefined?el.name.split(" ")[2]+" "+el.name.split(" ")[3]:el.name.split(" ")[2]
+    }));
     name = [...fiddong]
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
@@ -244,7 +247,7 @@ async function renderDong() {
     });
     dongBox.innerHTML = html;
 }
-renderDong()
+
 
 //개별 시군구,행정동 리스트 클릭시에 자동 검색
 function searchSidoDongPlaces() {
