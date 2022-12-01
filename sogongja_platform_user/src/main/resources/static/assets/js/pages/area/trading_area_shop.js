@@ -1,12 +1,12 @@
 //상점
 //1주소창, 2시도+시군구+읍면동선택창, 3+-현위치버튼, 4모바일리사이즈, 5상점마커
 
-// 맵 기본 레벨
-var mapDefaultLevel = 6;
+// 상점 맵 기본 레벨
+var mapDefaultLevel = 3;
 
 //기본 위치는 강남구 좌표
-var clientLatitude = 37.506280990844225;
-var clientLongitude = 127.04042161585487;
+var clientLatitude = 37.50936634322016;
+var clientLongitude = 127.04210852530369;
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
@@ -356,7 +356,7 @@ $("input[name=cate]").click(function () {
 var markers = [];
 
 //첫접속시 상점 로드함
-resultSpread(researchShop) // 그리고 다시 찍어
+storeSpread(researchShop) // 그리고 다시 찍어
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 kakao.maps.event.addListener(map, "idle", changeMap)

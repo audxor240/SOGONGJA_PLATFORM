@@ -686,6 +686,9 @@ function areaInhoverOut(){
     }
 }
 
+
+
+
 function areanameSpread(area) {
     // 커스텀 상권이름 마커를 생성합니다
     var infos = area.info
@@ -703,22 +706,20 @@ function areanameSpread(area) {
     var sum_21_24 = 0;//21_24추정매출
     var sum_all = 0;//all추정매출
 
-    // for (var i = 0, len = infos.length; i < len; i++) {
-    //     stores += infos[i].ct_shop;
-    //     open += infos[i].ct_open;
-    //     close += infos[i].ct_close;
-    //
-    //     sum_00_06 += infos[i].sum_00_06;
-    //     sum_06_11 += infos[i].sum_06_11;
-    //     sum_11_14 += infos[i].sum_11_14;
-    //     sum_14_17 += infos[i].sum_14_17;
-    //     sum_17_21 += infos[i].sum_17_21;
-    //     sum_21_24 += infos[i].sum_21_24;
-    // }
+
+    // $('input[name="timecate"]').click(function () {
+    //     for (var i = 0; i < areanameMarkers.length; i++) {
+    //         areanameMarkers[i].setMap(null);//상권이름 마커 비우고 다시그림
+    //     }
+    // })
+
+
+
+
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
     for (var i = 0; i < infos.length; i++) {
-        if (maincate == "all") {
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
                 stores += infos[i].ct_shop;
                 open += infos[i].ct_open;
                 close += infos[i].ct_close;
@@ -729,7 +730,14 @@ function areanameSpread(area) {
                 sum_14_17 += infos[i].sum_14_17;
                 sum_17_21 += infos[i].sum_17_21;
                 sum_21_24 += infos[i].sum_21_24;
-            //전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+
+            document.getElementById("SUM_00_06").value = sum_00_06;
+            document.getElementById("SUM_06_11").value = sum_06_11;
+            document.getElementById("SUM_11_14").value = sum_11_14;
+            document.getElementById("SUM_14_17").value = sum_14_17;
+            document.getElementById("SUM_17_21").value = sum_17_21;
+            document.getElementById("SUM_21_24").value = sum_21_24;
+
         } else {// 그게 아니면 단일그래프가 떠야한다
 
             //그 안에서 분류
@@ -743,7 +751,6 @@ function areanameSpread(area) {
     }
     var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
     console.log("상점수", stores, '개폐점수', open, close, "추정매출총합과 6가지", sum_all, sum_00_06, sum_06_11, sum_11_14, sum_14_17, sum_17_21, sum_21_24)//전체임
-
     var sum_all_comma= sum_all.toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
@@ -1145,9 +1152,3 @@ $('input[name="area_maincate"]').click(function () {
 })
 
 
-$('input[name="timecate"]').click(function () {
-    for (var i = 0; i < areanameMarkers.length; i++) {
-        areanameMarkers[i].setMap(null);//상권이름 마커 비우고 다시그림
-    }
-
-})
