@@ -607,6 +607,9 @@
   background: #fff
   border: solid 5px #fff
 
+.sidebar_area
+  .sidebody_area /* 상권사이드바 */
+    padding-top: 90px
 #sidebar
   display: none
   +positionAt(fixed, $top:105px, $left:0)
@@ -949,7 +952,7 @@
 #map_wrap
   .areaTap
     +positionAt(absolute, $top: 20px, $left:20px)
-    z-index: 1
+    z-index: 9
     >li
       list-style: none
       float: left
@@ -1192,7 +1195,7 @@
     //background-color: rgba(0,0,0,0.4)
     text-align: center
     font-weight: bold
-    color: #2E750D
+    color: #1540BF
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
     height: 0px
     width: 82px
@@ -1200,6 +1203,7 @@
     border-radius: 50%
     white-space: normal
     word-break: break-all
+    font-size: 8px
     p
       //+positionAt(absolute)
       font-size: 8px
@@ -1214,6 +1218,7 @@
         transform: translateX(-50%)
         text-align: center
         width: 80px
+        color: #1540BF
         &.open-num
           display: none
         &.close-num
@@ -1231,7 +1236,7 @@
         color: #DD4C79
     &.color1540BF
       p
-        color: #1540BF
+        color: $blue
 
 #map
   .areahoverIn
@@ -1426,9 +1431,12 @@
           display: none
     .msearch_pop_wrap
       display: block
+
   #sidebar
     width: 100%
     +positionAt(fixed, $top: 71px)
+    &.sidebar_area
+      +positionAt(fixed, $top: 117px)
     z-index: 4
     &.on
       height: auto

@@ -794,6 +794,10 @@
   border: solid 5px #fff;
 }
 
+.sidebar_area .sidebody_area {
+  padding-top: 90px;
+}
+
 #sidebar {
   display: none;
   position: fixed;
@@ -1231,7 +1235,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  z-index: 1;
+  z-index: 9;
 }
 #map_wrap .areaTap > li {
   list-style: none;
@@ -1536,7 +1540,7 @@
 #map .areaIn {
   text-align: center;
   font-weight: bold;
-  color: #2E750D;
+  color: #1540BF;
   text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
   height: 0px;
   width: 82px;
@@ -1544,6 +1548,7 @@
   border-radius: 50%;
   white-space: normal;
   word-break: break-all;
+  font-size: 8px;
 }
 #map .areaIn p {
   font-size: 8px;
@@ -1557,6 +1562,7 @@
   transform: translateX(-50%);
   text-align: center;
   width: 80px;
+  color: #1540BF;
 }
 #map .areaIn .areanum p.open-num {
   display: none;
@@ -1837,6 +1843,10 @@
     position: fixed;
     top: 71px;
     z-index: 4;
+  }
+  #sidebar.sidebar_area {
+    position: fixed;
+    top: 117px;
   }
   #sidebar.on {
     height: auto;
