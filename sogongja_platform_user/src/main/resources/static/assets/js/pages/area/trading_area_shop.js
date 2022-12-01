@@ -808,6 +808,7 @@ $('.community_main').click(function () {
     let communitySeq = $(this).find("#communitySeq").val();
     if (communitySeq === undefined) {
         $('.detail_community').removeClass('on');
+        // location.href = "/community/" + $('input[name=communitySeq]').val() + "?type=shop";
         return false;
     }
 
@@ -858,7 +859,7 @@ $('.addresswidth').click(function () {
     $('.searchInput').toggleClass('on');
 })
 
-$('#reply_btn').click(function () {
+$('.reply_btn').click(function () {
 
     let communitySeq = $(this).parent("#reply_add").find("[name=communitySeq]").val();
     let comment = $(this).parent("#reply_add").find("[name=comment]").val();

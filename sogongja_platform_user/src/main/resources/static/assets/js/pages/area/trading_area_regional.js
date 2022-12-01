@@ -470,7 +470,7 @@ $('.backbtn').click(function () {
     $('.detail_community').removeClass('on');
 });
 
-$('#reply_btn').click(function () {
+$('.reply_btn').click(function () {
 
     let communitySeq = $(this).parent("#reply_add").find("[name=communitySeq]").val();
     let comment = $(this).parent("#reply_add").find("[name=comment]").val();
