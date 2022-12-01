@@ -458,22 +458,16 @@ $('.m_scroll_btn').click(function () {
     $('.community_pop_wrap').removeClass('on');
 });
 $('.community_main').click(function () {
+
     let communitySeq = $(this).find("#communitySeq").val();
-    var data = {
-        communitySeq: communitySeq
+    if (communitySeq === undefined) {
+        $('.detail_community').removeClass('on');
+        return false;
     }
 
-    /*ajaxPost('/api/reply', data, function(result) {
-
-        $.each(result.data, function(index, itcategory2_seq + '">' + item.name + '</option>';
-        });em) {
-            strHTML += '<option value="' + item.
-        $('#category2').html(strHTML);
-        $('#category3').html(strEmpty);
-
-
-    });*/
-
+    var data = {
+        communitySeq: communitySeq
+    };
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
@@ -484,29 +478,29 @@ $('.community_main').click(function () {
         async: false,
         data: JSON.stringify(data),
         //contentType:"application/json; charset=utf-8",
-        //dataType:"json",
+        dataType:"text",
         //data: data,
         beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
         },
         error: function (res) {
-
-            let fragment = res.responseText
-            $(".reply_list").replaceWith(fragment);
-            $(".reply_list").show();
+            console.log("error")
+            // let fragment = res.responseText
+            // $(".reply_list").replaceWith(fragment);
+            // $(".reply_list").show();
             //alert(res.responseJSON.message);
             return false;
         }
     }).done(function (fragment) {
+        console.log(fragment)
+
         //여기로 안들어옴.....
         $(".reply_list").replaceWith(fragment);
         $(".reply_list").show();
         //$(".loading_box").hide();
 
     });
-
     $(this).next('.detail_community').addClass('on');
-
 
 });
 
@@ -537,26 +531,24 @@ $('#reply_btn').click(function () {
         async: false,
         data: JSON.stringify(data),
         //contentType:"application/json; charset=utf-8",
-        //dataType:"json",
+        dataType:"text",
         //data: data,
         beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
         },
-        error: function (res) {
-
-            let fragment = res.responseText
+        success: function (fragment) {
+            console.log("fragment >>> "+fragment);
             $(".reply_list").replaceWith(fragment);
             $(".reply_list").show();
-            //alert(res.responseJSON.message);
+            //$(".loading_box").hide();
+        },
+        error: function (res) {
             return false;
         }
     }).done(function (fragment) {
-        //여기로 안들어옴.....
-        console.log("fragment >>> "+fragment);
-        $(".reply_list").replaceWith(fragment);
-        $(".reply_list").show();
-        //$(".loading_box").hide();
-
+        $('input[name=comment]').val("");
     });
+
+
 
 });
