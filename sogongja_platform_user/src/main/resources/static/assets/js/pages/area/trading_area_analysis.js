@@ -686,9 +686,46 @@ function areaInhoverOut(){
     }
 }
 
+$('input[name="timecate"]').click(function () {
+    var lat = map.getCenter().getLat(),
+        lng = map.getCenter().getLng(),
+        zoom = map.getLevel(),
+        x2 = map.getBounds().getNorthEast().getLat(),
+        y2 = map.getBounds().getNorthEast().getLng(),
+        x1 = map.getBounds().getSouthWest().getLat(),
+        y1 = map.getBounds().getSouthWest().getLng();
+    codeType2 = $('input[name="cate2"]:checked').val();
+    var datalat = {
+        lat,
+        lng,
+        zoom,
+        x1,
+        x2,
+        y1,
+        y2,
+        codeType1,
+        codeType2
+    }
+    for (var i = 0; i < areanameMarkers.length; i++) {
+        areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+    }
+    ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+        console.log("이게 상권데이터 갖고오는거임", result)
 
+        for (var i = 0, len = result.length; i < len; i++) {
+            areanameSpread(result[i]);// 상권이름그려줌
+        }
+    });
 
-
+    //동그란마커는 걍 지우면됨
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }
+})
+// function oncheck (
+//     areanameSpread(areaJson);
+//에리아 제이슨에 배열을 자꾸 갈아끼고 전역으로 갖다쓰자.
+// )
 function areanameSpread(area) {
     // 커스텀 상권이름 마커를 생성합니다
     var infos = area.info
@@ -705,16 +742,6 @@ function areanameSpread(area) {
     var sum_17_21 = 0;//17_21추정매출
     var sum_21_24 = 0;//21_24추정매출
     var sum_all = 0;//all추정매출
-
-
-    // $('input[name="timecate"]').click(function () {
-    //     for (var i = 0; i < areanameMarkers.length; i++) {
-    //         areanameMarkers[i].setMap(null);//상권이름 마커 비우고 다시그림
-    //     }
-    // })
-
-
-
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
@@ -738,6 +765,13 @@ function areanameSpread(area) {
             document.getElementById("SUM_17_21").value = sum_17_21;
             document.getElementById("SUM_21_24").value = sum_21_24;
 
+            const query = 'input[name="ex"]:checked';
+            const selectedEls = document.querySelectorAll(query);
+            selectedEls.forEach((el) =>{
+                sum_all += parseInt(el.value);
+            });
+            document.getElementById("resultsum").value = sum_all;
+
         } else {// 그게 아니면 단일그래프가 떠야한다
 
             //그 안에서 분류
@@ -749,7 +783,7 @@ function areanameSpread(area) {
             }
         }
     }
-    var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
+    //var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
     console.log("상점수", stores, '개폐점수', open, close, "추정매출총합과 6가지", sum_all, sum_00_06, sum_06_11, sum_11_14, sum_14_17, sum_17_21, sum_21_24)//전체임
     var sum_all_comma= sum_all.toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -922,11 +956,13 @@ async function changeMap() {
 
         //5~ 상점수,개폐업수,추정매출 탭 보이기 + 필터 보이기
         removePolygons(map)//areajson에 쓰던 상권 삭제하고
+
+        $('.areaTap').css('display', 'block');
+        $('#filter').css('display', 'block');
+
         for (var i = 0; i < areanameMarkers.length; i++) {
             areanameMarkers[i].setMap(null);//상권이름 마커 비우고
         }
-        $('.areaTap').css('display', 'block');
-        $('#filter').css('display', 'block');
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
             areaSpread(result);//상권 패스 다시 그려줌
