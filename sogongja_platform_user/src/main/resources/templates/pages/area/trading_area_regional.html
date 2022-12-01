@@ -13,8 +13,9 @@
   <!--/* Common css */-->
   <th:block th:include="fragments/common_css"></th:block>
 </head>
-
 <body class="area">
+
+
 <article >
   <div th:replace="~{fragments/header :: header}"></div>
   <div id="map_wrap">
@@ -25,6 +26,10 @@
         <div class="zoombox">
           <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
           <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+        </div>
+        <div class="regionlayer">
+          <input type="checkbox" id="chkUseDistrict" class="chkUseDistrict" onclick="setOverlayMapTypeId()" />
+          <label for="chkUseDistrict" class="chkUseDistrict"></label>
         </div>
         <div class="community_Btn" sec:authorize="isAuthenticated()"></div>
       </div>
@@ -74,7 +79,7 @@
         </li>
         <li>
           <input type="radio" name="cate2" value="3" id="rental_region" onchange="changeType()">
-          <label for="rental_region" >임대시세</label>
+          <label for="rental_region" >주요이슈</label>
         </li>
       </ul>
 
@@ -221,6 +226,7 @@
   var areaJson = /*[[${areaJson}]]*/ [];
   console.log(areaJson);
 </script>
+<script th:src="@{/js/pages/area/area_function.js}"></script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
 <script th:src="@{/js/pages/area/chart_list.js}"></script>
 <script th:src="@{/js/pages/area/trading_area_common.js}"></script>

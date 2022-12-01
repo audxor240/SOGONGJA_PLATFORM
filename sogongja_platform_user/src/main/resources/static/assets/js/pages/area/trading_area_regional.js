@@ -36,6 +36,23 @@ function zoomOut() {
     map.setLevel(map.getLevel() + 1);
 }
 
+// 지도 타입 정보(지적편집도)를 가지고 있을 객체입니다
+var mapTypes = {
+    useDistrict: kakao.maps.MapTypeId.USE_DISTRICT
+};
+// (지적편집도)체크 박스를 선택하면 호출되는 함수입니다
+function setOverlayMapTypeId() {
+    chkUseDistrict = document.getElementById('chkUseDistrict');
+    // 지도 타입을 제거합니다
+    for (var type in mapTypes) {
+        map.removeOverlayMapTypeId(mapTypes[type]);
+    }
+    // 지적편집도정보 체크박스가 체크되어있으면 지도에 지적편집도정보 지도타입을 추가합니다
+    if (chkUseDistrict.checked) {
+        map.addOverlayMapTypeId(mapTypes.useDistrict);
+    }
+}
+
 if (navigator.geolocation) {
     // 현재 접속 사용자 위치 정보
     navigator.geolocation.getCurrentPosition(function (pos) {
@@ -562,56 +579,211 @@ function displayArea(area) {
         hole.push(new kakao.maps.LatLng(item.latitude, item.longitude));
     });
 
-    // 다각형을 생성합니다
-    var polygon = new kakao.maps.Polygon({
-        path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-        strokeWeight: area.stroke_weight,
-        strokeColor: area.stroke_color,
-        strokeOpacity: area.stroke_opacity,
-        strokeStyle: area.stroke_style,
-        fillColor: area.fill_color,
-        fillOpacity: area.fill_opacity
-    });
-
-
-    // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
-    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
-    kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-        polygon.setOptions({
-            fillColor: area.over_fill_color,
-            fillOpacity: area.over_fill_opacity
-        });
-    });
-
     var info = area.info;
     var total = 0;
     var content = '';
     if (info.length > 0) {
-        if (codeType3 === '1') {
+        if (codeType3 === '1') {//상점수
             total = info[0].stores;
             content = Math.round(info[0].franc / info[0].stores * 100) + '%' + Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%';
-        } else if (codeType3 === '2') {
+        } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
             content = info[0].sum_popul;
-        } else if (codeType3 === '3') {
+        } else if (codeType3 === '3') {//임대시세
+            total = info[0].rt_all;
             content = info[0].rt_all;
         }
     }
-
     var circle = new kakao.maps.CustomOverlay({
         position: centroid(area.path),
         content: '<div class ="countlabel">' +
             '<div class="countsidobox">' +
             '<div class="right">' +
             content +
+            total +
             '</div></div></div>'
     });
     circles.push(circle);
-    if (zoom < 8) {
+    if (zoom < 6) {
         circle.setMap(map);
     }
 
+    //상점수 폴리곤 색상
+    if (codeType3 === '1') {
+        // 다각형을 생성합니다
+        if(total>15000){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.8
+            });
+        }else if(total>2800){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.65
+            });
+        }else if(total>1500){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.5
+            });
+        }else if(total>500){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.35
+            });
+        }else{
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.2
+            });
+        }
 
+    } else if (codeType3 === '2') {
+        // 인구수 다각형을 생성합니다
+        if(total>3322233222){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.8
+            });
+        }else if(total>2322233222){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.65
+            });
+        }else if(total>1383913839){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.5
+            });
+        }else if(total>722233222){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.35
+            });
+        }else{
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.2
+            });
+        }
+
+    } else if (codeType3 === '3') {
+        // 주요이슈 다각형을 생성합니다
+        if(total>150432150432){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.8
+            });
+        }else if(total>100432150432){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.65
+            });
+        }else if(total>60432150432){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.5
+            });
+        }else if(total>10432150432){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.35
+            });
+        }else{
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.2
+            });
+        }
+    }else {
+        // 다각형을 생성합니다
+        var polygon = new kakao.maps.Polygon({
+            path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+            strokeWeight: area.stroke_weight,
+            strokeColor: area.stroke_color,
+            strokeOpacity: area.stroke_opacity,
+            strokeStyle: area.stroke_style,
+            fillColor: area.fill_color,
+            fillOpacity: area.fill_opacity
+        });
+    }
+
+
+
+
+    // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
+    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
+    kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
+        if (codeType3 === '1') {
+            polygon.setOptions({
+                fillColor: '#FF8D07',
+                fillOpacity: 0.9
+            });
+        } else if (codeType3 === '2') {
+            polygon.setOptions({
+                fillColor: '#1540BF',
+                fillOpacity: 0.9
+            });
+        } else if (codeType3 === '3') {
+            polygon.setOptions({
+                fillColor: '#DD4C79',
+                fillOpacity: 0.9
+            });
+        }else {
+            polygon.setOptions({
+                fillColor: area.over_fill_color,
+                fillOpacity: area.over_fill_opacity
+            });
+        }
+
+
+
+    });
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
     // kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
     //     // customOverlay.setPosition(mouseEvent.latLng);
@@ -620,12 +792,104 @@ function displayArea(area) {
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
-        polygon.setOptions({
-            fillColor: area.fill_color,
-            fillOpacity: area.fill_opacity
-        });
+        if (codeType3 === '1') {
+            if(total>15000){
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.8
+                });
+            }else if(total>2800){
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.65
+                });
+            }else if(total>1500){
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.5
+                });
+            }else if(total>500){
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.35
+                });
+            }else{
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.2
+                });
+            }
+        } else if (codeType3 === '2') {
+
+            if(total>3322233222){
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.8
+                });
+            }else if(total>2322233222){
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.65
+                });
+            }else if(total>1383913839){
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.5
+                });
+            }else if(total>722233222){
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.35
+                });
+            }else{
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.2
+                });
+            }
+        } else if (codeType3 === '3') {
+            polygon.setOptions({
+                fillColor: '#DD4C79',
+                fillOpacity: 0.4
+            });
+            // 주요이슈 다각형을 생성합니다
+            if(total>150432150432){
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.8
+                });
+            }else if(total>100432150432){
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.65
+                });
+            }else if(total>60432150432){
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.5
+                });
+            }else if(total>10432150432){
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.35
+                });
+            }else{
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.2
+                });
+            }
+        }else {
+            polygon.setOptions({
+                fillColor: area.over_fill_color,
+                fillOpacity: area.over_fill_opacity
+            });
+        }
         // customOverlay.setMap(null);
     });
+
+
+
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
