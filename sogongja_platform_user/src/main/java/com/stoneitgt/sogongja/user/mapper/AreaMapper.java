@@ -38,9 +38,9 @@ public interface AreaMapper {
 	// 상권연구
 	List<Map<String, Object>> getTradingAreaAllList();
 	// 상권연구
-	List<Map<String, Object>> getTest(String scope);
+	List<Map<String, Object>> getTradingAreCategory1(String scope);
 	// 상권연구
-	List<Map<String, Object>> getTest2(String scope);
+	List<Map<String, Object>> getTradingAreCategory2(String scope);
 	// 상권연구
 	List<Map<String, Object>> getTradingAreaCountList(Map<String, Object> params);
 	//상권연구

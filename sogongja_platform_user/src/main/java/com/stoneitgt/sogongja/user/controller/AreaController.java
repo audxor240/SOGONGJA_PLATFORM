@@ -248,7 +248,7 @@ public class AreaController extends BaseController {
 		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
 		model.addAttribute("replyList", replyList);
 
-		return "pages/area/trading_area_shop"+ " :: .reply_list";
+		return "pages/area/trading_area_shop :: .reply_list";
 	}
 
 	@PostMapping("/reply/add")
@@ -259,6 +259,6 @@ public class AreaController extends BaseController {
 		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
 		model.addAttribute("replyList", replyList);
 
-		return "pages/area/trading_area_shop"+ " :: .reply_list";
+		return "pages/area/trading_area_shop :: .reply_list";
 	}
 }

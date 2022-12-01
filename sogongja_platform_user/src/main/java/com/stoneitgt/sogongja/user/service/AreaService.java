@@ -127,8 +127,6 @@ public class AreaService extends BaseService {
 		List<Map<String, Object>> mapPathList = areaMapper.getTradingAreaMapList("PATH");
 		List<Map<String, Object>> mapHoleList = areaMapper.getTradingAreaMapList("HOLE");
 
-		List<Map<String, Object>> areaRecentlyList = new ArrayList<>();
-
 
 		List<String> temp = new ArrayList();
 		for (Map<String, Object> map : list) {
@@ -150,14 +148,14 @@ public class AreaService extends BaseService {
 			scope +=  tem + ",";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
-		areaRecentlyList = areaMapper.getTest(scope);
-		List<Map<String, Object>> test2 = areaMapper.getTest2(scope);
+		List<Map<String, Object>> details = areaMapper.getTradingAreCategory1(scope);
+		List<Map<String, Object>> details2 = areaMapper.getTradingAreCategory2(scope);
 
 		for (Map<String, Object> map : list) {
 			String areaCd = map.get("area_cd").toString();
-			List<Map<String, Object>> info = (List<Map<String, Object>>) areaRecentlyList.stream()
+			List<Map<String, Object>> info = (List<Map<String, Object>>) details.stream()
 					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
-			List<Map<String, Object>> info2 = (List<Map<String, Object>>) test2.stream()
+			List<Map<String, Object>> info2 = (List<Map<String, Object>>) details2.stream()
 					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
 			map.put("info", info);
 			map.put("info2", info2);
