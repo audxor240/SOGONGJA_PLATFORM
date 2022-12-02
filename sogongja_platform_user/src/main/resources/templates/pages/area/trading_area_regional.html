@@ -14,7 +14,32 @@
   <th:block th:include="fragments/common_css"></th:block>
 </head>
 <body class="area">
-
+<div class="displaynone">
+  <svg width="0" height="0">
+    <linearGradient id="store-gra" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#BF7116;" />
+      <stop offset="50%" style="stop-color:#623500;"  stop-opacity="0.8"/>
+      <stop offset="50%" style="stop-color:#FFE5C7;"  stop-opacity="0.8"/>
+      <stop offset="100%" style="stop-color:#EE850A;" />
+    </linearGradient>
+  </svg>
+  <svg width="0" height="0">
+    <linearGradient id="popul-gra" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1540BF;" />
+      <stop offset="50%" style="stop-color:#020E32;" stop-opacity="0.8"/>
+      <stop offset="50%" style="stop-color:#C2D2FF;"  stop-opacity="0.8"/>
+      <stop offset="100%" style="stop-color:#396BFF;" />
+    </linearGradient>
+  </svg>
+  <svg width="0" height="0">
+    <linearGradient id="rental-gra" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#DD4C79;" />
+      <stop offset="50%" style="stop-color:#800028;"  stop-opacity="0.8"/>
+      <stop offset="50%" style="stop-color:#FFCBDB;" stop-opacity="0.8" />
+      <stop offset="100%" style="stop-color:#FF004F;" />
+    </linearGradient>
+  </svg>
+</div>
 
 <article >
   <div th:replace="~{fragments/header :: header}"></div>
@@ -225,6 +250,7 @@
 <script th:inline="javascript">
   var areaJson = /*[[${areaJson}]]*/ [];
   var regionStandard = /*[[${regionStandard}]]*/ [];
+  console.log("regionStandard",regionStandard,"areaJson",areaJson)
 </script>
 <script th:src="@{/js/pages/area/area_function.js}"></script>
 <script th:src="@{/js/pages/area/chart.js}"></script>
