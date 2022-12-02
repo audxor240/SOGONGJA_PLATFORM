@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.stoneitgt.sogongja.admin.properties.AppProperties;
 import com.stoneitgt.sogongja.domain.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,6 +48,9 @@ public class BoardController extends BaseController {
 
 	@Autowired
 	private BoardService boardService;
+
+	@Autowired
+	private AppProperties appProperties;
 
 	@GetMapping("/type/{boardType}")
 	public String boardList(@PathVariable String boardType, @ModelAttribute BaseParameter params, Model model) {
@@ -372,7 +376,7 @@ public class BoardController extends BaseController {
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
 		boardService.deleteBoard(params);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/" + boardSettingSeq + "?menuCode=" + menuCode;
+		return "redirect:"+appProperties.getHost()+"/board/" + boardSettingSeq + "?menuCode=" + menuCode;
 	}
 
 	@PostMapping("/settingDelete")
@@ -383,7 +387,7 @@ public class BoardController extends BaseController {
 		params.put("login_user_seq", authenticationFacade.getLoginUserSeq());
 		boardService.deleteBoardSetting(params);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/settingList";
+		return "redirect:"+appProperties.getHost()+"/board/settingList";
 	}
 
 	@GetMapping("/project")
@@ -456,7 +460,7 @@ public class BoardController extends BaseController {
 			return "pages/board/project_form";
 		}
 
-		String returnUrl = "redirect:/board/project?";
+		String returnUrl = "redirect:"+appProperties.getHost()+"/board/project?";
 
 		if (project.getProjectSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -502,7 +506,7 @@ public class BoardController extends BaseController {
 			boardService.deleteProject(params);
 		}
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:/board/project?menuCode=" + menuCode;
+		return "redirect:"+appProperties.getHost()+"/board/project?menuCode=" + menuCode;
 	}
 
 	@GetMapping("/law")
@@ -621,7 +625,7 @@ public class BoardController extends BaseController {
 							@ModelAttribute("board") @Valid Board board, BindingResult bindingResult, Model model,
 							RedirectAttributes rttr) throws IOException {
 
-		String returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+		String returnUrl = "redirect:"+appProperties.getHost()+"/board/" + board.getBoardSettingSeq() + "?";
 
 		if (board.getBoardSeq() == 0) {
 			rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
@@ -799,7 +803,7 @@ public class BoardController extends BaseController {
 		org.json.JSONArray item =  jsonParse.getJSONArray("projectList");
 		int loginUserSeq = authenticationFacade.getLoginUserSeq();
 
-		String returnUrl = "redirect:/board/project";
+		String returnUrl = "redirect:"+appProperties.getHost()+"/board/project";
 
 		boardService.addProject(item, loginUserSeq);
 		rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
