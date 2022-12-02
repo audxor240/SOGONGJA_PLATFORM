@@ -518,7 +518,10 @@ function displayPath(polygon, area, i) {
     (function sdf(polygon, area) {
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
-            $('.filterbox').removeClass('on')
+            if (isAuthenticated) {
+                // true or false
+            }
+            $('.filterbox').removeClass('on');
             areaInClick(area)
             var position = centroid(area.path);
             console.log(position.Ma)

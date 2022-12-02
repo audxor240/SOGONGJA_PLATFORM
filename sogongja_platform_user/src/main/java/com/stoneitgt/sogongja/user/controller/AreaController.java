@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.domain.QuestionSetting;
+import com.stoneitgt.sogongja.user.component.AuthenticationFacade;
 import com.stoneitgt.sogongja.user.domain.MapParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommunityService;
@@ -34,6 +35,9 @@ public class AreaController extends BaseController {
 
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private AuthenticationFacade authenticationFacade;
+
 
 	@GetMapping("/shop")
 	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
@@ -106,6 +110,7 @@ public class AreaController extends BaseController {
 
 	@GetMapping("/analysis")
 	public String analysis(@ModelAttribute MapParameter params, Model model) {
+
 		long beforeTime = System.currentTimeMillis();
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
@@ -124,6 +129,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("areaJson", areaService.getTest(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("isAuthenticated", authenticationFacade.isAuthenticated());
 		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
 		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
 		System.out.println("시간차이(m) : "+secDiffTime);
