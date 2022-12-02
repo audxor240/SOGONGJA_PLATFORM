@@ -368,6 +368,7 @@ var lat = map.getCenter().getLat(),
 var codeType1 = new Array();
 var codeType3 = '1';
 var polygons = [];
+var polygons1 = [];
 var circles = [];
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
@@ -583,9 +584,28 @@ function displayArea(area) {
     var total = 0;
     var content = '';
     if (info.length > 0) {
+        var regionName = area.area_name //해당 지역명
         if (codeType3 === '1') {//상점수
-            total = info[0].stores;
-            content = Math.round(info[0].franc / info[0].stores * 100) + '%' + Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%';
+            total = info[0].stores;//총상점수
+            var fran_store = Math.round(info[0].franc / info[0].stores * 100) + '%' ;//가맹점포
+            var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
+
+            var content='<div class ="regionlabel">' +
+                            '<div class="regionbox">' +
+                                '<div class="store normal_store">' +
+                                "일반점포" +
+                                normal_store +
+                                '</div>' +
+                                '<div class="store regionName">' +
+                                regionName +
+                                '</div>' +
+                                '<div class="store fran_store">' +
+                                "가맹점포" +
+                                fran_store +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+
         } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
             content = info[0].sum_popul;
@@ -783,18 +803,14 @@ function displayArea(area) {
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다//그라데이션색상정하기
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-        var circle = new kakao.maps.CustomOverlay({
+        if (zoom < 6) {
+         var circle = new kakao.maps.CustomOverlay({
             position: centroid(area.path),
-            content: '<div class ="countlabel">' +
-                '<div class="countsidobox">' +
-                '<div class="right">' +
-                content +
-                total +
-                '</div></div></div>'
+            content: content
         });
         circles.push(circle);
         circle.setMap(map);
-
+        }
 
         if (codeType3 === '1') {//상점수
             polygon.setOptions({
@@ -803,12 +819,12 @@ function displayArea(area) {
             });
         } else if (codeType3 === '2') {
             polygon.setOptions({
-                fillColor: 'url(#popul-gra)',
+                fillColor: '#1540BF',
                 fillOpacity: 0.9
             });
         } else if (codeType3 === '3') {
             polygon.setOptions({
-                fillColor: 'url(#rental-gra)',
+                fillColor: '#DD4C79',
                 fillOpacity: 0.9
             });
         }else {
@@ -829,7 +845,7 @@ function displayArea(area) {
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
-        removeCircles()
+       //removeCircles()
         if (codeType3 === '1') {
             if(total>regionStandard[0][5]){
                 polygon.setOptions({
@@ -935,6 +951,35 @@ function displayArea(area) {
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
+        for (var i = 0; i < polygons1.length; i++) {
+            polygons1[i].setMap(null);
+        }
+        var polygon1 = new kakao.maps.Polygon({
+            path: this.getPath(),
+            strokeWeight: 3,
+            strokeColor: '#fff',
+            fillColor: 'url(#store-gra)',
+            fillOpacity: 0.9
+        });
+        polygon1.setMap(map);
+        polygons1.push(polygon1)
+
+
+        if (codeType3 === '1 ') {//상점수
+            polygon.setOptions({
+                fillColor: 'url(#store-gra)',
+                fillOpacity: 0.9
+            });
+        }
+        if (zoom < 6) {
+            var circle = new kakao.maps.CustomOverlay({
+                position: centroid(area.path),
+                content: content
+            });
+            circles.push(circle);
+            circle.setMap(map);
+        }
+
 
         var codeType3 = $('input[name="cate2"]:checked').val();
         var data = {

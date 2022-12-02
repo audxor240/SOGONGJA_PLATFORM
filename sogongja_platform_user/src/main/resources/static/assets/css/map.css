@@ -1260,6 +1260,25 @@
   font-size: 13px;
   color: #fff;
 }
+#map .regionlabel {
+  background: rgba(0, 0, 0, 0.1);
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#map .regionlabel .regionbox {
+  display: block;
+  text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+  font-size: 10px;
+}
+#map .regionlabel .regionbox .store {
+  color: #BF7116;
+}
 
 #map_wrap .areaTap {
   position: absolute;
@@ -1638,6 +1657,30 @@
 }
 #map .areahoverIn.on {
   opacity: 1;
+}
+#map .areahoverIn.on .graphmenu li.Q span {
+  background-color: #EE5545;
+}
+#map .areahoverIn.on .graphmenu li.N span {
+  background-color: #DD4C79;
+}
+#map .areahoverIn.on .graphmenu li.L span {
+  background-color: #A25AA1;
+}
+#map .areahoverIn.on .graphmenu li.F span {
+  background-color: #4983C4;
+}
+#map .areahoverIn.on .graphmenu li.D span {
+  background-color: #31C3D9;
+}
+#map .areahoverIn.on .graphmenu li.O span {
+  background-color: #33CC94;
+}
+#map .areahoverIn.on .graphmenu li.P span {
+  background-color: #70C14A;
+}
+#map .areahoverIn.on .graphmenu li.R span {
+  background-color: #C2EE45;
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 {
   transform: rotate(100deg) translateX(-90px);
