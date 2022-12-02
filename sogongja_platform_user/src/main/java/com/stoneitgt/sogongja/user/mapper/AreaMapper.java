@@ -53,6 +53,7 @@ public interface AreaMapper {
 //	List<Map<String, Object>> getResearchAreaComDetail(Map<String, Object> params);
 	Map<String, Object> getTradingAreaDetails(Map<String, Object> params);
 	List<Map<String, Object>> getTradingAreaStaIdx(String areaCd);
+	Map<String, Long> getTradingAreaMaxSales(String areaCd);
 	List<Map<String, Object>> getTradingAreaMapSingle(Map<String, Object> params);
 
 
