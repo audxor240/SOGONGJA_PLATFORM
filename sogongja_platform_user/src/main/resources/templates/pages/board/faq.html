@@ -22,6 +22,7 @@
         <section class="wrap faq_search_pt20">
             <div class="faq_search">
                 <form name="searchForm" th:action="@{|/faq|}" th:object="${params}">
+                    <input type="hidden" th:field="*{type}">
                     <div class="sc_input">
                         <legend>자주하는 질문</legend>
                         <input type="text" th:field="*{keyword}" title="검색어 입력" placeholder="검색어 입력">
@@ -32,19 +33,19 @@
             <div class="sub_container">
                 <div class="m_tab_faq"></div>
                 <ul class="tab faq_tab faq_tab_box">
-                    <li class="active" >
+                    <li class="active" id="ALL">
                         <a th:href="@{/faq}">전체 <th:block th:text="|(${typeList.total_cnt})|">(10)</th:block></a>
                     </li>
-                    <li class="m_hide">
+                    <li class="m_hide" id="CON">
                         <a href="#n">소공자 컨설팅 <th:block th:text="|(${typeList.con_cnt})|">(10)</th:block></a>
                     </li>
-                    <li class="m_hide">
+                    <li class="m_hide" id="EDU">
                         <a href="#n">소공자 교육 <th:block th:text="|(${typeList.edu_cnt})|">(10)</th:block></a>
                     </li>
-                    <li class="m_hide">
+                    <li class="m_hide" id="USER">
                         <a href="#n">소공자 회원 <th:block th:text="|(${typeList.user_cnt})|">(10)</th:block></a>
                     </li>
-                    <li class="m_hide">
+                    <li class="m_hide" id="GUIDE">
                         <a href="#n">이용가이드 <th:block th:text="|(${typeList.guide_cnt})|">(10)</th:block></a>
                     </li>
                 </ul>
@@ -55,7 +56,7 @@
                     <span>접기</span>
                 </div>
                 <div class="faq_list_wrap">
-                    <div class="tab_a tab_a1 faq_list">
+                    <div class="tab_a tab_a1 faq_list" id="list_1">
                         <ul class="accordion">
                             <li th:each="item : ${list}">
                                 <a href="#n" th:text="${item.subject}">소상공인 불공정피해 상담센터 운영방침이 어떻게 될까요?</a>
@@ -67,7 +68,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="tab_a tab_a2 faq_list">
+                    <div class="tab_a tab_a2 faq_list" id="list_2">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
                                 <li th:if="${item.type == 'CON'}">
@@ -81,7 +82,7 @@
                             </th:block>
                         </ul>
                     </div>
-                    <div class="tab_a tab_a3 faq_list">
+                    <div class="tab_a tab_a3 faq_list" id="list_3">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
                                 <li th:if="${item.type == 'EDU'}">
@@ -95,7 +96,7 @@
                             </th:block>
                         </ul>
                     </div>
-                    <div class="tab_a tab_a4 faq_list">
+                    <div class="tab_a tab_a4 faq_list" id="list_4">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
                                 <li th:if="${item.type == 'USER'}">
@@ -109,7 +110,7 @@
                             </th:block>
                         </ul>
                     </div>
-                    <div class="tab_a tab_a5 faq_list">
+                    <div class="tab_a tab_a5 faq_list" id="list_5">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
                                 <li th:if="${item.type == 'GUIDE'}">
@@ -131,6 +132,11 @@
         </section>
     </article>
     <th:block layout:fragment="custom_js">
+        <script th:inline="javascript">
+            //var type = [[${type}]];
+            var type = [[${params.type}]];
+
+        </script>
         <script th:src="@{/js/pages/user/tab.js}"></script>
     </th:block>
 </body>
