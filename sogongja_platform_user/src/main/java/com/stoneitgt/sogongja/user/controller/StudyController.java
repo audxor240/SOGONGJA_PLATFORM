@@ -187,8 +187,8 @@ public class StudyController extends BaseController {
 
 		} catch(NullPointerException e){
 			//ScriptUtils.alert(response, "로그인이 필요합니다");
-			ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
-			return "/";
+			//ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
+			//return "/";
 		}
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 

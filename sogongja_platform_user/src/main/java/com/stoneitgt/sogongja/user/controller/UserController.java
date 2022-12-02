@@ -74,27 +74,26 @@ public class UserController extends BaseController {
 		category = category.substring(0, category.length()-1);
 		category = category.replaceAll("\\s", "");
 
-		//소셜 회원가입일 경우
-		if(!user.getSocialType().equals("none")){
-			if(user.getSocialType().equals("KAKAO")){
-				user.setKakaoId(user.getUniqueId());
-			}else if(user.getSocialType().equals("GOOGLE")){
-				user.setGoogleId(user.getUniqueId());
-			}else if(user.getSocialType().equals("NAVER")){
-				user.setNaverId(user.getUniqueId());
-			}
-			//아이디는 uniqueId, 패스워드는 고정
-			user.setId(user.getUniqueId());
-			user.setPassword("thrhdwk1!");
-			user.setPasswordConfirm("thrhdwk1!");
-
-		}
-
-
 		//return "pages/user/signup_result";
 
 		// 회원가입인 경우에만
 		if (user.getUserSeq() == 0) {
+
+			//소셜 회원가입일 경우
+			if(user.getSocialType() != null){
+				if(user.getSocialType().equals("KAKAO")){
+					user.setKakaoId(user.getUniqueId());
+				}else if(user.getSocialType().equals("GOOGLE")){
+					user.setGoogleId(user.getUniqueId());
+				}else if(user.getSocialType().equals("NAVER")){
+					user.setNaverId(user.getUniqueId());
+				}
+				//아이디는 uniqueId, 패스워드는 고정
+				user.setId(user.getUniqueId());
+				user.setPassword("thrhdwk1!");
+				user.setPasswordConfirm("thrhdwk1!");
+			}
+
 			if (StringUtil.isBlank(user.getId())) {
 				bindingResult.rejectValue("id", "field.required");
 			} else {
@@ -127,12 +126,14 @@ public class UserController extends BaseController {
 			}
 		} else {
 			//user.setPassword("");
-			if(!user.getPassword().equals("")) {
-				PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
+			if(user.getSocialType() == null) {
+				if (!user.getPassword().equals("")) {
+					PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
 
-				RuleResult ruleResult = passwordValidator.validate(user.getPassword());
-				if (!ruleResult.isValid()) {
-					bindingResult.rejectValue("password", "password.illegal_match");
+					RuleResult ruleResult = passwordValidator.validate(user.getPassword());
+					if (!ruleResult.isValid()) {
+						bindingResult.rejectValue("password", "password.illegal_match");
+					}
 				}
 			}
 		}
@@ -187,11 +188,16 @@ public class UserController extends BaseController {
 			}else{
 				model.addAttribute("typeCheck", "update");
 			}
+			if(user.getSocialType() != null) {
+				//소셜회원이면 본인 패스워드를 넣어준다
+				user.setPassword(user2.getPassword());
+			}
 		}
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		System.out.println("user-----last >>> "+user);
 		userService.saveUser(user);
 
 		if (user.getUserSeq() == 0) {
@@ -604,6 +610,7 @@ public class UserController extends BaseController {
 
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
+		System.out.println("여기-------------------------------------------------------------------------");
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
@@ -613,7 +620,7 @@ public class UserController extends BaseController {
 		model.addAttribute("qnaBoardSetting", boardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
-
+		System.out.println("MYPAGE==============================@@@@@@@@@@@@@@@@@@@@");
 		return "pages/user/mypage";
 	}
 
@@ -668,6 +675,7 @@ public class UserController extends BaseController {
 		if(answer == null){
 			answer = new Answer();
 		}
+		board.setMyPage(true);
 
 		model.addAttribute("board", board);
 		model.addAttribute("answer", answer);
@@ -677,7 +685,7 @@ public class UserController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("detail", true);
 		model.addAttribute("user", user);
-		return "pages/board/board_write";
+		return "pages/user/qna_write";
 	}
 
 	@GetMapping("/mypage/qna/write/{boardSettingSeq}")
@@ -709,7 +717,7 @@ public class UserController extends BaseController {
 		model.addAttribute("boardSetting", boardSetting);
 		model.addAttribute("name", boardSetting.getName());
 		model.addAttribute("detail", false);
-		return "pages/board/board_write";
+		return "pages/user/qna_write";
 	}
 
 	@GetMapping("/mypage/info")
@@ -736,6 +744,14 @@ public class UserController extends BaseController {
 			user.setCategoryList(Arrays.asList(user.getCategory().split(",")));
 		}
 
+		if(user.getGoogleId() != null){
+			user.setSocialType("GOOGLE");
+		}else if(user.getNaverId() != null){
+			user.setSocialType("NAVER");
+		}else if(user.getKakaoId() != null){
+			user.setSocialType("KAKAO");
+		}
+		System.out.println("user ===== >> "+user);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		//QNA게시판 시퀀스 정보

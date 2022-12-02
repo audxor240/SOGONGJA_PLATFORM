@@ -44,10 +44,12 @@ public class EducationService extends BaseService {
 		Map<String, Object> education = educationMapper.getEducation(eduSeq);
 		educationMapper.updateEducationReadCnt(eduSeq);
 
-		EducationWatching educationWatching = educationWatchingMapper.getEducationWatching(eduSeq,userSeq);
+		if(userSeq != 0) {
+			EducationWatching educationWatching = educationWatchingMapper.getEducationWatching(eduSeq, userSeq);
 
-		if(educationWatching == null){
-			educationWatchingMapper.addEducationWatching(eduSeq,userSeq);
+			if (educationWatching == null) {
+				educationWatchingMapper.addEducationWatching(eduSeq, userSeq);
+			}
 		}
 
 		return education;

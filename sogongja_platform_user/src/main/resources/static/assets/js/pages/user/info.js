@@ -174,23 +174,24 @@ function validationForm() {
     let password = $("#password").val();
     let passwordConfirm = $("#passwordConfirm").val();
 
-    if(password != ""){
+    if(!social) {
+        if (password != "") {
 
-        if(localStorage.getItem("password") != "1"){
-            alert("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
-            return false;
+            if (localStorage.getItem("password") != "1") {
+                alert("영문, 특수문자, 숫자 포함 8자리 이상 입력해주세요.");
+                return false;
+            }
+
+            if (passwordConfirm == "") {
+                alert("비밀번호 확인을 입력해주세요.");
+                return false;
+            }
+
+            if (password != passwordConfirm) {
+                alert('비밀번호와 비밀번호 확인이 다릅니다');
+                return false;
+            }
         }
-
-        if(passwordConfirm == ""){
-            alert("비밀번호 확인을 입력해주세요.");
-            return false;
-        }
-
-        if(password != passwordConfirm){
-            alert('비밀번호와 비밀번호 확인이 다릅니다');
-            return false;
-        }
-
     }
 
     //닉네임을 변경했을때 중복확인했는지 체크

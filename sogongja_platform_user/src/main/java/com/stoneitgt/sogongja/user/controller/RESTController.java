@@ -117,7 +117,7 @@ public class RESTController extends BaseController {
 
 		} catch(NullPointerException e){
 			jsonObject.put("message", "login_check");
-			return jsonObject;
+			//return jsonObject;
 		}
 		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
 

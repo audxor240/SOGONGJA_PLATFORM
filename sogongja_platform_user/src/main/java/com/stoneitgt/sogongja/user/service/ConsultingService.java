@@ -41,10 +41,12 @@ public class ConsultingService extends BaseService {
 		Map<String, Object> consulting = consultingMapper.getConsulting(conSeq);
 		consultingMapper.updateConsultingReadCnt(conSeq);
 
-		ConsultingWatching consultingWatching = consultingWatchingMapper.getConsultingWatching(conSeq,userSeq);
+		if(userSeq != 0) {
+			ConsultingWatching consultingWatching = consultingWatchingMapper.getConsultingWatching(conSeq, userSeq);
 
-		if(consultingWatching == null){
-			consultingWatchingMapper.addConsultingWatching(conSeq,userSeq);
+			if (consultingWatching == null) {
+				consultingWatchingMapper.addConsultingWatching(conSeq, userSeq);
+			}
 		}
 		return consulting;
 	}

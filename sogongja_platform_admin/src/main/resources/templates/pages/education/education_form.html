@@ -129,7 +129,8 @@
                                                     </span>
                                                 </div>
                                                 <img th:src="@{|/thumb/${item.thumbnail_path}|}" th:alt="${item.file_name}" width="300" th:if="${item.thumbnail_path ne null}">
-                                                <img th:src="@{|${item.crawl_url}|}" th:alt="${item.file_name}" width="300" th:unless="${item.thumbnail_path ne null}">
+                                                <img th:src="@{|${item.crawl_url}|}" th:alt="${item.file_name}" width="300" th:if="${item.thumbnail_path eq null && item.crawl_url ne null}">
+                                                <img th:src="@{|/assets/images/default_thumb.jpg|}" th:alt="${item.file_name}" width="300" th:if="${item.thumbnail_path eq null && item.crawl_url eq null}">
                                             </div>
                                         </th:block>
                                     </div>
