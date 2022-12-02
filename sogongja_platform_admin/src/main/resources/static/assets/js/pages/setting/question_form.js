@@ -198,7 +198,7 @@ function getInputValue(){
         alert('입력값이 비어있습니다.');
         return;
     }
-
+/*
     if(mach_01 == "0"){
         alert("대분류를 선택해주세요.");
         return;
@@ -208,9 +208,9 @@ function getInputValue(){
         alert("중분류를 선택해주세요.");
         return;
     }
-
-    if(answerCnt >= 5){
-        alert("답변은 5개까지 설정 할 수 있습니다.");
+*/
+    if(answerCnt >= 10){
+        alert("답변은 10개까지 설정 할 수 있습니다.");
         return;
     }
 

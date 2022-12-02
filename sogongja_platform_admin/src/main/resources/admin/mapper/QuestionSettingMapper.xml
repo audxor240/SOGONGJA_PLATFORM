@@ -5,8 +5,9 @@
 
     <select id="getQuestionSettingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : QuestionSettingMapper.xml, id : getQuestionSettingList */
-        SELECT *, DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DT
-        FROM ST_QUESTION_SETTING
+        SELECT QS.*, DATE_FORMAT(QS.REG_DATE, '%Y-%m-%d') AS REG_DT,
+               (select count(*) from ST_SURVEY_SETTING_SUB as SS where QS.QUESTION_SETTING_SEQ = SS.QUESTION_SETTING_SEQ) as USED_CNT
+        FROM ST_QUESTION_SETTING as QS
         WHERE DEL_FLAG            = 0
         <if test="keyword != null and keyword != ''">
             AND TITLE LIKE CONCAT('%', #{keyword}, '%')
