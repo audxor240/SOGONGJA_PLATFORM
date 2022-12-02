@@ -168,6 +168,15 @@
 			 , SERVICE_TYPE					 = #{serviceType}
 	</insert>
 
+	<update id="updateUser" parameterType="int" >
+		/* file : UserMapper.xml, id : updateUser */
+		UPDATE ST_USER
+		SET DEL_FLAG         = 1
+		  , MOD_USER_SEQ     = #{userSeq}
+		  , MOD_DATE         = CURRENT_TIMESTAMP()
+		WHERE USER_SEQ         = #{userSeq}
+	</update>
+
 	<update id="deleteUser" parameterType="int" >
 		/* file : UserMapper.xml, id : deleteUser */
 		  UPDATE ST_USER
@@ -289,6 +298,7 @@
 			 , F.FILE_SEQ
 			 , F.FILE_PATH
 			 , F.THUMBNAIL_PATH
+			 , F.CRAWL_URL
 			 , EB.EDU_MARK_SEQ
 			 , EW.EDU_WATCHING_SEQ
 		FROM ST_EDUCATION E

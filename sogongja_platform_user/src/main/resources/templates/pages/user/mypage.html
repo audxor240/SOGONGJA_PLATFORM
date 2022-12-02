@@ -45,10 +45,26 @@
                             </ul>
                             <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
                                 <li th:each="item : ${list}">
-                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|" th:if="${item.thumbnail_path ne null}">
                                         <div class="view_favorite">
                                             <div class="view_favorite">
                                                 <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                                <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
+                                                <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thumb_img" th:style="|background-image: url('@{|${item.crawl_url}|}');|" th:if="${item.thumbnail_path eq null && item.crawl_url ne null}">
+                                        <div class="view_favorite">
+                                            <div class="view_favorite">
+                                                <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
+                                                <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/images/default_thumb.jpg|}');|" th:if="${item.thumbnail_path eq null && item.crawl_url eq null}">
+                                        <div class="view_favorite">
+                                            <div class="view_favorite">
                                                 <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
                                                 <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                             </div>
@@ -87,10 +103,26 @@
                             </ul>
                             <ul class="edu_list af" th:unless="${#lists.isEmpty(list)}">
                                 <li th:each="item : ${list}">
-                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|">
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|" th:if="${item.thumbnail_path ne null}">
                                         <div class="view_favorite">
                                             <div class="view_favorite">
                                                 <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
+                                                <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
+                                                <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thumb_img" th:style="|background-image: url('@{|${item.crawl_url}|}');|" th:if="${item.thumbnail_path eq null && item.crawl_url ne null}">
+                                        <div class="view_favorite">
+                                            <div class="view_favorite">
+                                                <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
+                                                <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thumb_img" th:style="|background-image: url('@{|/images/default_thumb.jpg|}');|" th:if="${item.thumbnail_path eq null && item.crawl_url eq null}">
+                                        <div class="view_favorite">
+                                            <div class="view_favorite">
                                                 <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]],'edu')" >찜하기</button>
                                                 <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
                                             </div>
