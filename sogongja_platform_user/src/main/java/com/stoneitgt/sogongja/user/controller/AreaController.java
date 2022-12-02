@@ -219,6 +219,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
 		model.addAttribute("regionCommunityList",regionCommunityList);
+		model.addAttribute("regionStandard", areaService.getRegionAreaStandardToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		return "pages/area/trading_area_regional";

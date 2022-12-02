@@ -259,6 +259,25 @@ public class AreaService extends BaseService {
 		return areaMapper.getRegionAreaDetail(params);
 	}
 
+	public List<Map<String, Object>> getRegionAreaStandardToJSON(Map<String, Object> params) {
+		List<Map<String, Object>> standards = areaMapper.getRegionAreaStandard();
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (Map<String, Object> standard : standards) {
+			long max = Long.parseLong(standard.get("max").toString());
+			long min = Long.parseLong(standard.get("min").toString());
+			long temp = Math.round((max - min) / 5);
+			System.out.println("max : " + max + " , min : " + min + " , temp : " + temp);
+
+			Map<String, Object> map = new HashMap<>();
+			for (int i = 0; i < 5; i++) {
+				map.put(Long.toString(i+1), min + (temp * i));
+			}
+			result.add(map);
+
+		}
+		return result;
+	}
+
 	public List<Map<String, Object>> getTradingAreaMapList(String mapType) {
 		return areaMapper.getTradingAreaMapList(mapType);
 	}
