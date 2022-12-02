@@ -334,6 +334,7 @@ var lat = map.getCenter().getLat(),
     x1 = map.getBounds().getSouthWest().getLat(),
     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
+var infosForMidpart = new Array();
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
 $("input[name=cate]").prop("checked", true).each(function (index, item) {
@@ -522,7 +523,6 @@ function displayPath(polygon, area, i) {
                 areaInClick(area)
             }
             $('.filterbox').removeClass('on');
-
             var position = centroid(area.path);
             console.log(position.Ma)
             var data = {
@@ -587,45 +587,36 @@ function sideInfo(area, detail) {
             '<div id="sidebody" class="sidebody_area">' +
             '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
             '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">상권 정보</h4>' +
-            '<div class="location iconPlus">' +
-            '상권 정보' +
+            area.area_name + ' ' + area.area_title +
             '</div>' +
-            '<div class="storegray iconPlus">' +
-            '상권 정보' +
-            '</div>' +
-            "</div>" +
             '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">업종 정보</h4>' +
-            '<div class="listCtegory">' +
-            '<span class="lCategory">' +
-            '상권 정보' +
-            '</span>' +
-            '<span class="lCategory">' +
-            '상권 정보' +
-            '</span>' +
-            '<span class="mCategory">' +
-            '상권 정보' +
-            '</span>' +
+            '상점수 ' + stores +
             '</div>' +
-            "</div>" +
             '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">주변 정보</h4>' +
-            '<div class="subway iconPlus">지하철역' +
-            '<span class="position_name">' +
-            '상권 정보' +
-            '</span>' +
-            '<span class="distance">' +
-            '</span>' +
+            '개폐업수 개업점포수' + open + '폐업점포수' + close +
             '</div>' +
-            '<div class="bus iconPlus">버스' +
-            '<span class="position_name">' +
-            '상권 정보' +
-            '</span>' +
-            '<span class="distance">' +
-            '</span>' +
+            '<div class="sideinfo">' +
+            '추정매출 매출이 가장 큰시간' + detail.picktime + '매출액' + sales +
             '</div>' +
-            "</div>" +
+            '<div class="sideinfo">' +
+            '생활인구' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '상존인구 길단위' + detail.st_popul + '건물단위' + detail.bd_popul +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '인구 유형별 비중 주거인구 ? ' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '소비유형' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트 상권 단지수' + detail.ct_apt_com + ' 세대수' + detail.ct_apt_hou +
+            '아파트 배후지 단지수' + detail.ct_napt_com + ' 세대수' + detail.ct_napt_hou +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트' +
+            '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">최근 이슈</h4>' +
             '<div class="issue">' +
@@ -706,30 +697,30 @@ function contentFunc(area) {
         var areaTab = $('input[name=areaTab]:checked').val();
         var info2 = area.info2
         var mainpart = '';
-
+        infosForMidpart = infos;
         if (areaTab === "open") {//개업수
             info2 = info2.sort((a, b) => b.open - a.open);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].open + '</span></li>'
+                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `</span></li>`
             }
         } else if (areaTab === "close") {//폐업수
             info2 = info2.sort((a, b) => b.close - a.close);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].close + '</span></li>'
+                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
             }
         } else if (areaTab === "sales") {//추정매출
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].sales + '</span></li>'
+                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].stores + '</span></li>'
+                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `</span></li>`
             }
         }
+        console.log(mainpart)
 
-        console.log("mainpart : " + mainpart)
 //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
@@ -1480,4 +1471,36 @@ $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate
     }
 })
 
+function showMidPart(code) {
+    console.log('code : ' + code);
+    var tempArr = new Array();
+    for (var i = 0; i < infosForMidpart.length; i++) {
+        if (infosForMidpart[i].code === code) {
+            tempArr.push(infosForMidpart[i]);
+        }
+    }
 
+    var areaTab = $('input[name=areaTab]:checked').val();
+    for (var i = 0; i < tempArr.length; i++) {
+        console.log(tempArr[i].ct_shop)
+    }
+    if (areaTab === "open") {//개업수
+        tempArr = tempArr.sort((a, b) => b.ct_open - a.ct_open);
+
+    } else if (areaTab === "close") {//폐업수
+        tempArr = tempArr.sort((a, b) => b.cd_close - a.cd_close);
+
+    } else if (areaTab === "sales") {//추정매출
+        tempArr = tempArr.sort((a, b) => b.sales - a.sales);
+
+        // tempArr = tempArr.sort((a, b) => (b.sum_00_06 + b.sum_06_11 + b.sum_11_14 + b.sum_14_17 + b.sum_17_21 + b.sum_21_24) - (a.sum_00_06 + a.sum_06_11 + a.sum_11_14 + a.sum_14_17 + a.sum_17_21 + a.sum_21_24));
+    } else {//상점수 탭일때
+        tempArr = tempArr.sort((a, b) => b.ct_shop - a.ct_shop);
+    }
+    console.log(":::::::::::::::::::")
+    for (var i = 0; i < tempArr.length; i++) {
+        console.log(tempArr[i].ct_shop)
+    }
+
+
+}
