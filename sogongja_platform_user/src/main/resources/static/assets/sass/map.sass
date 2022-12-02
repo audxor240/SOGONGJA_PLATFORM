@@ -1050,9 +1050,9 @@
       margin-top: 8px
       display: none
       background-color: #fff
-      width: 600px
+      width: 500px
       height: auto
-      padding: 20px
+      padding: 10px 16px 20px 16px
       z-index: 3
       &.on
         display: block
@@ -1084,15 +1084,16 @@
         color: #1540BF
         font-size: rem(14)
         font-weight: bold
-        margin: 20px 0 5px 0
+        margin: 5px 0
       .fileter_sub_title
         color: #606060
         font-size: rem(12)
-        margin: 5px 0 2px 0
+        margin: 0px 0px 6px 4px
       .timeSelect_wrap
         .timeSelect
-          padding: 20px 20px 40px
+          padding: 8px 13px 24px
           background-color: #F3F3F3
+          margin-bottom: 12px
           +flex_type()
           li
             width: calc(100%/6)
@@ -1113,11 +1114,13 @@
             input[type="checkbox"]:checked ~ label
               background-color: #709BFF
             span.time_before
-              +positionAt(absolute, $bottom:-27px, $left:-2px)
+              +positionAt(absolute, $bottom:-22px, $left:-2px)
               color: #D9D9D9
+              font-size: 11px
             span.time_after
-              +positionAt(absolute, $bottom:-27px, $right:-20px)
+              +positionAt(absolute, $bottom:-22px, $right:-10px)
               color: #D9D9D9
+              font-size: 11px
             &:after
               +positionAt(absolute, $bottom:-7px, $right: 0)
               display: block
@@ -1141,9 +1144,10 @@
         .mainSectors_wrap
           background-color: #F3F3F3
           .mainSectors
-            padding: 20px 20px 15px
+            padding: 12px 16px 6px 16px
             +flex_type($justify:space-between)
             flex-wrap: wrap
+            margin-bottom: 12px
             li
               width: calc(100%/3 - 5px)
               margin-bottom: 5px
@@ -1151,8 +1155,8 @@
               label
                 display: block
                 width: 100%
-                height: 36px
-                line-height: 34px
+                height: 32px
+                line-height: 28px
                 text-align: center
                 background-color: #ffffff
                 border: solid 1px #969AAF
@@ -1168,7 +1172,7 @@
                 color: #fff
       .midSecBox
         overflow-y: scroll
-        height: 200px
+        height: 120px
         &::-webkit-scrollbar
           width: 5px
           height: 8px
@@ -1263,6 +1267,9 @@
 
 #map
   .areahoverIn
+    +positionAt(relative)
+    transition: all 0.5s
+    opacity: 0
     text-align: center
     font-size: 7px
     font-weight: bold
@@ -1274,6 +1281,80 @@
     border-radius: 50%
     white-space: normal
     word-break: break-all
+    &.on
+      opacity: 1
+    .graphmenu
+      +positionAt(absolute,$top:50%,$left:50%)
+      transform: translate(-50%, -50%)
+      display: block
+      width: 48px
+      height: 48px
+      z-index: 2
+      opacity: 1
+      cursor: pointer
+      border-radius: 50%
+      li
+        transition: 0.4s
+        width: 48px
+        height: 48px
+        +positionAt(absolute)
+        transform: translate(-50%, -50%)
+        background-color: #eee
+        span
+          transition-delay: 1s
+          transition: 0.2s
+          display: block
+          background-color: $blue
+          border-radius: 50%
+          border: 1px solid #fff
+        &.graphlist1
+          transform: rotate(100deg) translateX(-90px)
+          span
+            width: 80px
+            height: 80px
+            transform: rotate(-100deg)
+        &.graphlist2
+          transform: rotate(155deg) translateX(-90px)
+          span
+            width: 76px
+            height: 76px
+            transform: rotate(-155deg)
+        &.graphlist3
+          transform: rotate(207deg) translateX(-90px)
+          span
+            width: 72px
+            height: 72px
+            transform: rotate(-207deg)
+        &.graphlist4
+          transform: rotate(256deg) translateX(-90px)
+          span
+            width: 68px
+            height: 68px
+            transform: rotate(-256deg)
+        &.graphlist5
+          transform: rotate(302deg) translateX(-90px)
+          span
+            width: 62px
+            height: 62px
+            transform: rotate(-302deg)
+        &.graphlist6
+          transform: rotate(344deg) translateX(-90px)
+          span
+            width: 54px
+            height: 54px
+            transform: rotate(-344deg)
+        &.graphlist7
+          transform: rotate(22deg) translateX(-90px)
+          span
+            width: 48px
+            height: 48px
+            transform: rotate(-22deg)
+        &.graphlist8
+          transform: rotate(57deg) translateX(-90px)
+          span
+            width: 44px
+            height: 44px
+            transform: rotate(-57deg)
     p
       +positionAt(absolute,$left:50%,$top:25%)
       transform: translate(-50%,-25%)
@@ -1285,8 +1366,10 @@
       transform: translate(-50%, -70%)
       p
         color: #fff
-        width: 100%
+        width: 70px
         text-align: center
+
+
 
 @include tablet
   #map_wrap
