@@ -332,7 +332,30 @@
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
     cursor: pointer
     margin-top: 4px
-
+  .regionlayer
+    width: 32px
+    height: 32px
+    background-size: cover
+    border-radius: 4px
+    overflow: hidden
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
+    cursor: pointer
+    margin-top: 4px
+    background: #fff
+    label
+      +flex-type($align:center, $justify:center)
+      cursor: pointer
+      width: 32px
+      height: 32px
+      background: url(#{$assetPath}/new/area/regionlayer.png) no-repeat
+      background-size: cover
+    input[type="checkbox"]
+      display: none
+    input[type="checkbox"]:checked ~ .chkUseDistrict
+      width: 32px
+      height: 32px
+      background: url(#{$assetPath}/new/area/regionlayer_on.png) no-repeat
+      background-size: cover
 
 
 
