@@ -1283,6 +1283,56 @@
     word-break: break-all
     &.on
       opacity: 1
+      .graphmenu
+        li
+          &.graphlist1
+            transform: rotate(100deg) translateX(-90px)
+            span
+              width: 80px
+              height: 80px
+              transform: rotate(-100deg)
+          &.graphlist2
+            transform: rotate(155deg) translateX(-90px)
+            span
+              width: 76px
+              height: 76px
+              transform: rotate(-155deg)
+          &.graphlist3
+            transform: rotate(207deg) translateX(-90px)
+            span
+              width: 72px
+              height: 72px
+              transform: rotate(-207deg)
+          &.graphlist4
+            transform: rotate(256deg) translateX(-90px)
+            span
+              width: 68px
+              height: 68px
+              transform: rotate(-256deg)
+          &.graphlist5
+            transform: rotate(302deg) translateX(-90px)
+            span
+              width: 62px
+              height: 62px
+              transform: rotate(-302deg)
+          &.graphlist6
+            transform: rotate(344deg) translateX(-90px)
+            span
+              width: 54px
+              height: 54px
+              transform: rotate(-344deg)
+          &.graphlist7
+            transform: rotate(22deg) translateX(-90px)
+            span
+              width: 48px
+              height: 48px
+              transform: rotate(-22deg)
+          &.graphlist8
+            transform: rotate(57deg) translateX(-90px)
+            span
+              width: 44px
+              height: 44px
+              transform: rotate(-57deg)
     .graphmenu
       +positionAt(absolute,$top:50%,$left:50%)
       transform: translate(-50%, -50%)
@@ -1307,54 +1357,6 @@
           background-color: $blue
           border-radius: 50%
           border: 1px solid #fff
-        &.graphlist1
-          transform: rotate(100deg) translateX(-90px)
-          span
-            width: 80px
-            height: 80px
-            transform: rotate(-100deg)
-        &.graphlist2
-          transform: rotate(155deg) translateX(-90px)
-          span
-            width: 76px
-            height: 76px
-            transform: rotate(-155deg)
-        &.graphlist3
-          transform: rotate(207deg) translateX(-90px)
-          span
-            width: 72px
-            height: 72px
-            transform: rotate(-207deg)
-        &.graphlist4
-          transform: rotate(256deg) translateX(-90px)
-          span
-            width: 68px
-            height: 68px
-            transform: rotate(-256deg)
-        &.graphlist5
-          transform: rotate(302deg) translateX(-90px)
-          span
-            width: 62px
-            height: 62px
-            transform: rotate(-302deg)
-        &.graphlist6
-          transform: rotate(344deg) translateX(-90px)
-          span
-            width: 54px
-            height: 54px
-            transform: rotate(-344deg)
-        &.graphlist7
-          transform: rotate(22deg) translateX(-90px)
-          span
-            width: 48px
-            height: 48px
-            transform: rotate(-22deg)
-        &.graphlist8
-          transform: rotate(57deg) translateX(-90px)
-          span
-            width: 44px
-            height: 44px
-            transform: rotate(-57deg)
     p
       +positionAt(absolute,$left:50%,$top:25%)
       transform: translate(-50%,-25%)
