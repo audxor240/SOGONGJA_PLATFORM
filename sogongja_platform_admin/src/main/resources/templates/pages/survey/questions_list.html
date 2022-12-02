@@ -82,8 +82,9 @@
                                 <col style="width: 5%;">
                                 <col style="width: 8%;">
                                 <col style="width: 10%;">
-                                <col style="width: 69%;">
+                                <col style="width: 59%;">
                                 <col style="width: 8%;">
+                                <col style="width: 18%;">
                             </colgroup>
                             <thead>
                             <tr>
@@ -98,6 +99,7 @@
                                 <th>#</th>
                                 <th>질문유형</th>
                                 <th>질문</th>
+                                <th>사용중인 수</th>
                                 <th style="text-align: center;">작성일</th>
                             </tr>
                             </thead>
@@ -106,7 +108,7 @@
                             <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
                                 <td>
                                     <!--선택 체크박스-->
-                                    <div class="form-check form-check-inline">
+                                    <div class="form-check form-check-inline" th:if="${item.used_cnt == 0 }">
                                         <label class="form-check-label" style="margin: 0 auto;">
                                             <input type="checkbox" name="questionChk" th:value="${item.question_setting_seq}">
                                         </label>
@@ -117,6 +119,7 @@
                                 <td>
                                     <a th:href="@{|/question/${item.question_setting_seq}?${pageParams}|}" th:text="${item.title}">제목</a>
                                 </td>
+                                <td class="text-center" th:text="${item.used_cnt}">등록일</td>
                                 <td class="text-right" th:text="${item.reg_dt}">등록일</td>
                             </tr>
                             </tbody>

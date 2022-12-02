@@ -37,7 +37,7 @@ public class QuestionService extends BaseService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public int saveQuestionSetting(QuestionSetting questionSetting, AnswerSetting answerSetting) throws IOException {
         int result = 0;
-
+        System.out.println("questionSetting >> "+questionSetting);
         if (questionSetting.getQuestionSettingSeq() == 0) {
             //질문 추가
             result = questionSettingMapper.insertQuestionSetting(questionSetting);
@@ -63,13 +63,20 @@ public class QuestionService extends BaseService {
 
                 answerSetting.setAnswer(answer);
                 String tag_str = questionSetting.getAnswerTagList().get(i);
-                String[] tag_arr = tag_str.split("\\|");
-
-                for (int j = 0; j < tag_arr.length; j++) {
-                    String category2 = tag_arr[j];
-                    System.out.println("category2 :: " + category2);
-                    answerSetting.setCategory2(Integer.parseInt(category2));
+                if(tag_str.equals("")) {   //답변에 매칭서비스가 없으면
+                    answerSetting.setCategory2(0);
                     answerSettingMapper.insertAnswerSetting(answerSetting);
+                }else{
+                    System.out.println("tag_str ::: " + tag_str);
+                    String[] tag_arr = tag_str.split("\\|");
+                    System.out.println("tag_arr >> " + tag_arr);
+                    System.out.println("tag_arr.length :::: " + tag_arr.length);
+                    for (int j = 0; j < tag_arr.length; j++) {
+                        String category2 = tag_arr[j];
+                        System.out.println("category2 :: " + category2);
+                        answerSetting.setCategory2(Integer.parseInt(category2));
+                        answerSettingMapper.insertAnswerSetting(answerSetting);
+                    }
                 }
             }
         }else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2){  //추가형[주소]

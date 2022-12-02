@@ -78,14 +78,11 @@ public class QuestionController extends BaseController {
         List<Map<String, Object>> category2List = categoryService.getCategory2List();
         List<Map<String, Object>> answerList = answerSettingService.getAnswerSettingList(questionSeq);
         String keywordStr = questionSettingKeywordService.getQuestionSettingKeywordList(questionSeq);
-        System.out.println("keywordStr :: "+keywordStr);
 
         model.addAttribute("category1List", category1List);
         model.addAttribute("category2List", category2List);
         model.addAttribute("answerList", answerList);
         model.addAttribute("keywordStr", keywordStr);
-        System.out.println("answerList 111:: "+answerList);
-
 
 
         for(int i =0;i < answerList.size();i++){
@@ -95,16 +92,26 @@ public class QuestionController extends BaseController {
             String nameStr = (String) item.get("g_name");
             String seqStr = (String) item.get("g_seq");
 
-            name_list = Arrays.asList(nameStr.split(","));
-            seq_list = Arrays.asList(seqStr.split(","));
+            System.out.println("nameStr :: "+nameStr);
+            System.out.println("seqStr :: "+seqStr);
+
+            //답변에 매칭된 카테고리
+            if(nameStr != null) {
+                name_list = Arrays.asList(nameStr.split(","));
+                seq_list = Arrays.asList(seqStr.split(","));
+            }else{
+                name_list = null;
+                seq_list = null;
+            }
+
+
 
             item.put("nameArr",name_list);
             item.put("seqArr",seq_list);
         }
-        System.out.println("answerList 222:: "+answerList);
 
         model.addAttribute("pageParams", getBaseParameterString(params));
-        System.out.println("CHECK------------------------------------1");
+
         return "pages/survey/questions_form";
     }
 
