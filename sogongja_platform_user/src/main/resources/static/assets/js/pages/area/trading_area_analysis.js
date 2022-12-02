@@ -519,10 +519,10 @@ function displayPath(polygon, area, i) {
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
             if (isAuthenticated) {
-                // true or false
+                areaInClick(area)
             }
             $('.filterbox').removeClass('on');
-            areaInClick(area)
+
             var position = centroid(area.path);
             console.log(position.Ma)
             var data = {
@@ -702,6 +702,34 @@ function contentFunc(area) {
         document.getElementById("resultsum").value = sum_all;
         var sum_all_comma = sum_all.toString()
             .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+        var areaTab = $('input[name=areaTab]:checked').val();
+        var info2 = area.info2
+        var mainpart = '';
+
+        if (areaTab === "open") {//개업수
+            info2 = info2.sort((a, b) => b.open - a.open);
+            for (var i = 0; i < info2.length; i++) {
+                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].open + '</span></li>'
+            }
+        } else if (areaTab === "close") {//폐업수
+            info2 = info2.sort((a, b) => b.close - a.close);
+            for (var i = 0; i < info2.length; i++) {
+                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].close + '</span></li>'
+            }
+        } else if (areaTab === "sales") {//추정매출
+            info2 = info2.sort((a, b) => b.sales - a.sales);
+            for (var i = 0; i < info2.length; i++) {
+                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].sales + '</span></li>'
+            }
+        } else {//상점수 탭일때
+            info2 = info2.sort((a, b) => b.stores - a.stores);
+            for (var i = 0; i < info2.length; i++) {
+                mainpart += ' <li class="graphlist' + (i+1)+ '"><span>' + info2[i].stores + '</span></li>'
+            }
+        }
+
+        console.log("mainpart : " + mainpart)
 //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
@@ -727,14 +755,7 @@ function contentFunc(area) {
             '</p>' +
             '</div>' +
             '<ul class="graphmenu">'+
-            ' <li class="graphlist1"><span>1</span></li>'+
-            ' <li class="graphlist2"><span>2</span></li>'+
-            ' <li class="graphlist3"><span>3</span></li>'+
-            ' <li class="graphlist4"><span>4</span></li>'+
-            ' <li class="graphlist5"><span>5</span></li>'+
-            ' <li class="graphlist6"><span>6</span></li>'+
-            ' <li class="graphlist7"><span>7</span></li>'+
-            ' <li class="graphlist8"><span>8</span></li>'+
+            mainpart +
             ' </ul>'+
             '</div>'
   ;
