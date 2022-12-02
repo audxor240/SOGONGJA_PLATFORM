@@ -20,7 +20,7 @@
             <div class="lnb">
                 <div class="m_tab">교육 및 컨설팅</div>
                 <ul class="container">
-                    <li><a th:href="@{/mypage}">문의 및 답변</a></li>
+                    <li><a th:href="@{/mypage}">교육 및 컨설팅</a></li>
                     <li class="active"><a th:href="@{|/mypage/qna/${qnaBoardSetting.boardSettingSeq}|}">문의 및 답변</a></li>
                     <li><a th:href="@{/mypage/info}">회원정보 변경</a></li>
                 </ul>
@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <th:block th:include="fragments/table_empty:: table_empty(4)" th:if="${#lists.isEmpty(list)}"></th:block>
+                            <th:block th:include="fragments/table_empty:: table_empty(5)" th:if="${#lists.isEmpty(list)}"></th:block>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
                                     <td class="color_606060" th:text="${paging.total - item.rnum + 1}">3</td>

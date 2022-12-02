@@ -551,13 +551,13 @@ function priceToString(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function removePolygons(map) {
+function removePolygons() {
     for (var i = 0; i < polygons.length; i++) {
         polygons[i].setMap(null);
     }
 }
 
-function removeCircles(map) {
+function removeCircles() {
     for (var i = 0; i < circles.length; i++) {
         circles[i].setMap(null);
     }
@@ -594,40 +594,32 @@ function displayArea(area) {
             content = info[0].rt_all;
         }
     }
-    var circle = new kakao.maps.CustomOverlay({
-        position: centroid(area.path),
-        content: '<div class ="countlabel">' +
-            '<div class="countsidobox">' +
-            '<div class="right">' +
-            content +
-            total +
-            '</div></div></div>'
-    });
-    circles.push(circle);
-    if (zoom < 6) {
-        circle.setMap(map);
-    }
+    // var circle = new kakao.maps.CustomOverlay({
+    //     position: centroid(area.path),
+    //     content: '<div class ="countlabel">' +
+    //         '<div class="countsidobox">' +
+    //         '<div class="right">' +
+    //         content +
+    //         total +
+    //         '</div></div></div>'
+    // });
+    // circles.push(circle);
+    // if (zoom < 6) {
+    //     circle.setMap(map);
+    // }
 
     //상점수 폴리곤 색상
     if (codeType3 === '1') {
         // 다각형을 생성합니다
-        if(total>15000){
+        if(total>regionStandard[0][5]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#FF8D07',
                 fillColor: '#FF8D07',
-                fillOpacity: 0.8
+                fillOpacity: 0.6
             });
-        }else if(total>2800){
-            var polygon = new kakao.maps.Polygon({
-                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-                strokeWeight: 2,
-                strokeColor: '#FF8D07',
-                fillColor: '#FF8D07',
-                fillOpacity: 0.65
-            });
-        }else if(total>1500){
+        }else if(total>regionStandard[0][4]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
@@ -635,43 +627,51 @@ function displayArea(area) {
                 fillColor: '#FF8D07',
                 fillOpacity: 0.5
             });
-        }else if(total>500){
+        }else if(total>regionStandard[0][3]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#FF8D07',
                 fillColor: '#FF8D07',
-                fillOpacity: 0.35
+                fillOpacity: 0.4
             });
-        }else{
+        }else if(total>regionStandard[0][2]){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.3
+            });
+        }else if(total>regionStandard[0][1]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#FF8D07',
                 fillColor: '#FF8D07',
                 fillOpacity: 0.2
+            });
+        }else {
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#FF8D07',
+                fillColor: '#FF8D07',
+                fillOpacity: 0.15
             });
         }
 
     } else if (codeType3 === '2') {
         // 인구수 다각형을 생성합니다
-        if(total>3322233222){
+        if(total>regionStandard[1][5]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#1540BF',
                 fillColor: '#1540BF',
-                fillOpacity: 0.8
+                fillOpacity: 0.6
             });
-        }else if(total>2322233222){
-            var polygon = new kakao.maps.Polygon({
-                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-                strokeWeight: 2,
-                strokeColor: '#1540BF',
-                fillColor: '#1540BF',
-                fillOpacity: 0.65
-            });
-        }else if(total>1383913839){
+        }else if(total>regionStandard[1][4]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
@@ -679,13 +679,29 @@ function displayArea(area) {
                 fillColor: '#1540BF',
                 fillOpacity: 0.5
             });
-        }else if(total>722233222){
+        }else if(total>regionStandard[1][3]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#1540BF',
                 fillColor: '#1540BF',
-                fillOpacity: 0.35
+                fillOpacity: 0.4
+            });
+        }else if(total>regionStandard[1][2]){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.3
+            });
+        }else if(total>regionStandard[1][1]){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#1540BF',
+                fillColor: '#1540BF',
+                fillOpacity: 0.2
             });
         }else{
             var polygon = new kakao.maps.Polygon({
@@ -693,29 +709,21 @@ function displayArea(area) {
                 strokeWeight: 2,
                 strokeColor: '#1540BF',
                 fillColor: '#1540BF',
-                fillOpacity: 0.2
+                fillOpacity: 0.15
             });
         }
 
     } else if (codeType3 === '3') {
         // 주요이슈 다각형을 생성합니다
-        if(total>150432150432){
+        if(total>regionStandard[2][5]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#DD4C79',
                 fillColor: '#DD4C79',
-                fillOpacity: 0.8
+                fillOpacity: 0.6
             });
-        }else if(total>100432150432){
-            var polygon = new kakao.maps.Polygon({
-                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
-                strokeWeight: 2,
-                strokeColor: '#DD4C79',
-                fillColor: '#DD4C79',
-                fillOpacity: 0.65
-            });
-        }else if(total>60432150432){
+        }else if(total>regionStandard[2][4]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
@@ -723,13 +731,29 @@ function displayArea(area) {
                 fillColor: '#DD4C79',
                 fillOpacity: 0.5
             });
-        }else if(total>10432150432){
+        }else if(total>regionStandard[2][3]){
             var polygon = new kakao.maps.Polygon({
                 path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
                 strokeWeight: 2,
                 strokeColor: '#DD4C79',
                 fillColor: '#DD4C79',
-                fillOpacity: 0.35
+                fillOpacity: 0.4
+            });
+        }else if(total>regionStandard[2][2]){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.3
+            });
+        }else if(total>regionStandard[2][1]){
+            var polygon = new kakao.maps.Polygon({
+                path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
+                strokeWeight: 2,
+                strokeColor: '#DD4C79',
+                fillColor: '#DD4C79',
+                fillOpacity: 0.2
             });
         }else{
             var polygon = new kakao.maps.Polygon({
@@ -737,7 +761,7 @@ function displayArea(area) {
                 strokeWeight: 2,
                 strokeColor: '#DD4C79',
                 fillColor: '#DD4C79',
-                fillOpacity: 0.2
+                fillOpacity: 0.15
             });
         }
     }else {
@@ -757,21 +781,34 @@ function displayArea(area) {
 
 
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
-    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
+    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다//그라데이션색상정하기
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-        if (codeType3 === '1') {
+        var circle = new kakao.maps.CustomOverlay({
+            position: centroid(area.path),
+            content: '<div class ="countlabel">' +
+                '<div class="countsidobox">' +
+                '<div class="right">' +
+                content +
+                total +
+                '</div></div></div>'
+        });
+        circles.push(circle);
+        circle.setMap(map);
+
+
+        if (codeType3 === '1') {//상점수
             polygon.setOptions({
-                fillColor: '#FF8D07',
+                fillColor: 'url(#store-gra)',
                 fillOpacity: 0.9
             });
         } else if (codeType3 === '2') {
             polygon.setOptions({
-                fillColor: '#1540BF',
+                fillColor: 'url(#popul-gra)',
                 fillOpacity: 0.9
             });
         } else if (codeType3 === '3') {
             polygon.setOptions({
-                fillColor: '#DD4C79',
+                fillColor: 'url(#rental-gra)',
                 fillOpacity: 0.9
             });
         }else {
@@ -792,98 +829,103 @@ function displayArea(area) {
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
+        removeCircles()
         if (codeType3 === '1') {
-            if(total>15000){
+            if(total>regionStandard[0][5]){
                 polygon.setOptions({
                     fillColor: '#FF8D07',
                     fillOpacity: 0.8
                 });
-            }else if(total>2800){
+            }else if(total>regionStandard[0][4]){
                 polygon.setOptions({
                     fillColor: '#FF8D07',
                     fillOpacity: 0.65
                 });
-            }else if(total>1500){
+            }else if(total>regionStandard[0][3]){
                 polygon.setOptions({
                     fillColor: '#FF8D07',
                     fillOpacity: 0.5
                 });
-            }else if(total>500){
+            }else if(total>regionStandard[0][2]){
                 polygon.setOptions({
                     fillColor: '#FF8D07',
                     fillOpacity: 0.35
                 });
-            }else{
+            }else if(total>regionStandard[0][1]){
                 polygon.setOptions({
                     fillColor: '#FF8D07',
                     fillOpacity: 0.2
+                });
+            }else {
+                polygon.setOptions({
+                    fillColor: '#FF8D07',
+                    fillOpacity: 0.15
                 });
             }
         } else if (codeType3 === '2') {
-
-            if(total>3322233222){
+            if(total>regionStandard[1][5]){
                 polygon.setOptions({
                     fillColor: '#1540BF',
                     fillOpacity: 0.8
                 });
-            }else if(total>2322233222){
+            }else if(total>regionStandard[1][4]){
                 polygon.setOptions({
                     fillColor: '#1540BF',
                     fillOpacity: 0.65
                 });
-            }else if(total>1383913839){
+            }else if(total>regionStandard[1][3]){
                 polygon.setOptions({
                     fillColor: '#1540BF',
                     fillOpacity: 0.5
                 });
-            }else if(total>722233222){
+            }else if(total>regionStandard[1][2]){
                 polygon.setOptions({
                     fillColor: '#1540BF',
                     fillOpacity: 0.35
                 });
-            }else{
+            }else if(total>regionStandard[1][1]){
                 polygon.setOptions({
                     fillColor: '#1540BF',
                     fillOpacity: 0.2
+                });
+            }else {
+                polygon.setOptions({
+                    fillColor: '#1540BF',
+                    fillOpacity: 0.15
                 });
             }
         } else if (codeType3 === '3') {
-            polygon.setOptions({
-                fillColor: '#DD4C79',
-                fillOpacity: 0.4
-            });
-            // 주요이슈 다각형을 생성합니다
-            if(total>150432150432){
+            if(total>regionStandard[2][5]){
                 polygon.setOptions({
                     fillColor: '#DD4C79',
                     fillOpacity: 0.8
                 });
-            }else if(total>100432150432){
+            }else if(total>regionStandard[2][4]){
                 polygon.setOptions({
                     fillColor: '#DD4C79',
                     fillOpacity: 0.65
                 });
-            }else if(total>60432150432){
+            }else if(total>regionStandard[2][3]){
                 polygon.setOptions({
                     fillColor: '#DD4C79',
                     fillOpacity: 0.5
                 });
-            }else if(total>10432150432){
+            }else if(total>regionStandard[2][2]){
                 polygon.setOptions({
                     fillColor: '#DD4C79',
                     fillOpacity: 0.35
                 });
-            }else{
+            }else if(total>regionStandard[2][1]){
                 polygon.setOptions({
                     fillColor: '#DD4C79',
                     fillOpacity: 0.2
                 });
+            }else{
+                polygon.setOptions({
+                    fillColor: '#DD4C79',
+                    fillOpacity: 0.15
+                });
             }
-        }else {
-            polygon.setOptions({
-                fillColor: area.over_fill_color,
-                fillOpacity: area.over_fill_opacity
-            });
         }
         // customOverlay.setMap(null);
     });

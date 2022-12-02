@@ -367,7 +367,7 @@ public class BoardController extends BaseController {
 	}
 
 	@PostMapping("/delete")
-	public String deleteBoard(@RequestParam int boardSeq, @RequestParam int boardSettingSeq,
+	public String deleteBoard(@RequestParam int boardSeq, @RequestParam int boardSettingSeq, @RequestParam boolean mypage,
 							  @RequestParam(required = false) String menuCode, Model model, RedirectAttributes rttr) throws IOException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		BoardSetting boardSetting = boardService.getboardSettingInfo(boardSettingSeq);
@@ -378,7 +378,16 @@ public class BoardController extends BaseController {
 
 		boardService.deleteBoard(params);
 		//rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.DELETE);
-		return "redirect:"+appProperties.getHost()+"//board/"+boardSettingSeq;
+
+		String returnUrl = "";
+
+		if(mypage){
+			returnUrl = "redirect:" + appProperties.getHost() + "/mypage/qna/"+boardSettingSeq;
+		}else{
+			returnUrl = "redirect:"+appProperties.getHost()+"/board/"+boardSettingSeq;
+		}
+
+		return returnUrl;
 	}
 
 }

@@ -34,6 +34,7 @@
             <input type="hidden" id="subType" th:value="${user.subType}">
             <input type="hidden" id="typeCheck" th:value="${typeCheck}">
             <input type="hidden" th:field="*{checkedNickName}">
+            <input type="hidden" th:field="*{socialType}">
             <input type="hidden" id="socialType" name="socialType" th:value="none">
             <div class="stage_02">
                 <div class="sub_container mypage_info">
@@ -48,7 +49,7 @@
                                 <th:block th:text="*{id}"></th:block>
                             </td>
                         </tr>
-                        <tr th:if="${user.googleId == null} and ${user.naverId == null} and ${user.kakaoId == null} ">
+                        <tr th:if="${user.socialType == null}">
                             <th>비밀번호 <span class="required">(필수)</span></th>
                             <td style="width: 75%;">
                                 <input type="password" th:field="*{password}" title="비밀번호" placeholder="비밀번호를 입력해주세요." autocomplete="new-password" maxlength="20">
@@ -306,6 +307,13 @@
 
 </article>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var social = true;
+        if([[${user.socialType}]] == null){
+            social = false;
+        }
+
+    </script>
     <script th:src="@{/js/pages/user/info.js}" th:inline="javascript"></script>
     <script th:inline="javascript">
 

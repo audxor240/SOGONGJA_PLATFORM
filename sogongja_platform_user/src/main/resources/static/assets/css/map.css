@@ -1639,6 +1639,70 @@
 #map .areahoverIn.on {
   opacity: 1;
 }
+#map .areahoverIn.on .graphmenu li.graphlist1 {
+  transform: rotate(100deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist1 span {
+  width: 80px;
+  height: 80px;
+  transform: rotate(-100deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist2 {
+  transform: rotate(155deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist2 span {
+  width: 76px;
+  height: 76px;
+  transform: rotate(-155deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist3 {
+  transform: rotate(207deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist3 span {
+  width: 72px;
+  height: 72px;
+  transform: rotate(-207deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist4 {
+  transform: rotate(256deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist4 span {
+  width: 68px;
+  height: 68px;
+  transform: rotate(-256deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist5 {
+  transform: rotate(302deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist5 span {
+  width: 62px;
+  height: 62px;
+  transform: rotate(-302deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist6 {
+  transform: rotate(344deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist6 span {
+  width: 54px;
+  height: 54px;
+  transform: rotate(-344deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist7 {
+  transform: rotate(22deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist7 span {
+  width: 48px;
+  height: 48px;
+  transform: rotate(-22deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist8 {
+  transform: rotate(57deg) translateX(-90px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist8 span {
+  width: 44px;
+  height: 44px;
+  transform: rotate(-57deg);
+}
 #map .areahoverIn .graphmenu {
   position: absolute;
   top: 50%;
@@ -1667,70 +1731,6 @@
   background-color: #1540BF;
   border-radius: 50%;
   border: 1px solid #fff;
-}
-#map .areahoverIn .graphmenu li.graphlist1 {
-  transform: rotate(100deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist1 span {
-  width: 80px;
-  height: 80px;
-  transform: rotate(-100deg);
-}
-#map .areahoverIn .graphmenu li.graphlist2 {
-  transform: rotate(155deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist2 span {
-  width: 76px;
-  height: 76px;
-  transform: rotate(-155deg);
-}
-#map .areahoverIn .graphmenu li.graphlist3 {
-  transform: rotate(207deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist3 span {
-  width: 72px;
-  height: 72px;
-  transform: rotate(-207deg);
-}
-#map .areahoverIn .graphmenu li.graphlist4 {
-  transform: rotate(256deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist4 span {
-  width: 68px;
-  height: 68px;
-  transform: rotate(-256deg);
-}
-#map .areahoverIn .graphmenu li.graphlist5 {
-  transform: rotate(302deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist5 span {
-  width: 62px;
-  height: 62px;
-  transform: rotate(-302deg);
-}
-#map .areahoverIn .graphmenu li.graphlist6 {
-  transform: rotate(344deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist6 span {
-  width: 54px;
-  height: 54px;
-  transform: rotate(-344deg);
-}
-#map .areahoverIn .graphmenu li.graphlist7 {
-  transform: rotate(22deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist7 span {
-  width: 48px;
-  height: 48px;
-  transform: rotate(-22deg);
-}
-#map .areahoverIn .graphmenu li.graphlist8 {
-  transform: rotate(57deg) translateX(-90px);
-}
-#map .areahoverIn .graphmenu li.graphlist8 span {
-  width: 44px;
-  height: 44px;
-  transform: rotate(-57deg);
 }
 #map .areahoverIn p {
   position: absolute;
