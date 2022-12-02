@@ -11,10 +11,11 @@
         INNER JOIN ST_USER U
         ON A.REG_USER_SEQ = U.USER_SEQ
         WHERE A.DEL_FLAG              = 0
-        <if test="type != null and type != ''">
-            AND A.TYPE              = #{type}
-        </if>
+
         <if test="keyword != null and keyword != ''">
+            <if test="type != null and type != ''">
+                AND A.TYPE              = #{type}
+            </if>
             AND A.SUBJECT LIKE CONCAT('%', #{keyword}, '%')
         </if>
         ORDER BY A.FAQ_SEQ DESC

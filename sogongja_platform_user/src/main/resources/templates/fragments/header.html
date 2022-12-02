@@ -22,7 +22,7 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-            <a th:href="@{/faq}" class="guide">이용가이드</a>
+            <a th:href="@{|/faq?type=GUIDE|}" class="guide">이용가이드</a>
             <div class="login_btn">
                 <a href="#n" sec:authorize="!isAuthenticated()">회원가입/로그인</a>
                 <a href="#n" sec:authorize="isAuthenticated()">내 정보 보기</a>

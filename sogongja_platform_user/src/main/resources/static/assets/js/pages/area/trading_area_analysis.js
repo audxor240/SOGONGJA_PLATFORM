@@ -108,28 +108,28 @@ async function searchAddrFromCoords(coords, callback) {
 async function displayCenterInfo(result, status) {
     if (status === kakao.maps.services.Status.OK) {
 
-    var infoDiv1 = document.getElementById("centerAddr1");
-    var infoDiv2 = document.getElementById("centerAddr2");
-    var infoDiv3 = document.getElementById("centerAddr3");
+        var infoDiv1 = document.getElementById("centerAddr1");
+        var infoDiv2 = document.getElementById("centerAddr2");
+        var infoDiv3 = document.getElementById("centerAddr3");
 
-    for (var i = 0; i < result.length; i++) {
-        // 행정동의 region_type 값은 'H' 이므로
-        if (result[i].region_type === "H") {
-            var nowCode = result[i].code;
-            var sidoCode = nowCode.slice(0, 2);
-            var sigunguCode = nowCode.slice(0, 4);
+        for (var i = 0; i < result.length; i++) {
+            // 행정동의 region_type 값은 'H' 이므로
+            if (result[i].region_type === "H") {
+                var nowCode = result[i].code;
+                var sidoCode = nowCode.slice(0, 2);
+                var sigunguCode = nowCode.slice(0, 4);
 
-            infoDiv1.innerHTML = result[i].region_1depth_name;
-            infoDiv1.className = sidoCode;
-            infoDiv1.title = sidoCode;
-            infoDiv2.innerHTML = result[i].region_2depth_name;
-            infoDiv2.className = sigunguCode;
-            infoDiv2.title = sigunguCode;
-            infoDiv3.innerHTML = result[i].region_3depth_name;
-            renderSido()
-            renderSigungu()
-            renderDong()
-            break;
+                infoDiv1.innerHTML = result[i].region_1depth_name;
+                infoDiv1.className = sidoCode;
+                infoDiv1.title = sidoCode;
+                infoDiv2.innerHTML = result[i].region_2depth_name;
+                infoDiv2.className = sigunguCode;
+                infoDiv2.title = sigunguCode;
+                infoDiv3.innerHTML = result[i].region_3depth_name;
+                renderSido()
+                renderSigungu()
+                renderDong()
+                break;
             }
         }
     }
@@ -138,11 +138,13 @@ async function displayCenterInfo(result, status) {
 /*시도,시군구,행정동*/
 /*시도,시군구,행정동*/
 /*시도,시군구,행정동*/
+
 //시도 시군구 클래스에 저장한 코드네임 조회
 function sidoCodeSet() {
     var sidoCode = document.getElementById('centerAddr1').className;
     return sidoCode;
 }
+
 function sigunguCodeSet() {
     var sigunguCode = document.getElementById('centerAddr2').className;
     return sigunguCode;
@@ -151,6 +153,7 @@ function sigunguCodeSet() {
 //1.시도 리스트 조회
 var mainurl =
     `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=`
+
 async function fetchSido() {
     let response = await fetch(mainurl + `*00000000`);
     if (response.status === 200) {
@@ -160,6 +163,7 @@ async function fetchSido() {
         throw Error(data);
     }
 }
+
 async function fetchSigungu(code) {
     let response = await fetch(mainurl + `${code}` + `*000000` + `&is_ignore_zero=true`);
     if (response.status === 200) {
@@ -169,6 +173,7 @@ async function fetchSigungu(code) {
         throw Error(data);
     }
 }
+
 //3행정동 리스트 조회
 async function fetchDong(code) {
     let response = await fetch(mainurl + `${code}` + `*&is_ignore_zero=true`);
@@ -179,6 +184,7 @@ async function fetchDong(code) {
         throw Error(data);
     }
 }
+
 //1-1시도 리스트 선택박스 렌더링
 async function renderSido() {
     let sidos = await fetchSido();
@@ -220,6 +226,7 @@ function isdongTrue(el) {
         return true;
     }
 }
+
 //3-1행정동 리스트 선택박스 렌더링
 async function renderDong() {
     let code = await sigunguCodeSet();
@@ -229,7 +236,7 @@ async function renderDong() {
     var name = [];
     let fiddong = sidoList.map((el, index, arr) => ({
         ...el,
-        dong: el.name.split(" ")[3] != undefined?el.name.split(" ")[2]+" "+el.name.split(" ")[3]:el.name.split(" ")[2]
+        dong: el.name.split(" ")[3] != undefined ? el.name.split(" ")[2] + " " + el.name.split(" ")[3] : el.name.split(" ")[2]
     }));
     name = [...fiddong]
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
@@ -249,7 +256,7 @@ function searchSidoDongPlaces() {
     if (!currCategory) {
         return;
     }
-    geocoder.addressSearch(currCategory, placesSearchCB, { useMapBounds: true })
+    geocoder.addressSearch(currCategory, placesSearchCB, {useMapBounds: true})
     sidoBox.className = '';
     sigunguBox.className = '';
     dongBox.className = '';
@@ -274,6 +281,7 @@ function onClickSearch(el) {
         searchSidoDongPlaces();
     }
 }
+
 mapContainer.addEventListener("click", e => {
     sidoBox.className = '';
     sigunguBox.className = '';
@@ -413,12 +421,14 @@ function addMarker(place, i, imageSrc) {
     }
     return marker;
 }
+
 //마커다시그림
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
+
 //상점뿌리기끝
 
 //상권그리기 시작
@@ -431,22 +441,24 @@ var roundmarkers = []; //상권이름 동그란 마커 호버배열
 var clickmarkers = []; //상권이름 동그란 마커 클릭배열
 console.log("첫상권", areaJson, areaJson.length)
 //첫화면 맵크기 5일때 상권 로드
-    areaSpread(areaJson)
+areaSpread(areaJson)
 //    displayArea(areaJson);
 for (var i = 0, len = areaJson.length; i < len; i++) {
     areanameSpread(areaJson[i]);// 상권이름그려줌
-}$('#storelist').css('display', 'none');//상점 카테고리 삭제
+}
+$('#storelist').css('display', 'none');//상점 카테고리 삭제
 
 
 //상권뿌려줌
-function areaSpread(area){
+function areaSpread(area) {
     for (var i = 0; i < area.length; i++) {
-       var polygon = displayArea(area[i]);//폴리곤 그림
+        var polygon = displayArea(area[i]);//폴리곤 그림
         polygon.setMap(map);
         polygons.push(polygon)
         displayPath(polygon, area, i) //호버, 클릭, 사이드 바 함수 등록
     }
 }
+
 // 다각형 + 상권명을 생상하고 이벤트를 등록하는 함수입니다 맵크기 6~이하일때만 그림
 function displayArea(area) {
     var points = [];
@@ -506,30 +518,35 @@ function displayPath(polygon, area, i) {
     (function sdf(polygon, area) {
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
+            $('.filterbox').removeClass('on')
             areaInClick(area)
-            var position = centroid(area.path);
-            console.log(position.Ma)
-            var data = {
-                areaCd: area.area_cd,
-                areaSeq: area.area_seq,
-                lat : position.Ma,
-                lng : position.La
+            sideInfo(area)
+            var areaTab = $('input[name=areaTab]:checked').val();
+            if (areaTab === "open") {//개업수
+                $(".open-num").css('display', 'block');
+                $(".open-num").siblings().css('display', 'none');
+            } else if (areaTab === "close") {//폐업수
+                $(".close-num").css('display', 'block');
+                $(".close-num").siblings().css('display', 'none');
+            } else if (areaTab === "sales") {//추정매출
+                $(".sales-num").css('display', 'block');
+                $(".sales-num").siblings().css('display', 'none');
+            } else {//상점수 탭일때
+                $(".store-num").css('display', 'block');
+                $(".store-num").siblings().css('display', 'none');
             }
-            ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
-                console.log("세부 요청요청", result)
-                sideInfo(area, result)
-            });
+            $('.areahoverIn').addClass('on')
         });
         // 다각형에 mouseover 이벤트 : 폴리곤의 채움색을 변경
         kakao.maps.event.addListener(polygon, "mouseover", function () {
-          //  areaInhoverFunc(area)
+            //  areaInhoverFunc(area)
             polygon.setOptions({
                 fillOpacity: 0.8
             });
         });
         // 다각형에 mouseout 이벤트 : 폴리곤의 채움색을 원래색으로 변경
         kakao.maps.event.addListener(polygon, "mouseout", function () {
-         //   areaInhoverOut(area)
+            //   areaInhoverOut(area)
             polygon.setOptions({
                 fillOpacity: 0.4
             });
@@ -538,75 +555,65 @@ function displayPath(polygon, area, i) {
 }
 
 //사이드바 인포
-function sideInfo(area, detail) {
-    var info2 = area.info2;
-    var stores = 0;
-    var open = 0;
-    var close = 0;
-    var sales = 0;
-    for (var i = 0; i < info2.length; i++) {
-        stores += info2[i].stores;
-        open += info2[i].open;
-        close += info2[i].close;
-        sales += info2[i].sales;
-    }
+function sideInfo(place) {
     document.getElementById("sidebar").style.display = "block";
-    if (area) {
+    if (place) {
         document.getElementById("sidebar").innerHTML =
-        '<div id="sidebody" class="sidebody_area">' +
-        '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
-        '<div class="sideinfo">' +
-        '<h4 class="sideinfoTitle">상권 정보</h4>' +
-        '<div class="location iconPlus">' +
-        detail.area_nm +
-        '</div>' +
-        '<div class="storegray iconPlus">' +
-        '상권 정보' +
-        '</div>' +
-        "</div>" +
-        '<div class="sideinfo">' +
-        '<h4 class="sideinfoTitle">업종 정보</h4>' +
-        '<div class="listCtegory">' +
-        '<span class="lCategory">' +
-        '상권 정보' +
-        '</span>' +
-        '<span class="lCategory">' +
-        '상권 정보' +
-        '</span>' +
-        '<span class="mCategory">' +
-        '상권 정보' +
-        '</span>' +
-        '</div>' +
-        "</div>" +
-        '<div class="sideinfo">' +
-        '<h4 class="sideinfoTitle">주변 정보</h4>' +
-        '<div class="subway iconPlus">지하철역' +
-        '<span class="position_name">' +
-        '상권 정보' +
-        '</span>' +
-        '<span class="distance">' +
-        '</span>' +
-        '</div>' +
-        '<div class="bus iconPlus">버스' +
-        '<span class="position_name">' +
-        '상권 정보' +
-        '</span>' +
-        '<span class="distance">' +
-        '</span>' +
-        '</div>' +
-        "</div>" +
-        '<div class="sideinfo">' +
-        '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-        '<div class="issue">' +
-        '<span>로그인이 필요합니다.</span>' +
-        '<a>로그인/회원가입 하러가기</a>' +
-        '</div>' +
-        "</div>" +
-        '<button class="analysisBtn">상권활성화 예측지수</button>' +
-        '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
-        '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+            '<div id="sidebody" class="sidebody_area">' +
+            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">상권 정보</h4>' +
+            '<div class="location iconPlus">' +
+            '상권 정보' +
+            '</div>' +
+            '<div class="storegray iconPlus">' +
+            '상권 정보' +
+            '</div>' +
+            "</div>" +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">업종 정보</h4>' +
+            '<div class="listCtegory">' +
+            '<span class="lCategory">' +
+            '상권 정보' +
+            '</span>' +
+            '<span class="lCategory">' +
+            '상권 정보' +
+            '</span>' +
+            '<span class="mCategory">' +
+            '상권 정보' +
+            '</span>' +
+            '</div>' +
+            "</div>" +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">주변 정보</h4>' +
+            '<div class="subway iconPlus">지하철역' +
+            '<span class="position_name">' +
+            '상권 정보' +
+            '</span>' +
+            '<span class="distance">' +
+            '</span>' +
+            '</div>' +
+            '<div class="bus iconPlus">버스' +
+            '<span class="position_name">' +
+            '상권 정보' +
+            '</span>' +
+            '<span class="distance">' +
+            '</span>' +
+            '</div>' +
+            "</div>" +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+            '<div class="issue">' +
+            '<span>로그인이 필요합니다.</span>' +
+            '<a>로그인/회원가입 하러가기</a>' +
+            '</div>' +
+            "</div>" +
+            '<button class="analysisBtn">상권활성화 예측지수</button>' +
+            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
 }
+
 //오버레이닫음
 function closeOverlay() {
     for (var i = 0; i < clickmarkers.length; i++) {
@@ -614,43 +621,63 @@ function closeOverlay() {
     }
     document.getElementById("sidebar").style.display = "none";
 }
+
 // var areatab = $('input[name="areaTab"]')
 // areatab.addEventListener('click', function(event){
 //
 // });
-function contentFunc(area){
+function contentFunc(area) {
+    //요상한 그래프 인포윈도우입니다.
+    var infos = area.info
+    console.log("요것이 상권인포", infos)
+    //상점수 개점수 폐점수 추정매출6개 //업종분류
+    var stores = 0;//상점수
+    var open = 0;//개업수
+    var close = 0;//폐업수
+
+    var sum_00_06 = 0;//00_06추정매출
+    var sum_06_11 = 0;//06_11추정매출
+    var sum_11_14 = 0;//11_14추정매출
+    var sum_14_17 = 0;//14_17추정매출
+    var sum_17_21 = 0;//17_21추정매출
+    var sum_21_24 = 0;//21_24추정매출
+    var sum_all = 0;//all추정매출
+
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
     console.log('enter contentFunc 대분류: ' + maincate + ' 중분류 : ' + midcate)
 
+    if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+        console.log("대분류 전체")
+        for (var i = 0; i < infos.length; i++) {
+            stores += infos[i].ct_shop;
+            open += infos[i].ct_open;
+            close += infos[i].ct_close;
 
-    var areaTab = $('input[name="areaTab"]:checked').val();
-    if (areaTab === "stores"){
-        var stores = 0;
-        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-            console.log("대분류 전체")
-            var info2 = area.info2;
-            for (var i = 0; i < info2.length; i++) {
-                stores += info2[i].stores;
-            }
-        } else {
-            var infos = area.info;
-            if (midcate.includes('all')) {
-                console.log("대분류 분류 중분류 전체")
-                for (var i = 0; i < infos.length; i++) {
-                    if (maincate === infos[i].code) {
-                        stores += infos[i].ct_shop;
-                    }
-                }
-            } else {
-                console.log("대분류 분류 중분류 분류")
-                for (var i = 0; i < infos.length; i++) {
-                    if (midcate === infos[i].com_cd2) {
-                        stores += infos[i].ct_shop;
-                    }
-                }
-            }
+            sum_00_06 += infos[i].sum_00_06;
+            sum_06_11 += infos[i].sum_06_11;
+            sum_11_14 += infos[i].sum_11_14;
+            sum_14_17 += infos[i].sum_14_17;
+            sum_17_21 += infos[i].sum_17_21;
+            sum_21_24 += infos[i].sum_21_24;
         }
+        document.getElementById("SUM_00_06").value = sum_00_06;
+        document.getElementById("SUM_06_11").value = sum_06_11;
+        document.getElementById("SUM_11_14").value = sum_11_14;
+        document.getElementById("SUM_14_17").value = sum_14_17;
+        document.getElementById("SUM_17_21").value = sum_17_21;
+        document.getElementById("SUM_21_24").value = sum_21_24;
+
+        const query = 'input[name="timecate"]:checked';
+        const selectedEls = document.querySelectorAll(query);
+        selectedEls.forEach((el) => {
+            console.log(el.id)
+            sum_all += parseInt(el.value);
+        });
+        document.getElementById("resultsum").value = sum_all;
+        var sum_all_comma = sum_all.toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+//대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -659,80 +686,102 @@ function contentFunc(area){
             '<div class="areanum">' +
             '<p class="store-num num">' +
             stores +
+            "개 점포" +
             '</p>' +
-            '</div>' +
-            '</div>';
-    }else if(areaTab === "open"){
-        var open = 0;
-        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-            console.log("대분류 전체")
-            var info2 = area.info2;
-            for (var i = 0; i < info2.length; i++) {
-                open += info2[i].open;
-            }
-        } else {
-            var infos = area.info;
-            if (midcate.includes('all')) {
-                console.log("대분류 분류 중분류 전체")
-                for (var i = 0; i < infos.length; i++) {
-                    if (maincate === infos[i].code) {
-                        open += infos[i].ct_open;
-                    }
-                }
-            } else {
-                console.log("대분류 분류 중분류 분류")
-                for (var i = 0; i < infos.length; i++) {
-                    if (midcate === infos[i].com_cd2) {
-                        open += infos[i].ct_open;
-                    }
-                }
-            }
-        }
-        var content =
-            '<div class="areahoverIn">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div class="areanum">' +
-             '<p class="open-num num">' +
+            '<p class="open-num num">' +
             open +
+            "개 점포" +
             '</p>' +
-            '</div>' +
-            '</div>';
-    }else if(areaTab === "close"){
-        var close = 0;
-        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-            console.log("대분류 전체")
-            var info2 = area.info2;
-            for (var i = 0; i < info2.length; i++) {
-                close += info2[i].close;
-            }
-        } else {
-            var infos = area.info;
-            if (midcate.includes('all')) {
-                console.log("대분류 분류 중분류 전체")
-                for (var i = 0; i < infos.length; i++) {
-                    if (maincate === infos[i].code) {
-                        close += infos[i].ct_close;
-                    }
-                }
-            } else {
-                console.log("대분류 분류 중분류 분류")
-                for (var i = 0; i < infos.length; i++) {
-                    if (midcate === infos[i].com_cd2) {
-                        close += infos[i].ct_close;
-                    }
-                }
-            }
-        }
-        var content =
-            '<div class="areahoverIn">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div class="areanum">' +
             '<p class="close-num num">' +
             close +
+            "개 점포" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            sum_all_comma +
+            "원" +
+            '</p>' +
+            '</div>' +
+            '<ul class="graphmenu">'+
+            ' <li class="graphlist1"><span>1</span></li>'+
+            ' <li class="graphlist2"><span>2</span></li>'+
+            ' <li class="graphlist3"><span>3</span></li>'+
+            ' <li class="graphlist4"><span>4</span></li>'+
+            ' <li class="graphlist5"><span>5</span></li>'+
+            ' <li class="graphlist6"><span>6</span></li>'+
+            ' <li class="graphlist7"><span>7</span></li>'+
+            ' <li class="graphlist8"><span>8</span></li>'+
+            ' </ul>'+
+            '</div>'
+  ;
+
+    } else {// 여기는 단일마커임
+        if (midcate.includes('all')) {
+            console.log("대분류 분류 중분류 전체")
+            for (var i = 0; i < infos.length; i++) {
+                if (maincate === infos[i].code) {
+                    stores += infos[i].ct_shop;
+                    open += infos[i].ct_open;
+                    close += infos[i].ct_close;
+
+                    sum_00_06 += infos[i].sum_00_06;
+                    sum_06_11 += infos[i].sum_06_11;
+                    sum_11_14 += infos[i].sum_11_14;
+                    sum_14_17 += infos[i].sum_14_17;
+                    sum_17_21 += infos[i].sum_17_21;
+                    sum_21_24 += infos[i].sum_21_24;
+                }
+            }
+        } else {
+            console.log("대분류 분류 중분류 분류")
+            for (var i = 0; i < infos.length; i++) {
+                if (midcate === infos[i].com_cd2) {
+                    stores += infos[i].ct_shop;
+                    open += infos[i].ct_open;
+                    close += infos[i].ct_close;
+
+                    sum_00_06 += infos[i].sum_00_06;
+                    sum_06_11 += infos[i].sum_06_11;
+                    sum_11_14 += infos[i].sum_11_14;
+                    sum_14_17 += infos[i].sum_14_17;
+                    sum_17_21 += infos[i].sum_17_21;
+                    sum_21_24 += infos[i].sum_21_24;
+                }
+            }
+        }
+
+        document.getElementById("SUM_00_06").value = sum_00_06;
+        document.getElementById("SUM_06_11").value = sum_06_11;
+        document.getElementById("SUM_11_14").value = sum_11_14;
+        document.getElementById("SUM_14_17").value = sum_14_17;
+        document.getElementById("SUM_17_21").value = sum_17_21;
+        document.getElementById("SUM_21_24").value = sum_21_24;
+        const query = 'input[name="timecate"]:checked';
+        const selectedEls = document.querySelectorAll(query);
+        selectedEls.forEach((el) => {
+            console.log(el.id)
+            sum_all += parseInt(el.value);
+        });
+        document.getElementById("resultsum").value = sum_all;
+        var sum_all_comma = sum_all.toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            stores +
+            "개 점포" +
+            '</p>' +
+            '<p class="open-num num">' +
+            open +
+            "개 점포" +
+            '</p>' +
+            '<p class="close-num num">' +
+            close +
+            "개 점포" +
             '</p>' +
             '</div>' +
             '</div>';
@@ -812,17 +861,15 @@ function contentFunc(area){
             '</p>' +
             '</div>' +
             '</div>';
-    }else{
-        content=""
     }
     return content
 }
 
-function areaInClick(area){
+function areaInClick(area) {
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
-    }
-    var content= contentFunc(area)
+    }//동그란마커 지우고
+    var content = contentFunc(area)
     var position = centroid(area.path);
     var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
@@ -835,8 +882,8 @@ function areaInClick(area){
     customOverlay.setMap(map);
 }
 
-function areaInhoverFunc(area){
-    var content= contentFunc(area);
+function areaInhoverFunc(area) {
+    var content = contentFunc(area);
     var position = centroid(area.path);
     var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
@@ -848,13 +895,11 @@ function areaInhoverFunc(area){
     customOverlay.setMap(map);
 }
 
-function areaInhoverOut(){
+function areaInhoverOut() {
     for (var i = 0; i < roundmarkers.length; i++) {
         roundmarkers[i].setMap(null);
     }
 }
-
-
 
 
 function areanameSpread(area) {
@@ -876,8 +921,8 @@ function areanameSpread(area) {
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
-    console.log("대분류 : " + maincate + " 중분류 : " + midcate )
-    if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+    console.log("대분류 : " + maincate + " 중분류 : " + midcate)
+    if (maincate == "all") {//전체 업종 선택이면 전체내리고
         console.log("대분류 전체")
         for (var i = 0; i < infos.length; i++) {
 
@@ -927,11 +972,9 @@ function areanameSpread(area) {
                     sum_14_17 += infos[i].sum_14_17;
                     sum_17_21 += infos[i].sum_17_21;
                     sum_21_24 += infos[i].sum_21_24;
-
                 }
             }
         }
-
     }
     document.getElementById("SUM_00_06").value = sum_00_06;
     document.getElementById("SUM_06_11").value = sum_06_11;
@@ -942,7 +985,7 @@ function areanameSpread(area) {
 
     const query = 'input[name="timecate"]:checked';
     const selectedEls = document.querySelectorAll(query);
-    selectedEls.forEach((el) =>{
+    selectedEls.forEach((el) => {
         console.log(el.id)
         sum_all += parseInt(el.value);
     });
@@ -987,9 +1030,8 @@ function areanameSpread(area) {
     // }
     // var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
     console.log("상점수", stores, '개폐점수', open, close, "추정매출총합과 6가지", sum_all, sum_00_06, sum_06_11, sum_11_14, sum_14_17, sum_17_21, sum_21_24)//전체임
-    var sum_all_comma= sum_all.toString()
+    var sum_all_comma = sum_all.toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-
     if (area.area_type == "D") {
         var content =
             '<div class="areaIn color2E750D" >' +
@@ -1002,7 +1044,7 @@ function areanameSpread(area) {
             "개 점포" +
             '</p>' +
             '<p class="open-num num">' +
-            open  +
+            open +
             "개 점포" +
             '</p>' +
             '<p class="close-num num">' +
@@ -1014,8 +1056,7 @@ function areanameSpread(area) {
             "원" +
             '</p>' +
             '</div>' +
-            '</div>'
-                   ;
+            '</div>';
     } else if (area.area_type == "A") {
         var content =
             '<div class="areaIn colorBF7116">' +
@@ -1028,7 +1069,7 @@ function areanameSpread(area) {
             "개 점포" +
             '</p>' +
             '<p class="open-num num">' +
-            open  +
+            open +
             "개 점포" +
             '</p>' +
             '<p class="close-num num">' +
@@ -1053,7 +1094,7 @@ function areanameSpread(area) {
             "개 점포" +
             '</p>' +
             '<p class="open-num num">' +
-            open  +
+            open +
             "개 점포" +
             '</p>' +
             '<p class="close-num num">' +
@@ -1078,7 +1119,7 @@ function areanameSpread(area) {
             "개 점포" +
             '</p>' +
             '<p class="open-num num">' +
-            open  +
+            open +
             "개 점포" +
             '</p>' +
             '<p class="close-num num">' +
@@ -1278,6 +1319,7 @@ function removePolygons(map) {
         polygons[i].setMap(null);
     }
 }
+
 //폴리곤 중심좌표임
 function centroid(points) {
     var i, j, len, p1, p2, f, area, x, y;
@@ -1296,7 +1338,10 @@ function centroid(points) {
 
 //업종선택 클릭시 필터창
 $('.filterIcon').click(function () {
-    $('.filterbox').toggleClass('on')
+    $('.filterbox').addClass('on')
+})
+$('.close_filter').click(function () {
+    $('.filterbox').removeClass('on')
 })
 //개폐업수 클릭시 개업or폐업수선택
 $(".openclose").click(function () {
@@ -1352,6 +1397,7 @@ function changeAreaTab() {
         $(".store-num").siblings().css('display', 'none');
     }
 }
+
 // $('input[name="areaTab"]').click(function () {
 //     var areaTab = $('input[name=areaTab]:checked').val();
 //     console.log("zzzz : " + areaTab)
@@ -1396,51 +1442,58 @@ function changeAreaTab() {
 //     }
 // })
 
-
+$('.midSecBox').css('display', 'none');
+$('.fileter_sub_title.mid_title').css('display', 'none');
 $('input[name="area_maincate"]').click(function () {
     if ($('input[name="area_maincate"]:checked').val() == "all") {
 //대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘
         $('.midSectors').removeClass("on")
         $('.all-mid-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "I") {
+        $('.midSecBox').css('display', 'none');
+        $('.fileter_sub_title.mid_title').css('display', 'none');
+    } else {
+        $('.midSecBox').css('display', 'block');
+        $('.fileter_sub_title.mid_title').css('display', 'block');
+        if ($('input[name="area_maincate"]:checked').val() == "I") {
 //1숙박·음식
-        $('.midSectors').removeClass("on")
-        $('.all-I-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "S") {
+            $('.midSectors').removeClass("on")
+            $('.all-I-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "S") {
 //2수리·개인서비스
-        $('.midSectors').removeClass("on")
-        $('.all-S-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "G") {
+            $('.midSectors').removeClass("on")
+            $('.all-S-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "G") {
 //3도·소매
-        $('.midSectors').removeClass("on")
-        $('.all-G-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "R") {
+            $('.midSectors').removeClass("on")
+            $('.all-G-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "R") {
 //4예술·스포츠·여가
-        $('.midSectors').removeClass("on")
-        $('.all-R-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "N") {
+            $('.midSectors').removeClass("on")
+            $('.all-R-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "N") {
 //5시설관리·임대
-        $('.midSectors').removeClass("on")
-        $('.all-N-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "M") {
+            $('.midSectors').removeClass("on")
+            $('.all-N-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "M") {
 //6과학·기술
-        $('.midSectors').removeClass("on")
-        $('.all-M-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "L") {
+            $('.midSectors').removeClass("on")
+            $('.all-M-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "L") {
 //7부동산
-        $('.midSectors').removeClass("on")
-        $('.all-L-sector').addClass("on")
-    } else if ($('input[name="area_maincate"]:checked').val() == "P") {
+            $('.midSectors').removeClass("on")
+            $('.all-L-sector').addClass("on")
+        } else if ($('input[name="area_maincate"]:checked').val() == "P") {
 //8교육
-        $('.midSectors').removeClass("on")
-        $('.all-P-sector').addClass("on")
+            $('.midSectors').removeClass("on")
+            $('.all-P-sector').addClass("on")
+        }
     }
 })
 
 $('input[name="area_maincate"]').click(function () {
     console.log("LLLLLLLLLLLLLLLLL : " + $(this).val());
-    var temp = 'all-' + $(this).val() +  '-sector';
-    $("input:radio[id=" + temp +"]").prop("checked", true);
+    var temp = 'all-' + $(this).val() + '-sector';
+    $("input:radio[id=" + temp + "]").prop("checked", true);
 })
 
 
