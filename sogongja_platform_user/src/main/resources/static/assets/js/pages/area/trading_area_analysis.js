@@ -507,7 +507,18 @@ function displayPath(polygon, area, i) {
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
             areaInClick(area)
-            sideInfo(area)
+            var position = centroid(area.path);
+            console.log(position.Ma)
+            var data = {
+                areaCd: area.area_cd,
+                areaSeq: area.area_seq,
+                lat : position.Ma,
+                lng : position.La
+            }
+            ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
+                console.log("세부 요청요청", result)
+                sideInfo(area, result)
+            });
         });
         // 다각형에 mouseover 이벤트 : 폴리곤의 채움색을 변경
         kakao.maps.event.addListener(polygon, "mouseover", function () {
@@ -527,16 +538,27 @@ function displayPath(polygon, area, i) {
 }
 
 //사이드바 인포
-function sideInfo(place) {
+function sideInfo(area, detail) {
+    var info2 = area.info2;
+    var stores = 0;
+    var open = 0;
+    var close = 0;
+    var sales = 0;
+    for (var i = 0; i < info2.length; i++) {
+        stores += info2[i].stores;
+        open += info2[i].open;
+        close += info2[i].close;
+        sales += info2[i].sales;
+    }
     document.getElementById("sidebar").style.display = "block";
-    if (place) {
+    if (area) {
         document.getElementById("sidebar").innerHTML =
         '<div id="sidebody" class="sidebody_area">' +
         '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
         '<div class="sideinfo">' +
         '<h4 class="sideinfoTitle">상권 정보</h4>' +
         '<div class="location iconPlus">' +
-        '상권 정보' +
+        detail.area_nm +
         '</div>' +
         '<div class="storegray iconPlus">' +
         '상권 정보' +
