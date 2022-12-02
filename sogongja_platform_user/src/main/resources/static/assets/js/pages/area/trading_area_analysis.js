@@ -783,9 +783,81 @@ function contentFunc(area) {
             close +
             "개 점포" +
             '</p>' +
+            '</div>' +
+            '</div>';
+    }else if(areaTab === "sales"){
+        var sum_00_06 = 0;//00_06추정매출
+        var sum_06_11 = 0;//06_11추정매출
+        var sum_11_14 = 0;//11_14추정매출
+        var sum_14_17 = 0;//14_17추정매출
+        var sum_17_21 = 0;//17_21추정매출
+        var sum_21_24 = 0;//21_24추정매출
+        var sales = 0;//all추정매출
+        var infos = area.info;
+        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
+            console.log("대분류 전체!!!")
+            for (var i = 0; i < infos.length; i++) {
+                sum_00_06 += infos[i].sum_00_06;
+                sum_06_11 += infos[i].sum_06_11;
+                sum_11_14 += infos[i].sum_11_14;
+                sum_14_17 += infos[i].sum_14_17;
+                sum_17_21 += infos[i].sum_17_21;
+                sum_21_24 += infos[i].sum_21_24;
+            }
+        } else {
+            if (midcate.includes('all')) {
+                console.log("대분류 분류 중분류 전체!!!")
+                for (var i = 0; i < infos.length; i++) {
+                    if (maincate === infos[i].code) {
+                        sum_00_06 += infos[i].sum_00_06;
+                        sum_06_11 += infos[i].sum_06_11;
+                        sum_11_14 += infos[i].sum_11_14;
+                        sum_14_17 += infos[i].sum_14_17;
+                        sum_17_21 += infos[i].sum_17_21;
+                        sum_21_24 += infos[i].sum_21_24;
+                    }
+                }
+            } else {
+                console.log("대분류 분류 중분류 분류!!!")
+                for (var i = 0; i < infos.length; i++) {
+                    if (midcate === infos[i].com_cd2) {
+                        sum_00_06 += infos[i].sum_00_06;
+                        sum_06_11 += infos[i].sum_06_11;
+                        sum_11_14 += infos[i].sum_11_14;
+                        sum_14_17 += infos[i].sum_14_17;
+                        sum_17_21 += infos[i].sum_17_21;
+                        sum_21_24 += infos[i].sum_21_24;
+                    }
+                }
+            }
+        }
+        const query = 'input[name="timecate"]:checked';
+        const selectedEls = document.querySelectorAll(query);
+        selectedEls.forEach((el) =>{
+            if (el.id === 'SUM_00_06') {
+                sales += sum_00_06;
+            } else if (el.id === 'SUM_06_11') {
+                sales += sum_06_11;
+            } else if (el.id === 'SUM_11_14') {
+                sales += sum_11_14;
+            } else if (el.id === 'SUM_14_17') {
+                sales += sum_14_17;
+            } else if (el.id === 'SUM_17_21') {
+                sales += sum_17_21;
+            } else if (el.id === 'SUM_21_24') {
+                sales += sum_21_24;
+            }
+        });
+        sales = sales.toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        var content =
+            '<div class="areahoverIn">' +
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
             '<p class="sales-num num">' +
-            sum_all_comma +
-            "원" +
+            sales + '원'+
             '</p>' +
             '</div>' +
             '</div>';

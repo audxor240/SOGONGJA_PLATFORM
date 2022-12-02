@@ -101,7 +101,7 @@
                                 <option value="content">내용</option>
                                 <option value="">제목 + 내용</option>
                             </select>
-                            <input type="text" th:field="*{keyword}" title="검색" placeholder="검색어를 입력하세요">
+                            <input type="text" th:field="*{keyword}" title="검색" placeholder="검색어를 입력하세요" style="width:52%">
                             <button type="submit">검색</button>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
     </section>
 </article>
 <th:block layout:fragment="custom_js">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1b498b9b5f5cf2ae9f152080bcb6cec&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca&libraries=services"></script>
     <script th:src="@{/js/pages/board/community_list.js}"></script>
 </th:block>
 </body>
