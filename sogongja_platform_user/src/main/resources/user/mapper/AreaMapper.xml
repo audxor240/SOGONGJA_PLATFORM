@@ -288,6 +288,17 @@
 		WHERE RA.AREA_CD = #{areaCd}
 	</select>
 
+	<select id="getTradingAreaMaxSales" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getTradingAreaMaxSales */
+		SELECT SUM(RAC.SUM_00_06) AS '~ 오전 6시',SUM(RAC.SUM_06_11)AS '오전 6시 ~ 오전 11시',SUM(RAC.SUM_11_14)AS '오전 11시 ~ 오후 2시',
+			   SUM(RAC.SUM_14_17)AS '오후 2시 ~ 오후 5시',SUM(RAC.SUM_17_21)AS '오후 5시 ~ 오후 9시',SUM(RAC.SUM_21_24)AS '오후 9시 ~'
+		FROM ST_RESEARCH_AREA_COM RAC
+		WHERE RAC.AREA_CD = #{areaCd}
+		  AND  RAC.YEAR =  (SELECT YEAR FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+			AND RAC.QRT =  (SELECT QRT FROM ST_RESEARCH_AREA_COM ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
+		GROUP BY RAC.AREA_CD
+	</select>
+
 	<select id="getRegionAreaInfoList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : AreaMapper.xml, id : getRegionAreainfoList */
 		<choose>

@@ -1,9 +1,6 @@
 package com.stoneitgt.sogongja.user.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -179,7 +176,8 @@ public class AreaService extends BaseService {
 		calculateRadius(params);
 		Map<String, Object> tradingAreaDetails = areaMapper.getTradingAreaDetails(params);
 		tradingAreaDetails.put("graph", areaMapper.getTradingAreaStaIdx(areaCd));
-
+		Map<String, Long> maxSales = areaMapper.getTradingAreaMaxSales(areaCd);
+		tradingAreaDetails.put("picktime", Collections.max(maxSales.entrySet(), Map.Entry.comparingByValue()).getKey());
 
 		return tradingAreaDetails;
 //		Map<String, Object> recentMonth = areaMapper.getRecentMonth(areaCd);
