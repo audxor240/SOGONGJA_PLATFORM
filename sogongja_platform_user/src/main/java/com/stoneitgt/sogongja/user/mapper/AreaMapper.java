@@ -18,7 +18,8 @@ public interface AreaMapper {
 	List<Map<String, Object>> getRegionAreaInfoList(Map<String, Object> params);
 	// 지역연구
 	List<Map<String, Object>> getRegionAreaDetail(Map<String, Object> params);
-
+	// 지역연구
+	List<Map<String, Object>> getRegionAreaStandard();
 
 	// 상점연구
 	List<Map<String, Object>> getResearchShopList(Map<String, Object> params);
