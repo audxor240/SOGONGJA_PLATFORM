@@ -520,7 +520,18 @@ function displayPath(polygon, area, i) {
         kakao.maps.event.addListener(polygon, "click", function () {
             $('.filterbox').removeClass('on')
             areaInClick(area)
-            sideInfo(area)
+            var position = centroid(area.path);
+            console.log(position.Ma)
+            var data = {
+                areaCd: area.area_cd,
+                areaSeq: area.area_seq,
+                lat : position.Ma,
+                lng : position.La
+            }
+            ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
+                console.log("세부 요청요청", result)
+                sideInfo(area, result)
+            });
             var areaTab = $('input[name=areaTab]:checked').val();
             if (areaTab === "open") {//개업수
                 $(".open-num").css('display', 'block');
@@ -555,9 +566,20 @@ function displayPath(polygon, area, i) {
 }
 
 //사이드바 인포
-function sideInfo(place) {
+function sideInfo(area, detail) {
+    var info2 = area.info2;
+    var stores = 0;
+    var open = 0;
+    var close = 0;
+    var sales = 0;
+    for (var i = 0; i < info2.length; i++) {
+        stores += info2[i].stores;
+        open += info2[i].open;
+        close += info2[i].close;
+        sales += info2[i].sales;
+    }
     document.getElementById("sidebar").style.display = "block";
-    if (place) {
+    if (area) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody" class="sidebody_area">' +
             '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
@@ -785,84 +807,8 @@ function contentFunc(area) {
             '</p>' +
             '</div>' +
             '</div>';
-    }else if(areaTab === "sales"){
-        var sum_00_06 = 0;//00_06추정매출
-        var sum_06_11 = 0;//06_11추정매출
-        var sum_11_14 = 0;//11_14추정매출
-        var sum_14_17 = 0;//14_17추정매출
-        var sum_17_21 = 0;//17_21추정매출
-        var sum_21_24 = 0;//21_24추정매출
-        var sales = 0;//all추정매출
-        var infos = area.info;
-        if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-            console.log("대분류 전체!!!")
-            for (var i = 0; i < infos.length; i++) {
-                sum_00_06 += infos[i].sum_00_06;
-                sum_06_11 += infos[i].sum_06_11;
-                sum_11_14 += infos[i].sum_11_14;
-                sum_14_17 += infos[i].sum_14_17;
-                sum_17_21 += infos[i].sum_17_21;
-                sum_21_24 += infos[i].sum_21_24;
-            }
-        } else {
-            if (midcate.includes('all')) {
-                console.log("대분류 분류 중분류 전체!!!")
-                for (var i = 0; i < infos.length; i++) {
-                    if (maincate === infos[i].code) {
-                        sum_00_06 += infos[i].sum_00_06;
-                        sum_06_11 += infos[i].sum_06_11;
-                        sum_11_14 += infos[i].sum_11_14;
-                        sum_14_17 += infos[i].sum_14_17;
-                        sum_17_21 += infos[i].sum_17_21;
-                        sum_21_24 += infos[i].sum_21_24;
-                    }
-                }
-            } else {
-                console.log("대분류 분류 중분류 분류!!!")
-                for (var i = 0; i < infos.length; i++) {
-                    if (midcate === infos[i].com_cd2) {
-                        sum_00_06 += infos[i].sum_00_06;
-                        sum_06_11 += infos[i].sum_06_11;
-                        sum_11_14 += infos[i].sum_11_14;
-                        sum_14_17 += infos[i].sum_14_17;
-                        sum_17_21 += infos[i].sum_17_21;
-                        sum_21_24 += infos[i].sum_21_24;
-                    }
-                }
-            }
-        }
-        const query = 'input[name="timecate"]:checked';
-        const selectedEls = document.querySelectorAll(query);
-        selectedEls.forEach((el) =>{
-            if (el.id === 'SUM_00_06') {
-                sales += sum_00_06;
-            } else if (el.id === 'SUM_06_11') {
-                sales += sum_06_11;
-            } else if (el.id === 'SUM_11_14') {
-                sales += sum_11_14;
-            } else if (el.id === 'SUM_14_17') {
-                sales += sum_14_17;
-            } else if (el.id === 'SUM_17_21') {
-                sales += sum_17_21;
-            } else if (el.id === 'SUM_21_24') {
-                sales += sum_21_24;
-            }
-        });
-        sales = sales.toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        var content =
-            '<div class="areahoverIn">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div class="areanum">' +
-            '<p class="sales-num num">' +
-            sales + '원'+
-            '</p>' +
-            '</div>' +
-            '</div>';
     }
-    return content
+    return content;
 }
 
 function areaInClick(area) {
