@@ -177,6 +177,12 @@
 .main_section .swiper_wrap .swiper-slide {
   background-color: #fff;
 }
+.main_section .swiper_wrap .swiper-slide div {
+  height: auto;
+}
+.main_section .swiper_wrap .swiper-slide div img {
+  width: 100%;
+}
 .main_section .swiper_wrap .swiper-slide .pc_img {
   display: block;
   width: 100%;
@@ -419,9 +425,11 @@
 }
 .slide_video .mySwiper .right div {
   background-color: #ccc;
-  border: solid;
   width: 100%;
-  height: 400px;
+  height: auto;
+}
+.slide_video .mySwiper .right div img {
+  width: 100%;
 }
 
 .swiper-pagination {

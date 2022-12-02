@@ -805,6 +805,10 @@ function contentFunc(area) {
             close +
             "개 점포" +
             '</p>' +
+            '<p class="sales-num num">' +
+            sum_all_comma +
+            "원" +
+            '</p>' +
             '</div>' +
             '</div>';
     }
