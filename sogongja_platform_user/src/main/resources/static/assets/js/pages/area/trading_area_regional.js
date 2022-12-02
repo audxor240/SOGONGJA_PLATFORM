@@ -551,13 +551,13 @@ function priceToString(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function removePolygons(map) {
+function removePolygons() {
     for (var i = 0; i < polygons.length; i++) {
         polygons[i].setMap(null);
     }
 }
 
-function removeCircles(map) {
+function removeCircles() {
     for (var i = 0; i < circles.length; i++) {
         circles[i].setMap(null);
     }
@@ -594,19 +594,19 @@ function displayArea(area) {
             content = info[0].rt_all;
         }
     }
-    var circle = new kakao.maps.CustomOverlay({
-        position: centroid(area.path),
-        content: '<div class ="countlabel">' +
-            '<div class="countsidobox">' +
-            '<div class="right">' +
-            content +
-            total +
-            '</div></div></div>'
-    });
-    circles.push(circle);
-    if (zoom < 6) {
-        circle.setMap(map);
-    }
+    // var circle = new kakao.maps.CustomOverlay({
+    //     position: centroid(area.path),
+    //     content: '<div class ="countlabel">' +
+    //         '<div class="countsidobox">' +
+    //         '<div class="right">' +
+    //         content +
+    //         total +
+    //         '</div></div></div>'
+    // });
+    // circles.push(circle);
+    // if (zoom < 6) {
+    //     circle.setMap(map);
+    // }
 
     //상점수 폴리곤 색상
     if (codeType3 === '1') {
@@ -783,6 +783,19 @@ function displayArea(area) {
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다//그라데이션색상정하기
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
+        var circle = new kakao.maps.CustomOverlay({
+            position: centroid(area.path),
+            content: '<div class ="countlabel">' +
+                '<div class="countsidobox">' +
+                '<div class="right">' +
+                content +
+                total +
+                '</div></div></div>'
+        });
+        circles.push(circle);
+        circle.setMap(map);
+
+
         if (codeType3 === '1') {//상점수
             polygon.setOptions({
                 fillColor: 'url(#store-gra)',
@@ -816,6 +829,7 @@ function displayArea(area) {
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
+        removeCircles()
         if (codeType3 === '1') {
             if(total>regionStandard[0][5]){
                 polygon.setOptions({
