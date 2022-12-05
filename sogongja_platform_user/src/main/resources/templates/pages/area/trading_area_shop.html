@@ -26,7 +26,9 @@
             <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
             <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
             </div>
-            <div class="community_Btn" sec:authorize="isAuthenticated()"></div>
+            <div class="community_Btn" sec:authorize="isAuthenticated()">
+                <input type="hidden" id="loginCheck" value="true">
+            </div>
         </div>
 
         <div class="addressSearchTop">
@@ -198,7 +200,7 @@
     </div>
 
     <div class="solution_btn">
-        <a th:href="@{/solution/education}">
+        <a href="javascript:alert('준비중입니다.');">
             소공자 <br>
             솔루션
         </a>
