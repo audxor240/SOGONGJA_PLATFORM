@@ -1166,6 +1166,9 @@ async function changeMap() {
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
         //시도,시군구 단위 자체 마커
         removePolygons(map)// 상권 삭제
+        for (var i = 0; i < clickmarkers.length; i++) {
+            clickmarkers[i].setMap(null);
+        }
         for (var i = 0; i < areanameMarkers.length; i++) {
             areanameMarkers[i].setMap(null);//상권이름 마커 비우고
         }
