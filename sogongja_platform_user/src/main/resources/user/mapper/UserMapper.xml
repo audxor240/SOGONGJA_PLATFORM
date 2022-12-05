@@ -273,7 +273,7 @@
 
 	<select id="getLikeEducationList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : UserMapper.xml, id : getLikeEducationList */
-		select E.*, EB.EDU_MARK_SEQ, EW.EDU_WATCHING_SEQ
+		select E.*, EB.EDU_MARK_SEQ, (select EW.EDU_WATCHING_SEQ from ST_EDUCATION_WATCHING as EW where EW.EDU_SEQ = E.EDU_SEQ and USER_SEQ = #{loginUserSeq}) as EDU_WATCHING_SEQ
 		     	  , SUPPORT.SUPPORT_NAME AS SUPPORT_ORG_NAME
 				  , F.FILE_SEQ
 				  , F.FILE_PATH
@@ -283,7 +283,6 @@
 		left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = E.SUPPORT_ORG
 		LEFT JOIN ST_FILES F ON F.REF_TYPE = 'EDUCATION_IMAGE' AND F.REF_SEQ  = E.EDU_SEQ AND F.DEL_FLAG = 0
 		left join ST_EDUCATION_BOOKMARK as EB ON EB.EDU_SEQ = E.EDU_SEQ
-		left join ST_EDUCATION_WATCHING as EW ON EW.EDU_SEQ = E.EDU_SEQ
 		where E.DEL_FLAG = 0 AND E.EDU_URL != '' and EB.USER_SEQ = #{loginUserSeq}
 	</select>
 
@@ -332,7 +331,7 @@
 
 	<select id="getLikeConsultingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : UserMapper.xml, id : getLikeConsultingList */
-		select C.*, CB.CON_MARK_SEQ, (select CW.CON_WATCHING_SEQ from ST_CONSULTING_WATCHING as CW where CW.CON_SEQ = C.CON_SEQ and USER_SEQ = 45) as CON_WATCHING_SEQ
+		select C.*, CB.CON_MARK_SEQ, (select CW.CON_WATCHING_SEQ from ST_CONSULTING_WATCHING as CW where CW.CON_SEQ = C.CON_SEQ and USER_SEQ = #{loginUserSeq}) as CON_WATCHING_SEQ
 			 , SUPPORT.SUPPORT_NAME AS SUPPORT_ORG_NAME
 			 , F.FILE_SEQ
 			 , F.FILE_PATH
