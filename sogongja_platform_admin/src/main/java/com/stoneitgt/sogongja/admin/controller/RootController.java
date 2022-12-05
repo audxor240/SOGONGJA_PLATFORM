@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.stoneitgt.sogongja.admin.properties.AppProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +24,14 @@ import com.stoneitgt.util.StoneUtil;
 @Controller
 public class RootController extends BaseController {
 
+	@Autowired
+	private AppProperties appProperties;
+
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(@ModelAttribute LoginForm loginForm, Model model) {
 
 		if (authenticationFacade.isAdmin()) {
-			return "redirect:/main";
+			return "redirect:/setting/user";
 		}
 		model.addAttribute("loginForm", loginForm);
 		return "pages/login";
@@ -43,7 +48,7 @@ public class RootController extends BaseController {
 		params.put("yyyymm", StoneUtil.getToday("yyyy-MM"));
 
 		model.addAttribute("params", params);
-		return "pages/main";
+		return "redirect:"+appProperties.getHost()+"/setting/user";
 	}
 
 	@PostMapping("/session/extention")
