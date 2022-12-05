@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: prod
     
   servlet:
     multipart:
@@ -55,9 +55,9 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
       username: root
-      password: softlabsdusgn
+      password: thvmxmfoqtm
 
 system:
   slack-send: false
@@ -95,6 +95,9 @@ storage:
   password: thvmxmfoqtm@))*
   host: 127.0.0.1
   port: 2202
+
+app:
+  host: http://localhost:2081
 ---
 
 spring:
@@ -144,14 +147,19 @@ spring:
       on-profile: prod
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: sogongja
-      password: sogongja@2021!
+      #jdbc-url: jdbc:log4jdbc:mariadb://121.254.171.155:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      #username: sogongja
+      #password: sogongja@2021!
+      jdbc-url: jdbc:log4jdbc:mariadb://sogongja-aurora-prod-instance.cluster-cyoshxr7pnby.ap-northeast-2.rds.amazonaws.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: admin
+      password: thrhdwk5834#
       
 system:
   slack-send: false
-  upload-file-path: /mnt/extra02/home/sogongja/upload
-  thumbnail-file-path: /mnt/extra02/home/sogongja/upload/thumb
+  #upload-file-path: /mnt/extra02/home/sogongja/upload
+  #thumbnail-file-path: /mnt/extra02/home/sogongja/upload/thumb
+  upload-file-path: /home/sogongja/sogongja-master/upload
+  thumbnail-file-path: /home/sogongja/sogongja-master/upload/thumb
   
 server:
   port: 2081
@@ -178,3 +186,6 @@ logging:
       connection: off
     org:
       thymeleaf: off
+
+app:
+  host: http://admin.sogongja.co.kr

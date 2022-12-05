@@ -332,7 +332,7 @@
 
 	<select id="getLikeConsultingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : UserMapper.xml, id : getLikeConsultingList */
-		select C.*, CB.CON_MARK_SEQ, CW.CON_WATCHING_SEQ
+		select C.*, CB.CON_MARK_SEQ, (select CW.CON_WATCHING_SEQ from ST_CONSULTING_WATCHING as CW where CW.CON_SEQ = C.CON_SEQ and USER_SEQ = 45) as CON_WATCHING_SEQ
 			 , SUPPORT.SUPPORT_NAME AS SUPPORT_ORG_NAME
 			 , F.FILE_SEQ
 			 , F.FILE_PATH
@@ -341,7 +341,6 @@
 				 left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = C.SUPPORT_ORG
 				 LEFT JOIN ST_FILES F ON F.REF_TYPE = 'CONSULTING_IMAGE' AND F.REF_SEQ  = C.CON_SEQ AND F.DEL_FLAG = 0
 				 left join ST_CONSULTING_BOOKMARK as CB ON CB.CON_SEQ = C.CON_SEQ
-				 left join ST_CONSULTING_WATCHING as CW ON CW.CON_SEQ = C.CON_SEQ
 		where C.DEL_FLAG = 0 AND C.CON_URL != '' and CB.USER_SEQ = #{loginUserSeq}
 	</select>
 
