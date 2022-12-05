@@ -610,7 +610,7 @@ public class UserController extends BaseController {
 
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
-		System.out.println("여기-------------------------------------------------------------------------");
+
 		User user = new User();
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
@@ -620,7 +620,7 @@ public class UserController extends BaseController {
 		model.addAttribute("qnaBoardSetting", boardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("user", user);
-		System.out.println("MYPAGE==============================@@@@@@@@@@@@@@@@@@@@");
+
 		return "pages/user/mypage";
 	}
 
