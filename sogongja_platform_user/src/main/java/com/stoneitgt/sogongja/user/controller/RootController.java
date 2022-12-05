@@ -85,11 +85,26 @@ public class RootController extends BaseController {
 
 	@GetMapping("/privacyPolicy")
 	public String privacyPolicy(Model model) {
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("sel_privacyPolicy", true);
 		return "pages/user/privacy_policy";
+
 	}
 
 	@GetMapping("/TermsOfService")
 	public String TermsOfService(Model model) {
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("boardSettingList", boardSettingList);
+		model.addAttribute("sel_TermsOfService", true);
 		return "pages/user/Terms_of_service";
 	}
 }

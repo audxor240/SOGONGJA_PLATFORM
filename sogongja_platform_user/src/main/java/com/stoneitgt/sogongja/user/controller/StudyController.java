@@ -245,9 +245,13 @@ public class StudyController extends BaseController {
 
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+		Map<String, Object> data = counselingService.getCounseling(couSeq);
+
+		String nlString = System.getProperty("line.separator").toString();
 
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
-		model.addAttribute("data", counselingService.getCounseling(couSeq));
+		model.addAttribute("data", data);
+		model.addAttribute("nlString", nlString);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.COUNSELING, couSeq));
 

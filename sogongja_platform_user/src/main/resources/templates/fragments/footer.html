@@ -65,8 +65,8 @@
 
     <div class="ft_bottom container">
         <ul class="privacy">
-            <li><a th:href="@{/TermsOfService}">사이트이용약관</a></li>
-            <li><a th:href="@{/privacyPolicy}">개인정보취급방침</a></li>
+            <li><a th:href="@{/TermsOfService}" th:style="${sel_TermsOfService eq true?'color:#709bff':''}">사이트이용약관</a></li>
+            <li><a th:href="@{/privacyPolicy}" th:style="${sel_privacyPolicy eq true?'color:#709bff':''}">개인정보취급방침</a></li>
         </ul>
         <ul class="ad">
             <li>

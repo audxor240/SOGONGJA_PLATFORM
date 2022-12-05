@@ -23,7 +23,7 @@
         <div class="sub_container">
             <div class="faq_anchor_wrap">
                 <p>문의하기 전에 <span>FAQ</span>에서 답을 찾아 보세요.</p>
-                <div><a th:href="@{/faq}">자주하는 질문</a></div>
+                <div><a th:href="@{/faq(type='ALL')}">자주하는 질문</a></div>
             </div>
             <form class="write_qna" name="qnaForm" th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return validationForm();">
                 <input type="hidden" th:field="*{boardSeq}">

@@ -111,9 +111,9 @@ footer .ft_bottom .privacy li {
   display: inline-block;
   padding: 0rem 1rem;
 }
-footer .ft_bottom .privacy li:last-child a {
+/*footer .ft_bottom .privacy li:last-child a {
   color: #709bff;
-}
+}*/
 footer .ft_bottom .privacy li a {
   color: #fff;
 }
