@@ -709,6 +709,26 @@ function contentFunc(area) {
                 mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
             }
         } else if (areaTab === "sales") {//추정매출
+            for (var i = 0; i < info2.length; i++) {
+                var tempSales = 0;
+                $("input[name='timecate']:checked").each(function(e){
+                    var tempTimeId = $(this).attr('id');
+                    if (tempTimeId === 'SUM_00_06') {
+                        tempSales += info2[i].sum_00_06;
+                    } else if (tempTimeId === 'SUM_06_11') {
+                        tempSales += info2[i].sum_06_11;
+                    } else if (tempTimeId === 'SUM_11_14') {
+                        tempSales += info2[i].sum_11_14;
+                    } else if (tempTimeId === 'SUM_14_17') {
+                        tempSales += info2[i].sum_14_17;
+                    } else if (tempTimeId === 'SUM_17_21') {
+                        tempSales += info2[i].sum_17_21;
+                    } else if (tempTimeId === 'SUM_21_24') {
+                        tempSales += info2[i].sum_21_24;
+                    }
+                })
+                info2[i].sales = tempSales;
+            }
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
                 mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
@@ -721,7 +741,7 @@ function contentFunc(area) {
         }
         console.log(mainpart)
 
-//대분류전체 콘텐트
+        //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
             '<p class="areacenter">' +
@@ -1321,7 +1341,6 @@ $(".openclose_list").click(function () {
 //개폐업수 탭 색상 변경
 function changeAreaTab() {
     var areaTab = $('input[name=areaTab]:checked').val();
-    console.log("zzzz : " + areaTab)
     document.getElementById("sidebar").style.display = "none";
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
@@ -1456,7 +1475,6 @@ $('input[name="area_maincate"]').click(function () {
 })
 
 $('input[name="area_maincate"]').click(function () {
-    console.log("LLLLLLLLLLLLLLLLL : " + $(this).val());
     var temp = 'all-' + $(this).val() + '-sector';
     $("input:radio[id=" + temp + "]").prop("checked", true);
 })
@@ -1481,25 +1499,39 @@ function showMidPart(code) {
     }
 
     var areaTab = $('input[name=areaTab]:checked').val();
-    for (var i = 0; i < tempArr.length; i++) {
-        console.log(tempArr[i].ct_shop)
-    }
     if (areaTab === "open") {//개업수
         tempArr = tempArr.sort((a, b) => b.ct_open - a.ct_open);
-
     } else if (areaTab === "close") {//폐업수
         tempArr = tempArr.sort((a, b) => b.cd_close - a.cd_close);
 
     } else if (areaTab === "sales") {//추정매출
+        for (var i = 0; i < tempArr.length; i++) {
+            var tempSales = 0;
+            $("input[name='timecate']:checked").each(function(e){
+                var tempTimeId = $(this).attr('id');
+                if (tempTimeId === 'SUM_00_06') {
+                    tempSales += tempArr[i].sum_00_06;
+                } else if (tempTimeId === 'SUM_06_11') {
+                    tempSales += tempArr[i].sum_06_11;
+                } else if (tempTimeId === 'SUM_11_14') {
+                    tempSales += tempArr[i].sum_11_14;
+                } else if (tempTimeId === 'SUM_14_17') {
+                    tempSales += tempArr[i].sum_14_17;
+                } else if (tempTimeId === 'SUM_17_21') {
+                    tempSales += tempArr[i].sum_17_21;
+                } else if (tempTimeId === 'SUM_21_24') {
+                    tempSales += tempArr[i].sum_21_24;
+                }
+            })
+            tempArr[i].sales = tempSales;
+        }
         tempArr = tempArr.sort((a, b) => b.sales - a.sales);
-
-        // tempArr = tempArr.sort((a, b) => (b.sum_00_06 + b.sum_06_11 + b.sum_11_14 + b.sum_14_17 + b.sum_17_21 + b.sum_21_24) - (a.sum_00_06 + a.sum_06_11 + a.sum_11_14 + a.sum_14_17 + a.sum_17_21 + a.sum_21_24));
     } else {//상점수 탭일때
         tempArr = tempArr.sort((a, b) => b.ct_shop - a.ct_shop);
     }
-    console.log(":::::::::::::::::::")
+
     for (var i = 0; i < tempArr.length; i++) {
-        console.log(tempArr[i].ct_shop)
+        console.log(tempArr[i])
     }
 
 
