@@ -662,12 +662,12 @@ function sideInfo(place) {
                     new kakao.maps.LatLng(resultsubway.sublng, resultsubway.sublat)//지하철,버스 역 위치
                 ]
             });
+            var text = "";
             if (resultsubway.buslng > 0) {//빈값아니면 거리 계산
                 var buspos = buspolyline.getLength().toFixed(2);
                 var subpos = subwaypolyline.getLength().toFixed(2)
-                console.log("버스길이" + buspos);
-                console.log("지하철길이" + subpos);
-                document.getElementById("sidebar").innerHTML =
+
+                text +=
                     '<div id="sidebody">' +
                     '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
                     '<div class="sideinfo">' +
@@ -711,19 +711,26 @@ function sideInfo(place) {
                     buspos +
                     'm</span>' +
                     '</div>' +
-                    "</div>" +
-                    '<div class="sideinfo">' +
-                    '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-                    '<div class="issue">' +
-                    '<span>로그인이 필요합니다.</span>' +
-                    '<a>로그인/회원가입 하러가기</a>' +
-                    '</div>' +
-                    "</div>" +
+                    "</div>";
+
+                    if($("#loginCheck").val() == undefined) {
+                            text +=
+                            '<div class="sideinfo">' +
+                                '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+                                '<div class="issue">' +
+                                '<span>로그인이 필요합니다.</span>' +
+                                '<a href="/login">로그인/회원가입 하러가기</a>' +
+                                '</div>' +
+                            "</div>";
+                    }
+
+                    text +=
                     '<button class="analysisBtn">상권활성화 예측지수</button>' +
-                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
+                    '</div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
             } else {
-                document.getElementById("sidebar").innerHTML =
+                    text +=
                     '<div id="sidebody">' +
                     '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
                     '<div class="sideinfo">' +
@@ -765,18 +772,26 @@ function sideInfo(place) {
                     '<span class="distance">' +
                     '</span>' +
                     '</div>' +
-                    "</div>" +
-                    '<div class="sideinfo">' +
-                    '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-                    '<div class="issue">' +
-                    '<span>로그인이 필요합니다.</span>' +
-                    '<a>로그인/회원가입 하러가기</a>' +
-                    '</div>' +
-                    "</div>" +
+                    "</div>";
+
+                    if($("#loginCheck").val() == undefined) {
+                        text +=
+                        '<div class="sideinfo">' +
+                            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+                            '<div class="issue">' +
+                                '<span>로그인이 필요합니다.</span>' +
+                                '<a href="/login">로그인/회원가입 하러가기</a>' +
+                            '</div>' +
+                        "</div>";
+                    }
+
+                    text +=
                     '<button class="analysisBtn">상권활성화 예측지수</button>' +
                     '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
             }
+
+            document.getElementById("sidebar").innerHTML = text;
         })
     }
 }
