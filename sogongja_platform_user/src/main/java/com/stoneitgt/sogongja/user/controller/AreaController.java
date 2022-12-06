@@ -51,14 +51,14 @@ public class AreaController extends BaseController {
 //		}
 //		System.out.println("==========================================================");
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
-		List<Map<String, Object>> shopCommunityList = communityService.getShopCommunityList("shop");
+		//List<Map<String, Object>> shopCommunityList = communityService.getShopCommunityList("shop");
 
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
-		model.addAttribute("shopCommunityList", shopCommunityList);
+		//model.addAttribute("shopCommunityList", shopCommunityList);
 		paramsMap.put("zoom", 3);
 		paramsMap.put("scope", "'Q','N','L','F','D','O','P','R'");
 		paramsMap.put("x1", 37.50658952070604);
@@ -123,6 +123,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		paramsMap.put("zoom", 5);
 		paramsMap.put("scope", "'A'");
+		System.out.println("paramsMap >>>>>>>>>>>>:::: "+paramsMap);
 		model.addAttribute("areaJson", areaService.getTradingAreaToJson(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -213,7 +214,7 @@ public class AreaController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
-		List<Map<String, Object>> regionCommunityList = communityService.getShopCommunityList("region");
+		//List<Map<String, Object>> regionCommunityList = communityService.getShopCommunityList("region");
 
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
@@ -221,7 +222,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("areaJson", areaService.getRegionAreaListToJSON(paramsMap));
-		model.addAttribute("regionCommunityList",regionCommunityList);
+		//model.addAttribute("regionCommunityList",regionCommunityList);
 		model.addAttribute("regionStandard", areaService.getRegionAreaStandardToJSON(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
@@ -266,5 +267,25 @@ public class AreaController extends BaseController {
 		model.addAttribute("replyList", replyList);
 
 		return "pages/area/trading_area_shop :: .reply_list";
+	}
+
+	@PostMapping("/map/communityList")
+	public String getMapCommunityList(Model model,@ModelAttribute BaseParameter params, @RequestBody Map<String, Object> data){
+
+		String type = (String) data.get("type");
+
+		//해당 지도 위치의 커뮤니티 조회
+		List<Map<String, Object>> mapCommunityList = communityService.getShopCommunityList(data);
+
+		model.addAttribute("mapCommunityList", mapCommunityList);
+
+		String returnUrl = "";
+		if(type.equals("shop")){
+			returnUrl = "pages/area/trading_area_shop :: .community_pop_list";
+		}else{
+			returnUrl = "pages/area/trading_area_regional :: .community_pop_list";
+		}
+
+		return returnUrl;
 	}
 }
