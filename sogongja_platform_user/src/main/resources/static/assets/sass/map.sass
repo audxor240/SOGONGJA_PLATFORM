@@ -1423,7 +1423,7 @@
     font-size: 8px
     p
       //+positionAt(absolute)
-      font-size: 8px
+      font-size: 10px
       &.areacenter
         //+positionAt(absolute, $top:12px, $left:50%)
         //transform: translateX(-50%)
@@ -1436,6 +1436,7 @@
         text-align: center
         width: 80px
         color: #1540BF
+        font-size: 10px
         &.open-num
           display: none
         &.close-num
@@ -1477,6 +1478,21 @@
         li
           span
             padding: 12px
+            .width_chart
+              position: absolute
+              top: 0
+              width: 100%
+              height: 100%
+              z-index: 11
+              background: aqua
+              border-radius: 51%
+              opacity: 0.8
+              canvas
+                //max-width: none
+                &#myChart1
+                  background-color: #00c73c
+                  max-height: 100%
+                  max-width: 100%
           &.I
             span
               background-color: #EE5545
@@ -1598,7 +1614,6 @@
           color: #fff
           display: flex
           font-size: 10px
-          font-weight: normal
           line-height: 1.1
           justify-content: center
           align-items: center
@@ -1607,6 +1622,8 @@
       transform: translate(-50%,-25%)
       width: 78px
       color: #fff
+      line-height: 1.1
+      font-size: 11px
     .areanum
       +positionAt(absolute,$top:70%,$left:50%)
       width: 78px
@@ -1819,6 +1836,9 @@
       width: 100%
       >li
         width: 33.33%
-
+#map
+  .areaIn
+    p
+      font-size: 11px
 
 @include maxMobile

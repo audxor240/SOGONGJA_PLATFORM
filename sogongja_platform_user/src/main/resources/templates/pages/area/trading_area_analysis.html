@@ -12,6 +12,7 @@
     <meta name="description" content="소공자 플랫폼 상권연구소">
     <!--/* Common css */-->
     <th:block th:include="fragments/common_css"></th:block>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 <style>
     .green{
@@ -711,10 +712,10 @@
     const isAuthenticated = /*[[${isAuthenticated}]]*/ '';
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
+
 <script th:src="@{/js/pages/area/area_function.js}"></script>
-<script th:src="@{/js/pages/area/chart.js}"></script>
-<script th:src="@{/js/pages/area/chart_list.js}"></script>
-<script th:src="@{/js/pages/area/trading_area_common.js}"></script>
+<!--<script th:src="@{/js/pages/area/chart.js}"></script>-->
+<!--<script th:src="@{/js/pages/area/chart_list.js}"></script>-->
 <script th:src="@{/js/pages/area/trading_area_analysis.js}"></script>
 </body>
 
