@@ -1809,7 +1809,7 @@
   font-size: 8px;
 }
 #map .areaIn p {
-  font-size: 8px;
+  font-size: 10px;
 }
 #map .areaIn .areanum {
   position: relative;
@@ -1821,6 +1821,7 @@
   text-align: center;
   width: 80px;
   color: #1540BF;
+  font-size: 10px;
 }
 #map .areaIn .areanum p.open-num {
   display: none;
@@ -1865,6 +1866,21 @@
 }
 #map .areahoverIn.on .graphmenu li span {
   padding: 12px;
+}
+#map .areahoverIn.on .graphmenu li span .width_chart {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  background: aqua;
+  border-radius: 51%;
+  opacity: 0.8;
+}
+#map .areahoverIn.on .graphmenu li span .width_chart canvas#myChart1 {
+  background-color: #00c73c;
+  max-height: 100%;
+  max-width: 100%;
 }
 #map .areahoverIn.on .graphmenu li.I span {
   background-color: #EE5545;
@@ -2015,7 +2031,6 @@
   color: #fff;
   display: flex;
   font-size: 10px;
-  font-weight: normal;
   line-height: 1.1;
   justify-content: center;
   align-items: center;
@@ -2027,6 +2042,8 @@
   transform: translate(-50%, -25%);
   width: 78px;
   color: #fff;
+  line-height: 1.1;
+  font-size: 11px;
 }
 #map .areahoverIn .areanum {
   position: absolute;
@@ -2309,6 +2326,9 @@
   #map_wrap .areaTap > li {
     width: 33.33%;
   }
+}
+#map .areaIn p {
+  font-size: 11px;
 }
 
 /*# sourceMappingURL=map.css.map */
