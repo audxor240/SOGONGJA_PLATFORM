@@ -719,7 +719,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개</span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "close") {//폐업수
@@ -742,7 +742,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개</span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "sales") {//추정매출
@@ -785,8 +785,10 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].sales +'원 '+ (i+1)+`위</div></span>`
+                var sales_comma = info2[i].sales.toString()
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원</span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+sales_comma +'원 '+ (i+1)+`위</div></span>`
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
@@ -808,7 +810,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개</span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
             }
         }
@@ -1286,7 +1288,9 @@ async function changeMap() {
             for (var i = 0, len = areaJson.length; i < len; i++) {
                 areanameSpread(areaJson[i]);// 상권이름그려줌
             }
+            changeAreaTab()
         });
+
     } else { //level < 4, zoom 3,2,1 일때
         // 상점 마커들 추가로 찍어주기
         setMarkers(null)
@@ -1296,6 +1300,7 @@ async function changeMap() {
             storeSpread(result)//상점 찍기
         });
     }
+
 };
 //changeMap 끝
 //changeMap 끝
@@ -1428,9 +1433,6 @@ $(".openclose_list").click(function () {
 function changeAreaTab() {
     var areaTab = $('input[name=areaTab]:checked').val();
     document.getElementById("sidebar").style.display = "none";
-    for (var i = 0; i < clickmarkers.length; i++) {
-        clickmarkers[i].setMap(null);
-    }
     if (areaTab === "open") {//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
@@ -1567,12 +1569,16 @@ $('input[name="area_maincate"]').click(function () {
 
 
 $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate"]').click(function () {
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }//클릭마커지움
     for (var i = 0; i < areanameMarkers.length; i++) {
         areanameMarkers[i].setMap(null);//상권이름 마커 비우고
     }
     for (var i = 0, len = areaJson.length; i < len; i++) {
         areanameSpread(areaJson[i]);
     }
+    changeAreaTab()
 })
 
 function showMidPart(code) {
