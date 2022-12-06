@@ -582,6 +582,7 @@ function sideInfo(area, detail) {
     }
     document.getElementById("sidebar").style.display = "block";
     if (area) {
+        var position = centroid(area.path);
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody" class="sidebody_area">' +
             '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
@@ -623,7 +624,7 @@ function sideInfo(area, detail) {
             '<a>로그인/회원가입 하러가기</a>' +
             '</div>' +
             "</div>" +
-            '<button class="analysisBtn">상권활성화 예측지수</button>' +
+            '<button class="analysisBtn" onclick="location.href=`/trading-area/regional?lat=' + position.Ma +'&lng='+ position.La +'`">해당 상권의 지역 정보 확인하기</button>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
