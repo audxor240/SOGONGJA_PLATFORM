@@ -706,6 +706,8 @@
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca&libraries=services,clusterer,drawing"></script>
 <script th:inline="javascript">
+    var clientLatitude = /*[[${params.lat}]]*/ '';
+    var clientLongitude = /*[[${params.lng}]]*/ '';
     const isAuthenticated = /*[[${isAuthenticated}]]*/ '';
     var areaJson = /*[[${areaJson}]]*/ [];
 </script>
