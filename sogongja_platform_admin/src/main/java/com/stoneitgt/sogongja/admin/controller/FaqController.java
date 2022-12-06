@@ -2,9 +2,12 @@ package com.stoneitgt.sogongja.admin.controller;
 
 import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.common.Paging;
+import com.stoneitgt.sogongja.admin.domain.EducationParameter;
+import com.stoneitgt.sogongja.admin.properties.AppProperties;
 import com.stoneitgt.sogongja.admin.service.BoardService;
 import com.stoneitgt.sogongja.admin.service.FaqService;
 import com.stoneitgt.sogongja.domain.BaseParameter;
+import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.Faq;
 import com.stoneitgt.util.StoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class FaqController extends BaseController {
 
     @Autowired
     private FaqService faqService;
+
+    @Autowired
+    private AppProperties appProperties;
 
     @GetMapping("")
     public String faqList(@ModelAttribute BaseParameter params, Model model) {
@@ -61,17 +67,50 @@ public class FaqController extends BaseController {
         return url;
     }
 
+    @GetMapping("/form")
+    public String faqForm(@ModelAttribute EducationParameter params, Model model) {
+        Faq faq = new Faq();
+
+        model.addAttribute("faq", faq);
+        model.addAttribute("menuCode", params.getMenuCode());
+        //model.addAttribute("breadcrumb", getBreadcrumb(params.getMenuCode()));
+        HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
+
+        breadcrumb.put("parent_menu_name", "콘텐츠 관리");
+        breadcrumb.put("menu_name", "FAQ 관리");
+
+        //List<Map<String, Object>> category1List = categoryService.getCategory1List();
+        //List<Map<String, Object>> supportList = supportService.getSupportList();
+
+        model.addAttribute("breadcrumb", breadcrumb);
+        model.addAttribute("pageParams", getBaseParameterString(params));
+        //model.addAttribute("category1", getCodeList("CATEGORY_1"));
+        model.addAttribute("category2", new ArrayList<>());
+        model.addAttribute("category3", new ArrayList<>());
+        //model.addAttribute("supportOrg", getCodeList("SUPPORT_ORG"));
+        //model.addAttribute("category1", category1List);		//카테고리1
+        //model.addAttribute("supportOrg", supportList);		//지원기관
+
+
+        return "pages/board/board_form_faq";
+    }
+
     @PostMapping("/form")
     public String savefaq(@RequestParam(required = false) String menuCode,
                             @ModelAttribute("faq") @Valid Faq faq, BindingResult bindingResult, Model model,
                             RedirectAttributes rttr) throws IOException {
-        System.out.println("faq >> "+faq);
+
 
         String returnUrl = "";
 
-        returnUrl = "redirect:/faq";
+        returnUrl = "redirect:"+appProperties.getHost()+"/faq";
 
-        rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+        if (faq.getFaqSeq() == 0) {
+            rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.INSERT);
+        } else {
+            rttr.addFlashAttribute("result_code", GlobalConstant.CRUD_TYPE.UPDATE);
+        }
+
         faq.setLoginUserSeq(authenticationFacade.getLoginUserSeq());
         switch (faq.getType()){
             case "CON": faq.setTypeColor("primary"); faq.setTypeName("소공자 컨설팅"); break;
@@ -79,6 +118,7 @@ public class FaqController extends BaseController {
             case "GUIDE": faq.setTypeColor("info"); faq.setTypeName("이용 가이드"); break;
             case "USER": faq.setTypeColor("dark"); faq.setTypeName("소공자 회원"); break;
         }
+
         faqService.saveFaq(faq);
 
         return returnUrl;
