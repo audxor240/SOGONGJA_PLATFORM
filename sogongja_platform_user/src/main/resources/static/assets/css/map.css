@@ -750,10 +750,11 @@
 .placeinfo {
   position: relative;
   width: 100%;
+  min-width: 170px;
   border-radius: 6px;
   border: 1px solid #ccc;
   border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
   background: #fff;
 }
 .placeinfo:nth-of-type(n) {
@@ -778,6 +779,9 @@
   cursor: default;
   font-size: 13px;
 }
+.placeinfo span.region {
+  margin: 0 8px;
+}
 .placeinfo .title {
   font-weight: bold;
   font-size: 14px;
@@ -797,6 +801,11 @@
   color: #999;
   font-size: 11px;
   margin-top: 0;
+}
+.placeinfo .jibun2 {
+  color: #999;
+  font-size: 11px;
+  margin-top: 4px;
 }
 .placeinfo .close {
   position: absolute;
@@ -824,8 +833,130 @@
   border: solid 5px #fff;
 }
 
-.sidebar_area .sidebody_area {
-  padding-top: 90px;
+.placeinfo2 {
+  position: absolute;
+  top: -194px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  min-width: 220px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 6px;
+  background: #fff;
+}
+.placeinfo2 .title {
+  transform: none;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 6px 6px 0 0;
+  margin: -1px -1px 0 -1px;
+  padding: 10px;
+  color: #fff;
+  background: #1540BF;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+}
+.placeinfo2 .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #888;
+  width: 17px;
+  height: 17px;
+  background: url(../images/new/icon/closeBtn.png) no-repeat;
+  background-size: cover;
+}
+.placeinfo2 span {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 5px 5px 0 5px;
+  cursor: default;
+  font-size: 12px;
+  font-weight: normal;
+}
+.placeinfo2 .after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -12px;
+  width: 22px;
+  height: 12px;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png);
+}
+.placeinfo2 .ranking_list {
+  overflow-y: auto;
+  height: 176px;
+}
+.placeinfo2 .ranking_list::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+  background-color: #aaa;
+}
+.placeinfo2 .ranking_list::-webkit-scrollbar-thumb {
+  background: #000;
+  height: 10%;
+}
+.placeinfo2 .ranking_list span {
+  text-align: left;
+}
+.placeinfo2 .ranking_list span::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  border-radius: 50%;
+}
+.placeinfo2 .ranking_list span.I:before {
+  background-color: #EE5545;
+}
+.placeinfo2 .ranking_list span.S:before {
+  background-color: #DD4C79;
+}
+.placeinfo2 .ranking_list span.G:before {
+  background-color: #A25AA1;
+}
+.placeinfo2 .ranking_list span.R:before {
+  background-color: #4983C4;
+}
+.placeinfo2 .ranking_list span.N:before {
+  background-color: #31C3D9;
+}
+.placeinfo2 .ranking_list span.M:before {
+  background-color: #33CC94;
+}
+.placeinfo2 .ranking_list span.L:before {
+  background-color: #70C14A;
+}
+.placeinfo2 .ranking_list span.P:before {
+  background-color: #C2EE45;
+}
+.placeinfo2 .ranking_list span div.right {
+  float: right;
+  text-align: right;
+  color: #666;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+.sidebody_area .sideinfo_fixed {
+  position: fixed;
+  height: 144px;
+  background-color: #fff;
+  width: 400px;
+}
+.sidebody_area .sideinfo_fixed .sideinfo_areaname {
+  margin-top: 0;
+  background: #fff;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
 }
 
 #sidebar {
@@ -849,23 +980,45 @@
   height: 100%;
   background: #eee;
 }
+#sidebar #sidebody .sideinfo_span {
+  display: block;
+  background: #eee;
+  height: 8px;
+}
+#sidebar #sidebody .sideinfo_span.fixed_inside {
+  margin-top: 82px;
+}
 #sidebar #sidebody .sideCloseBtn {
   cursor: pointer;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
   background-size: cover;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 16px;
+  right: 16px;
   width: 20px;
   height: 20px;
+}
+#sidebar #sidebody .sideCloseBtn.closeRegion {
+  position: absolute;
+  top: 32px;
+  right: 16px;
+  z-index: 11;
 }
 #sidebar #sidebody .sideinfo {
   background-color: #fff;
   padding: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+#sidebar #sidebody .sideinfo .sidegraph {
+  background-color: #00c73c;
+  height: 500px;
+  padding: 8px;
+}
+#sidebar #sidebody .sideinfo.firstinfo {
+  padding-top: 160px;
 }
 #sidebar #sidebody .sideinfo .sideinfoTitle {
-  color: #1540bf;
+  color: #1540BF;
   font-weight: bold;
   font-size: 14px;
   margin-bottom: 10px;
@@ -958,11 +1111,47 @@
   border-right: solid 1px #1540bf;
   transform: rotate(45deg);
 }
+#sidebar #sidebody .mainSectors_wrap {
+  background-color: #F3F3F3;
+}
+#sidebar #sidebody .mainSectors_wrap .mainSectors {
+  padding: 12px 16px 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+#sidebar #sidebody .mainSectors_wrap .mainSectors li {
+  width: calc(33.3333333333% - 5px);
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+#sidebar #sidebody .mainSectors_wrap .mainSectors li label {
+  display: block;
+  width: 100%;
+  height: 32px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #ffffff;
+  border: solid 1px #969AAF;
+  color: #969AAF;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 2px;
+}
+#sidebar #sidebody .mainSectors_wrap .mainSectors li input[type=radio] {
+  display: none;
+}
+#sidebar #sidebody .mainSectors_wrap .mainSectors li input[type=radio]:checked ~ label {
+  background-color: #1540BF;
+  border: solid 1px #1540BF;
+  color: #fff;
+}
 #sidebar #sidebody .analysisBtn {
   position: relative;
-  margin: 20px;
+  margin: 0px;
   padding: 20px;
-  width: calc(100% - 40px);
+  width: 100%;
   background-color: #1540bf;
   color: #fff;
   text-align: left;
@@ -979,8 +1168,8 @@
   right: 20px;
 }
 #sidebar #sidebody .toggle_side {
-  position: absolute;
-  right: 0;
+  position: fixed;
+  left: 400px;
   top: calc(50% - 30px);
   width: 30px;
   height: 60px;
@@ -1277,19 +1466,35 @@
   font-size: 10px;
 }
 #map .regionlabel .regionbox .store {
-  color: #BF7116;
+  color: #FF8D07;
+}
+#map .regionlabel .regionbox .popul {
+  color: #1540BF;
+}
+#map .regionlabel .regionbox .rental {
+  color: #DD4C79;
 }
 
 #map_wrap .areaTap {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 16px;
+  left: 16px;
   z-index: 9;
+  width: 334px;
+  border-radius: 6px;
 }
 #map_wrap .areaTap > li {
   list-style: none;
   float: left;
-  width: 100px;
+  width: 33.3%;
+}
+#map_wrap .areaTap > li.border1 {
+  border-radius: 6px 0px 0px 6px;
+  overflow: hidden;
+}
+#map_wrap .areaTap > li.border3 {
+  border-radius: 0px 6px 6px 0px;
+  overflow: hidden;
 }
 #map_wrap .areaTap > li.on {
   color: #fff;
@@ -1304,7 +1509,7 @@
 #map_wrap .areaTap > li .openclose.on {
   background: #E9F0FF;
   border: 1px solid #1540BF;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #1540BF;
 }
 #map_wrap .areaTap > li .openclose_list {
@@ -1325,7 +1530,7 @@
 #map_wrap .areaTap > li input[type=radio]:checked + label {
   border: 1px solid #1540BF;
   color: #1540BF;
-  border-radius: 4px;
+  border-radius: 6px;
   background: #E9F0FF;
 }
 #map_wrap .areaTap > li label {
@@ -1650,7 +1855,7 @@
   background: #000;
   width: auto;
   height: auto;
-  padding: 40px;
+  padding: 44px;
   border-radius: 50%;
   white-space: normal;
   word-break: break-all;
@@ -1658,93 +1863,100 @@
 #map .areahoverIn.on {
   opacity: 1;
 }
-#map .areahoverIn.on .graphmenu li.Q span {
+#map .areahoverIn.on .graphmenu li span {
+  padding: 10px;
+}
+#map .areahoverIn.on .graphmenu li.I span {
   background-color: #EE5545;
 }
-#map .areahoverIn.on .graphmenu li.N span {
+#map .areahoverIn.on .graphmenu li.S span {
   background-color: #DD4C79;
 }
-#map .areahoverIn.on .graphmenu li.L span {
+#map .areahoverIn.on .graphmenu li.G span {
   background-color: #A25AA1;
 }
-#map .areahoverIn.on .graphmenu li.F span {
+#map .areahoverIn.on .graphmenu li.R span {
   background-color: #4983C4;
 }
-#map .areahoverIn.on .graphmenu li.D span {
+#map .areahoverIn.on .graphmenu li.N span {
   background-color: #31C3D9;
 }
-#map .areahoverIn.on .graphmenu li.O span {
+#map .areahoverIn.on .graphmenu li.M span {
   background-color: #33CC94;
 }
-#map .areahoverIn.on .graphmenu li.P span {
+#map .areahoverIn.on .graphmenu li.L span {
   background-color: #70C14A;
 }
-#map .areahoverIn.on .graphmenu li.R span {
+#map .areahoverIn.on .graphmenu li.P span {
   background-color: #C2EE45;
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 {
-  transform: rotate(100deg) translateX(-90px);
+  transform: rotate(110deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 span {
-  width: 80px;
-  height: 80px;
-  transform: rotate(-100deg);
+  width: 66px;
+  height: 66px;
+  transform: rotate(-110deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist1 span.big {
+  width: 100px;
+  height: 100px;
 }
 #map .areahoverIn.on .graphmenu li.graphlist2 {
-  transform: rotate(155deg) translateX(-90px);
+  transform: rotate(160deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist2 span {
-  width: 76px;
-  height: 76px;
-  transform: rotate(-155deg);
+  width: 64px;
+  height: 64px;
+  transform: rotate(-160deg);
 }
 #map .areahoverIn.on .graphmenu li.graphlist3 {
-  transform: rotate(207deg) translateX(-90px);
+  transform: rotate(208deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist3 span {
-  width: 72px;
-  height: 72px;
-  transform: rotate(-207deg);
-}
-#map .areahoverIn.on .graphmenu li.graphlist4 {
-  transform: rotate(256deg) translateX(-90px);
-}
-#map .areahoverIn.on .graphmenu li.graphlist4 span {
-  width: 68px;
-  height: 68px;
-  transform: rotate(-256deg);
-}
-#map .areahoverIn.on .graphmenu li.graphlist5 {
-  transform: rotate(302deg) translateX(-90px);
-}
-#map .areahoverIn.on .graphmenu li.graphlist5 span {
   width: 62px;
   height: 62px;
-  transform: rotate(-302deg);
+  transform: rotate(-208deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist4 {
+  transform: rotate(254deg) translateX(-86px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist4 span {
+  width: 60px;
+  height: 60px;
+  transform: rotate(-254deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist5 {
+  transform: rotate(298deg) translateX(-86px);
+}
+#map .areahoverIn.on .graphmenu li.graphlist5 span {
+  width: 58px;
+  height: 58px;
+  transform: rotate(-298deg);
 }
 #map .areahoverIn.on .graphmenu li.graphlist6 {
-  transform: rotate(344deg) translateX(-90px);
+  transform: rotate(340deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist6 span {
-  width: 54px;
-  height: 54px;
-  transform: rotate(-344deg);
+  width: 56px;
+  height: 56px;
+  transform: rotate(-340deg);
 }
 #map .areahoverIn.on .graphmenu li.graphlist7 {
-  transform: rotate(22deg) translateX(-90px);
+  transform: rotate(20deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist7 span {
-  width: 48px;
-  height: 48px;
-  transform: rotate(-22deg);
+  width: 54px;
+  height: 54px;
+  transform: rotate(-20deg);
 }
 #map .areahoverIn.on .graphmenu li.graphlist8 {
-  transform: rotate(57deg) translateX(-90px);
+  transform: rotate(60deg) translateX(-86px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist8 span {
-  width: 44px;
-  height: 44px;
-  transform: rotate(-57deg);
+  width: 52px;
+  height: 52px;
+  transform: rotate(-60deg);
 }
 #map .areahoverIn .graphmenu {
   position: absolute;
@@ -1752,8 +1964,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 54px;
   z-index: 2;
   opacity: 1;
   cursor: pointer;
@@ -1765,15 +1977,18 @@
   height: 48px;
   position: absolute;
   transform: translate(-50%, -50%);
-  background-color: #eee;
 }
 #map .areahoverIn .graphmenu li span {
   transition-delay: 1s;
   transition: 0.2s;
-  display: block;
   background-color: #1540BF;
   border-radius: 50%;
   border: 1px solid #fff;
+  color: #fff;
+  display: flex;
+  font-size: 11px;
+  justify-content: center;
+  align-items: center;
 }
 #map .areahoverIn p {
   position: absolute;
@@ -2017,7 +2232,7 @@
   #sidebar {
     width: 100%;
     position: fixed;
-    top: 71px;
+    top: calc(100% - 60px);
     z-index: 4;
   }
   #sidebar.sidebar_area {
@@ -2042,10 +2257,10 @@
     left: calc(50% - 7px);
   }
   #sidebar #sidebody .toggle_side {
-    position: fixed;
-    top: 72px;
-    right: 50%;
-    transform: translateX(50%);
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
     height: 30px;
     width: 60px;
     box-shadow: none;

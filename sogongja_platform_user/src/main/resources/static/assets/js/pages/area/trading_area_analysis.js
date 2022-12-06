@@ -696,16 +696,53 @@ function contentFunc(area) {
         var areaTab = $('input[name=areaTab]:checked').val();
         var info2 = area.info2
         var mainpart = '';
+        var ranking = '';
         infosForMidpart = infos;
         if (areaTab === "open") {//개업수
             info2 = info2.sort((a, b) => b.open - a.open);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `</span></li>`
+                if(info2[i].code=="I"){
+                    var sectorname = "숙박·음식";
+                }else if(info2[i].code=="S"){
+                    var sectorname = "수리·개인서비스";
+                }else if(info2[i].code=="G"){
+                    var sectorname = "도·소매";
+                }else if(info2[i].code=="R"){
+                    var sectorname = "예술·스포츠·여가";
+                }else if(info2[i].code=="N"){
+                    var sectorname = "시설관리·임대";
+                }else if(info2[i].code=="M"){
+                    var sectorname = "과학·기술";
+                }else if(info2[i].code=="L"){
+                    var sectorname = "부동산";
+                }else if(info2[i].code=="P"){
+                    var sectorname = "교육";
+                }
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `</span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "close") {//폐업수
             info2 = info2.sort((a, b) => b.close - a.close);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
+                if(info2[i].code=="I"){
+                    var sectorname = "숙박·음식";
+                }else if(info2[i].code=="S"){
+                    var sectorname = "수리·개인서비스";
+                }else if(info2[i].code=="G"){
+                    var sectorname = "도·소매";
+                }else if(info2[i].code=="R"){
+                    var sectorname = "예술·스포츠·여가";
+                }else if(info2[i].code=="N"){
+                    var sectorname = "시설관리·임대";
+                }else if(info2[i].code=="M"){
+                    var sectorname = "과학·기술";
+                }else if(info2[i].code=="L"){
+                    var sectorname = "부동산";
+                }else if(info2[i].code=="P"){
+                    var sectorname = "교육";
+                }
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "sales") {//추정매출
             for (var i = 0; i < info2.length; i++) {
@@ -730,12 +767,48 @@ function contentFunc(area) {
             }
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
+                if(info2[i].code=="I"){
+                    var sectorname = "숙박·음식";
+                }else if(info2[i].code=="S"){
+                    var sectorname = "수리·개인서비스";
+                }else if(info2[i].code=="G"){
+                    var sectorname = "도·소매";
+                }else if(info2[i].code=="R"){
+                    var sectorname = "예술·스포츠·여가";
+                }else if(info2[i].code=="N"){
+                    var sectorname = "시설관리·임대";
+                }else if(info2[i].code=="M"){
+                    var sectorname = "과학·기술";
+                }else if(info2[i].code=="L"){
+                    var sectorname = "부동산";
+                }else if(info2[i].code=="P"){
+                    var sectorname = "교육";
+                }
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].sales +'원 '+ (i+1)+`위</div></span>`
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
             for (var i = 0; i < info2.length; i++) {
-                mainpart += `<li class="graphlist` + (i+1)+ `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `</span></li>`
+                if(info2[i].code=="I"){
+                  var sectorname = "숙박·음식";
+                }else if(info2[i].code=="S"){
+                    var sectorname = "수리·개인서비스";
+                }else if(info2[i].code=="G"){
+                    var sectorname = "도·소매";
+                }else if(info2[i].code=="R"){
+                    var sectorname = "예술·스포츠·여가";
+                }else if(info2[i].code=="N"){
+                    var sectorname = "시설관리·임대";
+                }else if(info2[i].code=="M"){
+                    var sectorname = "과학·기술";
+                }else if(info2[i].code=="L"){
+                    var sectorname = "부동산";
+                }else if(info2[i].code=="P"){
+                    var sectorname = "교육";
+                }
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `</span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
             }
         }
         console.log(mainpart)
@@ -743,32 +816,42 @@ function contentFunc(area) {
         //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
-            '<p class="areacenter">' +
-            area.area_name +
-            '</p>' +
-            '<div class="areanum">' +
-            '<p class="store-num num">' +
-            stores +
-            "개 점포" +
-            '</p>' +
-            '<p class="open-num num">' +
-            open +
-            "개 점포" +
-            '</p>' +
-            '<p class="close-num num">' +
-            close +
-            "개 점포" +
-            '</p>' +
-            '<p class="sales-num num">' +
-            sum_all_comma +
-            "원" +
-            '</p>' +
-            '</div>' +
-            '<ul class="graphmenu">'+
-            mainpart +
-            ' </ul>'+
+                '<p class="areacenter">' +
+                area.area_name +
+                '</p>' +
+                '<div class="areanum">' +
+                    '<p class="store-num num">' +
+                    stores +
+                    "개 점포" +
+                    '</p>' +
+                    '<p class="open-num num">' +
+                    open +
+                    "개 점포" +
+                    '</p>' +
+                    '<p class="close-num num">' +
+                    close +
+                    "개 점포" +
+                    '</p>' +
+                    '<p class="sales-num num">' +
+                    sum_all_comma +
+                    "원" +
+                    '</p>' +
+                '</div>' +
+                '<ul class="graphmenu">'+
+                mainpart +
+                ' </ul>'+
+            '<div class="placeinfo2">' +
+                '<div class="title" >' +
+                '전체업종 순위'+
+                "</div>" +
+                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+            '<div class="ranking_list scroll" >' +
+            ranking+
+            "</div>" +
+                '<div class="after"></div>'+
+                "</div>" +
             '</div>'
-  ;
+        ;
 
     } else {// 여기는 단일마커임
         if (midcate.includes('all')) {
@@ -1130,7 +1213,7 @@ function areanameSpread(area) {
 // 마커가 지도 위에 표시되도록 설정합니다
     customOverlay.setMap(map);
 
-    changeAreaTab()
+
 
 }
 
@@ -1537,4 +1620,14 @@ function showMidPart(code) {
     }
 
 
+}
+//사이드바 숨기기
+function sideNoneVisible() {
+    document.getElementById("sidebody").style.display = "none";
+    $('#sidebar').addClass('on');
+}
+//사이드바 보이기
+function sideVisible() {
+    document.getElementById("sidebody").style.display = "block";
+    $('#sidebar').removeClass('on');
 }
