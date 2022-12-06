@@ -570,10 +570,11 @@
 .placeinfo
   +positionAt(relative)
   width: 100%
+  min-width: 170px
   border-radius: 6px
   border: 1px solid #ccc
   border-bottom: 2px solid #ddd
-  padding-bottom: 10px
+  padding-bottom: 6px
   background: #fff
   &:nth-of-type(n)
     border: 0
@@ -593,6 +594,8 @@
     margin: 5px 5px 0 5px
     cursor: default
     font-size: 13px
+    &.region
+      margin: 0 8px
   .title
     font-weight: bold
     font-size: 14px
@@ -610,6 +613,10 @@
     color: #999
     font-size: 11px
     margin-top: 0
+  .jibun2
+    color: #999
+    font-size: 11px
+    margin-top: 4px
   .close
     position: absolute
     top: 10px
@@ -629,10 +636,121 @@
 .infoWin
   background: #fff
   border: solid 5px #fff
+.placeinfo2
+  position: absolute
+  top: -194px
+  left: 50%
+  transform: translate(-50%, -50%)
+  width: 100%
+  min-width: 220px
+  border-radius: 6px
+  border: 1px solid #ccc
+  border-bottom: 2px solid #ddd
+  padding-bottom: 6px
+  background: #fff
+  .title
+    transform: none
+    font-weight: bold
+    font-size: 14px
+    border-radius: 6px 6px 0 0
+    margin: -1px -1px 0 -1px
+    padding: 10px
+    color: #fff
+    background: #1540BF
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
+    text-align: left
+  .close
+    position: absolute
+    top: 10px
+    right: 10px
+    color: #888
+    width: 17px
+    height: 17px
+    background: url(../images/new/icon/closeBtn.png) no-repeat
+    background-size: cover
+  span
+    display: block
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
+    margin: 5px 5px 0 5px
+    cursor: default
+    font-size: 12px
+    font-weight: normal
+  .after
+    content: ""
+    position: absolute
+    top: 100%
+    left: 50%
+    margin-left: -12px
+    width: 22px
+    height: 12px
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png)
+  .ranking_list
+    overflow-y: auto
+    height: 176px
+    &::-webkit-scrollbar
+      width: 4px
+      height: 8px
+      background-color: #aaa
+    &::-webkit-scrollbar-thumb
+      background: #000
+      height: 10%
+    span
+      text-align: left
+      &::before
+        content: ""
+        display: inline-block
+        width: 12px
+        height: 12px
+        margin-right: 4px
+        border-radius: 50%
+      &.I
+        &:before
+          background-color: #EE5545
+      &.S
+        &:before
+          background-color: #DD4C79
+      &.G
+        &:before
+          background-color: #A25AA1
+      &.R
+        &:before
+          background-color: #4983C4
+      &.N
+        &:before
+          background-color: #31C3D9
+      &.M
+        &:before
+          background-color: #33CC94
+      &.L
+        &:before
+          background-color: #70C14A
+      &.P
+        &:before
+          background-color: #C2EE45
+      div
+        &.right
+          float: right
+          text-align: right
+          color: #666
+          font-size: 11px
+          margin-top: 1px
 
-.sidebar_area
-  .sidebody_area /* 상권사이드바 */
-    padding-top: 90px
+
+.sidebody_area /* 상권사이드바 */
+  .sideinfo_fixed
+    position: fixed
+    height: 144px
+    background-color: #fff
+    width: 400px
+    .sideinfo_areaname
+      margin-top: 0
+      background: #fff
+      padding: 16px
+      border-bottom: 1px solid #eee
 #sidebar
   display: none
   +positionAt(fixed, $top:105px, $left:0)
@@ -649,19 +767,34 @@
   #sidebody
     height: 100%
     background: #eee
+    .sideinfo_span
+      display: block
+      background: #eee
+      height: 8px
+      &.fixed_inside
+        margin-top: 82px
     .sideCloseBtn
       cursor: pointer
       background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png')
       background-size: cover
-      +positionAt(absolute, $top:10px, $right:10px)
+      +positionAt(absolute, $top:16px, $right:16px)
       width: 20px
       height: 20px
+      &.closeRegion
+        +positionAt(absolute, $top:32px, $right:16px)
+        z-index: 11
     .sideinfo
         background-color: #fff
         padding: 20px
-        margin-bottom: 10px
+        margin-bottom: 8px
+        .sidegraph
+          background-color: #00c73c
+          height: 500px
+          padding: 8px
+        &.firstinfo
+          padding-top: 160px
         .sideinfoTitle
-          color: #1540bf
+          color: $blue
           font-weight: bold
           font-size: 14px
           margin-bottom: 10px
@@ -734,11 +867,40 @@
               border-top: solid 1px #1540bf
               border-right: solid 1px #1540bf
               transform: rotate(45deg)
+    .mainSectors_wrap
+      background-color: #F3F3F3
+      .mainSectors
+        padding: 12px 16px 6px 16px
+        +flex_type($justify:space-between)
+        flex-wrap: wrap
+        margin-bottom: 12px
+        li
+          width: calc(100%/3 - 5px)
+          margin-bottom: 5px
+          border-radius: 2px
+          label
+            display: block
+            width: 100%
+            height: 32px
+            line-height: 28px
+            text-align: center
+            background-color: #ffffff
+            border: solid 1px #969AAF
+            color: #969AAF
+            font-size: rem(14)
+            cursor: pointer
+            border-radius: 2px
+          input[type="radio"]
+            display: none
+          input[type="radio"]:checked ~ label
+            background-color: #1540BF
+            border: solid 1px #1540BF
+            color: #fff
     .analysisBtn
       +positionAt(relative)
-      margin: 20px
+      margin: 0px
       padding: 20px
-      width: calc(100% - 40px)
+      width: 100%
       background-color: #1540bf
       color: #fff
       text-align: left
@@ -751,7 +913,7 @@
         height: 14px
         +positionAt(absolute, $top: 25px, $right: 20px)
     .toggle_side
-      +positionAt(absolute, $right:0)
+      +positionAt(fixed, $left:400px)
       top: calc(50% - 30px)
       width: 30px
       height: 60px
@@ -984,18 +1146,30 @@
       text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
       font-size: 10px
       .store
-        color: #BF7116
+        color: #FF8D07
+      .popul
+        color: #1540BF
+      .rental
+        color: #DD4C79
 
 
 //상권 시작
 #map_wrap
   .areaTap
-    +positionAt(absolute, $top: 20px, $left:20px)
+    +positionAt(absolute, $top: 16px, $left:16px)
     z-index: 9
+    width: 334px
+    border-radius: 6px
     >li
       list-style: none
       float: left
-      width: 100px
+      width: 33.3%
+      &.border1
+        border-radius: 6px 0px 0px 6px
+        overflow: hidden
+      &.border3
+        border-radius: 0px 6px 6px 0px
+        overflow: hidden
       &.on
         color: #fff
         background-color: #0f7833
@@ -1007,7 +1181,7 @@
         &.on
           background: #E9F0FF
           border: 1px solid $blue
-          border-radius: 4px
+          border-radius: 6px
           color: $blue
       .openclose_list
         margin-top: 6px
@@ -1023,7 +1197,7 @@
         &:checked + label
           border: 1px solid $blue
           color: $blue
-          border-radius: 4px
+          border-radius: 6px
           background: #E9F0FF
       label
         display: block
@@ -1293,7 +1467,7 @@
     background: #000
     width: auto
     height: auto
-    padding: 40px
+    padding: 44px
     border-radius: 50%
     white-space: normal
     word-break: break-all
@@ -1301,84 +1475,89 @@
       opacity: 1
       .graphmenu
         li
-          &.Q
+          span
+            padding: 10px
+          &.I
             span
               background-color: #EE5545
-          &.N
+          &.S
             span
               background-color: #DD4C79
-          &.L
+          &.G
             span
               background-color: #A25AA1
-          &.F
+          &.R
             span
               background-color: #4983C4
-          &.D
+          &.N
             span
               background-color: #31C3D9
-          &.O
+          &.M
             span
               background-color: #33CC94
-          &.P
+          &.L
             span
               background-color: #70C14A
-          &.R
+          &.P
             span
               background-color: #C2EE45
           &.graphlist1
-            transform: rotate(100deg) translateX(-90px)
+            transform: rotate(110deg) translateX(-86px)
             span
-              width: 80px
-              height: 80px
-              transform: rotate(-100deg)
+              width: 66px
+              height: 66px
+              transform: rotate(-110deg)
+              &.big
+                width: 100px
+                height: 100px
           &.graphlist2
-            transform: rotate(155deg) translateX(-90px)
+            transform: rotate(160deg) translateX(-86px)
             span
-              width: 76px
-              height: 76px
-              transform: rotate(-155deg)
+              width: 64px
+              height: 64px
+              transform: rotate(-160deg)
           &.graphlist3
-            transform: rotate(207deg) translateX(-90px)
-            span
-              width: 72px
-              height: 72px
-              transform: rotate(-207deg)
-          &.graphlist4
-            transform: rotate(256deg) translateX(-90px)
-            span
-              width: 68px
-              height: 68px
-              transform: rotate(-256deg)
-          &.graphlist5
-            transform: rotate(302deg) translateX(-90px)
+            transform: rotate(208deg) translateX(-86px)
             span
               width: 62px
               height: 62px
-              transform: rotate(-302deg)
+              transform: rotate(-208deg)
+          &.graphlist4
+            transform: rotate(254deg) translateX(-86px)
+            span
+              width: 60px
+              height: 60px
+              transform: rotate(-254deg)
+          &.graphlist5
+            transform: rotate(298deg) translateX(-86px)
+            span
+              width: 58px
+              height: 58px
+              transform: rotate(-298deg)
           &.graphlist6
-            transform: rotate(344deg) translateX(-90px)
+            transform: rotate(340deg) translateX(-86px)
+            span
+              width: 56px
+              height: 56px
+              transform: rotate(-340deg)
+          &.graphlist7
+            transform: rotate(20deg) translateX(-86px)
             span
               width: 54px
               height: 54px
-              transform: rotate(-344deg)
-          &.graphlist7
-            transform: rotate(22deg) translateX(-90px)
-            span
-              width: 48px
-              height: 48px
-              transform: rotate(-22deg)
+              transform: rotate(-20deg)
           &.graphlist8
-            transform: rotate(57deg) translateX(-90px)
+            transform: rotate(60deg) translateX(-86px)
             span
-              width: 44px
-              height: 44px
-              transform: rotate(-57deg)
+              width: 52px
+              height: 52px
+              transform: rotate(-60deg)
     .graphmenu
       +positionAt(absolute,$top:50%,$left:50%)
       transform: translate(-50%, -50%)
       display: block
-      width: 48px
-      height: 48px
+      width: 40px
+      height: 54px
       z-index: 2
       opacity: 1
       cursor: pointer
@@ -1389,14 +1568,17 @@
         height: 48px
         +positionAt(absolute)
         transform: translate(-50%, -50%)
-        background-color: #eee
         span
           transition-delay: 1s
           transition: 0.2s
-          display: block
           background-color: $blue
           border-radius: 50%
           border: 1px solid #fff
+          color: #fff
+          display: flex
+          font-size: 11px
+          justify-content: center
+          align-items: center
     p
       +positionAt(absolute,$left:50%,$top:25%)
       transform: translate(-50%,-25%)
@@ -1582,7 +1764,7 @@
 
   #sidebar
     width: 100%
-    +positionAt(fixed, $top: 71px)
+    +positionAt(fixed, $top: calc(100% - 60px))
     &.sidebar_area
       +positionAt(fixed, $top: 117px)
     z-index: 4
@@ -1600,8 +1782,8 @@
         +positionAt(fixed, $left:calc(50% - 7px))
     #sidebody
       .toggle_side
-        +positionAt(fixed, $top: 72px, $right:50%)
-        transform: translateX(50%)
+        +positionAt(absolute, $top: 0px, $left:50%)
+        transform: translateX(-50%)
         height: 30px
         width: 60px
         box-shadow: none
