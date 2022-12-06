@@ -168,6 +168,46 @@ async function displayCenterInfo(result, status) {
                 break;
             }
         }
+
+        var gu = $("#centerAddr2").text().trim();
+        var guArr = gu.split(" ");
+
+        if(guArr.length > 1){
+            gu = guArr[0];
+        }
+        let data = {
+            "type": "region",
+            "gu": gu
+        };
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        //해당 위치에 따라 커뮤니티 정보를 불러온다.
+        $.ajax({
+            type: "POST",
+            url: "/trading-area/map/communityList",
+            async: false,
+            data: JSON.stringify(data),
+            //contentType:"application/json; charset=utf-8",
+            //dataType:"json",
+            //data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            error: function (res) {
+                let fragment = res.responseText
+                $(".community_pop_list").replaceWith(fragment);
+                //$("#dtsch_modal").show();
+                //alert(res.responseJSON.message);
+                return false;
+            }
+        }).done(function (fragment) {
+            //여기로 안들어옴.....
+            $(".community_pop_list").replaceWith(fragment);
+            //$("#dtsch_modal").show();
+            //$(".loading_box").hide();
+
+        });
     }
 }
 
@@ -1385,6 +1425,7 @@ $('.community_Btn').click(function () {
 $('.m_scroll_btn').click(function () {
     $('.community_pop_wrap').removeClass('on');
 });
+/*
 $('.community_main').click(function () {
     let communitySeq = $(this).find("#communitySeq").val();
     if (communitySeq === undefined) {
@@ -1468,3 +1509,91 @@ $('.reply_btn').click(function () {
 
 
 });
+*/
+
+function getReply(communitySeq){
+
+    if (communitySeq === undefined) {
+        $('.detail_community').removeClass('on');
+        // location.href = "/community/" + $('input[name=communitySeq]').val() + "?type=shop";
+        return false;
+    }
+
+    var data = {
+        communitySeq: communitySeq
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        dataType:"text",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+            console.log("error")
+            // let fragment = res.responseText
+            // $(".reply_list").replaceWith(fragment);
+            // $(".reply_list").show();
+            //alert(res.responseJSON.message);
+            return false;
+        }
+    }).done(function (fragment) {
+        console.log(fragment)
+
+        //여기로 안들어옴.....
+        $(".reply_list").replaceWith(fragment);
+        $(".reply_list").show();
+        //$(".loading_box").hide();
+
+    });
+    $('.detail_community').addClass('on');
+}
+
+function addReply(communitySeq){
+
+    let comment = $("[name=comment]").val();
+    console.log("communitySeq ::: "+communitySeq);
+    var data = {
+        communitySeq: communitySeq,
+        comment: comment
+    }
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/trading-area/reply/add",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        dataType:"text",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (fragment) {
+            console.log("fragment >>> "+fragment);
+            $(".reply_list").replaceWith(fragment);
+            $(".reply_list").show();
+            //$(".loading_box").hide();
+        },
+        error: function (res) {
+            return false;
+        }
+    }).done(function (fragment) {
+        $('input[name=comment]').val("");
+    });
+}
+
+function backbtn(){
+    $('.detail_community').removeClass('on');
+}

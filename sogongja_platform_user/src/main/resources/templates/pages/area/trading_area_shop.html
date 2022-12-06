@@ -140,59 +140,62 @@
                 <h4>상점 Community</h4>
                 <a th:href="@{/community/communityWriteForm(type=shop)}">글쓰기</a>
             </div>
-            <ul class="community_pop_list">
-                <li class="community_main_li" th:each="item : ${shopCommunityList}" th:unless="${#lists.isEmpty(shopCommunityList)}">
-                    <div class="community_main" style="cursor: pointer">
-                        <input type="hidden" id="communitySeq" th:value="${item.community_seq}">
-                        <div class="top_info">
-                            <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
-                            <h5>[[${item.subject}]]</h5>
-                        </div>
-                        <div class="down_info">
-                            <p>[[${item.nick_name}]]</p>
-                            <span>[[${item.reg_dt}]]</span>
-                        </div>
-                    </div>
-                    <!--            커뮤니티 상세 보기-->
-                    <div class="detail_community">
-                        <div class="backbtn" style="cursor: pointer">← 뒤로가기</div>
-                        <div class="community_main">
-                            <div class="top_info">
-                                <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
-                                <h5>[[${item.subject}]]</h5>
-                            </div>
-                            <p>
-                                [[${item.content}]]
-                            </p>
-                            <div class="down_info">
-                                <p>[[${item.nick_name}]]</p>
-                                <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
-                            </div>
-                        </div>
-                        <div class="reply_list">
-                            <ul class="coment_list" th:each="item : ${replyList}" th:unless="${#lists.isEmpty(replyList)}">
-                                <li>
-                                    <div class="coment_main">
-                                        <span></span>
-                                        <p>
-                                            [[${item.comment}]]
-                                        </p>
-                                    </div>
-                                    <div class="down_info">
-                                        <p>[[${item.nick_name}]]</p>
-                                        <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <form id="reply_add" name="reply_add" class="coment_form" >
-                            <input type="hidden" name="communitySeq" th:value="${item.community_seq}">
-                            <input type="text" name="comment">
-                            <button type="button" class="reply_btn">댓글</button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
+             <ul class="community_pop_list">
+                 <li class="community_main_li" th:if="${#lists.isEmpty(mapCommunityList)}" style="height: 172px;">
+                     <div style="padding-top: 65px;text-align: center;">해당지역의 커뮤니티가 없습니다.</div>
+                 </li>
+                 <li class="community_main_li" th:each="item : ${mapCommunityList}" th:unless="${#lists.isEmpty(mapCommunityList)}">
+                     <div class="community_main" style="cursor: pointer" th:onclick="getReply([[${item.community_seq}]])">
+                         <input type="hidden" id="communitySeq" th:value="${item.community_seq}">
+                         <div class="top_info">
+                             <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
+                             <h5>[[${item.subject}]]</h5>
+                         </div>
+                         <div class="down_info">
+                             <p>[[${item.nick_name}]]</p>
+                             <span>[[${item.reg_dt}]]</span>
+                         </div>
+                     </div>
+                     <!--            커뮤니티 상세 보기-->
+                     <div class="detail_community">
+                         <div class="backbtn" style="cursor: pointer" onclick="backbtn();">← 뒤로가기</div>
+                         <div class="community_main">
+                             <div class="top_info">
+                                 <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
+                                 <h5>[[${item.subject}]]</h5>
+                             </div>
+                             <p>
+                                 [[${item.content}]]
+                             </p>
+                             <div class="down_info">
+                                 <p>[[${item.nick_name}]]</p>
+                                 <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
+                             </div>
+                         </div>
+                         <div class="reply_list">
+                             <ul class="coment_list" th:each="item : ${replyList}" th:unless="${#lists.isEmpty(replyList)}">
+                                 <li>
+                                     <div class="coment_main">
+                                         <span></span>
+                                         <p>
+                                             [[${item.comment}]]
+                                         </p>
+                                     </div>
+                                     <div class="down_info">
+                                         <p>[[${item.nick_name}]]</p>
+                                         <span>[[${#dates.format(item.reg_date, 'yyyy-MM-dd')}]]</span>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div>
+                         <form id="reply_add" name="reply_add" class="coment_form" >
+                             <input type="hidden" name="communitySeq" th:value="${item.community_seq}">
+                             <input type="text" name="comment">
+                             <button type="button" class="reply_btn" th:onclick="addReply([[${item.community_seq}]])">댓글</button>
+                         </form>
+                     </div>
+                 </li>
+             </ul>
              <!--           상점 커뮤니티 페이지로 이동-->
              <div class="community_more">
                  <a href="/community?type=shop">상점 커뮤니티 더보기</a></div>
