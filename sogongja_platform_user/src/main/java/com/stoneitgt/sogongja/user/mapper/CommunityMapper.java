@@ -13,7 +13,7 @@ public interface CommunityMapper {
 
     List<Map<String, Object>> getCommunityList(Map<String, Object> params, RowBounds paging);
 
-    List<Map<String, Object>> getShopCommunityList(String communityType);
+    List<Map<String, Object>> getShopCommunityList(Map<String, Object> params);
     int insertCommunity(Community community);
 
     int updateCommunity(Community community);

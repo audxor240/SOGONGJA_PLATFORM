@@ -145,6 +145,7 @@ public class AreaService extends BaseService {
 			scope +=  tem + ",";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
+		System.out.println("scope >>>>> "+scope);
 		List<Map<String, Object>> details = areaMapper.getTradingAreCategory1(scope);
 		List<Map<String, Object>> details2 = areaMapper.getTradingAreCategory2(scope);
 

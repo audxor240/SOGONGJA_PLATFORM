@@ -31,8 +31,8 @@ public class CommunityService extends BaseService {
         return communityMapper.getCommunityList(params, paging.getPaging());
     }
 
-    public List<Map<String, Object>> getShopCommunityList(String communityType) {
-        return communityMapper.getShopCommunityList(communityType);
+    public List<Map<String, Object>> getShopCommunityList(Map<String, Object> params) {
+        return communityMapper.getShopCommunityList(params);
     }
 
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
