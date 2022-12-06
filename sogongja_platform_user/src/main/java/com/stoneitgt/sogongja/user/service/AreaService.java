@@ -109,7 +109,7 @@ public class AreaService extends BaseService {
 	}
 
 	// 상권연구  테스트
-	public List<Map<String, Object>> getTest(Map<String, Object> params) {
+	public List<Map<String, Object>> getTradingAreaToJson(Map<String, Object> params) {
 
 		int zoom = Integer.parseInt(params.get("zoom").toString());
 		if (zoom > 5) {

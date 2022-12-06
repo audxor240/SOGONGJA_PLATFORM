@@ -43,6 +43,7 @@ public class AreaController extends BaseController {
 	public String shopArea(@ModelAttribute BaseParameter params, Model model) {
 
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		System.out.println(paramsMap);
 //		List<Map<String, Object>> tradingAreaListToJSON = areaService.getTradingAreaListToJSON(paramsMap);
 //		System.out.println("==========================================================");
 //		for (Map<String, Object> t : tradingAreaListToJSON) {
@@ -122,11 +123,7 @@ public class AreaController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		paramsMap.put("zoom", 5);
 		paramsMap.put("scope", "'A'");
-		paramsMap.put("x1", 37.49345754382203);
-		paramsMap.put("x2", 37.51567561625099);
-		paramsMap.put("y1", 126.99710515824563);
-		paramsMap.put("y2", 127.0666010904294);
-		model.addAttribute("areaJson", areaService.getTest(paramsMap));
+		model.addAttribute("areaJson", areaService.getTradingAreaToJson(paramsMap));
 		model.addAttribute("params", params);
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("isAuthenticated", authenticationFacade.isAuthenticated());
@@ -171,7 +168,7 @@ public class AreaController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());
-		results = areaService.getTest(paramsMap);
+		results = areaService.getTradingAreaToJson(paramsMap);
 
 		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
 		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산

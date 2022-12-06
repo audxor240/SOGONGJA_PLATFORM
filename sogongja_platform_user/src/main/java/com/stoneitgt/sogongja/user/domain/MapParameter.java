@@ -10,13 +10,13 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class MapParameter extends BaseParameter {
 
-    private double x1;
-    private double y1;
-    private double x2;
-    private double y2;
+    private double x1 = 37.49345754382203;
+    private double y1 = 126.99710515824563;
+    private double x2 = 37.51567561625099;
+    private double y2 = 127.0666010904294;
 
-    private double lat;
-    private double lng;
+    private double lat = 37.5045717035321;
+    private double lng = 127.03184797874623;
 
     private int zoom;
 

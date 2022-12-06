@@ -4,8 +4,7 @@
 //상권 맵 기본 레벨
 var mapDefaultLevel = 5;
 //상권 기본 위치는 강남구 좌표
-var clientLatitude = 37.5045717035321;
-var clientLongitude = 127.03184797874623;
+
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
         center: new kakao.maps.LatLng(clientLatitude, clientLongitude), // 지도의 중심좌표 기본 위치는 서울시청
