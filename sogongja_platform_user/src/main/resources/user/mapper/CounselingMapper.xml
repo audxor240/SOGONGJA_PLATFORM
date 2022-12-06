@@ -5,7 +5,7 @@
 
 	<select id="getCounselingList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : CounselingMapper.xml, id : getCounselingList */
-		  SELECT C.*
+		  SELECT replace(C.CONTENT,'\\','') as R_CONTENT, C.*
 			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 		       , DATE_FORMAT(C.REG_DATE, '%Y-%m-%d') AS REG_DT
 		       , U.USERNAME                          AS REG_USERNAME
@@ -53,7 +53,7 @@
 
 	<select id="getCounseling" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : CounselingMapper.xml, id : getCounseling */
-		  SELECT A.*
+		  SELECT replace(A.CONTENT,'\\','') as R_CONTENT, A.*
 		       , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
 			   , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
 			   , CASE WHEN A.FIELD = 1 THEN '법률'

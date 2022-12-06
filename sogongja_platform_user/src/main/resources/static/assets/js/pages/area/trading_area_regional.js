@@ -366,9 +366,11 @@ var lat = map.getCenter().getLat(),
     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 var codeType3 = '1';
-var polygons = [];
-var polygons1 = [];
-var circles = [];
+var polygons = [];//지역 폴리곤
+var polygons1 = [];//클릭시 한겹레이어 폴리곤
+var circles = [];//호버시 지역정보 동그라미
+var clickcircles = [];//클릭시 지역정보 동그라미
+var clickcInfoWins =[];//클릭시 지역정보 인포윈도
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
 $("input[name=cate]").prop("checked", true).each(function (index, item) {
@@ -436,15 +438,7 @@ function storeSpread(thing) {
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(place, i, imageSrc) {
     //if mapsize width 모바일일때 마커 크기 20으로
-    if (window.innerWidth < 767) {
-        var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
-            imageSize = new kakao.maps.Size(20, 20), // 마커 이미지의 크기
-            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
-            marker = new kakao.maps.Marker({
-                position: position, // 마커의 위치
-                image: markerImage,
-            });
-    } else {
+
         var position = new kakao.maps.LatLng(place[i].latitude, place[i].longitude),
             imageSize = new kakao.maps.Size(10, 10), // 마커 이미지의 크기
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
@@ -452,7 +446,7 @@ function addMarker(place, i, imageSrc) {
                 position: position, // 마커의 위치
                 image: markerImage,
             });
-    }
+
     return marker;
 }
 //마커다시그림
@@ -481,7 +475,7 @@ kakao.maps.event.addListener(map, "idle", changeMap)
 
 async function changeMap() {
     resizeMap()
-        lat = map.getCenter().getLat(),
+    lat = map.getCenter().getLat(),
         lng = map.getCenter().getLng(),
         zoom = map.getLevel(),
         x2 = map.getBounds().getNorthEast().getLat(),
@@ -501,32 +495,38 @@ async function changeMap() {
     }
     console.log("data재요청입니다!", datalat);
 
-    if (zoom > 7) {
-        removeCircles(map);
-    } else {
-        for (var i = 0; i < circles.length; i++) {
-            circles[i].setMap(map);
-        }
-    }
-
-    if (zoom < 4) {
+    if (zoom > 7) {//zoom 8 ~ 14
+        //removeCircles(map);
+        $('.areaTap').css('display', 'none');
+    } else if(zoom >= 4 && zoom <= 7){ //zoom 4,5,6,7 일때
+        $('.areaTap').css('display', 'block');
+        setMarkers(null)//상점삭제
+        $('.category_wrap.region').css('display', 'none');//상점 카테고리 삭제
+    }else {//zoom 3,2,1 일때
         setMarkers(null);//상점삭제
-        console.log("zoom 이 5이하시 shop 리스트 호출");
+        $('.category_wrap.region').css('display', 'block');//상점 카테고리 추가
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점찍기
         });
-    } else {
-        setMarkers(null);//상점삭제
     }
 
 }
 
 async function changeType() {
     resizeMap()
-    removePolygons(map)//상권삭제
-    removeCircles(map);
+    removePolygons(map)//폴리곤삭제
+    removeCircles(map);//호버삭제
     circles.splice(0);
+    for (var i = 0; i < polygons1.length; i++) {//클릭 한겹 폴리곤 레이어 일단지움
+        polygons1[i].setMap(null);
+    }
+    for (var i = 0; i < clickcircles.length; i++) {// 클릭-지역명 일단지움
+        clickcircles[i].setMap(null);
+    }
+    for (var i = 0; i < clickcInfoWins.length; i++) {// 클릭-지역커스텀인포 일단지움
+        clickcInfoWins[i].setMap(null);
+    }
 
     codeType3 = $('input[name="cate2"]:checked').val();
     var datatype = {codeType3}
@@ -541,8 +541,8 @@ async function changeType() {
 
 }
 
-
-// 다각형을 생성하고 지도에 표시합니다
+$('.category_wrap.region').css('display', 'none');//첫화면 상점 카테고리 삭제
+//첫화면 다각형을 생성하고 지도에 표시합니다
 for (var i = 0, len = areaJson.length; i < len; i++) {
     displayArea(areaJson[i]);
 }
@@ -590,42 +590,97 @@ function displayArea(area) {
             var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
 
             var content='<div class ="regionlabel">' +
-                            '<div class="regionbox">' +
-                                '<div class="store normal_store">' +
-                                "일반점포" +
-                                normal_store +
-                                '</div>' +
-                                '<div class="store regionName">' +
-                                regionName +
-                                '</div>' +
-                                '<div class="store fran_store">' +
-                                "가맹점포" +
-                                fran_store +
-                                '</div>' +
-                            '</div>' +
-                        '</div>';
-
+                '<div class="regionbox">' +
+                '<div class="store normal_store">' +
+                "일반점포" +
+                normal_store +
+                '</div>' +
+                '<div class="store regionName">' +
+                regionName +
+                '</div>' +
+                '<div class="store fran_store">' +
+                "가맹점포" +
+                fran_store +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            var content2 =
+                '<div class="placeinfo">' +
+                '<p class="title">' +
+                regionName +
+                "</p>" +
+                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+                '<span class="jibun2">총 상점수 : ' +
+                "</span>"+
+                '<span class="region">' +
+                total +
+                "개 점포"+
+                "</span>" +
+                "</div>" +
+                '<div class="after"></div>';
         } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
-            content = info[0].sum_popul;
+           // content = info[0].sum_popul;
+            var total_comma = total.toString()
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            var content='<div class ="regionlabel">' +
+                '<div class="regionbox">' +
+                '<div class="popul regionName">' +
+                regionName +
+                '</div>' +
+                '<div class="popul regionName">' +
+                total_comma +
+                '명'+
+                '</div>' +
+                '</div>' +
+                '</div>';
+            var content2 =
+                '<div class="placeinfo">' +
+                '<p class="title">' +
+                regionName +
+                "</p>" +
+                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+                '<span class="jibun2">총 인구수 : ' +
+                "</span>"+
+                '<span class="region">' +
+                total_comma +
+                '명'+
+                "</span>" +
+                "</div>" +
+                '<div class="after"></div>';
+
         } else if (codeType3 === '3') {//임대시세
             total = info[0].rt_all;
-            content = info[0].rt_all;
+          //  content = info[0].rt_all;
+            var total_comma = total.toString()
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            var content='<div class ="regionlabel">' +
+                    '<div class="regionbox">' +
+                        '<div class="rental regionName">' +
+                        regionName +
+                        '</div>' +
+                        '<div class="rental regionName">' +
+                        total_comma +
+                        '원'+
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            var content2 =
+                '<div class="placeinfo">' +
+                '<p class="title">' +
+                regionName +
+                "</p>" +
+                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+                '<span class="jibun2">총 임대시세 : ' +
+                "</span>"+
+                '<span class="region">' +
+                total_comma +
+                '원'+
+                "</span>" +
+                "</div>" +
+                '<div class="after"></div>';
         }
     }
-    // var circle = new kakao.maps.CustomOverlay({
-    //     position: centroid(area.path),
-    //     content: '<div class ="countlabel">' +
-    //         '<div class="countsidobox">' +
-    //         '<div class="right">' +
-    //         content +
-    //         total +
-    //         '</div></div></div>'
-    // });
-    // circles.push(circle);
-    // if (zoom < 6) {
-    //     circle.setMap(map);
-    // }
 
     //상점수 폴리곤 색상
     if (codeType3 === '1') {
@@ -783,7 +838,7 @@ function displayArea(area) {
                 fillOpacity: 0.15
             });
         }
-    }else {
+    }else {//조건없을때
         // 다각형을 생성합니다
         var polygon = new kakao.maps.Polygon({
             path: (area.hole == null || area.hole.length == 0 ? path : [path, hole]),
@@ -798,17 +853,16 @@ function displayArea(area) {
 
 
 
-
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
-    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다//그라데이션색상정하기
+    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-        if (zoom < 6) {
-         var circle = new kakao.maps.CustomOverlay({
-            position: centroid(area.path),
-            content: content
-        });
-        circles.push(circle);
-        circle.setMap(map);
+        if (zoom < 8) {//7,6,5,4,3,2,1  지역 호버시 지역 정보 글씨 보임
+            var circle = new kakao.maps.CustomOverlay({
+                position: centroid(area.path),
+                content: content
+            });
+            circles.push(circle);
+            circle.setMap(map);
         }
 
         if (codeType3 === '1') {//상점수
@@ -831,11 +885,11 @@ function displayArea(area) {
                 fillColor: area.over_fill_color,
                 fillOpacity: area.over_fill_opacity
             });
-        }
-
+        }//폴리곤 채움색 변경
 
 
     });
+
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
     // kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
     //     // customOverlay.setPosition(mouseEvent.latLng);
@@ -844,7 +898,7 @@ function displayArea(area) {
     // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function () {
-       //removeCircles()
+        removeCircles() //호버글씨 지움
         if (codeType3 === '1') {
             if(total>regionStandard[0][5]){
                 polygon.setOptions({
@@ -946,54 +1000,94 @@ function displayArea(area) {
     });
 
 
-
-
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-        for (var i = 0; i < polygons1.length; i++) {
+        for (var i = 0; i < polygons1.length; i++) {//한겹 폴리곤 레이어 일단지움
             polygons1[i].setMap(null);
         }
-        var polygon1 = new kakao.maps.Polygon({
-            path: this.getPath(),
-            strokeWeight: 3,
-            strokeColor: '#fff',
-            fillColor: 'url(#store-gra)',
-            fillOpacity: 0.9
-        });
+        for (var i = 0; i < clickcircles.length; i++) {// 클릭-지역정보 동그라미 일단지움
+            clickcircles[i].setMap(null);
+        }
+        for (var i = 0; i < clickcInfoWins.length; i++) {// 클릭-지역커스텀인포 일단지움
+            clickcInfoWins[i].setMap(null);
+        }
+
+        if (zoom < 8) {//맵크기 8이하  : 클릭-커스텀인포(행정동별 정보) 추가
+            var clickcircle = new kakao.maps.CustomOverlay({
+                position: centroid(area.path),
+                content: content
+            });
+            clickcircles.push(clickcircle);
+            clickcircle.setMap(map);
+
+            var clickcInfoWin = new kakao.maps.CustomOverlay({
+                position: centroid(area.path),
+                content: content2,
+                zIndex: 3,
+                yAnchor: 1.2,
+            });
+            clickcInfoWins.push(clickcInfoWin);
+            clickcInfoWin.setMap(map);
+
+        }
+
+
+        var codeType3 = $('input[name="cate2"]:checked').val();// 3번 분기별 임대시세
+        if (codeType3 === '1') {//상점수
+            var polygon1 = new kakao.maps.Polygon({
+                path: this.getPath(),
+                strokeWeight: 3,
+                strokeColor: '#fff',
+                strokeOpacity: 1,
+                fillColor: 'url(#store-gra)',
+                fillOpacity: 0.8
+            });
+
+        }else if(codeType3 === '2'){//인구수
+            var polygon1 = new kakao.maps.Polygon({
+                path: this.getPath(),
+                strokeWeight: 3,
+                strokeColor: '#fff',
+                strokeOpacity: 1,
+                fillColor: '#1540BF',
+                fillOpacity: 0.8
+            });
+        }else if(codeType3 === '3'){//임대시세
+            var polygon1 = new kakao.maps.Polygon({
+                path: this.getPath(),
+                strokeWeight: 3,
+                strokeColor: '#fff',
+                strokeOpacity: 1,
+                fillColor: '#DD4C79',
+                fillOpacity: 0.8
+            });
+        }else{
+            var polygon1 = new kakao.maps.Polygon({
+                path: this.getPath(),
+                strokeWeight: 3,
+                strokeColor: '#fff',
+                fillColor: 'url(#store-gra)',
+                fillOpacity: 0.8
+            });
+        }
         polygon1.setMap(map);
         polygons1.push(polygon1)
 
 
-        if (codeType3 === '1 ') {//상점수
-            polygon.setOptions({
-                fillColor: 'url(#store-gra)',
-                fillOpacity: 0.9
-            });
-        }
-        if (zoom < 6) {
-            var circle = new kakao.maps.CustomOverlay({
-                position: centroid(area.path),
-                content: content
-            });
-            circles.push(circle);
-            circle.setMap(map);
-        }
-
-
-        var codeType3 = $('input[name="cate2"]:checked').val();
         var data = {
             emdCd: area.emd_cd,
             codeType3: codeType3
         }
         ajaxPostSyn('/trading-area/regional/details', data, function (result) {
             console.log("이게 데이터 갖고오는거임", result)
-
             if (result.length > 0) {
+                //클릭시 위에 한겹 폴리곤 레이어 추가 + 사이드바
                 if (codeType3 === '1') {
-                    $('.tab_title>p>span').text( total);
-                    for (var i = 0; i < result.length; i++) {
+                    sideInfoStore(area,total)
 
-                    }
+                    // $('.tab_title>p>span').text( total);
+                    // for (var i = 0; i < result.length; i++) {
+                    // }
                 } else if (codeType3 === '2') {
                     $('.tab_title>p>span').text( total);
                 } else if (codeType3 === '3') {
@@ -1003,22 +1097,245 @@ function displayArea(area) {
 
         });
     });
-
     polygon.setMap(map);
-    polygons.push(polygon)
-
+    polygons.push(polygon);
+}
+//클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
+function closeOverlay() {
+    for (var i = 0; i < polygons1.length; i++) {//한겹 폴리곤 레이어 일단지움
+        polygons1[i].setMap(null);
+    }
+    for (var i = 0; i < clickcircles.length; i++) {// 클릭-지역정보 동그라미 일단지움
+        clickcircles[i].setMap(null);
+    }
+    for (var i = 0; i < clickcInfoWins.length; i++) {// 클릭-지역커스텀인포 일단지움
+        clickcInfoWins[i].setMap(null);
+    }
+    document.getElementById("sidebar").style.display = "none";
+}
+//사이드바 숨기기
+function sideNoneVisible() {
+    document.getElementById("sidebody").style.display = "none";
+    $('#sidebar').addClass('on');
 }
 
+//사이드바 보이기
+function sideVisible() {
+    document.getElementById("sidebody").style.display = "block";
+    $('#sidebar').removeClass('on');
+}
+//상점수 사이드바 인포
+function sideInfoStore(area,total) {
+    document.getElementById("sidebar").style.display = "block";
+    if (area) {
+        document.getElementById("sidebar").innerHTML =
+            '<div id="sidebody" class="sidebody_area">' +
+            '<div class="sideinfo_fixed">' +
+            '<div class="sideCloseBtn closeRegion" onclick="closeOverlay()" title="닫기"></div>' +
+            '<span class="sideinfo_span fixed_inside">' +
+            '</span>' +
+                '<div class="sideinfo_areaname">' +
+                    area.area_name +
+                '</div>' +
+            '</div>' +
+            '<div class="sideinfo firstinfo">' +
+            '<h4 class="sideinfoTitle">상점수</h4>' +
+            '총 '+total + '개 점포'+
+            '</div>' +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">업종별 상점수</h4>' +
+                '<div class="mainSectors_wrap">'+
+                    '<ul class="mainSectors">'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="all" id="all-sector" onChange="" checked/>'+
+                            '<label For="all-sector">전체</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="I" id="I-sector" onChange=""/>'+
+                            '<label For="I-sector">숙박·음식</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="S" id="S-sector" onChange=""/>'+
+                            '<label For="S-sector">수리·개인서비스</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="G" id="G-sector" onChange=""/>'+
+                            '<label For="G-sector">도·소매</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="R" id="R-sector" onChange=""/>'+
+                            '<label For="R-sector">예술·스포츠·여가</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="N" id="N-sector" onChange=""/>'+
+                            '<label For="N-sector">시설관리·임대</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="M" id="M-sector" onChange=""/>'+
+                            '<label For="M-sector">과학·기술</label>'+
+                        "</li>"+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="L" id="L-sector" onChange=""/>'+
+                            '<label For="L-sector">부동산</label>'+
+                        '</li>'+
+                        '<li>'+
+                            '<input type="radio" name="area_maincate" value="P" id="P-sector" onChange=""/>'+
+                            '<label For="P-sector">교육</label>'+
+                        '</li>'+
+                    '</ul>'+
+                '</div>'+
+            '<div class="sidegraph">' +
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '총 '+total + '개 점포'+
+            '</div>' +
+            '</div>' +
+            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+    }
+}
+//인구수 사이드바 인포
+function sideInfoPopul(area, ) {
+    document.getElementById("sidebar").style.display = "block";
+    if (area) {
+        document.getElementById("sidebar").innerHTML =
+            '<div id="sidebody" class="sidebody_area">' +
+            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
+            '<div class="sideinfo">' +
+            area.area_name + ' ' + area.area_title +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '상점수 ' + stores +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '개폐업수 개업점포수' + open + '폐업점포수' + close +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '추정매출 매출이 가장 큰시간' + detail.picktime + '매출액' + sales +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '생활인구' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '상존인구 길단위' + detail.st_popul + '건물단위' + detail.bd_popul +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '인구 유형별 비중 주거인구 ? ' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '소비유형' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트 상권 단지수' + detail.ct_apt_com + ' 세대수' + detail.ct_apt_hou +
+            '아파트 배후지 단지수' + detail.ct_napt_com + ' 세대수' + detail.ct_napt_hou +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+            '<div class="issue">' +
+            '<span>로그인이 필요합니다.</span>' +
+            '<a>로그인/회원가입 하러가기</a>' +
+            '</div>' +
+            "</div>" +
+            '<button class="analysisBtn">상권활성화 예측지수</button>' +
+            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+    }
+}
+//(주요이슈)임대시세 사이드바 인포
+function sideInfoRental(area) {
+    document.getElementById("sidebar").style.display = "block";
+    if (area) {
+        document.getElementById("sidebar").innerHTML =
+            '<div id="sidebody" class="sidebody_area">' +
+            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
+            '<div class="sideinfo">' +
+            area.area_name + ' ' + area.area_title +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '상점수 ' + stores +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '개폐업수 개업점포수' + open + '폐업점포수' + close +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '추정매출 매출이 가장 큰시간' + detail.picktime + '매출액' + sales +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '생활인구' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '상존인구 길단위' + detail.st_popul + '건물단위' + detail.bd_popul +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '인구 유형별 비중 주거인구 ? ' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '소비유형' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트 상권 단지수' + detail.ct_apt_com + ' 세대수' + detail.ct_apt_hou +
+            '아파트 배후지 단지수' + detail.ct_napt_com + ' 세대수' + detail.ct_napt_hou +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '아파트' +
+            '</div>' +
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
+            '<div class="issue">' +
+            '<span>로그인이 필요합니다.</span>' +
+            '<a>로그인/회원가입 하러가기</a>' +
+            '</div>' +
+            "</div>" +
+            '<button class="analysisBtn">상권활성화 예측지수</button>' +
+            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+            '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+//중심좌표구하는함수
 function centroid(points) {
     var i, j, len, p1, p2, f, area, x, y;
-
     area = x = y = 0;
-
     for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
-
         p1 = points[i];
         p2 = points[j];
-
         f = p1.longitude * p2.latitude - p2.longitude * p1.latitude;
         x += (p1.latitude + p2.latitude) * f;
         y += (p1.longitude + p2.longitude) * f;
@@ -1026,14 +1343,10 @@ function centroid(points) {
     }
     return new kakao.maps.LatLng(x / area, y / area)
 }
-
-// 인포윈도우 닫기 이벤트
-$(document).on('click', '.customoverlay_close', function () {
-    infowindow.setMap(null);
-});
-
-
-
+// // 인포윈도우 닫기 이벤트
+// $(document).on('click', '.customoverlay_close', function () {
+//     infowindow.setMap(null);
+// });
 
 //ajax 요청하는 함수
 function ajaxPostSyn(url, data, callback, showLoading) {

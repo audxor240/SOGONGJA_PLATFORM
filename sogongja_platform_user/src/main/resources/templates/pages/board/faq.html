@@ -33,20 +33,20 @@
             <div class="sub_container">
                 <div class="m_tab_faq"></div>
                 <ul class="tab faq_tab faq_tab_box">
-                    <li class="active" id="ALL">
-                        <a th:href="@{/faq}">전체 <th:block th:text="|(${typeList.total_cnt})|">(10)</th:block></a>
+                    <li class="m_hide" id="ALL">
+                        <a th:href="@{/faq(type='ALL',keyword=${params.keyword})}">전체 <th:block th:text="|(${typeList.total_cnt})|">(10)</th:block></a>
                     </li>
                     <li class="m_hide" id="CON">
-                        <a href="#n">소공자 컨설팅 <th:block th:text="|(${typeList.con_cnt})|">(10)</th:block></a>
+                        <a th:href="@{/faq(type='CON',keyword=${params.keyword})}">소공자 컨설팅 <th:block th:text="|(${typeList.con_cnt})|">(10)</th:block></a>
                     </li>
                     <li class="m_hide" id="EDU">
-                        <a href="#n">소공자 교육 <th:block th:text="|(${typeList.edu_cnt})|">(10)</th:block></a>
+                        <a th:href="@{/faq(type='EDU',keyword=${params.keyword})}">소공자 교육 <th:block th:text="|(${typeList.edu_cnt})|">(10)</th:block></a>
                     </li>
                     <li class="m_hide" id="USER">
-                        <a href="#n">소공자 회원 <th:block th:text="|(${typeList.user_cnt})|">(10)</th:block></a>
+                        <a th:href="@{/faq(type='USER',keyword=${params.keyword})}">소공자 회원 <th:block th:text="|(${typeList.user_cnt})|">(10)</th:block></a>
                     </li>
                     <li class="m_hide" id="GUIDE">
-                        <a href="#n">이용가이드 <th:block th:text="|(${typeList.guide_cnt})|">(10)</th:block></a>
+                        <a th:href="@{/faq(type='GUIDE',keyword=${params.keyword})}">이용가이드 <th:block th:text="|(${typeList.guide_cnt})|">(10)</th:block></a>
                     </li>
                 </ul>
                 <div class="m_more_faq">
@@ -68,6 +68,8 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!--/*
                     <div class="tab_a tab_a2 faq_list" id="list_2">
                         <ul class="accordion">
                             <th:block th:each="item : ${list}">
@@ -124,6 +126,8 @@
                             </th:block>
                         </ul>
                     </div>
+                    */-->
+
                 </div>
             </div>
             <!--<div class="btn_box">

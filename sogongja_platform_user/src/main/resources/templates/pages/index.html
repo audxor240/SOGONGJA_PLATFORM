@@ -49,7 +49,7 @@
                                     </a>
                                 </div>
                                 <div class="swiper-slide" th:if="${#lists.isEmpty(mobileBannerList)}">
-                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbg1.png}') no-repeat center;|"></div>
+                                    <div class="m_img" th:style="|background: url('@{/images/new/main/img_mainbgm1.png}') no-repeat center;|"></div>
                                 </div>
                                 <div class="swiper-slide" th:each="item : ${mobileBannerList}" th:unless="${#lists.isEmpty(mobileBannerList)}">
                                     <a th:href="${item.url}" th:target="${item.url_open_type != '1'?'_blank':''}">

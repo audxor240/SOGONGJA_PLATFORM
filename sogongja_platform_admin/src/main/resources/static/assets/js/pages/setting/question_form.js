@@ -223,13 +223,23 @@ function getInputValue(){
         " 	<p>"+textValue+"</p>\n" +
         " </div>\n" +
         " <div class=\"item_tag_wrap\">\n";
+
     for(var i = 0; i < tagCnt; i++){
+
         add_str += " 	<span name=\"matching_"+answerCnt+"\" class=\"item_tag\">"+tags_arr[i]+"<input type='hidden' id='answerSeq' value='"+answerArr[i]+"'></span>\n" ;
     }
 
     add_str += 	  " </div>\n";
     add_str += " </div>";
     add_str += "</div>";
+
+    tags_arr = [];  //매칭분류 초기화
+    tagCnt = 0;     //초기화
+    $("#mach_01").val("0").prop("selected", true);  //대분류 초기화
+    $('#mach_02 option:not(option:eq(0))').hide();  //중분류 초기화
+    $("#mach_02").val("0").prop("selected", true);
+    $(".positionAdd-selectedtagBound").remove();  //분류 삭제
+
     $("#answer_wrap").append(add_str);
     answerCnt++;
 

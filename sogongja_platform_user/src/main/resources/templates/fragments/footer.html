@@ -26,7 +26,8 @@
                     <li>
                         <h2>소공자 솔루션</h2>
                         <ul>
-                            <li><a th:href="@{/board/news}">솔루션서비스</a></li>
+                            <li><a href="javascript:alert('준비중입니다.');">커머스 도시공간분석</a></li>
+                            <li><a href="javascript:alert('준비중입니다.');">솔루션서비스</a></li>
                         </ul>
                     </li>
                     <li>
@@ -64,8 +65,8 @@
 
     <div class="ft_bottom container">
         <ul class="privacy">
-            <li><a th:href="@{/TermsOfService}">사이트이용약관</a></li>
-            <li><a th:href="@{/privacyPolicy}">개인정보취급방침</a></li>
+            <li><a th:href="@{/TermsOfService}" th:style="${sel_TermsOfService eq true?'color:#709bff':''}">사이트이용약관</a></li>
+            <li><a th:href="@{/privacyPolicy}" th:style="${sel_privacyPolicy eq true?'color:#709bff':''}">개인정보취급방침</a></li>
         </ul>
         <ul class="ad">
             <li>
