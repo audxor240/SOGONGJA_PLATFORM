@@ -60,7 +60,10 @@
                             </div>
                             <button type="submit" class="btn col-sm-3 btn-success" id="excelUpload"><i class="btn-icon-prepend" data-feather="file-text" style="width:20px;"></i>일괄등록</button>
                         </form>
-                        <button type="button" class="btn col-sm-1 btn-danger" id="del_faq">선택삭제</button>
+                        <button type="button" class="btn col-sm-1 btn-danger mr-1" id="del_faq">선택삭제</button>
+                        <a th:href="@{|/faq/form?${pageParams}|}" class="btn col-sm-1 btn-primary">
+                            <i class="btn-icon-prepend" data-feather="edit" style="width:20px;"></i>FAQ 등록
+                        </a>
                     </div>
                     <p class="card-description">
                         <th:block th:include="fragments/paging_result02:: paging_result('')"></th:block>

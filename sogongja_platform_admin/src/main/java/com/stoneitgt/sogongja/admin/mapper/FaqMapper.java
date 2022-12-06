@@ -1,5 +1,6 @@
 package com.stoneitgt.sogongja.admin.mapper;
 
+import com.stoneitgt.sogongja.domain.Education;
 import com.stoneitgt.sogongja.domain.Faq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -17,6 +18,7 @@ public interface FaqMapper {
 
     Faq getFaq(int faqSeq);
 
+    int insertFaq(Faq faq);
     int updateFaq(Faq faq);
 
     int deleteFaq(Map<String, Object> params);
