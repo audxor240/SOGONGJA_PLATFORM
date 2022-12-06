@@ -70,6 +70,29 @@
           AND A.FAQ_SEQ = #{faqSeq}
     </select>
 
+    <insert id="insertFaq" parameterType="com.stoneitgt.sogongja.domain.Faq">
+        /* file : FaqMapper.xml, id : insertFaq */
+        INSERT
+        INTO ST_FAQ (
+        TYPE
+        , TYPE_NAME
+        , TYPE_COLOR
+        , SUBJECT
+        , CONTENT
+        , REG_USER_SEQ)
+        VALUES (
+        #{type}
+        , #{typeName}
+        , #{typeColor}
+        , #{subject}
+        , #{content}
+        , #{loginUserSeq})
+
+        <selectKey resultType="int" keyProperty="faqSeq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
     <update id="updateFaq" parameterType="com.stoneitgt.sogongja.domain.Faq">
         /* file : FaqMapper.xml, id : updateFaq */
         UPDATE ST_FAQ
