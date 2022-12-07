@@ -623,12 +623,19 @@ function sideInfo(area, detail) {
     }
 }
 
-//오버레이닫음
+//클릭 1차그래프 오버레이닫음
 function closeOverlay() {
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
     }
     document.getElementById("sidebar").style.display = "none";
+}
+//클릭 2차그래프 오버레이닫음
+function closeOverlaygraph() {
+    $('#myChart1').remove();//있던 차트 지우고
+    $('.placegraph').removeClass("on")//클래스 지우고
+    $('.placegraph').find('#title').removeAttr('class')//"대분류" 업종 순위 -> 타이틀 "색상" 삭제
+    $('.placegraph').find('.ranking_list *').remove()
 }
 
 // var areatab = $('input[name="areaTab"]')
@@ -695,47 +702,15 @@ function contentFunc(area) {
         if (areaTab === "open") {//개업수
             info2 = info2.sort((a, b) => b.open - a.open);
             for (var i = 0; i < info2.length; i++) {
-                if(info2[i].code=="I"){
-                    var sectorname = "숙박·음식";
-                }else if(info2[i].code=="S"){
-                    var sectorname = "수리·개인서비스";
-                }else if(info2[i].code=="G"){
-                    var sectorname = "도·소매";
-                }else if(info2[i].code=="R"){
-                    var sectorname = "예술·스포츠·여가";
-                }else if(info2[i].code=="N"){
-                    var sectorname = "시설관리·임대";
-                }else if(info2[i].code=="M"){
-                    var sectorname = "과학·기술";
-                }else if(info2[i].code=="L"){
-                    var sectorname = "부동산";
-                }else if(info2[i].code=="P"){
-                    var sectorname = "교육";
-                }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<canvas id=""></canvas></span></li>`
+                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<div class="width_chart"></div></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "close") {//폐업수
             info2 = info2.sort((a, b) => b.close - a.close);
             for (var i = 0; i < info2.length; i++) {
-                if(info2[i].code=="I"){
-                    var sectorname = "숙박·음식";
-                }else if(info2[i].code=="S"){
-                    var sectorname = "수리·개인서비스";
-                }else if(info2[i].code=="G"){
-                    var sectorname = "도·소매";
-                }else if(info2[i].code=="R"){
-                    var sectorname = "예술·스포츠·여가";
-                }else if(info2[i].code=="N"){
-                    var sectorname = "시설관리·임대";
-                }else if(info2[i].code=="M"){
-                    var sectorname = "과학·기술";
-                }else if(info2[i].code=="L"){
-                    var sectorname = "부동산";
-                }else if(info2[i].code=="P"){
-                    var sectorname = "교육";
-                }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<canvas id=""></canvas></span></li>`
+                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<div class="width_chart"></div></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "sales") {//추정매출
@@ -761,49 +736,19 @@ function contentFunc(area) {
             }
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
-                if(info2[i].code=="I"){
-                    var sectorname = "숙박·음식";
-                }else if(info2[i].code=="S"){
-                    var sectorname = "수리·개인서비스";
-                }else if(info2[i].code=="G"){
-                    var sectorname = "도·소매";
-                }else if(info2[i].code=="R"){
-                    var sectorname = "예술·스포츠·여가";
-                }else if(info2[i].code=="N"){
-                    var sectorname = "시설관리·임대";
-                }else if(info2[i].code=="M"){
-                    var sectorname = "과학·기술";
-                }else if(info2[i].code=="L"){
-                    var sectorname = "부동산";
-                }else if(info2[i].code=="P"){
-                    var sectorname = "교육";
-                }
+                var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+
                 var sales_comma = info2[i].sales.toString()
                     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원<canvas id=""></canvas></span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원<div class="width_chart"></div></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+sales_comma +'원 '+ (i+1)+`위</div></span>`
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
             for (var i = 0; i < info2.length; i++) {
-                if(info2[i].code=="I"){
-                  var sectorname = "숙박·음식";
-                }else if(info2[i].code=="S"){
-                    var sectorname = "수리·개인서비스";
-                }else if(info2[i].code=="G"){
-                    var sectorname = "도·소매";
-                }else if(info2[i].code=="R"){
-                    var sectorname = "예술·스포츠·여가";
-                }else if(info2[i].code=="N"){
-                    var sectorname = "시설관리·임대";
-                }else if(info2[i].code=="M"){
-                    var sectorname = "과학·기술";
-                }else if(info2[i].code=="L"){
-                    var sectorname = "부동산";
-                }else if(info2[i].code=="P"){
-                    var sectorname = "교육";
-                }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"><canvas id="" style="width:100;height:100"></canvas></div></span></li>`
+                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                console.log(sectorname,"sectorname")
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"></div></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
             }
         }
@@ -837,16 +782,24 @@ function contentFunc(area) {
                 mainpart +
                 ' </ul>'+
             '<div class="placeinfo2">' +
-                '<div class="title" >' +
+                '<div id="title" >' +
                 '전체업종 순위'+
                 "</div>" +
                 '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
-            '<div class="ranking_list scroll" >' +
-            ranking+
-            "</div>" +
+                '<div class="ranking_list" >' +
+                ranking+
+                "</div>" +
                 '<div class="after"></div>'+
                 "</div>" +
-            '</div>'
+            '</div>'+
+            '<div class="placeinfo2 placegraph">' +
+                '<div id="title">' +
+                "</div>" +
+                '<div class="close" onclick="closeOverlaygraph()" title="닫기"></div>'+
+                '<div class="ranking_list">' +
+                "</div>" +
+                '<div class="after"></div>'+
+            "</div>"
         ;
 
     } else {// 여기는 단일마커임
@@ -927,6 +880,29 @@ function contentFunc(area) {
     }
     return content;
 }
+
+//코드 ->대분류이름 반환
+function codeSectorname(code){
+    if(code=="I"){
+        var sectorname = "숙박·음식";
+    }else if(code=="S"){
+        var sectorname = "수리·개인서비스";
+    }else if(code=="G"){
+        var sectorname = "도·소매";
+    }else if(code=="R"){
+        var sectorname = "예술·스포츠·여가";
+    }else if(code=="N"){
+        var sectorname = "시설관리·임대";
+    }else if(code=="M"){
+        var sectorname = "과학·기술";
+    }else if(code=="L"){
+        var sectorname = "부동산";
+    }else if(code=="P"){
+        var sectorname = "교육";
+    }
+    return sectorname
+}
+
 
 function areaInClick(area) {
     document.getElementById("sidebar").style.display = "none";
@@ -1542,6 +1518,8 @@ $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate
 
 function showMidPart(code) {
     console.log('code : ' + code);
+    var code = code;
+    var ranking2="";
     var tempArr = new Array();
     for (var i = 0; i < infosForMidpart.length; i++) {
         if (infosForMidpart[i].code === code) {
@@ -1551,8 +1529,55 @@ function showMidPart(code) {
     var areaTab = $('input[name=areaTab]:checked').val();
     if (areaTab === "open") {//개업수
         tempArr = tempArr.sort((a, b) => b.ct_open - a.ct_open);
+
+        var opencolor = [];
+        for (var i = 0; i < tempArr.length; i++) {
+            ranking2 += `<span class="` + tempArr[i].code + `">` + tempArr[i].com_nm +'<div class="right"> '+ tempArr[i].ct_open +'개 '+ (i+1)+`위</div></span>`
+            opencolor.push(tempArr[i].ct_open);
+        }
+        var barColors = opencolor.map((value) =>
+            value > 20 ? 'rgba(255, 255, 255, 0.1)' :
+                value > 10 ? 'rgba(255, 255, 255, 0.15)' :
+                    value > 6 ? 'rgba(255, 255, 255, 0.2)' :
+                        value > 5 ? 'rgba(255, 255, 255, 0.25)' :
+                            value > 4 ? 'rgba(255, 255, 255, 0.3)' :
+                                value > 3 ? 'rgba(255, 255, 255, 0.4)' :
+                                    value > 2 ? 'rgba(255, 255, 255, 0.5)' :
+                                        value > 1 ? 'rgba(255, 255, 255, 0.6)' :
+                                            'rgba(255, 255, 255, 0.7)');
+        //1)원래 차트있던거ㅡ지우고
+        closeOverlaygraph()
+        //2)2차그래프-1.차트그리기
+        $('.graphmenu>li.'+ code +'>span>div').append('<canvas id="myChart1"><canvas>');//차트id추가
+        chartjs(opencolor,barColors)//개업수 2차그래프 차트그리기
+        //2)2차그래프-2.인포윈도 위에 그리기
+        drawSecondGraph(code,ranking2)//2차 그래프 인포 그리기
+
     } else if (areaTab === "close") {//폐업수
-        tempArr = tempArr.sort((a, b) => b.cd_close - a.cd_close);
+        tempArr = tempArr.sort((a, b) => b.ct_close - a.ct_close);
+
+        var closecolor = [];
+        for (var i = 0; i < tempArr.length; i++) {
+            ranking2 += `<span class="` + tempArr[i].code + `">` + tempArr[i].com_nm +'<div class="right"> '+ tempArr[i].ct_close +'개 '+ (i+1)+`위</div></span>`
+            closecolor.push(tempArr[i].ct_close);
+        }
+        var barColors = closecolor.map((value) =>
+            value > 30 ? 'rgba(255, 255, 255, 0.1)' :
+                value > 10 ? 'rgba(255, 255, 255, 0.15)' :
+                    value > 6 ? 'rgba(255, 255, 255, 0.2)' :
+                        value > 5 ? 'rgba(255, 255, 255, 0.25)' :
+                            value > 4 ? 'rgba(255, 255, 255, 0.3)' :
+                                value > 3 ? 'rgba(255, 255, 255, 0.4)' :
+                                    value > 2 ? 'rgba(255, 255, 255, 0.5)' :
+                                        value > 1 ? 'rgba(255, 255, 255, 0.6)' :
+                                            'rgba(255, 255, 255, 0.7)');
+        //1)원래 차트있던거ㅡ지우고
+        closeOverlaygraph()
+        //2)2차그래프-1.차트그리기
+        $('.graphmenu>li.'+ code +'>span>div').append('<canvas id="myChart1"><canvas>');//차트id추가
+        chartjs(closecolor,barColors)//폐업수 2차그래프 차트그리기
+        //2)2차그래프-2.인포윈도 위에 그리기
+        drawSecondGraph(code,ranking2)//2차 그래프 인포 그리기
 
     } else if (areaTab === "sales") {//추정매출
         for (var i = 0; i < tempArr.length; i++) {
@@ -1576,41 +1601,86 @@ function showMidPart(code) {
             tempArr[i].sales = tempSales;
         }
         tempArr = tempArr.sort((a, b) => b.sales - a.sales);
+
+        var salescolor = [];
+        for (var i = 0; i < tempArr.length; i++) {
+            var sales_comma = tempArr[i].sales.toString()
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            ranking2 += `<span class="` + tempArr[i].code + `">` + tempArr[i].com_nm +'<div class="right"> '+ sales_comma +'원 '+ (i+1)+`위</div></span>`
+            salescolor.push(tempArr[i].sales);
+        }
+        var barColors = salescolor.map((value) =>
+            value > 21474836470000 ? 'rgba(255, 255, 255, 0.1)' :
+                value > 2147483647000 ? 'rgba(255, 255, 255, 0.15)' :
+                    value > 214748364700 ? 'rgba(255, 255, 255, 0.2)' :
+                        value > 21474836470 ? 'rgba(255, 255, 255, 0.25)' :
+                            value > 2147483647 ? 'rgba(255, 255, 255, 0.3)' :
+                                value > 514281240 ? 'rgba(255, 255, 255, 0.4)' :
+                                    value > 51428120 ? 'rgba(255, 255, 255, 0.5)' :
+                                        value > 1592617 ? 'rgba(255, 255, 255, 0.6)' :
+                                            'rgba(255, 255, 255, 0.7)');
+        //1)원래 차트있던거ㅡ지우고
+        closeOverlaygraph()
+        //2)2차그래프-1.차트그리기
+        $('.graphmenu>li.'+ code +'>span>div').append('<canvas id="myChart1"><canvas>');//차트id추가
+        chartjs(salescolor,barColors)//추정매출 2차그래프 차트그리기
+        //2)2차그래프-2.인포윈도 위에 그리기
+        drawSecondGraph(code,ranking2)//2차 그래프 인포 그리기
+
     } else {//상점수 탭일때
         tempArr = tempArr.sort((a, b) => b.ct_shop - a.ct_shop);
-        var coarr =[]
+
+        var shopcolor = [];
         for (var i = 0; i < tempArr.length; i++) {
-            console.log(tempArr[i])
-            coarr.push(tempArr[i]);}
-            console.log("c",coarr)
-
-        $('.graphmenu>li>span>div>canvas').removeAttr('id', 'myChart1');
-        $('.graphmenu>li.graphlist2>span>div>canvas').attr('id', 'myChart1');
-        chartjs(coarr)
-        var myChart = echarts.init(document.getElementById('myChart1'), null, {
-            width: 600,
-            height: 600
-        });
+            ranking2 += `<span class="` + tempArr[i].code + `">` + tempArr[i].com_nm +'<div class="right"> '+ tempArr[i].ct_shop +'개 '+ (i+1)+`위</div></span>`
+            shopcolor.push(tempArr[i].ct_shop);
+        }
+        var barColors = shopcolor.map((value) =>
+            value > 1000 ? 'rgba(255, 255, 255, 0.1)' :
+                value > 100 ? 'rgba(255, 255, 255, 0.15)' :
+                    value > 50 ? 'rgba(255, 255, 255, 0.2)' :
+                        value > 20 ? 'rgba(255, 255, 255, 0.25)' :
+                            value > 10 ? 'rgba(255, 255, 255, 0.3)' :
+                                value > 5 ? 'rgba(255, 255, 255, 0.4)' :
+                                    value > 3 ? 'rgba(255, 255, 255, 0.5)' :
+                                        value > 1 ? 'rgba(255, 255, 255, 0.6)' :
+                                            'rgba(255, 255, 255, 0.7)');
+        //1)원래 차트있던거ㅡ지우고
+        closeOverlaygraph()
+        //2)2차그래프-1.차트그리기
+        $('.graphmenu>li.'+ code +'>span>div').append('<canvas id="myChart1"><canvas>');//차트id추가
+        chartjs(shopcolor,barColors)//상점수 2차그래프 차트그리기
+        //2)2차그래프-2.인포윈도 위에 그리기
+        drawSecondGraph(code,ranking2)//2차 그래프 인포 그리기
     }
+        console.log("세부세부요청",tempArr)
 
-    // for (var i = 0; i < tempArr.length; i++) {
-    //     console.log(tempArr[i])
-    // }
 }
-function chartjs(datashop){
-    var color = [];
-    for (var i = 0; i < datashop.length; i++) {
-        color.push(datashop[i].ct_shop);
-    }
-    var barColors = color.map((value) =>
-        value > 2000 ? 'rgba(255, 255, 255, 0.1)' :
-            value > 1000 ? 'rgba(255, 255, 255, 0.2)' :
-                value > 500 ? 'rgba(255, 255, 255, 0.3)' :
-                    value > 100 ? 'rgba(255, 255, 255, 0.4)' :
-                        value > 50 ? 'rgba(255, 255, 255, 0.5)' :
-                            value > 25 ? 'rgba(255, 255, 255, 0.6)' :
-                                    value > 0 ? 'rgba(255, 255, 255, 0.6)' :
-                                        'rgba(255, 255, 255, 0.90)');
+function drawSecondGraph(code,ranking2){
+    //2차그래프 2.인포윈도 위에 그리기
+    $('.placegraph').addClass("on")
+    $('.placegraph').find('#title').addClass(code)//"대분류" 업종 순위 -> 타이틀 "색상" 추가
+    var sectorname = codeSectorname(code)//코드 -> 대분류이름 반환
+    $('.placegraph').find('#title').html(sectorname+' 순위')//"대분류" 업종 순위 ->타이틀 "제목" 추가
+    $('.placegraph').find('.ranking_list').append(ranking2)//랭킹리스트에 리스트업
+}
+
+//2차그래프 차트js그리기
+function chartjs(color,barColors){
+    // var color = [];
+    // for (var i = 0; i < datashop.length; i++) {
+    //     color.push(datashop[i].ct_shop);
+    // }
+    // var barColors = color.map((value) =>
+    //     value > 1000 ? 'rgba(255, 255, 255, 0.1)' :
+    //         value > 100 ? 'rgba(255, 255, 255, 0.15)' :
+    //             value > 50 ? 'rgba(255, 255, 255, 0.2)' :
+    //                 value > 20 ? 'rgba(255, 255, 255, 0.25)' :
+    //                     value > 10 ? 'rgba(255, 255, 255, 0.3)' :
+    //                         value > 5 ? 'rgba(255, 255, 255, 0.4)' :
+    //                             value > 3 ? 'rgba(255, 255, 255, 0.5)' :
+    //                                 value > 1 ? 'rgba(255, 255, 255, 0.6)' :
+    //                                     'rgba(255, 255, 255, 0.7)');
     new Chart("myChart1", {
         type: "doughnut",
         data: {
@@ -1626,7 +1696,7 @@ function chartjs(datashop){
             maintainAspectRatio: false,
             cutoutPercentage: 50,
             parsing: {
-                xAxisKey: 'datashop\\.ct_shop'
+                xAxisKey: 'color'
             },
             legend: {
                 display: false

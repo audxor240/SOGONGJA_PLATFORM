@@ -648,7 +648,11 @@
   border-bottom: 2px solid #ddd
   padding-bottom: 6px
   background: #fff
-  .title
+  &.placegraph
+    display: none
+    &.on
+      display: block
+  #title
     transform: none
     font-weight: bold
     font-size: 14px
@@ -661,6 +665,22 @@
     overflow: hidden
     white-space: nowrap
     text-align: left
+    &.I
+      background-color: #EE5545
+    &.S
+      background-color: #DD4C79
+    &.G
+      background-color: #A25AA1
+    &.R
+      background-color: #4983C4
+    &.N
+      background-color: #31C3D9
+    &.M
+      background-color: #33CC94
+    &.L
+      background-color: #70C14A
+    &.P
+      background-color: #C2EE45
   .close
     position: absolute
     top: 10px
@@ -690,14 +710,16 @@
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png)
   .ranking_list
     overflow-y: auto
-    height: 176px
+    height: 180px
+    margin: 0 6px
+    padding-top: 4px
     &::-webkit-scrollbar
-      width: 4px
-      height: 8px
-      background-color: #aaa
+      width: 7px
+      background-color: #eee
     &::-webkit-scrollbar-thumb
-      background: #000
-      height: 10%
+      background: #888
+      border-radius: 4px
+      height: 6%
     span
       text-align: left
       &::before
@@ -1422,12 +1444,8 @@
     word-break: break-all
     font-size: 8px
     p
-      //+positionAt(absolute)
-      font-size: 10px
+      font-size: 11px
       &.areacenter
-        //+positionAt(absolute, $top:12px, $left:50%)
-        //transform: translateX(-50%)
-        //width: 80px
     .areanum
       +positionAt(relative)
       p
@@ -1436,7 +1454,7 @@
         text-align: center
         width: 80px
         color: #1540BF
-        font-size: 10px
+        font-size: 11px
         &.open-num
           display: none
         &.close-num
@@ -1476,21 +1494,22 @@
       opacity: 1
       .graphmenu
         li
+          width: auto
+          height: auto
+          border-radius: 50%
+          overflow: hidden
           span
             padding: 12px
+            overflow: hidden
             .width_chart
               position: absolute
               top: 0
-              width: 100%
-              height: 100%
               z-index: 11
-              background: aqua
-              border-radius: 51%
-              opacity: 0.8
+              border-radius: 50%
+              opacity: 0.9
               canvas
-                //max-width: none
+                aspect-ratio: auto 100 / 100
                 &#myChart1
-                  background-color: #00c73c
                   max-height: 100%
                   max-width: 100%
           &.I
@@ -1518,80 +1537,79 @@
             span
               background-color: #C2EE45
           &.graphlist1
-            transform: rotate(110deg) translateX(-70px)
+            transform: rotate(110deg) translateX(-80px)
             span
               width: 66px
               height: 66px
               transform: rotate(-110deg)
-              &.big
-                width: 70px
-                height: 70px
+              .width_chart
+                width: 132px
+                height: 66px
           &.graphlist2
-            transform: rotate(160deg) translateX(-70px)
+            transform: rotate(160deg) translateX(-80px)
             span
               width: 64px
               height: 64px
               transform: rotate(-160deg)
-              &.big
-                width: 68px
-                height: 68px
+              .width_chart
+                width: 128px
+                height: 64px
           &.graphlist3
-            transform: rotate(208deg) translateX(-70px)
+            transform: rotate(208deg) translateX(-80px)
             span
               width: 62px
               height: 62px
               transform: rotate(-208deg)
-              &.big
-                width: 66px
-                height: 66px
+              .width_chart
+                width: 124px
+                height: 62px
           &.graphlist4
-            transform: rotate(254deg) translateX(-70px)
+            transform: rotate(254deg) translateX(-80px)
             span
               width: 60px
               height: 60px
               transform: rotate(-254deg)
-              &.big
-                width: 64px
-                height: 64px
+              .width_chart
+                width: 120px
+                height: 60px
           &.graphlist5
-            transform: rotate(298deg) translateX(-70px)
+            transform: rotate(298deg) translateX(-80px)
             span
               width: 58px
               height: 58px
               transform: rotate(-298deg)
-              &.big
-                width: 62px
-                height: 62px
+              .width_chart
+                width: 116px
+                height: 58px
           &.graphlist6
-            transform: rotate(340deg) translateX(-70px)
+            transform: rotate(340deg) translateX(-80px)
             span
               width: 56px
               height: 56px
               transform: rotate(-340deg)
-              &.big
-                width: 60px
-                height: 60px
+              .width_chart
+                width: 112px
+                height: 56px
           &.graphlist7
-            transform: rotate(20deg) translateX(-70px)
+            transform: rotate(20deg) translateX(-80px)
             span
               width: 54px
               height: 54px
               transform: rotate(-20deg)
-              &.big
-                width: 58px
-                height: 58px
+              .width_chart
+                width: 108px
+                height: 54px
           &.graphlist8
-            transform: rotate(58deg) translateX(-60px)
+            transform: rotate(66deg) translateX(-74px)
             span
               width: 52px
               height: 52px
-              transform: rotate(-58deg)
-              &.big
-                width: 56px
-                height: 56px
+              transform: rotate(-66deg)
+              .width_chart
+                width: 104px
+                height: 52px
     .graphmenu
-      +positionAt(absolute,$top:50%,$left:50%)
-      transform: translate(-50%, -50%)
+      +positionAt(absolute,$top:12px,$left:17px)
       display: block
       width: 100%
       height: 100%
@@ -1617,13 +1635,14 @@
           line-height: 1.1
           justify-content: center
           align-items: center
+          overflow: hidden
     p
       +positionAt(absolute,$left:50%,$top:25%)
       transform: translate(-50%,-25%)
-      width: 78px
+      width: 70px
       color: #fff
       line-height: 1.1
-      font-size: 11px
+      font-size: 12px
     .areanum
       +positionAt(absolute,$top:70%,$left:50%)
       width: 78px
@@ -1654,6 +1673,9 @@
 @include mobile
   #map
     height: 100%
+    .areaIn
+      p
+        font-size: 12px
   .custom_zoomcontrol
     top: 40%
   .community_wrap
@@ -1836,9 +1858,6 @@
       width: 100%
       >li
         width: 33.33%
-#map
-  .areaIn
-    p
-      font-size: 11px
+
 
 @include maxMobile
