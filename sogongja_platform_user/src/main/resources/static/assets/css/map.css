@@ -471,21 +471,19 @@
   z-index: 1;
   width: 600px;
 }
-
-.hAddr {
-  width: 360px;
+.addressSearchTop .hAddr {
+  width: 350px;
   float: right;
   height: 50px;
   margin-top: 1px;
 }
-
-.addrlist {
+.addressSearchTop .addrlist {
   position: relative;
   display: block;
   float: left;
   margin: -1px;
 }
-.addrlist span {
+.addressSearchTop .addrlist span {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -495,10 +493,13 @@
   box-sizing: border-box;
   padding: 12px 3px;
   width: 120px;
-  height: 50px;
+  height: 47px;
   background-color: #fff;
 }
-.addrlist span:after {
+.addressSearchTop .addrlist span#centerAddr1 {
+  width: 110px;
+}
+.addressSearchTop .addrlist span:after {
   content: "";
   display: inline-block;
   width: 20px;
@@ -506,7 +507,7 @@
   background: #fff url(../images/icon-arrow-down-big.png) no-repeat center;
   background-size: contain;
 }
-.addrlist ul {
+.addressSearchTop .addrlist ul {
   position: absolute;
   top: 50px;
   right: 0%;
@@ -518,40 +519,42 @@
   display: none;
   overflow-x: hidden;
 }
-.addrlist ul::-webkit-scrollbar {
+.addressSearchTop .addrlist ul#sidoBox {
+  width: 110px;
+}
+.addressSearchTop .addrlist ul::-webkit-scrollbar {
   width: 5px;
   height: 8px;
   background-color: #aaa;
 }
-.addrlist ul::-webkit-scrollbar-thumb {
+.addressSearchTop .addrlist ul::-webkit-scrollbar-thumb {
   background: #000;
 }
-.addrlist ul.menu_selected {
+.addressSearchTop .addrlist ul.menu_selected {
   display: block;
 }
-.addrlist ul li {
+.addressSearchTop .addrlist ul li {
   padding: 2px 4px;
   list-style: none;
   cursor: pointer;
   font-size: 14px;
 }
-.addrlist ul li .on {
+.addressSearchTop .addrlist ul li .on {
   background-color: blueviolet;
 }
-.addrlist ul li:hover {
+.addressSearchTop .addrlist ul li:hover {
   background-color: #eeeeee;
   color: #333;
 }
-
-.searchInput {
+.addressSearchTop .searchInput {
   width: 230px;
   background-color: none;
   position: relative;
 }
-.searchInput input {
+.addressSearchTop .searchInput input {
   padding-right: 40px;
 }
-.searchInput button {
+.addressSearchTop .searchInput button {
   position: absolute;
   top: 1px;
   right: 1px;
@@ -561,6 +564,9 @@
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center left;
+}
+.addressSearchTop .dif {
+  display: none;
 }
 
 .msearch_pop_wrap {
@@ -587,18 +593,21 @@
   top: 71px;
   right: 0px;
   width: 100%;
-  height: 375px;
-  z-index: 5;
+  height: 145px;
+  z-index: 33;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.475) 40.63%, rgba(0, 0, 0, 0) 100%);
 }
+.msearch_pop.on {
+  display: block;
+}
 .msearch_pop .msearch {
-  width: calc(100% - 20px);
-  margin: 20px auto;
+  width: calc(100% - 32px);
+  margin: 16px 16px 0;
 }
 .msearch_pop .msearch input {
   border: solid 1px #ccc;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 .msearch_pop .msearch button {
   position: absolute;
@@ -2102,11 +2111,25 @@
     top: 71px;
   }
   #map_wrap .addressSearchTop {
+    width: 400px;
     position: absolute;
     top: 16px;
     right: 16px;
     left: auto;
     transform: none;
+  }
+  #map_wrap .addressSearchTop .hAddr {
+    float: left;
+  }
+  #map_wrap .addressSearchTop .searchInput {
+    display: none;
+  }
+  #map_wrap .addressSearchTop .dif {
+    display: block;
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    float: right;
   }
   #map_wrap #filter {
     position: absolute;
@@ -2114,12 +2137,6 @@
     right: 20px;
     left: auto;
     transform: none;
-  }
-  #map_wrap .areaTap {
-    position: fixed;
-    top: 143px;
-    right: 136px;
-    left: auto;
   }
   #sidebar {
     position: fixed;
@@ -2253,16 +2270,27 @@
     height: 30px;
     line-height: 28px;
   }
+  #map_wrap #filter .filterIcon {
+    padding: 12px 30px;
+  }
   #map_wrap .addressSearchTop {
     position: absolute;
-    top: 16px;
+    top: 20px;
     right: 16px;
     left: auto;
     width: auto;
     transform: translateX(10px);
   }
-  #map_wrap .searchInput {
-    display: block;
+  #map_wrap .addressSearchTop .dif {
+    position: absolute;
+    top: 0px;
+    right: 16px;
+    left: auto;
+    width: 40px;
+    height: 40px;
+  }
+  #map_wrap .addressSearchTop .searchInput {
+    display: none;
     position: fixed;
     top: 0px;
     right: 16px;
@@ -2271,11 +2299,11 @@
     overflow: hidden;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   }
-  #map_wrap .searchInput.on {
+  #map_wrap .addressSearchTop .searchInput.on {
     background-color: #fff;
     width: 100%;
   }
-  #map_wrap .searchInput input {
+  #map_wrap .addressSearchTop .searchInput input {
     border: none;
     padding: 0;
     height: 44px;
@@ -2284,10 +2312,10 @@
     background-color: #fff;
     border-radius: 4px;
   }
-  #map_wrap .searchInput.addresswidth {
+  #map_wrap .addressSearchTop .searchInput.addresswidth {
     height: 42px;
   }
-  #map_wrap .hAddr {
+  #map_wrap .addressSearchTop .hAddr {
     display: flex;
     width: auto;
     height: auto;
@@ -2299,11 +2327,11 @@
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     padding: 0px 4px;
   }
-  #map_wrap .addrlist {
+  #map_wrap .addressSearchTop .hAddr .addrlist {
     background-color: transparent;
     border-radius: 10px;
   }
-  #map_wrap .addrlist span {
+  #map_wrap .addressSearchTop .hAddr .addrlist span {
     background-color: transparent;
     display: inline-block;
     width: auto;
@@ -2311,7 +2339,7 @@
     border: none;
     height: auto;
   }
-  #map_wrap .addrlist span:after {
+  #map_wrap .addressSearchTop .hAddr .addrlist span:after {
     display: none;
   }
   #map_wrap .msearch_pop_wrap {

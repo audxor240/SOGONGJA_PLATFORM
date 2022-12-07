@@ -106,6 +106,22 @@ function searchPlaces2() {
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     geocoder.addressSearch(keyword, placesSearchCB);
 }
+// 주소 검색을 요청하는 함수입니다
+function searchPlacesMobile() {
+    var keyword = document.getElementById("keyword2").value;
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+        alert("주소를 입력해주세요!");
+        return false;
+    }
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    geocoder.addressSearch(keyword, placesSearchCB);
+}
+$('.dif').click(function (){
+    $('.msearch_pop').addClass('on')
+})
+$('.search_pop_del').click(function (){
+    $('.msearch_pop').removeClass('on')
+})
 
 // 주소로 좌표를 검색합니다
 function placesSearchCB(result, status) {

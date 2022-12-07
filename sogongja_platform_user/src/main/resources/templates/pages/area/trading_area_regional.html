@@ -82,11 +82,14 @@
           <button type="button" style="display:none"></button>
         </form>
       </div>
+      <div class="dif"></div>
     </div>
     <div class="msearch_pop">
       <div class="msearch">
-        <input type="text" value="" id="keyword" size="15" placeholder="주소를 검색하세요">
-        <button type="button" class=""></button>
+        <form onsubmit="searchPlacesMobile(); return false;">
+          <input type="text" value="" id="keyword2" size="15" placeholder="주소를 검색하세요">
+          <button type="submit" class=""></button>
+        </form>
       </div>
       <button type="button" class="search_pop_del">x</button>
     </div>

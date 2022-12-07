@@ -368,75 +368,80 @@
   transform: translateX(-50%)
   z-index: 1
   width: 600px
-.hAddr
-  width: 360px
-  float: right
-  height: 50px
-  margin-top: 1px
-.addrlist
-  +positionAt(relative)
-  display: block
-  float: left
-  margin: -1px
-  span
-    +flex-type($justify:space-between, $align:center)
-    cursor: pointer
-    font-size: 14px
-    border: 1px solid #d5d5d5
-    box-sizing: border-box
-    padding: 12px 3px
-    width: 120px
+  .hAddr
+    width: 350px
+    float: right
     height: 50px
-    background-color: #fff
-    &:after
-      content: ""
-      display: inline-block
-      width: 20px
-      height: 20px
-      background: #fff url(../images/icon-arrow-down-big.png) no-repeat center
-      background-size: contain
-  ul
-    +positionAt(absolute, $top: 50px, $right:0%)
-    width: 120px
-    background-color: #fff
-    box-shadow: 0 0 10px #00000020
-    border: solid 1px #efefef
-    height: 200px
-    display: none
-    overflow-x: hidden
-    &::-webkit-scrollbar
-      width: 5px
-      height: 8px
-      background-color: #aaa
-    &::-webkit-scrollbar-thumb
-      background: #000
-    &.menu_selected
-      display: block
-    li
-      padding: 2px 4px
-      list-style: none
+    margin-top: 1px
+  .addrlist
+    +positionAt(relative)
+    display: block
+    float: left
+    margin: -1px
+    span
+      +flex-type($justify:space-between, $align:center)
       cursor: pointer
       font-size: 14px
-      .on
-        background-color: blueviolet
-      &:hover
-        background-color: #eeeeee
-        color: #333
-
-.searchInput
-  width: 230px
-  background-color: none
-  position: relative
-  input
-    padding-right: 40px
-  button
-    +positionAt(absolute, $top: 1px, $right: 1px)
-    height: 48px
-    width: 28px
-    background-image: url(../images/icon-search_bk.png)
-    background-color: transparent
-    background-repeat: no-repeat
-    background-position: center left
+      border: 1px solid #d5d5d5
+      box-sizing: border-box
+      padding: 12px 3px
+      width: 120px
+      height: 47px
+      background-color: #fff
+      &#centerAddr1
+        width: 110px
+      &:after
+        content: ""
+        display: inline-block
+        width: 20px
+        height: 20px
+        background: #fff url(../images/icon-arrow-down-big.png) no-repeat center
+        background-size: contain
+    ul
+      +positionAt(absolute, $top: 50px, $right:0%)
+      width: 120px
+      background-color: #fff
+      box-shadow: 0 0 10px #00000020
+      border: solid 1px #efefef
+      height: 200px
+      display: none
+      overflow-x: hidden
+      &#sidoBox
+        width: 110px
+      &::-webkit-scrollbar
+        width: 5px
+        height: 8px
+        background-color: #aaa
+      &::-webkit-scrollbar-thumb
+        background: #000
+      &.menu_selected
+        display: block
+      li
+        padding: 2px 4px
+        list-style: none
+        cursor: pointer
+        font-size: 14px
+        .on
+          background-color: blueviolet
+        &:hover
+          background-color: #eeeeee
+          color: #333
+  .searchInput
+    width: 230px
+    background-color: none
+    position: relative
+    input
+      padding-right: 40px
+    button
+      +positionAt(absolute, $top: 1px, $right: 1px)
+      height: 48px
+      width: 28px
+      background-image: url(../images/icon-search_bk.png)
+      background-color: transparent
+      background-repeat: no-repeat
+      background-position: center left
+  .dif
+    display: none
 .msearch_pop_wrap
   display: none
   width: 50px
@@ -454,16 +459,18 @@
   display: none
   +positionAt(fixed, $top: 71px, $right: 0px)
   width: 100%
-  height: 375px
-  z-index: 5
+  height: 145px
+  z-index: 33
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.475) 40.63%, rgba(0, 0, 0, 0) 100%)
+  &.on
+    display: block
   .msearch
-    width: calc(100% - 20px)
-    margin: 20px auto
+    width: calc(100% - 32px)
+    margin: 16px 16px 0
     input
       border: solid 1px #ccc
       background-color: #fff
-      border-radius: 10px
+      border-radius: 4px
     button
       +positionAt(absolute, $top: 15px, $right: 10px)
       height: 48px
@@ -1659,13 +1666,24 @@
     height: calc(100vh - 71px)
     top: 71px
     .addressSearchTop
+      width: 400px
       +positionAt(absolute, $top: 16px, $right:16px, $left:auto)
       transform: none
+      .hAddr
+        float: left
+      .searchInput
+        display: none
+      .dif
+        display: block
+        width: 48px
+        height: 48px
+        background: #fff
+        float: right
     #filter
       +positionAt(absolute, $top: 72px, $right:20px, $left:auto)
       transform: none
     .areaTap
-      +positionAt(fixed, $top: 143px, $right:136px, $left:auto)
+      //+positionAt(fixed, $top: 143px, $right:136px, $left:auto)
   #sidebar
     +positionAt(fixed, $top:71px, $left:0)
     height: calc(100vh - 71px)
@@ -1773,54 +1791,61 @@
                   border-radius: 50px
                   height: 30px
                   line-height: 28px
+    #filter
+      .filterIcon
+        padding: 12px 30px
     .addressSearchTop
-      +positionAt(absolute, $top: 16px, $right:16px, $left:auto)
+      +positionAt(absolute, $top: 20px, $right:16px, $left:auto)
       width: auto
       transform: translateX(10px)
-    .searchInput
-      display: block
-      +positionAt(fixed, $top: 0px, $right:16px)
-      width: 44px
-      border-radius: 4px
-      overflow: hidden
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
-      &.on
-        background-color: #fff
-        width: 100%
-      input
-        border: none
-        padding: 0
-        height: 44px
-        width: 100%
-        padding-right: 44px
-        background-color: #fff
+      .dif
+        +positionAt(absolute, $top: 0px, $right:16px, $left:auto)
+        width: 40px
+        height: 40px
+      .searchInput
+        display: none
+        +positionAt(fixed, $top: 0px, $right:16px)
+        width: 44px
         border-radius: 4px
-      button
-      &.addresswidth
-       height: 42px
-    .hAddr
-      display: flex
-      width: auto
-      height: auto
-      float: none
-      margin-top: 0
-      margin-right: 70px
-      background-color: rgba(255,255,255,0.7)
-      border-radius: 4px
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
-      padding: 0px 4px
-    .addrlist
-      background-color: transparent
-      border-radius: 10px
-      span
-        background-color: transparent
-        display: inline-block
+        overflow: hidden
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+        &.on
+          background-color: #fff
+          width: 100%
+        input
+          border: none
+          padding: 0
+          height: 44px
+          width: 100%
+          padding-right: 44px
+          background-color: #fff
+          border-radius: 4px
+        button
+        &.addresswidth
+         height: 42px
+      .hAddr
+        display: flex
         width: auto
-        font-weight: bold
-        border: none
         height: auto
-        &:after
-          display: none
+        float: none
+        margin-top: 0
+        margin-right: 70px
+        background-color: rgba(255,255,255,0.7)
+        border-radius: 4px
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+        padding: 0px 4px
+        .addrlist
+          background-color: transparent
+          border-radius: 10px
+          span
+            background-color: transparent
+            display: inline-block
+            width: auto
+            font-weight: bold
+            border: none
+            height: auto
+            &:after
+              display: none
     .msearch_pop_wrap
       display: block
 
