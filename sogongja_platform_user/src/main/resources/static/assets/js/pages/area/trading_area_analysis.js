@@ -13,18 +13,24 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 // 상권 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-if (navigator.geolocation) {
+
+const searchParams = new URLSearchParams(window.location.search);
+if (!searchParams.has("lat")) {
     // 현재 접속 사용자 위치 정보
-    navigator.geolocation.getCurrentPosition(async function (pos) {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+        $('.wrap-loading').removeClass('display-none');
         clientLatitude = pos.coords.latitude;
         clientLongitude = pos.coords.longitude;
-        var moveLatLon = new kakao.maps.LatLng(
-            clientLatitude,
-            clientLongitude
-        );
-        await map.setCenter(moveLatLon);
-    });
+        // var moveLatLon = new kakao.maps.LatLng(
+        //     clientLatitude,
+        //     clientLongitude
+        // );
+        // await map.setCenter(moveLatLon);
+        location.href = "/trading-area/analysis?lat=" + clientLatitude + "&lng=" + clientLongitude + "&x1=" + (clientLatitude - 0.02) + "&x2=" + (clientLatitude + 0.02) + "&y1=" + (clientLongitude - 0.02) + "&y2=" + (clientLongitude + 0.02);
+    }, function () {});
 }
+
+
 
 //현위치 설정
 function setCenter() {
