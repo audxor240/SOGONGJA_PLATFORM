@@ -89,6 +89,8 @@ $('[name=watchingSucess]').on('click', function(e) {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
+    var w_check = true;
+
     $.ajax({
         type: "POST",
         url: "/api/watching",
@@ -101,15 +103,15 @@ $('[name=watchingSucess]').on('click', function(e) {
 
             if(res.message == "login_check"){
                 //$(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
+                w_check = false;
                 alert("로그인이 필요합니다.");
                 return;
             }else if(res.message == "add"){
                 alert("교육 수강완료 되었습니다.");
-                return;
             }else if(res.message == "delete"){
                 alert("교육 수강해제 되었습니다.");
-                return;
             }
+
         },
         error: function (request,status,error) {
             //alert(res.responseJSON.code);
@@ -119,6 +121,14 @@ $('[name=watchingSucess]').on('click', function(e) {
 
         }
     });
+
+    if(w_check) {
+        if ($(this).hasClass("edu_done") == true) {
+            $(this).attr('class', 'edu_none');
+        } else {
+            $(this).attr('class', 'edu_done');
+        }
+    }
 
 });
 

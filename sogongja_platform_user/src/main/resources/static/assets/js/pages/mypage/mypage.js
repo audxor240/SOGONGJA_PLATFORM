@@ -190,7 +190,7 @@ function detailEducation(seq){
         }
     });
 }
-function watchingSucess(seq,type){
+function watchingSucess(seq,type,obj){
     let data = {
         seq: seq,
         type: type
@@ -209,6 +209,8 @@ function watchingSucess(seq,type){
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
+    var w_check = true;
+
     $.ajax({
         type: "POST",
         url: "/api/watching",
@@ -221,6 +223,7 @@ function watchingSucess(seq,type){
 
             if(res.message == "login_check"){
                 //$(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
+                w_check = false;
                 alert("로그인이 필요합니다.");
                 return;
             }else if(res.message == "add"){
@@ -239,6 +242,14 @@ function watchingSucess(seq,type){
 
         }
     });
+
+    if(w_check) {
+        if ($(obj).hasClass("edu_done") == true) {
+            $(obj).attr('class', 'edu_none');
+        } else {
+            $(obj).attr('class', 'edu_done');
+        }
+    }
 }
 
 function favorite(seq, f_type){

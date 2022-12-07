@@ -488,6 +488,12 @@
   height: 2.25rem;
   background: url(../images/new/icon/nonecheck.png) no-repeat 0 50%;
 }
+.sub_container .edu_list > li .thumb_img .view_favorite .edu_none:hover,
+.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none:hover {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../images/new/icon/checked.png) no-repeat 0 50%;
+}
 .sub_container .edu_list > li div.text_wrap,
 .sub_container .solution_edu_recommend > ul > li div.text_wrap {
   height: 12.5rem;
@@ -704,6 +710,11 @@
   width: 2.25rem;
   height: 2.25rem;
   background: url(../images/new/icon/nonecheck.png) no-repeat 0 50%;
+}
+.management_wrap .edu_none:hover {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../images/new/icon/checked.png) no-repeat 0 50%;
 }
 
 .pagination {
