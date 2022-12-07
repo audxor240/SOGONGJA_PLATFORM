@@ -41,7 +41,13 @@ public class FaqService extends BaseService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public int saveFaq(Faq faq) throws IOException {
         int result = 0;
-        result = faqMapper.updateFaq(faq);
+
+        if (faq.getFaqSeq() == 0) {
+            result = faqMapper.insertFaq(faq);
+        } else {
+            result = faqMapper.updateFaq(faq);
+        }
+
         return result;
     }
 

@@ -534,20 +534,7 @@ function displayPath(polygon, area, i) {
                 console.log("세부 요청요청", result)
                 sideInfo(area, result)
             });
-            var areaTab = $('input[name=areaTab]:checked').val();
-            if (areaTab === "open") {//개업수
-                $(".open-num").css('display', 'block');
-                $(".open-num").siblings().css('display', 'none');
-            } else if (areaTab === "close") {//폐업수
-                $(".close-num").css('display', 'block');
-                $(".close-num").siblings().css('display', 'none');
-            } else if (areaTab === "sales") {//추정매출
-                $(".sales-num").css('display', 'block');
-                $(".sales-num").siblings().css('display', 'none');
-            } else {//상점수 탭일때
-                $(".store-num").css('display', 'block');
-                $(".store-num").siblings().css('display', 'none');
-            }
+            changeAreaTab()
             $('.areahoverIn').addClass('on')
         });
         // 다각형에 mouseover 이벤트 : 폴리곤의 채움색을 변경
@@ -719,7 +706,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<canvas id=""></canvas></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "close") {//폐업수
@@ -742,7 +729,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<canvas id=""></canvas></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
             }
         } else if (areaTab === "sales") {//추정매출
@@ -785,8 +772,10 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].sales + `</span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].sales +'원 '+ (i+1)+`위</div></span>`
+                var sales_comma = info2[i].sales.toString()
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원<canvas id=""></canvas></span></li>`
+                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+sales_comma +'원 '+ (i+1)+`위</div></span>`
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
@@ -808,7 +797,7 @@ function contentFunc(area) {
                 }else if(info2[i].code=="P"){
                     var sectorname = "교육";
                 }
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `</span></li>`
+                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"><canvas id="" style="width:100;height:100"></canvas></div></span></li>`
                 ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
             }
         }
@@ -934,6 +923,7 @@ function contentFunc(area) {
 }
 
 function areaInClick(area) {
+    document.getElementById("sidebar").style.display = "none";
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
     }//동그란마커 지우고
@@ -1250,6 +1240,7 @@ async function changeMap() {
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
         //시도,시군구 단위 자체 마커
         removePolygons(map)// 상권 삭제
+        document.getElementById("sidebar").style.display = "none";
         for (var i = 0; i < clickmarkers.length; i++) {
             clickmarkers[i].setMap(null);
         }
@@ -1287,7 +1278,9 @@ async function changeMap() {
             for (var i = 0, len = areaJson.length; i < len; i++) {
                 areanameSpread(areaJson[i]);// 상권이름그려줌
             }
+            changeAreaTab()//탭변경
         });
+
     } else { //level < 4, zoom 3,2,1 일때
         // 상점 마커들 추가로 찍어주기
         setMarkers(null)
@@ -1297,6 +1290,7 @@ async function changeMap() {
             storeSpread(result)//상점 찍기
         });
     }
+
 };
 //changeMap 끝
 //changeMap 끝
@@ -1428,10 +1422,6 @@ $(".openclose_list").click(function () {
 //개폐업수 탭 색상 변경
 function changeAreaTab() {
     var areaTab = $('input[name=areaTab]:checked').val();
-    document.getElementById("sidebar").style.display = "none";
-    for (var i = 0; i < clickmarkers.length; i++) {
-        clickmarkers[i].setMap(null);
-    }
     if (areaTab === "open") {//개업수
         $(".openclose").text("개업수");
         $(".openclose").addClass("on")
@@ -1468,51 +1458,14 @@ function changeAreaTab() {
         $(".store-num").siblings().css('display', 'none');
     }
 }
+$('input[name="areaTab"]').click(function () {
+    document.getElementById("sidebar").style.display = "none";
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }
+})
 
-// $('input[name="areaTab"]').click(function () {
-//     var areaTab = $('input[name=areaTab]:checked').val();
-//     console.log("zzzz : " + areaTab)
-//     document.getElementById("sidebar").style.display = "none";
-//     for (var i = 0; i < clickmarkers.length; i++) {
-//         clickmarkers[i].setMap(null);
-//     }
-//     if (areaTab === "open") {//개업수
-//         $(".openclose").text("개업수");
-//         $(".openclose").addClass("on")
-//         //개업수 체크이면 text 개업수로 변경
-//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
-//         //개업수 카운트 디스플레이 block
-//         $(".open-num").css('display', 'block');
-//         $(".open-num").siblings().css('display', 'none');
-//     } else if (areaTab === "close") {//폐업수
-//         $(".openclose").text("폐업수")
-//         $(".openclose").addClass("on")
-//         //폐업수 체크이면 text 폐업수로 변경
-//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
-//         //폐업수 카운트 디스플레이 block
-//         $(".close-num").css('display', 'block');
-//         $(".close-num").siblings().css('display', 'none');
-//     } else if (areaTab === "sales") {//추정매출
-//         $(".openclose").text("개폐업수")
-//         $(".openclose").removeClass("on")
-//         $(".openclose_list").removeClass("on")
-//         //개업수 폐업수 선택아니면 개폐업수
-//         $('.timeSelect_wrap').css('display', 'block');//시간선택 ul 보이기
-//         //추정매출 카운트 디스플레이
-//         $(".sales-num").css('display', 'block');
-//         $(".sales-num").siblings().css('display', 'none');
-//     } else {//상점수 탭일때
-//         $(".openclose").text("개폐업수")
-//         $(".openclose").removeClass("on")
-//         $(".openclose_list").removeClass("on")
-//         //개업수 폐업수 선택아니면 개폐업수
-//         $('.timeSelect_wrap').css('display', 'none');//시간선택 ul 가리기
-//         //상점수 카운트 디스플레이
-//         $(".store-num").css('display', 'block');
-//         $(".store-num").siblings().css('display', 'none');
-//     }
-// })
-
+//필터 대분류 중분류 체크
 $('.midSecBox').css('display', 'none');
 $('.fileter_sub_title.mid_title').css('display', 'none');
 $('input[name="area_maincate"]').click(function () {
@@ -1568,12 +1521,17 @@ $('input[name="area_maincate"]').click(function () {
 
 
 $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate"]').click(function () {
+    document.getElementById("sidebar").style.display = "none";
+    for (var i = 0; i < clickmarkers.length; i++) {
+        clickmarkers[i].setMap(null);
+    }//클릭마커지움
     for (var i = 0; i < areanameMarkers.length; i++) {
         areanameMarkers[i].setMap(null);//상권이름 마커 비우고
     }
     for (var i = 0, len = areaJson.length; i < len; i++) {
         areanameSpread(areaJson[i]);
     }
+    changeAreaTab()
 })
 
 function showMidPart(code) {
@@ -1584,7 +1542,6 @@ function showMidPart(code) {
             tempArr.push(infosForMidpart[i]);
         }
     }
-
     var areaTab = $('input[name=areaTab]:checked').val();
     if (areaTab === "open") {//개업수
         tempArr = tempArr.sort((a, b) => b.ct_open - a.ct_open);
@@ -1615,14 +1572,80 @@ function showMidPart(code) {
         tempArr = tempArr.sort((a, b) => b.sales - a.sales);
     } else {//상점수 탭일때
         tempArr = tempArr.sort((a, b) => b.ct_shop - a.ct_shop);
+        var coarr =[]
+        for (var i = 0; i < tempArr.length; i++) {
+            console.log(tempArr[i])
+            coarr.push(tempArr[i]);}
+            console.log("c",coarr)
+
+        $('.graphmenu>li>span>div>canvas').removeAttr('id', 'myChart1');
+        $('.graphmenu>li.graphlist2>span>div>canvas').attr('id', 'myChart1');
+        chartjs(coarr)
+        var myChart = echarts.init(document.getElementById('myChart1'), null, {
+            width: 600,
+            height: 600
+        });
     }
 
-    for (var i = 0; i < tempArr.length; i++) {
-        console.log(tempArr[i])
-    }
-
-
+    // for (var i = 0; i < tempArr.length; i++) {
+    //     console.log(tempArr[i])
+    // }
 }
+function chartjs(datashop){
+    var color = [];
+    for (var i = 0; i < datashop.length; i++) {
+        color.push(datashop[i].ct_shop);
+    }
+    var barColors = color.map((value) =>
+        value > 2000 ? 'rgba(255, 255, 255, 0.1)' :
+            value > 1000 ? 'rgba(255, 255, 255, 0.2)' :
+                value > 500 ? 'rgba(255, 255, 255, 0.3)' :
+                    value > 100 ? 'rgba(255, 255, 255, 0.4)' :
+                        value > 50 ? 'rgba(255, 255, 255, 0.5)' :
+                            value > 25 ? 'rgba(255, 255, 255, 0.6)' :
+                                    value > 0 ? 'rgba(255, 255, 255, 0.6)' :
+                                        'rgba(255, 255, 255, 0.90)');
+    new Chart("myChart1", {
+        type: "doughnut",
+        data: {
+            //labels: datashop.com_nm,
+            datasets: [{
+                backgroundColor: barColors,
+                borderWidth: 0.4,
+                data: color,
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            cutoutPercentage: 50,
+            parsing: {
+                xAxisKey: 'datashop\\.ct_shop'
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return precentage + "%";
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+
+
+
 //사이드바 숨기기
 function sideNoneVisible() {
     document.getElementById("sidebody").style.display = "none";

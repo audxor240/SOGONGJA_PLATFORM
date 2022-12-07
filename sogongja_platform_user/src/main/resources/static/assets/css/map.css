@@ -835,7 +835,7 @@
 
 .placeinfo2 {
   position: absolute;
-  top: -194px;
+  top: -176px;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -1809,7 +1809,7 @@
   font-size: 8px;
 }
 #map .areaIn p {
-  font-size: 8px;
+  font-size: 10px;
 }
 #map .areaIn .areanum {
   position: relative;
@@ -1821,6 +1821,7 @@
   text-align: center;
   width: 80px;
   color: #1540BF;
+  font-size: 10px;
 }
 #map .areaIn .areanum p.open-num {
   display: none;
@@ -1864,7 +1865,22 @@
   opacity: 1;
 }
 #map .areahoverIn.on .graphmenu li span {
-  padding: 10px;
+  padding: 12px;
+}
+#map .areahoverIn.on .graphmenu li span .width_chart {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  background: aqua;
+  border-radius: 51%;
+  opacity: 0.8;
+}
+#map .areahoverIn.on .graphmenu li span .width_chart canvas#myChart1 {
+  background-color: #00c73c;
+  max-height: 100%;
+  max-width: 100%;
 }
 #map .areahoverIn.on .graphmenu li.I span {
   background-color: #EE5545;
@@ -1891,7 +1907,7 @@
   background-color: #C2EE45;
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 {
-  transform: rotate(110deg) translateX(-86px);
+  transform: rotate(110deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 span {
   width: 66px;
@@ -1899,64 +1915,92 @@
   transform: rotate(-110deg);
 }
 #map .areahoverIn.on .graphmenu li.graphlist1 span.big {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
 }
 #map .areahoverIn.on .graphmenu li.graphlist2 {
-  transform: rotate(160deg) translateX(-86px);
+  transform: rotate(160deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist2 span {
   width: 64px;
   height: 64px;
   transform: rotate(-160deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist2 span.big {
+  width: 68px;
+  height: 68px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist3 {
-  transform: rotate(208deg) translateX(-86px);
+  transform: rotate(208deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist3 span {
   width: 62px;
   height: 62px;
   transform: rotate(-208deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist3 span.big {
+  width: 66px;
+  height: 66px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist4 {
-  transform: rotate(254deg) translateX(-86px);
+  transform: rotate(254deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist4 span {
   width: 60px;
   height: 60px;
   transform: rotate(-254deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist4 span.big {
+  width: 64px;
+  height: 64px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist5 {
-  transform: rotate(298deg) translateX(-86px);
+  transform: rotate(298deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist5 span {
   width: 58px;
   height: 58px;
   transform: rotate(-298deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist5 span.big {
+  width: 62px;
+  height: 62px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist6 {
-  transform: rotate(340deg) translateX(-86px);
+  transform: rotate(340deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist6 span {
   width: 56px;
   height: 56px;
   transform: rotate(-340deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist6 span.big {
+  width: 60px;
+  height: 60px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist7 {
-  transform: rotate(20deg) translateX(-86px);
+  transform: rotate(20deg) translateX(-70px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist7 span {
   width: 54px;
   height: 54px;
   transform: rotate(-20deg);
 }
+#map .areahoverIn.on .graphmenu li.graphlist7 span.big {
+  width: 58px;
+  height: 58px;
+}
 #map .areahoverIn.on .graphmenu li.graphlist8 {
-  transform: rotate(60deg) translateX(-86px);
+  transform: rotate(58deg) translateX(-60px);
 }
 #map .areahoverIn.on .graphmenu li.graphlist8 span {
   width: 52px;
   height: 52px;
-  transform: rotate(-60deg);
+  transform: rotate(-58deg);
+}
+#map .areahoverIn.on .graphmenu li.graphlist8 span.big {
+  width: 56px;
+  height: 56px;
 }
 #map .areahoverIn .graphmenu {
   position: absolute;
@@ -1964,8 +2008,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  width: 40px;
-  height: 54px;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   opacity: 1;
   cursor: pointer;
@@ -1973,8 +2017,8 @@
 }
 #map .areahoverIn .graphmenu li {
   transition: 0.4s;
-  width: 48px;
-  height: 48px;
+  width: 100%;
+  height: 100%;
   position: absolute;
   transform: translate(-50%, -50%);
 }
@@ -1986,7 +2030,8 @@
   border: 1px solid #fff;
   color: #fff;
   display: flex;
-  font-size: 11px;
+  font-size: 10px;
+  line-height: 1.1;
   justify-content: center;
   align-items: center;
 }
@@ -1997,6 +2042,8 @@
   transform: translate(-50%, -25%);
   width: 78px;
   color: #fff;
+  line-height: 1.1;
+  font-size: 11px;
 }
 #map .areahoverIn .areanum {
   position: absolute;
@@ -2279,6 +2326,9 @@
   #map_wrap .areaTap > li {
     width: 33.33%;
   }
+}
+#map .areaIn p {
+  font-size: 11px;
 }
 
 /*# sourceMappingURL=map.css.map */

@@ -85,8 +85,11 @@
                 <a class="btn btn-outline-primary btn-icon-text" th:href="@{|/faq?${pageParams}|}">
                     <i class="btn-icon-prepend" data-feather="list"></i>목록
                 </a>
+                <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:if="*{faqSeq == 0}">
+                    <i class="btn-icon-prepend" data-feather="edit"></i>등록
+                </button>
                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text" th:unless="*{faqSeq == 0}">
-                    <i class="btn-icon-prepend" data-feather="edit"></i>저장
+                    <i class="btn-icon-prepend" data-feather="edit"></i>수정
                 </button>
             </div>
         </div>
