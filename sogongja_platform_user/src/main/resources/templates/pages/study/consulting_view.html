@@ -94,14 +94,17 @@
                     -->
                 </div>
                 <div class="btn_box">
+                    <input type="hidden" id="con_url" th:value="${data.con_url}">
                     <a class="btn" href="javascript:window.history.back();">목록으로</a>
                     <!--/*<a class="btn blue" th:href="@{/study/consulting}">적당한 사례가 없다면 컨설팅 찾아보기</a>*/-->
-                    <a class="btn blue" th:href="${data.con_url}" target="_blank">URL 바로가기</a>
+                    <!--/*<a class="btn blue" th:href="${data.con_url}" target="_blank">URL 바로가기</a>*/-->
+                    <a class="btn blue" th:onclick="watchingAdd([[${data.con_seq}]])" target="_blank" style="cursor: pointer">URL 바로가기</a>
                 </div>
             </div>
         </section>
     </article>
     <th:block layout:fragment="custom_js">
+        <script th:src="@{/js/pages/study/consulting_view.js}"></script>
     </th:block>
 </body>
 

@@ -4,28 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.stoneitgt.common.GlobalConstant;
-import com.stoneitgt.sogongja.domain.ConsultingBookmark;
-import com.stoneitgt.sogongja.domain.EducationBookmark;
-import com.stoneitgt.sogongja.domain.User;
-import com.stoneitgt.sogongja.user.component.PasswordConstraintValidator;
+import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.service.*;
-import com.stoneitgt.util.StoneUtil;
-import com.stoneitgt.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
-import org.passay.RuleResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant.API_STATUS;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
@@ -53,6 +41,11 @@ public class RESTController extends BaseController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private EducationWatchingService educationWatchingService;
+
+	@Autowired
+	private ConsultingWatchingService consultingWatchingService;
 
 	@PostMapping("/code/ref")
 	@ResponseBody
@@ -105,6 +98,47 @@ public class RESTController extends BaseController {
 		return jsonObject;
 	}
 
+	@PostMapping("/watching")
+	@ResponseBody
+	public JSONObject updateWatching(@RequestBody Map<String, Object> params,Authentication authentication){
+
+		JSONObject jsonObject = new JSONObject();
+		User user = new User();
+
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+			jsonObject.put("message", "login_check");
+			return jsonObject;
+		}
+
+		if(params.get("type").equals("edu")) {
+			EducationWatching eduWatching = educationWatchingService.getEducationWatching((Integer) params.get("seq"), user.getUserSeq());
+			jsonObject.put("type", "edu");
+			if (eduWatching == null) {
+				jsonObject.put("message", "add");
+				educationWatchingService.addEducationWatching((Integer) params.get("seq"), user.getUserSeq());    //교육 수강 완료
+			} else {
+				jsonObject.put("message", "delete");
+				educationWatchingService.deleteEducationWatching((Integer) params.get("seq"), user.getUserSeq());    //교육 수강 해제
+			}
+		}else if(params.get("type").equals("con")){
+			ConsultingWatching conMark = consultingWatchingService.getConsultingWatching((Integer) params.get("seq"), user.getUserSeq());
+			jsonObject.put("type", "con");
+			if (conMark == null) {
+				jsonObject.put("message", "add");
+				consultingWatchingService.addConsultingWatching((Integer) params.get("seq"), user.getUserSeq());    //컨설팅 수강 완료
+			} else {
+				jsonObject.put("message", "delete");
+				consultingWatchingService.deleteConsultingWatching((Integer) params.get("seq"), user.getUserSeq());    //컨설팅 수강 해제
+			}
+
+		}
+
+		return jsonObject;
+	}
+
 	@PostMapping("/detailEducation")
 	@ResponseBody
 	public JSONObject detailEducation(@RequestBody Map<String, Object> params,Authentication authentication){
@@ -122,6 +156,26 @@ public class RESTController extends BaseController {
 		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
 
 		jsonObject.put("edu_url", education.get("edu_url"));
+
+		return jsonObject;
+	}
+
+	@PostMapping("/watchingAdd")
+	@ResponseBody
+	public JSONObject watchingAdd(@RequestBody Map<String, Object> params,Authentication authentication){
+
+		JSONObject jsonObject = new JSONObject();
+		User user = new User();
+
+		try {
+			user = (User) authentication.getPrincipal();
+
+		} catch(NullPointerException e){
+			jsonObject.put("message", "login_check");
+			//return jsonObject;
+		}
+		consultingWatchingService.addConsultingWatching((Integer) params.get("seq"),user.getUserSeq());
+
 
 		return jsonObject;
 	}
