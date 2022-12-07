@@ -52,15 +52,18 @@ function setOverlayMapTypeId() {
     }
 }
 
-if (navigator.geolocation) {
-    // 현재 접속 사용자 위치 정보
-    navigator.geolocation.getCurrentPosition(function (pos) {
-        clientLatitude = pos.coords.latitude;
-        clientLongitude = pos.coords.longitude;
+const searchParams = new URLSearchParams(window.location.search);
+if (!searchParams.has("lat")) {
+    if (navigator.geolocation) {
+        // 현재 접속 사용자 위치 정보
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            clientLatitude = pos.coords.latitude;
+            clientLongitude = pos.coords.longitude;
 
-        var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
-        map.setCenter(moveLatLon);
-    });
+            var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
+            map.setCenter(moveLatLon);
+        });
+    }
 }
 
 //현위치 설정
