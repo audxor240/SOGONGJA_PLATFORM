@@ -134,29 +134,8 @@ public class AreaController extends BaseController {
 		return "pages/area/trading_area_analysis";
 	}
 
-//	@GetMapping("/analysis/test")
-//	public String analysisTest(@ModelAttribute MapParameter params, Model model) {
-//		long beforeTime = System.currentTimeMillis();
-//		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
-//
-//		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
-//
-//		//QNA게시판 시퀀스 정보
-//		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
-//		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
-//		model.addAttribute("boardSettingList", boardSettingList);
-//		paramsMap.put("zoom", 5);
-//		paramsMap.put("scope", "'A'");
-//		paramsMap.put("x1", 37.49345754382203);
-//		paramsMap.put("x2", 37.51567561625099);
-//		paramsMap.put("y1", 126.99710515824563);
-//		paramsMap.put("y2", 127.0666010904294);
-//		model.addAttribute("areaJson", areaService.getTest(paramsMap));
-//		model.addAttribute("params", params);
-//		model.addAttribute("pageParams", getBaseParameterString(params));
-//		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
-//		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
-//		System.out.println("시간차이(m) : "+secDiffTime);
+//	@GetMapping("/test")
+//	public String mapTest(@ModelAttribute MapParameter params, Model model) {
 //		return "pages/area/trading_area_test";
 //	}
 
