@@ -87,6 +87,8 @@ $('[name=watchingSucess]').on('click', function(e) {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
+    var w_check = true;
+
     $.ajax({
         type: "POST",
         url: "/api/watching",
@@ -99,6 +101,7 @@ $('[name=watchingSucess]').on('click', function(e) {
 
             if(res.message == "login_check"){
                 //$(".favorite").css({'background': 'url(../images/icon-faborite.png)'});
+                w_check = false;
                 alert("로그인이 필요합니다.");
                 return;
             }else if(res.message == "add"){
@@ -117,6 +120,14 @@ $('[name=watchingSucess]').on('click', function(e) {
 
         }
     });
+
+    if(w_check) {
+        if ($(this).hasClass("edu_done") == true) {
+            $(this).attr('class', 'edu_none');
+        } else {
+            $(this).attr('class', 'edu_done');
+        }
+    }
 
 });
 
