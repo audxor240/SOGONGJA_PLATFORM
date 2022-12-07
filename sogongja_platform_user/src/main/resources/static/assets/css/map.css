@@ -2130,10 +2130,16 @@
     height: 48px;
     background: #fff;
     float: right;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid #bbb;
+    background-image: url(../images/icon-search_bk.png);
+    background-repeat: no-repeat;
+    background-position: center;
   }
   #map_wrap #filter {
     position: absolute;
-    top: 72px;
+    top: 70px;
     right: 20px;
     left: auto;
     transform: none;
@@ -2321,7 +2327,7 @@
     height: auto;
     float: none;
     margin-top: 0;
-    margin-right: 70px;
+    margin-right: 66px;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 4px;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
