@@ -41,14 +41,17 @@ public class ConsultingService extends BaseService {
 		Map<String, Object> consulting = consultingMapper.getConsulting(conSeq);
 		consultingMapper.updateConsultingReadCnt(conSeq);
 
-		if(userSeq != 0) {
+		//컨설팅 상세보기 페이지 이동시 수강완료 처리 안함
+		// 상세보기에서 URL페이지 이동시 수강완료처리하기 위해 주석처리
+		/*if(userSeq != 0) {
 			ConsultingWatching consultingWatching = consultingWatchingMapper.getConsultingWatching(conSeq, userSeq);
 
 			if (consultingWatching == null) {
 				consultingWatchingMapper.addConsultingWatching(conSeq, userSeq);
 			}
-		}
+		}*/
 		return consulting;
 	}
+
 
 }

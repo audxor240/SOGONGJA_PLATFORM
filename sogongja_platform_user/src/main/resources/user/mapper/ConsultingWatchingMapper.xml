@@ -15,5 +15,9 @@
         INSERT INTO ST_CONSULTING_WATCHING(CON_SEQ, USER_SEQ)value(#{conSeq}, #{userSeq});
     </insert>
 
+    <delete id="deleteConsultingWatching" parameterType="int" >
+        DELETE FROM ST_CONSULTING_WATCHING where CON_SEQ = #{conSeq} and USER_SEQ = #{userSeq}
+    </delete>
+
 
 </mapper>
