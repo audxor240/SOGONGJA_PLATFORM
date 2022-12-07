@@ -127,7 +127,7 @@
                                     <td>
                                         <div class="management management_wrap">
                                             <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
-                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-con-seq="${item.con_seq}" style="cursor: pointer"></span>
                                         </div>
                                     </td>
                                 </tr>

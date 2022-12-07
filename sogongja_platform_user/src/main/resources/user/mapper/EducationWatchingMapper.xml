@@ -15,5 +15,9 @@
         INSERT INTO ST_EDUCATION_WATCHING(EDU_SEQ, USER_SEQ)value(#{eduSeq}, #{userSeq});
     </insert>
 
+    <delete id="deleteEducationWatching" parameterType="int" >
+        DELETE FROM ST_EDUCATION_WATCHING where EDU_SEQ = #{eduSeq} and USER_SEQ = #{userSeq}
+    </delete>
+
 
 </mapper>

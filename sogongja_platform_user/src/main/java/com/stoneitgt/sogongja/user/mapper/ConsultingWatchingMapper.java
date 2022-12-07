@@ -9,4 +9,6 @@ public interface ConsultingWatchingMapper {
     int addConsultingWatching(int conSeq, int userSeq);
 
     ConsultingWatching getConsultingWatching(int conSeq, int userSeq);
+
+    int deleteConsultingWatching(int conSeq, int userSeq);
 }

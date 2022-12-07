@@ -140,7 +140,7 @@
                                     <div class="view_favorite">
                                         <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
                                         <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
-                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-edu-seq="${item.edu_seq}" style="cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <!-- 크롤링URL -->
@@ -148,7 +148,7 @@
                                     <div class="view_favorite">
                                         <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
                                         <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
-                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-edu-seq="${item.edu_seq}" style="cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <!-- 기본이미지 -->
@@ -156,7 +156,7 @@
                                     <div class="view_favorite">
                                         <!--/*<button type="button" class="favorite" th:data-edu-seq="${item.edu_seq}">찜하기</button>*/-->
                                         <button type="button" th:class="${item.edu_mark_seq ne null ? 'favorite on':'favorite'}" th:data-edu-seq="${item.edu_seq}" th:onclick="favorite([[${item.edu_seq}]])" >찜하기</button>
-                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}"></span>
+                                        <span th:classappend="${item.edu_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-edu-seq="${item.edu_seq}" style="cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <div class="text_wrap">
