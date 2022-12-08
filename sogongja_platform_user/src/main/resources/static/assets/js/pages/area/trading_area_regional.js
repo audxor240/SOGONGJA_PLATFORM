@@ -1172,25 +1172,31 @@ function closeOverlay() {
     }
     document.getElementById("sidebar").style.display = "none";
 }
+//오버레이닫음
+function closeOverlay() {
+    $('#sidebar').removeClass('visible');
+}
+
 //사이드바 숨기기
 function sideNoneVisible() {
-    document.getElementById("sidebody").style.display = "none";
+    $('#sidebody').addClass('visible_none');
     $('#sidebar').addClass('on');
 }
 
 //사이드바 보이기
 function sideVisible() {
-    document.getElementById("sidebody").style.display = "block";
+    $('#sidebody').removeClass('visible_none');
     $('#sidebar').removeClass('on');
 }
-//상점수 사이드바 인포
+
+//상점수탭 사이드바 인포
 function sideInfoStore(area,total) {
-    document.getElementById("sidebar").style.display = "block";
+    $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
-            '<div id="sidebody" class="sidebody_area">' +
+            '<div id="sidebody">' +
             '<div class="sideinfo_fixed">' +
-            '<div class="sideCloseBtn closeRegion" onclick="closeOverlay()" title="닫기"></div>' +
+            //'<div class="sideCloseBtn closeRegion" onclick="closeOverlay()" title="닫기"></div>' +
             '<span class="sideinfo_span fixed_inside">' +
             '</span>' +
                 '<div class="sideinfo_areaname">' +
@@ -1278,9 +1284,9 @@ function sideInfoStore(area,total) {
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
 }
-//인구수 사이드바 인포
+//인구수탭 사이드바 인포
 function sideInfoPopul(area, ) {
-    document.getElementById("sidebar").style.display = "block";
+    $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody" class="sidebody_area">' +
@@ -1328,9 +1334,9 @@ function sideInfoPopul(area, ) {
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
     }
 }
-//(주요이슈)임대시세 사이드바 인포
+//(주요이슈)임대시세탭 사이드바 인포
 function sideInfoRental(area) {
-    document.getElementById("sidebar").style.display = "block";
+    $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody" class="sidebody_area">' +

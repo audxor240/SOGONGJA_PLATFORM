@@ -367,9 +367,9 @@
   +positionAt(absolute, $top: 16px, $left:50%)
   transform: translateX(-50%)
   z-index: 1
-  width: 600px
+  width: 590px
   .hAddr
-    width: 350px
+    width: 348px
     float: right
     height: 50px
     margin-top: 1px
@@ -428,10 +428,12 @@
           color: #333
   .searchInput
     width: 230px
-    background-color: none
+    background-color: transparent
     position: relative
     input
       padding-right: 40px
+      height: 47px
+      box-sizing: border-box
     button
       +positionAt(absolute, $top: 1px, $right: 1px)
       height: 48px
@@ -467,12 +469,16 @@
   .msearch
     width: calc(100% - 32px)
     margin: 16px 16px 0
+    form
+      &.ddif
+        position: relative
     input
       border: solid 1px #ccc
       background-color: #fff
       border-radius: 4px
+      height: 48px
     button
-      +positionAt(absolute, $top: 15px, $right: 10px)
+      +positionAt(absolute, $right: 4px)
       height: 48px
       width: 28px
       background-image: url(../images/icon-search_bk.png)
@@ -503,7 +509,7 @@
   z-index: 1
   margin-left: 8px
   &.area
-    +positionAt(fixed, $left:50%, $bottom:50px)
+    +positionAt(fixed, $left:50%, $bottom:52px)
     z-index: 2
 
 .category
@@ -768,34 +774,43 @@
           font-size: 11px
           margin-top: 1px
 
-
-.sidebody_area /* 상권사이드바 */
-  .sideinfo_fixed
-    position: fixed
-    height: 144px
-    background-color: #fff
-    width: 400px
-    .sideinfo_areaname
-      margin-top: 0
-      background: #fff
-      padding: 16px
-      border-bottom: 1px solid #eee
 #sidebar
-  display: none
-  +positionAt(fixed, $top:105px, $left:0)
-  position: fixed
-  z-index: 5
-  width: 400px
+  //display: none
+  +positionAt(fixed, $top:105px, $left:-400px)
+  transition: 0.2s
+  opacity: 0
+  z-index: -1
+  width: auto
   height: calc(100vh - 105px)
-  transition: ease-in-out .2ms
   overflow-y: scroll
   -ms-overflow-style: none /* 인터넷 익스플로러 */
   scrollbar-width: none /* 파이어폭스 */
   &::-webkit-scrollbar
     display: none /* 크롬, 사파리, 오페라, 엣지 */
+  &.visible
+    //display: block
+    z-index: 10
+    opacity: 1
+    +positionAt(fixed, $top:105px, $left:0)
+    #sidebody
+      .toggle_side
+        +positionAt(fixed, $left:400px)
   #sidebody
-    height: 100%
+    position: relative
+    left: 0
+    display: block
+    //height: 100%
+    padding-bottom: 8px
+    width: 400px
     background: #eee
+    transition: 0.3s
+    opacity: 1
+    &.visible_none
+      left: -100%
+      opacity: 0
+      width: 0
+      .toggle_side
+        +positionAt(fixed, $left:-30px)
     .sideinfo_span
       display: block
       background: #eee
@@ -812,9 +827,25 @@
       &.closeRegion
         +positionAt(absolute, $top:32px, $right:16px)
         z-index: 11
+    .sideinfo_fixed
+      position: fixed
+      top: 90px
+      width: 400px
+      background-color: #fff
+      border-bottom: 1px solid #eee
+      &:before
+        content: ""
+        display: block
+        padding-top: 96px
+        border-bottom: 1px solid #eee
+      .sideinfo
+        margin-bottom: 0
+    .margintop
+      margin-top: 136px
+      border-bottom: 8px solid #eee
     .sideinfo
         background-color: #fff
-        padding: 20px
+        padding: 16px
         margin-bottom: 8px
         .sidegraph
           background-color: #00c73c
@@ -942,13 +973,15 @@
         height: 14px
         +positionAt(absolute, $top: 25px, $right: 20px)
     .toggle_side
-      +positionAt(fixed, $left:400px)
+      +positionAt(fixed, $left:0px)
       top: calc(50% - 30px)
       width: 30px
       height: 60px
       background: #fff
       box-shadow: 14px 3px 24px #00000010
       cursor: pointer
+      transition: .3s
+      z-index: -1
       &:after
         content: ""
         +positionAt(absolute)
@@ -1186,8 +1219,8 @@
 #map_wrap
   .areaTap
     +positionAt(absolute, $top: 16px, $left:16px)
-    z-index: 9
-    width: 334px
+    z-index: 19
+    width: 368px
     border-radius: 6px
     >li
       list-style: none
@@ -1219,6 +1252,7 @@
           display: block
           border-radius: 4px
           overflow: hidden
+          border: 1px solid #ddd
           li
             float: none
       input[type=radio]
@@ -1255,12 +1289,12 @@
       text-align: center
       cursor: pointer
   #filter
-    +positionAt(absolute, $top: 16px, $left:calc(50% + 364px))
+    +positionAt(absolute, $top: 16px, $left:calc(50% + 360px))
     transform: translateX(-50%)
     z-index: 3
     .filterIcon
       background-color: $blue
-      padding: 14px 30px
+      padding: 13px 30px
       text-align: center
       color: #fff
       border-radius: 4px
@@ -1691,8 +1725,10 @@
     .areaTap
       //+positionAt(fixed, $top: 143px, $right:136px, $left:auto)
   #sidebar
-    +positionAt(fixed, $top:71px, $left:0)
-    height: calc(100vh - 71px)
+    +positionAt(fixed, $top:100%, $left:0)
+    &.visible
+      +positionAt(fixed, $top:71px, $left:0)
+      height: calc(100vh - 71px)
 
 @include mobile
   #map
@@ -1736,7 +1772,7 @@
       transition: 0.4s
   .category_wrap
     left: 50%
-    bottom: 12px
+    bottom: 24px
     overflow: scroll
     width: 98%
   .solution_btn
@@ -1755,6 +1791,8 @@
     &.area_map
       top: 110px
       height: calc(100vh - 110px)
+    .areaTap
+      z-index: 9
     #filter
       .filterbox
         +positionAt(fixed, $bottom:0, $left:0)
@@ -1857,11 +1895,13 @@
 
   #sidebar
     width: 100%
-    +positionAt(fixed, $top: calc(100% - 60px))
-    &.sidebar_area
-      +positionAt(fixed, $top: 117px)
-    z-index: 4
+    +positionAt(fixed, $top: 100%)
+    &.visible
+      #sidebody
+        .toggle_side
+          +positionAt(fixed, $top: 71px, $left: 50%)
     &.on
+      +positionAt(fixed, $top: 100%)
       height: auto
   #sidebar
     .side_visible
@@ -1874,6 +1914,11 @@
         transform: rotate(-45deg)
         +positionAt(fixed, $left:calc(50% - 7px))
     #sidebody
+      width: 100%
+      left: auto
+      &.visible_none
+        +positionAt(relative, $top: 100%)
+        width: 100%
       .toggle_side
         +positionAt(absolute, $top: 0px, $left:50%)
         transform: translateX(-50%)
@@ -1883,6 +1928,22 @@
         z-index: 999
         &:after
           transform: rotate(135deg)
+        .sideinfo_fixed
+          position: fixed
+          top: 90px
+          width: 400px
+          background-color: #fff
+          border-bottom: 1px solid #eee
+          &:before
+            content: ""
+            display: block
+            padding-top: 96px
+            border-bottom: 1px solid #eee
+          .sideinfo
+            margin-bottom: 0
+        .margintop
+          margin-top: 136px
+          border-bottom: 8px solid #eee
   #map_wrap
     .areaTap
       +positionAt(fixed, $top: 72px, $right:0, $left:0)
