@@ -445,7 +445,8 @@ async function changeMap() {
         if (zoom >= 4 && zoom <= 14) {
             // 마커+사이드바 를 닫아요
             placeOverlay.setMap(null);
-            document.getElementById("sidebar").style.display = "none";
+            $('#sidebar').removeClass('visible');
+            //document.getElementById("sidebar").style.display = "none";
             setMarkers(null)//마커들을 싹 비워
             if (result.length > 0) {
                 resultSpread(result)//그리고 다시찍어
@@ -699,7 +700,8 @@ function customInfo2(place) {
 
 //사이드바 인포
 function sideInfo(place) {
-    document.getElementById("sidebar").style.display = "block";
+    $('#sidebar').addClass('visible');
+    //document.getElementById("sidebar").style.display = "block";
     if (place) {
         var datatrans = {shopSeq: place.shop_seq}//지하철버스좌표 post 조회하기
         ajaxPostSyn('/trading-area/shop/pubTrans', datatrans, function (resultsubway) {
@@ -848,6 +850,10 @@ function sideInfo(place) {
             }
 
             document.getElementById("sidebar").innerHTML = text;
+            if (window.innerWidth < 767) {
+                $('#sidebody').addClass('visible_none');
+                $('#sidebar').addClass('on');
+            }
         })
     }
 }
@@ -855,18 +861,18 @@ function sideInfo(place) {
 //오버레이닫음
 function closeOverlay() {
     placeOverlay.setMap(null);
-    document.getElementById("sidebar").style.display = "none";
+    $('#sidebar').removeClass('visible');
 }
 
 //사이드바 숨기기
 function sideNoneVisible() {
-    document.getElementById("sidebody").style.display = "none";
+    $('#sidebody').addClass('visible_none');
     $('#sidebar').addClass('on');
 }
 
 //사이드바 보이기
 function sideVisible() {
-    document.getElementById("sidebody").style.display = "block";
+    $('#sidebody').removeClass('visible_none');
     $('#sidebar').removeClass('on');
 }
 

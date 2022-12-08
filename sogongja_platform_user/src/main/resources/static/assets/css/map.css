@@ -469,10 +469,10 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  width: 600px;
+  width: 590px;
 }
 .addressSearchTop .hAddr {
-  width: 350px;
+  width: 348px;
   float: right;
   height: 50px;
   margin-top: 1px;
@@ -548,11 +548,13 @@
 }
 .addressSearchTop .searchInput {
   width: 230px;
-  background-color: none;
+  background-color: transparent;
   position: relative;
 }
 .addressSearchTop .searchInput input {
   padding-right: 40px;
+  height: 47px;
+  box-sizing: border-box;
 }
 .addressSearchTop .searchInput button {
   position: absolute;
@@ -604,15 +606,18 @@
   width: calc(100% - 32px);
   margin: 16px 16px 0;
 }
+.msearch_pop .msearch form.ddif {
+  position: relative;
+}
 .msearch_pop .msearch input {
   border: solid 1px #ccc;
   background-color: #fff;
   border-radius: 4px;
+  height: 48px;
 }
 .msearch_pop .msearch button {
   position: absolute;
-  top: 15px;
-  right: 10px;
+  right: 4px;
   height: 48px;
   width: 28px;
   background-image: url(../images/icon-search_bk.png);
@@ -658,7 +663,7 @@
 }
 .category_wrap.area {
   position: fixed;
-  bottom: 50px;
+  bottom: 52px;
   left: 50%;
   z-index: 2;
 }
@@ -987,29 +992,15 @@
   margin-top: 1px;
 }
 
-.sidebody_area .sideinfo_fixed {
-  position: fixed;
-  height: 144px;
-  background-color: #fff;
-  width: 400px;
-}
-.sidebody_area .sideinfo_fixed .sideinfo_areaname {
-  margin-top: 0;
-  background: #fff;
-  padding: 16px;
-  border-bottom: 1px solid #eee;
-}
-
 #sidebar {
-  display: none;
   position: fixed;
   top: 105px;
-  left: 0;
-  position: fixed;
-  z-index: 5;
-  width: 400px;
+  left: -400px;
+  transition: 0.2s;
+  opacity: 0;
+  z-index: -1;
+  width: auto;
   height: calc(100vh - 105px);
-  transition: ease-in-out 0.2ms;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -1017,9 +1008,35 @@
 #sidebar::-webkit-scrollbar {
   display: none;
 }
+#sidebar.visible {
+  z-index: 10;
+  opacity: 1;
+  position: fixed;
+  top: 105px;
+  left: 0;
+}
+#sidebar.visible #sidebody .toggle_side {
+  position: fixed;
+  left: 400px;
+}
 #sidebar #sidebody {
-  height: 100%;
+  position: relative;
+  left: 0;
+  display: block;
+  padding-bottom: 8px;
+  width: 400px;
   background: #eee;
+  transition: 0.3s;
+  opacity: 1;
+}
+#sidebar #sidebody.visible_none {
+  left: -100%;
+  opacity: 0;
+  width: 0;
+}
+#sidebar #sidebody.visible_none .toggle_side {
+  position: fixed;
+  left: -30px;
 }
 #sidebar #sidebody .sideinfo_span {
   display: block;
@@ -1045,9 +1062,29 @@
   right: 16px;
   z-index: 11;
 }
+#sidebar #sidebody .sideinfo_fixed {
+  position: fixed;
+  top: 90px;
+  width: 400px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+#sidebar #sidebody .sideinfo_fixed:before {
+  content: "";
+  display: block;
+  padding-top: 96px;
+  border-bottom: 1px solid #eee;
+}
+#sidebar #sidebody .sideinfo_fixed .sideinfo {
+  margin-bottom: 0;
+}
+#sidebar #sidebody .margintop {
+  margin-top: 136px;
+  border-bottom: 8px solid #eee;
+}
 #sidebar #sidebody .sideinfo {
   background-color: #fff;
-  padding: 20px;
+  padding: 16px;
   margin-bottom: 8px;
 }
 #sidebar #sidebody .sideinfo .sidegraph {
@@ -1210,13 +1247,15 @@
 }
 #sidebar #sidebody .toggle_side {
   position: fixed;
-  left: 400px;
+  left: 0px;
   top: calc(50% - 30px);
   width: 30px;
   height: 60px;
   background: #fff;
   box-shadow: 14px 3px 24px rgba(0, 0, 0, 0.062745098);
   cursor: pointer;
+  transition: 0.3s;
+  z-index: -1;
 }
 #sidebar #sidebody .toggle_side:after {
   content: "";
@@ -1520,8 +1559,8 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  z-index: 9;
-  width: 334px;
+  z-index: 19;
+  width: 368px;
   border-radius: 6px;
 }
 #map_wrap .areaTap > li {
@@ -1561,6 +1600,7 @@
   display: block;
   border-radius: 4px;
   overflow: hidden;
+  border: 1px solid #ddd;
 }
 #map_wrap .areaTap > li .openclose_list.on li {
   float: none;
@@ -1606,13 +1646,13 @@
 #map_wrap #filter {
   position: absolute;
   top: 16px;
-  left: calc(50% + 364px);
+  left: calc(50% + 360px);
   transform: translateX(-50%);
   z-index: 3;
 }
 #map_wrap #filter .filterIcon {
   background-color: #1540BF;
-  padding: 14px 30px;
+  padding: 13px 30px;
   text-align: center;
   color: #fff;
   border-radius: 4px;
@@ -2146,6 +2186,11 @@
   }
   #sidebar {
     position: fixed;
+    top: 100%;
+    left: 0;
+  }
+  #sidebar.visible {
+    position: fixed;
     top: 71px;
     left: 0;
     height: calc(100vh - 71px);
@@ -2202,7 +2247,7 @@
   }
   .category_wrap {
     left: 50%;
-    bottom: 12px;
+    bottom: 24px;
     overflow: scroll;
     width: 98%;
   }
@@ -2226,6 +2271,9 @@
   #map_wrap.area_map {
     top: 110px;
     height: calc(100vh - 110px);
+  }
+  #map_wrap .areaTap {
+    z-index: 9;
   }
   #map_wrap #filter .filterbox {
     position: fixed;
@@ -2354,14 +2402,16 @@
   #sidebar {
     width: 100%;
     position: fixed;
-    top: calc(100% - 60px);
-    z-index: 4;
+    top: 100%;
   }
-  #sidebar.sidebar_area {
+  #sidebar.visible #sidebody .toggle_side {
     position: fixed;
-    top: 117px;
+    top: 71px;
+    left: 50%;
   }
   #sidebar.on {
+    position: fixed;
+    top: 100%;
     height: auto;
   }
   #sidebar .side_visible {
@@ -2378,6 +2428,15 @@
     position: fixed;
     left: calc(50% - 7px);
   }
+  #sidebar #sidebody {
+    width: 100%;
+    left: auto;
+  }
+  #sidebar #sidebody.visible_none {
+    position: relative;
+    top: 100%;
+    width: 100%;
+  }
   #sidebar #sidebody .toggle_side {
     position: absolute;
     top: 0px;
@@ -2390,6 +2449,26 @@
   }
   #sidebar #sidebody .toggle_side:after {
     transform: rotate(135deg);
+  }
+  #sidebar #sidebody .toggle_side .sideinfo_fixed {
+    position: fixed;
+    top: 90px;
+    width: 400px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  }
+  #sidebar #sidebody .toggle_side .sideinfo_fixed:before {
+    content: "";
+    display: block;
+    padding-top: 96px;
+    border-bottom: 1px solid #eee;
+  }
+  #sidebar #sidebody .toggle_side .sideinfo_fixed .sideinfo {
+    margin-bottom: 0;
+  }
+  #sidebar #sidebody .toggle_side .margintop {
+    margin-top: 136px;
+    border-bottom: 8px solid #eee;
   }
   #map_wrap .areaTap {
     position: fixed;
