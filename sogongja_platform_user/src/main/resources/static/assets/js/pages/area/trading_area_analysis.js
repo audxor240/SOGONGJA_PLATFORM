@@ -590,6 +590,15 @@ function sideInfo(area, detail) {
         close += info2[i].close;
         sales += info2[i].sales;
     }
+
+    if(detail.r_popul > detail.w_popul){
+        var compare = ">";
+    }else if(detail.r_popul == detail.w_popul){
+        var compare = "=";
+    }else {
+        var compare = "<";
+    }
+
     if (area) {
         var position = centroid(area.path);
         document.getElementById("sidebar").innerHTML =
@@ -652,43 +661,43 @@ function sideInfo(area, detail) {
                 '</div>'+
 
                 '<ul class="agetabs" id="agetab">'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="10" id="age_10" onchange="agetab()" checked>' +
-                    //     '<label for="age_10">10대</label>' +
-                    // '</li>'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="20" id="age_20" onchange="agetab()">' +
-                    //     '<label for="age_20">20대</label>' +
-                    // '</li>'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="30" id="age_30" onchange="agetab()">' +
-                    //     '<label for="age_30">30대</label>' +
-                    // '</li>'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="40" id="age_40" onchange="agetab()">' +
-                    //     '<label for="age_40">40대</label>' +
-                    // '</li>'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="50" id="age_50" onchange="agetab()">' +
-                    //     '<label for="age_50">50대</label>' +
-                    // '</li>'+
-                    // '<li>' +
-                    //     '<input type ="radio" name="agetab" value="60" id="age_60" onchange="agetab()">' +
-                    //     '<label for="age_60">60대</label>' +
-                    // '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="10" id="age_10" onchange="agetab()" checked>' +
+                        '<label for="age_10">10대</label>' +
+                    '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="20" id="age_20" onchange="agetab()">' +
+                        '<label for="age_20">20대</label>' +
+                    '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="30" id="age_30" onchange="agetab()">' +
+                        '<label for="age_30">30대</label>' +
+                    '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="40" id="age_40" onchange="agetab()">' +
+                        '<label for="age_40">40대</label>' +
+                    '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="50" id="age_50" onchange="agetab()">' +
+                        '<label for="age_50">50대</label>' +
+                    '</li>'+
+                    '<li>' +
+                        '<input type ="radio" name="agetab" value="60" id="age_60" onchange="agetab()">' +
+                        '<label for="age_60">60대</label>' +
+                    '</li>'+
                 '</ul>'+
             '<div class="storegray iconPlus">' +
             '주중 시간대별 생활인구수' +
             '</div>' +
-                '<div class="side_graph">' +
-                    '<canvas></canvas>'+
+                '<div class="side_graph living_wd">' +
+                    '<canvas id="livingweekday"></canvas>'+
                 '</div>'+
             '<div class="storegray iconPlus">' +
             '주말 시간대별 생활인구수' +
             '</div>' +
-            '<div class="side_graph">' +
-            '<canvas></canvas>'+
-            '</div>'+
+                '<div class="side_graph living_we">' +
+                    '<canvas id="livingweekend"></canvas>'+
+                '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">상존인구</h4>'+
@@ -710,10 +719,10 @@ function sideInfo(area, detail) {
                 '<div class="storegray iconPlus">' +
                 '주거인구 ' +
                 '<span class="distance">' +
-                detail.r_popul  +'명'+
+                detail.r_popul  +'명 '+
                 '</span>' +
-                ' > ' +
-                '직장인구 ' +
+                compare +
+                ' 직장인구 ' +
                 '<span class="distance">' +
                 detail.w_popul  +'명'+
                 '</span>' +
@@ -790,10 +799,72 @@ if(area.area_title=='골목상권'){
         //차트 그래프 실행
         //생활인구- 남녀성비 파이그래프
         genderRatio(detail.m_popul,detail.f_popul)
+
+        //생활인구
+        weekdaydata10.push(detail.age_10_d_1,detail.age_10_d_2,detail.age_10_d_3,detail.age_10_d_4,detail.age_10_d_5,detail.age_10_d_6)
+        weekenddata10.push(detail.age_10_w_1,detail.age_10_w_2,detail.age_10_w_3,detail.age_10_w_4,detail.age_10_w_5,detail.age_10_w_6)
+        weekdaydata20.push(detail.age_20_d_1,detail.age_20_d_2,detail.age_20_d_3,detail.age_20_d_4,detail.age_20_d_5,detail.age_20_d_6)
+        weekenddata20.push(detail.age_20_w_1,detail.age_20_w_2,detail.age_20_w_3,detail.age_20_w_4,detail.age_20_w_5,detail.age_20_w_6)
+        weekdaydata30.push(detail.age_30_d_1,detail.age_30_d_2,detail.age_30_d_3,detail.age_30_d_4,detail.age_30_d_5,detail.age_30_d_6)
+        weekenddata30.push(detail.age_30_w_1,detail.age_30_w_2,detail.age_30_w_3,detail.age_30_w_4,detail.age_30_w_5,detail.age_30_w_6)
+        weekdaydata40.push(detail.age_40_d_1,detail.age_40_d_2,detail.age_40_d_3,detail.age_40_d_4,detail.age_40_d_5,detail.age_40_d_6)
+        weekenddata40.push(detail.age_40_w_1,detail.age_40_w_2,detail.age_40_w_3,detail.age_40_w_4,detail.age_40_w_5,detail.age_40_w_6)
+        weekdaydata50.push(detail.age_50_d_1,detail.age_50_d_2,detail.age_50_d_3,detail.age_50_d_4,detail.age_50_d_5,detail.age_50_d_6)
+        weekenddata50.push(detail.age_50_w_1,detail.age_50_w_2,detail.age_50_w_3,detail.age_50_w_4,detail.age_50_w_5,detail.age_50_w_6)
+        weekdaydata60.push(detail.age_60_d_1,detail.age_60_d_2,detail.age_60_d_3,detail.age_60_d_4,detail.age_60_d_5,detail.age_60_d_6)
+        weekenddata60.push(detail.age_60_w_1,detail.age_60_w_2,detail.age_60_w_3,detail.age_60_w_4,detail.age_60_w_5,detail.age_60_w_6)
+
+        //생활인구-주중인구 일단 10대
+        weekday(weekdaydata10);
+        //생활인구-주말인구 일단 10대
+        weekend(weekenddata10);
         //소비유형- 파이그래프
         consumptionRatio(detail.sum_clt_ex, detail.sum_cul_ex, detail.sum_edu_ex, detail.sum_ent_ex, detail.sum_food_ex, detail.sum_lei_ex, detail.sum_med_ex, detail.sum_nec_ex, detail.sum_trp_ex)
     }
 }
+
+var weekdaydata10 = [];
+var weekenddata10 = [];
+var weekdaydata20 = [];
+var weekenddata20 = [];
+var weekdaydata30 = [];
+var weekenddata30 = [];
+var weekdaydata40 = [];
+var weekenddata40 = [];
+var weekdaydata50 = [];
+var weekenddata50 = [];
+var weekdaydata60 = [];
+var weekenddata60 = [];
+
+function agetab() {
+    $('#livingweekday').remove();//있던 차트 지우고
+    $('#livingweekend').remove();//있던 차트 지우고
+    $('.living_wd').append('<canvas id="livingweekday"><canvas>');//차트id추가
+    $('.living_we').append('<canvas id="livingweekend"><canvas>');//차트id추가
+
+    var value = $('input[name="agetab"]:checked').val();
+    //생활인구
+    if (value == "10") {
+        weekday(weekdaydata10);
+        weekend(weekenddata10);
+    }else if(value == "20"){
+        weekday(weekdaydata20);
+        weekend(weekenddata20);
+    }else if(value == "30"){
+        weekday(weekdaydata30);
+        weekend(weekenddata30);
+    }else if(value == "40"){
+        weekday(weekdaydata40);
+        weekend(weekenddata40);
+    }else if(value == "50"){
+        weekday(weekdaydata50);
+        weekend(weekenddata50);
+    }else if(value == "60"){
+        weekday(weekdaydata60);
+        weekend(weekenddata60);
+    }
+}
+
 
 //클릭 1차그래프 오버레이닫음
 function closeOverlay() {
@@ -801,6 +872,20 @@ function closeOverlay() {
         clickmarkers[i].setMap(null);
     }
     $('#sidebar').removeClass('visible');
+
+    var weekdaydata10 = [];
+    var weekenddata10 = [];
+    var weekdaydata20 = [];
+    var weekenddata20 = [];
+    var weekdaydata30 = [];
+    var weekenddata30 = [];
+    var weekdaydata40 = [];
+    var weekenddata40 = [];
+    var weekdaydata50 = [];
+    var weekenddata50 = [];
+    var weekdaydata60 = [];
+    var weekenddata60 = [];
+
 }
 //클릭 2차그래프 오버레이닫음
 function closeOverlaygraph() {
@@ -1992,4 +2077,39 @@ function consumptionRatio(n1,n2,n3,n4,n5,n6,n7,n8,n9){
     }
     var canvas=document.getElementById('consumption');
     var consumption = new Chart(canvas,config);
+}
+
+function weekday(data){
+    new Chart(document.getElementById("livingweekday"), {
+        type: 'bar',
+        data: {
+            labels: ["00:00~00:06", "06:00~11:00", "11:00~14:00", "14:00~17:00", "17:00~21:00", "21:00~24:00"],
+            datasets: [
+                {
+                    backgroundColor: "#709BFF",
+                    data: data
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    });
+}
+function weekend(data){
+    new Chart(document.getElementById("livingweekend"), {
+        type: 'bar',
+        data: {
+            labels: ["00:00~00:06", "06:00~11:00", "11:00~14:00", "14:00~17:00", "17:00~21:00", "21:00~24:00"],
+            datasets: [
+                {
+                    backgroundColor: "#709BFF",
+                    data: data
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    });
 }
