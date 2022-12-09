@@ -80,7 +80,7 @@ public class UserController extends BaseController {
 		if (user.getUserSeq() == 0) {
 
 			//소셜 회원가입일 경우
-			if(user.getSocialType() != null){
+			if(!user.getSocialType().equals("none")){
 				if(user.getSocialType().equals("KAKAO")){
 					user.setKakaoId(user.getUniqueId());
 				}else if(user.getSocialType().equals("GOOGLE")){
@@ -358,6 +358,293 @@ public class UserController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 
 		return "pages/user/survey_form";
+	}
+
+	@PostMapping("/user/surveyModifyForm")
+	public String surveyModifyForm(@ModelAttribute("user") User user, Model model) {
+
+		System.out.println("user >>>>>>>>>> :: "+user);
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		List<Map<String, Object>> category1List = categoryService.getCategory1List();
+		List<Map<String, Object>> category2List = categoryService.getCategory2List();
+		List<Map<String, Object>> category3List = categoryService.getCategory3List();
+
+		UserSurvey userSurvey = surveyService.getUserSurvey(user.getUserSeq());
+		System.out.println("userSurvey :: "+userSurvey);
+		if(userSurvey == null){
+			model.addAttribute("userSurveySeq", 0);
+		}else{
+			model.addAttribute("userSurveySeq", userSurvey.getUserSurveySeq());
+		}
+
+		int surveySettingSeq = 0;
+		if(user.getType().equals("4")){
+			surveySettingSeq = 7;
+		}else{
+			surveySettingSeq = Integer.parseInt(user.getSubType());
+		}
+
+		List<Map<String, Object>> surveySubList = surveyService.getSurveySubList(surveySettingSeq);
+
+		List<Integer> qSeqArr = new ArrayList<>();
+		for (Map<String, Object> item:surveySubList) {
+			qSeqArr.add((Integer) item.get("question_setting_seq"));
+		}
+
+		List<QuestionSetting> List = new ArrayList<>();
+		List<String> viewList = new ArrayList<>();		//질문을 보여주기 위한 배열 정의
+		List<List<String>> answerArrList = new ArrayList<>();
+		List<List<Integer>> answerSeqList = new ArrayList<>();
+		List<List<String>> category2SeqStrList = new ArrayList<>();
+		List<List<String>> answerSeqStrList = new ArrayList<>();
+
+		List<List<Integer>> answerCategory3SeqList = new ArrayList<>();	//저장된 답변 카테고리3 시퀀스 정보
+		List<List<String>> answerCategory3NameList = new ArrayList<>();	//저장된 답변 카테고리3 이름 정보
+
+		//저장된 추가형[주소] 정보
+		List<List<String>> answerAddressNameList = new ArrayList<>();
+		List<List<List<Integer>>> answerKeywordSeqList = new ArrayList<>();
+		List<List<List<String>>> answerKeywordNameList = new ArrayList<>();
+		List<Map<String,Object>> questionAnswerList = new ArrayList<>();
+
+		//작성한 설문지 질문 조회
+		List<Map<String,Object>> userQuestionList = surveyService.getUserQuestionList(user.getUserSeq());
+
+		boolean firstView = false;
+		// 추가된 질문 개수만큼 루프
+		for(int i=0;i< userQuestionList.size();i++){
+
+			int questionSettingSeq = qSeqArr.get(i);	//세팅된 질문 SEQ
+			Map<String, Object> userQuestion = userQuestionList.get(i);
+			int userQuestionSeq = (int) userQuestion.get("user_question_seq");
+			//질문 정보 조회
+			QuestionSetting questionSetting = questionService.getQuestionSetting(questionSettingSeq);
+
+			List<String> answerArr = new ArrayList<>();
+			List<Integer> answerSeqArr = new ArrayList<>();
+			List<String> category2SeqStr = new ArrayList<>();
+			List<String> answerSeqStr = new ArrayList<>();
+
+			Map<String,Object> answerMap = new HashMap<>();
+
+			//저장된 키워드정보
+			List<List<Integer>> keywordSeqArr2 = new ArrayList<>();
+			List<List<String>> keywordNameArr2 = new ArrayList<>();
+			List<String> keywordStr = new ArrayList<>();
+
+			//저장된 추가형[업종] 정보
+			List<Integer> category3SeqArr = new ArrayList<>();
+			List<String> category3NameArr = new ArrayList<>();
+
+			List<String> addressNameArr = new ArrayList<>();
+			List<Integer> keywordSeqArrList = new ArrayList<>();
+
+			Integer answerCnt = 0;
+
+			//질문이 선택형이면
+			if(questionSetting.getQuestionType().equals("choice")){
+				//셋팅된 답변 정보 조회
+				List<Map<String, Object>> listSub = answerSettingService.getAnswerSettingList(questionSetting.getQuestionSettingSeq());
+				System.out.println("listSub :: "+listSub);
+
+				//작성한 답변 리스트 조회
+				List<Map<String, Object>> userAnswer2 = surveyService.getUserAnswer2List(userQuestionSeq);
+
+				List<String> answer_arr = new ArrayList<>();
+				List<Integer> rank_arr = new ArrayList<>();
+				List<Integer> last_rank_arr = new ArrayList<>();
+
+				String answerStr = "";
+				String rankStr = "";
+
+				for(int k =0; k < userAnswer2.size();k++){
+					String answer = (String) userAnswer2.get(k).get("answer");
+					Integer rank = (Integer) userAnswer2.get(k).get("rank");
+					answerStr += answer+",";
+					rankStr += rank+",";
+					answer_arr.add(answer);
+
+					answerCnt++;
+				}
+
+				//해당질문의 답변 배열에 저장
+				for(int j =0; j < listSub.size();j++){
+					//List<String> arr = new ArrayList<>();
+					String answer = (String) listSub.get(j).get("answer");
+					Integer answerSeq = (Integer) listSub.get(j).get("answer_setting_seq");
+					String category2_seq = (String) listSub.get(j).get("g_seq");
+					String answer_seq = (String) listSub.get(j).get("a_seq");
+
+					boolean answer_check = false;
+					for(int k =0; k < userAnswer2.size();k++){	//rank 매칭
+						String a_answer = (String) userAnswer2.get(k).get("answer");
+						Integer rank = (Integer) userAnswer2.get(k).get("rank");
+
+						if(answer.equals(a_answer)){
+							answer_check = true;
+							rank_arr.add(rank);
+							break;
+						}
+
+					}
+					if(!answer_check){
+						rank_arr.add(null);
+					}
+
+					answerArr.add(answer);
+					answerSeqArr.add(answerSeq);
+					category2SeqStr.add(category2_seq);
+					answerSeqStr.add(answer_seq);
+				}
+				answerArrList.add(answerArr);
+				answerSeqList.add(answerSeqArr);
+				category2SeqStrList.add(category2SeqStr);
+				answerSeqStrList.add(answerSeqStr);
+
+				//작성한 답변을 저장
+				answerMap.put("answerNameStr",answerStr);
+				answerMap.put("answerCnt",answerCnt);
+				answerMap.put("answer_arr",answer_arr);
+				answerMap.put("rank_arr",rank_arr);
+				answerMap.put("rankStr",rankStr);
+				answerMap.put("num",i);
+
+				questionAnswerList.add(answerMap);
+
+			}else{
+
+				answerArrList.add(null);
+				answerSeqList.add(null);
+				category2SeqStrList.add(null);
+				answerSeqStrList.add(null);
+
+				//답변 리스트 조회
+				List<Map<String, Object>> userAnswer1 = surveyService.getUserAnswer1List(userQuestionSeq);
+
+				Integer category3 = 0;
+				String category3Str = "";
+				String category3Name = "";
+
+
+				String addressStr = "";
+				String keywordSeqStr = "";
+				for(int j =0; j < userAnswer1.size(); j++){
+
+					if(userAnswer1.get(j).get("type").equals(1)){	//질문이 추가형[업종]이면
+						category3 = (Integer) userAnswer1.get(j).get("category3_seq");
+						String category3_name = (String) userAnswer1.get(j).get("name");
+						category3Str += category3+",";
+						category3Name += category3_name+",";
+						category3SeqArr.add(category3);
+
+						category3NameArr.add(category3_name);
+						addressNameArr.add(null);
+						keywordSeqArr2.add(null);
+						keywordNameArr2.add(null);
+					}else{//질문이 추가형[주소]이면
+						//답변의 키워드 조회
+						List<Map<String,Object>> userKeywordList = surveyService.getUserKeywordList((Integer) userAnswer1.get(j).get("user_answer1_seq"));
+						List<Integer> keywordSeqArr = new ArrayList<>();
+						List<String> keywordNameArr = new ArrayList<>();
+						for(int g =0; g < userKeywordList.size();g++){
+							Integer keywordSeq = (Integer) userKeywordList.get(g).get("user_keyword_seq");
+							String keywordName = (String) userKeywordList.get(g).get("keyword");
+							keywordSeqStr += keywordSeq+",";
+							keywordSeqArr.add(keywordSeq);
+							keywordNameArr.add(keywordName);
+
+						}
+
+						String address = (String) userAnswer1.get(j).get("address");
+						addressStr += address+",";
+
+						addressNameArr.add(address);	//주소명
+						keywordSeqArr2.add(keywordSeqArr);
+						keywordNameArr2.add(keywordNameArr);
+						keywordStr.add(keywordSeqStr);
+					}
+					answerCnt++;
+
+				}
+				//추가형[업종] 답변
+				answerMap.put("category3",category3SeqArr);
+				answerMap.put("category3_name",category3NameArr);
+				answerMap.put("category3Str",category3Str);
+				answerMap.put("category3Name",category3Name);
+
+				//추가형[주소] 답변
+				answerMap.put("addressArr",addressNameArr);
+				answerMap.put("keywordSeqArr",keywordSeqArr2);
+				answerMap.put("keywordNameArr",keywordNameArr2);
+				answerMap.put("addressStr",addressStr);
+				answerMap.put("keywordSeqStr",keywordStr);
+
+				answerMap.put("answerCnt",answerCnt);
+				answerMap.put("num",i);
+
+
+				questionAnswerList.add(answerMap);
+
+				answerAddressNameList.add(addressNameArr);
+				answerKeywordSeqList.add(keywordSeqArr2);
+				answerKeywordNameList.add(keywordNameArr2);
+
+			}
+
+			System.out.println("questionAnswerList >>>> "+questionAnswerList);
+
+			if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[업종] 이고 순위 지정X
+				viewList.add("1");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 1 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[업종] 이고 순위 지정O
+				viewList.add("2");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//추가형[주소] 이고 순위 지정X
+				viewList.add("3");
+			}else if(questionSetting.getQuestionType().equals("add") && questionSetting.getAnswerType() == 2 && questionSetting.getRankChangeUse().equals("Y")){
+				//추가형[주소] 이고 순위 지정O
+				viewList.add("4");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && (questionSetting.getRankChangeUse() == null || questionSetting.getRankChangeUse().equals("N"))){
+				//선택형 이고 순위 지정X
+				viewList.add("5");
+			}else if(questionSetting.getQuestionType().equals("choice") && questionSetting.getAnswerType() == 3 && questionSetting.getRankChangeUse().equals("Y")){
+				//선택형 이고 순위 지정O
+				viewList.add("6");
+			}
+			List.add(questionSetting);
+
+		}
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("user", user);
+		model.addAttribute("category1List", category1List);
+		model.addAttribute("category2List", category2List);
+		model.addAttribute("category3List", category3List);
+		model.addAttribute("answerArrList", answerArrList);
+		model.addAttribute("List", List);
+		model.addAttribute("viewList", viewList);
+		model.addAttribute("answerSeqList", answerSeqList);
+		model.addAttribute("surveySettingSeq", surveySettingSeq);
+		model.addAttribute("category2SeqStrList", category2SeqStrList);
+		model.addAttribute("answerSeqStrList", answerSeqStrList);
+
+		model.addAttribute("answerCategory3SeqList", answerCategory3SeqList);
+		model.addAttribute("answerCategory3NameList", answerCategory3NameList);
+		model.addAttribute("answerAddressNameList", answerAddressNameList);
+		model.addAttribute("answerKeywordSeqList", answerKeywordSeqList);
+		model.addAttribute("answerKeywordNameList", answerKeywordNameList);
+		model.addAttribute("questionAnswerList", questionAnswerList);
+
+		System.out.println("List :: "+List);
+
+		model.addAttribute("boardSettingList", boardSettingList);
+
+		return "pages/user/survey_modify_form";
 	}
 
 	// <<추가//
@@ -751,9 +1038,10 @@ public class UserController extends BaseController {
 		}else if(user.getKakaoId() != null){
 			user.setSocialType("KAKAO");
 		}
-		System.out.println("user ===== >> "+user);
-		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+		Map<String,Object> userSurveyData = surveyService.getUserSurveyInfo(user.getUserSeq());
+		System.out.println("userSurveyData :: "+userSurveyData);
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
@@ -761,6 +1049,7 @@ public class UserController extends BaseController {
 		model.addAttribute("boardSettingList", boardSettingList);
 		model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 		model.addAttribute("user", user);
+		model.addAttribute("userSurveyData", userSurveyData);
 		return "pages/user/info";
 	}
 
@@ -784,11 +1073,14 @@ public class UserController extends BaseController {
 	@PostMapping("/survey/form")
 	public String saveUserSurvey(@RequestBody Map<String, Object> params, RedirectAttributes rttr) throws IOException {
 		List<Map<String, Object>> questionList = (List<Map<String, Object>>) params.get("data");
+
+		System.out.println("questionList :: "+questionList);
+
 		String userEmail = (String) questionList.get(0).get("userEmail");
 		Integer surveySettingSeq = Integer.parseInt((String) questionList.get(0).get("surveySettingSeq"));
 		Integer userSurveySeq = Integer.parseInt((String) questionList.get(0).get("userSurveySeq"));
 		User user = userService.getUserInfo(userEmail);
-
+		System.out.println("surveySettingSeq ::::>> "+surveySettingSeq);
 		//설문지를 신규로 작성하거나 변경할때 이용자 유형을 업데이트해준다.
 		switch (surveySettingSeq){
 			case 1 : user.setType("1"); user.setSubType("1"); break;
@@ -800,6 +1092,7 @@ public class UserController extends BaseController {
 			case 7 : user.setType("4"); user.setSubType("7"); break;
 		}
 
+		System.out.println("user CHECK >>> "+user);
 		userService.updateUserTypeAndSubType(user);
 
 		UserSurvey userSurvey = new UserSurvey();

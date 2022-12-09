@@ -60,4 +60,24 @@ public class SurveyService extends BaseService {
         surveyMapper.deleteUserAnswer2(userSeq);
         surveyMapper.deleteUserKeyword(userSeq);
     }
+
+    public Map<String,Object> getUserSurveyInfo(int userSeq){
+        return surveyMapper.getUserSurveyInfo(userSeq);
+    }
+
+    public List<Map<String, Object>> getUserAnswer1List(int userQuestionSeq){
+        return surveyMapper.getUserAnswer1List(userQuestionSeq);
+    }
+
+    public List<Map<String, Object>> getUserAnswer2List(int questionSettingSeq){
+        return surveyMapper.getUserAnswer2List(questionSettingSeq);
+    }
+
+    public List<Map<String, Object>> getUserQuestionList(int userSeq){
+        return surveyMapper.getUserQuestionList(userSeq);
+    }
+
+    public List<Map<String, Object>> getUserKeywordList(int userAnswer1Seq){
+        return surveyMapper.getUserKeywordList(userAnswer1Seq);
+    }
 }

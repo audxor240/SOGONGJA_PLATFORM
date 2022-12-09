@@ -799,6 +799,7 @@ function surveySave(){
                 var category3Arr = categoryStr.split(",");
                 json.category3Arr = category3Arr;          //선택한 카테고리3 SEQ 배열
                 json.rankArr = null;             //순위 추가
+                json.questionType = "1";
                 validation_check = true;
             } else {
                 alert((index + 1) + "번째 질문을 선택해주세요");
@@ -819,6 +820,7 @@ function surveySave(){
                 });
                 json.rankArr = rank_arr;             //순위 추가
                 json.category3Arr = categor3_arr;    //카테고리3 추가
+                json.questionType = "1";
                 validation_check = true;
             } else {
                 alert((index + 1) + "번째 질문을 선택해주세요");
@@ -853,6 +855,7 @@ function surveySave(){
                 json.keywordArr = keyword_arr;  //키워드 추가
                 json.keywordSeqArr = keyword_seq_arr;  //키워드 시퀀스 추가
                 json.addressArr = address_arr;  //주소 추가
+                json.questionType = "2";
                 validation_check = true;
             } else {
                 alert((index + 1) + "번째 질문을 선택해주세요");
@@ -888,6 +891,7 @@ function surveySave(){
                 json.keywordArr = keyword_arr;  //키워드 추가
                 json.keywordSeqArr = keyword_seq_arr;  //키워드 시퀀스 추가
                 json.addressArr = address_arr;  //주소 추가
+                json.questionType = "2";
                 validation_check = true;
             } else {
                 alert((index + 1) + "번째 질문을 선택해주세요");
@@ -923,6 +927,7 @@ function surveySave(){
                 json.answerArr = answer_arr;    //답변 추가
                 json.category2Arr = categor2_arr;    //카테고리2 추가
                 json.answerSeqArr = ans_arr;    //답변 seq 추가
+                json.questionType = "3";
                 validation_check = true;
             }else{
                 json.answerArr = null;
@@ -962,6 +967,7 @@ function surveySave(){
                 json.answerArr = answer_arr;    //답변 추가
                 json.category2Arr = categor2_arr;    //카테고리2 추가
                 json.answerSeqArr = ans_arr;    //답변 seq 추가
+                json.questionType = "3";
                 validation_check = true;
             } else {
                 alert((index + 1) + "번째 질문을 선택해주세요");

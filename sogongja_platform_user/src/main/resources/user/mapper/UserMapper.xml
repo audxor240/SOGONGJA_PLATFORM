@@ -118,6 +118,8 @@
 		            , GOOGLE_ID
 		            , KAKAO_ID
 		            , NAVER_ID
+		            , TYPE
+		            , SUB_TYPE
 		            , AGE_GROUP
 		            , SERVICE_TYPE)
 		       VALUES (
@@ -143,6 +145,8 @@
 		            , #{googleId}
 					, #{kakaoId}
 					, #{naverId}
+					, #{type}
+					, #{subType}
 					, #{age}
 					, #{serviceType}
 		            )
@@ -241,7 +245,7 @@
 		  , SUB_TYPE = #{subType}
 		  , MOD_DATE = CURRENT_TIMESTAMP
 		  , MOD_USER_SEQ        = #{userSeq}
-		WHERE REG_USER_SEQ        = #{userSeq}
+		WHERE USER_SEQ        = #{userSeq} and DEL_FLAG = 0
 	</update>
 
 	<select id="getQnaList" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">

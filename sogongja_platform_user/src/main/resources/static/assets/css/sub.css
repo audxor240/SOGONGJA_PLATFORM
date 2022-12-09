@@ -1696,7 +1696,18 @@
   color: #1540BF;
   font-size: 1.125rem;
   font-weight: bold;
+  display: inline;
+  padding-right: 20px;
 }
+.mypage_info .table_title .survey h3 {
+  color: #1540BF;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+.mypage_info .table_title span {
+  color: red;
+}
+
 .mypage_info table {
   width: 100%;
 }
