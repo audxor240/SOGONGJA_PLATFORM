@@ -9,6 +9,7 @@ import com.jcraft.jsch.*;
 import com.stoneitgt.sogongja.domain.BoardSetting;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,15 @@ import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 public class FilesService {
+
+	@Value("${storage.username}")
+	String username;
+	@Value("${storage.password}")
+	String password;
+	@Value("${storage.host}")
+	String host;
+	@Value("${storage.port}")
+	int port;
 
 	@Autowired
 	private SystemProperties systemProperties;
@@ -140,12 +150,12 @@ public class FilesService {
 		try {
 			//JSch 객체를 생성
 			JSch jsch = new JSch();
-			//session = jsch.getSession(username, host, port);
-			session = jsch.getSession("root", "121.254.171.155", 2202);
+			session = jsch.getSession(username, host, port);
+			//session = jsch.getSession("root", "121.254.171.155", 2202);
 
 			//패스워드 설정
-			//session.setPassword(password);
-			session.setPassword("thvmxmfoqtm@))*");
+			session.setPassword(password);
+			//session.setPassword("thvmxmfoqtm@))*");
 
 			//기타 설정 적용
 			java.util.Properties config = new java.util.Properties();
@@ -156,7 +166,8 @@ public class FilesService {
 			session.connect();
 
 			//sftp 채널 열기
-			channel = session.openChannel("sftp");
+			//channel = session.openChannel("sftp");
+			channel = session.openChannel("ssh");
 
 			//sft 채널 연결
 			sftp = (ChannelSftp) channel;

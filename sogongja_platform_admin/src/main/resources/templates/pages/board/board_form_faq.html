@@ -10,6 +10,7 @@
         <input type="hidden" th:field="*{faqSeq}">
         <input type="hidden" name="menuCode" th:value="${menuCode}">
         <input type="hidden" name="pageParams" th:value="${pageParams}">
+        <input type="hidden" th:field="*{content}">
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -70,8 +71,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">답변</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" th:field="*{content}" required="required" rows="20"></textarea>
-                                        <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>
+                                        <div id="editor" style="height: 500px;"></div>
+                                        <!--/*<textarea class="form-control" th:field="*{content}" required="required" rows="20"></textarea>
+                                        <th:block th:include="fragments/form_invalid:: form_invalid('content')"></th:block>*/-->
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +98,20 @@
     </form>
 </div>
 <th:block layout:fragment="custom_css">
+    <!--/*<link rel="stylesheet" th:href="@{/assets/css/bootstrap-tagsinput.css}" />*/-->
+    <link rel="stylesheet" th:href="@{/assets/css/tui-color-picker.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/toastui-editor.css}" />
 </th:block>
 <th:block layout:fragment="custom_js">
+    <script th:inline="javascript">
+        var tui_content = /*[[${faq.content}]]*/ '';
+
+        var editor;
+    </script>
+    <script th:src="@{/assets/js/libs/codemirror.js}"></script>
+    <script th:src="@{/assets/js/libs/toastui-editor.js}"></script>
+    <script th:src="@{/assets/js/libs/toastui-editor-plugin-color-syntax.js}"></script>
+    <!--/*<script th:src="@{/assets/js/libs/bootstrap-tagsinput.min.js}"></script>*/-->
     <script th:src="@{/assets/js/pages/board/board_form_faq.js}"></script>
 </th:block>
 

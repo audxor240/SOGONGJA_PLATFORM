@@ -31,7 +31,7 @@
                                 <button type="submit" class="btn btn-primary mr-2 btn-icon-text btn-search">
                                     <i class="btn-icon-prepend" data-feather="search"></i>조회
                                 </button>
-                                <a th:href="@{|/board/${boardSettingSeq}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text" th:if="${boardSetting.answerUse != 1}">
+                                <a th:href="@{|/board/${boardSettingSeq}/form?${pageParams}|}" class="btn btn-secondary btn-icon-text" >
                                     <i class="btn-icon-prepend" data-feather="edit"></i>등록
                                 </a>
                             </div>
@@ -81,7 +81,7 @@
                                     <th:block th:unless="${item.notice_flag == true}" th:text="${paging.total - item.rnum + 1}">1</th:block>
                                 </td>
                                 <td>
-                                    <a th:href="@{|/board/${item.board_setting_seq}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
+                                    <a th:href="@{|/board/settingList/${item.board_setting_seq}/${item.board_seq}?${pageParams}|}" th:text="${item.subject}">제목</a>
                                 </td>
                                 <td th:text="${item.reg_username}">작성자</td>
                                 <td th:text="${item.reg_dt}">작성일</td>
