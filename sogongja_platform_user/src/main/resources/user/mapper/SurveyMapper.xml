@@ -90,6 +90,7 @@
         , CATEGORY2_SEQ
         , ANSWER
         , ANSWER_SEQ
+        , RANK
         , REG_USER_SEQ
         , REG_DATE)
         VALUES (
@@ -97,6 +98,7 @@
         , #{category2Seq}
         , #{answer}
         , #{answerSeq}
+        , #{rank}
         , #{loginUserSeq}
         , CURRENT_TIMESTAMP())
 
@@ -166,6 +168,47 @@
 
     <select id="selectTotalRecords" resultType="int">
         SELECT FOUND_ROWS();
+    </select>
+
+    <select id="getUserSurveyInfo" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getUserSurveyInfo */
+        select *
+        from ST_USER_SURVEY as US
+                 left join ST_SURVEY_SETTING as SS ON SS.SURVEY_SETTING_SEQ = US.SURVEY_SETTING_SEQ
+        where US.REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0;
+
+    </select>
+
+    <select id="getUserAnswer1List" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getUserAnswer1List */
+        select A1.*, C3.NAME
+        from ST_USER_ANSWER1 as A1
+        left join ST_CATEGORY3 as C3 ON C3.CATEGORY3_SEQ = A1.CATEGORY3_SEQ
+        where USER_QUESTION_SEQ = #{userQuestionSeq} and A1.DEL_FLAG = 0 ;
+
+    </select>
+
+    <select id="getUserAnswer2List" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getUserAnswer2List */
+        select UA.*, group_concat(UA.CATEGORY2_SEQ) as g_seq, group_concat(C2.NAME) as g_name
+        from ST_USER_ANSWER2 as UA
+                 left join ST_CATEGORY2 as C2 ON C2.CATEGORY2_SEQ =  UA.CATEGORY2_SEQ
+        where USER_QUESTION_SEQ = #{userQuestionSeq} and UA.DEL_FLAG = 0
+        group by UA.ANSWER;
+
+    </select>
+
+    <select id="getUserQuestionList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getUserQuestionList */
+        select * from ST_USER_QUESTION where REG_USER_SEQ = #{userSeq} and DEL_FLAG =0;
+
+    </select>
+
+    <select id="getUserKeywordList" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : SurveyMapper.xml, id : getUserKeywordList */
+
+        select * from ST_USER_KEYWORD where USER_ANSWER1_SEQ = #{userAnswer1Seq} and DEL_FLAG = 0;
+
     </select>
 
 </mapper>

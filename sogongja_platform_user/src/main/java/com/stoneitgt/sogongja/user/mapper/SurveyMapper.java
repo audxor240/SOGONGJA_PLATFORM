@@ -25,10 +25,20 @@ public interface SurveyMapper {
 
     UserSurvey getUserSurvey(int userSeq);
 
+    Map<String, Object> getUserSurveyInfo(int userSeq);
+
     void deleteUserSurvey(int userSeq);
     void deleteUserQuestion(int userSeq);
     void deleteUserAnswer1(int userSeq);
     void deleteUserAnswer2(int userSeq);
     void deleteUserKeyword(int userSeq);
+
+    List<Map<String, Object>> getUserAnswer1List(int userQuestionSeq);
+
+    List<Map<String, Object>> getUserAnswer2List(int questionSettingSeq);
+
+    List<Map<String, Object>> getUserQuestionList(int userSeq);
+
+    List<Map<String, Object>> getUserKeywordList(int userAnswer1Seq);
 
 }

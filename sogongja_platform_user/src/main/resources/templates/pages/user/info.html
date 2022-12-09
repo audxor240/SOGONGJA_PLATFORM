@@ -226,11 +226,24 @@
                             </td>
                         </tr>
                     </table>
+                    <div class="table table_title survey">
+                        <h3>설문 등록</h3>
+                        <span>* 이용자 유형을 변경할 경우 등록된 설문은 초기화 됩니다.</span>
+                    </div>
+                    <div class="survey_area" th:if="${userSurveyData eq null}">
+                        <p>현재 설문 미등록 상태입니다.</p>
+                        <span>맞춤 교육 및 맞춤 컨설팅을 위해 설문등록이 필요합니다.</span>
+                        <button type="button" class="secede_btn" style="float:right;" onclick="formSubmit()">설문 등록하기</button>
+                    </div>
+                    <div class="survey_area" th:unless="${userSurveyData eq null}">
+                        <span>[[${userSurveyData.title}]]</span>
+                        <button type="button" class="secede_btn" style="float:right;" onclick="formModifySubmit()">답변 수정하기</button>
+                    </div>
                     <div class="table table_title">
                         <h3>회원탈퇴</h3>
                     </div>
                     <div>
-                        <button type="button" class="secede_btn">회원탈퇴</button>
+                        <button type="button" class="secede_btn" id="secede_btn">회원탈퇴</button>
                     </div>
                 </div>
             </div>
@@ -286,22 +299,30 @@
                     <button onclick="formSubmit()" class="btn blue">설문 참여하기</button>
                 </div>
             </div>
-            <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
-                <input type="hidden" th:field="*{id}">
-                <input type="hidden" th:field="*{userSeq}">
-                <input type="hidden" th:field="*{username}">
-                <input type="hidden" th:field="*{nickName}">
-                <input type="hidden" th:field="*{userType}">
-                <input type="hidden" th:field="*{email}">
-                <input type="hidden" th:field="*{type}">
-                <input type="hidden" th:field="*{subType}">
 
-            </form>
         </div>
     </div>
 
-
-    <!--정보 수정완료 알림 팝업-->
+    <form name="surveyForm" th:action="@{/user/surveyForm}" th:object="${user}" method="POST">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{userSeq}">
+        <input type="hidden" th:field="*{username}">
+        <input type="hidden" th:field="*{nickName}">
+        <input type="hidden" th:field="*{userType}">
+        <input type="hidden" th:field="*{email}">
+        <input type="hidden" th:field="*{type}">
+        <input type="hidden" th:field="*{subType}">
+    </form>
+    <form name="surveyModifyForm" th:action="@{/user/surveyModifyForm}" th:object="${user}" method="POST">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{userSeq}">
+        <input type="hidden" th:field="*{username}">
+        <input type="hidden" th:field="*{nickName}">
+        <input type="hidden" th:field="*{userType}">
+        <input type="hidden" th:field="*{email}">
+        <input type="hidden" th:field="*{type}">
+        <input type="hidden" th:field="*{subType}">
+    </form>
 
 
 
@@ -322,10 +343,39 @@
         });
 
         function formSubmit() {
+            var sel_type = $("input:radio[name=type]:checked").val();
+            var sel_subType = $("input:radio[name=subType]:checked").val();
+
+            if($("input:radio[name=type]:checked").val() == 4){
+                document.forms.surveyForm.type.value = "4";
+                document.forms.surveyForm.subType.value = "7";
+            }else{
+                document.forms.surveyForm.type.value = sel_type;
+                document.forms.surveyForm.subType.value = sel_subType;
+            }
+
             document.forms.surveyForm.submit();
         }
 
-        $('.secede_btn').on('click', function() {
+        function formModifySubmit() {
+            let type = $("#type").val();
+            let subType = $("#subType").val();
+            let checked_type = $('[name=type]:checked').val();
+            let checked_subType = $('[name=subType]:checked').val();
+
+            if(type != checked_type && subType != checked_subType){
+                if(!confirm("이용자 유형을 바꾸면 작성되었던 설문은 초기화 됩니다.설문을 수정하시겠습니까?")){
+                    return false;
+                }else{
+                    formSubmit();
+                }
+            }else{
+                document.forms.surveyModifyForm.submit();
+            }
+
+        }
+
+        $('#secede_btn').on('click', function() {
             $('.secede_pop').show();
         });
         $('.redline').on('click', function() {
