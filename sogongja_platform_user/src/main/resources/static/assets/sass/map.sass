@@ -854,11 +854,17 @@
         .side_graph
           height: 300px
           margin: 16px 0
-        .side_graph.gender
-          height: 200px
-          margin: 20px 0
-          padding-bottom: 8px
-          border-bottom: 1px solid #ddd
+          &.gender
+            height: 200px
+            margin: 20px 0
+            padding-bottom: 8px
+            border-bottom: 1px solid #ddd
+          &.living_wd
+            height: 200px
+            margin: 8px 0
+          &.living_we
+            height: 200px
+            margin: 8px 0
         &.float
           width: 33.3%
           float: left
@@ -872,17 +878,45 @@
               width: 100%
               margin-bottom: 12px
             li
-              float: left
               width: 33.3%
-              padding: 8px 0
-              color: #bbb
-              text-align: center
-              font-size: 13px
-              border: 1px solid #ddd
-              cursor: pointer
-              &.current
-                background-color: $blue
+              float: left
+              label
+                display: block
+                width: 100%
+                height: 32px
+                line-height: 28px
+                text-align: center
+                background-color: #ffffff
+                border: solid 1px #ddd
+                color: #969AAF
+                font-size: rem(14)
+                cursor: pointer
+              input[type="radio"]
+                display: none
+              input[type="radio"]:checked ~ label
+                background-color: #1540BF
+                border: solid 1px #1540BF
                 color: #fff
+          //&.agetabs
+          //  width: 100%
+          //  &:after
+          //    display: block
+          //    content: ""
+          //    clear: both
+          //    width: 100%
+          //    margin-bottom: 12px
+          //  li
+          //    float: left
+          //    width: 33.3%
+          //    padding: 8px 0
+          //    color: #bbb
+          //    text-align: center
+          //    font-size: 13px
+          //    border: 1px solid #ddd
+          //    cursor: pointer
+          //    &.current
+          //      background-color: $blue
+          //      color: #fff
           &.tabs
             width: 100%
             &:after
