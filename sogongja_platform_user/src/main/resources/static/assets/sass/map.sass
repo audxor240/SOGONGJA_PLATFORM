@@ -366,7 +366,7 @@
 .addressSearchTop
   +positionAt(absolute, $top: 16px, $left:50%)
   transform: translateX(-50%)
-  z-index: 1
+  z-index: 4
   width: 590px
   .hAddr
     width: 348px
@@ -811,6 +811,8 @@
       width: 0
       .toggle_side
         +positionAt(fixed, $left:-30px)
+      .sideinfo_fixed
+        width: 0
     .sideinfo_span
       display: block
       background: #eee
@@ -847,6 +849,46 @@
         background-color: #fff
         padding: 16px
         margin-bottom: 8px
+        .side_graph
+          height: 400px
+        &.float
+          width: 33.3%
+          float: left
+        ul
+          &.tabs
+            width: 100%
+            &:after
+              display: block
+              content: ""
+              clear: both
+              width: 100%
+            li
+              float: left
+              width: 50%
+              padding: 8px 0
+              color: #bbb
+              text-align: center
+              font-size: 13px
+              margin-bottom: 12px
+              border: 1px solid #ddd
+              cursor: pointer
+              &:after
+                display: block
+                content: ""
+                clear: both
+                width: 100%
+                height: auto
+              &.current
+                background-color: $blue
+                color: #fff
+        .tab-content
+          display: none
+          &.current
+            display: block
+        .areatab-content
+          display: none
+          &.current
+            display: block
         .sidegraph
           background-color: #00c73c
           height: 500px
@@ -892,7 +934,12 @@
           .distance
             color: #969aaf
             font-size: 14px
-            vertical-align: middle
+            vertical-align: top
+        .iconPlus.areatitle
+          margin-bottom: 0
+          font-size: 16px
+          font-weight: bold
+          background: url(#{$assetPath}/new/area/location_skyblue_20dp.svg) no-repeat
         .iconPlus.location
           background: url(#{$assetPath}/new/area/location.png) no-repeat
         .iconPlus.storegray
@@ -927,6 +974,10 @@
               border-top: solid 1px #1540bf
               border-right: solid 1px #1540bf
               transform: rotate(45deg)
+    .greyspan
+      background-color: #eeeeee
+      width: 100%
+      height: 8px
     .mainSectors_wrap
       background-color: #F3F3F3
       .mainSectors
@@ -1206,9 +1257,9 @@
     .regionbox
       display: block
       text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
-      font-size: 10px
+      font-size: 12px
       .store
-        color: #FF8D07
+        color: #BF7116
       .popul
         color: #1540BF
       .rental
@@ -1928,22 +1979,23 @@
         z-index: 999
         &:after
           transform: rotate(135deg)
-        .sideinfo_fixed
-          position: fixed
-          top: 90px
-          width: 400px
-          background-color: #fff
-          border-bottom: 1px solid #eee
-          &:before
-            content: ""
-            display: block
-            padding-top: 96px
-            border-bottom: 1px solid #eee
-          .sideinfo
-            margin-bottom: 0
-        .margintop
-          margin-top: 136px
-          border-bottom: 8px solid #eee
+      .sideinfo_fixed
+        position: fixed
+        top: 72px
+        width: 100%
+        background-color: #fff
+        border-bottom: 1px solid #eee
+        &:before
+          content: ""
+          display: block
+          padding-top: 20px
+          border-bottom: none
+        .sideinfo
+          margin-bottom: 0
+          pading: 10px 16px
+      .margintop
+        margin-top: 64px
+        border-bottom: 8px solid #eee
   #map_wrap
     .areaTap
       +positionAt(fixed, $top: 72px, $right:0, $left:0)
