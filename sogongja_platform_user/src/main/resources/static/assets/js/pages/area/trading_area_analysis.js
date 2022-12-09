@@ -647,15 +647,48 @@ function sideInfo(area, detail) {
             detail.liv_popul +'명'+
             '</span>' +
             '</div>' +
-                '<div class="side_graph">' +
-                    '<canvas></canvas>'+
+                '<div class="side_graph gender">' +
+                    '<canvas id="genderChart"></canvas>'+
                 '</div>'+
+
+                '<ul class="agetabs" id="agetab">'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="10" id="age_10" onchange="agetab()" checked>' +
+                    //     '<label for="age_10">10대</label>' +
+                    // '</li>'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="20" id="age_20" onchange="agetab()">' +
+                    //     '<label for="age_20">20대</label>' +
+                    // '</li>'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="30" id="age_30" onchange="agetab()">' +
+                    //     '<label for="age_30">30대</label>' +
+                    // '</li>'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="40" id="age_40" onchange="agetab()">' +
+                    //     '<label for="age_40">40대</label>' +
+                    // '</li>'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="50" id="age_50" onchange="agetab()">' +
+                    //     '<label for="age_50">50대</label>' +
+                    // '</li>'+
+                    // '<li>' +
+                    //     '<input type ="radio" name="agetab" value="60" id="age_60" onchange="agetab()">' +
+                    //     '<label for="age_60">60대</label>' +
+                    // '</li>'+
+                '</ul>'+
             '<div class="storegray iconPlus">' +
-            '주중, 주말 중 연령대별, 시간대별 생활인구수' +
+            '주중 시간대별 생활인구수' +
             '</div>' +
                 '<div class="side_graph">' +
                     '<canvas></canvas>'+
                 '</div>'+
+            '<div class="storegray iconPlus">' +
+            '주말 시간대별 생활인구수' +
+            '</div>' +
+            '<div class="side_graph">' +
+            '<canvas></canvas>'+
+            '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">상존인구</h4>'+
@@ -689,14 +722,14 @@ function sideInfo(area, detail) {
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">소비 유형</h4>'+
                 '<div class="side_graph">' +
-                '<canvas></canvas>'+
+                '<canvas id="consumption"></canvas>'+
                 '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">아파트</h4>'+
             '<ul id="apttabs" class="tabs">'+
                 '<li class="tab_1 current" onclick="apttab1()" data-tab="tab-1">상권</li>'+
-                '<li class="tab_2" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
+                '<li class="tab_2" onclick="apttab2()" data-tab="tab-2" style="display: none">배후지</li>'+
             '</ul>'+
             '<div id="tab_1" class="tab-content current">'+
                 '<div class="storegray iconPlus">' +
@@ -747,10 +780,18 @@ function sideInfo(area, detail) {
             '</div>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+if(area.area_title=='골목상권'){
+    $('li.tab_2').css('display','block')
+}
         if (window.innerWidth < 767) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
         }
+        //차트 그래프 실행
+        //생활인구- 남녀성비 파이그래프
+        genderRatio(detail.m_popul,detail.f_popul)
+        //소비유형- 파이그래프
+        consumptionRatio(detail.sum_clt_ex, detail.sum_cul_ex, detail.sum_edu_ex, detail.sum_ent_ex, detail.sum_food_ex, detail.sum_lei_ex, detail.sum_med_ex, detail.sum_nec_ex, detail.sum_trp_ex)
     }
 }
 
@@ -797,6 +838,9 @@ function areatab2(){
     $('ul#areatabs li.tab_2').addClass('current');
     $("#areatab_2").addClass('current');
 }
+//사이드바안에 탭적용
+
+
 function contentFunc(area) {
     //요상한 그래프 인포윈도우입니다.
     var infos = area.info
@@ -1596,12 +1640,10 @@ function changeAreaTab() {
 }
 
 //탭바뀌면 사이드바+그래프마커윈도우 닫음
-$('input[name="areaTab"]').click(function () {
-    $('#sidebar').removeClass('visible');
-    for (var i = 0; i < clickmarkers.length; i++) {
-        clickmarkers[i].setMap(null);
-    }
+$('input[name="areaTab"], input[name="cate2"]').click(function () {
+    closeOverlay()
 })
+
 
 //필터 대분류 중분류 체크
 $('.midSecBox').css('display', 'none');
@@ -1822,21 +1864,7 @@ function drawSecondGraph(code,ranking2){
 }
 
 //2차그래프 차트js그리기
-function chartjs(color,barColors){
-    // var color = [];
-    // for (var i = 0; i < datashop.length; i++) {
-    //     color.push(datashop[i].ct_shop);
-    // }
-    // var barColors = color.map((value) =>
-    //     value > 1000 ? 'rgba(255, 255, 255, 0.1)' :
-    //         value > 100 ? 'rgba(255, 255, 255, 0.15)' :
-    //             value > 50 ? 'rgba(255, 255, 255, 0.2)' :
-    //                 value > 20 ? 'rgba(255, 255, 255, 0.25)' :
-    //                     value > 10 ? 'rgba(255, 255, 255, 0.3)' :
-    //                         value > 5 ? 'rgba(255, 255, 255, 0.4)' :
-    //                             value > 3 ? 'rgba(255, 255, 255, 0.5)' :
-    //                                 value > 1 ? 'rgba(255, 255, 255, 0.6)' :
-    //                                     'rgba(255, 255, 255, 0.7)');
+function chartjs(color, barColors){
     new Chart("myChart1", {
         type: "doughnut",
         data: {
@@ -1873,19 +1901,95 @@ function chartjs(color,barColors){
         }
     });
 }
-
-
-
-
-
 //사이드바 숨기기
 function sideNoneVisible() {
     $('#sidebody').addClass('visible_none');
     $('#sidebar').addClass('on');
 }
-
 //사이드바 보이기
 function sideVisible() {
     $('#sidebody').removeClass('visible_none');
     $('#sidebar').removeClass('on');
+}
+
+//사이드바 4.생활인구- 남녀성비 파이그래프
+function genderRatio(m_popul, f_popul){
+    var dataset = {
+        label: "생활인구: 남녀비율",
+        backgroundColor: ['#28c3d7', '#FF6384'],//라벨별 컬러설정
+        borderColor: '#fff',
+        data: [m_popul,f_popul]
+    }
+    var labels=['남자','여자'];
+    var datasets={ datasets:[dataset], labels:labels }
+    var config = {
+        type: 'pie',
+        data: datasets, //데이터 셋
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
+            legend: {
+                position: 'bottom',
+                fontColor: 'black',
+                align: 'center',
+                display: true,
+                fullWidth: true,
+                labels: {
+                    fontColor: 'rgb(0, 0, 0)'
+                }
+            },
+            plugins: {
+                labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
+                    render: 'value',
+                    fontColor: 'black',
+                    fontSize: 15,
+                    precision: 2
+                }
+
+            }
+        }
+    }
+    var canvas=document.getElementById('genderChart');
+    var genderChart = new Chart(canvas,config);
+}
+
+//사이드바 소비유형 - 파이그래프
+function consumptionRatio(n1,n2,n3,n4,n5,n6,n7,n8,n9){
+    var dataset = {
+        label: "소비유형",
+        backgroundColor: ['#70C14A','#33CC94','#31C3D9','#4983C4','#A25AA1','#DD4C79','#EE5545','#F28728','#E6B211'],//라벨별 컬러설정
+        borderColor: '#fff',
+        data: [n1,n2,n3,n4,n5,n6,n7,n8,n9]
+    }
+    var labels=['의류','문화','교육','유흥','식료품','여가','의료비','생활용품','교통'];
+    var datasets={ datasets:[dataset], labels:labels }
+    var config = {
+        type: 'pie',
+        data: datasets, //데이터 셋
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
+            legend: {
+                position: 'bottom',
+                fontColor: 'black',
+                align: 'center',
+                display: true,
+                fullWidth: true,
+                labels: {
+                    fontColor: 'rgb(0, 0, 0)'
+                }
+            },
+            plugins: {
+                labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
+                    render: 'value',
+                    fontColor: 'black',
+                    fontSize: 15,
+                    precision: 2
+                }
+
+            }
+        }
+    }
+    var canvas=document.getElementById('consumption');
+    var consumption = new Chart(canvas,config);
 }

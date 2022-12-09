@@ -1041,6 +1041,9 @@
 #sidebar #sidebody.visible_none .sideinfo_fixed {
   width: 0;
 }
+#sidebar #sidebody.visible_none .sideinfo_fixed .sideinfo {
+  padding: 0;
+}
 #sidebar #sidebody .sideinfo_span {
   display: block;
   background: #eee;
@@ -1091,11 +1094,42 @@
   margin-bottom: 8px;
 }
 #sidebar #sidebody .sideinfo .side_graph {
-  height: 400px;
+  height: 300px;
+  margin: 16px 0;
+}
+#sidebar #sidebody .sideinfo .side_graph.gender {
+  height: 200px;
+  margin: 20px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddd;
 }
 #sidebar #sidebody .sideinfo.float {
   width: 33.3%;
   float: left;
+}
+#sidebar #sidebody .sideinfo ul.agetabs {
+  width: 100%;
+}
+#sidebar #sidebody .sideinfo ul.agetabs:after {
+  display: block;
+  content: "";
+  clear: both;
+  width: 100%;
+  margin-bottom: 12px;
+}
+#sidebar #sidebody .sideinfo ul.agetabs li {
+  float: left;
+  width: 33.3%;
+  padding: 8px 0;
+  color: #bbb;
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+#sidebar #sidebody .sideinfo ul.agetabs li.current {
+  background-color: #1540BF;
+  color: #fff;
 }
 #sidebar #sidebody .sideinfo ul.tabs {
   width: 100%;
@@ -1105,6 +1139,7 @@
   content: "";
   clear: both;
   width: 100%;
+  margin-bottom: 12px;
 }
 #sidebar #sidebody .sideinfo ul.tabs li {
   float: left;
@@ -1113,7 +1148,6 @@
   color: #bbb;
   text-align: center;
   font-size: 13px;
-  margin-bottom: 12px;
   border: 1px solid #ddd;
   cursor: pointer;
 }
