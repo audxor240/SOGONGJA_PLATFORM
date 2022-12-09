@@ -135,7 +135,7 @@ public class BoardController extends BaseController {
 
 		return "pages/board/board_setting_list";
 	}
-	@GetMapping("/{boardSettingSeq}")
+	@GetMapping("/settingList/{boardSettingSeq}")
 	public String boardList2(@PathVariable String boardSettingSeq, @ModelAttribute BaseParameter params, Model model) {
 		Paging paging = new Paging();
 		paging.setPage(params.getPage());
@@ -175,7 +175,7 @@ public class BoardController extends BaseController {
 		return url;
 	}
 
-	@GetMapping("/{boardSettingSeq}/{boardSeq}")
+	@GetMapping("/settingList/{boardSettingSeq}/{boardSeq}")
 	public String boardView(@PathVariable String boardSettingSeq, @PathVariable int boardSeq,
 			@ModelAttribute BaseParameter params, Model model) {
 

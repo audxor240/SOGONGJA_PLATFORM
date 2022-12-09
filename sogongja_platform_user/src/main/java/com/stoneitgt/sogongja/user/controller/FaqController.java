@@ -49,6 +49,8 @@ public class FaqController extends BaseController {
 
         List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
+        String nlString = System.getProperty("line.separator").toString();
+
         //QNA게시판 시퀀스 정보
         BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
 
@@ -60,6 +62,7 @@ public class FaqController extends BaseController {
         model.addAttribute("params", params);
         model.addAttribute("category", getCodeList("FAQ_TYPE"));
         model.addAttribute("pageParams", getBaseParameterString(params));
+        model.addAttribute("nlString", nlString);
 
         //url = "pages/board/board_list_faq";
         return "pages/board/faq";

@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
@@ -71,7 +71,7 @@
                                 <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd HH:mm:ss')}">등록일</td>
                                 <td>
                                     <!--게시글 관리-->
-                                    <a th:href="@{|/board/${item.board_setting_seq}?${pageParams}|}"><i data-feather="corner-right-down"></i></a>
+                                    <a th:href="@{|/board/settingList/${item.board_setting_seq}|}"><i data-feather="corner-right-down"></i></a>
                                 </td>
                                 <td class="text-right">
                                     <button type="button" class="btn btn-outline-danger btn-sm btn-delete" th:data-board-setting-seq="${item.board_setting_seq}" th:if="${item.file_directory_name != 'qna'}">삭제</button>
