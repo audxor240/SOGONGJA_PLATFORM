@@ -541,7 +541,7 @@ function displayPath(polygon, area, i) {
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
             if (isAuthenticated) {
-                areaInClick(area)
+                areaInClick(area)//그래프마커윈도우는 로긴시에만 보임
             }
             $('.filterbox').removeClass('on');
             var position = centroid(area.path);
@@ -554,7 +554,7 @@ function displayPath(polygon, area, i) {
             }
             ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
                 console.log("세부 요청요청", result)
-                sideInfo(area, result)
+                sideInfo(area, result)//사이드바 표출
             });
             changeAreaTab()
             $('.areahoverIn').addClass('on')
@@ -597,7 +597,9 @@ function sideInfo(area, detail) {
             // '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
             '<div class="sideinfo_fixed">' +
                 '<div class="sideinfo">' +
-                area.area_name + ' ' + area.area_title +
+                    '<div class="areatitle iconPlus">' +
+                    area.area_name + ' ' + area.area_title +
+                    '</div>' +
                 '</div>' +
             '</div>' +
             '<div class="margintop"></div>'+
@@ -610,94 +612,136 @@ function sideInfo(area, detail) {
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">개폐업수</h4>'+
                 '<div class="storegray iconPlus">' +
-                "개업점포수"+
+                "개업점포수 "+
                     '<span class="distance">' +
-                    open +
+                    open +'개'+
                     '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
-                '폐업점포수' +
+                '폐업점포수 ' +
                 '<span class="distance">' +
-                close +
+                close +'개'+
                 '</span>' +
                 '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">추정매출</h4>'+
                 '<div class="storegray iconPlus">' +
-                '추정매출 매출이 가장 큰시간' +
+                '매출이 가장 큰 시간 ' +
                 '<span class="distance">' +
                 detail.picktime +
                 '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
-                '매출액' +
+                '매출액 ' +
                 '<span class="distance">' +
-                sales +
+                sales + '원'+
                 '</span>' +
                 '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">생활인구</h4>'+
+            '<div class="storegray iconPlus">' +
+            '총 생활인구수 ' +
+            '<span class="distance">' +
+            detail.liv_popul +'명'+
+            '</span>' +
+            '</div>' +
+                '<div class="side_graph">' +
+                    '<canvas></canvas>'+
+                '</div>'+
+            '<div class="storegray iconPlus">' +
+            '주중, 주말 중 연령대별, 시간대별 생활인구수' +
+            '</div>' +
+                '<div class="side_graph">' +
+                    '<canvas></canvas>'+
+                '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">상존인구</h4>'+
                 '<div class="storegray iconPlus">' +
-                '길단위' + 
+                '길 단위 ' +
                 '<span class="distance">' +
-                detail.st_popul  +
+                detail.st_popul  +'명'+
                 '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
-                '건물단위' +
+                '건물 단위 ' +
                 '<span class="distance">' +
-                detail.bd_popul +
+                detail.bd_popul +'명'+
                 '</span>' +
                 '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">인구 유형별 비중 주거인구</h4>'+
                 '<div class="storegray iconPlus">' +
-                '주거인구 > 직장인구' +
+                '주거인구 ' +
                 '<span class="distance">' +
-                detail.st_popul  +
+                detail.r_popul  +'명'+
+                '</span>' +
+                ' > ' +
+                '직장인구 ' +
+                '<span class="distance">' +
+                detail.w_popul  +'명'+
                 '</span>' +
                 '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">소비 유형</h4>'+
+                '<div class="side_graph">' +
+                '<canvas></canvas>'+
+                '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">아파트</h4>'+
+            '<ul id="apttabs" class="tabs">'+
+                '<li class="tab_1 current" onclick="apttab1()" data-tab="tab-1">상권</li>'+
+                '<li class="tab_2" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
+            '</ul>'+
+            '<div id="tab_1" class="tab-content current">'+
                 '<div class="storegray iconPlus">' +
-                '아파트 상권 단지수' +
+                '단지 수 ' +
                 '<span class="distance">' +
-                detail.ct_apt_com +
+                detail.ct_apt_com +'세대'+
                 '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
-                ' 세대수' +
+                '세대 수 ' +
                 '<span class="distance">' +
-                detail.ct_apt_hou +
-                '</span>' +
-                '</div>' +
-
-                '<div class="storegray iconPlus">' +
-                '아파트 배후지 단지수' +
-                '<span class="distance">' +
-                detail.ct_napt_com +
-                '</span>' +
-                '</div>' +
-                '<div class="storegray iconPlus">' +
-                ' 세대수' +
-                '<span class="distance">' +
-                detail.ct_napt_hou +
+                detail.ct_apt_hou +'명'+
                 '</span>' +
                 '</div>' +
             '</div>' +
+            '<div id="tab_2" class="tab-content">'+
+                '<div class="storegray iconPlus">' +
+                '단지 수 ' +
+                '<span class="distance">' +
+                detail.ct_napt_com +'세대'+
+                '</span>' +
+                '</div>' +
+                '<div class="storegray iconPlus">' +
+                '세대 수 ' +
+                '<span class="distance">' +
+                detail.ct_napt_hou +'명'+
+                '</span>' +
+                '</div>' +
+            '</div>' +
+            '</div>' +
+
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">상권 안정화 지수</h4>'+
+                '<ul id="areatabs" class="tabs">'+
+                '<li class="tab_1 current" onclick="areatab1()" data-tab="tab-1">분기별 비교</li>'+
+                '<li class="tab_2" onclick="areatab2()" data-tab="tab-2">연도별 비교</li>'+
+                '</ul>'+
+            '<div id="areatab_1" class="areatab-content current">'+
+            '상권안정화 분기별탭'+
             '</div>' +
+            '<div id="areatab_2" class="areatab-content">'+
+            '상권안정화 연도별탭'+
+            '</div>' +
+            '</div>' +
+
             '<div class="sideinfo">' +
             '<button class="analysisBtn" onclick="location.href=`/trading-area/regional?lat=' + position.Ma +'&lng='+ position.La +'`">해당 상권의 지역 정보 확인하기</button>' +
             '</div>' +
@@ -725,10 +769,34 @@ function closeOverlaygraph() {
     $('.placegraph').find('.ranking_list *').remove()
 }
 
-// var areatab = $('input[name="areaTab"]')
-// areatab.addEventListener('click', function(event){
-//
-// });
+//사이드바안에 탭적용 아파트 상권탭
+function apttab1(){
+    $('ul#apttabs li').removeClass('current');
+    $('.tab-content').removeClass('current');
+    $('ul#apttabs li.tab_1').addClass('current');
+    $("#tab_1").addClass('current');
+}
+//사이드바안에 탭적용 아파트 배후지탭
+function apttab2(){
+    $('ul#apttabs li').removeClass('current');
+    $('.tab-content').removeClass('current');
+    $('ul#apttabs li.tab_2').addClass('current');
+    $("#tab_2").addClass('current');
+}
+//사이드바안에 탭적용 상권안정화 분기별탭
+function areatab1(){
+    $('ul#areatabs li').removeClass('current');
+    $('.areatab-content').removeClass('current');
+    $('ul#areatabs li.tab_1').addClass('current');
+    $("#areatab_1").addClass('current');
+}
+//사이드바안에 탭적용 상권안정화 연도별탭
+function areatab2(){
+    $('ul#areatabs li').removeClass('current');
+    $('.areatab-content').removeClass('current');
+    $('ul#areatabs li.tab_2').addClass('current');
+    $("#areatab_2").addClass('current');
+}
 function contentFunc(area) {
     //요상한 그래프 인포윈도우입니다.
     var infos = area.info
@@ -1526,6 +1594,8 @@ function changeAreaTab() {
         $(".store-num").siblings().css('display', 'none');
     }
 }
+
+//탭바뀌면 사이드바+그래프마커윈도우 닫음
 $('input[name="areaTab"]').click(function () {
     $('#sidebar').removeClass('visible');
     for (var i = 0; i < clickmarkers.length; i++) {
@@ -1587,7 +1657,7 @@ $('input[name="area_maincate"]').click(function () {
     $("input:radio[id=" + temp + "]").prop("checked", true);
 })
 
-
+//필터바뀌면 걍다 닫기
 $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate"]').click(function () {
     $('#sidebar').removeClass('visible');
     for (var i = 0; i < clickmarkers.length; i++) {
@@ -1597,7 +1667,7 @@ $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate
         areanameMarkers[i].setMap(null);//상권이름 마커 비우고
     }
     for (var i = 0, len = areaJson.length; i < len; i++) {
-        areanameSpread(areaJson[i]);
+        areanameSpread(areaJson[i]);//상권이름 다시 그림
     }
     changeAreaTab()
 })

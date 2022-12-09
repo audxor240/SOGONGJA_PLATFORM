@@ -377,6 +377,7 @@ mapContainer.addEventListener("click", e => {
     dongBox.className = '';
 })
 
+
 //시군구 선택박스 닫기 열기
 var sidoBox = document.getElementById('sidoBox');
 var sigunguBox = document.getElementById('sigunguBox');
@@ -384,23 +385,30 @@ var dongBox = document.getElementById('dongBox');
 
 function changeSelectBox(type) {
     // 시도 카테고리가 클릭됐을 때
-    if (type === 'sido') {
+    if($('.addrlist>ul').hasClass("menu_selected") == true){
+        sidoBox.className = '';
+        sigunguBox.className = '';
+        dongBox.className = '';
+    }else {
+        if (type === 'sido') {
         // 시도 카테고리를 선택된 스타일로 변경하고
         sidoBox.className = 'menu_selected';
         // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
         sigunguBox.className = '';
         dongBox.className = '';
-    } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
-        // 시군구 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = '';
-        sigunguBox.className = 'menu_selected';
-        dongBox.className = '';
-    } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
-        // 행정동 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = '';
-        sigunguBox.className = '';
-        dongBox.className = 'menu_selected';
+        } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
+            // 시군구 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = 'menu_selected';
+            dongBox.className = '';
+        } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
+            // 행정동 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = '';
+            dongBox.className = 'menu_selected';
+        }
     }
+
 }
 
 // 지도 중심을 부드럽게 이동시킵니다
@@ -651,14 +659,14 @@ function displayArea(area) {
             var content='<div class ="regionlabel">' +
                 '<div class="regionbox">' +
                 '<div class="store normal_store">' +
-                "일반점포" +
+                "일반점포 " +
                 normal_store +
                 '</div>' +
                 '<div class="store regionName">' +
                 regionName +
                 '</div>' +
                 '<div class="store fran_store">' +
-                "가맹점포" +
+                "가맹점포 " +
                 fran_store +
                 '</div>' +
                 '</div>' +
@@ -1061,15 +1069,7 @@ function displayArea(area) {
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-        for (var i = 0; i < polygons1.length; i++) {//한겹 폴리곤 레이어 일단지움
-            polygons1[i].setMap(null);
-        }
-        for (var i = 0; i < clickcircles.length; i++) {// 클릭-지역정보 동그라미 일단지움
-            clickcircles[i].setMap(null);
-        }
-        for (var i = 0; i < clickcInfoWins.length; i++) {// 클릭-지역커스텀인포 일단지움
-            clickcInfoWins[i].setMap(null);
-        }
+        closeOverlay()//클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
 
         if (zoom < 8) {//맵크기 8이하  : 클릭-커스텀인포(행정동별 정보) 추가
             var clickcircle = new kakao.maps.CustomOverlay({
@@ -1087,7 +1087,6 @@ function displayArea(area) {
             });
             clickcInfoWins.push(clickcInfoWin);
             clickcInfoWin.setMap(map);
-
         }
 
 
@@ -1143,22 +1142,29 @@ function displayArea(area) {
                 //클릭시 위에 한겹 폴리곤 레이어 추가 + 사이드바
                 if (codeType3 === '1') {
                     sideInfoStore(area,total)
-
                     // $('.tab_title>p>span').text( total);
                     // for (var i = 0; i < result.length; i++) {
                     // }
                 } else if (codeType3 === '2') {
-                    $('.tab_title>p>span').text( total);
+                  //  $('.tab_title>p>span').text( total);
+                    sideInfoPopul(area, total_comma)
                 } else if (codeType3 === '3') {
-                    $('.tab_title>p>span').text( total);
+                    sideInfoRental(area, total_comma)
+                    // $('.tab_title>p>span').text( total);
                 }
             }
-
         });
     });
     polygon.setMap(map);
     polygons.push(polygon);
 }
+
+//탭바뀌면 사이드바+그래프마커윈도우 닫음
+$('input[name="cate2"]').click(function () {
+    closeOverlay()
+})
+
+
 //클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
 function closeOverlay() {
     for (var i = 0; i < polygons1.length; i++) {//한겹 폴리곤 레이어 일단지움
@@ -1170,10 +1176,6 @@ function closeOverlay() {
     for (var i = 0; i < clickcInfoWins.length; i++) {// 클릭-지역커스텀인포 일단지움
         clickcInfoWins[i].setMap(null);
     }
-    document.getElementById("sidebar").style.display = "none";
-}
-//오버레이닫음
-function closeOverlay() {
     $('#sidebar').removeClass('visible');
 }
 
@@ -1196,17 +1198,21 @@ function sideInfoStore(area,total) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody">' +
             '<div class="sideinfo_fixed">' +
-            //'<div class="sideCloseBtn closeRegion" onclick="closeOverlay()" title="닫기"></div>' +
-            '<span class="sideinfo_span fixed_inside">' +
-            '</span>' +
-                '<div class="sideinfo_areaname">' +
-                    area.area_name +
-                '</div>' +
+            '<div class="sideinfo">' +
+            '<div class="areatitle iconPlus">' +
+            area.area_name +
             '</div>' +
-            '<div class="sideinfo firstinfo">' +
-            '<h4 class="sideinfoTitle">상점수</h4>' +
+            '</div>' +
+            '</div>' +
+            '<div class="margintop"></div>'+
+
+            '<div class="sideinfo">' +
+            '<h4 class="sideinfoTitle">상점수</h4>'+
+            '<div class="storegray iconPlus">' +
             '총 '+total + '개 점포'+
             '</div>' +
+            '</div>' +
+
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">업종별 상점수</h4>' +
                 '<div class="mainSectors_wrap">'+
@@ -1249,139 +1255,127 @@ function sideInfoStore(area,total) {
                         '</li>'+
                     '</ul>'+
                 '</div>'+
-            '<div class="sidegraph">' +
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '총 '+total + '개 점포'+
-            '</div>' +
+            '<div class="side_graph">' +
+            '사이드그래프'+
+            '<canvas></canvas>'+
+            '</div>'+
             '</div>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        if (window.innerWidth < 767) {
+            $('#sidebody').addClass('visible_none');
+            $('#sidebar').addClass('on');
+        }
     }
 }
 //인구수탭 사이드바 인포
-function sideInfoPopul(area, ) {
+function sideInfoPopul(area, total) {
     $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
-            '<div id="sidebody" class="sidebody_area">' +
-            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
+            '<div id="sidebody">' +
+            '<div class="sideinfo_fixed">' +
             '<div class="sideinfo">' +
-            area.area_name + ' ' + area.area_title +
+            '<div class="areatitle iconPlus">' +
+            area.area_name +
             '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="margintop"></div>'+
+
+            '<div class="sideinfo float">' +
+            '<h4 class="sideinfoTitle">인구수</h4>'+
+            '<div class="storegray iconPlus">' +
+            '총 '+total + '명'+
+            '</div>' +
+            '</div>' +
+
+            '<div class="sideinfo float">' +
+            '<h4 class="sideinfoTitle">면적</h4>'+
+            '<div class="storegray iconPlus">' +
+            '총 '+total + '㎢'+
+            '</div>' +
+            '</div>' +
+
+            '<div class="sideinfo float">' +
+            '<h4 class="sideinfoTitle">인구밀도</h4>'+
+            '<div class="storegray iconPlus">' +
+            '총 '+total + '인/㎢'+
+            '</div>' +
+            '</div>' +
+
+            '<div class="greyspan"></div>'+
+
             '<div class="sideinfo">' +
-            '상점수 ' + stores +
+            '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>'+
+            '<div class="storegray iconPlus">' +
+            '20대 30대 40대 50대 60대'+
             '</div>' +
+            '<div class="side_graph">' +
+            '<canvas></canvas>'+
+            '</div>'+
+            '</div>' +
+
             '<div class="sideinfo">' +
-            '개폐업수 개업점포수' + open + '폐업점포수' + close +
+            '<h4 class="sideinfoTitle">가구원수별 가구수</h4>'+
+                '<div class="storegray iconPlus">' +
+                '1인가구 2인가구 3인가구 4인가구 5인가구이상'+
+                '</div>' +
+            '<div class="side_graph">' +
+            '<canvas></canvas>'+
+            '</div>'+
             '</div>' +
-            '<div class="sideinfo">' +
-            '추정매출 매출이 가장 큰시간' + detail.picktime + '매출액' + sales +
+
+                '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
             '</div>' +
-            '<div class="sideinfo">' +
-            '생활인구' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '상존인구 길단위' + detail.st_popul + '건물단위' + detail.bd_popul +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '인구 유형별 비중 주거인구 ? ' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '소비유형' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '아파트 상권 단지수' + detail.ct_apt_com + ' 세대수' + detail.ct_apt_hou +
-            '아파트 배후지 단지수' + detail.ct_napt_com + ' 세대수' + detail.ct_napt_hou +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '아파트' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-            '<div class="issue">' +
-            '<span>로그인이 필요합니다.</span>' +
-            '<a>로그인/회원가입 하러가기</a>' +
-            '</div>' +
-            "</div>" +
-            '<button class="analysisBtn">상권활성화 예측지수</button>' +
-            '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        if (window.innerWidth < 767) {
+            $('#sidebody').addClass('visible_none');
+            $('#sidebar').addClass('on');
+        }
     }
 }
 //(주요이슈)임대시세탭 사이드바 인포
-function sideInfoRental(area) {
+function sideInfoRental(area, total) {
     $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
-            '<div id="sidebody" class="sidebody_area">' +
-            '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
+            '<div id="sidebody">' +
+            '<div class="sideinfo_fixed">' +
             '<div class="sideinfo">' +
-            area.area_name + ' ' + area.area_title +
+            '<div class="areatitle iconPlus">' +
+                area.area_name +
             '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="margintop"></div>'+
+
             '<div class="sideinfo">' +
-            '상점수 ' + stores +
+            '<h4 class="sideinfoTitle">분기별 임대시세</h4>'+
+            '<div class="storegray iconPlus">' +
+            '2017년1분기 ~ 2021년4분기'+
             '</div>' +
+            '<div class="side_graph">' +
+            '<canvas></canvas>'+
+            '</div>'+
+            '</div>' +
+
             '<div class="sideinfo">' +
-            '개폐업수 개업점포수' + open + '폐업점포수' + close +
+            '<h4 class="sideinfoTitle">SNS 검색어</h4>'+
+            '<div class="storegray iconPlus">' +
+            'Sometrend api'+
             '</div>' +
-            '<div class="sideinfo">' +
-            '추정매출 매출이 가장 큰시간' + detail.picktime + '매출액' + sales +
+            '<div class="side_graph">' +
+            '<canvas></canvas>'+
+            '</div>'+
             '</div>' +
-            '<div class="sideinfo">' +
-            '생활인구' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '상존인구 길단위' + detail.st_popul + '건물단위' + detail.bd_popul +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '인구 유형별 비중 주거인구 ? ' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '소비유형' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '아파트 상권 단지수' + detail.ct_apt_com + ' 세대수' + detail.ct_apt_hou +
-            '아파트 배후지 단지수' + detail.ct_napt_com + ' 세대수' + detail.ct_napt_hou +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '아파트' +
-            '</div>' +
-            '<div class="sideinfo">' +
-            '<h4 class="sideinfoTitle">최근 이슈</h4>' +
-            '<div class="issue">' +
-            '<span>로그인이 필요합니다.</span>' +
-            '<a>로그인/회원가입 하러가기</a>' +
-            '</div>' +
-            "</div>" +
-            '<button class="analysisBtn">상권활성화 예측지수</button>' +
+
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        if (window.innerWidth < 767) {
+            $('#sidebody').addClass('visible_none');
+            $('#sidebar').addClass('on');
+        }
     }
 }
 
