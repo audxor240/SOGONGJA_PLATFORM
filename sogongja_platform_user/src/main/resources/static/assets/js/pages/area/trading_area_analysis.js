@@ -789,11 +789,11 @@ function sideInfo(area, detail) {
                 '</ul>'+
                 '<div id="areatab_1" class="areatab-content current">'+
                 '<select name="chartYear" id="chartYear" onChange="updateChartType()">'+
-                    '<option value="2021">2021</option>'+
-                    '<option value="2020">2020</option>'+
-                    '<option value="2019">2019</option>'+
-                    '<option value="2018">2018</option>'+
-                    '<option value="2017">2017</option>'+
+                    '<option value="2021">2021년</option>'+
+                    '<option value="2020">2020년</option>'+
+                    '<option value="2019">2019년</option>'+
+                    '<option value="2018">2018년</option>'+
+                    '<option value="2017">2017년</option>'+
                 '</select>'+
                     '<div class="side_graph stabilization_quarter short">' +
                         '<canvas id="stabilization_quarter"></canvas>'+
@@ -825,6 +825,7 @@ function sideInfo(area, detail) {
         //생활인구- 남녀성비 파이그래프
         genderRatio(detail.m_popul,detail.f_popul)
 
+
         //생활인구 바 그래프
         weekdaydata10.push(detail.age_10_d_1,detail.age_10_d_2,detail.age_10_d_3,detail.age_10_d_4,detail.age_10_d_5,detail.age_10_d_6)
         weekenddata10.push(detail.age_10_w_1,detail.age_10_w_2,detail.age_10_w_3,detail.age_10_w_4,detail.age_10_w_5,detail.age_10_w_6)
@@ -849,57 +850,33 @@ function sideInfo(area, detail) {
         //상권안정화 분기별-라인그래프
         var graph= detail.graph
 
-        var quarter2021 =[];
-        var quarter2020 =[];
-        var quarter2019 =[];
-        var quarter2018 =[];
-        var quarter2017 =[];
         for (var i = 0; i < graph.length; i++) {
             var year = graph[i].year;
             if (year == 2021) {
                 var quarter = [];
-                quarter.push(graph[i])
-                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
-
-                for (var i = 0; i < quarter.length; i++) {
-                    quarter2021.push(quarter[i].idx_stb_area);
-                }
+                quarter2021.push(graph[i])
+                quarter2021 = quarter2021.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2020){
                 var quarter = [];
-                quarter.push(graph[i])
-                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
-
-                for (var i = 0; i < quarter.length; i++) {
-                    quarter2021.push(quarter[i].idx_stb_area);
-                }
+                quarter2020.push(graph[i])
+                quarter2020 = quarter2020.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2019){
                 var quarter = [];
-                quarter.push(graph[i])
-                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
-
-                for (var i = 0; i < quarter.length; i++) {
-                    quarter2021.push(quarter[i].idx_stb_area);
-                }
+                quarter2019.push(graph[i])
+                quarter2019 = quarter2019.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2018){
                 var quarter = [];
-                quarter.push(graph[i])
-                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
-
-                for (var i = 0; i < quarter.length; i++) {
-                    quarter2021.push(quarter[i].idx_stb_area);
-                }
+                quarter2018.push(graph[i])
+                quarter2018 = quarter2018.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2017){
                 var quarter = [];
-                quarter.push(graph[i])
-                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
-
-                for (var i = 0; i < quarter.length; i++) {
-                    quarter2021.push(quarter[i].idx_stb_area);
-                }
+                quarter2017.push(graph[i])
+                quarter2017 = quarter2017.sort((a, b) => a.qrt - b.qrt);
             }
         }
-        console.log("분기별 그래프 소트", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
-        chartQuarter(quarter2021)
+        console.log("분기별 그래프 소트33", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
+        console.log("생활인구33", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
+        updateChartType()
 
         //상권안정화 연도별-라인그래프
         var year2017 = 0;
@@ -948,24 +925,36 @@ var weekenddata60 = [];
 
 function updateChartType(){
     console.log("셀렉변경")
+    console.log("분기별 그래프 소트", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
+    console.log("생활인구", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
     $('#stabilization_quarter').remove();//있던 차트 지우고
     $('.stabilization_quarter').append('<canvas id="stabilization_quarter"><canvas>');//차트id추가
 
     var year = $('select[name="chartYear"]').val()
     console.log(year)
-
+    var data=[]
     if (year == 2021) {
-        chartQuarter(quarter2021)
+        for (var i = 0; i < quarter2021.length; i++) {
+            data.push(quarter2021[i].idx_stb_area)
+        }
     } else if (year == 2020) {
-        chartQuarter(quarter2020)
+        for (var i = 0; i < quarter2020.length; i++) {
+            data.push(quarter2020[i].idx_stb_area)
+        }
     } else if (year == 2019) {
-        chartQuarter(quarter2019)
+        for (var i = 0; i < quarter2019.length; i++) {
+            data.push(quarter2019[i].idx_stb_area)
+        }
     } else if (year == 2018) {
-        chartQuarter(quarter2018)
+        for (var i = 0; i < quarter2018.length; i++) {
+            data.push(quarter2018[i].idx_stb_area)
+        }
     } else if (year == 2017) {
-        chartQuarter(quarter2017)
+        for (var i = 0; i < quarter2017.length; i++) {
+            data.push(quarter2017[i].idx_stb_area)
+        }
     }
-
+    chartQuarter(data)
 }
 
 function agetab() {
@@ -973,7 +962,7 @@ function agetab() {
     $('#livingweekend').remove();//있던 차트 지우고
     $('.living_wd').append('<canvas id="livingweekday"><canvas>');//차트id추가
     $('.living_we').append('<canvas id="livingweekend"><canvas>');//차트id추가
-
+    console.log("생활인구", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
     var value = $('input[name="agetab"]:checked').val();
     //생활인구
     if (value == "10") {
@@ -1000,24 +989,32 @@ function agetab() {
 
 //클릭 1차그래프 오버레이닫음
 function closeOverlay() {
+    weekdaydata10 = [];
+    weekenddata10 = [];
+    weekdaydata20 = [];
+    weekenddata20 = [];
+    weekdaydata30 = [];
+    weekenddata30 = [];
+    weekdaydata40 = [];
+    weekenddata40 = [];
+    weekdaydata50 = [];
+    weekenddata50 = [];
+    weekdaydata60 = [];
+    weekenddata60 = [];
+
+    quarter2021 =[];
+    quarter2020 =[];
+    quarter2019 =[];
+    quarter2018 =[];
+    quarter2017 =[];
+
     for (var i = 0; i < clickmarkers.length; i++) {
         clickmarkers[i].setMap(null);
     }
     $('#sidebar').removeClass('visible');
     $('#sidebody').remove();//사이드 바디 지우고 다시
-    
-    var weekdaydata10 = [];
-    var weekenddata10 = [];
-    var weekdaydata20 = [];
-    var weekenddata20 = [];
-    var weekdaydata30 = [];
-    var weekenddata30 = [];
-    var weekdaydata40 = [];
-    var weekenddata40 = [];
-    var weekdaydata50 = [];
-    var weekenddata50 = [];
-    var weekdaydata60 = [];
-    var weekenddata60 = [];
+
+
 }
 
 //클릭 2차그래프 오버레이닫음

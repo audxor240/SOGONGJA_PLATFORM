@@ -1103,11 +1103,7 @@
   padding-bottom: 8px;
   border-bottom: 1px solid #ddd;
 }
-#sidebar #sidebody .sideinfo .side_graph.living_wd {
-  height: 200px;
-  margin: 8px 0;
-}
-#sidebar #sidebody .sideinfo .side_graph.living_we {
+#sidebar #sidebody .sideinfo .side_graph.short {
   height: 200px;
   margin: 8px 0;
 }
@@ -1188,6 +1184,13 @@
 }
 #sidebar #sidebody .sideinfo .areatab-content {
   display: none;
+}
+#sidebar #sidebody .sideinfo .areatab-content select {
+  border: 1px solid #e2e2e2;
+  height: auto;
+  padding: 6px 12px;
+  background: #fff url(../images/arrow.png) no-repeat 97.5% 50%;
+  line-height: inherit;
 }
 #sidebar #sidebody .sideinfo .areatab-content.current {
   display: block;
