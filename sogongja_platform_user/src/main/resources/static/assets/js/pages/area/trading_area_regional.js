@@ -1069,6 +1069,8 @@ function displayArea(area) {
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
+
+
         closeOverlay()//클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
 
         if (zoom < 8) {//맵크기 8이하  : 클릭-커스텀인포(행정동별 정보) 추가
@@ -1136,20 +1138,22 @@ function displayArea(area) {
             emdCd: area.emd_cd,
             codeType3: codeType3
         }
+        var getarea = (Math.round(polygon.getArea())/1000000).toFixed(2)//면적계산
+
         ajaxPostSyn('/trading-area/regional/details', data, function (result) {
             console.log("이게 데이터 갖고오는거임", result)
             if (result.length > 0) {
                 //클릭시 위에 한겹 폴리곤 레이어 추가 + 사이드바
                 if (codeType3 === '1') {
-                    sideInfoStore(area,total)
+                    sideInfoStore(result,area,total)
                     // $('.tab_title>p>span').text( total);
                     // for (var i = 0; i < result.length; i++) {
                     // }
                 } else if (codeType3 === '2') {
                   //  $('.tab_title>p>span').text( total);
-                    sideInfoPopul(area, total_comma)
+                    sideInfoPopul(result,area, total,getarea)
                 } else if (codeType3 === '3') {
-                    sideInfoRental(area, total_comma)
+                    sideInfoRental(result,area, total)
                     // $('.tab_title>p>span').text( total);
                 }
             }
@@ -1192,7 +1196,7 @@ function sideVisible() {
 }
 
 //상점수탭 사이드바 인포
-function sideInfoStore(area,total) {
+function sideInfoStore(result,area,total) {
     $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML =
@@ -1269,9 +1273,14 @@ function sideInfoStore(area,total) {
     }
 }
 //인구수탭 사이드바 인포
-function sideInfoPopul(area, total) {
+function sideInfoPopul(result,area, total, getarea) {
+    var total_comma = total.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+    var density = Math.round(total / getarea ) ;
+    console.log("Math.round",total,getarea,density)
     $('#sidebar').addClass('visible');
-    if (area) {
+    if (area&&result) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody">' +
             '<div class="sideinfo_fixed">' +
@@ -1286,21 +1295,21 @@ function sideInfoPopul(area, total) {
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">인구수</h4>'+
             '<div class="storegray iconPlus">' +
-            '총 '+total + '명'+
+            '총 '+total_comma + '명'+
             '</div>' +
             '</div>' +
 
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">면적</h4>'+
             '<div class="storegray iconPlus">' +
-            '총 '+total + '㎢'+
+            '총 '+getarea + '㎢'+
             '</div>' +
             '</div>' +
 
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">인구밀도</h4>'+
             '<div class="storegray iconPlus">' +
-            '총 '+total + '인/㎢'+
+            '총 '+density + '인/㎢'+
             '</div>' +
             '</div>' +
 
@@ -1308,12 +1317,9 @@ function sideInfoPopul(area, total) {
 
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>'+
-            '<div class="storegray iconPlus">' +
-            '20대 30대 40대 50대 60대'+
-            '</div>' +
-            '<div class="side_graph">' +
-            '<canvas></canvas>'+
-            '</div>'+
+                '<div class="side_graph">' +
+                    '<canvas id="business"></canvas>'+
+                '</div>'+
             '</div>' +
 
             '<div class="sideinfo">' +
@@ -1333,12 +1339,74 @@ function sideInfoPopul(area, total) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
         }
+        businessRatio(result[0].ct_shop_u20s,result[0].ct_shop_30s,result[0].ct_shop_40s,result[0].ct_shop_50s,result[0].ct_shop_o60s)
     }
 }
+
+//사업체연령대
+function businessRatio(n1,n2,n3,n4,n5){
+    var dataset = {
+        label: "소비유형",
+        backgroundColor: ['#70C14A','#33CC94','#31C3D9','#4983C4','#A25AA1'],//라벨별 컬러설정
+        borderColor: '#fff',
+        data: [n1,n2,n3,n4,n5]
+    }
+    var labels=['20대 이하','30대','40대','50대','60대 이상'];
+    var datasets={ datasets:[dataset], labels:labels }
+    var config = {
+        type: 'pie',
+        data: datasets, //데이터 셋
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
+            legend: {
+                position: 'bottom',
+                fontColor: 'black',
+                align: 'center',
+                display: true,
+                fullWidth: true,
+                labels: {
+                    fontColor: 'rgb(0, 0, 0)'
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var label= labels[tooltipItem.index]
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var currentValue_comma = currentValue.toString()
+                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
+                    }
+                }
+            },
+            plugins: {
+                labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
+                    render: 'value',
+                    fontColor: 'black',
+                    fontSize: 15,
+                    precision: 2
+                }
+
+            }
+        }
+    }
+    var canvas=document.getElementById('business');
+    var business = new Chart(canvas,config);
+}
+
 //(주요이슈)임대시세탭 사이드바 인포
-function sideInfoRental(area, total) {
+function sideInfoRental(result,area, total) {
+    var total_comma = total.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
     $('#sidebar').addClass('visible');
-    if (area) {
+    if (area&&result) {
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody">' +
             '<div class="sideinfo_fixed">' +
