@@ -1074,6 +1074,7 @@
   width: 400px;
   background-color: #fff;
   border-bottom: 1px solid #eee;
+  z-index: 2;
 }
 #sidebar #sidebody .sideinfo_fixed:before {
   content: "";
@@ -1092,6 +1093,13 @@
   background-color: #fff;
   padding: 16px;
   margin-bottom: 8px;
+}
+#sidebar #sidebody .sideinfo select {
+  border: 1px solid #e2e2e2;
+  height: auto;
+  padding: 6px 12px;
+  background: #fff url(../images/arrow.png) no-repeat 97.5% 50%;
+  line-height: inherit;
 }
 #sidebar #sidebody .sideinfo .side_graph {
   height: 300px;
@@ -1184,13 +1192,6 @@
 }
 #sidebar #sidebody .sideinfo .areatab-content {
   display: none;
-}
-#sidebar #sidebody .sideinfo .areatab-content select {
-  border: 1px solid #e2e2e2;
-  height: auto;
-  padding: 6px 12px;
-  background: #fff url(../images/arrow.png) no-repeat 97.5% 50%;
-  line-height: inherit;
 }
 #sidebar #sidebody .sideinfo .areatab-content.current {
   display: block;

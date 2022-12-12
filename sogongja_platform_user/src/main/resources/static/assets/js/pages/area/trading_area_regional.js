@@ -1222,46 +1222,45 @@ function sideInfoStore(result,area,total) {
                 '<div class="mainSectors_wrap">'+
                     '<ul class="mainSectors">'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="all" id="all-sector" onChange="" checked/>'+
-                            '<label For="all-sector">전체</label>'+
+                            '<input type="radio" name="region_maincate" value="all" id="all-region" onChange="changecate()" checked/>'+
+                            '<label For="all-region">전체</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="I" id="I-sector" onChange=""/>'+
-                            '<label For="I-sector">숙박·음식</label>'+
+                            '<input type="radio" name="region_maincate" value="I" id="I-region" onChange="changecate()"/>'+
+                            '<label For="I-region">숙박·음식</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="S" id="S-sector" onChange=""/>'+
-                            '<label For="S-sector">수리·개인서비스</label>'+
+                            '<input type="radio" name="region_maincate" value="S" id="S-region" onChange="changecate()"/>'+
+                            '<label For="S-region">수리·개인서비스</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="G" id="G-sector" onChange=""/>'+
-                            '<label For="G-sector">도·소매</label>'+
+                            '<input type="radio" name="region_maincate" value="G" id="G-region" onChange="changecate()"/>'+
+                            '<label For="G-region">도·소매</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="R" id="R-sector" onChange=""/>'+
-                            '<label For="R-sector">예술·스포츠·여가</label>'+
+                            '<input type="radio" name="region_maincate" value="R" id="R-region" onChange="changecate()"/>'+
+                            '<label For="R-region">예술·스포츠·여가</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="N" id="N-sector" onChange=""/>'+
-                            '<label For="N-sector">시설관리·임대</label>'+
+                            '<input type="radio" name="region_maincate" value="N" id="N-region" onChange="changecate()"/>'+
+                            '<label For="N-region">시설관리·임대</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="M" id="M-sector" onChange=""/>'+
-                            '<label For="M-sector">과학·기술</label>'+
+                            '<input type="radio" name="region_maincate" value="M" id="M-region" onChange="changecate()"/>'+
+                            '<label For="M-region">과학·기술</label>'+
                         "</li>"+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="L" id="L-sector" onChange=""/>'+
-                            '<label For="L-sector">부동산</label>'+
+                            '<input type="radio" name="region_maincate" value="L" id="L-region" onChange="changecate()"/>'+
+                            '<label For="L-region">부동산</label>'+
                         '</li>'+
                         '<li>'+
-                            '<input type="radio" name="area_maincate" value="P" id="P-sector" onChange=""/>'+
-                            '<label For="P-sector">교육</label>'+
+                            '<input type="radio" name="region_maincate" value="P" id="P-region" onChange="changecate()"/>'+
+                            '<label For="P-region">교육</label>'+
                         '</li>'+
                     '</ul>'+
                 '</div>'+
-            '<div class="side_graph">' +
-            '사이드그래프'+
-            '<canvas></canvas>'+
+            '<div class="side_graph industry">' +
+                '<canvas id="industry"></canvas>'+
             '</div>'+
             '</div>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
@@ -1270,8 +1269,203 @@ function sideInfoStore(result,area,total) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
         }
+        var storesI = 0;//숙박음식 상점수
+        var storesS = 0;//수리개인 상점수
+        var storesG = 0;//도소매 상점수
+        var storesR = 0;//예술스포츠 상점수
+        var storesN = 0;//시설임대 상점수
+        var storesM = 0;//과학기술 상점수
+        var storesL = 0;//부동산 상점수
+        var storesP = 0;//교육 상점수
+
+       all=[]
+        I=[]
+        S=[]
+        G=[]
+        R=[]
+        N=[]
+        M=[]
+        L=[]
+        P=[]
+
+        for (var i = 0; i < result.length; i++) {
+            if(result[i].division1=='I'){
+                storesI += result[i].ct_shop;
+                I.push(result[i].ct_shop)
+            }else if(result[i].division1=='S'){
+                storesS += result[i].ct_shop;
+                S.push(result[i].ct_shop)
+            }else if(result[i].division1=='G'){
+                storesG += result[i].ct_shop;
+                G.push(result[i].ct_shop)
+            }else if(result[i].division1=='R'){
+                storesR += result[i].ct_shop;
+                R.push(result[i].ct_shop)
+            }else if(result[i].division1=='N'){
+                storesN += result[i].ct_shop;
+                N.push(result[i].ct_shop)
+            }else if(result[i].division1=='M'){
+                storesM += result[i].ct_shop;
+                M.push(result[i].ct_shop)
+            }else if(result[i].division1=='L'){
+                storesL += result[i].ct_shop;
+                L.push(result[i].ct_shop)
+            }else if(result[i].division1=='P'){
+                storesP += result[i].ct_shop;
+                P.push(result[i].ct_shop)
+            }
+        }
+        all=[storesI,storesS,storesG,storesR,storesN,storesM,storesL,storesP]
+        industryRatioAll(all)
     }
 }
+var all=[]
+var I=[]
+var S=[]
+var G=[]
+var R=[]
+var N=[]
+var M=[]
+var L=[]
+var P=[]
+//상점수업종별 - 전체업종 파이그래프
+function industryRatioAll(data){
+    var dataset = {
+        label: "업종별 상점수",
+        backgroundColor: ['#70C14A','#33CC94','#31C3D9','#4983C4','#A25AA1','#DD4C79','#EE5545','#F28728'],//라벨별 컬러설정
+        borderColor: '#fff',
+        data: data
+    }
+    var labels=['숙박·음식','수리·개인서비스','도·소매','예술·스포츠·여가','시설관리·임대','과학·기술','부동산','교육'];
+    var datasets = { datasets:[dataset], labels:labels };
+    var config = {
+        type: 'pie',
+        data: datasets, //데이터 셋
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
+            legend: {
+                position: 'bottom',
+                fontColor: 'black',
+                align: 'center',
+                display: true,
+                fullWidth: true,
+                labels: {
+                    fontColor: 'rgb(0, 0, 0)'
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var label= labels[tooltipItem.index]
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var currentValue_comma = currentValue.toString()
+                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
+                    }
+                }
+            },
+            plugins: {
+                labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
+                    render: 'value',
+                    fontColor: 'black',
+                    fontSize: 15,
+                    precision: 2
+                }
+
+            },
+        }
+    }
+    var canvas=document.getElementById('industry');
+    var industry = new Chart(canvas,config);
+}
+
+
+function industryRatio(color){
+    console.log("dksehl?",color)
+    var barColors = color.map((value) =>
+        value > 1000 ? 'rgba(0, 0, 0, 0.1)' :
+            value > 100 ? 'rgba(0, 0, 0, 0.15)' :
+                value > 50 ? 'rgba(0, 0, 0, 0.2)' :
+                    value > 20 ? 'rgba(0, 0, 0, 0.25)' :
+                        value > 10 ? 'rgba(0, 0, 0, 0.3)' :
+                            value > 5 ? 'rgba(0, 0, 0, 0.4)' :
+                                value > 3 ? 'rgba(0, 0, 0, 0.5)' :
+                                    value > 1 ? 'rgba(0, 0, 0, 0.6)' :
+                                        'rgba(0, 0, 0, 0.7)');
+    new Chart("industry", {
+        type: "pie",
+        data: {
+            //labels: datashop.com_nm,
+            datasets: [{
+                backgroundColor: barColors,
+                borderWidth: 0.4,
+                data: color,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
+            parsing: {
+                xAxisKey: 'color'
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return precentage + "% "+ currentValue + "개" ;
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+
+function changecate(){
+    var maincate = $('input[name="region_maincate"]:checked').val() //대분류
+    $('#industry').remove();//있던 차트 지우고
+    $('.industry').append('<canvas id="industry"><canvas>');//차트id추가
+    if(maincate=='all'){
+        industryRatioAll(all)
+        console.log("체인지 대분류all",all)
+    }else if(maincate=='I'){
+        industryRatio(I)
+        console.log("체인지 대분류I",I)
+    }else if(maincate=='S'){
+        industryRatio(S)
+        console.log("체인지 대분류S",S)
+    }else if(maincate=='G'){
+        industryRatio(G)
+    }else if(maincate=='R'){
+        industryRatio(R)
+    }else if(maincate=='N'){
+        industryRatio(N)
+        console.log("체인지 대분류N",N)
+    }else if(maincate=='M'){
+        industryRatio(M)
+    }else if(maincate=='L'){
+        industryRatio(L)
+    }else if(maincate=='P'){
+        industryRatio(P)
+    }
+}
+
+
 //인구수탭 사이드바 인포
 function sideInfoPopul(result,area, total, getarea) {
     var total_comma = total.toString()
@@ -1420,12 +1614,16 @@ function sideInfoRental(result,area, total) {
 
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">분기별 임대시세</h4>'+
-            '<div class="storegray iconPlus">' +
-            '2017년1분기 ~ 2021년4분기'+
-            '</div>' +
-            '<div class="side_graph">' +
-            '<canvas></canvas>'+
-            '</div>'+
+            '<select name="chartYear" id="chartYear" onChange="updateChartType()">'+
+            '<option value="2021">2021년</option>'+
+            '<option value="2020">2020년</option>'+
+            '<option value="2019">2019년</option>'+
+            '<option value="2018">2018년</option>'+
+            '<option value="2017">2017년</option>'+
+            '</select>'+
+                '<div class="side_graph short speedChart">' +
+                '<canvas id="speedChart"></canvas>'+
+                '</div>'+
             '</div>' +
 
             '<div class="sideinfo">' +
@@ -1444,9 +1642,110 @@ function sideInfoRental(result,area, total) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
         }
+        data20171f = [];
+        data20181f = [];
+        data20191f = [];
+        data20201f = [];
+        data20211f = [];
+        data2017other = [];
+        data2018other = [];
+        data2019other = [];
+        data2020other = [];
+        data2021other = [];
+
+        for (var i = 0; i < result.length; i++) {
+            var year = result[i].year
+            if (year == 2017) {
+                data20171f.push(result[i].rt_1f)
+                data2017other.push(result[i].rt_other)
+            } else if (year == 2018) {
+                data20181f.push(result[i].rt_1f)
+                data2018other.push(result[i].rt_other)
+            } else if (year == 2019) {
+                data20181f.push(result[i].rt_1f)
+                data2018other.push(result[i].rt_other)
+            } else if (year == 2020) {
+                data20181f.push(result[i].rt_1f)
+                data2018other.push(result[i].rt_other)
+            } else if (year == 2021) {
+                data20181f.push(result[i].rt_1f)
+                data2018other.push(result[i].rt_other)
+            }
+        }
+        console.log("1층외배열",data20171f, data2017other,data20181f, data2018other)
+        multichart(data20171f,data2017other)
     }
 }
+var data20171f = [];
+var data20181f = [];
+var data20191f = [];
+var data20201f = [];
+var data20211f = [];
+var data2017other = [];
+var data2018other = [];
+var data2019other = [];
+var data2020other = [];
+var data2021other = [];
 
+function updateChartType(){
+    console.log("1층외배열",data20171f, data2017other)
+      $('#speedChart').remove();//있던 차트 지우고
+    $('.speedChart').append('<canvas id="speedChart"><canvas>');//차트id추가
+
+    var year = $('select[name="chartYear"]').val()
+    console.log(year)
+
+    if (year == 2021) {
+        multichart(data20171f,data2017other)
+    } else if (year == 2020) {
+        multichart(data20181f,data2018other)
+    } else if (year == 2019) {
+        multichart(data20191f,data2019other)
+    } else if (year == 2018) {
+        multichart(data20201f,data2020other)
+    } else if (year == 2017) {
+        multichart(data20211f,data2021other)
+    }
+
+}
+
+function multichart(data1,data2){
+    var speedCanvas = document.getElementById("speedChart");
+    var dataFirst = {
+        label: "임대시세 1층",
+        data: data1,
+        lineTension: 0,
+        fill: false,
+        borderColor: '#1540bf'
+    };
+    var dataSecond = {
+        label: "임대시세 1층 외",
+        data: data2,
+        lineTension: 0,
+        fill: false,
+        borderColor: '#709bff'
+    };
+    var speedData = {
+        labels: ["1분기", "2분기", "3분기", "4분기"],
+        datasets: [dataFirst, dataSecond]
+    };
+    var chartOptions = {
+        legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+                boxWidth: 40,
+                backgroundColor: '#94b4ff',
+                fontColor: 'black'
+            }
+        }
+    };
+    var lineChart = new Chart(speedCanvas, {
+        type: 'line',
+        data: speedData,
+        options: chartOptions
+    });
+}
 
 
 

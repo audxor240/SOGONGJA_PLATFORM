@@ -6,12 +6,13 @@
   <title>소공자플랫폼 지역연구소</title>
   <meta property="og:url" content="">
   <meta property="og:title" content="소공자 플랫폼 | 지역연구소">
-  <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+  <meta property="og:image" th:content="@{/images/bg-maintext.png}">
   <meta property="og:description" content="소공자 플랫폼 지역연구소">
   <meta name="keywords" content="소공자 플랫폼, 상권연구소, 상권분석정보, 상권특성정보, 지역특성정보">
   <meta name="description" content="소공자 플랫폼 지역연구소">
   <!--/* Common css */-->
   <th:block th:include="fragments/common_css"></th:block>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 <body class="area">
 <div class="displaynone" style="position:absolute;">
@@ -246,10 +247,11 @@
   console.log("regionStandard",regionStandard,"areaJson",areaJson)
 </script>
 <script th:src="@{/js/pages/area/area_function.js}"></script>
-<script th:src="@{/js/pages/area/chart.js}"></script>
-<script th:src="@{/js/pages/area/chart_list.js}"></script>
-<script th:src="@{/js/pages/area/trading_area_common.js}"></script>
+<!--<script th:src="@{/js/pages/area/chart.js}"></script>-->
+<!--<script th:src="@{/js/pages/area/chart_list.js}"></script>-->
+<!--<script th:src="@{/js/pages/area/trading_area_common.js}"></script>-->
 <script th:src="@{/js/pages/area/trading_area_regional.js}"></script>
+
 </body>
 
 </html>
