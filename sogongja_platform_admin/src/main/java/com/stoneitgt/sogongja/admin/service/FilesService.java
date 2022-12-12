@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import com.jcraft.jsch.*;
 import com.stoneitgt.sogongja.domain.BoardSetting;
@@ -31,6 +32,11 @@ public class FilesService {
 	String host;
 	@Value("${storage.port}")
 	int port;
+
+	static ChannelSftp channelSftp = null;
+	static Session session = null;
+	static Channel channel = null;
+	static ChannelSftp sftp = null;
 
 	@Autowired
 	private SystemProperties systemProperties;
@@ -128,13 +134,22 @@ public class FilesService {
 
 
 	public void deleteDirFile(BoardSetting boardSetting) throws JSchException {
-		String path = systemProperties.getUploadFilePath()+"/"+boardSetting.getFileDirectoryName(); // 경로
-		System.out.println("path >>>> "+path);
+		//String path = systemProperties.getUploadFilePath()+"/"+boardSetting.getFileDirectoryName(); // 경로
+		//String path = "/home/sogongja/sogongja-master/upload";
+		String rm_dir_path = systemProperties.getUploadFilePath()+"/"+boardSetting.getFileDirectoryName();
+		System.out.println("rm_dir_path >>>>::::::::::  "+rm_dir_path);
 		ChannelSftp sftp = connect();
+
 		try {
-			sftp.cd(path);
-			sftp.rmdir(path);
+			//sftp.cd(path);
+			//sftp.mkdir("test444");
+			//sftp.rm(path);
+			//sftp.rmdir(path);
+			//sftp.rmdir(boardSetting.getFileDirectoryName());
+			recursiveFolderDelete(rm_dir_path);	//하위 디렉토리및 파일을 삭제하고 최상위 디렉토리를 삭제해준다.
 		} catch (SftpException e) {
+			System.out.println("e.getMessage() >>> "+e.getMessage());
+			System.out.println("e.getLocalizedMessage() >>> "+e.getLocalizedMessage());
 			System.out.println("---------------------------- deleteDir Error ----------------------------");
 		} finally {
 			disconnect(sftp.getSession(), sftp);
@@ -143,19 +158,26 @@ public class FilesService {
 
 
 	private ChannelSftp connect() {
-		Session session = null;
-		Channel channel = null;
-		ChannelSftp sftp = null;
 
+		/*System.out.println("username :: "+username);
+		System.out.println("host :: "+host);
+		System.out.println("port :: "+port);
+		System.out.println("password :: "+password);*/
 		try {
 			//JSch 객체를 생성
 			JSch jsch = new JSch();
+
 			session = jsch.getSession(username, host, port);
 			//session = jsch.getSession("root", "121.254.171.155", 2202);
+			//session = jsch.getSession("root", "3.39.158.103", 22);
+			//session = jsch.getSession("root", "localhost", 22);
+
+			//jsch.addIdentity("/home/sogongja/.ssh/authorized_keys");	//key-file을 읽는다(키파일 접속시 사용)
 
 			//패스워드 설정
-			session.setPassword(password);
+			//session.setPassword(password);
 			//session.setPassword("thvmxmfoqtm@))*");
+			session.setPassword(password);
 
 			//기타 설정 적용
 			java.util.Properties config = new java.util.Properties();
@@ -167,19 +189,20 @@ public class FilesService {
 
 			//sftp 채널 열기
 			//channel = session.openChannel("sftp");
-			channel = session.openChannel("ssh");
+			channel = session.openChannel("sftp");
 
 			//sft 채널 연결
-			sftp = (ChannelSftp) channel;
-			sftp.connect();
+			channelSftp = (ChannelSftp) channel;
+			channelSftp.connect();
 
-
+			System.out.println("SUCCESS!!!");
 		} catch (JSchException e) {
 			e.printStackTrace();
+			System.out.println("Error...");
 			disconnect(session, channel);
 		}
 
-		return sftp;
+		return channelSftp;
 	}
 
 	private void disconnect(Session session, Channel channel) {
@@ -245,5 +268,32 @@ public class FilesService {
 		}
 
 		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static void recursiveFolderDelete(String path) throws SftpException {
+		System.out.println("recursiveFolderDelete--------------------START-------------------");
+		System.out.println("path :::::: "+path);
+		//channelSftp.cd(path); // Change Directory on SFTP Server
+		System.out.println("CHECK================================== 1 ");
+		// List source directory structure.
+		Vector<ChannelSftp.LsEntry> fileAndFolderList = channelSftp.ls(path);
+
+		// Iterate objects in the list to get file/folder names.
+		for (ChannelSftp.LsEntry item : fileAndFolderList) {
+			// If it is a file (not a directory).
+			if (!item.getAttrs().isDir()) {
+				channelSftp.rm(path + "/" + item.getFilename()); // Remove file.
+			} else if (!(".".equals(item.getFilename()) || "..".equals(item.getFilename()))) { // If it is a subdir.
+				try {
+					// removing sub directory.
+					channelSftp.rmdir(path + "/" + item.getFilename());
+				} catch (Exception e) { // If subdir is not empty and error occurs.
+					// Do lsFolderRemove on this subdir to enter it and clear its contents.
+					recursiveFolderDelete(path + "/" + item.getFilename());
+				}
+			}
+		}
+		channelSftp.rmdir(path); // delete the parent directory after empty
 	}
 }
