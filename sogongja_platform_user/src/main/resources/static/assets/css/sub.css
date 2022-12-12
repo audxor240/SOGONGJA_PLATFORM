@@ -2170,6 +2170,12 @@
   overflow-y: auto;
   border-top: 1px solid #e2e2e2;
 }
+.signup_info .stage_01 ul li .check_text_in {
+  background: #fff;
+  padding-left: 0.875rem;
+  color: #666;
+  font-size: 0.875rem;
+}
 .signup_info .stage_01 .stage_all_agree {
   margin-top: 3.6875rem;
   border-top: 1px solid #e2e2e2;
