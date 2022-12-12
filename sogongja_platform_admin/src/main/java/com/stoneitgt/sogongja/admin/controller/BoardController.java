@@ -320,9 +320,9 @@ public class BoardController extends BaseController {
 
 		String returnUrl = "";
 		if(BOARD_TYPE.COMMUNITY.equals(board.getBoardType())){
-			returnUrl = "redirect:/board/type/" + board.getBoardType() + "?";
+			returnUrl = "redirect:"+appProperties.getHost()+"/board/type/" + board.getBoardType() + "?";
 		}else{
-			returnUrl = "redirect:/board/" + board.getBoardSettingSeq() + "?";
+			returnUrl = "redirect:"+appProperties.getHost()+"/board/settingList/" + board.getBoardSettingSeq() + "?";
 		}
 
 
