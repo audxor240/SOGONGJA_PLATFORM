@@ -90,11 +90,16 @@ logging:
     org:
       thymeleaf: off
 
+#storage:
+#  username: root
+#  password: thvmxmfoqtm@))*
+#  host: 127.0.0.1
+#  port: 2202
 storage:
-  username: root
-  password: thvmxmfoqtm@))*
-  host: 127.0.0.1
-  port: 2202
+  username: sogongja
+  password: thrhdwk5834#
+  host: 3.39.158.103
+  port: 21
 
 app:
   host: http://localhost:2081
@@ -193,5 +198,5 @@ app:
 storage:
   username: root
   password: thrhdwk5834#
-  host: 3.39.158.103
+  host: localhost
   port: 22
