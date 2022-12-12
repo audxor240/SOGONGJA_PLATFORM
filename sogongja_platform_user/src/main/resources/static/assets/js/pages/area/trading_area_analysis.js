@@ -715,13 +715,13 @@ function sideInfo(area, detail) {
                 '<div class="storegray iconPlus">' +
                 '길 단위 ' +
                 '<span class="distance">' +
-            st_popul_comma  +'명'+
+                    st_popul_comma  +'명'+
                 '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
                 '건물 단위 ' +
                 '<span class="distance">' +
-            bd_popul_comma +'명'+
+                    bd_popul_comma +'명'+
                 '</span>' +
                 '</div>' +
             '</div>' +
