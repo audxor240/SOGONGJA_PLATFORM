@@ -9728,5 +9728,5 @@
         TimeSeriesScale: fa
     });
     return an.register(Cn, ga, Jn, No), an.helpers = {...Hi
-    }, an._adapters = dn, an.Animation = ls, an.Animations = cs, an.animator = a, an.controllers = zs.controllers.items, an.DatasetController = ws, an.Element = Ms, an.elements = Jn, an.Interaction = Te, an.layouts = ei, an.platforms = os, an.Scale = Es, an.Ticks = Ss, Object.assign(an, Cn, ga, Jn, No, os), an.Chart = an, "undefined" != typeof window && (window.Chart = an), an
+    }, an._adapters = dn, an.Animation = ls, an.Animations = cs, an.animator = a, an.controllers = zs.controllers.items, an.DatasetController = ws, an.Element = Ms, an.elements = Jn, an.Interaction = Te, an.layouts = ei, an.platforms = os, an.Scale = Es, an.Ticks = Ss, Object.assign(an, Cn, ga, Jn, No, os), an.Chart = an, "undefined" != typeof window && (window.weekendChart = an), an
 }));

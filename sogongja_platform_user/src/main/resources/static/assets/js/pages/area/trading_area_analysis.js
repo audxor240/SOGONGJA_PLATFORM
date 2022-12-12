@@ -538,8 +538,10 @@ function displayPath(polygon, area, i) {
     // 마커와 검색결과 항목을 호버, 호버아웃, 클릭 했을 때
     // 장소정보를 표출하도록 이벤트를 등록합니다
     (function sdf(polygon, area) {
+
         //클릭 시 마커인포+사이드바 보이고, 지도중심으로 이동
         kakao.maps.event.addListener(polygon, "click", function () {
+            closeOverlay()//사이드바 + 마커 일단지워
             if (isAuthenticated) {
                 areaInClick(area)//그래프마커윈도우는 로긴시에만 보임
             }
@@ -590,6 +592,15 @@ function sideInfo(area, detail) {
         close += info2[i].close;
         sales += info2[i].sales;
     }
+    var sales_comma = sales.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    var liv_popul_comma = detail.liv_popul.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    var st_popul_comma = detail.st_popul.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    var bd_popul_comma = detail.bd_popul.toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
 
     if(detail.r_popul > detail.w_popul){
         var compare = ">";
@@ -644,7 +655,7 @@ function sideInfo(area, detail) {
                 '<div class="storegray iconPlus">' +
                 '매출액 ' +
                 '<span class="distance">' +
-                sales + '원'+
+                    sales_comma + '원'+
                 '</span>' +
                 '</div>' +
             '</div>' +
@@ -653,7 +664,7 @@ function sideInfo(area, detail) {
             '<div class="storegray iconPlus">' +
             '총 생활인구수 ' +
             '<span class="distance">' +
-            detail.liv_popul +'명'+
+            liv_popul_comma +'명'+
             '</span>' +
             '</div>' +
                 '<div class="side_graph gender">' +
@@ -689,13 +700,13 @@ function sideInfo(area, detail) {
             '<div class="storegray iconPlus">' +
             '주중 시간대별 생활인구수' +
             '</div>' +
-                '<div class="side_graph living_wd">' +
+                '<div class="side_graph living_wd short">' +
                     '<canvas id="livingweekday"></canvas>'+
                 '</div>'+
             '<div class="storegray iconPlus">' +
             '주말 시간대별 생활인구수' +
             '</div>' +
-                '<div class="side_graph living_we">' +
+                '<div class="side_graph living_we short">' +
                     '<canvas id="livingweekend"></canvas>'+
                 '</div>'+
             '</div>' +
@@ -704,13 +715,13 @@ function sideInfo(area, detail) {
                 '<div class="storegray iconPlus">' +
                 '길 단위 ' +
                 '<span class="distance">' +
-                detail.st_popul  +'명'+
+            st_popul_comma  +'명'+
                 '</span>' +
                 '</div>' +
                 '<div class="storegray iconPlus">' +
                 '건물 단위 ' +
                 '<span class="distance">' +
-                detail.bd_popul +'명'+
+            bd_popul_comma +'명'+
                 '</span>' +
                 '</div>' +
             '</div>' +
@@ -738,7 +749,7 @@ function sideInfo(area, detail) {
             '<h4 class="sideinfoTitle">아파트</h4>'+
             '<ul id="apttabs" class="tabs">'+
                 '<li class="tab_1 current" onclick="apttab1()" data-tab="tab-1">상권</li>'+
-                '<li class="tab_2" onclick="apttab2()" data-tab="tab-2" style="display: none">배후지</li>'+
+                '<li class="tab_2 alley_only" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
             '</ul>'+
             '<div id="tab_1" class="tab-content current">'+
                 '<div class="storegray iconPlus">' +
@@ -770,37 +781,51 @@ function sideInfo(area, detail) {
             '</div>' +
             '</div>' +
 
-            '<div class="sideinfo">' +
+            '<div class="sideinfo alley_only">' +
                 '<h4 class="sideinfoTitle">상권 안정화 지수</h4>'+
                 '<ul id="areatabs" class="tabs">'+
                 '<li class="tab_1 current" onclick="areatab1()" data-tab="tab-1">분기별 비교</li>'+
                 '<li class="tab_2" onclick="areatab2()" data-tab="tab-2">연도별 비교</li>'+
                 '</ul>'+
-            '<div id="areatab_1" class="areatab-content current">'+
-            '상권안정화 분기별탭'+
+                '<div id="areatab_1" class="areatab-content current">'+
+                '<select name="chartYear" id="chartYear" onChange="updateChartType()">'+
+                    '<option value="2021">2021</option>'+
+                    '<option value="2020">2020</option>'+
+                    '<option value="2019">2019</option>'+
+                    '<option value="2018">2018</option>'+
+                    '<option value="2017">2017</option>'+
+                '</select>'+
+                    '<div class="side_graph stabilization_quarter short">' +
+                        '<canvas id="stabilization_quarter"></canvas>'+
+                    '</div>'+
+                '</div>' +
+                '<div id="areatab_2" class="areatab-content">'+
+                    '<div class="side_graph stabilization_yearly short">' +
+                        '<canvas id="stabilization_yearly"></canvas>'+
+                    '</div>'+
+                '</div>' +
             '</div>' +
-            '<div id="areatab_2" class="areatab-content">'+
-            '상권안정화 연도별탭'+
-            '</div>' +
-            '</div>' +
-
             '<div class="sideinfo">' +
             '<button class="analysisBtn" onclick="location.href=`/trading-area/regional?lat=' + position.Ma +'&lng='+ position.La +'`">해당 상권의 지역 정보 확인하기</button>' +
             '</div>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
-if(area.area_title=='골목상권'){
-    $('li.tab_2').css('display','block')
-}
+
+        if(area.area_title=='골목상권'){
+            $('.alley_only').css('display','block')
+        }else {
+            $('.alley_only').css('display','none')
+        }
         if (window.innerWidth < 767) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
         }
         //차트 그래프 실행
+
         //생활인구- 남녀성비 파이그래프
         genderRatio(detail.m_popul,detail.f_popul)
 
-        //생활인구
+        //생활인구 바 그래프
         weekdaydata10.push(detail.age_10_d_1,detail.age_10_d_2,detail.age_10_d_3,detail.age_10_d_4,detail.age_10_d_5,detail.age_10_d_6)
         weekenddata10.push(detail.age_10_w_1,detail.age_10_w_2,detail.age_10_w_3,detail.age_10_w_4,detail.age_10_w_5,detail.age_10_w_6)
         weekdaydata20.push(detail.age_20_d_1,detail.age_20_d_2,detail.age_20_d_3,detail.age_20_d_4,detail.age_20_d_5,detail.age_20_d_6)
@@ -813,15 +838,100 @@ if(area.area_title=='골목상권'){
         weekenddata50.push(detail.age_50_w_1,detail.age_50_w_2,detail.age_50_w_3,detail.age_50_w_4,detail.age_50_w_5,detail.age_50_w_6)
         weekdaydata60.push(detail.age_60_d_1,detail.age_60_d_2,detail.age_60_d_3,detail.age_60_d_4,detail.age_60_d_5,detail.age_60_d_6)
         weekenddata60.push(detail.age_60_w_1,detail.age_60_w_2,detail.age_60_w_3,detail.age_60_w_4,detail.age_60_w_5,detail.age_60_w_6)
-
         //생활인구-주중인구 일단 10대
         weekday(weekdaydata10);
         //생활인구-주말인구 일단 10대
         weekend(weekenddata10);
+
         //소비유형- 파이그래프
         consumptionRatio(detail.sum_clt_ex, detail.sum_cul_ex, detail.sum_edu_ex, detail.sum_ent_ex, detail.sum_food_ex, detail.sum_lei_ex, detail.sum_med_ex, detail.sum_nec_ex, detail.sum_trp_ex)
+
+        //상권안정화 분기별-라인그래프
+        var graph= detail.graph
+
+        var quarter2021 =[];
+        var quarter2020 =[];
+        var quarter2019 =[];
+        var quarter2018 =[];
+        var quarter2017 =[];
+        for (var i = 0; i < graph.length; i++) {
+            var year = graph[i].year;
+            if (year == 2021) {
+                var quarter = [];
+                quarter.push(graph[i])
+                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
+
+                for (var i = 0; i < quarter.length; i++) {
+                    quarter2021.push(quarter[i].idx_stb_area);
+                }
+            }else if(year==2020){
+                var quarter = [];
+                quarter.push(graph[i])
+                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
+
+                for (var i = 0; i < quarter.length; i++) {
+                    quarter2021.push(quarter[i].idx_stb_area);
+                }
+            }else if(year==2019){
+                var quarter = [];
+                quarter.push(graph[i])
+                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
+
+                for (var i = 0; i < quarter.length; i++) {
+                    quarter2021.push(quarter[i].idx_stb_area);
+                }
+            }else if(year==2018){
+                var quarter = [];
+                quarter.push(graph[i])
+                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
+
+                for (var i = 0; i < quarter.length; i++) {
+                    quarter2021.push(quarter[i].idx_stb_area);
+                }
+            }else if(year==2017){
+                var quarter = [];
+                quarter.push(graph[i])
+                quarter = quarter.sort((a, b) => a.qrt - b.qrt);
+
+                for (var i = 0; i < quarter.length; i++) {
+                    quarter2021.push(quarter[i].idx_stb_area);
+                }
+            }
+        }
+        console.log("분기별 그래프 소트", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
+        chartQuarter(quarter2021)
+
+        //상권안정화 연도별-라인그래프
+        var year2017 = 0;
+        var year2018 = 0;
+        var year2019 = 0;
+        var year2020 = 0;
+        var year2021 = 0;
+
+        for (var i = 0; i < graph.length; i++) {
+            if(graph[i].year==2021){
+                 year2021 += graph[i].idx_stb_area;
+            }else if(graph[i].year==2020){
+                 year2020 += graph[i].idx_stb_area;
+            }else if(graph[i].year==2019){
+                 year2019 += graph[i].idx_stb_area;
+            }else if(graph[i].year==2018){
+                 year2018 += graph[i].idx_stb_area;
+            }else if(graph[i].year==2017){
+                 year2017 += graph[i].idx_stb_area;
+            }
+        }
+        var yearly = [year2017,year2018,year2019,year2020,year2021]
+        console.log("연도합계",yearly)
+        chartYearly(yearly)
+
     }
 }
+var quarter2021 =[];
+var quarter2020 =[];
+var quarter2019 =[];
+var quarter2018 =[];
+var quarter2017 =[];
 
 var weekdaydata10 = [];
 var weekenddata10 = [];
@@ -835,6 +945,28 @@ var weekdaydata50 = [];
 var weekenddata50 = [];
 var weekdaydata60 = [];
 var weekenddata60 = [];
+
+function updateChartType(){
+    console.log("셀렉변경")
+    $('#stabilization_quarter').remove();//있던 차트 지우고
+    $('.stabilization_quarter').append('<canvas id="stabilization_quarter"><canvas>');//차트id추가
+
+    var year = $('select[name="chartYear"]').val()
+    console.log(year)
+
+    if (year == 2021) {
+        chartQuarter(quarter2021)
+    } else if (year == 2020) {
+        chartQuarter(quarter2020)
+    } else if (year == 2019) {
+        chartQuarter(quarter2019)
+    } else if (year == 2018) {
+        chartQuarter(quarter2018)
+    } else if (year == 2017) {
+        chartQuarter(quarter2017)
+    }
+
+}
 
 function agetab() {
     $('#livingweekday').remove();//있던 차트 지우고
@@ -872,7 +1004,8 @@ function closeOverlay() {
         clickmarkers[i].setMap(null);
     }
     $('#sidebar').removeClass('visible');
-
+    $('#sidebody').remove();//사이드 바디 지우고 다시
+    
     var weekdaydata10 = [];
     var weekenddata10 = [];
     var weekdaydata20 = [];
@@ -885,8 +1018,8 @@ function closeOverlay() {
     var weekenddata50 = [];
     var weekdaydata60 = [];
     var weekenddata60 = [];
-
 }
+
 //클릭 2차그래프 오버레이닫음
 function closeOverlaygraph() {
     $('#myChart1').remove();//있던 차트 지우고
@@ -1469,9 +1602,6 @@ function areanameSpread(area) {
 // 마커가 지도 위에 표시되도록 설정합니다
     customOverlay.setMap(map);
     changeAreaTab()
-
-
-
 }
 
 
@@ -1523,19 +1653,25 @@ async function changeMap() {
     } else if (zoom >= 4 && zoom < 6) { //zoom 4,5 일때
         //상권패스  +커스텀마커: 상권명 + 상점수
         //          + 클릭 시 그래프★★★
-        for (var i = 0; i < countmarkers.length; i++) {
-            countmarkers[i].setMap(null);//시군구 마커 비우고
-        }
-        setMarkers(null)//상점삭제
         $('#storelist').css('display', 'none');//상점 카테고리 삭제
+        $('.areaTap').css('display', 'block');
+        $('#filter').css('display', 'block');
+
+        if(countmarkers.length>0){
+            for (var i = 0; i < countmarkers.length; i++) {
+                countmarkers[i].setMap(null);//시군구 마커 비우고
+            }
+        }
+        if(markers.length>0){
+            setMarkers(null)//상점삭제
+        }
 
         //5~ 상점수,개폐업수,추정매출 탭 보이기 + 필터 보이기
         removePolygons(map)//areajson에 쓰던 상권 삭제하고
         for (var i = 0; i < areanameMarkers.length; i++) {
             areanameMarkers[i].setMap(null);//상권이름 마커 비우고
         }
-        $('.areaTap').css('display', 'block');
-        $('#filter').css('display', 'block');
+
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
             areaJson = result;
@@ -1724,10 +1860,6 @@ function changeAreaTab() {
     }
 }
 
-//탭바뀌면 사이드바+그래프마커윈도우 닫음
-$('input[name="areaTab"], input[name="cate2"]').click(function () {
-    closeOverlay()
-})
 
 
 //필터 대분류 중분류 체크
@@ -1778,18 +1910,18 @@ $('input[name="area_maincate"]').click(function () {
         }
     }
 })
-
 $('input[name="area_maincate"]').click(function () {
     var temp = 'all-' + $(this).val() + '-sector';
     $("input:radio[id=" + temp + "]").prop("checked", true);
 })
 
+//탭바뀌면 사이드바+그래프마커윈도우 닫음
+$('input[name="areaTab"], input[name="cate2"]').click(function () {
+    closeOverlay()
+})
 //필터바뀌면 걍다 닫기
 $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate"]').click(function () {
-    $('#sidebar').removeClass('visible');
-    for (var i = 0; i < clickmarkers.length; i++) {
-        clickmarkers[i].setMap(null);
-    }//클릭마커지움
+    closeOverlay()//사이드바 + 그래프마커 일단지워
     for (var i = 0; i < areanameMarkers.length; i++) {
         areanameMarkers[i].setMap(null);//상권이름 마커 비우고
     }
@@ -2014,13 +2146,22 @@ function genderRatio(m_popul, f_popul){
             responsive: true,
             maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
             legend: {
-                position: 'bottom',
-                fontColor: 'black',
-                align: 'center',
-                display: true,
-                fullWidth: true,
-                labels: {
-                    fontColor: 'rgb(0, 0, 0)'
+                display: false
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var label= labels[tooltipItem.index]
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var currentValue_comma = currentValue.toString()
+                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return label +" "+ precentage + "% "+ currentValue_comma + "명" ;
+                    }
                 }
             },
             plugins: {
@@ -2031,7 +2172,7 @@ function genderRatio(m_popul, f_popul){
                     precision: 2
                 }
 
-            }
+            },
         }
     }
     var canvas=document.getElementById('genderChart');
@@ -2064,6 +2205,22 @@ function consumptionRatio(n1,n2,n3,n4,n5,n6,n7,n8,n9){
                     fontColor: 'rgb(0, 0, 0)'
                 }
             },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var label= labels[tooltipItem.index]
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var currentValue_comma = currentValue.toString()
+                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return label +" "+ precentage + "% "+ currentValue_comma + "원" ;
+                    }
+                }
+            },
             plugins: {
                 labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
                     render: 'value',
@@ -2077,6 +2234,30 @@ function consumptionRatio(n1,n2,n3,n4,n5,n6,n7,n8,n9){
     }
     var canvas=document.getElementById('consumption');
     var consumption = new Chart(canvas,config);
+}
+
+function resetWeekChart(){
+    $('#livingweekday').remove();//있던 차트 지우고
+    $('#livingweekend').remove();//있던 차트 지우고
+}
+
+function config(data){
+    var config={
+        type: 'bar',
+        data: {
+            labels: ["00:00~00:06", "06:00~11:00", "11:00~14:00", "14:00~17:00", "17:00~21:00", "21:00~24:00"],
+            datasets: [
+                {
+                    backgroundColor: "#709BFF",
+                    data: data
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    }
+    return config
 }
 
 function weekday(data){
@@ -2096,6 +2277,7 @@ function weekday(data){
         }
     });
 }
+
 function weekend(data){
     new Chart(document.getElementById("livingweekend"), {
         type: 'bar',
@@ -2104,6 +2286,45 @@ function weekend(data){
             datasets: [
                 {
                     backgroundColor: "#709BFF",
+                    data: data
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    });
+}
+
+//상권안정화 분기별-라인그래프
+function chartQuarter(data){
+    new Chart(document.getElementById("stabilization_quarter"), {
+        type: 'line',
+        data: {
+            labels: ["1분기", "2분기", "3분기", "4분기"],
+            datasets: [
+                {
+                    borderColor:"#1540BF",
+                    fill: false,
+                    data: data
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    });
+}
+//상권안정화 연도별-라인그래프
+function chartYearly(data){
+    new Chart(document.getElementById("stabilization_yearly"), {
+        type: 'line',
+        data: {
+            labels: ["2017", "2018", "2019", "2020", "2021"],
+            datasets: [
+                {
+                    borderColor:"#1540BF",
+                    fill: false,
                     data: data
                 }
             ]
