@@ -115,7 +115,7 @@ $(document).ready(function() {
 });
 
 function validationForm1() {
-    alert("validationForm1");
+
     var name = $("#name").val();
 
     if (name.trim() === '') {
@@ -136,7 +136,7 @@ function validationForm1() {
 }
 
 function validationForm2() {
-    alert("validationForm2");
+
     var name = $("#name2").val();
 
     if (name.trim() === '') {
@@ -157,7 +157,7 @@ function validationForm2() {
 }
 
 function validationForm3() {
-    alert("validationForm3");
+
     var name = $("#name3").val();
 
     if (name.trim() === '') {

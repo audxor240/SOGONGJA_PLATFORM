@@ -7,7 +7,7 @@
     <select id="getTitle" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getTitle */
         SELECT SS.TITLE
-             , SS.REG_DATE
+             , US.REG_DATE
              , COUNT(*) AS REGISTERED
         FROM ST_USER_SURVEY US
                  INNER JOIN ST_SURVEY_SETTING SS
@@ -34,40 +34,32 @@
 
     <select id="getChoiceAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getChoiceAnswer */
-        SELECT GROUP_CONCAT(UA2.ANSWER SEPARATOR '^') AS ANSWER
-             , if(UA2.RANK IS NULL, 0, 1)             AS RANKED
-        FROM ST_USER_QUESTION UQ
-                 INNER JOIN ST_USER_ANSWER2 UA2 ON UQ.USER_QUESTION_SEQ = UA2.USER_QUESTION_SEQ
-        WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
-        ORDER BY UA2.RANK ASC;
+        select UA2.USER_ANSWER2_SEQ, UA2.ANSWER, UA2.RANK, (group_concat(C2.NAME)) as CATEGORY2
+        from ST_USER_QUESTION as UQ
+                 left join ST_USER_ANSWER2 AS UA2 ON UA2.USER_QUESTION_SEQ = UQ.USER_QUESTION_SEQ
+                 left join ST_CATEGORY2 as C2 ON C2.CATEGORY2_SEQ = UA2.CATEGORY2_SEQ
+        where UQ.DEL_FLAG = 0 and UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
+        group by UA2.ANSWER
     </select>
 
     <select id="getAddAnswer" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : ServiceMatchingMapper.xml, id : getAddAnswer */
-        SELECT CASE UA1.`TYPE`
-                   WHEN 1
-                       THEN (SELECT GROUP_CONCAT(C3.NAME SEPARATOR '^')
-                             FROM ST_USER_ANSWER1 UA1
-                                      INNER JOIN ST_CATEGORY3 C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ)
-                   WHEN 2
-                       THEN GROUP_CONCAT(UA1.ADDRESS SEPARATOR '^')
-                   ELSE null
-                   END                    AS ANSWER,
-               CASE UA1.`TYPE`
-                   WHEN 1
-                       THEN ''
-                   WHEN 2
-                       THEN (SELECT GROUP_CONCAT(QSK.KEYWORD SEPARATOR '^')
-                             FROM ST_USER_KEYWORD UK
-                                      INNER JOIN ST_QUESTION_SETTING_KEYWORD QSK
-                                                 ON UK.QUESTION_SETTING_KEYWORD_SEQ = QSK.QUESTION_SETTING_KEYWORD_SEQ)
-                   ELSE ''
-                   END                    AS KEYWORD,
-               if(UA1.RANK IS NULL, 0, 1) AS RANKED
-        FROM ST_USER_QUESTION UQ
-                 INNER JOIN ST_USER_ANSWER1 UA1 ON UQ.USER_QUESTION_SEQ = UA1.USER_QUESTION_SEQ
-        WHERE UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
-        ORDER BY UA1.RANK ASC
+
+        select UA1.USER_ANSWER1_SEQ,
+            CASE UA1.`TYPE`
+                WHEN 1 THEN C3.NAME
+                WHEN 2 THEN UA1.ADDRESS
+                END AS ANSWER, UA1.RANK, UA1.TYPE
+        from ST_USER_QUESTION as UQ
+                 left join ST_USER_ANSWER1 AS UA1 ON UA1.USER_QUESTION_SEQ = UQ.USER_QUESTION_SEQ
+                 left JOIN ST_CATEGORY3 C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ
+        where UQ.DEL_FLAG = 0 and UQ.USER_QUESTION_SEQ = #{userQuestionSeq}
+    </select>
+
+    <select id="getKeyword" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : ServiceMatchingMapper.xml, id : getKeyword */
+
+        select * from ST_USER_KEYWORD where DEL_FLAG = 0 and USER_ANSWER1_SEQ = #{userAnswer1Seq}
     </select>
 
 
