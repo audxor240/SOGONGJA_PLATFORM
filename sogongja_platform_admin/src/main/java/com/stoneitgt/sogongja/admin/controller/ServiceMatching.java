@@ -75,7 +75,7 @@ public class ServiceMatching extends BaseController {
         if (registered > 0) {
             List<SurveyMatching> surveyList = matchingService.getSurveyList(userSeq);
             model.addAttribute("list", surveyList);
-
+            System.out.println("surveyList >>> "+surveyList);
         }
         HashMap<String, Object> breadcrumb = new HashMap<String, Object>();
         breadcrumb.put("parent_menu_name", "회원 관리");

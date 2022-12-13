@@ -93,11 +93,22 @@
                 </thead>
                 <tbody>
                 <th:block th:include="fragments/table_empty:: table_empty(7)" th:if="${#lists.isEmpty(list)}"></th:block>
-                <tr th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
-                  <td th:text="${itemStat.count}">1</td>
+                <tr th:each="item,i : ${list}" th:unless="${#lists.isEmpty(list)}">
+                  <td th:text="${i.index+1}">1</td>
                   <td th:text="${item.question}">구분</td>
                   <td>
-                    <p th:utext="${item.answer}"></p>
+                    <th:block th:each="item2,j : ${item.answer}">
+                      <div style="padding-bottom: 10px;">
+                        <p>[[${item2}]]<span th:unless="${#lists.isEmpty(item.rank)}"> [ [[${item.rank[j.index]}]] 순위 ] </span></p>
+                        <th:block th:unless="${#lists.isEmpty(item.keyword)}">
+                          <span th:text="${'#'+item3+' '}" th:each="item3 : ${item.keyword[j.index]}" style="color: #0c91e5"></span>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(item.category2)}">
+                          <span th:text="${'#'+item4+' '}" th:each="item4 : ${item.category2[j.index]}" style="color: #0c91e5"></span>
+                        </th:block>
+                      </div>
+                    </th:block>
+
                   </td>
                 </tr>
                 </tbody>
