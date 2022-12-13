@@ -1251,6 +1251,7 @@
     transition: 0.4s
 .community_wrap
   +positionAt(absolute, $top: 245px, $right: 20px)
+  z-index: 10
   .community_pop_wrap
     display: none
     +positionAt(relative, $top: 0px, $right:40px)
@@ -1297,10 +1298,10 @@
         text-align: center
       .m_scroll_btn
         display: none
-        .margintop
-          margin-top: 60px
+    .margintop
+      height: 60px
     .community_pop_list
-      margin-top: 66px
+      margin-top: 8px
       > li
         background-color: #fff
         border-bottom: solid 1px #eceff1

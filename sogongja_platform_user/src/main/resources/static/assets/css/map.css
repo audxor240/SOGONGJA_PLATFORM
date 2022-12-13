@@ -1566,6 +1566,7 @@
   position: absolute;
   top: 245px;
   right: 20px;
+  z-index: 10;
 }
 .community_wrap .community_pop_wrap {
   display: none;
@@ -1624,11 +1625,11 @@
 .community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
   display: none;
 }
-.community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn .margintop {
-  margin-top: 60px;
+.community_wrap .community_pop_wrap .margintop {
+  height: 60px;
 }
 .community_wrap .community_pop_wrap .community_pop_list {
-  margin-top: 66px;
+  margin-top: 8px;
 }
 .community_wrap .community_pop_wrap .community_pop_list > li {
   background-color: #fff;

@@ -29,7 +29,7 @@
             </div>
         </section>
         <section class="wrap">
-            <div class="sub_container consulting">
+            <div class="sub_container qna_list">
                 <div class="faq_anchor_wrap">
                     <p>유사한 상담사례가 있는지 확인해보세요.</p>
                     <div><a th:href="@{/study/counseling}">상담사례 찾기</a></div>
@@ -104,7 +104,7 @@
                 </form>
                 <div class="edu_list_wrap">
                     <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
-                    <table class="table_style custom_consulting">
+                    <table class="table_style qna_list">
                         <caption>다른 사용자가 자주 찾는 컨설팅</caption>
                         <thead>
                         <tr>

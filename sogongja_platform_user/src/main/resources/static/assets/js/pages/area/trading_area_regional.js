@@ -1894,7 +1894,9 @@ function ajaxPostSyn(url, data, callback, showLoading) {
         }
     });
 }
-
+function closeCommnunity(){
+    $('.community_pop_wrap').removeClass('on')
+}
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
