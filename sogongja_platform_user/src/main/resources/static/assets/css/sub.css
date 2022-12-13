@@ -488,12 +488,6 @@
   height: 2.25rem;
   background: url(../images/new/icon/nonecheck.png) no-repeat 0 50%;
 }
-.sub_container .edu_list > li .thumb_img .view_favorite .edu_none:hover,
-.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none:hover {
-  width: 2.25rem;
-  height: 2.25rem;
-  background: url(../images/new/icon/checked.png) no-repeat 0 50%;
-}
 .sub_container .edu_list > li div.text_wrap,
 .sub_container .solution_edu_recommend > ul > li div.text_wrap {
   height: 12.5rem;
@@ -710,11 +704,6 @@
   width: 2.25rem;
   height: 2.25rem;
   background: url(../images/new/icon/nonecheck.png) no-repeat 0 50%;
-}
-.management_wrap .edu_none:hover {
-  width: 2.25rem;
-  height: 2.25rem;
-  background: url(../images/new/icon/checked.png) no-repeat 0 50%;
 }
 
 .pagination {
@@ -1491,7 +1480,7 @@
   width: 77.7%;
 }
 .search_list > div button {
-  width: 21.5%;
+  width: 21%;
   height: 50px;
   background: #1540bf;
   color: #fff;
@@ -1696,18 +1685,7 @@
   color: #1540BF;
   font-size: 1.125rem;
   font-weight: bold;
-  display: inline;
-  padding-right: 20px;
 }
-.mypage_info .table_title .survey h3 {
-  color: #1540BF;
-  font-size: 1.125rem;
-  font-weight: bold;
-}
-.mypage_info .table_title span {
-  color: red;
-}
-
 .mypage_info table {
   width: 100%;
 }
@@ -2169,12 +2147,6 @@
   height: 360px;
   overflow-y: auto;
   border-top: 1px solid #e2e2e2;
-}
-.signup_info .stage_01 ul li .check_text_in {
-  background: #fff;
-  padding-left: 0.875rem;
-  color: #666;
-  font-size: 0.875rem;
 }
 .signup_info .stage_01 .stage_all_agree {
   margin-top: 3.6875rem;
@@ -3104,6 +3076,9 @@ select {
   .sub_visual .lnb .m_tab {
     display: block;
     background-color: #eceff1;
+  }
+  .sub_visual .lnb .m_tab.noShow {
+    display: none;
   }
   .sub_visual .lnb .m_tab.on:after {
     transform: rotate(-45deg);

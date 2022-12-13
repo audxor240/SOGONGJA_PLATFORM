@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*map*/
 #map {
   width: 100%;
@@ -1105,6 +1106,45 @@
   height: 300px;
   margin: 16px 0;
 }
+#sidebar #sidebody .sideinfo .side_graph.industry {
+  position: relative;
+  z-index: 1;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle {
+  z-index: -1;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background-color: #fff;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.I {
+  background-color: #EE5545;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.S {
+  background-color: #DD4C79;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.G {
+  background-color: #A25AA1;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.R {
+  background-color: #4983C4;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.N {
+  background-color: #31C3D9;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.M {
+  background-color: #33CC94;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.L {
+  background-color: #70C14A;
+}
+#sidebar #sidebody .sideinfo .side_graph.industry #colorCircle.P {
+  background-color: #C2EE45;
+}
 #sidebar #sidebody .sideinfo .side_graph.gender {
   height: 200px;
   margin: 20px 0;
@@ -1118,6 +1158,77 @@
 #sidebar #sidebody .sideinfo.float {
   width: 33.3%;
   float: left;
+  padding: 16px 0 16px 16px;
+}
+#sidebar #sidebody .sideinfo ul.short2 {
+  height: 100px;
+  margin: 24px 0 0 0;
+}
+#sidebar #sidebody .sideinfo ul.short2 li {
+  width: 12.28%;
+  float: left;
+  font-size: 13px;
+  margin-left: 2.34%;
+  position: relative;
+}
+#sidebar #sidebody .sideinfo ul.short2 li:after {
+  position: absolute;
+  content: "";
+  display: block;
+  top: -20px;
+  color: #1540BF;
+  font-size: 12px;
+}
+#sidebar #sidebody .sideinfo ul.short2 li:first-child {
+  margin-left: 0;
+}
+#sidebar #sidebody .sideinfo ul.short2 li:first-child:after {
+  content: "1위";
+}
+#sidebar #sidebody .sideinfo ul.short2 li:nth-child(2):after {
+  content: "2위";
+}
+#sidebar #sidebody .sideinfo ul.short2 li:nth-child(3):after {
+  content: "3위";
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h1:before {
+  background-image: url(../images/new/area/icon_human01.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h2:before {
+  background-image: url(../images/new/area/icon_human02.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h3:before {
+  background-image: url(../images/new/area/icon_human03.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h4:before {
+  background-image: url(../images/new/area/icon_human04.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h5:before {
+  background-image: url(../images/new/area/icon_human05.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h6:before {
+  background-image: url(../images/new/area/icon_human06.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li.h7:before {
+  background-image: url(../images/new/area/icon_human07.svg);
+}
+#sidebar #sidebody .sideinfo ul.short2 li:before {
+  content: "";
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #eee no-repeat;
+  background-size: cover;
+  margin-left: calc(50% - 20px);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+#sidebar #sidebody .sideinfo ul.short2 li p {
+  text-align: center;
+}
+#sidebar #sidebody .sideinfo ul.short2 li p.housetype {
+  color: #5e5e5e;
+  font-size: 12px;
 }
 #sidebar #sidebody .sideinfo ul.agetabs {
   width: 100%;
@@ -1259,21 +1370,39 @@
   background: url(../images/new/area/location_skyblue_20dp.svg) no-repeat;
 }
 #sidebar #sidebody .sideinfo .iconPlus.location {
-  background: url(../images/new/area/location.png) no-repeat;
+  background: url(../images/new/area/location_on_gray_20dp.svg) no-repeat;
 }
 #sidebar #sidebody .sideinfo .iconPlus.storegray {
-  background: url(../images/new/area/storegray.png) no-repeat;
+  background: url(../images/new/area/storegray_20dp.svg) no-repeat;
 }
 #sidebar #sidebody .sideinfo .iconPlus.subway {
-  background: url(../images/new/area/train.png) no-repeat;
+  background: url(../images/new/area/train_gray_20dp.svg) no-repeat;
 }
 #sidebar #sidebody .sideinfo .iconPlus.bus {
-  background: url(../images/new/area/bus.png) no-repeat;
+  background: url(../images/new/area/directions_bus_gray_20dp.svg) no-repeat;
 }
 #sidebar #sidebody .sideinfo .iconPlus.street {
   background: url(../images/new/area/car.png) no-repeat;
 }
-#sidebar #sidebody .sideinfo .iconPlus.street:last-child {
+#sidebar #sidebody .sideinfo .iconPlus.storeclose {
+  background: url(../images/new/area/shopclose.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo .iconPlus.schedule_gray_20dp {
+  background: url(../images/new/area/schedule_gray_20dp.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo .iconPlus.payments_gray_20dp {
+  background: url(../images/new/area/payments_gray_20dp.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo .iconPlus.person_gray_20dp {
+  background: url(../images/new/area/person_gray_20dp.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo .iconPlus.groups_gray_20dp {
+  background: url(../images/new/area/groups_gray_20dp.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo .iconPlus.crop_black_20dp {
+  background: url(../images/new/area/crop_black_20dp.svg) no-repeat;
+}
+#sidebar #sidebody .sideinfo:last-child {
   margin-bottom: 0;
 }
 #sidebar #sidebody .sideinfo .issue {
@@ -1463,6 +1592,7 @@
   width: 200px;
   font-size: 13px;
   cursor: pointer;
+  margin-bottom: 60px;
 }
 .community_wrap .community_pop_wrap .community_pop_title {
   background-color: #ffffff;
@@ -1493,6 +1623,9 @@
 }
 .community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
   display: none;
+}
+.community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn .margintop {
+  margin-top: 60px;
 }
 .community_wrap .community_pop_wrap .community_pop_list {
   margin-top: 66px;
@@ -2342,13 +2475,23 @@
     height: calc(100% - 71px);
   }
   .community_wrap .community_pop_wrap .community_pop_title {
-    padding: 10px 20px 20px;
+    padding: 20px;
     border-radius: 10px 10px 0 0;
     flex-wrap: wrap;
     width: 100%;
   }
   .community_wrap .community_pop_wrap .community_pop_title > a {
     display: none;
+  }
+  .community_wrap .community_pop_wrap .community_pop_title .sideCloseBtn {
+    cursor: pointer;
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
+    background-size: cover;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
   }
   .community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
     width: 100%;
@@ -2391,6 +2534,10 @@
   #map_wrap.area_map {
     top: 110px;
     height: calc(100vh - 110px);
+  }
+  #map_wrap.area_map.on {
+    top: 71px;
+    height: calc(100vh - 71px);
   }
   #map_wrap .areaTap {
     z-index: 9;
