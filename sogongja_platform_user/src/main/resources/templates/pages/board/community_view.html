@@ -18,6 +18,8 @@
                 <h2 class="border_title">커뮤니티</h2>
             </div>
             <div class="lnb">
+                <div class="m_tab" th:classappend="${type eq 'shop'?'show':''}">상점 커뮤니티</div>
+                <div class="m_tab" th:classappend="${type eq 'region'?'show':''}">지역 커뮤니티</div>
                 <ul class="container">
                     <li th:classappend="${type eq 'shop'?'active':''}"><a th:href="@{/community(type=shop)}">상점 커뮤니티</a></li>
                     <li th:classappend="${type eq 'region'?'active':''}"><a th:href="@{/community(type=region)}">지역 커뮤니티</a></li>

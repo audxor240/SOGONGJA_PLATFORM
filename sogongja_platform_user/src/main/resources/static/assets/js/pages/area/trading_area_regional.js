@@ -408,7 +408,6 @@ function changeSelectBox(type) {
             dongBox.className = 'menu_selected';
         }
     }
-
 }
 
 // 지도 중심을 부드럽게 이동시킵니다
@@ -565,8 +564,10 @@ async function changeMap() {
     if (zoom > 7) {//zoom 8 ~ 14
         //removeCircles(map);
         $('.areaTap').css('display', 'none');
+        $('.area_map').addClass('on')
     } else if(zoom >= 4 && zoom <= 7){ //zoom 4,5,6,7 일때
         $('.areaTap').css('display', 'block');
+        $('.area_map').removeClass('on')
         setMarkers(null)//상점삭제
         $('.category_wrap.region').css('display', 'none');//상점 카테고리 삭제
     }else {//zoom 3,2,1 일때
@@ -1259,8 +1260,12 @@ function sideInfoStore(result,area,total) {
                         '</li>'+
                     '</ul>'+
                 '</div>'+
+            '<div class="storegray iconPlus storenum">' +
+            '전체 점포'+
+            '</div>' +
             '<div class="side_graph industry">' +
                 '<canvas id="industry"></canvas>'+
+                '<div id="colorCircle"></div>'+
             '</div>'+
             '</div>' +
             '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
@@ -1287,32 +1292,47 @@ function sideInfoStore(result,area,total) {
         M=[]
         L=[]
         P=[]
-
+        labelI=[]
+        labelS=[]
+        labelG=[]
+        labelR=[]
+        labelN=[]
+        labelM=[]
+        labelL=[]
+        labelP=[]
         for (var i = 0; i < result.length; i++) {
             if(result[i].division1=='I'){
                 storesI += result[i].ct_shop;
                 I.push(result[i].ct_shop)
+                labelI.push(result[i].com_nm)
             }else if(result[i].division1=='S'){
                 storesS += result[i].ct_shop;
                 S.push(result[i].ct_shop)
+                labelS.push(result[i].com_nm)
             }else if(result[i].division1=='G'){
                 storesG += result[i].ct_shop;
                 G.push(result[i].ct_shop)
+                labelG.push(result[i].com_nm)
             }else if(result[i].division1=='R'){
                 storesR += result[i].ct_shop;
                 R.push(result[i].ct_shop)
+                labelR.push(result[i].com_nm)
             }else if(result[i].division1=='N'){
                 storesN += result[i].ct_shop;
                 N.push(result[i].ct_shop)
+                labelN.push(result[i].com_nm)
             }else if(result[i].division1=='M'){
                 storesM += result[i].ct_shop;
                 M.push(result[i].ct_shop)
+                labelM.push(result[i].com_nm)
             }else if(result[i].division1=='L'){
                 storesL += result[i].ct_shop;
                 L.push(result[i].ct_shop)
+                labelL.push(result[i].com_nm)
             }else if(result[i].division1=='P'){
                 storesP += result[i].ct_shop;
                 P.push(result[i].ct_shop)
+                labelP.push(result[i].com_nm)
             }
         }
         all=[storesI,storesS,storesG,storesR,storesN,storesM,storesL,storesP]
@@ -1328,11 +1348,20 @@ var N=[]
 var M=[]
 var L=[]
 var P=[]
+var labelI=[]
+var labelS=[]
+var labelG=[]
+var labelR=[]
+var labelN=[]
+var labelM=[]
+var labelL=[]
+var labelP=[]
+
 //상점수업종별 - 전체업종 파이그래프
 function industryRatioAll(data){
     var dataset = {
         label: "업종별 상점수",
-        backgroundColor: ['#70C14A','#33CC94','#31C3D9','#4983C4','#A25AA1','#DD4C79','#EE5545','#F28728'],//라벨별 컬러설정
+        backgroundColor: ['#EE5545','#DD4C79','#A25AA1','#4983C4','#31C3D9','#33CC94','#70C14A','#C2EE45'],//라벨별 컬러설정
         borderColor: '#fff',
         data: data
     }
@@ -1386,36 +1415,42 @@ function industryRatioAll(data){
 }
 
 
-function industryRatio(color){
+function industryRatio(color,label){
     console.log("dksehl?",color)
     var barColors = color.map((value) =>
-        value > 1000 ? 'rgba(0, 0, 0, 0.1)' :
-            value > 100 ? 'rgba(0, 0, 0, 0.15)' :
-                value > 50 ? 'rgba(0, 0, 0, 0.2)' :
-                    value > 20 ? 'rgba(0, 0, 0, 0.25)' :
-                        value > 10 ? 'rgba(0, 0, 0, 0.3)' :
-                            value > 5 ? 'rgba(0, 0, 0, 0.4)' :
-                                value > 3 ? 'rgba(0, 0, 0, 0.5)' :
-                                    value > 1 ? 'rgba(0, 0, 0, 0.6)' :
-                                        'rgba(0, 0, 0, 0.7)');
-    new Chart("industry", {
-        type: "pie",
-        data: {
-            //labels: datashop.com_nm,
-            datasets: [{
-                backgroundColor: barColors,
-                borderWidth: 0.4,
-                data: color,
-            }]
-        },
+        value > 1000 ? 'rgba(255, 255, 255, 0.1)' :
+            value > 100 ? 'rgba(255, 255, 255, 0.15)' :
+                value > 50 ? 'rgba(255, 255, 255, 0.2)' :
+                    value > 20 ? 'rgba(255, 255, 255, 0.25)' :
+                        value > 10 ? 'rgba(255, 255, 255, 0.3)' :
+                            value > 5 ? 'rgba(255, 255, 255, 0.4)' :
+                                value > 3 ? 'rgba(255, 255, 255, 0.5)' :
+                                    value > 1 ? 'rgba(255, 255, 255, 0.6)' :
+                                        'rgba(255, 255, 255, 0.7)');
+    var dataset = {
+        labels: label,
+        backgroundColor: barColors,
+        borderColor: '#fff',
+        borderWidth: 0.3,
+        data: color,
+    }
+    var labels=label;
+    var datasets={ datasets:[dataset], labels:labels }
+    var config = {
+        type: 'pie',
+        data: datasets, //데이터 셋
         options: {
             responsive: true,
             maintainAspectRatio: false, //true 하게 되면 캔버스 width,height에 따라 리사이징된다.
-            parsing: {
-                xAxisKey: 'color'
-            },
             legend: {
-                display: false
+                position: 'bottom',
+                fontColor: 'black',
+                align: 'center',
+                display: false,
+                fullWidth: true,
+                labels: {
+                    fontColor: 'rgb(0, 0, 0)'
+                }
             },
             tooltips: {
                 callbacks: {
@@ -1424,14 +1459,28 @@ function industryRatio(color){
                         var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
                             return previousValue + currentValue;
                         });
+                        var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
+                        var currentValue_comma = currentValue.toString()
+                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
-                        return precentage + "% "+ currentValue + "개" ;
+                        return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
                     }
                 }
+            },
+            plugins: {
+                labels: {//두번째 script태그를 설정하면 각 항목에다가 원하는 데이터 라벨링을 할 수 있다.
+                    render: 'value',
+                    fontColor: 'black',
+                    fontSize: 15,
+                    precision: 2
+                }
+
             }
         }
-    });
+    }
+    var canvas=document.getElementById('industry');
+    var industry = new Chart(canvas,config);
 }
 
 
@@ -1442,26 +1491,48 @@ function changecate(){
     $('.industry').append('<canvas id="industry"><canvas>');//차트id추가
     if(maincate=='all'){
         industryRatioAll(all)
-        console.log("체인지 대분류all",all)
+        $('.storenum').text("전체 업종")
+        $('.industry>#colorCircle').removeClass()
     }else if(maincate=='I'){
-        industryRatio(I)
-        console.log("체인지 대분류I",I)
+        industryRatio(I,labelI)
+        $('.storenum').text("숙박·음식")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('I')
     }else if(maincate=='S'){
-        industryRatio(S)
-        console.log("체인지 대분류S",S)
+        industryRatio(S,labelS)
+        $('.storenum').text("수리·개인서비스")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('S')
     }else if(maincate=='G'){
-        industryRatio(G)
+        industryRatio(G,labelG)
+        $('.storenum').text("도·소매")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('G')
     }else if(maincate=='R'){
-        industryRatio(R)
+        industryRatio(R,labelR)
+        $('.storenum').text("예술·스포츠·여가")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('R')
     }else if(maincate=='N'){
-        industryRatio(N)
-        console.log("체인지 대분류N",N)
+        industryRatio(N,labelN)
+        $('.storenum').text("시설관리·임대")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('N')
     }else if(maincate=='M'){
-        industryRatio(M)
+        industryRatio(M,labelM)
+        $('.storenum').text("과학·기술")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('M')
     }else if(maincate=='L'){
-        industryRatio(L)
+        industryRatio(L,labelL)
+        $('.storenum').text("부동산")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('L')
     }else if(maincate=='P'){
-        industryRatio(P)
+        industryRatio(P,labelP)
+        $('.storenum').text("교육")
+        $('.industry>#colorCircle').removeClass()
+        $('.industry>#colorCircle').addClass('P')
     }
 }
 
@@ -1475,6 +1546,22 @@ function sideInfoPopul(result,area, total, getarea) {
     console.log("Math.round",total,getarea,density)
     $('#sidebar').addClass('visible');
     if (area&&result) {
+        household = []
+        household=[
+            {house:result[0].house_1,idx:1},
+            {house:result[0].house_2,idx:2},
+            {house:result[0].house_3,idx:3},
+            {house:result[0].house_4,idx:4},
+            {house:result[0].house_5,idx:5},
+            {house:result[0].house_6,idx:6},
+            {house:result[0].house_7,idx:7},
+        ]
+        household = household.sort((a, b) => b.house - a.house);
+        console.log("가구원수",household)
+        var houseli = "";
+        for (var i = 0; i < household.length; i++) {
+            houseli += `<li class="h`+ household[i].idx +`"><p class="housetype">`+ household[i].idx +`인가구</p><p class="housenum">`+ household[i].house +`명</p></li>`
+        }
         document.getElementById("sidebar").innerHTML =
             '<div id="sidebody">' +
             '<div class="sideinfo_fixed">' +
@@ -1485,47 +1572,37 @@ function sideInfoPopul(result,area, total, getarea) {
             '</div>' +
             '</div>' +
             '<div class="margintop"></div>'+
-
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">인구수</h4>'+
             '<div class="storegray iconPlus">' +
             '총 '+total_comma + '명'+
             '</div>' +
             '</div>' +
-
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">면적</h4>'+
-            '<div class="storegray iconPlus">' +
+            '<div class="crop_black_20dp iconPlus">' +
             '총 '+getarea + '㎢'+
             '</div>' +
             '</div>' +
-
             '<div class="sideinfo float">' +
             '<h4 class="sideinfoTitle">인구밀도</h4>'+
-            '<div class="storegray iconPlus">' +
-            '총 '+density + '인/㎢'+
+            '<div class="groups_gray_20dp iconPlus">' +
+            density + '인/㎢'+
             '</div>' +
             '</div>' +
-
             '<div class="greyspan"></div>'+
-
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>'+
                 '<div class="side_graph">' +
                     '<canvas id="business"></canvas>'+
                 '</div>'+
             '</div>' +
-
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">가구원수별 가구수</h4>'+
-                '<div class="storegray iconPlus">' +
-                '1인가구 2인가구 3인가구 4인가구 5인가구이상'+
-                '</div>' +
-            '<div class="side_graph">' +
-            '<canvas></canvas>'+
-            '</div>'+
+                '<ul class="short2">' +
+                    houseli +
+                '</ul>'+
             '</div>' +
-
                 '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
             '</div>' +
             '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
@@ -1534,8 +1611,12 @@ function sideInfoPopul(result,area, total, getarea) {
             $('#sidebar').addClass('on');
         }
         businessRatio(result[0].ct_shop_u20s,result[0].ct_shop_30s,result[0].ct_shop_40s,result[0].ct_shop_50s,result[0].ct_shop_o60s)
+
+
     }
 }
+var household =[]
+
 
 //사업체연령대
 function businessRatio(n1,n2,n3,n4,n5){
@@ -1593,6 +1674,11 @@ function businessRatio(n1,n2,n3,n4,n5){
     var canvas=document.getElementById('business');
     var business = new Chart(canvas,config);
 }
+
+//가구원 순위 1위,2위,3위 클라스표시
+
+
+
 
 //(주요이슈)임대시세탭 사이드바 인포
 function sideInfoRental(result,area, total) {
@@ -1662,17 +1748,16 @@ function sideInfoRental(result,area, total) {
                 data20181f.push(result[i].rt_1f)
                 data2018other.push(result[i].rt_other)
             } else if (year == 2019) {
-                data20181f.push(result[i].rt_1f)
-                data2018other.push(result[i].rt_other)
+                data20191f.push(result[i].rt_1f)
+                data2019other.push(result[i].rt_other)
             } else if (year == 2020) {
-                data20181f.push(result[i].rt_1f)
-                data2018other.push(result[i].rt_other)
+                data20201f.push(result[i].rt_1f)
+                data2020other.push(result[i].rt_other)
             } else if (year == 2021) {
-                data20181f.push(result[i].rt_1f)
-                data2018other.push(result[i].rt_other)
+                data20211f.push(result[i].rt_1f)
+                data2021other.push(result[i].rt_other)
             }
         }
-        console.log("1층외배열",data20171f, data2017other,data20181f, data2018other)
         multichart(data20171f,data2017other)
     }
 }
@@ -1695,15 +1780,15 @@ function updateChartType(){
     var year = $('select[name="chartYear"]').val()
     console.log(year)
 
-    if (year == 2021) {
+    if (year == 2017) {
         multichart(data20171f,data2017other)
-    } else if (year == 2020) {
+    } else if (year == 2018) {
         multichart(data20181f,data2018other)
     } else if (year == 2019) {
         multichart(data20191f,data2019other)
-    } else if (year == 2018) {
+    } else if (year == 2020) {
         multichart(data20201f,data2020other)
-    } else if (year == 2017) {
+    } else if (year == 2021) {
         multichart(data20211f,data2021other)
     }
 
@@ -1738,6 +1823,11 @@ function multichart(data1,data2){
                 backgroundColor: '#94b4ff',
                 fontColor: 'black'
             }
+        },
+        title: {
+            display: true,
+            text: '(단위:천원)',
+            position: 'right',
         }
     };
     var lineChart = new Chart(speedCanvas, {
@@ -1804,7 +1894,9 @@ function ajaxPostSyn(url, data, callback, showLoading) {
         }
     });
 }
-
+function closeCommnunity(){
+    $('.community_pop_wrap').removeClass('on')
+}
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });

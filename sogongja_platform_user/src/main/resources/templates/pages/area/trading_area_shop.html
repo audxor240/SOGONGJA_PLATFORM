@@ -141,7 +141,9 @@
                 </div>
                 <h4>상점 Community</h4>
                 <a th:href="@{/community/communityWriteForm(type=shop)}">글쓰기</a>
+                <div class="sideCloseBtn" onclick="closeCommnunity()" title="닫기"></div>
             </div>
+             <div class="margintop"></div>
              <ul class="community_pop_list">
                  <li class="community_main_li" th:if="${#lists.isEmpty(mapCommunityList)}" style="height: 172px;">
                      <div style="padding-top: 65px;text-align: center;">해당지역의 커뮤니티가 없습니다.</div>
@@ -201,7 +203,7 @@
              <!--           상점 커뮤니티 페이지로 이동-->
              <div class="community_more">
                  <a href="/community?type=shop">상점 커뮤니티 더보기</a></div>
-        </div>
+            </div>
     </div>
 
     <div class="solution_btn">
