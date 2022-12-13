@@ -1621,6 +1621,17 @@
   font-size: 12px;
   padding: 5px;
   text-align: center;
+  margin-right: 32px;
+}
+.community_wrap .community_pop_wrap .community_pop_title .sideCloseBtn {
+  cursor: pointer;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
+  background-size: cover;
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
 }
 .community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
   display: none;
@@ -2482,17 +2493,7 @@
     width: 100%;
   }
   .community_wrap .community_pop_wrap .community_pop_title > a {
-    display: none;
-  }
-  .community_wrap .community_pop_wrap .community_pop_title .sideCloseBtn {
-    cursor: pointer;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
-    background-size: cover;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 20px;
-    height: 20px;
+    display: block;
   }
   .community_wrap .community_pop_wrap .community_pop_title .m_scroll_btn {
     width: 100%;
