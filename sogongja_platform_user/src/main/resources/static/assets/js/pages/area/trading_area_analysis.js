@@ -1562,7 +1562,7 @@ function areanameSpread(area) {
 // kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
 var runTimer;
 
-kakao.maps.event.addListener(map, 'idle', function() {
+kakao.maps.event.addListener(map, 'tilesloaded', function() {
     clearTimeout(runTimer);
     zoom = map.getLevel();
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
@@ -1587,14 +1587,14 @@ kakao.maps.event.addListener(map, 'idle', function() {
         // do something
         runTimer = setTimeout(function() {
             changeMap();
-        }, 2000);
+        }, 1000);
     } else { //level < 4, zoom 3,2,1 일때
         $('#storelist').css('display', 'block');        // 상점 카테고리
         setMarkers(null)
         // do something
         runTimer = setTimeout(function() {
             changeMap();
-        }, 2000);
+        }, 1000);
     }
 });
 
