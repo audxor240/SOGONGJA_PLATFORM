@@ -162,3 +162,50 @@ function validationForm(){
 
 }
 
+$('#excelUpload').on('click', function(e) {
+
+    if($("#fileExcel").val() == ""){
+        alert("파일을 선택해주세요");
+        return false;
+    }
+
+    $(".wrap-loading").show();
+    var form = document.forms.excelInsert;
+    //form.seqStr.value = seqStr;
+    form.submit();
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    var num =0;
+    // 1 초마다 다운로드 완료됐는지 확인
+    FILEDOWNLOAD_INTERVAL = setInterval(function() {
+
+        $.ajax({
+            type: "POST",
+            url: "/excel/insertCheck",
+            async: false,
+            //data: JSON.stringify(data),
+            dataType:"json",
+            //data: $("[name=excelDown]").serialize(),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (result) {
+                if(result.code == "200"){
+                    $(".wrap-loading").hide();
+                    clearInterval(FILEDOWNLOAD_INTERVAL);
+                }
+
+            },
+            error: function (request,status,error) {
+                console.log("Error");
+                //alert(res.responseJSON.code);
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                return;
+
+            }
+        });
+    }, 1000);   //1초에 한번씩 실행
+
+});

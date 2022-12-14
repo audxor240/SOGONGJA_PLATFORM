@@ -383,6 +383,13 @@
         WHERE DEL_FLAG = 0 and AREA_CD = #{area_cd} and EMD_CD = #{emd_cd} and AREA_NM = #{area_nm} and COM_CD = #{com_cd} and COM_CD2 = #{com_cd2} and COM_NM = #{com_nm}
     </select>
 
+    <select id="checkReSearchRegion" parameterType="map" resultType="int">
+        /* file : ReSearchAreaMapper.xml, id : checkReSearchRegion */
+        SELECT count(*)
+        FROM ST_RESEARCH_REGION
+        WHERE DEL_FLAG = 0 and YEAR = #{year} and QRT =#{qrt} and CTPRVN_NM = #{ctprvn_nm} and SIGNGU_CD = #{signgu_cd} and SIGNGU_NM = #{signgu_nm} and EMD_CD = #{emd_cd}
+    </select>
+
     <update id="deleteReSearchArea" parameterType="map" >
         /* file : ReSearchAreaMapper.xml, id : deleteReSearchArea */
         UPDATE ST_RESEARCH_AREA

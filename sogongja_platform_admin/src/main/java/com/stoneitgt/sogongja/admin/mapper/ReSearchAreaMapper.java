@@ -28,6 +28,8 @@ public interface ReSearchAreaMapper {
 
     int checkReSearchAreaCom(Map<String, Object> map);
 
+    int checkReSearchRegion(Map<String, Object> map);
+
     int deleteReSearchArea(Map<String, Object> params);
 
     int deleteReSearchAreaCom(Map<String, Object> params);

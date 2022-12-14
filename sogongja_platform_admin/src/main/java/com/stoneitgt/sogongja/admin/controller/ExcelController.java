@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,20 @@ public class ExcelController extends BaseController {
 
         return returnUrl;
 
+    }
+
+    @PostMapping("/insertCheck")
+    public ResponseEntity<?> insertCheck() {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        boolean result = excelService.insertSuccessCheck();
+        if(result == true){
+            resultMap.put("code", GlobalConstant.API_STATUS.SUCCESS);
+        }else{
+            resultMap.put("code", GlobalConstant.API_STATUS.FAIL);
+        }
+
+        return ResponseEntity.ok(resultMap);
     }
 
 
