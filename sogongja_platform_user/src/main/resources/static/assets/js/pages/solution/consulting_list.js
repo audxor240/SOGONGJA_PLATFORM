@@ -2,7 +2,9 @@
     'use strict'
     $(document).ready(function() {
 
-        commonSearchPaging();
+        //commonSearchPaging();
+        getRecommendConList(1);
+        getFrequentlyRecommendConsulting(1);
 
         // 즐겨찾기
         $('.favorite').on('click', function(e) {
@@ -25,7 +27,7 @@
         });
 
         //추천 컨설팅 > 이미 받은 컨설팅 감추기
-        $('#con_watching_hide1').on('click', function(e) {
+        /*$('#con_watching_hide1').on('click', function(e) {
             var form = document.forms.searchForm1;
             if($(this).is(":checked") == true){
                 form.conWatchingView1.value = true;
@@ -38,12 +40,14 @@
             }else{
                 form.conWatchingView2.value = false;
             }
-            form.submit();
-        });
+            //form.submit();
+            getRecommendConList(1);
+
+        });*/
 
         //다른 사용자가 자주 찾는 컨설팅 > 이미 받은 컨설팅 감추기
-        $('#con_watching_hide2').on('click', function(e) {
-            var form = document.forms.searchForm2;
+        /*$('#con_watching_hide2').on('click', function(e) {
+            var form = document.forms.searchForm;
             if($(this).is(":checked") == true){
                 form.conWatchingView2.value = true;
             }else{
@@ -54,8 +58,9 @@
             }else{
                 form.conWatchingView1.value = false;
             }
-            form.submit();
-        });
+            //form.submit();
+            getFrequentlyRecommendConsulting(1);
+        });*/
 
     });
 
@@ -157,4 +162,115 @@ function favorite(seq){
         }
     });
 
+}
+
+function getRecommendConList(page){
+    var form = document.forms.searchForm1;
+
+    var conWatchingView1 = "N";
+    if(form.conWatchingView1.value == "true"){
+        conWatchingView1 = "Y";
+    }
+
+    let data = {
+        "page": page,
+        "conWatchingView1": conWatchingView1
+    };
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/solution/recommend_con",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        //dataType:"json",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+            let fragment = res.responseText
+            $(".solution_edu").replaceWith(fragment);
+            //$("#dtsch_modal").show();
+            //alert(res.responseJSON.message);
+            return false;
+        }
+    }).done(function (fragment) {
+        //여기로 안들어옴.....
+        $(".solution_edu").replaceWith(fragment);
+        //$("#dtsch_modal").show();
+        //$(".loading_box").hide();
+
+    });
+}
+
+function getFrequentlyRecommendConsulting(page){
+    var form = document.forms.searchForm;
+    var conWatchingView2 = "N";
+
+    if(form.conWatchingView2.value == "true"){
+        console.log("check------- true");
+        conWatchingView2 = "Y";
+    }
+
+    let data = {
+        "page": page,
+        "conWatchingView2": conWatchingView2
+    };
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: "POST",
+        url: "/solution/frequently_recommend_con",
+        async: false,
+        data: JSON.stringify(data),
+        //contentType:"application/json; charset=utf-8",
+        //dataType:"json",
+        //data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        error: function (res) {
+            let fragment = res.responseText
+            $(".edu_list_wrap").replaceWith(fragment);
+            //$("#dtsch_modal").show();
+            //alert(res.responseJSON.message);
+            return false;
+        }
+    }).done(function (fragment) {
+        //여기로 안들어옴.....
+        $(".edu_list_wrap").replaceWith(fragment);
+        //$("#dtsch_modal").show();
+        //$(".loading_box").hide();
+
+    });
+}
+
+function con_watching_hide(){
+
+    var form = document.forms.searchForm1;
+
+    if($("#con_watching_hide1").is(":checked")){
+        form.conWatchingView1.value = true;
+    }else{
+        form.conWatchingView1.value = false;
+    }
+
+    getRecommendConList(1);
+}
+
+function con_watching_hide2(){
+
+    var form = document.forms.searchForm;
+    if($("#con_watching_hide2").is(":checked")){
+        form.conWatchingView2.value = true;
+    }else{
+        form.conWatchingView2.value = false;
+    }
+
+    getFrequentlyRecommendConsulting(1);
 }

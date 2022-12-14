@@ -181,6 +181,8 @@ function page_link(pageType, page){
         case "recommend_edu":getRecommendEduList(page); break;
         case "like_con":getLikeConList(page); break;
         case "recommend_con":getRecommendConList(page); break;
+        case "frequently_recommend_con": getFrequentlyRecommendConsulting(page); break;
+        case "frequently_recommend_edu": getFrequentlyRecommendEducation(page); break;
     }
 }
 
@@ -429,7 +431,7 @@ if (window.location.pathname == '/') {
 } else if (window.location.pathname == '/service/education' || window.location.pathname == '/service/consulting/case' || window.location.pathname == '/service/consulting/view' || window.location.pathname == '/service/consulting') {
     document.querySelector(".service").className += ' active';
 } else if (window.location.pathname == '/solution/education' || window.location.pathname == '/solution/consulting' || window.location.pathname == '/solution/question') {
-    document.querySelector(".solution").className += ' active';
+    //document.querySelector(".solution").className += ' active';
 } else if (window.location.pathname == '/board/news' || window.location.pathname == '/board/notice' || window.location.pathname == '/board/faq' || window.location.pathname == '/board/policy' || window.location.pathname == '/board/statute' || window.location.pathname == '/board/board_view') {
     document.querySelector(".board").className += ' active';
 } else {

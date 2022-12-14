@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.stoneitgt.common.GlobalConstant;
 import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.domain.CounselingParameter;
 import com.stoneitgt.sogongja.user.service.*;
@@ -14,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.stoneitgt.common.GlobalConstant.PAGE_SIZE;
 import com.stoneitgt.common.Paging;
@@ -44,6 +43,9 @@ public class SolutionController extends BaseController {
 
 	@Autowired
 	private BoardService boardService;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/education")
 	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication, HttpServletResponse response) throws IOException {
@@ -162,7 +164,7 @@ public class SolutionController extends BaseController {
 			paramsMap.put("order", "read_cnt");
 			conList = consultingService.getConsultingRecommendList(paramsMap, paging);    //다른 사용자가 자주 찾는 컨설팅
 		}
-		System.out.println("conList :: "+conList);
+
 		//List<Map<String, Object>> conList = consultingService.getConsultingList(paramsMap, paging);
 		Integer total = consultingService.selectTotalRecords();
 		paging.setTotal(total);
@@ -191,7 +193,7 @@ public class SolutionController extends BaseController {
 				}
 			}
 		}
-		System.out.println("recommendList :: "+recommendList);
+
 		//List<Map<String, Object>> recommendList = consultingService.getConsultingRecommendList(paramsMap, paging);
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
@@ -214,5 +216,195 @@ public class SolutionController extends BaseController {
 	@GetMapping("/question")
 	public String question(Model model) {
 		return "pages/solution/question";
+	}
+
+	@PostMapping("/recommend_con")
+	public String getRecommendConsulting(Model model,@ModelAttribute CounselingParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		if(data.get("conWatchingView1").equals("Y")){
+			params.setConWatchingView1(true);
+		}
+		/*if(data.get("conWatchingView1") == true){
+			params.setConWatchingView1((Boolean) data.get("conWatchingView1"));
+		}*/
+
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("login_user_seq",authenticationFacade.getLoginUserSeq());
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.DEFAULT_SIZE);
+
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+		}
+		//관심 컨설팅 정보 조회
+		//list = userService.getRecommendConsultingList(paramsMap, paging);
+		list = consultingService.getConsultingRecommendList(paramsMap, paging);
+		Integer total = userService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+		model.addAttribute("pageType", "recommend_con");
+
+		return "pages/solution/consulting :: .solution_edu";
+	}
+
+	@PostMapping("/recommend_edu")
+	public String getRecommendEducation(Model model,@ModelAttribute EducationParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		if(data.get("eduWatchingView1").equals("Y")){
+			params.setEduWatchingView1(true);
+		}
+		//params.setConWatchingView2((Boolean) data.get("conWatchingView2"));
+
+		Paging paging = getUserPaging((Integer) data.get("page"), PAGE_SIZE.USER_EDUCATION_SOLUTION);
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("login_user_seq",authenticationFacade.getLoginUserSeq());
+
+		List<Map<String, Object>> recommendList = new ArrayList<>();
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+
+			recommendList = ecucationService.getEducationRecommendList(paramsMap);	//추천 교육
+			// 최대 12개만 보여준다.
+			if (recommendList != null && recommendList.size() > 12) {
+				recommendList = recommendList.subList(0, 12);
+			}
+		}
+
+		Integer total = ecucationService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("recommendList", recommendList);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+		model.addAttribute("pageType", "recommend_edu");
+
+		return "pages/solution/education :: .solution_edu";
+	}
+
+	@PostMapping("/frequently_recommend_edu")
+	public String getFrequentlyRecommendEducation(Model model,@ModelAttribute EducationParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		if(data.get("eduWatchingView2").equals("Y")){
+			params.setEduWatchingView2(true);
+		}
+		//params.setConWatchingView2((Boolean) data.get("conWatchingView2"));
+
+		Paging paging = getUserPaging((Integer) data.get("page"), PAGE_SIZE.USER_EDUCATION_SOLUTION);
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("login_user_seq",authenticationFacade.getLoginUserSeq());
+		paramsMap.put("order", "read_cnt");
+
+		List<Map<String, Object>> eduList = new ArrayList<>();
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+			eduList = ecucationService.getEducationRecommendList(paramsMap, paging);    //다른 사용자가 자주 찾는 교육
+
+		}
+
+		Integer total = ecucationService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("eduList", eduList);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+		model.addAttribute("pageType", "frequently_recommend_edu");
+
+		return "pages/solution/education :: .edu_list_wrap";
+	}
+
+	@PostMapping("/frequently_recommend_con")
+	public String getFrequentlyRecommendConsulting(Model model,@ModelAttribute CounselingParameter params, @RequestBody Map<String, Object> data){
+
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		//설문지와 매핑된 카테고리를 가져온다
+		String category2Group = categoryService.getMappingCategory2(authenticationFacade.getLoginUserSeq());	//설문지 선택형 답변의 매핑 정보(CATEGORY2)
+		String category3Group = categoryService.getMappingCategory3(authenticationFacade.getLoginUserSeq());	//설문지 추가형[업종] 답변의 매핑 정보(CATEGORY3)
+
+		if(data.get("conWatchingView2").equals("Y")){
+			params.setConWatchingView2(true);
+		}
+		//params.setConWatchingView2((Boolean) data.get("conWatchingView2"));
+
+		Paging paging = getUserPaging((Integer) data.get("page"), GlobalConstant.PAGE_SIZE.DEFAULT_SIZE);
+
+		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
+		paramsMap.put("login_user_seq",authenticationFacade.getLoginUserSeq());
+		paramsMap.put("read_cnt", "N");
+		List<Map<String, Object>> conList = new ArrayList<>();
+		if(category2Group != null || category3Group != null) {
+			if (category2Group != null) {
+				List<String> category2Arr = Arrays.asList(category2Group.split(","));
+				paramsMap.put("category2Group", category2Arr);
+			}
+
+			if (category3Group != null) {
+				List<String> category3Arr = Arrays.asList(category3Group.split(","));
+				paramsMap.put("category3Group", category3Arr);
+
+			}
+			paramsMap.put("order", "read_cnt");
+
+			conList = consultingService.getConsultingRecommendList(paramsMap, paging);    //다른 사용자가 자주 찾는 컨설팅
+		}
+
+		//List<Map<String, Object>> conList = consultingService.getConsultingList(paramsMap, paging);
+		Integer total = consultingService.selectTotalRecords();
+		paging.setTotal(total);
+
+		model.addAttribute("conList", conList);
+		model.addAttribute("paging", paging);
+		model.addAttribute("params", params);
+		model.addAttribute("pageType", "frequently_recommend_con");
+
+		return "pages/solution/consulting :: .edu_list_wrap";
 	}
 }

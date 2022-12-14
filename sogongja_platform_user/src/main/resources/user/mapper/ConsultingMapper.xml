@@ -114,14 +114,14 @@
 		<choose>
 			<when test="order == 'read_cnt'">
 				ORDER BY READ_CNT DESC, CON_SEQ DESC
-				/*||ORDER BY READ_CNT DESC, CON_SEQ DESC||*/
+
 			</when>
 			<when test="order == 'rand'">
 				ORDER BY RAND()
 			</when>
 			<otherwise>
 				ORDER BY CON_SEQ DESC
-				/*||ORDER BY CON_SEQ DESC||*/
+
 			</otherwise>
 		</choose>
 	</select>

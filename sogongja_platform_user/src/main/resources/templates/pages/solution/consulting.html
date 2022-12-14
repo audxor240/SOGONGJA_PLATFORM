@@ -38,7 +38,7 @@
                                 <input type="hidden" th:field="*{conWatchingView1}" >
                                 <input type="hidden" th:field="*{conWatchingView2}" >
                                 <div class="mb_20">
-                                    <input type="checkbox" id="con_watching_hide1" class="checkbox_style c181818" th:checked="${params.conWatchingView1 == true}">
+                                    <input type="checkbox" id="con_watching_hide1" class="checkbox_style c181818" th:checked="${params.conWatchingView1 == true}" onchange="con_watching_hide()">
                                     <label for="con_watching_hide1">이미 받은 컨설팅 감추기</label>
                                 </div>
                             </form>
@@ -56,65 +56,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:unless="${#lists.isEmpty(recommendList)}">
-                                <tr th:each="item : ${recommendList}">
-                                    <td th:text="${paging.total - item.rnum + 1}"></td>
-                                    <td>[[${item.support_org_name}]]</td>
-                                    <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
-                                    <td class="color_606060">[[${item.support_by}]]</td>
-                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
-                                    <td>
-                                        <div class="management management_wrap">
-                                            <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
-                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-con-seq="${item.con_seq}" style="cursor: pointer"></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </th:block>
-                            <th:block th:if="${#lists.isEmpty(recommendList)}">
-                                <tr>
-                                    <td class="none_contents_wrap" colspan="5">
-                                        <div class="none_contents" >
-                                            <span></span>
-                                            <p>컨텐츠가 존재하지 않습니다.</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </th:block>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="edu_list_wrap">
-                        <form name="searchForm2" th:action="@{/solution/consulting}" th:object="${params}">
-                            <input type="hidden" th:field="*{conWatchingView1}" >
-                            <input type="hidden" th:field="*{conWatchingView2}" >
-                            <th:block th:include="fragments/search_hidden"></th:block>
-                        </form>
-                        <div class="h3_title_wrap h3_flex">
-                            <div>
-                                <h3 class="h3_title">다른 사용자가 자주 찾는 컨설팅</h3>
-                                <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
-                            </div>
-                            <div class="mb_20">
-                                <input type="checkbox" id="con_watching_hide2" class="checkbox_style c181818" th:checked="${params.conWatchingView2 == true}">
-                                <label for="con_watching_hide2">이미 받은 컨설팅 감추기</label>
-                            </div>
-                        </div>
-                        <table class="table_style custom_consulting">
-                            <caption>다른 사용자가 자주 찾는 컨설팅</caption>
-                            <thead>
-                            <tr>
-                                <th style="width: 8%;">No.</th>
-                                <th style="width: 12%;">제공기관</th>
-                                <!--<th style="width: 15%;">서비스명</th>-->
-                                <th style="width: 15%;">구분</th>
-                                <th style="width: 40%;">지원내용</th>
-                                <th style="width: 10%;">관리</th>
-                            </tr>
-                            </thead>
-                            <tbody>
                             <th:block th:unless="${#lists.isEmpty(list)}">
                                 <tr th:each="item : ${list}">
+                                    <input type="hidden" id="total" th:value="${paging.total}">
+                                    <input type="hidden" id="rnum" th:value="${item.rnum}">
+                                    <input type="hidden" id="num" th:value="${paging.total - item.rnum + 1}">
                                     <td th:text="${paging.total - item.rnum + 1}"></td>
                                     <td>[[${item.support_org_name}]]</td>
                                     <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
@@ -140,8 +86,67 @@
                             </th:block>
                             </tbody>
                         </table>
+                        <th:block th:include="fragments/mypage_paging" ></th:block>
                     </div>
-                    <th:block th:include="fragments/paging"></th:block>
+                    <div class="edu_list_wrap">
+                        <form name="searchForm" th:action="@{/solution/consulting}" th:object="${params}">
+                            <input type="hidden" th:field="*{conWatchingView1}" >
+                            <input type="hidden" th:field="*{conWatchingView2}" >
+                            <!--/*<th:block th:include="fragments/search_hidden"></th:block>*/-->
+                        </form>
+                        <div class="h3_title_wrap h3_flex">
+                            <div>
+                                <h3 class="h3_title">다른 사용자가 자주 찾는 컨설팅</h3>
+                                <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
+                            </div>
+                            <div class="mb_20">
+                                <input type="checkbox" id="con_watching_hide2" class="checkbox_style c181818" th:checked="${params.conWatchingView2 == true}" onchange="con_watching_hide2();">
+                                <label for="con_watching_hide2" >이미 받은 컨설팅 감추기</label>
+                            </div>
+                        </div>
+                        <table class="table_style custom_consulting">
+                            <caption>다른 사용자가 자주 찾는 컨설팅</caption>
+                            <thead>
+                            <tr>
+                                <th style="width: 8%;">No.</th>
+                                <th style="width: 12%;">제공기관</th>
+                                <!--<th style="width: 15%;">서비스명</th>-->
+                                <th style="width: 15%;">구분</th>
+                                <th style="width: 40%;">지원내용</th>
+                                <th style="width: 10%;">관리</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:unless="${#lists.isEmpty(conList)}">
+                                <tr th:each="item : ${conList}">
+                                    <td th:text="${paging.total - item.rnum + 1}"></td>
+                                    <td>[[${item.support_org_name}]]</td>
+                                    <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
+                                    <td class="color_606060">[[${item.support_by}]]</td>
+                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
+                                    <td>
+                                        <div class="management management_wrap">
+                                            <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
+                                            <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-con-seq="${item.con_seq}" style="cursor: pointer"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(conList)}">
+                                <tr>
+                                    <td class="none_contents_wrap" colspan="5">
+                                        <div class="none_contents" >
+                                            <span></span>
+                                            <p>컨텐츠가 존재하지 않습니다.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                        <th:block th:include="fragments/mypage_paging" ></th:block>
+                    </div>
+
                 </div>
         </section>
     </article>

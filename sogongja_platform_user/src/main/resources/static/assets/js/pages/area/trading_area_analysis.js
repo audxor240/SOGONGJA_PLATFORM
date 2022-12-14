@@ -370,12 +370,10 @@ $("input[name=cate]").prop("checked", true).each(function (index, item) {
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
 $("input[name=cate]").click(function () {
     if ($(this).prop('checked')) {
-        console.log($(this).val())
         if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
             codeType1.push($(this).val());
         }
     } else {
-        console.log($(this))
         codeType1.forEach((item, index) => {
             if (item == $(this).val()) {
                 codeType1.splice(index, 1);
@@ -553,7 +551,6 @@ function displayPath(polygon, area, i) {
             }
             $('.filterbox').removeClass('on');
             var position = centroid(area.path);
-            console.log(position.Ma)
             var data = {
                 areaCd: area.area_cd,
                 areaSeq: area.area_seq,
@@ -875,8 +872,6 @@ function sideInfo(area, detail) {
                 quarter2017 = quarter2017.sort((a, b) => a.qrt - b.qrt);
             }
         }
-        console.log("분기별 그래프 소트33", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
-        console.log("생활인구33", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
         updateChartType()
 
         //상권안정화 연도별-라인그래프
@@ -900,7 +895,6 @@ function sideInfo(area, detail) {
             }
         }
         var yearly = [year2017,year2018,year2019,year2020,year2021]
-        console.log("연도합계",yearly)
         chartYearly(yearly)
 
     }
@@ -925,14 +919,10 @@ var weekdaydata60 = [];
 var weekenddata60 = [];
 
 function updateChartType(){
-    console.log("셀렉변경")
-    console.log("분기별 그래프 소트", quarter2021,quarter2020,quarter2019,quarter2018,quarter2017)
-    console.log("생활인구", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
     $('#stabilization_quarter').remove();//있던 차트 지우고
     $('.stabilization_quarter').append('<canvas id="stabilization_quarter"><canvas>');//차트id추가
 
     var year = $('select[name="chartYear"]').val()
-    console.log(year)
     var data=[]
     if (year == 2021) {
         for (var i = 0; i < quarter2021.length; i++) {
@@ -963,7 +953,6 @@ function agetab() {
     $('#livingweekend').remove();//있던 차트 지우고
     $('.living_wd').append('<canvas id="livingweekday"><canvas>');//차트id추가
     $('.living_we').append('<canvas id="livingweekend"><canvas>');//차트id추가
-    console.log("생활인구", weekdaydata10,weekdaydata20,weekdaydata30,weekdaydata40,weekdaydata50,weekdaydata60)
     var value = $('input[name="agetab"]:checked').val();
     //생활인구
     if (value == "10") {
@@ -1060,7 +1049,6 @@ function areatab2(){
 function contentFunc(area) {
     //요상한 그래프 인포윈도우입니다.
     var infos = area.info
-    console.log("요것이 상권인포", infos)
     //상점수 개점수 폐점수 추정매출6개 //업종분류
     var stores = 0;//상점수
     var open = 0;//개업수
@@ -1076,10 +1064,8 @@ function contentFunc(area) {
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
-    console.log('enter contentFunc 대분류: ' + maincate + ' 중분류 : ' + midcate)
 
     if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-        console.log("대분류 전체")
         for (var i = 0; i < infos.length; i++) {
             stores += infos[i].ct_shop;
             open += infos[i].ct_open;
@@ -1102,7 +1088,6 @@ function contentFunc(area) {
         const query = 'input[name="timecate"]:checked';
         const selectedEls = document.querySelectorAll(query);
         selectedEls.forEach((el) => {
-            console.log(el.id)
             sum_all += parseInt(el.value);
         });
         document.getElementById("resultsum").value = sum_all;
@@ -1117,16 +1102,20 @@ function contentFunc(area) {
         if (areaTab === "open") {//개업수
             info2 = info2.sort((a, b) => b.open - a.open);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].open > 0) { //합계가 0이상이면 1개라도 있다는거니깐 표시
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].open + '개 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else if (areaTab === "close") {//폐업수
             info2 = info2.sort((a, b) => b.close - a.close);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].close > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].close + '개 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else if (areaTab === "sales") {//추정매출
             for (var i = 0; i < info2.length; i++) {
@@ -1151,25 +1140,56 @@ function contentFunc(area) {
             }
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                if (info2[i].sales > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
 
-                var sales_comma = info2[i].sales.toString()
-                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+sales_comma +'원 '+ (i+1)+`위</div></span>`
+                    var sales_comma = info2[i].sales.toString()
+                        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + sales_comma + `원<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + sales_comma + '원 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                console.log(sectorname,"sectorname")
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].stores > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].stores + '개 ' + (i + 1) + `위</div></span>`
+                }
             }
         }
-        console.log(mainpart)
+        var placeranking =
+            '<div class="placeinfo2 placeranking">' +
+            '<div id="title" >' +
+            '전체업종 순위'+
+            "</div>" +
+            '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+            '<div class="ranking_list" >' +
+            ranking+
+            "</div>" +
+            '<div class="after"></div>'+
+            "</div>" +
+            '</div>';
+        if (areaTab === "open") {
+            if(open==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "close"){
+            if(close==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "sales"){
+            if(sales==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "stores"){
+            if(stores==0){
+                placeranking ="";
+            }
+        }
 
-        //대분류전체 콘텐트
+            //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
                 '<p class="areacenter">' +
@@ -1196,17 +1216,7 @@ function contentFunc(area) {
                 '<ul class="graphmenu">'+
                 mainpart +
                 ' </ul>'+
-            '<div class="placeinfo2">' +
-                '<div id="title" >' +
-                '전체업종 순위'+
-                "</div>" +
-                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
-                '<div class="ranking_list" >' +
-                ranking+
-                "</div>" +
-                '<div class="after"></div>'+
-                "</div>" +
-            '</div>'+
+            placeranking+
             '<div class="placeinfo2 placegraph">' +
                 '<div id="title">' +
                 "</div>" +
@@ -1214,12 +1224,9 @@ function contentFunc(area) {
                 '<div class="ranking_list">' +
                 "</div>" +
                 '<div class="after"></div>'+
-            "</div>"
-        ;
-
+            "</div>";
     } else {// 여기는 단일마커임
         if (midcate.includes('all')) {
-            console.log("대분류 분류 중분류 전체")
             for (var i = 0; i < infos.length; i++) {
                 if (maincate === infos[i].code) {
                     stores += infos[i].ct_shop;
@@ -1235,7 +1242,6 @@ function contentFunc(area) {
                 }
             }
         } else {
-            console.log("대분류 분류 중분류 분류")
             for (var i = 0; i < infos.length; i++) {
                 if (midcate === infos[i].com_cd2) {
                     stores += infos[i].ct_shop;
@@ -1261,7 +1267,6 @@ function contentFunc(area) {
         const query = 'input[name="timecate"]:checked';
         const selectedEls = document.querySelectorAll(query);
         selectedEls.forEach((el) => {
-            console.log(el.id)
             sum_all += parseInt(el.value);
         });
         document.getElementById("resultsum").value = sum_all;
@@ -1359,7 +1364,6 @@ function areaInhoverOut() {
 function areanameSpread(area) {
     // 커스텀 상권이름 마커를 생성합니다
     var infos = area.info
-    console.log("요것이 상권인포", infos)
 //상점수 개점수 폐점수 추정매출6개 //업종분류
     var stores = 0;//상점수
     var open = 0;//개업수
@@ -1375,11 +1379,8 @@ function areanameSpread(area) {
 
     var maincate = $('input[name="area_maincate"]:checked').val() //대분류
     var midcate = $('input[name="area_midcate"]:checked').val() //중분류
-    console.log("대분류 : " + maincate + " 중분류 : " + midcate)
     if (maincate == "all") {//전체 업종 선택이면 전체내리고
-        console.log("대분류 전체")
         for (var i = 0; i < infos.length; i++) {
-
             stores += infos[i].ct_shop;
             open += infos[i].ct_open;
             close += infos[i].ct_close;
@@ -1390,12 +1391,9 @@ function areanameSpread(area) {
             sum_14_17 += infos[i].sum_14_17;
             sum_17_21 += infos[i].sum_17_21;
             sum_21_24 += infos[i].sum_21_24;
-
         }
     } else {
         if (midcate.includes('all')) {
-            console.log("대분류 분류 중분류 전체")
-
             for (var i = 0; i < infos.length; i++) {
                 if (maincate === infos[i].code) {
                     stores += infos[i].ct_shop;
@@ -1412,8 +1410,6 @@ function areanameSpread(area) {
                 }
             }
         } else {
-            console.log("대분류 분류 중분류 분류")
-
             for (var i = 0; i < infos.length; i++) {
                 if (midcate === infos[i].com_cd2) {
                     stores += infos[i].ct_shop;
@@ -1440,50 +1436,10 @@ function areanameSpread(area) {
     const query = 'input[name="timecate"]:checked';
     const selectedEls = document.querySelectorAll(query);
     selectedEls.forEach((el) => {
-        console.log(el.id)
         sum_all += parseInt(el.value);
     });
     document.getElementById("resultsum").value = sum_all;
 
-    // for (var i = 0; i < infos.length; i++) {
-    //     if (maincate == "all") {//전체 업종 선택이면 전체내리고 희안한 그래프 뜨는거고
-    //             stores += infos[i].ct_shop;
-    //             open += infos[i].ct_open;
-    //             close += infos[i].ct_close;
-    //
-    //             sum_00_06 += infos[i].sum_00_06;
-    //             sum_06_11 += infos[i].sum_06_11;
-    //             sum_11_14 += infos[i].sum_11_14;
-    //             sum_14_17 += infos[i].sum_14_17;
-    //             sum_17_21 += infos[i].sum_17_21;
-    //             sum_21_24 += infos[i].sum_21_24;
-    //
-    //         document.getElementById("SUM_00_06").value = sum_00_06;
-    //         document.getElementById("SUM_06_11").value = sum_06_11;
-    //         document.getElementById("SUM_11_14").value = sum_11_14;
-    //         document.getElementById("SUM_14_17").value = sum_14_17;
-    //         document.getElementById("SUM_17_21").value = sum_17_21;
-    //         document.getElementById("SUM_21_24").value = sum_21_24;
-    //
-    //         const query = 'input[name="timecate"]:checked';
-    //         const selectedEls = document.querySelectorAll(query);
-    //         selectedEls.forEach((el) =>{
-    //             sum_all += parseInt(el.value);
-    //         });
-    //         document.getElementById("resultsum").value = sum_all;
-    //     } else {// 그게 아니면 단일그래프가 떠야한다
-    //
-    //         // //그 안에서 분류
-    //         // if (midcate == infos[i].com_cd2) {//단일업종 전체아니고 1가지일때
-    //         //
-    //         //     // 모든합계 var store =
-    //         // } else {//단일업종 전체일때
-    //         //
-    //         // }
-    //     }
-    // }
-    // var sum_all = sum_00_06 + sum_06_11 + sum_11_14 + sum_14_17 + sum_17_21 + sum_21_24//all추정매출
-    console.log("상점수", stores, '개폐점수', open, close, "추정매출총합과 6가지", sum_all, sum_00_06, sum_06_11, sum_11_14, sum_14_17, sum_17_21, sum_21_24)//전체임
     var sum_all_comma = sum_all.toString()
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     if (area.area_type == "D") {
@@ -1589,7 +1545,6 @@ function areanameSpread(area) {
     } else {
         var content = ""
     }
-    console.log(content)
     var position = centroid(area.path);
     var customOverlay = new kakao.maps.CustomOverlay({
         position: position,
@@ -1628,7 +1583,6 @@ async function changeMap() {
         codeType1,
         codeType2
     }
-    console.log("data재요청입니다!", datalat);
 
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
         //시도,시군구 단위 자체 마커
@@ -1649,30 +1603,30 @@ async function changeMap() {
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             resultSpread(result)//다시그려
         });
-    } else if (zoom >= 4 && zoom < 6) { //zoom 4,5 일때
-        //상권패스  +커스텀마커: 상권명 + 상점수
-        //          + 클릭 시 그래프★★★
-        $('#storelist').css('display', 'none');//상점 카테고리 삭제
-        $('.areaTap').css('display', 'block');
-        $('#filter').css('display', 'block');
-        $('.area_map').removeClass('on')
-        if(countmarkers.length>0){
+    } else if (zoom >= 4 && zoom < 6) {
+        // zoom 4,5 일때 보일것:
+        // 상권패스  + 커스텀마커( 상권명 + 상점수 )
+        //          + 클릭 시 마커위에 그래프 ★★★
+        $('#storelist').css('display', 'none'); // 상점 카테고리 삭제
+        $('.areaTap').css('display', 'block'); // 상점수,개폐업수,추정매출 탭 보이기
+        $('#filter').css('display', 'block'); // 필터 보이기
+        $('.area_map').removeClass('on') // 모바일 맵 사이즈 조정
+
+        if(countmarkers.length>0){ //시군구 마커 비우고
             for (var i = 0; i < countmarkers.length; i++) {
-                countmarkers[i].setMap(null);//시군구 마커 비우고
+                countmarkers[i].setMap(null);
             }
         }
         if(markers.length>0){
             setMarkers(null)//상점삭제
         }
 
-        //5~ 상점수,개폐업수,추정매출 탭 보이기 + 필터 보이기
-        removePolygons(map)//areajson에 쓰던 상권 삭제하고
-        for (var i = 0; i < areanameMarkers.length; i++) {
-            areanameMarkers[i].setMap(null);//상권이름 마커 비우고
-        }
-
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
+                removePolygons(map)//areajson에 쓰던 상권 삭제하고
+                for (var i = 0; i < areanameMarkers.length; i++) {
+                    areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+                }
             areaJson = result;
             areaSpread(areaJson);//상권 패스 다시 그려줌
             for (var i = 0, len = areaJson.length; i < len; i++) {
@@ -1682,15 +1636,30 @@ async function changeMap() {
         });
 
     } else { //level < 4, zoom 3,2,1 일때
-        // 상점 마커들 추가로 찍어주기
+        $('#storelist').css('display', 'block');        // 상점 카테고리
         setMarkers(null)
-        $('#storelist').css('display', 'block');
+        removePolygons(map)//areajson에 쓰던 상권 삭제하고
+        for (var i = 0; i < areanameMarkers.length; i++) {
+            areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+        }
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점 찍기
         });
-    }
 
+        ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
+            console.log("이게 상권데이터 갖고오는거임", result)
+
+            areaJson = result;
+            if(result.length>0) {
+                areaSpread(areaJson);//상권 패스 다시 그려줌
+                for (var i = 0, len = areaJson.length; i < len; i++) {
+                    areanameSpread(areaJson[i]);// 상권이름 그려줌
+                }
+                changeAreaTab()//탭변경
+            }
+        });
+    }
 };
 //changeMap 끝
 //changeMap 끝
@@ -1931,7 +1900,6 @@ $('input[name="timecate"], input[name="area_maincate"], input[name="area_midcate
 })
 
 function showMidPart(code) {
-    console.log('code : ' + code);
     var code = code;
     var ranking2="";
     var tempArr = new Array();
@@ -2067,7 +2035,6 @@ function showMidPart(code) {
         //2)2차그래프-2.인포윈도 위에 그리기
         drawSecondGraph(code,ranking2)//2차 그래프 인포 그리기
     }
-        console.log("세부세부요청",tempArr)
 
 }
 function drawSecondGraph(code,ranking2){
