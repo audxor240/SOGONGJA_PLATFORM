@@ -6,7 +6,7 @@
   <title>소공자플랫폼 지역연구소</title>
   <meta property="og:url" content="">
   <meta property="og:title" content="소공자 플랫폼 | 지역연구소">
-  <meta property="og:image" th:content="@{/images/bg-maintext.png}">
+  <meta property="og:image" th:content="@{/images/bg-maintext1.png}">
   <meta property="og:description" content="소공자 플랫폼 지역연구소">
   <meta name="keywords" content="소공자 플랫폼, 상권연구소, 상권분석정보, 상권특성정보, 지역특성정보">
   <meta name="description" content="소공자 플랫폼 지역연구소">
@@ -179,7 +179,7 @@
           <div style="padding-top: 65px;text-align: center;">해당지역의 커뮤니티가 없습니다.</div>
         </li>
         <li class="community_main_li" th:each="item : ${mapCommunityList}" th:unless="${#lists.isEmpty(mapCommunityList)}">
-          <div class="community_main" style="cursor: pointer" th:onclick="getReply([[${item.community_seq}]])">
+          <div class="community_main" style="cursor: pointer" th:onclick="getReply([[${item.community_seq}]],this)">
             <input type="hidden" id="communitySeq" th:value="${item.community_seq}">
             <div class="top_info">
               <span>[[${item.region_name1}]] [[${item.region_name2}]] [[${item.category_name1}]] [[${item.category_name2}]]</span>
@@ -223,7 +223,7 @@
             <form id="reply_add" name="reply_add" class="coment_form" >
               <input type="hidden" name="communitySeq" th:value="${item.community_seq}">
               <input type="text" name="comment">
-              <button type="button" class="reply_btn" th:onclick="addReply([[${item.community_seq}]])">댓글</button>
+              <button type="button" class="reply_btn" th:onclick="addReply([[${item.community_seq}]],this)">댓글</button>
             </form>
           </div>
         </li>

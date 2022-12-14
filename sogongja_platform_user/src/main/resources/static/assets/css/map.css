@@ -795,7 +795,7 @@
   font-size: 13px;
 }
 .placeinfo span.region {
-  margin: 0 8px;
+  margin: 5px;
 }
 .placeinfo .title {
   font-weight: bold;
@@ -820,7 +820,8 @@
 .placeinfo .jibun2 {
   color: #999;
   font-size: 11px;
-  margin-top: 4px;
+  margin-top: 6px;
+  float: left;
 }
 .placeinfo .close {
   position: absolute;
@@ -850,7 +851,7 @@
 
 .placeinfo2 {
   position: absolute;
-  top: -176px;
+  bottom: 40px;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -1808,7 +1809,8 @@
 #map .regionlabel .regionbox {
   display: block;
   text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: bold;
 }
 #map .regionlabel .regionbox .store {
   color: #BF7116;
@@ -2751,6 +2753,15 @@
   }
   #map_wrap .areaTap > li {
     width: 33.33%;
+  }
+}
+@media (max-width: 420px) {
+  .placeinfo2 .ranking_list::-webkit-scrollbar {
+    width: 28px;
+    background-color: transparent;
+  }
+  .placeinfo2 .ranking_list::-webkit-scrollbar-thumb {
+    border-radius: 14px;
   }
 }
 

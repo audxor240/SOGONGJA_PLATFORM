@@ -989,7 +989,7 @@ $('.addresswidth').click(function () {
 
 });*/
 
-function getReply(communitySeq){
+function getReply(communitySeq,obj){
 
     if (communitySeq === undefined) {
         $('.detail_community').removeClass('on');
@@ -998,7 +998,8 @@ function getReply(communitySeq){
     }
 
     var data = {
-        communitySeq: communitySeq
+        communitySeq: communitySeq,
+        type: "shop"
     };
 
     var token = $("meta[name='_csrf']").attr("content");
@@ -1032,16 +1033,24 @@ function getReply(communitySeq){
         //$(".loading_box").hide();
 
     });
-    $('.detail_community').addClass('on');
+    //$('.detail_community').addClass('on');
+    $(obj).next('.detail_community').addClass('on');
 }
 
-function addReply(communitySeq){
+function addReply(communitySeq,obj){
 
-    let comment = $("[name=comment]").val();
-    console.log("communitySeq ::: "+communitySeq);
+    //let comment = $("[name=comment]").val();
+    let comment = $(obj).parent("#reply_add").find("[name=comment]").val();
+
+    if(comment == ""){
+        alert("댓글을 입력해주세요.");
+        return false;
+    }
+
     var data = {
         communitySeq: communitySeq,
-        comment: comment
+        comment: comment,
+        type:"shop"
     }
 
     var token = $("meta[name='_csrf']").attr("content");

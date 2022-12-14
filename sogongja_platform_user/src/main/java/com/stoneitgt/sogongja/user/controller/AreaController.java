@@ -231,22 +231,33 @@ public class AreaController extends BaseController {
 	@PostMapping("/reply")
 	public String getReplyList(Model model,@RequestBody Map<String, Object> params) throws IOException {
 
-
+		String returnUrl = "";
+		if(params.get("type").equals("shop")){
+			returnUrl = "pages/area/trading_area_shop :: .reply_list";
+		}else{
+			returnUrl = "pages/area/trading_area_regional :: .reply_list";
+		}
 		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
 		model.addAttribute("replyList", replyList);
 
-		return "pages/area/trading_area_shop :: .reply_list";
+		return returnUrl;
 	}
 
 	@PostMapping("/reply/add")
 	public String addReply(Model model,@RequestBody Map<String, Object> params) throws IOException {
 
+		String returnUrl = "";
+		if(params.get("type").equals("shop")){
+			returnUrl = "pages/area/trading_area_shop :: .reply_list";
+		}else{
+			returnUrl = "pages/area/trading_area_regional :: .reply_list";
+		}
 		params.put("loginUserSeq",authenticationFacade.getLoginUserSeq());
 		replyService.addReply(params);
 		List<Map<String, Object>> replyList = replyService.getCommunityReplyList(params);
 		model.addAttribute("replyList", replyList);
 
-		return "pages/area/trading_area_shop :: .reply_list";
+		return returnUrl;
 	}
 
 	@PostMapping("/map/communityList")

@@ -608,7 +608,7 @@
     cursor: default
     font-size: 13px
     &.region
-      margin: 0 8px
+      margin: 5px
   .title
     font-weight: bold
     font-size: 14px
@@ -629,7 +629,8 @@
   .jibun2
     color: #999
     font-size: 11px
-    margin-top: 4px
+    margin-top: 6px
+    float: left
   .close
     position: absolute
     top: 10px
@@ -651,7 +652,7 @@
   border: solid 5px #fff
 .placeinfo2
   position: absolute
-  top: -176px
+  bottom: 40px
   left: 50%
   transform: translate(-50%, -50%)
   width: 100%
@@ -1440,7 +1441,8 @@
     .regionbox
       display: block
       text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
-      font-size: 12px
+      font-size: 13px
+      font-weight: bold
       .store
         color: #BF7116
       .popul
@@ -2191,5 +2193,11 @@
       >li
         width: 33.33%
 
-
 @include maxMobile
+  .placeinfo2
+    .ranking_list
+      &::-webkit-scrollbar
+        width: 28px
+        background-color: transparent
+      &::-webkit-scrollbar-thumb
+        border-radius: 14px
