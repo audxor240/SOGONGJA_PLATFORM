@@ -1559,7 +1559,16 @@ function areanameSpread(area) {
 
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
+// kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
+var runTimer;
+
+kakao.maps.event.addListener(map, 'idle', function() {
+    clearTimeout(runTimer);
+    // do something
+    runTimer = setTimeout(function() {
+        changeMap();
+    }, 2000);
+});
 
 //지도중심 이동 시,
 async function changeMap() {
