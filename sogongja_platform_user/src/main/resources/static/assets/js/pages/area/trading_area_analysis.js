@@ -1564,10 +1564,36 @@ var runTimer;
 
 kakao.maps.event.addListener(map, 'idle', function() {
     clearTimeout(runTimer);
-    // do something
-    runTimer = setTimeout(function() {
+    zoom = map.getLevel();
+    if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
         changeMap();
-    }, 2000);
+    } else if (zoom >= 4 && zoom < 6) {
+        // zoom 4,5 일때 보일것:
+        // 상권패스  + 커스텀마커( 상권명 + 상점수 )
+        //          + 클릭 시 마커위에 그래프 ★★★
+        $('#storelist').css('display', 'none'); // 상점 카테고리 삭제
+        $('.areaTap').css('display', 'block'); // 상점수,개폐업수,추정매출 탭 보이기
+        $('#filter').css('display', 'block'); // 필터 보이기
+        $('.area_map').removeClass('on') // 모바일 맵 사이즈 조정
+
+        if(countmarkers.length>0){ //시군구 마커 비우고
+            for (var i = 0; i < countmarkers.length; i++) {
+                countmarkers[i].setMap(null);
+            }
+        }
+        if(markers.length>0){
+            setMarkers(null)//상점삭제
+        }
+        // do something
+        runTimer = setTimeout(function() {
+            changeMap();
+        }, 2000);
+    } else { //level < 4, zoom 3,2,1 일때
+        // do something
+        runTimer = setTimeout(function() {
+            changeMap();
+        }, 2000);
+    }
 });
 
 //지도중심 이동 시,
@@ -1613,29 +1639,14 @@ async function changeMap() {
             resultSpread(result)//다시그려
         });
     } else if (zoom >= 4 && zoom < 6) {
-        // zoom 4,5 일때 보일것:
-        // 상권패스  + 커스텀마커( 상권명 + 상점수 )
-        //          + 클릭 시 마커위에 그래프 ★★★
-        $('#storelist').css('display', 'none'); // 상점 카테고리 삭제
-        $('.areaTap').css('display', 'block'); // 상점수,개폐업수,추정매출 탭 보이기
-        $('#filter').css('display', 'block'); // 필터 보이기
-        $('.area_map').removeClass('on') // 모바일 맵 사이즈 조정
 
-        if(countmarkers.length>0){ //시군구 마커 비우고
-            for (var i = 0; i < countmarkers.length; i++) {
-                countmarkers[i].setMap(null);
-            }
-        }
-        if(markers.length>0){
-            setMarkers(null)//상점삭제
-        }
 
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
-                removePolygons(map)//areajson에 쓰던 상권 삭제하고
-                for (var i = 0; i < areanameMarkers.length; i++) {
-                    areanameMarkers[i].setMap(null);//상권이름 마커 비우고
-                }
+            removePolygons(map)//areajson에 쓰던 상권 삭제하고
+            for (var i = 0; i < areanameMarkers.length; i++) {
+                areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+            }
             areaJson = result;
             areaSpread(areaJson);//상권 패스 다시 그려줌
             for (var i = 0, len = areaJson.length; i < len; i++) {
@@ -1645,8 +1656,6 @@ async function changeMap() {
         });
 
     } else { //level < 4, zoom 3,2,1 일때
-        $('#storelist').css('display', 'block');        // 상점 카테고리
-        setMarkers(null)
 
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
