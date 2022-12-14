@@ -1989,7 +1989,7 @@ $('.reply_btn').click(function () {
 });
 */
 
-function getReply(communitySeq){
+function getReply(communitySeq,obj){
 
     if (communitySeq === undefined) {
         $('.detail_community').removeClass('on');
@@ -1998,7 +1998,8 @@ function getReply(communitySeq){
     }
 
     var data = {
-        communitySeq: communitySeq
+        communitySeq: communitySeq,
+        type: "region"
     };
 
     var token = $("meta[name='_csrf']").attr("content");
@@ -2024,7 +2025,6 @@ function getReply(communitySeq){
             return false;
         }
     }).done(function (fragment) {
-        console.log(fragment)
 
         //여기로 안들어옴.....
         $(".reply_list").replaceWith(fragment);
@@ -2032,16 +2032,24 @@ function getReply(communitySeq){
         //$(".loading_box").hide();
 
     });
-    $('.detail_community').addClass('on');
+    //$('.detail_community').addClass('on');
+    $(obj).next('.detail_community').addClass('on');
 }
 
-function addReply(communitySeq){
+function addReply(communitySeq,obj){
 
-    let comment = $("[name=comment]").val();
-    console.log("communitySeq ::: "+communitySeq);
+    //let comment = $("[name=comment]").val();
+    let comment = $(obj).parent("#reply_add").find("[name=comment]").val();
+
+    if(comment == ""){
+        alert("댓글을 입력해주세요.");
+        return false;
+    }
+
     var data = {
         communitySeq: communitySeq,
-        comment: comment
+        comment: comment,
+        type:"region"
     }
 
     var token = $("meta[name='_csrf']").attr("content");
@@ -2059,7 +2067,7 @@ function addReply(communitySeq){
             xhr.setRequestHeader(header, token);
         },
         success: function (fragment) {
-            console.log("fragment >>> "+fragment);
+
             $(".reply_list").replaceWith(fragment);
             $(".reply_list").show();
             //$(".loading_box").hide();
