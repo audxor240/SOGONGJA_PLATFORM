@@ -35,6 +35,7 @@ public class AreaController extends BaseController {
 
 	@Autowired
 	private ReplyService replyService;
+
 	@Autowired
 	private AuthenticationFacade authenticationFacade;
 
