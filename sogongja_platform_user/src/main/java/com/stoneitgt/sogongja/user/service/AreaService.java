@@ -145,19 +145,22 @@ public class AreaService extends BaseService {
 			scope +=  tem + ",";
 		}
 		scope = StringUtils.removeEnd(scope, ",");
-		System.out.println("scope >>>>> "+scope);
-		List<Map<String, Object>> details = areaMapper.getTradingAreCategory1(scope);
-		List<Map<String, Object>> details2 = areaMapper.getTradingAreCategory2(scope);
+		System.out.println("scope >>>>> "+scope.length());
+		if (scope.length() > 0) {
+			List<Map<String, Object>> details = areaMapper.getTradingAreCategory1(scope);
+			List<Map<String, Object>> details2 = areaMapper.getTradingAreCategory2(scope);
 
-		for (Map<String, Object> map : list) {
-			String areaCd = map.get("area_cd").toString();
-			List<Map<String, Object>> info = (List<Map<String, Object>>) details.stream()
-					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
-			List<Map<String, Object>> info2 = (List<Map<String, Object>>) details2.stream()
-					.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
-			map.put("info", info);
-			map.put("info2", info2);
+			for (Map<String, Object> map : list) {
+				String areaCd = map.get("area_cd").toString();
+				List<Map<String, Object>> info = (List<Map<String, Object>>) details.stream()
+						.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
+				List<Map<String, Object>> info2 = (List<Map<String, Object>>) details2.stream()
+						.filter(m -> m.get("area_cd").toString().equals(areaCd)).collect(Collectors.toList());
+				map.put("info", info);
+				map.put("info2", info2);
+			}
 		}
+
 
 		return list;
 	}
