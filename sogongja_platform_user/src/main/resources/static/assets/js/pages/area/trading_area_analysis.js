@@ -1589,6 +1589,8 @@ kakao.maps.event.addListener(map, 'idle', function() {
             changeMap();
         }, 2000);
     } else { //level < 4, zoom 3,2,1 일때
+        $('#storelist').css('display', 'block');        // 상점 카테고리
+        setMarkers(null)
         // do something
         runTimer = setTimeout(function() {
             changeMap();
