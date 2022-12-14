@@ -1102,16 +1102,20 @@ function contentFunc(area) {
         if (areaTab === "open") {//개업수
             info2 = info2.sort((a, b) => b.open - a.open);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].open +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].open > 0) { //합계가 0이상이면 1개라도 있다는거니깐 표시
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].open + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].open + '개 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else if (areaTab === "close") {//폐업수
             info2 = info2.sort((a, b) => b.close - a.close);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].close +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].close > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].close + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].close + '개 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else if (areaTab === "sales") {//추정매출
             for (var i = 0; i < info2.length; i++) {
@@ -1136,23 +1140,56 @@ function contentFunc(area) {
             }
             info2 = info2.sort((a, b) => b.sales - a.sales);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                if (info2[i].sales > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
 
-                var sales_comma = info2[i].sales.toString()
-                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` +sales_comma + `원<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+sales_comma +'원 '+ (i+1)+`위</div></span>`
+                    var sales_comma = info2[i].sales.toString()
+                        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + sales_comma + `원<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + sales_comma + '원 ' + (i + 1) + `위</div></span>`
+                }
             }
         } else {//상점수 탭일때
             info2 = info2.sort((a, b) => b.stores - a.stores);
             for (var i = 0; i < info2.length; i++) {
-                var sectorname= codeSectorname(info2[i].code)//코드 ->대분류이름 반환
-                mainpart += `<li class="graphlist` + (i+1)+ ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"></div></span></li>`
-                ranking += `<span class="` + info2[i].code + `">` + sectorname +'<div class="right"> '+ info2[i].stores +'개 '+ (i+1)+`위</div></span>`
+                if (info2[i].stores > 0) {
+                    var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
+                    mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + info2[i].stores + `개<div class="width_chart"></div></span></li>`
+                    ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + info2[i].stores + '개 ' + (i + 1) + `위</div></span>`
+                }
+            }
+        }
+        var placeranking =
+            '<div class="placeinfo2 placeranking">' +
+            '<div id="title" >' +
+            '전체업종 순위'+
+            "</div>" +
+            '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
+            '<div class="ranking_list" >' +
+            ranking+
+            "</div>" +
+            '<div class="after"></div>'+
+            "</div>" +
+            '</div>';
+        if (areaTab === "open") {
+            if(open==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "close"){
+            if(close==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "sales"){
+            if(sales==0){
+                placeranking ="";
+            }
+        }else if(areaTab === "stores"){
+            if(stores==0){
+                placeranking ="";
             }
         }
 
-        //대분류전체 콘텐트
+            //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
                 '<p class="areacenter">' +
@@ -1179,17 +1216,7 @@ function contentFunc(area) {
                 '<ul class="graphmenu">'+
                 mainpart +
                 ' </ul>'+
-            '<div class="placeinfo2">' +
-                '<div id="title" >' +
-                '전체업종 순위'+
-                "</div>" +
-                '<div class="close" onclick="closeOverlay()" title="닫기"></div>'+
-                '<div class="ranking_list" >' +
-                ranking+
-                "</div>" +
-                '<div class="after"></div>'+
-                "</div>" +
-            '</div>'+
+            placeranking+
             '<div class="placeinfo2 placegraph">' +
                 '<div id="title">' +
                 "</div>" +
@@ -1197,9 +1224,7 @@ function contentFunc(area) {
                 '<div class="ranking_list">' +
                 "</div>" +
                 '<div class="after"></div>'+
-            "</div>"
-        ;
-
+            "</div>";
     } else {// 여기는 단일마커임
         if (midcate.includes('all')) {
             for (var i = 0; i < infos.length; i++) {

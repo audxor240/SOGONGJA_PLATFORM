@@ -1887,6 +1887,7 @@
   color: #bbb;
   text-align: center;
   background-color: #fff;
+  cursor: pointer;
 }
 #map_wrap #areaCategory {
   position: absolute;
@@ -1921,6 +1922,7 @@
   text-align: center;
   color: #fff;
   border-radius: 4px;
+  cursor: pointer;
 }
 #map_wrap #filter .filterbox {
   position: absolute;
