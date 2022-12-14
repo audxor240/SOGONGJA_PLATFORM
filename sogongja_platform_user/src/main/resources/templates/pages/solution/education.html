@@ -37,7 +37,7 @@
                             <input type="hidden" th:field="*{eduWatchingView1}" >
                             <input type="hidden" th:field="*{eduWatchingView2}" >
                             <div class="mb_20">
-                                <input type="checkbox" id="edu_watching_hide1" class="checkbox_style c181818" th:checked="${params.eduWatchingView1 == true}">
+                                <input type="checkbox" id="edu_watching_hide1" class="checkbox_style c181818" th:checked="${params.eduWatchingView1 == true}" onchange="edu_watching_hide();">
                                 <label for="edu_watching_hide1">이미 수강한 교육 감추기</label>
                             </div>
                         </form>
@@ -86,13 +86,13 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="edu_more">
+                        <div class="edu_more" onclick="edu_more(this);">
                             <a href="#n">더보기<span>더보기</span></a>
                         </div>
                     </div>
                 </div>
                 <div class="edu_list_wrap">
-                    <form name="searchForm2" th:action="@{/solution/education}" th:object="${params}">
+                    <form name="searchForm" th:action="@{/solution/education}" th:object="${params}">
                         <input type="hidden" th:field="*{eduWatchingView1}" >
                         <input type="hidden" th:field="*{eduWatchingView2}" >
                         <th:block th:include="fragments/search_hidden"></th:block>
@@ -103,18 +103,18 @@
                             <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>
                         </div>
                         <div class="mb_20">
-                            <input type="checkbox" id="edu_watching_hide2" class="checkbox_style c181818" th:checked="${params.eduWatchingView2 == true}">
+                            <input type="checkbox" id="edu_watching_hide2" class="checkbox_style c181818" th:checked="${params.eduWatchingView2 == true}" onchange="edu_watching_hide2();">
                             <label for="edu_watching_hide2">이미 수강한 교육 감추기</label>
                         </div>
                     </div>
-                    <th:block th:if="${#lists.isEmpty(list)}">
+                    <th:block th:if="${#lists.isEmpty(eduList)}">
                         <div class="none_contents">
                             <span></span>
                             <p>컨텐츠가 존재하지 않습니다.</p>
                         </div>
                     </th:block>
                     <ul class="edu_list af">
-                        <th:block th:each="item : ${list}" th:unless="${#lists.isEmpty(list)}">
+                        <th:block th:each="item : ${eduList}" th:unless="${#lists.isEmpty(eduList)}">
                                 <li class="thumnail">
                                     <div class="thumb_img" th:style="|background-image: url('@{|/thumb/${item.thumbnail_path}|}');|" th:if="${item.thumbnail_path ne null}">
                                         <div class="view_favorite">
@@ -149,8 +149,9 @@
                                 </li>
                         </th:block>
                     </ul>
+                    <th:block th:include="fragments/mypage_paging" ></th:block>
                 </div>
-                <th:block th:include="fragments/paging"></th:block>
+
             </div>
         </section>
     </article>
