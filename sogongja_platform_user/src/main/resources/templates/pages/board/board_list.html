@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="qna_list">
-                    <table class="table_style">
+                    <table class="table_style qna_list">
                         <caption>보도자료</caption>
                         <thead>
                             <tr>
@@ -60,8 +60,10 @@
                                 <tr th:each="item : ${list}">
                                     <td class="color_606060" th:text="${paging.total - item.rnum + 1}">4</td>
                                     <td class="txl">
-                                        <a th:onclick="detailView([[${item.board_setting_seq}]],[[${item.board_seq}]],[[${item.reg_user_seq}]],[[${name}]],[[${item.secret_use}]]);" >[[${item.subject}]]</a>
-                                        <span class="secret_img" th:if="${item.secret_use eq 'Y'}"></span>
+                                        <a th:onclick="detailView([[${item.board_setting_seq}]],[[${item.board_seq}]],[[${item.reg_user_seq}]],[[${name}]],[[${item.secret_use}]]);" >[[${item.subject}]]
+                                            <span class="secret_img" th:if="${item.secret_use eq 'Y'}"></span>
+                                        </a>
+
                                     </td>
                                     <td th:text="${item.reg_dt}">2021.01.01</td>
                                     <td th:if="${boardSetting.fileUse == 1}"><span class="file" th:if="${item.file_cnt > 0}">파일</span></td>

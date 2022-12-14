@@ -861,6 +861,35 @@
         .side_graph
           height: 300px
           margin: 16px 0
+          &.industry
+            position: relative
+            z-index: 1
+            #colorCircle
+              z-index: -1
+              border-radius: 50%
+              position: absolute
+              top: 0
+              left: 50%
+              transform: translateX(-50%)
+              width: 300px
+              height: 300px
+              background-color: #fff
+              &.I
+                  background-color: #EE5545
+              &.S
+                  background-color: #DD4C79
+              &.G
+                  background-color: #A25AA1
+              &.R
+                  background-color: #4983C4
+              &.N
+                  background-color: #31C3D9
+              &.M
+                  background-color: #33CC94
+              &.L
+                  background-color: #70C14A
+              &.P
+                  background-color: #C2EE45
           &.gender
             height: 200px
             margin: 20px 0
@@ -872,7 +901,71 @@
         &.float
           width: 33.3%
           float: left
+          padding: 16px 0 16px 16px
         ul
+          &.short2
+            height: 100px
+            margin: 24px 0 0 0
+            li
+              width: 12.28%
+              float: left
+              font-size: 13px
+              margin-left: 2.34%
+              position: relative
+              &:after
+                position: absolute
+                content: ""
+                display: block
+                top: -20px
+                color: $blue
+                font-size: 12px
+              &:first-child
+                margin-left: 0
+                &:after
+                  content: "1위"
+              &:nth-child(2)
+                &:after
+                  content: "2위"
+              &:nth-child(3)
+                &:after
+                  content: "3위"
+              &.h1
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human01.svg)
+              &.h2
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human02.svg)
+              &.h3
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human03.svg)
+              &.h4
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human04.svg)
+              &.h5
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human05.svg)
+              &.h6
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human06.svg)
+              &.h7
+                &:before
+                  background-image: url(#{$assetPath}/new/area/icon_human07.svg)
+              &:before
+                content: ""
+                display: inline-block
+                width: 40px
+                height: 40px
+                background: #eee no-repeat
+                background-size: cover
+                margin-left: calc(50% - 20px)
+                border: 1px solid #ddd
+                border-radius: 4px
+              p
+                text-align: center
+                &.housetype
+                  color: #5e5e5e
+                  font-size: 12px
+                &.housenum
           &.agetabs
             width: 100%
             &:after
@@ -1007,16 +1100,28 @@
           font-weight: bold
           background: url(#{$assetPath}/new/area/location_skyblue_20dp.svg) no-repeat
         .iconPlus.location
-          background: url(#{$assetPath}/new/area/location.png) no-repeat
+          background: url(#{$assetPath}/new/area/location_on_gray_20dp.svg) no-repeat
         .iconPlus.storegray
-          background: url(#{$assetPath}/new/area/storegray.png) no-repeat
+          background: url(#{$assetPath}/new/area/storegray_20dp.svg) no-repeat
         .iconPlus.subway
-          background: url(#{$assetPath}/new/area/train.png) no-repeat
+          background: url(#{$assetPath}/new/area/train_gray_20dp.svg) no-repeat
         .iconPlus.bus
-          background: url(#{$assetPath}/new/area/bus.png) no-repeat
+          background: url(#{$assetPath}/new/area/directions_bus_gray_20dp.svg) no-repeat
         .iconPlus.street
           background: url(#{$assetPath}/new/area/car.png) no-repeat
-          &:last-child
+        .iconPlus.storeclose
+          background: url(#{$assetPath}/new/area/shopclose.svg) no-repeat
+        .iconPlus.schedule_gray_20dp
+          background: url(#{$assetPath}/new/area/schedule_gray_20dp.svg) no-repeat
+        .iconPlus.payments_gray_20dp
+          background: url(#{$assetPath}/new/area/payments_gray_20dp.svg) no-repeat
+        .iconPlus.person_gray_20dp
+          background: url(#{$assetPath}/new/area/person_gray_20dp.svg) no-repeat
+        .iconPlus.groups_gray_20dp
+          background: url(#{$assetPath}/new/area/groups_gray_20dp.svg) no-repeat
+        .iconPlus.crop_black_20dp
+          background: url(#{$assetPath}/new/area/crop_black_20dp.svg) no-repeat
+        &:last-child
             margin-bottom: 0
         .issue
           background-color: #e2e2e2
@@ -1146,6 +1251,7 @@
     transition: 0.4s
 .community_wrap
   +positionAt(absolute, $top: 245px, $right: 20px)
+  z-index: 10
   .community_pop_wrap
     display: none
     +positionAt(relative, $top: 0px, $right:40px)
@@ -1167,6 +1273,7 @@
       width: 200px
       font-size: 13px
       cursor: pointer
+      margin-bottom: 60px
     .community_pop_title
       background-color: #ffffff
       +flex_type($justify:space-between, $align:center)
@@ -1189,10 +1296,20 @@
         font-size: 12px
         padding: 5px
         text-align: center
+        margin-right: 32px
+      .sideCloseBtn
+        cursor: pointer
+        background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png')
+        background-size: cover
+        +positionAt(absolute, $top:20px, $right:16px)
+        width: 20px
+        height: 20px
       .m_scroll_btn
         display: none
+    .margintop
+      height: 60px
     .community_pop_list
-      margin-top: 66px
+      margin-top: 8px
       > li
         background-color: #fff
         border-bottom: solid 1px #eceff1
@@ -1869,12 +1986,12 @@
       transition: 0.4s
       height: calc(100% - 71px)
       .community_pop_title
-        padding: 10px 20px 20px
+        padding: 20px
         border-radius: 10px 10px 0 0
         flex-wrap: wrap
         width: 100%
         > a
-          display: none
+          display: block
         .m_scroll_btn
           width: 100%
           span
@@ -1908,6 +2025,9 @@
     &.area_map
       top: 110px
       height: calc(100vh - 110px)
+      &.on
+        top: 71px
+        height: calc(100vh - 71px)
     .areaTap
       z-index: 9
     #filter

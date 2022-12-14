@@ -316,22 +316,28 @@ var dongBox = document.getElementById('dongBox');
 
 function changeSelectBox(type) {
     // 시도 카테고리가 클릭됐을 때
-    if (type === 'sido') {
-        // 시도 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = 'menu_selected';
-        // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
-        sigunguBox.className = '';
-        dongBox.className = '';
-    } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
-        // 시군구 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = '';
-        sigunguBox.className = 'menu_selected';
-        dongBox.className = '';
-    } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
-        // 행정동 카테고리를 선택된 스타일로 변경하고
+    if($('.addrlist>ul').hasClass("menu_selected") == true){
         sidoBox.className = '';
         sigunguBox.className = '';
-        dongBox.className = 'menu_selected';
+        dongBox.className = '';
+    }else {
+        if (type === 'sido') {
+            // 시도 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = 'menu_selected';
+            // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
+            sigunguBox.className = '';
+            dongBox.className = '';
+        } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
+            // 시군구 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = 'menu_selected';
+            dongBox.className = '';
+        } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
+            // 행정동 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = '';
+            dongBox.className = 'menu_selected';
+        }
     }
 }
 
@@ -637,7 +643,7 @@ function sideInfo(area, detail) {
                     open +'개'+
                     '</span>' +
                 '</div>' +
-                '<div class="storegray iconPlus">' +
+                '<div class="storeclose iconPlus">' +
                 '폐업점포수 ' +
                 '<span class="distance">' +
                 close +'개'+
@@ -646,13 +652,13 @@ function sideInfo(area, detail) {
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">추정매출</h4>'+
-                '<div class="storegray iconPlus">' +
+                '<div class="schedule_gray_20dp iconPlus">' +
                 '매출이 가장 큰 시간 ' +
                 '<span class="distance">' +
                 detail.picktime +
                 '</span>' +
                 '</div>' +
-                '<div class="storegray iconPlus">' +
+                '<div class="payments_gray_20dp iconPlus">' +
                 '매출액 ' +
                 '<span class="distance">' +
                     sales_comma + '원'+
@@ -661,7 +667,7 @@ function sideInfo(area, detail) {
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">생활인구</h4>'+
-            '<div class="storegray iconPlus">' +
+            '<div class="groups_gray_20dp iconPlus">' +
             '총 생활인구수 ' +
             '<span class="distance">' +
             liv_popul_comma +'명'+
@@ -697,13 +703,13 @@ function sideInfo(area, detail) {
                         '<label for="age_60">60대</label>' +
                     '</li>'+
                 '</ul>'+
-            '<div class="storegray iconPlus">' +
+            '<div class="groups_gray_20dp iconPlus">' +
             '주중 시간대별 생활인구수' +
             '</div>' +
                 '<div class="side_graph living_wd short">' +
                     '<canvas id="livingweekday"></canvas>'+
                 '</div>'+
-            '<div class="storegray iconPlus">' +
+            '<div class="groups_gray_20dp iconPlus">' +
             '주말 시간대별 생활인구수' +
             '</div>' +
                 '<div class="side_graph living_we short">' +
@@ -712,13 +718,13 @@ function sideInfo(area, detail) {
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">상존인구</h4>'+
-                '<div class="storegray iconPlus">' +
+                '<div class="person_gray_20dp iconPlus">' +
                 '길 단위 ' +
                 '<span class="distance">' +
                     st_popul_comma  +'명'+
                 '</span>' +
                 '</div>' +
-                '<div class="storegray iconPlus">' +
+                '<div class="groups_gray_20dp iconPlus">' +
                 '건물 단위 ' +
                 '<span class="distance">' +
                     bd_popul_comma +'명'+
@@ -727,7 +733,7 @@ function sideInfo(area, detail) {
             '</div>' +
             '<div class="sideinfo">' +
                 '<h4 class="sideinfoTitle">인구 유형별 비중 주거인구</h4>'+
-                '<div class="storegray iconPlus">' +
+                '<div class="groups_gray_20dp iconPlus">' +
                 '주거인구 ' +
                 '<span class="distance">' +
                 detail.r_popul  +'명 '+
@@ -752,13 +758,13 @@ function sideInfo(area, detail) {
                 '<li class="tab_2 alley_only" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
             '</ul>'+
             '<div id="tab_1" class="tab-content current">'+
-                '<div class="storegray iconPlus">' +
+                '<div class="person_gray_20dp iconPlus">' +
                 '단지 수 ' +
                 '<span class="distance">' +
                 detail.ct_apt_com +'세대'+
                 '</span>' +
                 '</div>' +
-                '<div class="storegray iconPlus">' +
+                '<div class="person_gray_20dp iconPlus">' +
                 '세대 수 ' +
                 '<span class="distance">' +
                 detail.ct_apt_hou +'명'+
@@ -766,13 +772,13 @@ function sideInfo(area, detail) {
                 '</div>' +
             '</div>' +
             '<div id="tab_2" class="tab-content">'+
-                '<div class="storegray iconPlus">' +
+                '<div class="person_gray_20dp iconPlus">' +
                 '단지 수 ' +
                 '<span class="distance">' +
                 detail.ct_napt_com +'세대'+
                 '</span>' +
                 '</div>' +
-                '<div class="storegray iconPlus">' +
+                '<div class="person_gray_20dp iconPlus">' +
                 '세대 수 ' +
                 '<span class="distance">' +
                 detail.ct_napt_hou +'명'+
@@ -853,23 +859,18 @@ function sideInfo(area, detail) {
         for (var i = 0; i < graph.length; i++) {
             var year = graph[i].year;
             if (year == 2021) {
-                var quarter = [];
                 quarter2021.push(graph[i])
                 quarter2021 = quarter2021.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2020){
-                var quarter = [];
                 quarter2020.push(graph[i])
                 quarter2020 = quarter2020.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2019){
-                var quarter = [];
                 quarter2019.push(graph[i])
                 quarter2019 = quarter2019.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2018){
-                var quarter = [];
                 quarter2018.push(graph[i])
                 quarter2018 = quarter2018.sort((a, b) => a.qrt - b.qrt);
             }else if(year==2017){
-                var quarter = [];
                 quarter2017.push(graph[i])
                 quarter2017 = quarter2017.sort((a, b) => a.qrt - b.qrt);
             }
@@ -1641,6 +1642,7 @@ async function changeMap() {
         }
         $('.areaTap').css('display', 'none');
         $('#filter').css('display', 'none');
+        $('.area_map').addClass('on')
         for (var i = 0; i < countmarkers.length; i++) {
             countmarkers[i].setMap(null);//시군구, 시도마커 비우고
         }
@@ -1653,7 +1655,7 @@ async function changeMap() {
         $('#storelist').css('display', 'none');//상점 카테고리 삭제
         $('.areaTap').css('display', 'block');
         $('#filter').css('display', 'block');
-
+        $('.area_map').removeClass('on')
         if(countmarkers.length>0){
             for (var i = 0; i < countmarkers.length; i++) {
                 countmarkers[i].setMap(null);//시군구 마커 비우고

@@ -171,7 +171,9 @@
         </div>
         <h4>지역 Community</h4>
         <a th:href="@{/community/communityWriteForm(type=region)}">글쓰기</a>
+        <div class="sideCloseBtn" onclick="closeCommnunity()" title="닫기"></div>
       </div>
+      <div class="margintop"></div>
       <ul class="community_pop_list">
         <li class="community_main_li" th:if="${#lists.isEmpty(mapCommunityList)}" style="height: 172px;">
           <div style="padding-top: 65px;text-align: center;">해당지역의 커뮤니티가 없습니다.</div>

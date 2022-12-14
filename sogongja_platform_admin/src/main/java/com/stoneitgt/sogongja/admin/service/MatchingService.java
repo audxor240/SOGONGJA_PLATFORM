@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -29,6 +27,7 @@ public class MatchingService extends BaseService {
         List<Map<String, Object>> questionList = serviceMatchingMapper.getQuestionList(userSeq);
 
         List<SurveyMatching> resultList = new ArrayList<>();
+        //List<Map<String, Object>> resultList = new ArrayList<>();
 
         for (Map<String, Object> question : questionList) {
 
@@ -41,7 +40,24 @@ public class MatchingService extends BaseService {
             surveyMatching.setQuestion(questionDetail.get("title").toString());
 
             if (coa.equals("choice")) {
-                Map<String, Object> choiceAnswer = serviceMatchingMapper.getChoiceAnswer(userQuestionSeq);
+                List<Map<String, Object>> choiceAnswer = serviceMatchingMapper.getChoiceAnswer(userQuestionSeq);
+                List<String> answerArr = new ArrayList<>();
+                List<Integer> rankArr = new ArrayList<>();
+                List<List<String>> category2 = new ArrayList<>();
+                for (Map<String, Object> item : choiceAnswer) {
+                    answerArr.add((String) item.get("answer"));
+                    if(item.get("rank") != null && !item.get("rank").equals(0)){
+                        rankArr.add((Integer) item.get("rank"));
+                    }
+
+                    //answerArr.add((String) item.get("category2"));
+                    List<String> category2Arr = Arrays.asList(((String) item.get("category2")).split(","));
+                    category2.add(category2Arr);
+                }
+                surveyMatching.setAnswer(answerArr);
+                surveyMatching.setCategory2(category2);
+                surveyMatching.setRank(rankArr);
+                /*Map<String, Object> choiceAnswer = serviceMatchingMapper.getChoiceAnswer(userQuestionSeq);
                 int ranked = Integer.parseInt(choiceAnswer.get("ranked").toString());
 
                 String answer = " ";
@@ -60,9 +76,35 @@ public class MatchingService extends BaseService {
                         answer += (i + 1) + ". " + answers[i] + "<br/>";
                     }
                 }
-                surveyMatching.setAnswer(answer);
+                surveyMatching.setAnswer(answer);*/
             } else {
+                List<Map<String, Object>> addAnswerList = serviceMatchingMapper.getAddAnswer(userQuestionSeq);
+                List<String> answerArr = new ArrayList<>();
+                List<List<String>> keyword = new ArrayList<>();
+                List<Integer> rankArr = new ArrayList<>();
+                for (Map<String, Object> item : addAnswerList) {
+                    List<String> keywordArr = new ArrayList<>();
+
+                    answerArr.add((String) item.get("answer"));
+
+                    if(item.get("rank") != null && !item.get("rank").equals(0)){
+                        rankArr.add((Integer) item.get("rank"));
+                    }
+
+                    if(item.get("type").equals(2)){   //추가형[주소]이면 키워드 조회
+                        List<Map<String, Object>> keyWordList = serviceMatchingMapper.getKeyword((Integer) item.get("user_answer1_seq"));
+                        for (Map<String, Object> item2 : keyWordList) {
+                            keywordArr.add((String) item2.get("keyword"));
+                        }
+                        keyword.add(keywordArr);
+                    }
+                }
+                surveyMatching.setAnswer(answerArr);    //답변 리스트 저장
+                surveyMatching.setKeyword(keyword);     //답변의 키워드 저장
+                surveyMatching.setRank(rankArr);
+                /*
                 Map<String, Object> addAnswer = serviceMatchingMapper.getAddAnswer(userQuestionSeq);
+
                 int ranked = Integer.parseInt(addAnswer.get("ranked").toString());
 
                 String answer = " ";
@@ -103,7 +145,9 @@ public class MatchingService extends BaseService {
                     }
                 }
                 surveyMatching.setAnswer(answer);
-                }
+                */
+            }
+
             resultList.add(surveyMatching);
         }
         return resultList;

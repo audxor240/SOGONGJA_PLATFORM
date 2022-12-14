@@ -348,22 +348,28 @@ var dongBox = document.getElementById('dongBox');
 
 function changeSelectBox(type) {
     // 시도 카테고리가 클릭됐을 때
-    if (type === 'sido') {
-        // 시도 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = 'menu_selected';
-        // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
-        sigunguBox.className = '';
-        dongBox.className = '';
-    } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
-        // 시군구 카테고리를 선택된 스타일로 변경하고
-        sidoBox.className = '';
-        sigunguBox.className = 'menu_selected';
-        dongBox.className = '';
-    } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
-        // 행정동 카테고리를 선택된 스타일로 변경하고
+    if($('.addrlist>ul').hasClass("menu_selected") == true){
         sidoBox.className = '';
         sigunguBox.className = '';
-        dongBox.className = 'menu_selected';
+        dongBox.className = '';
+    }else {
+        if (type === 'sido') {
+            // 시도 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = 'menu_selected';
+            // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
+            sigunguBox.className = '';
+            dongBox.className = '';
+        } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
+            // 시군구 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = 'menu_selected';
+            dongBox.className = '';
+        } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
+            // 행정동 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = '';
+            dongBox.className = 'menu_selected';
+        }
     }
 }
 
@@ -879,6 +885,9 @@ function sideVisible() {
 $('.community_Btn').click(function () {
     $('.community_pop_wrap').toggleClass('on');
 });
+function closeCommnunity(){
+    $('.community_pop_wrap').removeClass('on')
+}
 
 $('.m_scroll_btn').click(function () {
     $('.community_pop_wrap').removeClass('on');
