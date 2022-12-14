@@ -63,6 +63,8 @@ public class ExcelService extends BaseService {
     @Autowired
     private ReSearchRegionMapper reSearchRegionMapper;
 
+    private boolean insertCheck = false;
+
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     //public String insertExcel(Sheet worksheet, String excelType, int loginUserSeq) throws IOException {
     public String insertExcel(List<List<String>> excelDatas, String excelType, int loginUserSeq) throws IOException {
@@ -77,9 +79,9 @@ public class ExcelService extends BaseService {
             case "shop": reSearchShopDataInsert(excelDatas, loginUserSeq); returnUrl = "redirect:/areaSetting/shop"; break;         //상점데이터
             case "analysis2": reSearchArea2DataInsert(excelDatas, loginUserSeq); returnUrl = "redirect:/areaSetting/analysis?type=2&subType=0"; break;         //상점데이터(업종)
             case "analysis1": reSearchArea1DataInsert(excelDatas, loginUserSeq); returnUrl = "redirect:/areaSetting/analysis?type=1&subType=0"; break;         //상점데이터(일반)
-            case "region": reSearchRegionDataInsert(excelDatas, loginUserSeq); returnUrl = "redirect:/areaSetting/regional?type=region0"; break;         //상점데이터(업종)
+            case "region": reSearchRegionDataInsert(excelDatas, loginUserSeq); returnUrl = "redirect:/areaSetting/regional?type=region0"; break;         //상점데이터(지역)
         }
-
+        insertCheck = false;    //등록 완료되면 초기화
         return returnUrl;
     }
 
@@ -456,6 +458,8 @@ public class ExcelService extends BaseService {
     //public void reSearchShopDataInsert(Sheet worksheet, int loginUserSeq) throws IOException {
     public void reSearchShopDataInsert(List<List<String>> excelDatas, int loginUserSeq) throws IOException {
 
+        insertCheck = false;    //처음 시작할때 상태값을 초기화 해준다.
+
         System.out.println("START-------------------!!!!!!!!!!!!!!!!");
         long startTime = System.currentTimeMillis();
 
@@ -542,7 +546,7 @@ public class ExcelService extends BaseService {
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
             reSearchShopService.insertReSearchShopExcel(dataList);
         }
-
+        insertCheck = true;
 
         long endTime = System.currentTimeMillis();
         long resutTime = endTime - startTime;
@@ -694,7 +698,7 @@ public class ExcelService extends BaseService {
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
             reSearchAreaService.insertReSearchAreaExcel(dataList);
         }
-
+        insertCheck = true;
 
         long endTime = System.currentTimeMillis();
         long resutTime = endTime - startTime;
@@ -747,10 +751,10 @@ public class ExcelService extends BaseService {
 
                 data.setLoginUserSeq(loginUserSeq);
             }
-            /*int reSearchAreaComCnt = reSearchAreaMapper.checkReSearchAreaCom(map);
+            int reSearchAreaComCnt = reSearchAreaMapper.checkReSearchAreaCom(map);
             if(reSearchAreaComCnt > 0){ //같은 상권이 있으면 패스
                 continue;
-            }*/
+            }
             dataList.add(data);
 
             //5000row 잘라서 insert
@@ -767,7 +771,7 @@ public class ExcelService extends BaseService {
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
             reSearchAreaService.insertReSearchAreaComExcel(dataList);
         }
-
+        insertCheck = true;
 
         long endTime = System.currentTimeMillis();
         long resutTime = endTime - startTime;
@@ -784,18 +788,20 @@ public class ExcelService extends BaseService {
         for(List<String> dataRow : excelDatas){ // row 하나를 읽어온다.
             System.out.println("count----->> "+j);
             ReSearchRegion data = new ReSearchRegion();
+
+            Map<String, Object> map = new HashMap<>();
             for(int i =0; i < dataRow.size();i++){
                 String str = dataRow.get(i);
                 //System.out.println("str :: "+str);
 
                 switch (i){
-                    case 0 : data.setYear(Integer.parseInt(str)); break;
-                    case 1 : data.setQrt(Integer.parseInt(str)); break;
+                    case 0 : data.setYear(Integer.parseInt(str)); map.put("year",str); break;
+                    case 1 : data.setQrt(Integer.parseInt(str)); map.put("qrt",str); break;
                     case 2 : data.setCtprvnCd(str); break;
-                    case 3 : data.setCtprvnNm(str); break;
-                    case 4 : data.setSignguCd(str); break;
-                    case 5 : data.setSignguNm(str); break;
-                    case 6 : data.setEmdCd(str); break;
+                    case 3 : data.setCtprvnNm(str); map.put("ctprvn_nm",str); break;
+                    case 4 : data.setSignguCd(str); map.put("signgu_cd",str); break;
+                    case 5 : data.setSignguNm(str); map.put("signgu_nm",str); break;
+                    case 6 : data.setEmdCd(str); map.put("emd_cd",str); break;
                     case 7 : data.setEmdNm(str); break;
                     case 8 : data.setSumPopul(Integer.parseInt(str)); break;
                     case 9 : data.setRPopul(Integer.parseInt(str)); break;
@@ -819,6 +825,10 @@ public class ExcelService extends BaseService {
                 }
                 data.setLoginUserSeq(loginUserSeq);
             }
+            int reSearchRegionCnt = reSearchAreaMapper.checkReSearchRegion(map);
+            if(reSearchRegionCnt > 0){ //같은 지역이 있으면 패스
+                continue;
+            }
             dataList.add(data);
 
             //5000row 잘라서 insert
@@ -835,10 +845,24 @@ public class ExcelService extends BaseService {
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
             reSearchRegionService.insertReSearchRegionExcel(dataList);
         }
+        insertCheck = true;
 
         long endTime = System.currentTimeMillis();
         long resutTime = endTime - startTime;
         System.out.println(" 소요시간  : " + resutTime/1000 + "(ms)");
+    }
+
+    public boolean insertSuccessCheck(){
+        boolean result = false;
+        if(insertCheck) {
+            result = true;
+            insertCheck = false;    //완료되면 상태 초기화
+            System.out.println("INSERT END!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }else{
+            result = false;
+            System.out.println("INSERT ING.............................................");
+        }
+        return result;
     }
 
 }
