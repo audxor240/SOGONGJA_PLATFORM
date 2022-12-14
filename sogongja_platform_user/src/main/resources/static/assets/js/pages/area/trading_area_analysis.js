@@ -1559,7 +1559,7 @@ function areanameSpread(area) {
 
 
 // 지도중심 이동 시, 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, "idle", changeMap)
+kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
 
 //지도중심 이동 시,
 async function changeMap() {
@@ -1638,10 +1638,7 @@ async function changeMap() {
     } else { //level < 4, zoom 3,2,1 일때
         $('#storelist').css('display', 'block');        // 상점 카테고리
         setMarkers(null)
-        removePolygons(map)//areajson에 쓰던 상권 삭제하고
-        for (var i = 0; i < areanameMarkers.length; i++) {
-            areanameMarkers[i].setMap(null);//상권이름 마커 비우고
-        }
+
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점 찍기
@@ -1649,7 +1646,10 @@ async function changeMap() {
 
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
             console.log("이게 상권데이터 갖고오는거임", result)
-
+            removePolygons(map)//areajson에 쓰던 상권 삭제하고
+            for (var i = 0; i < areanameMarkers.length; i++) {
+                areanameMarkers[i].setMap(null);//상권이름 마커 비우고
+            }
             areaJson = result;
             if(result.length>0) {
                 areaSpread(areaJson);//상권 패스 다시 그려줌
