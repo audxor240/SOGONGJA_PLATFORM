@@ -789,7 +789,7 @@ function sideInfo(place) {
                     }
 
                     text +=
-                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">상권활성화 예측지수</button>' +
+                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">해당 상점의 상권 정보 확인하기</button>' +
                         '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
                     '</div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
