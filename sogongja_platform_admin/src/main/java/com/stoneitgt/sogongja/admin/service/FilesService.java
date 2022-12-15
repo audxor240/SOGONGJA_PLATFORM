@@ -56,6 +56,10 @@ public class FilesService {
 		return filesMapper.deleteFile(params);
 	}
 
+	public int deleteFileByTypeAndSeq(Map<String, Object> params) {
+		return filesMapper.deleteFileByTypeAndSeq(params);
+	}
+
 	public int deleteFileAll(Map<String, Object> params) {
 		return filesMapper.deleteFileAll(params);
 	}

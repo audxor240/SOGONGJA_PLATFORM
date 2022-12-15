@@ -80,7 +80,8 @@ public class EducationService extends BaseService {
 		int result = educationMapper.deleteEducation(params);
 		params.put("ref_type", FILE_REF_TYPE.EDUCATION_IMAGE.toUpperCase());
 		params.put("ref_seq", params.get("edu_seq"));
-		filesService.deleteFile(params);
+		//filesService.deleteFile(params);
+		filesService.deleteFileByTypeAndSeq(params);
 		return result;
 	}
 

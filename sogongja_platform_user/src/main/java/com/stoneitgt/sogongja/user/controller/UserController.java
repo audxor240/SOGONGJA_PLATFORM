@@ -126,7 +126,7 @@ public class UserController extends BaseController {
 			}
 		} else {
 			//user.setPassword("");
-			if(user.getSocialType() == null) {
+			if(user.getSocialType() == null || user.getSocialType().equals("none")) {
 				if (!user.getPassword().equals("")) {
 					PasswordConstraintValidator passwordValidator = new PasswordConstraintValidator();
 
@@ -188,10 +188,10 @@ public class UserController extends BaseController {
 			}else{
 				model.addAttribute("typeCheck", "update");
 			}
-			if(user.getSocialType() != null) {
+			/*if(user.getSocialType() != null && !user.getSocialType().equals("none")) {
 				//소셜회원이면 본인 패스워드를 넣어준다
 				user.setPassword(user2.getPassword());
-			}
+			}*/
 		}
 		//QNA게시판 시퀀스 정보
 		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
@@ -209,7 +209,8 @@ public class UserController extends BaseController {
 			model.addAttribute("user", user);
 			model.addAttribute("category1", getCodeList("CATEGORY_1", ""));
 			//return "redirect:/mypage/info";
-			return "pages/user/info";
+			//return "pages/user/info";
+			return "redirect:/mypage/info";
 		}
 
 	}
