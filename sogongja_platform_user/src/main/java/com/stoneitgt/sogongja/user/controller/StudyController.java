@@ -53,6 +53,8 @@ public class StudyController extends BaseController {
 
 	@GetMapping("/education")
 	public String education(@ModelAttribute EducationParameter params, Model model, Authentication authentication) {
+
+		System.out.println("params >> "+params);
 		User user = new User();
 		try {
 			user = (User) authentication.getPrincipal();
@@ -103,7 +105,7 @@ public class StudyController extends BaseController {
 		category2List = categoryService.getCategory2(param2);
 
 		Map<String, Object> param3 = new HashMap<String, Object>();
-		param2.put("category2Seq",params.getCategory2());
+		param3.put("category2Seq",params.getCategory2());
 		category3List = categoryService.getCategory3(param3);
 
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();

@@ -69,7 +69,7 @@
                                     <label for="category30">전체</label>
                                 </li>
                                 <li th:each="item : ${category3}">
-                                    <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.category1_seq}">
+                                    <input type="radio" th:field="*{category3}" class="checkbox_style" th:value="${item.category3_seq}">
                                     <label th:for="${#ids.prev('category3')}" th:text="${item.name}">전체</label>
                                 </li>
                             </ul>
