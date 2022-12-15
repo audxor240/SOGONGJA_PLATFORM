@@ -134,6 +134,8 @@
 }
 .table_style tr td.txl {
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 .table_style tr td a {
   color: #000;
@@ -2940,7 +2942,7 @@
     min-width: 95px;
     display: block;
     position: absolute;
-    top: 20px;
+    top: 0px;
     left: 110px;
     border-radius: 50px;
     border: 1px solid #d5d5d5;
@@ -3549,6 +3551,15 @@ select {
   .pop_up_wrap .pop_up {
     width: 300px;
     left: calc(50% - 150px);
+  }
+  .pagination {
+    width: 100%;
+  }
+  .pagination li {
+    width: 11.1%;
+  }
+  .pagination li a {
+    width: 100%;
   }
 }
 

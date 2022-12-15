@@ -103,6 +103,8 @@
 				color: #606060
 			&.txl
 				text-align: left
+				display: flex
+				align-items: center
 			a
 				color: #000
 				max-width: 100%
@@ -2288,7 +2290,7 @@
 	.m_more_faq
 		min-width: 95px
 		display: block
-		+positionAt(absolute, $top: 20px, $left: 110px)
+		+positionAt(absolute, $top: 0px, $left: 110px)
 		border-radius: 50px
 		border: 1px solid #d5d5d5
 		background: #fff
@@ -2788,3 +2790,9 @@
 			width: 300px
 			left: calc(50% - 150px)
 
+	.pagination
+		width: 100%
+		li
+			width: 11.1%
+			a
+				width: 100%

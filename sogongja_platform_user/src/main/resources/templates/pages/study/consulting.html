@@ -123,7 +123,7 @@
                                     <td>[[${item.support_org_name}]]</td>
                                     <!--/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/-->
                                     <td class="color_606060">[[${item.support_by}]]</td>
-                                    <td><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
+                                    <td class="txl"><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>
                                     <td>
                                         <div class="management management_wrap">
                                             <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>
