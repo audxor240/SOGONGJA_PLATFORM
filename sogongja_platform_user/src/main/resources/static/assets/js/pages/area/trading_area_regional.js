@@ -284,7 +284,6 @@ async function renderSido() {
     sidoBox.innerHTML = html;
 }
 
-renderSido()
 
 //2-1시군구 리스트 선택박스 렌더링
 async function renderSigungu() {
@@ -307,7 +306,6 @@ async function renderSigungu() {
     sigunguBox.innerHTML = html;
 }
 
-renderSigungu()
 
 function isdongTrue(el) {
     var dd = (el.name.split(" ", 4));
@@ -340,7 +338,6 @@ async function renderDong() {
     dongBox.innerHTML = html;
 }
 
-renderDong()
 
 //개별 시군구,행정동 리스트 클릭시에 자동 검색
 function searchSidoDongPlaces() {
