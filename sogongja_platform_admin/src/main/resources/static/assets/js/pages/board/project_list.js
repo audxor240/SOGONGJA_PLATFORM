@@ -5,6 +5,12 @@
         commonSearchPaging();
 
         $('#del_project').on('click', function() {
+
+            if($("[name=project_check]:checked").length == 0){
+                alert("선택된 항목이 없습니다.");
+                return false;
+            }
+
             if (confirm('해당 프로젝트를 삭제하시겠습니까?')) {
                 var proStr = "";
                 $("input[name=project_check]:checked").each(function(){

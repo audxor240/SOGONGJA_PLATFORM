@@ -5,6 +5,12 @@
         commonSearchPaging();
 
         $('#del_counseling').on('click', function() {
+
+            if($("[name=cou_check]:checked").length == 0){
+                alert("선택된 항목이 없습니다.");
+                return false;
+            }
+
             if (confirm('해당 사례를 삭제하시겠습니까?')) {
                 var couStr = "";
                 $("input[name=cou_check]:checked").each(function(){

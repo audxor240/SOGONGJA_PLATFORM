@@ -15,6 +15,12 @@
     });
 
     $('#del_community').on('click', function() {
+
+        if($("[name=com_check]:checked").length == 0){
+            alert("선택된 항목이 없습니다.");
+            return false;
+        }
+
         if (confirm('해당 커뮤니티를 삭제하시겠습니까?')) {
             var comStr = "";
             $("input[name=com_check]:checked").each(function(){

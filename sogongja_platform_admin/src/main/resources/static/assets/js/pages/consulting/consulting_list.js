@@ -5,6 +5,12 @@
         commonSearchPaging();
 
         $('#del_consulting').on('click', function() {
+
+            if($("[name=con_check]:checked").length == 0){
+                alert("선택된 항목이 없습니다.");
+                return false;
+            }
+
             if (confirm('해당 컨설팅을 삭제하시겠습니까?')) {
                 var conStr = "";
                 $("input[name=con_check]:checked").each(function(){
