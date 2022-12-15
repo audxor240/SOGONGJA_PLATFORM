@@ -20,6 +20,8 @@ public interface FilesMapper {
 
 	int deleteFile(Map<String, Object> params);
 
+	int deleteFileByTypeAndSeq(Map<String, Object> params);
+
 	int deleteFileAll(Map<String, Object> params);
 
 	int updateFileTitle(Files file);
