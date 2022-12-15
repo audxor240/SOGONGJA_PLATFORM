@@ -244,6 +244,8 @@ public class ExcelService extends BaseService {
             j++;
         }
         if(dataList.size() > 0) {    //추가할 데이터가 남아있으면 마지막으로 insert해준다
+            System.out.println("dataList :: "+dataList);
+            System.out.println("f_dataList :: "+f_dataList);
             educationService.insertEducationExcel(dataList);
             educationService.insertEducationExcelFile(f_dataList);
         }
