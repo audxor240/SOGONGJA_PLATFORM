@@ -2260,6 +2260,7 @@ function weekday(data){
         },
         options: {
             legend: { display: false },
+            maintainAspectRatio: false,
         }
     });
 }
@@ -2278,6 +2279,7 @@ function weekend(data){
         },
         options: {
             legend: { display: false },
+            maintainAspectRatio: false,
         }
     });
 }
