@@ -383,13 +383,13 @@ function panTo(position) {
 
 //상점공통마커
 // 첫접속 시 현좌표 위경도, 줌레벨, x1,x2, y1,y2 값 담기 data 설정
-var lat = map.getCenter().getLat(),
-    lng = map.getCenter().getLng(),
-    zoom = map.getLevel(),
-    x2 = map.getBounds().getNorthEast().getLat(),
-    y2 = map.getBounds().getNorthEast().getLng(),
-    x1 = map.getBounds().getSouthWest().getLat(),
-    y1 = map.getBounds().getSouthWest().getLng();
+// var lat = map.getCenter().getLat(),
+//     lng = map.getCenter().getLng(),
+//     zoom = map.getLevel(),
+//     x2 = map.getBounds().getNorthEast().getLat(),
+//     y2 = map.getBounds().getNorthEast().getLng(),
+//     x1 = map.getBounds().getSouthWest().getLat(),
+//     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
