@@ -743,5 +743,13 @@
     margin-left: calc(100% - 290px);
   }
 }
+@media (max-width: 420px) {
+  .m_header .h_menu_wrap .h_menu {
+    position: absolute;
+    right: 0;
+    margin-left: 0;
+    width: calc(100% - 60px);
+  }
+}
 
 /*# sourceMappingURL=header.css.map */
