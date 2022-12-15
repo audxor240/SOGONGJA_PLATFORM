@@ -200,7 +200,7 @@
 		/* file : EducationMapper.xml, id : getLastEducationInfo */
 		SELECT *
 		FROM ST_EDUCATION
-		WHERE DEL_FLAG = 0 order by EDU_SEQ desc limit 1;
+		order by EDU_SEQ desc limit 1;
 	</select>
 
 </mapper>
