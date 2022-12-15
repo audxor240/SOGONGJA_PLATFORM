@@ -7,6 +7,12 @@
         excelColumnSetting();
 
         $('#del_reSearch').on('click', function() {
+
+            if($("[name=research_check]:checked").length == 0){
+                alert("선택된 항목이 없습니다.");
+                return false;
+            }
+
             if (confirm('해당 데이터를 삭제하시겠습니까?')) {
 
                 var seqStr = "";
