@@ -5,7 +5,7 @@
 
     <select id="getCategory1List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory1List */
-        SELECT *, (select group_concat(NAME) from ST_CATEGORY1) as GROUP_NAME
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY1 WHERE DEL_FLAG = 0) as GROUP_NAME
         FROM ST_CATEGORY1
         WHERE DEL_FLAG = 0
         ORDER BY CATEGORY1_SEQ
@@ -14,7 +14,7 @@
 
     <select id="getCategory2List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory2List */
-        SELECT *, (select group_concat(NAME) from ST_CATEGORY2) as GROUP_NAME
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY2 WHERE DEL_FLAG = 0) as GROUP_NAME
         FROM ST_CATEGORY2
         WHERE DEL_FLAG = 0
         ORDER BY CATEGORY2_SEQ
@@ -23,7 +23,7 @@
 
     <select id="getCategory3List" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : CategoryMapper.xml, id : getCategory3List */
-        SELECT *, (select group_concat(NAME) from ST_CATEGORY3) as GROUP_NAME
+        SELECT *, (select group_concat(NAME) from ST_CATEGORY3 WHERE DEL_FLAG = 0) as GROUP_NAME
         FROM ST_CATEGORY3
         WHERE DEL_FLAG = 0
         ORDER BY CATEGORY3_SEQ
