@@ -383,13 +383,13 @@ function panTo(position) {
 
 //상점공통마커
 // 첫접속 시 현좌표 위경도, 줌레벨, x1,x2, y1,y2 값 담기 data 설정
-var lat = map.getCenter().getLat(),
-    lng = map.getCenter().getLng(),
-    zoom = map.getLevel(),
-    x2 = map.getBounds().getNorthEast().getLat(),
-    y2 = map.getBounds().getNorthEast().getLng(),
-    x1 = map.getBounds().getSouthWest().getLat(),
-    y1 = map.getBounds().getSouthWest().getLng();
+// var lat = map.getCenter().getLat(),
+//     lng = map.getCenter().getLng(),
+//     zoom = map.getLevel(),
+//     x2 = map.getBounds().getNorthEast().getLat(),
+//     y2 = map.getBounds().getNorthEast().getLng(),
+//     x1 = map.getBounds().getSouthWest().getLat(),
+//     y1 = map.getBounds().getSouthWest().getLng();
 var codeType1 = new Array();
 
 //첫화면 처음에 카테고리 체크되어 있는 그대로 어레이 생성함 8개 다 들어감
@@ -789,7 +789,7 @@ function sideInfo(place) {
                     }
 
                     text +=
-                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">상권활성화 예측지수</button>' +
+                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">해당 상점의 상권 정보 확인하기</button>' +
                         '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
                     '</div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';

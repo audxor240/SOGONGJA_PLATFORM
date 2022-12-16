@@ -44,7 +44,7 @@
 	         AND E.CATEGORY_2 = #{category2}
         </if>
         <if test="category3 != null and category3 != ''">
-	         AND E.CATEGORY_3 = #{category2}
+	         AND E.CATEGORY_3 = #{category3}
         </if>
         <if test="support_org != null and support_org != ''">
 	         AND E.SUPPORT_ORG = #{support_org}

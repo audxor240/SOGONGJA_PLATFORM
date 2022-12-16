@@ -658,9 +658,8 @@
   transform: translateX(-50%);
   display: flex;
   overflow: hidden;
-  padding: 6px;
+  padding: 6px 16px;
   z-index: 1;
-  margin-left: 8px;
 }
 .category_wrap.area {
   position: fixed;
@@ -1106,6 +1105,10 @@
 #sidebar #sidebody .sideinfo .side_graph {
   height: 300px;
   margin: 16px 0;
+}
+#sidebar #sidebody .sideinfo .side_graph.cloud {
+  background: #fff url(../images/new/area/cloud.png) no-repeat center;
+  background-size: contain;
 }
 #sidebar #sidebody .sideinfo .side_graph.industry {
   position: relative;
@@ -2464,6 +2467,15 @@
     left: 0;
     height: calc(100vh - 71px);
   }
+  #sidebar #sidebody .sideinfo_fixed {
+    position: fixed;
+    top: 72px;
+  }
+  #sidebar #sidebody .sideinfo_fixed:before {
+    content: "";
+    display: block;
+    padding-top: 80px;
+  }
 }
 @media (max-width: 767px) {
   #map {
@@ -2518,7 +2530,7 @@
     left: 50%;
     bottom: 24px;
     overflow: scroll;
-    width: 98%;
+    width: 100%;
   }
   .solution_btn {
     width: 60px;
