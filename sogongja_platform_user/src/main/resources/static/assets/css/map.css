@@ -1022,7 +1022,7 @@
 }
 #sidebar #sidebody {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   left: 0;
   display: block;
   padding-bottom: 8px;
