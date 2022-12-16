@@ -169,8 +169,8 @@ async function displayCenterInfo(result, status) {
             url: "/trading-area/map/communityList",
             async: false,
             data: JSON.stringify(data),
-            //contentType:"application/json; charset=utf-8",
-            //dataType:"json",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
             //data: data,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);

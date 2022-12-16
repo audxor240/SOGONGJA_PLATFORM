@@ -65,4 +65,6 @@ public class QuestionSetting {
     // 등록일
     private String regDt;
 
+    private String answerTitleStr;
+
 }

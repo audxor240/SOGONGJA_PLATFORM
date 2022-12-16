@@ -199,8 +199,12 @@ async function displayCenterInfo(result, status) {
 
         //해당 위치에 따라 커뮤니티 정보를 불러온다.
         $.ajax({
-            type: "POST", url: "/trading-area/map/communityList", async: false, data: JSON.stringify(data), //contentType:"application/json; charset=utf-8",
-            //dataType:"json",
+            type: "POST",
+            url: "/trading-area/map/communityList",
+            async: false,
+            data: JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
             //data: data,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
