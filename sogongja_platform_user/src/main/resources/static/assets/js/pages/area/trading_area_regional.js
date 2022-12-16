@@ -690,7 +690,7 @@ function displayArea(area) {
             total = info[0].sum_popul;
            // content = info[0].sum_popul;
             var total_comma = total.toString()
-                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             var content='<div class ="regionlabel">' +
                 '<div class="regionbox">' +
                 '<div class="popul regionName">' +
@@ -721,7 +721,7 @@ function displayArea(area) {
             total = info[0].rt_all;
           //  content = info[0].rt_all;
             var total_comma = total.toString()
-                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             var content='<div class ="regionlabel">' +
                     '<div class="regionbox">' +
                         '<div class="rental regionName">' +
@@ -1393,7 +1393,7 @@ function industryRatioAll(data){
                         var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
                         var currentValue_comma = currentValue.toString()
-                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
                         return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
                     }
@@ -1462,7 +1462,7 @@ function industryRatio(color,label){
                         var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
                         var currentValue_comma = currentValue.toString()
-                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
                         return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
                     }
@@ -1540,7 +1540,7 @@ function changecate(){
 //인구수탭 사이드바 인포
 function sideInfoPopul(result,area, total, getarea) {
     var total_comma = total.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     var density = Math.round(total / getarea ) ;
     console.log("Math.round",total,getarea,density)
@@ -1654,7 +1654,7 @@ function businessRatio(n1,n2,n3,n4,n5){
                         var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
                         var currentValue_comma = currentValue.toString()
-                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
                         return label +" "+ precentage + "% "+ currentValue_comma + "개" ;
                     }
@@ -1683,7 +1683,7 @@ function businessRatio(n1,n2,n3,n4,n5){
 //(주요이슈)임대시세탭 사이드바 인포
 function sideInfoRental(result,area, total) {
     var total_comma = total.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     $('#sidebar').addClass('visible');
     if (area&&result) {
