@@ -1,13 +1,147 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>소공자 솔루션</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 솔루션">
+    <meta property="og:image" th:content="@{/images/img-logo-black.png}">
+    <meta property="og:description" content="소공자 플랫폼 솔루션">
+    <meta name="keywords" content="소공자 플랫폼, 소공자 솔루션">
+    <meta name="description" content="소공자 플랫폼 솔루션">
 </head>
+
 <body>
-아직 암것도 없음
+<article layout:fragment="content">
+    <section class="sub_visual">
+        <div class="container">
+            <h2 class="border_title">소공자 솔루션</h2>
+            <p>관련 기관에서 제공하는 솔루션 서비스를 연계 제공해드립니다.</p>
+        </div>
+        <div class="lnb">
+            <div class="m_tab">소공자 솔루션</div>
+            <ul class="container">
+                <li class=""><a th:href="@{/commerce/area}">도시공간 커머스</a></li>
+                <li class="active"><a th:href="@{/commerce/service}">소공자 솔루션</a></li>
+            </ul>
+        </div>
+    </section>
+    <section class="wrap">
+        <div class="sub_container service_edu">
+            <form name="searchForm" >
+<!--                <th:block th:include="fragments/search_hidden"></th:block>-->
+                <div class="checkbox_wrap">
+                    <div class="check_keyword">
+                        <legend>키워드 검색</legend>
+                        <label for="keyword_search">검색</label>
+                        <div>
+                            <input type="text" placeholder="키워드 검색" id="keyword_search">
+                            <button type="submit">검색</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox_wrap">
+                    <ul class="check_list check_list30">
+                        <li>
+                            <h4>보유기술(대)</h4>
+                            <ul id="rdoCategory1">
+                                <li>
+                                    <input type="radio" id="category10" name="category1" class="checkbox_style" value="" checked>
+                                    <label for="category10">전체</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="category11" name="category1" class="checkbox_style" value="" checked>
+                                    <label for="category10">전체</label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>보유기술(중)</h4>
+                            <ul id="rdoCategory2">
+                                <li>
+                                    <input type="radio" id="category20" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="category20">전체</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="category21" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="category20">전체</label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>지역</h4>
+                            <ul id="rdoCategory3">
+                                <li>
+                                    <input type="radio" id="category30" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="category30">전체</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="category31" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="category30">전체</label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </form>
+
+
+
+            <div class="edu_list_wrap">
+<!--                <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>-->
+                <table class="table_style qna_list">
+                    <caption>다른 사용자가 자주 찾는 컨설팅</caption>
+                    <thead>
+                    <tr>
+                        <th style="width: 8%;">관심</th>
+                        <th style="width: 12%;">전문가이름</th>
+                        <!--<th style="width: 15%;">서비스명</th>-->
+                        <th style="width: 40%;">상세분야</th>
+                        <th style="width: 10%;">작업수</th>
+                        <th style="width: 10%;">만족도</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    <th:block th:unless="${#lists.isEmpty(list)}">-->
+<!--                        <tr th:each="item : ${list}">-->
+<!--                            <td th:text="${paging.total - item.rnum + 1}"></td>-->
+<!--                            <td>[[${item.support_org_name}]]</td>-->
+<!--                            &lt;!&ndash;/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/&ndash;&gt;-->
+<!--                            <td class="color_606060">[[${item.support_by}]]</td>-->
+<!--                            <td class="txl"><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>-->
+<!--                            <td>-->
+<!--                                <div class="management management_wrap">-->
+<!--                                    <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>-->
+<!--                                    <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-con-seq="${item.con_seq}" style="cursor: pointer"></span>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </th:block>-->
+<!--                    <th:block th:if="${#lists.isEmpty(list)}">-->
+<!--                        <tr>-->
+<!--                            <td colspan="5">-->
+<!--                                <div class="none_contents" >-->
+<!--                                    <span></span>-->
+<!--                                    <p>컨텐츠가 존재하지 않습니다.</p>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </th:block>-->
+                    </tbody>
+                </table>
+            </div>
+
+            <th:block th:include="fragments/paging"></th:block>
+        </div>
+    </section>
+</article>
+<script>
+
+</script>
+<th:block layout:fragment="custom_js">
+    <script th:src="@{/js/pages/study/consulting_list.js}"></script>
+</th:block>
 </body>
+
 </html>
