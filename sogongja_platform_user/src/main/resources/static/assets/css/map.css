@@ -993,6 +993,39 @@
   margin-top: 1px;
 }
 
+#range {
+  position: fixed;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 254px;
+  height: 24px;
+  border-radius: 12px;
+  background: linear-gradient(to right, #fff, #FF8D07);
+}
+#range p {
+  display: block;
+  font-size: 13px;
+  padding: 2px 8px;
+}
+#range p.low {
+  float: left;
+  color: #777;
+}
+#range p.high {
+  float: right;
+  color: #fff;
+}
+#range.storecolor {
+  background: linear-gradient(to right, #fff, #FF8D07);
+}
+#range.populcolor {
+  background: linear-gradient(to right, #fff, #1540BF);
+}
+#range.rentalcolor {
+  background: linear-gradient(to right, #fff, #DD4C79);
+}
+
 #sidebar {
   position: fixed;
   top: 105px;

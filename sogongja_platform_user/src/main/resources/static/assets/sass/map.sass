@@ -773,6 +773,29 @@
           color: #666
           font-size: 11px
           margin-top: 1px
+#range
+  +positionAt(fixed, $left:50%, $bottom:56px)
+  transform: translateX(-50%)
+  width: 254px
+  height: 24px
+  border-radius: 12px
+  background: linear-gradient(to right, #fff, #FF8D07)
+  p
+    display: block
+    font-size: 13px
+    padding: 2px 8px
+    &.low
+      float: left
+      color: #777
+    &.high
+      float: right
+      color: #fff
+  &.storecolor
+    background: linear-gradient(to right, #fff, #FF8D07)
+  &.populcolor
+    background: linear-gradient(to right, #fff, #1540BF)
+  &.rentalcolor
+    background: linear-gradient(to right, #fff, #DD4C79)
 
 #sidebar
   //display: none

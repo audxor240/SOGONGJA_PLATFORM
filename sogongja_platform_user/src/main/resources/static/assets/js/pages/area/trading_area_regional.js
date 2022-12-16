@@ -579,6 +579,18 @@ async function changeType() {
         }
     });
 
+    $('#range').removeClass()
+    //저밀도-고밀도 범례 색상 변경
+    if(codeType3=="1"){//상점수
+        $('#range').addClass("storecolor")
+    }else if(codeType3=="2") {//인구수
+        $('#range').addClass("populcolor")
+    }else if(codeType3=="3"){//임대시세 주요이슈
+        $('#range').addClass("rentalcolor")
+    }
+
+
+
 }
 
 $('.category_wrap.region').css('display', 'none');//첫화면 상점 카테고리 삭제
