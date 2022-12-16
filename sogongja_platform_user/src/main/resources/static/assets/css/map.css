@@ -1501,7 +1501,7 @@
 #sidebar #sidebody .toggle_side {
   position: fixed;
   left: 0px;
-  top: calc(50% - 30px);
+  top: calc(48% - 30px);
   width: 30px;
   height: 60px;
   background: #fff;
@@ -1525,7 +1525,7 @@
   position: fixed;
   left: 0px;
   z-index: -1;
-  top: calc(50% - 30px);
+  top: calc(48% - 30px);
   width: 30px;
   height: 60px;
   background: #fff;
