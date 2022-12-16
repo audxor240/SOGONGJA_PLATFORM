@@ -1562,7 +1562,7 @@ function areanameSpread(area) {
 // kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
 var runTimer;
 
-kakao.maps.event.addListener(map, 'tilesloaded', function() {
+kakao.maps.event.addListener(map, 'idle', function() {
     clearTimeout(runTimer);
     zoom = map.getLevel();
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
