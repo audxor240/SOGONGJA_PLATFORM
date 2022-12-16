@@ -83,7 +83,7 @@ function searchPlacesMobile() {
     geocoder.addressSearch(keyword, placesSearchCB);
 }
 $('.dif').click(function (){
- $('.msearch_pop').addClass('on')
+    $('.msearch_pop').addClass('on')
 })
 $('.search_pop_del').click(function (){
     $('.msearch_pop').removeClass('on')
@@ -596,13 +596,13 @@ function sideInfo(area, detail) {
         sales += info2[i].sales;
     }
     var sales_comma = sales.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var liv_popul_comma = detail.liv_popul.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var st_popul_comma = detail.st_popul.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var bd_popul_comma = detail.bd_popul.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
     if(detail.r_popul > detail.w_popul){
@@ -619,48 +619,48 @@ function sideInfo(area, detail) {
             '<div id="sidebody">' +
             // '<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
             '<div class="sideinfo_fixed">' +
-                '<div class="sideinfo">' +
-                    '<div class="areatitle iconPlus">' +
-                    area.area_name + ' ' + area.area_title +
-                    '</div>' +
-                '</div>' +
+            '<div class="sideinfo">' +
+            '<div class="areatitle iconPlus">' +
+            area.area_name + ' ' + area.area_title +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '<div class="margintop"></div>'+
             '<div class="sideinfo">' +
-                '<h4 class="sideinfoTitle">상점수</h4>'+
-                '<div class="storegray iconPlus">' +
-                    stores + '개'+
-                '</div>' +
+            '<h4 class="sideinfoTitle">상점수</h4>'+
+            '<div class="storegray iconPlus">' +
+            stores + '개'+
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
-                '<h4 class="sideinfoTitle">개폐업수</h4>'+
-                '<div class="storegray iconPlus">' +
-                "개업점포수 "+
-                    '<span class="distance">' +
-                    open +'개'+
-                    '</span>' +
-                '</div>' +
-                '<div class="storeclose iconPlus">' +
-                '폐업점포수 ' +
-                '<span class="distance">' +
-                close +'개'+
-                '</span>' +
-                '</div>' +
+            '<h4 class="sideinfoTitle">개폐업수</h4>'+
+            '<div class="storegray iconPlus">' +
+            "개업점포수 "+
+            '<span class="distance">' +
+            open +'개'+
+            '</span>' +
+            '</div>' +
+            '<div class="storeclose iconPlus">' +
+            '폐업점포수 ' +
+            '<span class="distance">' +
+            close +'개'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">추정매출</h4>'+
-                '<div class="schedule_gray_20dp iconPlus">' +
-                '매출이 가장 큰 시간 ' +
-                '<span class="distance">' +
-                detail.picktime +
-                '</span>' +
-                '</div>' +
-                '<div class="payments_gray_20dp iconPlus">' +
-                '매출액 ' +
-                '<span class="distance">' +
-                    sales_comma + '원'+
-                '</span>' +
-                '</div>' +
+            '<div class="schedule_gray_20dp iconPlus">' +
+            '매출이 가장 큰 시간 ' +
+            '<span class="distance">' +
+            detail.picktime +
+            '</span>' +
+            '</div>' +
+            '<div class="payments_gray_20dp iconPlus">' +
+            '매출액 ' +
+            '<span class="distance">' +
+            sales_comma + '원'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">생활인구</h4>'+
@@ -670,143 +670,143 @@ function sideInfo(area, detail) {
             liv_popul_comma +'명'+
             '</span>' +
             '</div>' +
-                '<div class="side_graph gender">' +
-                    '<canvas id="genderChart"></canvas>'+
-                '</div>'+
+            '<div class="side_graph gender">' +
+            '<canvas id="genderChart"></canvas>'+
+            '</div>'+
 
-                '<ul class="agetabs" id="agetab">'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="10" id="age_10" onchange="agetab()" checked>' +
-                        '<label for="age_10">10대</label>' +
-                    '</li>'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="20" id="age_20" onchange="agetab()">' +
-                        '<label for="age_20">20대</label>' +
-                    '</li>'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="30" id="age_30" onchange="agetab()">' +
-                        '<label for="age_30">30대</label>' +
-                    '</li>'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="40" id="age_40" onchange="agetab()">' +
-                        '<label for="age_40">40대</label>' +
-                    '</li>'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="50" id="age_50" onchange="agetab()">' +
-                        '<label for="age_50">50대</label>' +
-                    '</li>'+
-                    '<li>' +
-                        '<input type ="radio" name="agetab" value="60" id="age_60" onchange="agetab()">' +
-                        '<label for="age_60">60대</label>' +
-                    '</li>'+
-                '</ul>'+
+            '<ul class="agetabs" id="agetab">'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="10" id="age_10" onchange="agetab()" checked>' +
+            '<label for="age_10">10대</label>' +
+            '</li>'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="20" id="age_20" onchange="agetab()">' +
+            '<label for="age_20">20대</label>' +
+            '</li>'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="30" id="age_30" onchange="agetab()">' +
+            '<label for="age_30">30대</label>' +
+            '</li>'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="40" id="age_40" onchange="agetab()">' +
+            '<label for="age_40">40대</label>' +
+            '</li>'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="50" id="age_50" onchange="agetab()">' +
+            '<label for="age_50">50대</label>' +
+            '</li>'+
+            '<li>' +
+            '<input type ="radio" name="agetab" value="60" id="age_60" onchange="agetab()">' +
+            '<label for="age_60">60대</label>' +
+            '</li>'+
+            '</ul>'+
             '<div class="groups_gray_20dp iconPlus">' +
             '주중 시간대별 생활인구수' +
             '</div>' +
-                '<div class="side_graph living_wd short">' +
-                    '<canvas id="livingweekday"></canvas>'+
-                '</div>'+
+            '<div class="side_graph living_wd short">' +
+            '<canvas id="livingweekday"></canvas>'+
+            '</div>'+
             '<div class="groups_gray_20dp iconPlus">' +
             '주말 시간대별 생활인구수' +
             '</div>' +
-                '<div class="side_graph living_we short">' +
-                    '<canvas id="livingweekend"></canvas>'+
-                '</div>'+
+            '<div class="side_graph living_we short">' +
+            '<canvas id="livingweekend"></canvas>'+
+            '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
-                '<h4 class="sideinfoTitle">상존인구</h4>'+
-                '<div class="person_gray_20dp iconPlus">' +
-                '길 단위 ' +
-                '<span class="distance">' +
-                    st_popul_comma  +'명'+
-                '</span>' +
-                '</div>' +
-                '<div class="groups_gray_20dp iconPlus">' +
-                '건물 단위 ' +
-                '<span class="distance">' +
-                    bd_popul_comma +'명'+
-                '</span>' +
-                '</div>' +
+            '<h4 class="sideinfoTitle">상존인구</h4>'+
+            '<div class="person_gray_20dp iconPlus">' +
+            '길 단위 ' +
+            '<span class="distance">' +
+            st_popul_comma  +'명'+
+            '</span>' +
+            '</div>' +
+            '<div class="groups_gray_20dp iconPlus">' +
+            '건물 단위 ' +
+            '<span class="distance">' +
+            bd_popul_comma +'명'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
-                '<h4 class="sideinfoTitle">인구 유형별 비중 주거인구</h4>'+
-                '<div class="groups_gray_20dp iconPlus">' +
-                '주거인구 ' +
-                '<span class="distance">' +
-                detail.r_popul  +'명 '+
-                '</span>' +
-                compare +
-                ' 직장인구 ' +
-                '<span class="distance">' +
-                detail.w_popul  +'명'+
-                '</span>' +
-                '</div>' +
+            '<h4 class="sideinfoTitle">인구 유형별 비중 주거인구</h4>'+
+            '<div class="groups_gray_20dp iconPlus">' +
+            '주거인구 ' +
+            '<span class="distance">' +
+            detail.r_popul  +'명 '+
+            '</span>' +
+            compare +
+            ' 직장인구 ' +
+            '<span class="distance">' +
+            detail.w_popul  +'명'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">소비 유형</h4>'+
-                '<div class="side_graph">' +
-                '<canvas id="consumption"></canvas>'+
-                '</div>'+
+            '<div class="side_graph">' +
+            '<canvas id="consumption"></canvas>'+
+            '</div>'+
             '</div>' +
             '<div class="sideinfo">' +
             '<h4 class="sideinfoTitle">아파트</h4>'+
             '<ul id="apttabs" class="tabs">'+
-                '<li class="tab_1 current" onclick="apttab1()" data-tab="tab-1">상권</li>'+
-                '<li class="tab_2 alley_only" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
+            '<li class="tab_1 current" onclick="apttab1()" data-tab="tab-1">상권</li>'+
+            '<li class="tab_2 alley_only" onclick="apttab2()" data-tab="tab-2">배후지</li>'+
             '</ul>'+
             '<div id="tab_1" class="tab-content current">'+
-                '<div class="person_gray_20dp iconPlus">' +
-                '단지 수 ' +
-                '<span class="distance">' +
-                detail.ct_apt_com +'세대'+
-                '</span>' +
-                '</div>' +
-                '<div class="person_gray_20dp iconPlus">' +
-                '세대 수 ' +
-                '<span class="distance">' +
-                detail.ct_apt_hou +'명'+
-                '</span>' +
-                '</div>' +
+            '<div class="person_gray_20dp iconPlus">' +
+            '단지 수 ' +
+            '<span class="distance">' +
+            detail.ct_apt_com +'세대'+
+            '</span>' +
+            '</div>' +
+            '<div class="person_gray_20dp iconPlus">' +
+            '세대 수 ' +
+            '<span class="distance">' +
+            detail.ct_apt_hou +'명'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '<div id="tab_2" class="tab-content">'+
-                '<div class="person_gray_20dp iconPlus">' +
-                '단지 수 ' +
-                '<span class="distance">' +
-                detail.ct_napt_com +'세대'+
-                '</span>' +
-                '</div>' +
-                '<div class="person_gray_20dp iconPlus">' +
-                '세대 수 ' +
-                '<span class="distance">' +
-                detail.ct_napt_hou +'명'+
-                '</span>' +
-                '</div>' +
+            '<div class="person_gray_20dp iconPlus">' +
+            '단지 수 ' +
+            '<span class="distance">' +
+            detail.ct_napt_com +'세대'+
+            '</span>' +
+            '</div>' +
+            '<div class="person_gray_20dp iconPlus">' +
+            '세대 수 ' +
+            '<span class="distance">' +
+            detail.ct_napt_hou +'명'+
+            '</span>' +
+            '</div>' +
             '</div>' +
             '</div>' +
 
             '<div class="sideinfo alley_only">' +
-                '<h4 class="sideinfoTitle">상권 안정화 지수</h4>'+
-                '<ul id="areatabs" class="tabs">'+
-                '<li class="tab_1 current" onclick="areatab1()" data-tab="tab-1">분기별 비교</li>'+
-                '<li class="tab_2" onclick="areatab2()" data-tab="tab-2">연도별 비교</li>'+
-                '</ul>'+
-                '<div id="areatab_1" class="areatab-content current">'+
-                '<select name="chartYear" id="chartYear" onChange="updateChartType()">'+
-                    '<option value="2021">2021년</option>'+
-                    '<option value="2020">2020년</option>'+
-                    '<option value="2019">2019년</option>'+
-                    '<option value="2018">2018년</option>'+
-                    '<option value="2017">2017년</option>'+
-                '</select>'+
-                    '<div class="side_graph stabilization_quarter short">' +
-                        '<canvas id="stabilization_quarter"></canvas>'+
-                    '</div>'+
-                '</div>' +
-                '<div id="areatab_2" class="areatab-content">'+
-                    '<div class="side_graph stabilization_yearly short">' +
-                        '<canvas id="stabilization_yearly"></canvas>'+
-                    '</div>'+
-                '</div>' +
+            '<h4 class="sideinfoTitle">상권 안정화 지수</h4>'+
+            '<ul id="areatabs" class="tabs">'+
+            '<li class="tab_1 current" onclick="areatab1()" data-tab="tab-1">분기별 비교</li>'+
+            '<li class="tab_2" onclick="areatab2()" data-tab="tab-2">연도별 비교</li>'+
+            '</ul>'+
+            '<div id="areatab_1" class="areatab-content current">'+
+            '<select name="chartYear" id="chartYear" onChange="updateChartType()">'+
+            '<option value="2021">2021년</option>'+
+            '<option value="2020">2020년</option>'+
+            '<option value="2019">2019년</option>'+
+            '<option value="2018">2018년</option>'+
+            '<option value="2017">2017년</option>'+
+            '</select>'+
+            '<div class="side_graph stabilization_quarter short">' +
+            '<canvas id="stabilization_quarter"></canvas>'+
+            '</div>'+
+            '</div>' +
+            '<div id="areatab_2" class="areatab-content">'+
+            '<div class="side_graph stabilization_yearly short">' +
+            '<canvas id="stabilization_yearly"></canvas>'+
+            '</div>'+
+            '</div>' +
             '</div>' +
             '<div class="sideinfo">' +
             '<button class="analysisBtn" onclick="location.href=`/trading-area/regional?lat=' + position.Ma +'&lng='+ position.La +'`">해당 상권의 지역 정보 확인하기</button>' +
@@ -883,15 +883,15 @@ function sideInfo(area, detail) {
 
         for (var i = 0; i < graph.length; i++) {
             if(graph[i].year==2021){
-                 year2021 += graph[i].idx_stb_area;
+                year2021 += graph[i].idx_stb_area;
             }else if(graph[i].year==2020){
-                 year2020 += graph[i].idx_stb_area;
+                year2020 += graph[i].idx_stb_area;
             }else if(graph[i].year==2019){
-                 year2019 += graph[i].idx_stb_area;
+                year2019 += graph[i].idx_stb_area;
             }else if(graph[i].year==2018){
-                 year2018 += graph[i].idx_stb_area;
+                year2018 += graph[i].idx_stb_area;
             }else if(graph[i].year==2017){
-                 year2017 += graph[i].idx_stb_area;
+                year2017 += graph[i].idx_stb_area;
             }
         }
         var yearly = [year2017,year2018,year2019,year2020,year2021]
@@ -1092,7 +1092,7 @@ function contentFunc(area) {
         });
         document.getElementById("resultsum").value = sum_all;
         var sum_all_comma = sum_all.toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
         var areaTab = $('input[name=areaTab]:checked').val();
         var info2 = area.info2
@@ -1144,7 +1144,7 @@ function contentFunc(area) {
                     var sectorname = codeSectorname(info2[i].code)//코드 ->대분류이름 반환
 
                     var sales_comma = info2[i].sales.toString()
-                        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                     mainpart += `<li class="graphlist` + (i + 1) + ` ` + info2[i].code + `" onclick="showMidPart('` + info2[i].code + `')"><span>` + sales_comma + `원<div class="width_chart"></div></span></li>`
                     ranking += `<span class="` + info2[i].code + `">` + sectorname + '<div class="right"> ' + sales_comma + '원 ' + (i + 1) + `위</div></span>`
                 }
@@ -1189,41 +1189,41 @@ function contentFunc(area) {
             }
         }
 
-            //대분류전체 콘텐트
+        //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
-                '<p class="areacenter">' +
-                area.area_name +
-                '</p>' +
-                '<div class="areanum">' +
-                    '<p class="store-num num">' +
-                    stores +
-                    "개 점포" +
-                    '</p>' +
-                    '<p class="open-num num">' +
-                    open +
-                    "개 점포" +
-                    '</p>' +
-                    '<p class="close-num num">' +
-                    close +
-                    "개 점포" +
-                    '</p>' +
-                    '<p class="sales-num num">' +
-                    sum_all_comma +
-                    "원" +
-                    '</p>' +
-                '</div>' +
-                '<ul class="graphmenu">'+
-                mainpart +
-                ' </ul>'+
+            '<p class="areacenter">' +
+            area.area_name +
+            '</p>' +
+            '<div class="areanum">' +
+            '<p class="store-num num">' +
+            stores +
+            "개 점포" +
+            '</p>' +
+            '<p class="open-num num">' +
+            open +
+            "개 점포" +
+            '</p>' +
+            '<p class="close-num num">' +
+            close +
+            "개 점포" +
+            '</p>' +
+            '<p class="sales-num num">' +
+            sum_all_comma +
+            "원" +
+            '</p>' +
+            '</div>' +
+            '<ul class="graphmenu">'+
+            mainpart +
+            ' </ul>'+
             placeranking+
             '<div class="placeinfo2 placegraph">' +
-                '<div id="title">' +
-                "</div>" +
-                '<div class="close" onclick="closeOverlaygraph()" title="닫기"></div>'+
-                '<div class="ranking_list">' +
-                "</div>" +
-                '<div class="after"></div>'+
+            '<div id="title">' +
+            "</div>" +
+            '<div class="close" onclick="closeOverlaygraph()" title="닫기"></div>'+
+            '<div class="ranking_list">' +
+            "</div>" +
+            '<div class="after"></div>'+
             "</div>";
     } else {// 여기는 단일마커임
         if (midcate.includes('all')) {
@@ -1271,7 +1271,7 @@ function contentFunc(area) {
         });
         document.getElementById("resultsum").value = sum_all;
         var sum_all_comma = sum_all.toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
         var content =
             '<div class="areahoverIn">' +
@@ -1441,7 +1441,7 @@ function areanameSpread(area) {
     document.getElementById("resultsum").value = sum_all;
 
     var sum_all_comma = sum_all.toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     if (area.area_type == "D") {
         var content =
             '<div class="areaIn color2E750D" >' +
@@ -1562,7 +1562,7 @@ function areanameSpread(area) {
 // kakao.maps.event.addListener(map, 'tilesloaded', changeMap)
 var runTimer;
 
-kakao.maps.event.addListener(map, 'tilesloaded', function() {
+kakao.maps.event.addListener(map, 'idle', function() {
     clearTimeout(runTimer);
     zoom = map.getLevel();
     if (zoom >= 6 && zoom <= 14) {//zoom 6 ~ 14
@@ -2007,7 +2007,7 @@ function showMidPart(code) {
         var salescolor = [];
         for (var i = 0; i < tempArr.length; i++) {
             var sales_comma = tempArr[i].sales.toString()
-                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             ranking2 += `<span class="` + tempArr[i].code + `">` + tempArr[i].com_nm +'<div class="right"> '+ sales_comma +'원 '+ (i+1)+`위</div></span>`
             salescolor.push(tempArr[i].sales);
         }
@@ -2144,7 +2144,7 @@ function genderRatio(m_popul, f_popul){
                         var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
                         var currentValue_comma = currentValue.toString()
-                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
                         return label +" "+ precentage + "% "+ currentValue_comma + "명" ;
                     }
@@ -2201,7 +2201,7 @@ function consumptionRatio(n1,n2,n3,n4,n5,n6,n7,n8,n9){
                         var label= labels[tooltipItem.index]
                         var currentValue = dataset.data[tooltipItem.index];
                         var currentValue_comma = currentValue.toString()
-                            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
                         return label +" "+ precentage + "% "+ currentValue_comma + "원" ;
                     }
