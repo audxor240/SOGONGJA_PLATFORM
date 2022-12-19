@@ -263,11 +263,13 @@ async function renderDong() {
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
-        let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
-        value="${sido.code}" onclick="onClickSearch(this)">
+        if(sido.dong!=undefined){
+            let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
+            value="${sido.code}" onclick="onClickSearch(this)">
                             ${sido.dong}
                         </li>`;
-        html += htmlSegment;
+            html += htmlSegment;
+        }
     });
     dongBox.innerHTML = html;
 }

@@ -1054,6 +1054,7 @@
   left: 400px;
 }
 #sidebar #sidebody {
+  min-height: calc(100vh - 105px);
   position: relative;
   z-index: 3;
   left: 0;
@@ -1786,10 +1787,10 @@
 .detail_community {
   display: none;
   position: absolute;
-  top: 60px;
+  top: 66px;
   left: 0;
   background: #e2e2e2;
-  height: 100%;
+  height: 100vh;
   padding-bottom: 20px;
   width: 100%;
 }
@@ -2750,6 +2751,7 @@
   #sidebar #sidebody {
     width: 100%;
     left: auto;
+    min-height: calc(100vh - 71px);
   }
   #sidebar #sidebody.visible_none {
     position: relative;
