@@ -216,23 +216,23 @@
                                 <td th:text="${item.com_nm}">서비스 업종 코드명(com_nm)</td>
 
                                 <!-- 상권업종(점포) -->
-                                <td th:if="${areaColmunParameter.ctShop}" th:text="${item.ct_shop}">점포 수(ct_shop)</td>
+                                <td th:if="${areaColmunParameter.ctShop}" th:text="${#numbers.formatInteger(item.ct_shop,0,'COMMA')}">점포 수(ct_shop)</td>
                                 <td th:if="${areaColmunParameter.ctShopSim}"  th:text="${#numbers.formatInteger(item.ct_shop_sim,0,'COMMA')}">유사 업종 점포 수(ct_shop_sim)</td>
                                 <td th:if="${areaColmunParameter.ctFranchise}" th:text="${#numbers.formatInteger(item.ct_franchise,0,'COMMA')}">프랜차이즈 점포 수(ct_franchise)</td>
 
                                 <!-- 상권업종(추정매출) -->
-                                <td th:if="${areaColmunParameter.sum0006}" th:text="${item.sum_00_06}">시간대 00~06 매출 금액(sum_00_06)</td>
-                                <td th:if="${areaColmunParameter.sum0611}" th:text="${item.sum_06_11}">시간대 06~11 매출 금액(sum_06_11)</td>
-                                <td th:if="${areaColmunParameter.sum1114}" th:text="${item.sum_11_14}">시간대 11~14 매출 금액(sum_11_14)</td>
-                                <td th:if="${areaColmunParameter.sum1417}" th:text="${item.sum_14_17}">시간대 14~17 매출 금액(sum_14_17)</td>
-                                <td th:if="${areaColmunParameter.sum1721}" th:text="${item.sum_17_21}">시간대 17~21 매출 금액(sum_17_21)</td>
-                                <td th:if="${areaColmunParameter.sum2124}" th:text="${item.sum_21_24}">시간대 21~24 매출 금액(sum_21_24)</td>
+                                <td th:if="${areaColmunParameter.sum0006}" th:text="${#numbers.formatInteger(item.sum_00_06,0,'COMMA')}">시간대 00~06 매출 금액(sum_00_06)</td>
+                                <td th:if="${areaColmunParameter.sum0611}" th:text="${#numbers.formatInteger(item.sum_06_11,0,'COMMA')}">시간대 06~11 매출 금액(sum_06_11)</td>
+                                <td th:if="${areaColmunParameter.sum1114}" th:text="${#numbers.formatInteger(item.sum_11_14,0,'COMMA')}">시간대 11~14 매출 금액(sum_11_14)</td>
+                                <td th:if="${areaColmunParameter.sum1417}" th:text="${#numbers.formatInteger(item.sum_14_17,0,'COMMA')}">시간대 14~17 매출 금액(sum_14_17)</td>
+                                <td th:if="${areaColmunParameter.sum1721}" th:text="${#numbers.formatInteger(item.sum_17_21,0,'COMMA')}">시간대 17~21 매출 금액(sum_17_21)</td>
+                                <td th:if="${areaColmunParameter.sum2124}" th:text="${#numbers.formatInteger(item.sum_21_24,0,'COMMA')}">시간대 21~24 매출 금액(sum_21_24)</td>
 
                                 <!-- 상권업종(개폐업) -->
-                                <td th:if="${areaColmunParameter.perOpen}" th:text="${item.per_open}">개업률(per_open)</td>
-                                <td th:if="${areaColmunParameter.ctOpen}" th:text="${item.ct_open}">개업 점포 수(ct_open)</td>
-                                <td th:if="${areaColmunParameter.perClose}" th:text="${item.per_close}">폐업률(per_close)</td>
-                                <td th:if="${areaColmunParameter.ctClose}" th:text="${item.ct_close}">폐업 점포 수(ct_close)</td>
+                                <td th:if="${areaColmunParameter.perOpen}" th:text="${item.per_open+'%'}">개업률(per_open)</td>
+                                <td th:if="${areaColmunParameter.ctOpen}" th:text="${#numbers.formatInteger(item.ct_open,0,'COMMA')}">개업 점포 수(ct_open)</td>
+                                <td th:if="${areaColmunParameter.perClose}" th:text="${item.per_close+'%'}">폐업률(per_close)</td>
+                                <td th:if="${areaColmunParameter.ctClose}" th:text="${#numbers.formatInteger(item.ct_close,0,'COMMA')}">폐업 점포 수(ct_close)</td>
 
                             </tr>
                             </tbody>

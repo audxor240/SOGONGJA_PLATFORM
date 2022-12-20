@@ -37,7 +37,7 @@ public class QuestionService extends BaseService {
     @Transactional(DataSourceConfig.PRIMARY_TRANSACTION_MANAGER)
     public int saveQuestionSetting(QuestionSetting questionSetting, AnswerSetting answerSetting) throws IOException {
         int result = 0;
-        System.out.println("questionSetting >> "+questionSetting);
+
         if (questionSetting.getQuestionSettingSeq() == 0) {
             //질문 추가
             result = questionSettingMapper.insertQuestionSetting(questionSetting);
@@ -54,12 +54,16 @@ public class QuestionService extends BaseService {
             }
         }
 
+        //프론트에서 배열로 넘어오면 답변에 콤마(,)가 있을 경우 답변의 개수가 일치하지 않아 여기서 나눠준다.
+        List<String> answerList = Arrays.asList(questionSetting.getAnswerTitleStr().split("\\|"));
+
         //선택형이면
         if(questionSetting.getQuestionType().equals("choice")) {
             answerSetting.setQuestionSettingSeq(questionSetting.getQuestionSettingSeq());
+
             //답변 리스트 추가, 답변하나당 카테고리 개수만큼 추가해준다
-            for (int i = 0; i < questionSetting.getAnswerTitleList().size(); i++) {
-                String answer = questionSetting.getAnswerTitleList().get(i);
+            for (int i = 0; i < answerList.size(); i++) {
+                String answer = answerList.get(i);
 
                 answerSetting.setAnswer(answer);
                 String tag_str = questionSetting.getAnswerTagList().get(i);
@@ -67,13 +71,12 @@ public class QuestionService extends BaseService {
                     answerSetting.setCategory2(0);
                     answerSettingMapper.insertAnswerSetting(answerSetting);
                 }else{
-                    System.out.println("tag_str ::: " + tag_str);
+
                     String[] tag_arr = tag_str.split("\\|");
-                    System.out.println("tag_arr >> " + tag_arr);
-                    System.out.println("tag_arr.length :::: " + tag_arr.length);
+
                     for (int j = 0; j < tag_arr.length; j++) {
                         String category2 = tag_arr[j];
-                        System.out.println("category2 :: " + category2);
+
                         answerSetting.setCategory2(Integer.parseInt(category2));
                         answerSettingMapper.insertAnswerSetting(answerSetting);
                     }

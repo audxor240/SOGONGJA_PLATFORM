@@ -199,8 +199,12 @@ async function displayCenterInfo(result, status) {
 
         //해당 위치에 따라 커뮤니티 정보를 불러온다.
         $.ajax({
-            type: "POST", url: "/trading-area/map/communityList", async: false, data: JSON.stringify(data), //contentType:"application/json; charset=utf-8",
-            //dataType:"json",
+            type: "POST",
+            url: "/trading-area/map/communityList",
+            async: false,
+            data: JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
             //data: data,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
@@ -318,22 +322,26 @@ function isdongTrue(el) {
 async function renderDong() {
     let code = await sigunguCodeSet();
     let sidos = await fetchDong(code);
+
     var sidoList = sidos.regcodes;
 
     var name = [];
     let fiddong = sidoList.map((el, index, arr) => ({
         ...el,
-        dong: el.name.split(" ")[3] != undefined ? el.name.split(" ")[2] + " " + el.name.split(" ")[3] : el.name.split(" ")[2]
+        dong: el.name.split(" ")[3] == undefined ? el.name.split(" ")[2] : el.name.split(" ")[2] + " " + el.name.split(" ")[3]
     }));
     name = [...fiddong]
+
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
-        let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
-        value="${sido.code}" onclick="onClickSearch(this)">
+        if(sido.dong!=undefined){
+            let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
+            value="${sido.code}" onclick="onClickSearch(this)">
                             ${sido.dong}
                         </li>`;
-        html += htmlSegment;
+            html += htmlSegment;
+        }
     });
     dongBox.innerHTML = html;
 }
@@ -574,6 +582,18 @@ async function changeType() {
             displayArea(areaJson[i]);
         }
     });
+
+    $('#range').removeClass()
+    //저밀도-고밀도 범례 색상 변경
+    if(codeType3=="1"){//상점수
+        $('#range').addClass("storecolor")
+    }else if(codeType3=="2") {//인구수
+        $('#range').addClass("populcolor")
+    }else if(codeType3=="3"){//임대시세 주요이슈
+        $('#range').addClass("rentalcolor")
+    }
+
+
 
 }
 
@@ -1064,11 +1084,13 @@ function sideVisible() {
 
 //상점수탭 사이드바 인포
 function sideInfoStore(result, area, total) {
+    var total_comma = total.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $('#sidebar').addClass('visible');
     if (area) {
         document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' +
 
-            '<div class="sideinfo">' + '<h4 class="sideinfoTitle">상점수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total + '개 점포' + '</div>' + '</div>' +
+            '<div class="sideinfo">' + '<h4 class="sideinfoTitle">상점수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total_comma + '개 점포' + '</div>' + '</div>' +
 
             '<div class="sideinfo">' + '<h4 class="sideinfoTitle">업종별 상점수</h4>' + '<div class="mainSectors_wrap">' + '<ul class="mainSectors">' + '<li>' + '<input type="radio" name="region_maincate" value="all" id="all-region" onChange="changecate()" checked/>' + '<label For="all-region">전체</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="I" id="I-region" onChange="changecate()"/>' + '<label For="I-region">숙박·음식</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="S" id="S-region" onChange="changecate()"/>' + '<label For="S-region">수리·개인서비스</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="G" id="G-region" onChange="changecate()"/>' + '<label For="G-region">도·소매</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="R" id="R-region" onChange="changecate()"/>' + '<label For="R-region">예술·스포츠·여가</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="N" id="N-region" onChange="changecate()"/>' + '<label For="N-region">시설관리·임대</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="M" id="M-region" onChange="changecate()"/>' + '<label For="M-region">과학·기술</label>' + "</li>" + '<li>' + '<input type="radio" name="region_maincate" value="L" id="L-region" onChange="changecate()"/>' + '<label For="L-region">부동산</label>' + '</li>' + '<li>' + '<input type="radio" name="region_maincate" value="P" id="P-region" onChange="changecate()"/>' + '<label For="P-region">교육</label>' + '</li>' + '</ul>' + '</div>' + '<div class="storegray iconPlus storenum">' + '전체 점포' + '</div>' + '<div class="side_graph industry">' + '<canvas id="industry"></canvas>' + '<div id="colorCircle"></div>' + '</div>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
         if (window.innerWidth < 767) {
@@ -1626,7 +1648,10 @@ function sideInfoPopul(result, area, total, getarea) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     var density = Math.round(total / getarea);
+    var density_comma = density.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     console.log("Math.round", total, getarea, density)
+
     $('#sidebar').addClass('visible');
     if (area && result) {
         household = []
@@ -1641,7 +1666,7 @@ function sideInfoPopul(result, area, total, getarea) {
         for (var i = 0; i < household.length; i++) {
             houseli += `<li class="h` + household[i].idx + `"><p class="housetype">` + household[i].idx + `인가구</p><p class="housenum">` + household[i].house + `명</p></li>`
         }
-        document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total_comma + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">면적</h4>' + '<div class="crop_black_20dp iconPlus">' + '총 ' + getarea + '㎢' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구밀도</h4>' + '<div class="groups_gray_20dp iconPlus">' + density + '인/㎢' + '</div>' + '</div>' + '<div class="greyspan"></div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>' + '<div class="side_graph">' + '<canvas id="business"></canvas>' + '</div>' + '</div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">가구원수별 가구수</h4>' + '<ul class="short2">' + houseli + '</ul>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' + '</div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total_comma + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">면적</h4>' + '<div class="crop_black_20dp iconPlus">' + '총 ' + getarea + '㎢' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구밀도</h4>' + '<div class="groups_gray_20dp iconPlus">' + density_comma + '인/㎢' + '</div>' + '</div>' + '<div class="greyspan"></div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>' + '<div class="side_graph">' + '<canvas id="business"></canvas>' + '</div>' + '</div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">가구원수별 가구수</h4>' + '<ul class="short2">' + houseli + '</ul>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' + '</div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
         if (window.innerWidth < 767) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');

@@ -169,8 +169,8 @@ async function displayCenterInfo(result, status) {
             url: "/trading-area/map/communityList",
             async: false,
             data: JSON.stringify(data),
-            //contentType:"application/json; charset=utf-8",
-            //dataType:"json",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
             //data: data,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
@@ -295,15 +295,16 @@ async function renderDong() {
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
-        let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
-        value="${sido.code}" onclick="onClickSearch(this)">
+        if(sido.dong!=undefined){
+            let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
+            value="${sido.code}" onclick="onClickSearch(this)">
                             ${sido.dong}
                         </li>`;
-        html += htmlSegment;
+            html += htmlSegment;
+        }
     });
     dongBox.innerHTML = html;
 }
-
 
 //개별 시군구,행정동 리스트 클릭시에 자동 검색
 function searchSidoDongPlaces() {
@@ -727,7 +728,7 @@ function sideInfo(place) {
                 ]
             });
             var text = "";
-            if (resultsubway.buslng > 0) {//빈값아니면 거리 계산
+            if (resultsubway.buslng > 0) {//버스지하철 있을때 사이드바 : 빈값아니면 거리 계산
                 var buspos = buspolyline.getLength().toFixed(2);
                 var subpos = subwaypolyline.getLength().toFixed(2)
 
@@ -788,12 +789,14 @@ function sideInfo(place) {
                             "</div>";
                     }
 
-                    text +=
-                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">해당 상점의 상권 정보 확인하기</button>' +
+                text +=
+                    '<div class="sideinfo">' +
+                    '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">해당 상점의 상권 정보 확인하기</button>' +
+                    '</div>' +
                         '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' +
                     '</div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
-            } else {
+            } else {//버스지하철 없을때 사이드바
                     text +=
                     '<div id="sidebody">' +
                     //'<div class="sideCloseBtn" onclick="closeOverlay()" title="닫기"></div>' +
@@ -850,8 +853,10 @@ function sideInfo(place) {
                     }
 
                     text +=
-                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">상권활성화 예측지수</button>' +
-                    '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
+                        '<div class="sideinfo">' +
+                        '<button class="analysisBtn" onclick="location.href=`/trading-area/analysis?lat=' + place.latitude +'&lng='+ place.longitude +'&x1=' + (map.getBounds().getSouthWest().getLat() - 0.025) +'&x2=' + (map.getBounds().getNorthEast().getLat() + 0.025) +'&y1=' + (map.getBounds().getSouthWest().getLng() - 0.025) +'&y2=' + (map.getBounds().getNorthEast().getLng() + 0.025 ) +'`">해당 상점의 상권 정보 확인하기</button>' +
+                        '</div>' +
+                        '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div></div>' +
                     '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
             }
 
