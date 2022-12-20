@@ -1620,7 +1620,6 @@ kakao.maps.event.addListener(map, 'idle', function() {
         }, 1000);
     } else { //level < 4, zoom 3,2,1 일때
         $('#storelist').css('display', 'block');        // 상점 카테고리
-        setMarkers(null)
         // do something
         runTimer = setTimeout(function() {
             changeMap();
@@ -1689,6 +1688,7 @@ async function changeMap() {
 
     } else { //level < 4, zoom 3,2,1 일때
 
+        setMarkers(null)
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
             //console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점 찍기
