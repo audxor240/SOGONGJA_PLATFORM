@@ -62,9 +62,11 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         x2 = map.getBounds().getNorthEast().getLat();
         y1 = map.getBounds().getSouthWest().getLng();
         y2 = map.getBounds().getNorthEast().getLng();
+        var lat = map.getCenter().getLat();
+        var lng = map.getCenter().getLng();
 
         var data = {
-            x1, x2, y1, y2
+            x1, x2, y1, y2, lat, lng
         }
 
         $("input:checkbox[name='depth1']:checked").each(function(){
