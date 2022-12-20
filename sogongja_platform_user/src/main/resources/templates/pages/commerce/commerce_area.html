@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="utf-8">
-    <title>지도 생성하기</title>
-
+    <th:block th:include="fragments/common_meta"></th:block>
+    <title>소공자플랫폼 상점연구소</title>
+    <meta property="og:url" content="">
+    <meta property="og:title" content="소공자 플랫폼 | 상권연구소">
+    <meta property="og:image" th:content="@{/images/bg-maintext1.png}">
+    <meta property="og:description" content="소공자 플랫폼 상권연구소">
+    <meta name="keywords" content="소공자 플랫폼, 상권연구소, 상권분석정보, 상권특성정보, 지역특성정보">
+    <meta name="description" content="소공자 플랫폼 상권연구소">
+    <!--/* Common css */-->
+    <th:block th:include="fragments/common_css"></th:block>
 </head>
-<body>
 
+<body class="area">
+<article>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div id="map_wrap">
+        <div id="map"></div>
+    </div>
+</article>
+
+<div class="wrap-loading display-none">
+    <div><img th:src="@{/images/ajax-loading.gif}" alt="로딩중" /></div>
+</div>
+<th:block th:include="fragments/common_js"></th:block>
 <!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:100%;height:700px;"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca"></script>
 <script>
@@ -60,12 +78,51 @@
         if (clicked) {
             clicked = false;
 
+            map.setCenter(mouseEvent.latLng);
+            map.setLevel(5);
+
         } else {
             console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
             clicked = true;
 
+            map.setCenter(mouseEvent.latLng);
+            map.setLevel(3);
+
+            var test = 'test';
+            var data = {
+                test : test
+            }
+
+            ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
+
+            })
         }
     });
+
+    //ajax 요청하는 함수
+    function ajaxPostSyn(url, data, callback, showLoading) {
+        // IE 기본값세팅
+        showLoading = typeof showLoading !== 'undefined' ? showLoading : true;
+        $.ajax({
+            //async:true,
+            url: contextPath + url, data: JSON.stringify(data), method: "POST", success: function (result) {
+                console.log('result : ', result);
+                if (callback) {
+                    callback(result);
+                }
+            }, beforeSend: function () {
+                if (showLoading) {
+                    $('.wrap-loading').removeClass('display-none');
+                }
+            }, complete: function () {
+                if (showLoading) {
+                    $('.wrap-loading').addClass('display-none');
+                }
+            }, error: function (xhr, status, error) {
+                console.error('error : ', error);
+            }
+        });
+    }
 </script>
 </body>
 </html>

@@ -1,10 +1,15 @@
 package com.stoneitgt.sogongja.user.controller;
 
-import java.io.IOException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 import com.stoneitgt.sogongja.domain.BoardSetting;
-import com.stoneitgt.sogongja.domain.QuestionSetting;
 import com.stoneitgt.sogongja.user.component.AuthenticationFacade;
 import com.stoneitgt.sogongja.user.domain.MapParameter;
 import com.stoneitgt.sogongja.user.service.BoardService;
@@ -12,6 +17,7 @@ import com.stoneitgt.sogongja.user.service.CommunityService;
 import com.stoneitgt.sogongja.user.service.ReplyService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.user.service.AreaService;
 import com.stoneitgt.util.StoneUtil;
+
+import javax.imageio.ImageIO;
 
 @Controller
 @RequestMapping("/trading-area")
@@ -136,10 +144,26 @@ public class AreaController extends BaseController {
 	}
 
 //	@GetMapping("/test")
-//	public String mapTest(@ModelAttribute MapParameter params, Model model) {
+//	public String mapTest(@ModelAttribute MapParameter params, Model model) throws IOException {
+//
 //		return "pages/area/trading_area_test";
 //	}
-
+//
+//	@GetMapping(
+//			value = "/get-image-with-media-type",
+//			produces = MediaType.IMAGE_JPEG_VALUE
+//	)
+//	public @ResponseBody
+//	String getImageWithMediaType() throws IOException {
+//		System.out.println("zzz");
+//		URL url = new URL("https://www.shutterstock.com/image-vector/vector-illustration-sample-red-grunge-260nw-2065712915.jpg");
+//		BufferedImage image3 = ImageIO.read(url);
+//		ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+//		ImageIO.write(image3, "jpg", outStreamObj);
+//
+////		return outStreamObj.toByteArray();
+//		return Base64.getEncoder().encodeToString(outStreamObj.toByteArray());
+//	}
 
 	// 중심 좌표 이동에 따른 polygon 데이터 api
 	@PostMapping("/analysis/area")
