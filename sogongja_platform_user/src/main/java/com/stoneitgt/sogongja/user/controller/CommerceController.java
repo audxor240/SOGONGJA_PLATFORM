@@ -22,7 +22,10 @@ public class CommerceController extends BaseController {
     @PostMapping("/area-heatmap")
     public @ResponseBody
     Map<String, Object> areaGetHeatmap(@RequestBody Map<String, Object> params, Model model) {
-        System.out.println(params.get("test"));
+        System.out.println(params.get("x1"));
+        System.out.println(params.get("x2"));
+        System.out.println(params.get("y1"));
+        System.out.println(params.get("y2"));
         return new HashMap<String, Object>();
     }
 
