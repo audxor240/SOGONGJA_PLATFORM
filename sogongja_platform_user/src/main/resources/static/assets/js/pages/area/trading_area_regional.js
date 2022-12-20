@@ -646,7 +646,8 @@ function displayArea(area) {
             var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
 
             var content = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store normal_store">' + "일반점포 " + normal_store + '</div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store fran_store">' + "가맹점포 " + fran_store + '</div>' + '</div>' + '</div>';
-            var content2 = '<div class="placeinfo">' + '<p class="title">' + regionName + "</p>" + '<div class="close" onclick="closeOverlay()" title="닫기"></div>' + '<span class="jibun2">총 상점수 : ' + "</span>" + '<span class="region">' + total + "개 점포" + "</span>" + "</div>" + '<div class="after"></div>';
+            var content2 = '<div class="placeinfo">' + '<p class="title">' + regionName + "</p>" + '<div class="close" onclick="closeOverlay()" title="닫기"></div>' + '<span class="jibun2">총 상점수 : ' + "</span>" + '<span class="region">' + total.toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "개 점포" + "</span>" + "</div>" + '<div class="after"></div>';
         } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
             // content = info[0].sum_popul;
