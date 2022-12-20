@@ -82,7 +82,7 @@ public class RESTController extends BaseController {
 	//public void excelDownload(HttpServletResponse response, @RequestBody Map<String, Object> params) throws IOException {
 
 		//LOGGER.info("*****************poi 라이브러리를 활용한 대용량 엑셀다운로드 로직 START*****************");
-
+		System.out.println("subType :: "+subType);
 		long startTime = System.currentTimeMillis();
 
 		String excelName = "";
@@ -112,11 +112,11 @@ public class RESTController extends BaseController {
 			case "analysis2":
 				if(subType.equals("0")){
 					sheetName = "전체";
-				}else if(subType.equals("1")){
+				}else if(subType.equals("6")){
 					sheetName = "점포";
-				}else if(subType.equals("2")){
+				}else if(subType.equals("7")){
 					sheetName = "추정매출";
-				}else if(subType.equals("3")){
+				}else if(subType.equals("8")){
 					sheetName = "개폐업";
 				}
 				excelName = "상권 데이터(업종)-"+sheetName;
@@ -145,7 +145,7 @@ public class RESTController extends BaseController {
 		//String[] header = {"번호","구분","컬럼1","컬럼2","컬럼3","컬럼4"};
 		String[] header = colHeaderName.toArray(new String[0]);
 
-		ExcelHandler excelHandler = new AExcelHandler(header, outputFileName,sheetName,500, excelType);
+		ExcelHandler excelHandler = new AExcelHandler(header, outputFileName,sheetName,500, excelType, colHeader);
 		excelHandler.createExcelHeader();	//헤더를 만들어준다
 
 		//해당 메서드 인자값으로 excelHandler를 넘겨준다

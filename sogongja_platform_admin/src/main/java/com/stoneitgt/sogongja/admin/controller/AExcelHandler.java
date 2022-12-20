@@ -1,16 +1,17 @@
 package com.stoneitgt.sogongja.admin.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class AExcelHandler extends ExcelHandler{
 
 
-    public AExcelHandler(String[] header, String fileName, String sheetName, int size, String excelType) {
-        super.ExcelHandler(header, fileName, sheetName, size, excelType);
+    public AExcelHandler(String[] header, String fileName, String sheetName, int size, String excelType, List<String> colHeader) {
+        super.ExcelHandler(header, fileName, sheetName, size, excelType, colHeader);
     }
 
     @Override
-    public void createExcelBody(HashMap<String, String> map,String excelType) {
+    public void createExcelBody(HashMap<String, String> map,String excelType, List<String> colHeader) {
         int cellNum = 0;
 
         //1. row생성
@@ -19,7 +20,10 @@ public class AExcelHandler extends ExcelHandler{
         //2-1. cell생성
         //2-2. 값매핑
         setExcelCell(cellNum++, this.dataIdx++);
-        switch (excelType){
+        for (String item:colHeader) {
+            setExcelCell(cellNum++, map.get(item.toUpperCase()));   //header의 컬럼 정보만 다운로드한다(DB의 컬럼명과 일치해야함)
+        }
+        /*switch (excelType){
             case "shop":
                 setExcelCell(cellNum++, map.get("SHOP_NO"));
                 setExcelCell(cellNum++, map.get("SHOP_NM"));
@@ -209,6 +213,6 @@ public class AExcelHandler extends ExcelHandler{
                 setExcelCell(cellNum++, map.get("RT_1F"));
                 setExcelCell(cellNum++, map.get("RT_OTHER"));
                 break;
-        }
+        }*/
     }
 }
