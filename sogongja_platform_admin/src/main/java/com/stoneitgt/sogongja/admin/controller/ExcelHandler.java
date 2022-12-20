@@ -31,10 +31,12 @@ public abstract class ExcelHandler implements ResultHandler{
 
     String excelType;
 
+    List<String> colHeader;
+
     int rowNum = 1; //row 카운트
     int dataIdx = 1; //data 순번
 
-    public void ExcelHandler(String[] header, String fileName, String sheetName, int size, String excelType){
+    public void ExcelHandler(String[] header, String fileName, String sheetName, int size, String excelType, List<String> colHeader){
         this.header = header;
         this.fileName = fileName;
         this.sheetName = sheetName;
@@ -43,6 +45,7 @@ public abstract class ExcelHandler implements ResultHandler{
         this.sxssfWorkbook = new SXSSFWorkbook(xssfWorkbook, ROW_ACCESS_WINDOW_SIZE);
         this.objSheet = sxssfWorkbook.createSheet(this.sheetName); // sheet 생성
         this.excelType = excelType;
+        this.colHeader = colHeader;
 
     }
 
@@ -77,14 +80,14 @@ public abstract class ExcelHandler implements ResultHandler{
         sxssfWorkbook.dispose();
     }
 
-    public abstract void createExcelBody(HashMap<String,String> vo, String excelType);
+    public abstract void createExcelBody(HashMap<String,String> vo, String excelType, List<String> colHeader);
 
     @Override
     public void handleResult(ResultContext resultContext) {
 
         HashMap<String,String> data = (HashMap<String, String>) resultContext.getResultObject();
 
-        createExcelBody(data, excelType);
+        createExcelBody(data, excelType, colHeader);
 
     }
 }

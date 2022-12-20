@@ -150,6 +150,8 @@
                         <input type="hidden" name="colHeader">
                         <input type="hidden" name="colHeaderName">
                         <input type="hidden" name="excelType" value="">
+                        <input type="hidden" name="type" th:value="${params.type}">
+                        <input type="hidden" name="subType" th:value="${params.subType}">
                     </form>
                     <!--/*<form name="searchForm" th:action="@{|/board/${boardType}|(menuCode=${params.menuCode})}" th:object="${params}" method="get">
                         <th:block th:include="fragments/search_hidden"></th:block>
@@ -160,7 +162,7 @@
                             <thead>
                             <tr>
                                 <th>선택</th>
-                                <th id="id" >#</th>
+                                <th id="seq" >#</th>
                                 <!-- 상권업종(Default) -->
                                 <th id="year" >년도</th>
                                 <th id="qrt" >분기</th>
