@@ -142,7 +142,10 @@ function excelColumnSetting(){
     var colHeaderNameArr = [];
     td.each(function(index, item) {
         if($(this).attr('id') != undefined){
-            colHeaderArr.push($(this).attr('id'));
+            //리스트에 출력되는 컬럼만 다운로드 컬럼으로 지정한다
+            if($(this).attr('id') != "seq"){
+                colHeaderArr.push($(this).attr('id'));
+            }
             colHeaderNameArr.push($(this).text());
         }
     });
