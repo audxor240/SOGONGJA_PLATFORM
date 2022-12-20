@@ -467,7 +467,7 @@ var countmarkers = []; //시군구시도 카운트마커 배열
 var areanameMarkers = []; //상권이름 마커 배열
 var roundmarkers = []; //상권이름 동그란 마커 호버배열
 var clickmarkers = []; //상권이름 동그란 마커 클릭배열
-console.log("첫상권", areaJson, areaJson.length)
+//console.log("첫상권", areaJson, areaJson.length)
 //첫화면 맵크기 5일때 상권 로드
 areaSpread(areaJson)
 //    displayArea(areaJson);
@@ -560,7 +560,7 @@ function displayPath(polygon, area, i) {
                 lng : position.La
             }
             ajaxPostSyn('/trading-area/analysis/details', data, function (result) {
-                console.log("세부 요청요청", result)
+                //console.log("세부 요청요청", result)
                 sideInfo(area, result)//사이드바 표출
             });
             changeAreaTab()
@@ -597,6 +597,7 @@ function sideInfo(area, detail) {
         close += info2[i].close;
         sales += info2[i].sales;
     }
+
     var sales_comma = sales.toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var liv_popul_comma = detail.liv_popul.toString()
@@ -605,7 +606,22 @@ function sideInfo(area, detail) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var bd_popul_comma = detail.bd_popul.toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var ct_apt_com = detail.ct_apt_com.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var ct_apt_hou = detail.ct_apt_hou.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var ct_napt_com = detail.ct_napt_com.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var ct_napt_hou = detail.ct_napt_hou.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var r_popul = detail.r_popul.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var w_popul = detail.w_popul.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+    stores = stores.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    open = open.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    close = close.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     if(detail.r_popul > detail.w_popul){
         var compare = ">";
@@ -735,12 +751,12 @@ function sideInfo(area, detail) {
             '<div class="groups_gray_20dp iconPlus">' +
             '주거인구 ' +
             '<span class="distance">' +
-            detail.r_popul  +'명 '+
+            r_popul  +'명 '+
             '</span>' +
             compare +
             ' 직장인구 ' +
             '<span class="distance">' +
-            detail.w_popul  +'명'+
+            w_popul  +'명'+
             '</span>' +
             '</div>' +
             '</div>' +
@@ -760,13 +776,13 @@ function sideInfo(area, detail) {
             '<div class="person_gray_20dp iconPlus">' +
             '단지 수 ' +
             '<span class="distance">' +
-            detail.ct_apt_com +'세대'+
+            ct_apt_com +'세대'+
             '</span>' +
             '</div>' +
             '<div class="person_gray_20dp iconPlus">' +
             '세대 수 ' +
             '<span class="distance">' +
-            detail.ct_apt_hou +'명'+
+            ct_apt_hou +'명'+
             '</span>' +
             '</div>' +
             '</div>' +
@@ -774,13 +790,13 @@ function sideInfo(area, detail) {
             '<div class="person_gray_20dp iconPlus">' +
             '단지 수 ' +
             '<span class="distance">' +
-            detail.ct_napt_com +'세대'+
+            ct_napt_com +'세대'+
             '</span>' +
             '</div>' +
             '<div class="person_gray_20dp iconPlus">' +
             '세대 수 ' +
             '<span class="distance">' +
-            detail.ct_napt_hou +'명'+
+            ct_napt_hou +'명'+
             '</span>' +
             '</div>' +
             '</div>' +
@@ -1191,6 +1207,10 @@ function contentFunc(area) {
             }
         }
 
+        stores = stores.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        open = open.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        close = close.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
         //대분류전체 콘텐트
         var content =
             '<div class="areahoverIn">' +
@@ -1259,6 +1279,9 @@ function contentFunc(area) {
                 }
             }
         }
+        stores = stores.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        open = open.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        close = close.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
         document.getElementById("SUM_00_06").value = sum_00_06;
         document.getElementById("SUM_06_11").value = sum_06_11;
@@ -1428,6 +1451,11 @@ function areanameSpread(area) {
             }
         }
     }
+
+    stores = stores.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    open = open.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    close = close.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
     document.getElementById("SUM_00_06").value = sum_00_06;
     document.getElementById("SUM_06_11").value = sum_06_11;
     document.getElementById("SUM_11_14").value = sum_11_14;
@@ -1646,7 +1674,7 @@ async function changeMap() {
 
 
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
-            console.log("이게 상권데이터 갖고오는거임", result)
+            //console.log("이게 상권데이터 갖고오는거임", result)
             removePolygons(map)//areajson에 쓰던 상권 삭제하고
             for (var i = 0; i < areanameMarkers.length; i++) {
                 areanameMarkers[i].setMap(null);//상권이름 마커 비우고
@@ -1662,12 +1690,12 @@ async function changeMap() {
     } else { //level < 4, zoom 3,2,1 일때
 
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
-            console.log("상점 데이터 뿌려주기", result)
+            //console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점 찍기
         });
 
         ajaxPostSyn('/trading-area/analysis/area', datalat, function (result) {
-            console.log("이게 상권데이터 갖고오는거임", result)
+            //console.log("이게 상권데이터 갖고오는거임", result)
             removePolygons(map)//areajson에 쓰던 상권 삭제하고
             for (var i = 0; i < areanameMarkers.length; i++) {
                 areanameMarkers[i].setMap(null);//상권이름 마커 비우고
