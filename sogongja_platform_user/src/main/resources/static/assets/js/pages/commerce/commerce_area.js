@@ -17,6 +17,7 @@ console.log("width : "  + mapWidth + ", height : " + mapHeight)
 console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
 
 var circles = [];
+var customOverlays = [];
 var meter = 300;
 var clicked = false;
 
@@ -47,6 +48,10 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
     if (clicked) {
         clicked = false;
 
+        for (var i = 0; i < customOverlays.length; i++) {
+            customOverlays[i].setMap(null);
+        }
+
         map.setCenter(mouseEvent.latLng);
         map.setLevel(zoom);
 
@@ -74,6 +79,15 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
             if ($(this).val() === 'density') {
                 ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
 
+                    console.log(result)
+                    var content = '<div><img src="data:image/png;base64,'+ result.blob +'" alt="heatMap"></div>';
+
+                    var customOverlay = new kakao.maps.CustomOverlay({
+                        position: mouseEvent.latLng,
+                        content: content
+                    });
+                    customOverlays.push(customOverlay)
+                    customOverlay.setMap(map);
                 })
             }
 

@@ -30,6 +30,7 @@ subprojects {
     }
 
     repositories {
+        maven { url "https://repo.osgeo.org/repository/release/"}
         mavenCentral()
     }
 
@@ -67,6 +68,13 @@ subprojects {
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
         implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
         implementation 'com.auth0:java-jwt:3.10.3'
+
+        implementation group: 'org.geotools', name: 'gt-epsg-hsql', version: '27.0'
+        implementation group: 'org.geotools', name: 'gt-shapefile', version: '27.0'
+        implementation group: 'org.geotools', name: 'gt-swing', version: '27.0'
+        implementation group: 'org.geotools', name: 'gt-wms', version: '27.0'
+        implementation group: 'org.geotools', name: 'gt-geotiff', version: '27.0'
+        implementation group: 'org.geotools', name: 'gt-image', version: '27.0'
 
     }
 }
