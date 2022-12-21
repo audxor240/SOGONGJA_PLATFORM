@@ -27,6 +27,7 @@ import com.stoneitgt.sogongja.user.service.AreaService;
 import com.stoneitgt.util.StoneUtil;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/trading-area")
@@ -149,21 +150,21 @@ public class AreaController extends BaseController {
 //		return "pages/area/trading_area_test";
 //	}
 //
-//	@GetMapping(
-//			value = "/get-image-with-media-type",
-//			produces = MediaType.IMAGE_JPEG_VALUE
-//	)
-//	public @ResponseBody
-//	String getImageWithMediaType() throws IOException {
-//		System.out.println("zzz");
-//		URL url = new URL("https://www.shutterstock.com/image-vector/vector-illustration-sample-red-grunge-260nw-2065712915.jpg");
-//		BufferedImage image3 = ImageIO.read(url);
-//		ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-//		ImageIO.write(image3, "jpg", outStreamObj);
-//
-////		return outStreamObj.toByteArray();
+	@GetMapping(
+			value = "/get-image-with-media-type",
+			produces = MediaType.IMAGE_JPEG_VALUE
+	)
+	public @ResponseBody
+	void getImageWithMediaType(HttpServletResponse response) throws IOException {
+		System.out.println("zzz");
+		URL url = new URL("https://www.shutterstock.com/image-vector/vector-illustration-sample-red-grunge-260nw-2065712915.jpg");
+		BufferedImage image3 = ImageIO.read(url);
+		ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+		ImageIO.write(image3, "jpg", outStreamObj);
+		response.setHeader("Content-Type", "image/png");
+		response.getOutputStream().write(outStreamObj.toByteArray());
 //		return Base64.getEncoder().encodeToString(outStreamObj.toByteArray());
-//	}
+	}
 
 	// 중심 좌표 이동에 따른 polygon 데이터 api
 	@PostMapping("/analysis/area")
