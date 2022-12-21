@@ -1834,10 +1834,9 @@
   color: #fff;
 }
 #map .regionlabel {
-  background: rgba(0, 0, 0, 0.1);
   color: #fff;
   width: 50px;
-  height: 50px;
+  height: auto;
   text-align: center;
   border-radius: 100%;
   display: flex;
@@ -1852,6 +1851,34 @@
 }
 #map .regionlabel .regionbox .store {
   color: #BF7116;
+}
+#map .regionlabel .regionbox .store.normal_store {
+  display: flex;
+  align-items: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: #593307;
+  margin-right: 50px;
+  white-space: break-spaces;
+}
+#map .regionlabel .regionbox .store.normal_store span {
+  font-size: 13px;
+  color: #593307;
+}
+#map .regionlabel .regionbox .store.fran_store {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #FF8A00;
+  margin-left: 50px;
+  white-space: break-spaces;
+}
+#map .regionlabel .regionbox .store.fran_store span {
+  font-size: 11px;
+  color: #FF8A00;
 }
 #map .regionlabel .regionbox .popul {
   color: #1540BF;
