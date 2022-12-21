@@ -98,17 +98,28 @@
 		</if>
 
 		<if test="category2Group != null and category2Group != ''">
-			AND C.CATEGORY_2 IN
+			AND (C.CATEGORY_2 IN
 			<foreach collection="category2Group" item="item" index='i' open="(" close=")" separator=",">
 				#{item}
 			</foreach>
+			<if test="category3Group == null or category3Group == ''">
+				)
+			</if>
+		</if>
+
+		<if test="(category2Group != null and category2Group != '') and (category3Group != null and category3Group != '')">
+			OR
 		</if>
 
 		<if test="category3Group != null and category3Group != ''">
-			AND C.CATEGORY_3 IN
+			<if test="category2Group == null or category2Group == ''">
+			     (
+			</if>
+			C.CATEGORY_3 IN
 			<foreach collection="category3Group" item="item" index='i' open="(" close=")" separator=",">
 				#{item}
 			</foreach>
+			)
 		</if>
 
 		<choose>
