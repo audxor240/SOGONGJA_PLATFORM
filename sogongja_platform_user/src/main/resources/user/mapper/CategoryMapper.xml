@@ -33,17 +33,21 @@
 
     <select id="getMappingCategory2" parameterType="int" resultType="string">
         /* file : CategoryMapper.xml, id : getMappingCategory2 */
-        select group_concat(DISTINCT(CATEGORY2_SEQ)) as G_CATE2
-        from ST_USER_ANSWER2
-        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0
+
+        select 	group_concat(DISTINCT(C2.CATEGORY2_SEQ)) as G_CATE2
+        from ST_USER_ANSWER2 as UA2
+        left join ST_CATEGORY2 as C2 ON C2.CATEGORY2_SEQ = UA2.CATEGORY2_SEQ and C2.DEL_FLAG = 0
+        where UA2.REG_USER_SEQ = #{userSeq} and UA2.DEL_FLAG = 0
 
     </select>
 
     <select id="getMappingCategory3" parameterType="int" resultType="string">
         /* file : CategoryMapper.xml, id : getMappingCategory3 */
-        select group_concat(DISTINCT(CATEGORY3_SEQ)) as G_CATE3
-        from ST_USER_ANSWER1
-        where REG_USER_SEQ = #{userSeq} and DEL_FLAG = 0;
+
+        select 	group_concat(DISTINCT(C3.CATEGORY2_SEQ)) as G_CATE3
+        from ST_USER_ANSWER1 as UA1
+        left join ST_CATEGORY3 as C3 ON C3.CATEGORY3_SEQ = UA1.CATEGORY3_SEQ and C3.DEL_FLAG = 0
+        where UA1.REG_USER_SEQ = #{userSeq} and UA1.DEL_FLAG = 0
 
     </select>
 
