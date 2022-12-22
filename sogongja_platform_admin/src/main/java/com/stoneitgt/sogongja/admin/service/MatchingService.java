@@ -50,9 +50,14 @@ public class MatchingService extends BaseService {
                         rankArr.add((Integer) item.get("rank"));
                     }
 
+                    List<String> category2Arr = new ArrayList<>();
                     //answerArr.add((String) item.get("category2"));
-                    List<String> category2Arr = Arrays.asList(((String) item.get("category2")).split(","));
+                    if(item.get("category2") != null) {
+                        category2Arr = Arrays.asList(((String) item.get("category2")).split(","));
+                    }
+
                     category2.add(category2Arr);
+
                 }
                 surveyMatching.setAnswer(answerArr);
                 surveyMatching.setCategory2(category2);
