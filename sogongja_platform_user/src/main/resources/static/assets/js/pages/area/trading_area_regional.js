@@ -645,7 +645,9 @@ function displayArea(area) {
             var fran_store = Math.round(info[0].franc / info[0].stores * 100) + '%';//가맹점포
             var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
 
-            var content = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store normal_store"><span>' + "일반점포 " + normal_store + '</span></div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store fran_store"><span>' + "가맹점포 " + fran_store + '</span></div>' + '</div>' + '</div>';
+            var content = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store"><span>' + "일반점포 " + normal_store + '</span></div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store"><span>' + "가맹점포 " + fran_store + '</span></div>' + '</div>' + '</div>';
+            var content1 = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store normal_store"><span>' + "일반점포 " + normal_store + '</span></div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store fran_store"><span>' + "가맹점포 " + fran_store + '</span></div>' + '</div>' + '</div>';
+
             var content2 = '<div class="placeinfo">' + '<p class="title">' + regionName + "</p>" + '<div class="close" onclick="closeOverlay()" title="닫기"></div>' + '<span class="jibun2">총 상점수 : ' + "</span>" + '<span class="region">' + total + "개 점포" + "</span>" + "</div>" + '<div class="after"></div>';
         } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
@@ -848,8 +850,12 @@ function displayArea(area) {
 
         if (codeType3 === '1') {//상점수
             polygon.setOptions({
-                fillColor: 'url(#store-gra)', fillOpacity: 0.9
+                fillColor: 'url(#store-gra2)', fillOpacity: 0.9
             });
+            total = info[0].stores;//총상점수
+            var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
+            $('#store-gra2 .stop2').attr('offset', normal_store)
+
         } else if (codeType3 === '2') {
             polygon.setOptions({
                 fillColor: '#1540BF', fillOpacity: 0.9
@@ -879,19 +885,19 @@ function displayArea(area) {
         if (codeType3 === '1') {
             if (total > regionStandard[0][5]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.8
+                    fillColor: '#FF8D07', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[0][4]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.65
+                    fillColor: '#FF8D07', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[0][3]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.5
+                    fillColor: '#FF8D07', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[0][2]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.35
+                    fillColor: '#FF8D07', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[0][1]) {
                 polygon.setOptions({
@@ -905,19 +911,19 @@ function displayArea(area) {
         } else if (codeType3 === '2') {
             if (total > regionStandard[1][5]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.8
+                    fillColor: '#1540BF', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[1][4]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.65
+                    fillColor: '#1540BF', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[1][3]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.5
+                    fillColor: '#1540BF', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[1][2]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.35
+                    fillColor: '#1540BF', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[1][1]) {
                 polygon.setOptions({
@@ -931,19 +937,19 @@ function displayArea(area) {
         } else if (codeType3 === '3') {
             if (total > regionStandard[2][5]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.8
+                    fillColor: '#DD4C79', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[2][4]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.65
+                    fillColor: '#DD4C79', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[2][3]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.5
+                    fillColor: '#DD4C79', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[2][2]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.35
+                    fillColor: '#DD4C79', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[2][1]) {
                 polygon.setOptions({
@@ -962,24 +968,29 @@ function displayArea(area) {
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
         var codeType3 = $('input[name="cate2"]:checked').val();// 3번 분기별 임대시세
-
         closeOverlay()//클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
 
         if (zoom < 8) {//맵크기 8이하  : 클릭-커스텀인포(행정동별 정보) 추가
-            var clickcircle = new kakao.maps.CustomOverlay({
-                position: centroid(area.path), content: content
-            });
-            clickcircles.push(clickcircle);
-            clickcircle.setMap(map);
+
+
             if (codeType3 === '1') {//상점수
+                var clickcircle = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content1
+                });
                 var clickcInfoWin = new kakao.maps.CustomOverlay({
                     position: centroid(area.path), content: content2, zIndex: 3, yAnchor: 1.7,
                 });
+
             }else{
+                var clickcircle = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content
+                });
                 var clickcInfoWin = new kakao.maps.CustomOverlay({
                     position: centroid(area.path), content: content2, zIndex: 3, yAnchor: 1.2,
                 });
             }
+            clickcircles.push(clickcircle);
+            clickcircle.setMap(map);
 
             clickcInfoWins.push(clickcInfoWin);
             clickcInfoWin.setMap(map);
@@ -996,7 +1007,9 @@ function displayArea(area) {
                 fillColor: 'url(#store-gra)',
                 fillOpacity: 0.8
             });
-
+            total = info[0].stores;//총상점수
+            var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
+            $('#store-gra .stop2').attr('offset', normal_store)
         } else if (codeType3 === '2') {//인구수
             var polygon1 = new kakao.maps.Polygon({
                 path: this.getPath(),

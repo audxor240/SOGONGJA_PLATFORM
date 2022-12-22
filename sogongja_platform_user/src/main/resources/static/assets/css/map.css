@@ -1846,11 +1846,17 @@
 #map .regionlabel .regionbox {
   display: block;
   text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 10px;
+  font-weight: bolder;
 }
 #map .regionlabel .regionbox .store {
   color: #BF7116;
+}
+#map .regionlabel .regionbox .store span {
+  color: #BF7116;
+}
+#map .regionlabel .regionbox .store.regionName {
+  font-size: 13px;
 }
 #map .regionlabel .regionbox .store.normal_store {
   display: flex;
