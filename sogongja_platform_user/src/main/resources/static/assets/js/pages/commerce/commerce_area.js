@@ -391,39 +391,6 @@ async function displayCenterInfo(result, status) {
         if(guArr.length > 1){
             gu = guArr[0];
         }
-        let data = {
-            "type": "shop",
-            "gu": gu
-        };
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        //해당 위치에 따라 커뮤니티 정보를 불러온다.
-        $.ajax({
-            type: "POST",
-            url: "/trading-area/map/communityList",
-            async: false,
-            data: JSON.stringify(data),
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            //data: data,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            error: function (res) {
-                let fragment = res.responseText
-                $(".community_pop_list").replaceWith(fragment);
-                //$("#dtsch_modal").show();
-                //alert(res.responseJSON.message);
-                return false;
-            }
-        }).done(function (fragment) {
-            //여기로 안들어옴.....
-            $(".community_pop_list").replaceWith(fragment);
-            //$("#dtsch_modal").show();
-            //$(".loading_box").hide();
-
-        });
     }
 }
 
