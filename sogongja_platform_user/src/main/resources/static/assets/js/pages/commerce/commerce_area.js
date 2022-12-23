@@ -266,21 +266,27 @@ function ajaxPostSyn(url, data, callback, showLoading) {
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 지오코딩
 //현위치 설정
 function setCenter() {
-    // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
-    // 지도 중심을 이동 시킵니다
-    map.setCenter(moveLatLon);
-    map.setLevel(mapDefaultLevel);
+    if (!clicked) {
+        // 이동할 위도 경도 위치를 생성합니다
+        var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
+        // 지도 중심을 이동 시킵니다
+        map.setCenter(moveLatLon);
+        map.setLevel(mapDefaultLevel);
+    }
 }
 
 // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
 function zoomIn() {
-    map.setLevel(map.getLevel() - 1);
+    if (!clicked) {
+        map.setLevel(map.getLevel() - 1);
+    }
 }
 
 // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
 function zoomOut() {
-    map.setLevel(map.getLevel() + 1);
+    if (!clicked) {
+        map.setLevel(map.getLevel() + 1);
+    }
 }
 
 //지도 리사이즈 함수

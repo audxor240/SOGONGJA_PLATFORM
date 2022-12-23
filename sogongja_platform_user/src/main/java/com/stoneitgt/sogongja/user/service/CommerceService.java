@@ -1,7 +1,6 @@
 package com.stoneitgt.sogongja.user.service;
 
 import com.stoneitgt.sogongja.user.mapper.UrbanMapper;
-import com.stoneitgt.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
