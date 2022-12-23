@@ -16,6 +16,20 @@ var mapHeight =  mapContainer.style.height;
 console.log("width : "  + mapWidth + ", height : " + mapHeight)
 console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
 
+var shops = [];
+for (var i = 0; i < shopList.length; i++) {
+    var position = new kakao.maps.LatLng(shopList[i].latitude, shopList[i].longitude);
+    var imageSize = new kakao.maps.Size(5, 5); // 마커 이미지의 크기
+    var markerImage = new kakao.maps.MarkerImage("/images/new/area/marker01.png", imageSize);
+    var marker = new kakao.maps.Marker({
+        position: position, // 마커의 위치
+        image: markerImage,
+    });
+    shops.push(marker);
+    marker.setMap(map);
+}
+
+
 var circles = [];
 var customOverlays = [];
 var meter = 300;
@@ -44,34 +58,42 @@ kakao.maps.event.addListener(map, 'mousemove', function(mouseEvent) {
     }
 });
 
+var ractangles = [];
+
 kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
     if (clicked) {
         clicked = false;
+        map.setZoomable(true);
 
         for (var i = 0; i < customOverlays.length; i++) {
             customOverlays[i].setMap(null);
+        }
+
+        for (var i = 0; i < ractangles.length; i++) {
+            ractangles[i].setMap(null);
         }
 
         map.setCenter(mouseEvent.latLng);
         map.setLevel(zoom);
 
     } else {
+        map.setZoomable(false);
         zoom = map.getLevel();
         console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
         clicked = true;
 
         map.setCenter(mouseEvent.latLng);
-        map.setLevel(3);
+        map.setLevel(4);
 
-        x1 = map.getBounds().getSouthWest().getLat();
-        x2 = map.getBounds().getNorthEast().getLat();
-        y1 = map.getBounds().getSouthWest().getLng();
-        y2 = map.getBounds().getNorthEast().getLng();
+        // x1 = map.getBounds().getSouthWest().getLat();
+        // x2 = map.getBounds().getNorthEast().getLat();
+        // y1 = map.getBounds().getSouthWest().getLng();
+        // y2 = map.getBounds().getNorthEast().getLng();
         var lat = map.getCenter().getLat();
         var lng = map.getCenter().getLng();
 
         var data = {
-            x1, x2, y1, y2, lat, lng
+           lat, lng, meter
         }
 
         $("input:checkbox[name='depth1']:checked").each(function(){
@@ -80,14 +102,31 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                 ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
 
                     console.log(result)
+
                     var content = '<div><img src="data:image/png;base64,'+ result.blob +'" alt="heatMap"></div>';
 
                     var customOverlay = new kakao.maps.CustomOverlay({
-                        position: mouseEvent.latLng,
+                        position: new kakao.maps.LatLng(result.x2, result.y1),
                         content: content
                     });
                     customOverlays.push(customOverlay)
                     customOverlay.setMap(map);
+
+
+                    var sw = new kakao.maps.LatLng(result.x1, result.y2), // 사각형 영역의 남서쪽 좌표
+                        ne = new kakao.maps.LatLng(result.x2,  result.y1); // 사각형 영역의 북동쪽 좌표
+                    var rectangleBounds = new kakao.maps.LatLngBounds(sw, ne);
+                    var rectangle = new kakao.maps.Rectangle({
+                        bounds: rectangleBounds, // 그려질 사각형의 영역정보입니다
+                        strokeWeight: 4, // 선의 두께입니다
+                        strokeColor: '#FF3DE5', // 선의 색깔입니다
+                        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                        strokeStyle: 'shortdashdot', // 선의 스타일입니다
+                        fillColor: '#FF8AEF', // 채우기 색깔입니다
+                        fillOpacity: 0 // 채우기 불투명도 입니다
+                    });
+                    ractangles.push(rectangle)
+                    rectangle.setMap(map);
                 })
             }
 

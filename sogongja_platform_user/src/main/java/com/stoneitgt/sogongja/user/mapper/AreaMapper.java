@@ -56,6 +56,8 @@ public interface AreaMapper {
 	Map<String, Long> getTradingAreaMaxSales(String areaCd);
 	List<Map<String, Object>> getTradingAreaMapSingle(Map<String, Object> params);
 
+	List<Map<String, Object>> getAllShop();
+
 
 
 }

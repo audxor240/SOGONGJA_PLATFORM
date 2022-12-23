@@ -69,12 +69,12 @@ spring:
       enabled: detect
   primary:
     datasource:
-      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      username: root
-      password: thvmxmfoqtm
-      #jdbc-url: jdbc:log4jdbc:mariadb://sogongja-aurora-prod-instance.cluster-cyoshxr7pnby.ap-northeast-2.rds.amazonaws.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
-      #username: admin
-      #password: thrhdwk5834#
+#      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3307/sogongja?useUnicode=yes&characterEncoding=UTF-8
+#      username: root
+#      password: thvmxmfoqtm
+      jdbc-url: jdbc:log4jdbc:mariadb://sogongja-aurora-prod-instance.cluster-cyoshxr7pnby.ap-northeast-2.rds.amazonaws.com:3306/sogongja?useUnicode=yes&characterEncoding=UTF-8
+      username: admin
+      password: thrhdwk5834#
 
 system:
   slack-send: false
@@ -128,6 +128,8 @@ app:
   ########### JWT
   jwt-secret: soogoongjaa
   jwt-limit: 604800000
+  ########### sld.xml
+  geotools-sld: sogongja_platform_user/src/main/resources/static/assets/xml/heatmap.sld.xml
 
 ---
 
@@ -241,3 +243,5 @@ app:
   ########### JWT
   jwt-secret: soogoongjaa
   jwt-limit: 604800000
+  ########### sld.xml
+  geotools-sld: xml/heatmap.sld.xml
