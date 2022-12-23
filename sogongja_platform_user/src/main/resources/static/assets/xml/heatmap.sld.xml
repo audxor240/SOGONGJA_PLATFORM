@@ -12,9 +12,9 @@
                     <RasterSymbolizer>
                         <ColorMap>
                             <ColorMapEntry color="#FFFFFF" quantity="0" opacity="0"/>
-                            <ColorMapEntry color="#4444FF" quantity="0.1" opacity="0.3"/>
-                            <ColorMapEntry color="#FF0000" quantity="0.5" opacity="0.3"/>
-                            <ColorMapEntry color="#FFFF00" quantity="1.0" opacity="0.3"/>
+                            <ColorMapEntry color="#4444FF" quantity="0.1" opacity="0.5"/>
+                            <ColorMapEntry color="#FF0000" quantity="0.5" opacity="0.5"/>
+                            <ColorMapEntry color="#FFFF00" quantity="1.0" opacity="0.5"/>
                         </ColorMap>
                     </RasterSymbolizer>
                 </Rule>

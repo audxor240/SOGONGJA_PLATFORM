@@ -2,6 +2,8 @@ package com.stoneitgt.sogongja.user.service;
 
 
 import com.stoneitgt.sogongja.user.geotools.HeatmapProcess;
+import com.stoneitgt.sogongja.user.mapper.AreaMapper;
+import com.stoneitgt.sogongja.user.properties.AppProperties;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.DefaultFeatureCollection;
@@ -39,42 +41,75 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class GeoService {
 
     @Autowired
-    ResourceLoader resourceLoader;
+    private AreaMapper areaMapper;
+
+    @Autowired
+    private AppProperties app;
 
     static StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory();
 
-    public byte[] makeHeatMap() throws FactoryException {
-        DefaultGeographicCRS wgs84 = DefaultGeographicCRS.WGS84;
-        CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:5181");
+    public byte[] makeHeatMap(Map<String, Object> params) throws FactoryException {
+
         // csv 로 된 데이터를 db 저장
         // db 에 저장된 값을 shapefile 로 만든걸 이미지로 만들어서 가져옴?
-        double lat = 37.49066916408704;
-        double lng = 127.05608547165787;
+        double lat = Double.parseDouble(params.get("lat").toString());
+        double lng = Double.parseDouble(params.get("lng").toString());
+        int meter = Integer.parseInt(params.get("meter").toString());
+//        double latInterval = 0.002727; // 0.000909 * 3
+//        double lngInterval = 0.003375; // 0.001125 * 3
+        double latInterval = 0.000909 * (meter/100);
+        double lngInterval = 0.001125 * (meter/100);
+
+        double x1 = lat - latInterval;
+        double x2 = lat + latInterval;
+        double y1 = lng - lngInterval;
+        double y2 = lng + lngInterval;
+
+        params.put("x1", x1);
+        params.put("x2", x2);
+        params.put("y1", y1);
+        params.put("y2", y2);
+        params.put("scope", "'F'");
+
+        List<Map<String, Object>> researchShopList = areaMapper.getResearchShopList(params);
+        System.out.println(researchShopList.size());
+        Coordinate[] data = new Coordinate[researchShopList.size()];
+
+        for (int i = 0; i < researchShopList.size(); i++) {
+            data[i] = new Coordinate(Double.parseDouble(researchShopList.get(i).get("latitude").toString()), Double.parseDouble(researchShopList.get(i).get("longitude").toString()));
+        }
+
         ReferencedEnvelope bounds =
-                new ReferencedEnvelope(37.47806361848451 , 37.503270343947364 , 127.0334647401371 , 127.07871380306993, DefaultGeographicCRS.WGS84);
-        Coordinate[] data = {
-                new Coordinate(37.49143000000000, 127.05565000000000),
-                new Coordinate(37.49145500000000, 127.05565000000000),
-                new Coordinate(37.49069200000000, 127.05612000000000),
-                new Coordinate(37.49392700000000, 127.06290400000000),
-                new Coordinate(37.49334300000000, 127.06190500000000)
-        };
+                new ReferencedEnvelope(x1 , x2, y1 , y2, DefaultGeographicCRS.WGS84);
+
+//        Coordinate[] data = {
+//                new Coordinate(37.49143000000000, 127.05565000000000),
+//                new Coordinate(37.49145500000000, 127.05565000000000),
+//                new Coordinate(37.49069200000000, 127.05612000000000),
+//                new Coordinate(37.49392700000000, 127.06290400000000),
+//                new Coordinate(37.49334300000000, 127.06190500000000)
+//        };
         SimpleFeatureCollection fc = createPoints(data, bounds);
 
         ProgressListener monitor = null;
-        int width = 600;
-        int height = 600;
+        int width = (int) Math.round(getDistance(x1, y1, x2, y1) * 0.5);
+        int height = (int) Math.round(getDistance(x1, y1, x1, y2) * 0.5);
+        System.out.println(width + "," + height);
+//        int width = 320;
+//        int height = 320;
         HeatmapProcess process = new HeatmapProcess();
         GridCoverage2D cov =
                 process.execute(
                         fc, // data
-                        20, // radius
+                        50, // radius
                         null, // weightAttr
                         1, // pixelsPerCell
                         bounds, // outputEnv
@@ -85,8 +120,7 @@ public class GeoService {
 
 
         MapContent map = new MapContent();
-//        File sld = new File("sogongja_platform_user/src/main/resources/static/assets/xml/heatmap.sld.xml");
-        File sld = new File("xml/heatmap.sld.xml");
+        File sld = new File(app.getGeotoolsSld());
 
         Style styles = createFromSLD(sld);
 
@@ -105,7 +139,7 @@ public class GeoService {
         double heightToWidth = mapBounds.getSpan(1) / mapBounds.getSpan(0);
         System.out.println("heightToWidth : " + heightToWidth);
         imageBounds = new Rectangle(
-                0, 0, width, (int) Math.round(width * heightToWidth));
+                0, 0, width, height);
 //            imageBounds = new Rectangle(
 //                    0, 0, imageWidth, (int) Math.round(imageWidth * heightToWidth));
         System.out.println("imageBounds : " + imageBounds);
@@ -135,6 +169,9 @@ public class GeoService {
 
         try {
 
+            ImageIO.write(mimg, "png", new File("C:\\Users\\start\\Downloads\\aaaaaaaa.png"));
+
+
             ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
             ImageIO.write(mimg, "png", outStreamObj);
             return outStreamObj.toByteArray();
@@ -144,6 +181,16 @@ public class GeoService {
             map.dispose();
         }
 
+    }
+
+    private double getDistance(double lat1, double lon1, double lat2, double lon2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(dLat/2)* Math.sin(dLat/2)+ Math.cos(Math.toRadians(lat1))* Math.cos(Math.toRadians(lat2))* Math.sin(dLon/2)* Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d =6371 * c * 1000;    // Distance in m
+        return d;
     }
 
     private SimpleFeatureCollection createPoints(Coordinate[] pts, ReferencedEnvelope bounds) {

@@ -144,12 +144,12 @@ public class AreaController extends BaseController {
 		return "pages/area/trading_area_analysis";
 	}
 
-//	@GetMapping("/test")
-//	public String mapTest(@ModelAttribute MapParameter params, Model model) throws IOException {
-//
-//		return "pages/area/trading_area_test";
-//	}
-//
+	@GetMapping("/test")
+	public String mapTest(@ModelAttribute MapParameter params, Model model) throws IOException {
+
+		return "pages/area/trading_area_test";
+	}
+
 	@GetMapping(
 			value = "/get-image-with-media-type",
 			produces = MediaType.IMAGE_JPEG_VALUE

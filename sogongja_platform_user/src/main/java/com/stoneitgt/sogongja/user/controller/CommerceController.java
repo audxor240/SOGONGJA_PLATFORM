@@ -2,9 +2,12 @@ package com.stoneitgt.sogongja.user.controller;
 
 import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.domain.BoardSetting;
+import com.stoneitgt.sogongja.user.mapper.AreaMapper;
+import com.stoneitgt.sogongja.user.service.AreaService;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.GeoService;
 
+import com.stoneitgt.util.StoneUtil;
 import org.apache.commons.io.FileUtils;
 import org.opengis.referencing.FactoryException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +32,17 @@ public class CommerceController extends BaseController {
     private GeoService geoService;
 
     @Autowired
+    private AreaMapper areaMapper;
+
+    @Autowired
     private BoardService boardService;
 
     @GetMapping("/area")
     public String commerceArea(@ModelAttribute BaseParameter params, Model model) {
+
+        model.addAttribute("shopList", areaMapper.getAllShop());
+
+
         BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
         model.addAttribute("qnaBoardSetting", qnaBoardSetting);
         return "pages/commerce/commerce_area";
@@ -43,7 +53,7 @@ public class CommerceController extends BaseController {
     Map<String, Object> areaGetHeatmap(@RequestBody Map<String, Object> params, Model model, HttpServletResponse response) throws FactoryException {
         System.out.println(params);
         // api 에러시 throws 처리
-        params.put("blob", geoService.makeHeatMap());
+        params.put("blob", geoService.makeHeatMap(params));
         return params;
     }
 

@@ -366,4 +366,11 @@
 		  AND RA.QRT =  (SELECT QRT FROM ST_RESEARCH_REGION ORDER BY YEAR DESC, QRT DESC LIMIT 1 )
 	</select>
 
+	<select id="getAllShop" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getAllShop */
+		SELECT *
+		FROM ST_RESEARCH_SHOP RS
+		WHERE RS.CODE_TYPE1 IN ('F')
+	</select>
+
 </mapper>

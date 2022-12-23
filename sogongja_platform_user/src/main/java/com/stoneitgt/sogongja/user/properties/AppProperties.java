@@ -38,4 +38,6 @@ public class AppProperties {
 
     private String jwtSecret;
     private String jwtLimit;
+
+    private String geotoolsSld;
 }
