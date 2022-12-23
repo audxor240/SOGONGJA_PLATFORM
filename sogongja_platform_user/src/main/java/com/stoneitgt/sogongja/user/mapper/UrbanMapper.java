@@ -8,6 +8,6 @@ import java.util.Map;
 @Mapper
 public interface UrbanMapper {
     List<Map<String, Object>> getGrid(Map<String, Object> params);
-    List<Map<String, Object>> getGridLocation();
+    List<Map<String, Object>> getGridLocation(String scope);
 
 }

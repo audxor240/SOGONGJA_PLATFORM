@@ -23,9 +23,10 @@
 <!--        GROUP BY GRID_CD-->
 <!--    </select>-->
 
-    <select id="getGridLocation" resultType="com.stoneitgt.common.LowerKeyMap">
+    <select id="getGridLocation" parameterType="String" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : UrbanMapper.xml, id : getGridLocation */
         SELECT GRID_CD, LATITUDE, LONGITUDE
         FROM ST_URBAN_GRID100_SEOUL
+        WHERE GRID_CD IN (${scope})
     </select>
 </mapper>
