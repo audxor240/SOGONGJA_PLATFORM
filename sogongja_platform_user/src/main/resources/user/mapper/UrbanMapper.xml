@@ -9,13 +9,14 @@
               FROM ST_URBAN_GRID100_SEOUL UGS
               WHERE UGS.LATITUDE BETWEEN #{x1} AND #{x2}
                 AND UGS.LONGITUDE BETWEEN #{y1} AND #{y2}
-              GROUP BY GRID_CD ) TBL1
+              GROUP BY GRID_CD
+              ORDER BY GRID_CD) TBL1
         INNER JOIN ST_URBAN_ALTITUDE_GRADIENT UAG
         ON TBL1.GRID_CD = UAG.GRID_CD
     </select>
 <!--    <select id="getGrid" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">-->
 <!--        /* file : UrbanMapper.xml, id : getGrid */-->
-<!--        SELECT GRID_SEQ, GRID_CD-->
+<!--        SELECT *-->
 <!--        FROM ST_URBAN_GRID100_SEOUL UGS-->
 <!--        WHERE UGS.LATITUDE BETWEEN #{x1} AND #{x2}-->
 <!--          AND UGS.LONGITUDE BETWEEN #{y1} AND #{y2}-->
@@ -24,7 +25,7 @@
 
     <select id="getGridLocation" resultType="com.stoneitgt.common.LowerKeyMap">
         /* file : UrbanMapper.xml, id : getGridLocation */
-        SELECT *
+        SELECT GRID_CD, LATITUDE, LONGITUDE
         FROM ST_URBAN_GRID100_SEOUL
     </select>
 </mapper>

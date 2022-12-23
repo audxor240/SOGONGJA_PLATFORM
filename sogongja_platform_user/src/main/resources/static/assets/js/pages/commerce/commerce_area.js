@@ -157,28 +157,49 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
                 $("input:checkbox[name='depth2_land']:checked").each(function(){
                     if ($(this).val() === 'gradient') {
+
                         ajaxPostSyn('/commerce/area-gradient', data, function (result) {
-
-                            console.log(result.grid);
-
                             for (var i = 0; i < result.grid.length; i++) {
-                                var points = [];
-                                $.each(result.grid[i].path, function (index, item) {
-                                    points.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-                                })
+                                var check = false;
 
-                                var grid = new kakao.maps.Polygon({
-                                    path: points, // 그려질 다각형의 좌표 배열입니다
-                                    strokeWeight: 3, // 선의 두께입니다
-                                    strokeColor: '#39DE2A', // 선의 색깔입니다
-                                    strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                                    strokeStyle: 'longdash', // 선의 스타일입니다
-                                    fillColor: '#A2FF99', // 채우기 색깔입니다
-                                    fillOpacity: 0.7 // 채우기 불투명도 입니다
-                                });
+                                for (var j = 0; j < result.grid[i].path.length; j++) {
 
-                                grid.setMap(map);
-                                grids.push(grid)
+                                    var line = new kakao.maps.Polyline();
+
+                                    var path = [ new kakao.maps.LatLng(result.grid[i].path[j].latitude, result.grid[i].path[j].longitude), new kakao.maps.LatLng(lat, lng) ];
+                                    line.setPath(path);
+
+                                    // 마커와 원의 중심 사이의 거리
+                                    var dist = line.getLength();
+
+                                    // 이 거리가 원의 반지름보다 작거나 같다면
+                                    if (dist <= meter) {
+                                        check = true;
+                                        break;
+                                    }
+                                }
+
+                                if (check) {
+                                    var points = [];
+                                    $.each(result.grid[i].path, function (index, item) {
+                                        points.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+                                    })
+
+                                    var grid = new kakao.maps.Polygon({
+                                        path: points, // 그려질 다각형의 좌표 배열입니다
+                                        strokeWeight: 3, // 선의 두께입니다
+                                        strokeColor: '#39DE2A', // 선의 색깔입니다
+                                        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                                        strokeStyle: 'longdash', // 선의 스타일입니다
+                                        fillColor: '#A2FF99', // 채우기 색깔입니다
+                                        fillOpacity: 0.7 // 채우기 불투명도 입니다
+                                    });
+
+                                    grid.setMap(map);
+                                    grids.push(grid)
+
+                                }
+
                             }
 
                         })
@@ -199,6 +220,21 @@ $("input:radio[name=meter]").click(function(){
         meter = 500;
     }
 });
+
+//폴리곤 중심좌표임
+function centroid(points) {
+    var i, j, len, p1, p2, f, area, x, y;
+    area = x = y = 0;
+    for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+        p1 = points[i];
+        p2 = points[j];
+        f = p1.longitude * p2.latitude - p2.longitude * p1.latitude;
+        x += (p1.latitude + p2.latitude) * f;
+        y += (p1.longitude + p2.longitude) * f;
+        area += f * 3;
+    }
+    return new kakao.maps.LatLng(x / area, y / area)
+}
 
 
 //ajax 요청하는 함수
@@ -225,3 +261,6 @@ function ajaxPostSyn(url, data, callback, showLoading) {
         }
     });
 }
+
+
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 지오코딩
