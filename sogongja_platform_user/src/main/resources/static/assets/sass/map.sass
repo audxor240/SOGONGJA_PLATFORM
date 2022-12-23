@@ -368,6 +368,9 @@
   transform: translateX(-50%)
   z-index: 4
   width: 590px
+  &.only_commerce
+    +positionAt(absolute, $top: 16px, $left:16px)
+    transform: none
   .hAddr
     width: 348px
     float: right
@@ -1995,6 +1998,8 @@
       width: 400px
       +positionAt(absolute, $top: 16px, $right:16px, $left:auto)
       transform: none
+      &.only_commerce
+        +positionAt(absolute, $top: 16px, $left:16px)
       .hAddr
         float: left
       .searchInput

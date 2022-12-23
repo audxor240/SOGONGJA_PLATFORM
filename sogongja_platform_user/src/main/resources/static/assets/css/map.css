@@ -472,6 +472,12 @@
   z-index: 4;
   width: 590px;
 }
+.addressSearchTop.only_commerce {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  transform: none;
+}
 .addressSearchTop .hAddr {
   width: 348px;
   float: right;
@@ -2497,6 +2503,11 @@
     right: 16px;
     left: auto;
     transform: none;
+  }
+  #map_wrap .addressSearchTop.only_commerce {
+    position: absolute;
+    top: 16px;
+    left: 16px;
   }
   #map_wrap .addressSearchTop .hAddr {
     float: left;
