@@ -264,32 +264,6 @@ function ajaxPostSyn(url, data, callback, showLoading) {
 
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 지오코딩
-//현위치 설정
-function setCenter() {
-    // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
-    // 지도 중심을 이동 시킵니다
-    map.setCenter(moveLatLon);
-    map.setLevel(mapDefaultLevel);
-}
-
-// 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-function zoomIn() {
-    map.setLevel(map.getLevel() - 1);
-}
-
-// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-function zoomOut() {
-    map.setLevel(map.getLevel() + 1);
-}
-
-//지도 리사이즈 함수
-function resizeMap() {
-    var mapContainer = document.getElementById('map');
-    mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
-    mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
-    map.relayout();//화면사이즈 재렌더링
-}
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
@@ -391,39 +365,6 @@ async function displayCenterInfo(result, status) {
         if(guArr.length > 1){
             gu = guArr[0];
         }
-        let data = {
-            "type": "shop",
-            "gu": gu
-        };
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        //해당 위치에 따라 커뮤니티 정보를 불러온다.
-        $.ajax({
-            type: "POST",
-            url: "/trading-area/map/communityList",
-            async: false,
-            data: JSON.stringify(data),
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            //data: data,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            error: function (res) {
-                let fragment = res.responseText
-                $(".community_pop_list").replaceWith(fragment);
-                //$("#dtsch_modal").show();
-                //alert(res.responseJSON.message);
-                return false;
-            }
-        }).done(function (fragment) {
-            //여기로 안들어옴.....
-            $(".community_pop_list").replaceWith(fragment);
-            //$("#dtsch_modal").show();
-            //$(".loading_box").hide();
-
-        });
     }
 }
 
