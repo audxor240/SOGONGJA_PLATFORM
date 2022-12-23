@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stoneitgt.sogongja.user.mapper.UrbanMapper">
+    <select id="getGrid" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : UrbanMapper.xml, id : getGrid */
+        SELECT *
+        FROM (SELECT GRID_SEQ, GRID_CD
+              FROM ST_URBAN_GRID100_SEOUL UGS
+              WHERE UGS.LATITUDE BETWEEN #{x1} AND #{x2}
+                AND UGS.LONGITUDE BETWEEN #{y1} AND #{y2}
+              GROUP BY GRID_CD ) TBL1
+        INNER JOIN ST_URBAN_ALTITUDE_GRADIENT UAG
+        ON TBL1.GRID_CD = UAG.GRID_CD
+    </select>
+<!--    <select id="getGrid" parameterType="map" resultType="com.stoneitgt.common.LowerKeyMap">-->
+<!--        /* file : UrbanMapper.xml, id : getGrid */-->
+<!--        SELECT GRID_SEQ, GRID_CD-->
+<!--        FROM ST_URBAN_GRID100_SEOUL UGS-->
+<!--        WHERE UGS.LATITUDE BETWEEN #{x1} AND #{x2}-->
+<!--          AND UGS.LONGITUDE BETWEEN #{y1} AND #{y2}-->
+<!--        GROUP BY GRID_CD-->
+<!--    </select>-->
+
+    <select id="getGridLocation" resultType="com.stoneitgt.common.LowerKeyMap">
+        /* file : UrbanMapper.xml, id : getGridLocation */
+        SELECT *
+        FROM ST_URBAN_GRID100_SEOUL
+    </select>
+</mapper>
