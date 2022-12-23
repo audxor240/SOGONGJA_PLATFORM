@@ -92,18 +92,27 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         var lat = map.getCenter().getLat();
         var lng = map.getCenter().getLng();
 
-        var data = {
-           lat, lng, meter
-        }
-
         $("input:checkbox[name='depth1']:checked").each(function(){
 
             if ($(this).val() === 'density') {
+                var density_scope = [];
+
+                // $("input:checkbox[name='depth2_density']:checked").each(function(){
+                //     density_scope.push("'" + $(this).val() + "'")
+                // })
+                // var scope = density_scope.join();
+
+                var scope = "'F'";
+
+                var data = {
+                    lat, lng, meter, scope
+                };
+
                 ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
 
                     console.log(result)
 
-                    var content = '<div><img src="data:image/png;base64,'+ result.blob +'" alt="heatMap"></div>';
+                    var content = '<div><img src="data:image/png;base64,' + result.blob + '" alt="heatMap"></div>';
 
                     var customOverlay = new kakao.maps.CustomOverlay({
                         position: new kakao.maps.LatLng(result.x2, result.y1),
@@ -114,7 +123,7 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
 
                     var sw = new kakao.maps.LatLng(result.x1, result.y2), // 사각형 영역의 남서쪽 좌표
-                        ne = new kakao.maps.LatLng(result.x2,  result.y1); // 사각형 영역의 북동쪽 좌표
+                        ne = new kakao.maps.LatLng(result.x2, result.y1); // 사각형 영역의 북동쪽 좌표
                     var rectangleBounds = new kakao.maps.LatLngBounds(sw, ne);
                     var rectangle = new kakao.maps.Rectangle({
                         bounds: rectangleBounds, // 그려질 사각형의 영역정보입니다
@@ -127,7 +136,9 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                     });
                     ractangles.push(rectangle)
                     rectangle.setMap(map);
-                })
+                });
+            } else if ($(this).val() === 'land') {
+
             }
 
         })
