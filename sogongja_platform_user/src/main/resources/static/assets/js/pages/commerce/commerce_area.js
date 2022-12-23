@@ -264,3 +264,360 @@ function ajaxPostSyn(url, data, callback, showLoading) {
 
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 지오코딩
+//현위치 설정
+function setCenter() {
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = new kakao.maps.LatLng(clientLatitude, clientLongitude);
+    // 지도 중심을 이동 시킵니다
+    map.setCenter(moveLatLon);
+    map.setLevel(mapDefaultLevel);
+}
+
+// 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomIn() {
+    map.setLevel(map.getLevel() - 1);
+}
+
+// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomOut() {
+    map.setLevel(map.getLevel() + 1);
+}
+
+//지도 리사이즈 함수
+function resizeMap() {
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = window.innerWidth;//window.innerWidth : 브라우저 화면의 너비(viewport)
+    mapContainer.style.height = window.innerHeight;//window.innerHeight : 브라우저 화면의 높이(viewport)
+    map.relayout();//화면사이즈 재렌더링
+}
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소 검색을 요청하는 함수입니다
+function searchPlaces2() {
+    var keyword = document.getElementById("keyword").value;
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+        alert("주소를 입력해주세요!");
+        return false;
+    }
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    geocoder.addressSearch(keyword, placesSearchCB);
+}
+// 주소 검색을 요청하는 함수입니다
+function searchPlacesMobile() {
+    var keyword = document.getElementById("keyword2").value;
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+        alert("주소를 입력해주세요!");
+        return false;
+    }
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    geocoder.addressSearch(keyword, placesSearchCB);
+}
+$('.dif').click(function (){
+    $('.msearch_pop').addClass('on')
+})
+$('.search_pop_del').click(function (){
+    $('.msearch_pop').removeClass('on')
+})
+
+// 주소로 좌표를 검색합니다
+function placesSearchCB(result, status) {
+    // 정상적으로 검색이 완료됐으면
+    if (status === kakao.maps.services.Status.OK) {
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        alert("검색 결과가 존재하지 않습니다.");
+        return;
+    } else if (status === kakao.maps.services.Status.ERROR) {
+        alert("검색 결과 중 오류가 발생했습니다.");
+        return;
+    }
+}
+
+// 현재 지도 중심좌표로 주소를 검색해서 지도 상단에 표시합니다
+async function nowSpot() {
+    await searchAddrFromCoords(map.getCenter(), await displayCenterInfo)
+};
+nowSpot();
+// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+kakao.maps.event.addListener(map, "idle", async function () {
+    await searchAddrFromCoords(map.getCenter(), await displayCenterInfo),
+        await sleep(2000),
+        // 선택박스에 시군구코드 기준으로 리스트뿌리기
+        renderSigungu(),
+        renderDong()
+});
+
+// 좌표로 행정동 주소 정보를 요청합니다
+async function searchAddrFromCoords(coords, callback) {
+    await geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+}
+
+// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+async function displayCenterInfo(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+
+        var infoDiv1 = document.getElementById("centerAddr1");
+        var infoDiv2 = document.getElementById("centerAddr2");
+        var infoDiv3 = document.getElementById("centerAddr3");
+
+        for (var i = 0; i < result.length; i++) {
+            // 행정동의 region_type 값은 'H' 이므로
+            if (result[i].region_type === "H") {
+                var nowCode = result[i].code;
+                var sidoCode = nowCode.slice(0, 2);
+                var sigunguCode = nowCode.slice(0, 4);
+
+                infoDiv1.innerHTML = result[i].region_1depth_name;
+                infoDiv1.className = sidoCode;
+                infoDiv1.title = sidoCode;
+                infoDiv2.innerHTML = result[i].region_2depth_name;
+                infoDiv2.className = sigunguCode;
+                infoDiv2.title = sigunguCode;
+                infoDiv3.innerHTML = result[i].region_3depth_name;
+                renderSido()
+                renderSigungu()
+                renderDong()
+                break;
+            }
+        }
+
+        var gu = $("#centerAddr2").text().trim();
+        var guArr = gu.split(" ");
+
+        if(guArr.length > 1){
+            gu = guArr[0];
+        }
+        let data = {
+            "type": "shop",
+            "gu": gu
+        };
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        //해당 위치에 따라 커뮤니티 정보를 불러온다.
+        $.ajax({
+            type: "POST",
+            url: "/trading-area/map/communityList",
+            async: false,
+            data: JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            //data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            error: function (res) {
+                let fragment = res.responseText
+                $(".community_pop_list").replaceWith(fragment);
+                //$("#dtsch_modal").show();
+                //alert(res.responseJSON.message);
+                return false;
+            }
+        }).done(function (fragment) {
+            //여기로 안들어옴.....
+            $(".community_pop_list").replaceWith(fragment);
+            //$("#dtsch_modal").show();
+            //$(".loading_box").hide();
+
+        });
+    }
+}
+
+/*시도,시군구,행정동*/
+/*시도,시군구,행정동*/
+/*시도,시군구,행정동*/
+//시도 시군구 클래스에 저장한 코드네임 조회
+function sidoCodeSet() {
+    var sidoCode = document.getElementById('centerAddr1').className;
+    return sidoCode;
+}
+function sigunguCodeSet() {
+    var sigunguCode = document.getElementById('centerAddr2').className;
+    return sigunguCode;
+}
+
+//1.시도 리스트 조회
+var mainurl =
+    `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=`
+async function fetchSido() {
+    let response = await fetch(mainurl + `*00000000`);
+    if (response.status === 200) {
+        let data = await response.json();
+        return data;
+    } else {
+        throw Error(data);
+    }
+}
+async function fetchSigungu(code) {
+    let response = await fetch(mainurl + `${code}` + `*000000` + `&is_ignore_zero=true`);
+    if (response.status === 200) {
+        let data = await response.json();
+        return data;
+    } else {
+        throw Error(data);
+    }
+}
+//3행정동 리스트 조회
+async function fetchDong(code) {
+    let response = await fetch(mainurl + `${code}` + `*&is_ignore_zero=true`);
+    if (response.status === 200) {
+        let data = await response.json();
+        return data;
+    } else {
+        throw Error(data);
+    }
+}
+//1-1시도 리스트 선택박스 렌더링
+async function renderSido() {
+    let sidos = await fetchSido();
+    var sidoList = sidos.regcodes;
+    let html = '';
+    sidoList.forEach((sido) => {
+        let htmlSegment = `<li title="${sido.name}" id="${sido.name}" value="${sido.code}" onclick="onClickSidoSearch(this)">
+                            ${sido.name}
+                        </li>`;
+        html += htmlSegment;
+    });
+    sidoBox.innerHTML = html;
+}
+
+
+//2-1시군구 리스트 선택박스 렌더링
+async function renderSigungu() {
+    let code = await sidoCodeSet();
+    let sidos = await fetchSigungu(code);
+    var sidoList = sidos.regcodes;
+    var name = [];
+    let fiddong = sidoList.map((el, index, arr) => ({
+        ...el, dong: el.name.split(" ", 2)[1]
+    }));
+    name = [...fiddong]
+    //문자열에서 시도를 제거하고 시군구만 담고 innerhtml로 ul 리스트담음
+    let html = '';
+    name.forEach((sido) => {
+        let htmlSegment = `<li title="${sido.name}" id="${sido.name}" value="${sido.code}" onclick="onClickSearch(this)">
+                            ${sido.dong}
+                        </li>`;
+        html += htmlSegment;
+    });
+    sigunguBox.innerHTML = html;
+}
+
+
+function isdongTrue(el) {
+    var dd = (el.name.split(" ", 4));
+    if (dd.length === 4) {
+        return true;
+    }
+}
+
+//3-1행정동 리스트 선택박스 렌더링
+async function renderDong() {
+    let code = await sigunguCodeSet();
+    let sidos = await fetchDong(code);
+    var sidoList = sidos.regcodes;
+
+    var name = [];
+    let fiddong = sidoList.map((el, index, arr) => ({
+        ...el,
+        dong: el.name.split(" ")[3] != undefined?el.name.split(" ")[2]+" "+el.name.split(" ")[3]:el.name.split(" ")[2]
+    }));
+    name = [...fiddong]
+    //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
+    let html = '';
+    name.forEach((sido) => {
+        if(sido.dong!=undefined){
+            let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
+            value="${sido.code}" onclick="onClickSearch(this)">
+                            ${sido.dong}
+                        </li>`;
+            html += htmlSegment;
+        }
+    });
+    dongBox.innerHTML = html;
+}
+
+//개별 시군구,행정동 리스트 클릭시에 자동 검색
+function searchSidoDongPlaces() {
+    if (!currCategory) {
+        return;
+    }
+    geocoder.addressSearch(currCategory, placesSearchCB, { useMapBounds: true })
+    sidoBox.className = '';
+    sigunguBox.className = '';
+    dongBox.className = '';
+}
+
+//시도 카테고리를 클릭했을 때 호출되는 함수입니다
+function onClickSidoSearch(el) {
+    var id = el.id,
+        className = el.className;
+    currCategory = id;
+    searchSidoDongPlaces();
+}
+
+//시군구 행정동 카테고리를 클릭했을 때 호출되는 함수입니다
+function onClickSearch(el) {
+    var id = el.id,
+        className = el.className;
+    if (className === 'on') {
+        currCategory = '';
+    } else {
+        currCategory = id;
+        searchSidoDongPlaces();
+    }
+}
+mapContainer.addEventListener("click", e => {
+    sidoBox.className = '';
+    sigunguBox.className = '';
+    dongBox.className = '';
+})
+
+//시군구 선택박스 닫기 열기
+var sidoBox = document.getElementById('sidoBox');
+var sigunguBox = document.getElementById('sigunguBox');
+var dongBox = document.getElementById('dongBox');
+
+function changeSelectBox(type) {
+    // 시도 카테고리가 클릭됐을 때
+    if($('.addrlist>ul').hasClass("menu_selected") == true){
+        sidoBox.className = '';
+        sigunguBox.className = '';
+        dongBox.className = '';
+    }else {
+        if (type === 'sido') {
+            // 시도 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = 'menu_selected';
+            // 시군구과 읍면동 카테고리는 선택되지 않은 스타일로 바꿉니다
+            sigunguBox.className = '';
+            dongBox.className = '';
+        } else if (type === 'sigungu') { // 시군구 카테고리가 클릭됐을 때
+            // 시군구 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = 'menu_selected';
+            dongBox.className = '';
+        } else if (type === 'dong') { // 행정동 카테고리가 클릭됐을 때
+            // 행정동 카테고리를 선택된 스타일로 변경하고
+            sidoBox.className = '';
+            sigunguBox.className = '';
+            dongBox.className = 'menu_selected';
+        }
+    }
+}
+
+// 이동할 위도 경도 위치를 생성합니다
+function panTo(position) {
+    var moveLatLon = position;
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    map.panTo(moveLatLon);
+}
+
+//시간딜레이 함수
+function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+}
