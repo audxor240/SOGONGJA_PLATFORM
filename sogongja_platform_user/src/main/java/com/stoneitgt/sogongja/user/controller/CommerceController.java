@@ -5,6 +5,7 @@ import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.mapper.AreaMapper;
 import com.stoneitgt.sogongja.user.service.AreaService;
 import com.stoneitgt.sogongja.user.service.BoardService;
+import com.stoneitgt.sogongja.user.service.CommerceService;
 import com.stoneitgt.sogongja.user.service.GeoService;
 
 import com.stoneitgt.util.StoneUtil;
@@ -37,6 +38,9 @@ public class CommerceController extends BaseController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private CommerceService commerceService;
+
     @GetMapping("/area")
     public String commerceArea(@ModelAttribute BaseParameter params, Model model) {
 
@@ -50,10 +54,23 @@ public class CommerceController extends BaseController {
 
     @PostMapping( "/area-heatmap")
     public @ResponseBody
-    Map<String, Object> areaGetHeatmap(@RequestBody Map<String, Object> params, Model model, HttpServletResponse response) throws FactoryException {
+    Map<String, Object> areaGetHeatmap(@RequestBody Map<String, Object> params) throws FactoryException {
         System.out.println(params);
         // api 에러시 throws 처리
         params.put("blob", geoService.makeHeatMap(params));
+        return params;
+    }
+
+    @PostMapping( "/area-gradient")
+    public @ResponseBody
+    Map<String, Object> areaGetGradient(@RequestBody Map<String, Object> params) {
+        long beforeTime = System.currentTimeMillis();
+
+        System.out.println(params);
+        params.put("grid", commerceService.getGrid(params));
+        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+        long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+        System.out.println("시간차이(m) : "+secDiffTime);
         return params;
     }
 
