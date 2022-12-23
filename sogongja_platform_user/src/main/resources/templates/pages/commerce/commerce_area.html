@@ -19,14 +19,7 @@
     <div th:replace="~{fragments/header :: header}"></div>
     <div id="map_wrap">
         <div id="map"></div>
-        <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
-        <div class="custom_zoomcontrol">
-            <button class="current-local" onclick="setCenter()"></button>
-            <div class="zoombox">
-                <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
-                <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
-            </div>
-        </div>
+
 
         <div class="addressSearchTop only_commerce">
             <div class="hAddr">
@@ -73,12 +66,8 @@
                 <label for="land">토지특성</label>
             </li>
             <li>
-                <input type="checkbox" name="depth1" value="pubTrans" id="pubTrans">
-                <label for="pubTrans">대중교통</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth1" value="facility" id="facility">
-                <label for="facility">주변시설</label>
+                <input type="checkbox" name="depth1" value="vs_facilities" id=vs_facilitiespubTrans">
+                <label for="vs_facilities">집객시설</label>
             </li>
             <li>
                 <input type="checkbox" name="depth1" value="population" id="population">
@@ -127,27 +116,6 @@
                 <input type="checkbox" name="depth2_land" value="gradient" id="gradient">
                 <label for="gradient">경사</label>
             </li>
-            <li>
-                <input type="checkbox" name="depth2" value="pub_trans_bus" id="pub_trans_bus">
-                <label for="pub_trans_bus">버스</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2" value="pub_trans_sub" id="pub_trans_sub">
-                <label for="pub_trans_sub">지하철</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2" value="parking_lot" id="parking_lot">
-                <label for="parking_lot">주차장</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2" value="apartment" id="apartment">
-                <label for="apartment">아파트</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2" value="vs_facilities" id="vs_facilities">
-                <label for="vs_facilities">집객시설</label>
-            </li>
-
         </ul>
 
         <ul style="position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); background-color: white">
