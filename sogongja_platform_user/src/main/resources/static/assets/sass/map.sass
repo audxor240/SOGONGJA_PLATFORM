@@ -1456,10 +1456,9 @@
         font-size: 13px
         color: #fff
   .regionlabel
-    background: rgba(0, 0, 0, 0.1)
     color: #fff
     width: 50px
-    height: 50px
+    height: auto
     text-align: center
     border-radius: 100%
     display: flex
@@ -1468,10 +1467,38 @@
     .regionbox
       display: block
       text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white
-      font-size: 13px
-      font-weight: bold
+      font-size: 10px
+      font-weight: bolder
       .store
         color: #BF7116
+        span
+          color: #BF7116
+        &.regionName
+          font-size: 13px
+        &.normal_store
+          display: flex
+          align-items: center
+          width: 66px
+          height: 66px
+          border-radius: 50%
+          background: #593307
+          margin-right: 50px
+          white-space: break-spaces
+          span
+            font-size: 13px
+            color: #593307
+        &.fran_store
+          display: flex
+          align-items: center
+          width: 50px
+          height: 50px
+          border-radius: 50%
+          background: #FF8A00
+          margin-left: 50px
+          white-space: break-spaces
+          span
+            font-size: 11px
+            color: #FF8A00
       .popul
         color: #1540BF
       .rental

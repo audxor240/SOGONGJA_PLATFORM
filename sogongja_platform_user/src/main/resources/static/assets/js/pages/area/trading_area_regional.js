@@ -446,12 +446,12 @@ $("input[name=cate]").prop("checked", true).each(function (index, item) {
 //재체크 및 해제체크 카테고리 배열 재반영 함수입니다. 현재 선택된 카테고리만 반영될겁니다.
 $("input[name=cate]").click(function () {
     if ($(this).prop('checked')) {
-        //console.log($(this).val())
+        console.log($(this).val())
         if (!(codeType1.includes($(this).val()))) {//arr에 없으면 재체크니까 추가해
             codeType1.push($(this).val());
         }
     } else {
-        //console.log($(this))
+        console.log($(this))
         codeType1.forEach((item, index) => {
             if (item == $(this).val()) {
                 codeType1.splice(index, 1);
@@ -535,7 +535,7 @@ async function changeMap() {
     var datalat = {
         lat, lng, zoom, x1, x2, y1, y2, codeType1, codeType3
     }
-    //console.log("data재요청입니다!", datalat);
+    console.log("data재요청입니다!", datalat);
 
     if (zoom > 7) {//zoom 8 ~ 14
         //removeCircles(map);
@@ -550,7 +550,7 @@ async function changeMap() {
         setMarkers(null);//상점삭제
         $('.category_wrap.region').css('display', 'block');//상점 카테고리 추가
         ajaxPostSyn('/trading-area/analysis/shop', datalat, function (result) {
-            //console.log("상점 데이터 뿌려주기", result)
+            console.log("상점 데이터 뿌려주기", result)
             storeSpread(result)//상점찍기
         });
     }
@@ -576,7 +576,7 @@ async function changeType() {
     var datatype = {codeType3}
 
     ajaxPostSyn('/trading-area/regional/type', datatype, function (result) {
-        //console.log("라디오 변경 될때 circle 다시 찍어주기", result)
+        console.log("라디오 변경 될때 circle 다시 찍어주기", result)
         areaJson = result;
         for (var i = 0, len = areaJson.length; i < len; i++) {
             displayArea(areaJson[i]);
@@ -645,9 +645,10 @@ function displayArea(area) {
             var fran_store = Math.round(info[0].franc / info[0].stores * 100) + '%';//가맹점포
             var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
 
-            var content = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store normal_store">' + "일반점포 " + normal_store + '</div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store fran_store">' + "가맹점포 " + fran_store + '</div>' + '</div>' + '</div>';
-            var content2 = '<div class="placeinfo">' + '<p class="title">' + regionName + "</p>" + '<div class="close" onclick="closeOverlay()" title="닫기"></div>' + '<span class="jibun2">총 상점수 : ' + "</span>" + '<span class="region">' + total.toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "개 점포" + "</span>" + "</div>" + '<div class="after"></div>';
+            var content = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store"><span>' + "일반점포 " + normal_store + '</span></div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store"><span>' + "가맹점포 " + fran_store + '</span></div>' + '</div>' + '</div>';
+            var content1 = '<div class ="regionlabel">' + '<div class="regionbox">' + '<div class="store normal_store"><span>' + "일반점포 " + normal_store + '</span></div>' + '<div class="store regionName">' + regionName + '</div>' + '<div class="store fran_store"><span>' + "가맹점포 " + fran_store + '</span></div>' + '</div>' + '</div>';
+
+            var content2 = '<div class="placeinfo">' + '<p class="title">' + regionName + "</p>" + '<div class="close" onclick="closeOverlay()" title="닫기"></div>' + '<span class="jibun2">총 상점수 : ' + "</span>" + '<span class="region">' + total + "개 점포" + "</span>" + "</div>" + '<div class="after"></div>';
         } else if (codeType3 === '2') {//인구수
             total = info[0].sum_popul;
             // content = info[0].sum_popul;
@@ -849,8 +850,12 @@ function displayArea(area) {
 
         if (codeType3 === '1') {//상점수
             polygon.setOptions({
-                fillColor: 'url(#store-gra)', fillOpacity: 0.9
+                fillColor: 'url(#store-gra2)', fillOpacity: 0.9
             });
+            total = info[0].stores;//총상점수
+            var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
+            $('#store-gra2 .stop2').attr('offset', normal_store)
+
         } else if (codeType3 === '2') {
             polygon.setOptions({
                 fillColor: '#1540BF', fillOpacity: 0.9
@@ -880,19 +885,19 @@ function displayArea(area) {
         if (codeType3 === '1') {
             if (total > regionStandard[0][5]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.8
+                    fillColor: '#FF8D07', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[0][4]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.65
+                    fillColor: '#FF8D07', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[0][3]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.5
+                    fillColor: '#FF8D07', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[0][2]) {
                 polygon.setOptions({
-                    fillColor: '#FF8D07', fillOpacity: 0.35
+                    fillColor: '#FF8D07', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[0][1]) {
                 polygon.setOptions({
@@ -906,19 +911,19 @@ function displayArea(area) {
         } else if (codeType3 === '2') {
             if (total > regionStandard[1][5]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.8
+                    fillColor: '#1540BF', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[1][4]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.65
+                    fillColor: '#1540BF', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[1][3]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.5
+                    fillColor: '#1540BF', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[1][2]) {
                 polygon.setOptions({
-                    fillColor: '#1540BF', fillOpacity: 0.35
+                    fillColor: '#1540BF', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[1][1]) {
                 polygon.setOptions({
@@ -932,19 +937,19 @@ function displayArea(area) {
         } else if (codeType3 === '3') {
             if (total > regionStandard[2][5]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.8
+                    fillColor: '#DD4C79', fillOpacity: 0.6
                 });
             } else if (total > regionStandard[2][4]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.65
+                    fillColor: '#DD4C79', fillOpacity: 0.5
                 });
             } else if (total > regionStandard[2][3]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.5
+                    fillColor: '#DD4C79', fillOpacity: 0.4
                 });
             } else if (total > regionStandard[2][2]) {
                 polygon.setOptions({
-                    fillColor: '#DD4C79', fillOpacity: 0.35
+                    fillColor: '#DD4C79', fillOpacity: 0.3
                 });
             } else if (total > regionStandard[2][1]) {
                 polygon.setOptions({
@@ -962,26 +967,37 @@ function displayArea(area) {
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-
-
+        var codeType3 = $('input[name="cate2"]:checked').val();// 3번 분기별 임대시세
         closeOverlay()//클릭했을때 오버레이 싹다 닫음 사이드바+동그란지역정보+지역인포윈도
 
         if (zoom < 8) {//맵크기 8이하  : 클릭-커스텀인포(행정동별 정보) 추가
-            var clickcircle = new kakao.maps.CustomOverlay({
-                position: centroid(area.path), content: content
-            });
+
+
+            if (codeType3 === '1') {//상점수
+                var clickcircle = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content1
+                });
+                var clickcInfoWin = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content2, zIndex: 3, yAnchor: 1.7,
+                });
+
+            }else{
+                var clickcircle = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content
+                });
+                var clickcInfoWin = new kakao.maps.CustomOverlay({
+                    position: centroid(area.path), content: content2, zIndex: 3, yAnchor: 1.2,
+                });
+            }
             clickcircles.push(clickcircle);
             clickcircle.setMap(map);
 
-            var clickcInfoWin = new kakao.maps.CustomOverlay({
-                position: centroid(area.path), content: content2, zIndex: 3, yAnchor: 1.2,
-            });
             clickcInfoWins.push(clickcInfoWin);
             clickcInfoWin.setMap(map);
         }
 
 
-        var codeType3 = $('input[name="cate2"]:checked').val();// 3번 분기별 임대시세
+
         if (codeType3 === '1') {//상점수
             var polygon1 = new kakao.maps.Polygon({
                 path: this.getPath(),
@@ -991,7 +1007,9 @@ function displayArea(area) {
                 fillColor: 'url(#store-gra)',
                 fillOpacity: 0.8
             });
-
+            total = info[0].stores;//총상점수
+            var normal_store = Math.round((info[0].stores - info[0].franc) / info[0].stores * 100) + '%'; //일반점포
+            $('#store-gra .stop2').attr('offset', normal_store)
         } else if (codeType3 === '2') {//인구수
             var polygon1 = new kakao.maps.Polygon({
                 path: this.getPath(),
@@ -1029,7 +1047,7 @@ function displayArea(area) {
         var getarea = (Math.round(polygon.getArea()) / 1000000).toFixed(2)//면적계산
 
         ajaxPostSyn('/trading-area/regional/details', data, function (result) {
-            //console.log("이게 데이터 갖고오는거임", result)
+            console.log("이게 데이터 갖고오는거임", result)
             if (result.length > 0) {
                 //클릭시 위에 한겹 폴리곤 레이어 추가 + 사이드바
                 if (codeType3 === '1') {
@@ -1535,7 +1553,7 @@ function industryRatioAll(data) {
 
 //상점수업종별 - 선택업종 파이그래프
 function industryRatio(color) {
-    //console.log("dksehl?", color,color[0].ct_shop)
+    console.log("dksehl?", color,color[0].ct_shop)
 
     var backco = [];
     for (var i = 0; i < color.length; i++) {
@@ -1592,49 +1610,49 @@ function changecate() {
         $('.storenum').text("전체 업종")
         $('.industry>#colorCircle').removeClass()
     } else if (maincate == 'I') {
-        //console.log(I)
+        console.log(I)
         industryRatio(I)
         $('.storenum').text("숙박·음식")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('I')
     } else if (maincate == 'S') {
-        //console.log(S)
+        console.log(S)
         industryRatio(S)
         $('.storenum').text("수리·개인서비스")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('S')
     } else if (maincate == 'G') {
-        //console.log(G)
+        console.log(G)
         industryRatio(G)
         $('.storenum').text("도·소매")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('G')
     } else if (maincate == 'R') {
-        //console.log(R)
+        console.log(R)
         industryRatio(R)
         $('.storenum').text("예술·스포츠·여가")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('R')
     } else if (maincate == 'N') {
-        //console.log(N)
+        console.log(N)
         industryRatio(N)
         $('.storenum').text("시설관리·임대")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('N')
     } else if (maincate == 'M') {
-        //console.log(M)
+        console.log(M)
         industryRatio(M)
         $('.storenum').text("과학·기술")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('M')
     } else if (maincate == 'L') {
-        //console.log(L)
+        console.log(L)
         industryRatio(L)
         $('.storenum').text("부동산")
         $('.industry>#colorCircle').removeClass()
         $('.industry>#colorCircle').addClass('L')
     } else if (maincate == 'P') {
-        //console.log(P)
+        console.log(P)
         industryRatio(P)
         $('.storenum').text("교육")
         $('.industry>#colorCircle').removeClass()
@@ -1651,7 +1669,7 @@ function sideInfoPopul(result, area, total, getarea) {
     var density = Math.round(total / getarea);
     var density_comma = density.toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    //console.log("Math.round", total, getarea, density)
+    console.log("Math.round", total, getarea, density)
 
     $('#sidebar').addClass('visible');
     if (area && result) {
@@ -1662,12 +1680,10 @@ function sideInfoPopul(result, area, total, getarea) {
             house: result[0].house_6, idx: 6
         }, {house: result[0].house_7, idx: 7},]
         household = household.sort((a, b) => b.house - a.house);
-        //console.log("가구원수", household)
+        console.log("가구원수", household)
         var houseli = "";
         for (var i = 0; i < household.length; i++) {
-            var house = household[i].house.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-            houseli += `<li class="h` + household[i].idx + `"><p class="housetype">` + household[i].idx + `인가구</p><p class="housenum">` + house + `명</p></li>`
+            houseli += `<li class="h` + household[i].idx + `"><p class="housetype">` + household[i].idx + `인가구</p><p class="housenum">` + household[i].house + `명</p></li>`
         }
         document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total_comma + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">면적</h4>' + '<div class="crop_black_20dp iconPlus">' + '총 ' + getarea + '㎢' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구밀도</h4>' + '<div class="groups_gray_20dp iconPlus">' + density_comma + '인/㎢' + '</div>' + '</div>' + '<div class="greyspan"></div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>' + '<div class="side_graph">' + '<canvas id="business"></canvas>' + '</div>' + '</div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">가구원수별 가구수</h4>' + '<ul class="short2">' + houseli + '</ul>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' + '</div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
         if (window.innerWidth < 767) {
@@ -1793,12 +1809,12 @@ var data2020other = [];
 var data2021other = [];
 
 function updateChartType() {
-    //console.log("1층외배열", data20171f, data2017other)
+    console.log("1층외배열", data20171f, data2017other)
     $('#speedChart').remove();//있던 차트 지우고
     $('.speedChart').append('<canvas id="speedChart"><canvas>');//차트id추가
 
     var year = $('select[name="chartYear"]').val()
-    //console.log(year)
+    console.log(year)
 
     if (year == 2017) {
         multichart(data20171f, data2017other)
@@ -1867,7 +1883,7 @@ function ajaxPostSyn(url, data, callback, showLoading) {
     $.ajax({
         //async:true,
         url: contextPath + url, data: JSON.stringify(data), method: "POST", success: function (result) {
-            //console.log('result : ', result);
+            console.log('result : ', result);
             if (callback) {
                 callback(result);
             }
