@@ -16,6 +16,7 @@ public class CommerceService {
     private UrbanMapper urbanMapper;
 
     public List<Map<String, Object>> getGrid(Map<String, Object> params) {
+
         List<Map<String, Object>> list = urbanMapper.getGrid(params);
 
         List<Map<String, Object>> locationList = urbanMapper.getGridLocation();

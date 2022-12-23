@@ -19,6 +19,7 @@
     <div th:replace="~{fragments/header :: header}"></div>
     <div id="map_wrap" class="area_map">
         <div id="map"></div>
+
         <ul style="position: absolute; left: 10px; background-color: white">
             <div>사이드 메뉴</div>
             <li>
@@ -131,7 +132,7 @@
 <th:block th:include="fragments/common_js"></th:block>
 <!-- 지도를 표시할 div 입니다 -->
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca&libraries=services"></script>
 <script th:inline="javascript">
 
     var shopList = /*[[${shopList}]]*/ [];
