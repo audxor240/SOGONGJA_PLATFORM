@@ -80,6 +80,9 @@ public class GeoService {
         params.put("scope", "'F'");
 
         List<Map<String, Object>> researchShopList = areaMapper.getResearchShopList(params);
+        if (researchShopList.size() == 0) {
+            return new byte[0];
+        }
         System.out.println(researchShopList.size());
         Coordinate[] data = new Coordinate[researchShopList.size()];
 
