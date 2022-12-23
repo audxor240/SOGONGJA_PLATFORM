@@ -31,27 +31,49 @@
             <form name="searchForm" >
 <!--                <th:block th:include="fragments/search_hidden"></th:block>-->
                 <div class="checkbox_wrap">
-                    <div class="check_keyword">
+                    <div class="check_keyword service">
                         <legend>키워드 검색</legend>
                         <label for="keyword_search">검색</label>
-                        <div>
+                        <div class="search_with_tabs">
                             <input type="text" placeholder="키워드 검색" id="keyword_search">
                             <button type="submit">검색</button>
                         </div>
+                        <div class="tabs">
+                            <label class="tab">
+                                <input name="tab_menu" type="radio" checked />
+                                <span>맡춤 전문가 추천</span>
+                            </label>
+                            <label class="tab">
+                                <input name="tab_menu" type="radio" />
+                                <span>관심 전문가</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="checkbox_wrap">
-                    <ul class="check_list check_list30">
+                <div class="checkbox_wrap mb_24">
+                    <ul class="check_list check_list30 nowrap">
                         <li>
                             <h4>보유기술(대)</h4>
                             <ul id="rdoCategory1">
                                 <li>
-                                    <input type="radio" id="category10" name="category1" class="checkbox_style" value="" checked>
-                                    <label for="category10">전체</label>
+                                    <input type="radio" id="1" name="category1" class="checkbox_style" value="" checked>
+                                    <label for="1">마케팅</label>
                                 </li>
                                 <li>
-                                    <input type="radio" id="category11" name="category1" class="checkbox_style" value="" checked>
-                                    <label for="category10">전체</label>
+                                    <input type="radio" id="2" name="category1" class="checkbox_style" value="" >
+                                    <label for="2">문서·글쓰기</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="3" name="category1" class="checkbox_style" value="" >
+                                    <label for="3">영상·사진·음향</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="4" name="category1" class="checkbox_style" value="" >
+                                    <label for="4">비즈니스컨설팅</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="5" name="category1" class="checkbox_style" value="" >
+                                    <label for="5">직무역량</label>
                                 </li>
                             </ul>
                         </li>
@@ -59,12 +81,16 @@
                             <h4>보유기술(중)</h4>
                             <ul id="rdoCategory2">
                                 <li>
-                                    <input type="radio" id="category20" name="category2" class="checkbox_style" value="" checked>
-                                    <label for="category20">전체</label>
+                                    <input type="radio" id="6" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="6">블로그 작성 관련 경력</label>
                                 </li>
                                 <li>
-                                    <input type="radio" id="category21" name="category2" class="checkbox_style" value="" checked>
-                                    <label for="category20">전체</label>
+                                    <input type="radio" id="7" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="7">원고작성 관련 경력</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="8" name="category2" class="checkbox_style" value="" checked>
+                                    <label for="8">엑셀 자격증</label>
                                 </li>
                             </ul>
                         </li>
@@ -72,12 +98,31 @@
                             <h4>지역</h4>
                             <ul id="rdoCategory3">
                                 <li>
-                                    <input type="radio" id="category30" name="category3" class="checkbox_style" value="" checked>
-                                    <label for="category30">전체</label>
+                                    <input type="radio" id="9" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="9">전체</label>
                                 </li>
                                 <li>
-                                    <input type="radio" id="category31" name="category3" class="checkbox_style" value="" checked>
-                                    <label for="category30">전체</label>
+                                    <input type="radio" id="10" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="10">서울</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="11" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="11">부산</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="12" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="12">대구</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="13" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="13">인천</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="14" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="14">대전</label>
+                                </li><li>
+                                    <input type="radio" id="15" name="category3" class="checkbox_style" value="" checked>
+                                    <label for="15">광주</label>
                                 </li>
                             </ul>
                         </li>
@@ -85,24 +130,46 @@
 
                 </div>
             </form>
-
-
+            <div class="select_right_con">
+                <select>
+                    <option>선택</option>
+                </select>
+            </div>
 
             <div class="edu_list_wrap">
 <!--                <th:block th:include="fragments/paging_result :: paging_result('total')"></th:block>-->
-                <table class="table_style qna_list">
+                <table class="table_style qna_list none_border">
                     <caption>다른 사용자가 자주 찾는 컨설팅</caption>
                     <thead>
                     <tr>
                         <th style="width: 8%;">관심</th>
                         <th style="width: 12%;">전문가이름</th>
                         <!--<th style="width: 15%;">서비스명</th>-->
-                        <th style="width: 40%;">상세분야</th>
+                        <th style="width: 55%;">상세분야</th>
                         <th style="width: 10%;">작업수</th>
                         <th style="width: 10%;">만족도</th>
+                        <th style="width: 5%;"></th>
                     </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td class="check_favorite"><label><input type="checkbox" /> <span class="icon"></span></label></td>
+                            <td>블로그배포전문</td>
+                            <td class="detail_list">
+                                <span>종합광고대행사</span>
+                                <span>SNS디자인(유튜브 블로그 모두 등)</span>
+                                <span>포토샵 편집</span>
+                            </td>
+                            <td>0000</td>
+                            <td>00%</td>
+                            <td class="arr_down"><div class="arrow-button"></div></td>
+                            <td style="width: 100%; background-color: #d9e5ff">
+                                <div></div>
+                                <div><b>경력</b><p>프리랜서 3년 0개월</p><p>나모웹비즈 2년 3개월</p></div>
+                                <div><b>보유기술</b><div class="detail_list"><span>검색최적화</span><span>나모웹비즈 2년 3개월</span><span>블로그마케팅</span></div></div>
+                                <div></div>
+                            </td>
+                        </tr>
 <!--                    <th:block th:unless="${#lists.isEmpty(list)}">-->
 <!--                        <tr th:each="item : ${list}">-->
 <!--                            <td th:text="${paging.total - item.rnum + 1}"></td>-->
@@ -130,9 +197,8 @@
 <!--                    </th:block>-->
                     </tbody>
                 </table>
+                <th:block th:include="fragments/paging"></th:block>
             </div>
-
-            <th:block th:include="fragments/paging"></th:block>
         </div>
     </section>
 </article>

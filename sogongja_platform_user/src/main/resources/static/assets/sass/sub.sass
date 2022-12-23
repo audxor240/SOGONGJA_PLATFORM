@@ -140,6 +140,98 @@
 			width: 70%
 		.date
 			width: 15%
+.table_style.none_border
+	tr
+		display: flex
+		flex-wrap: wrap
+		th
+			border: none
+		td
+			display: flex
+			align-items: center
+			justify-content: center
+			border-bottom: 1px solid #ddd
+		td.check_favorite
+			>label
+				display: inline-block
+				cursor: pointer
+				input
+					display: none
+				span.icon
+					display: inline-block
+					width: 36px
+					height: 36px
+					background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
+					&:hover
+						background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+				&>input:checked + span.icon
+					background: url(#{$assetPath}/icon-faborite-fill.png) no-repeat 0 50%
+		td.detail_list
+			justify-content: left
+			padding: 0 1rem
+			span
+				position: relative
+				margin-right: 20px
+				&::after
+					content: ''
+					width: 1px
+					height: 24px
+					background: #e2e2e2
+					position: absolute
+					top: 50%
+					right: -10px
+					transform: translateY(-50%)
+				&:last-child
+					margin-right: 0
+					&::after
+						display: none
+		td.arr_down
+			display: flex
+			justify-content: center
+			align-items: center
+			.arrow-button
+				cursor: pointer
+				width: 36px
+				height: 36px
+				background: url(#{$assetPath}/icon-arrow-down-big.png) no-repeat 0 50%
+				&.active
+					background: url(#{$assetPath}/icon-arrow-down-big-active.png) no-repeat 0 50%
+		td:nth-child(1)
+			width: 8%
+		td:nth-child(2)
+			width: 12%
+		td:nth-child(3)
+			width: 55%
+		td:nth-child(4)
+			width: 10%
+		td:nth-child(5)
+			width: 10%
+		td:nth-child(6)
+			width: 5%
+	tbody
+		tr
+			td:last-child
+				width: 100%
+				height: auto
+				padding: 24px 0
+				>div
+					text-align: left
+					b
+						margin-bottom: 8px
+					p
+						margin-bottom: 4px
+					span
+						margin-right: 12px
+					&:nth-child(1)
+						width: 8%
+					&:nth-child(2)
+						width: 12%
+					&:nth-child(3)
+						width: 55%
+						display: flex
+						flex-direction: column
+					&:last-child
+						flex: 1
 // .table_wrap
 // 	height: rem(290)
 // 	overflow: hidden
@@ -318,6 +410,46 @@
 					color: #fff
 					text-align: center
 					width: 99px
+			.search_with_tabs
+				width: 60%
+			.tabs
+				width: 31%
+				max-width: 400px
+				border: solid 1px #d5d5d5
+				>.tab
+					width: 50%
+					height: 50px
+					marign-bottom: 0
+					cursor: pointer
+					>input
+						display: none
+					>span
+						width: 100%
+						height: 100%
+						display: flex
+						align-items: center
+						justify-content: center
+						color: #d5d5d5
+						font-size: 16px
+						transition: all .2s
+						&:hover
+							background: #e8efff
+							color: #1540bf
+					>input:checked + span
+						background: #e8efff
+						color: #1540bf
+						border: 1px solid #1540bf
+		&.mb_24
+			margin-bottom: 24px
+	.select_right_con
+		width: 100%
+		display: flex
+		justify-content: flex-end
+		margin-bottom: 28px
+		select
+			width: 40%
+			max-width: 120px
+			border: 1px solid #e2e2e2
 	.total
 		color: #777
 		margin-bottom: rem(24)
@@ -2460,7 +2592,6 @@
 			.check_list
 				display: block
 				> li
-					width: 100%
 					border-top: 4px solid #1540bf
 					ul
 						+flex_type
@@ -2481,17 +2612,37 @@
 							width: 100%
 						> div
 							width: 100%
+			.check_list.nowrap
+				>li
+					ul
+						li
+							min-width: auto
+							>label
+								white-space: nowrap
 			.check_keyword
 				flex-wrap: wrap
 				border-top: 4px solid #1540bf
 				padding: 1.875rem 0
 				justify-content: center
-				label
+				>label
 					width: 100%
 					padding: 0 2.5rem 1.875rem
 					border-bottom: solid 1px #d2d2d2
 					margin-bottom: 1.875rem
+				.search_with_tabs
+					width: 88%
+				.tabs
+					width: 88%
+					max-width: none
+					margin-left: 0
+					margin-top: 20px
+					>.tab
+						padding: 0
+						marign-bottom: 0
 			.check_list.check_list50
+				> li
+					width: 100%
+			.check_list.check_list30
 				> li
 					width: 100%
 		.edu_list,.solution_edu_recommend > ul
@@ -2555,6 +2706,18 @@
 							padding: 0
 					&:nth-child(5)
 						width: 30%
+	.table_style.none_border
+		tr
+			th
+				border: none
+			td.check_favorite
+				>label
+					input
+						display: none
+					span.icon
+						width: 36px
+						height: 36px
+						background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
 	.custom_consulting
 		tbody
 			border-top: 4px solid #1540bf
