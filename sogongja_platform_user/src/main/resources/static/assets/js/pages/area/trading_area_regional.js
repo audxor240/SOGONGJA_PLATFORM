@@ -1667,10 +1667,9 @@ function sideInfoPopul(result, area, total, getarea) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     var density = Math.round(total / getarea);
-    var density_comma = density.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-    var r_popul = result[0].r_popul.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    var w_popul = result[0].w_popul.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var density_comma = density.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    console.log("Math.round", total, getarea, density)
 
     $('#sidebar').addClass('visible');
     if (area && result) {
@@ -1681,13 +1680,12 @@ function sideInfoPopul(result, area, total, getarea) {
             house: result[0].house_6, idx: 6
         }, {house: result[0].house_7, idx: 7},]
         household = household.sort((a, b) => b.house - a.house);
-        //console.log("가구원수", household)
+        console.log("가구원수", household)
         var houseli = "";
         for (var i = 0; i < household.length; i++) {
-            var house = household[i].house.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            houseli += `<li class="h` + household[i].idx + `"><p class="housetype">` + household[i].idx + `인가구</p><p class="housenum">` + house + `명</p></li>`
+            houseli += `<li class="h` + household[i].idx + `"><p class="housetype">` + household[i].idx + `인가구</p><p class="housenum">` + household[i].house + `명</p></li>`
         }
-        document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구수</h4>' + '<div class="groups_gray_20dp iconPlus">' + '총 ' + total_comma + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">주거인구</h4>' + '<div class="groups_gray_20dp iconPlus">' + r_popul + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">직장인구</h4>' + '<div class="groups_gray_20dp iconPlus">' + w_popul + '명' + '</div>' + '</div>' + '<div class="greyspan"></div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>' + '<div class="side_graph">' + '<canvas id="business"></canvas>' + '</div>' + '</div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">가구원수별 가구수</h4>' + '<ul class="short2">' + houseli + '</ul>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' + '</div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
+        document.getElementById("sidebar").innerHTML = '<div id="sidebody">' + '<div class="sideinfo_fixed">' + '<div class="sideinfo">' + '<div class="areatitle iconPlus">' + area.area_name + '</div>' + '</div>' + '</div>' + '<div class="margintop"></div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구수</h4>' + '<div class="storegray iconPlus">' + '총 ' + total_comma + '명' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">면적</h4>' + '<div class="crop_black_20dp iconPlus">' + '총 ' + getarea + '㎢' + '</div>' + '</div>' + '<div class="sideinfo float">' + '<h4 class="sideinfoTitle">인구밀도</h4>' + '<div class="groups_gray_20dp iconPlus">' + density_comma + '인/㎢' + '</div>' + '</div>' + '<div class="greyspan"></div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">대표자 연령대별 사업체</h4>' + '<div class="side_graph">' + '<canvas id="business"></canvas>' + '</div>' + '</div>' + '<div class="sideinfo">' + '<h4 class="sideinfoTitle">가구원수별 가구수</h4>' + '<ul class="short2">' + houseli + '</ul>' + '</div>' + '<div class="toggle_side" onclick="sideNoneVisible()" title="사이드바 숨기기"></div>' + '</div>' + '<div class="toggle_side side_visible" onclick="sideVisible()" title="사이드바 보이기"></div>';
         if (window.innerWidth < 767) {
             $('#sidebody').addClass('visible_none');
             $('#sidebar').addClass('on');
