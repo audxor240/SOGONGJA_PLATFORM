@@ -169,7 +169,7 @@ public class GeoService {
 
         try {
 
-            ImageIO.write(mimg, "png", new File("C:\\Users\\start\\Downloads\\aaaaaaaa.png"));
+//            ImageIO.write(mimg, "png", new File("C:\\Users\\start\\Downloads\\aaaaaaaa.png"));
 
 
             ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
