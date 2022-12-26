@@ -566,3 +566,14 @@ function panTo(position) {
 function sleep(ms) {
     return new Promise((r) => setTimeout(r, ms));
 }
+
+// jquery
+$(document).ready(function (){
+    $('input#density').change(function (){
+        if($(this).is(':checked')){
+            $('ul.density_options').addClass('on')
+        }else{
+            $('ul.density_options').removeClass('on')
+        }
+    })
+})
