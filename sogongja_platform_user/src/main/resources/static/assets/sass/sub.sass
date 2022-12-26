@@ -2191,7 +2191,7 @@
 	margin-top: 10px
 	width: 100%
 	.handle_drag
-		display: blcok
+		display: block
 		background: url(#{$assetPath}/new/icon/handelBtn.png) no-repeat 50%
 		width: 36px
 		height: 36px
@@ -2317,7 +2317,301 @@
 		font-size: 24px
 		color: #606060
 		text-align: center
+.commerce_options
+	position: absolute
+	left: 10px
+	bottom: 5%
+	>li
+		position: relative
+		margin-bottom: 8px
+		label
+			span
+				text-align: center
+				width: 52px
+				height: 52px
+				cursor: pointer
+				display: flex
+				justify-content: center
+				align-items: center
+				background-color: white
+				border-radius: 4px
+				color: #606060
+				font-size: 11px
+				transition: all .2s
+				&:hover
+					color: #1540bf
+			input
+				display: none
+			input:checked + span
+				color: #1540bf
+		&:first-child
+			label
+				input:checked + span
+					background-color: #1540bf
+					color: white
+		&:last-child
+			margin-bottom: 0
+		.density_options
+			height: 52px
+			position: absolute
+			left: 107%
+			bottom: 0
+			display: flex
+			align-items: center
+			white-space: nowrap
+			background-color: white
+			border-radius: 4px
+			padding: 18px 0
+			width: 0
+			max-width: 70vw
+			overflow: hidden
+			transition: all .2s
+			&.on
+				width: auto
+				padding: 18px 12px
+			li
+				position: relative
+				margin-right: 16px
+				font-size: 12px
+				color: #606060
+				label
+					cursor: pointer
+				input
+					display: none
+				input:checked ~ label
+					color:  #1540BF
+				&::after
+					content: ''
+					width: 1px
+					height: 8px
+					background-color: #e2e2e2
+					position: absolute
+					top: 50%
+					transform: translateY(-50%)
+					right: -8px
+				&:last-child
+					margin-right: 0
+					&::after
+						display: none
 
+.bottom_area_ctrl
+	position: absolute
+	bottom: 5%
+	left: 50%
+	transform: translateX(-50%)
+	background-color: white
+	display: flex
+	&>li:first-child
+		padding: 7px 18px
+		background-color: #1540bf
+		color: white
+		display: flex
+		align-items: center
+		font-size: 14px
+		span.area_icon
+			width: 16px
+			min-width: 16px
+			height: 16px
+			margin-right: 2px
+			background: url(#{$assetPath}/new/area/icon_location_white.png) no-repeat 50%
+	li
+		label
+			span
+				display: inline-block
+				cursor: pointer
+				padding: 0 18px
+				line-height: 37px
+				font-size: 13px
+				color: #aaa
+			input
+				display: none
+			input:checked + span
+				color: #1540bf
+				border: 1px solid #1540bf
+
+
+#filter_wrap
+	width: 100vw
+	height: 100vh
+	position: fixed
+	z-index: 999
+	top: 0
+	left: 0
+	background-color: rgba(0,0,0,0.5)
+	.filterbox
+		+positionAt(absolute)
+		margin-top: 8px
+		background-color: #fff
+		width: 500px
+		height: auto
+		padding: 10px 16px 20px 16px
+		z-index: 3
+		left: 50%
+		top: 50%
+		transform: translate(-50%, -50%)
+		&.on
+			display: block
+		.filterbox_title
+			display: flex
+			justify-content: space-between
+			h3
+				+flex_type($align: center)
+				color: #1540BF
+				font-size: rem(16)
+				font-weight: bold
+				span
+					display: inline-block
+					background: url(#{$assetPath}/new/area/filter.png) no-repeat
+					width: rem(16)
+					height: rem(16)
+					margin-right: 5px
+					background-size: contain
+					margin-top: 3px
+			.close_filter
+				background: transparent
+				padding: 0
+				background: url(#{$assetPath}/mobile_open_button.png) no-repeat 50%
+				width: 30px
+				background-size: contain
+				cursor: pointer
+				height: 30px
+		.fileter_main_title
+			color: #1540BF
+			font-size: rem(14)
+			font-weight: bold
+			margin: 5px 0
+		.fileter_sub_title
+			color: #606060
+			font-size: rem(12)
+			margin: 0px 0px 6px 4px
+		.timeSelect_wrap
+			.timeSelect
+				padding: 8px 13px 24px
+				background-color: #F3F3F3
+				margin-bottom: 12px
+				+flex_type()
+				li
+					width: calc(100%/6)
+					background-color: #D9D9D9
+					+positionAt(relative)
+					label
+						background-color: #D9D9D9
+						width: 100%
+						height: 100%
+						color: #fff
+						font-size: 10px
+						text-align: center
+						display: inline-block
+						padding: 5px 10px
+						cursor: pointer
+					input[type="checkbox"]
+						display: none
+					input[type="checkbox"]:checked ~ label
+						background-color: #709BFF
+					span.time_before
+						+positionAt(absolute, $bottom:-22px, $left:-2px)
+						color: #D9D9D9
+						font-size: 11px
+					span.time_after
+						+positionAt(absolute, $bottom:-22px, $right:-10px)
+						color: #D9D9D9
+						font-size: 11px
+					&:after
+						+positionAt(absolute, $bottom:-7px, $right: 0)
+						display: block
+						content: ""
+						width: 1px
+						height: 7px
+						background-color: #969AAF
+					&:last-child
+						span.time_after
+							+positionAt(absolute, $bottom:-27px, $right:-2px)
+							color: #D9D9D9
+					&:first-child
+						&:before
+							+positionAt(absolute, $bottom:-7px, $left:0)
+							display: block
+							content: ""
+							width: 1px
+							height: 7px
+							background-color: #969AAF
+		.Sectors_wrap
+			.mainSectors_wrap
+				background-color: #F3F3F3
+				.mainSectors
+					padding: 12px 16px 6px 16px
+					+flex_type($justify:space-between)
+					flex-wrap: wrap
+					margin-bottom: 12px
+					li
+						width: calc(100%/3 - 5px)
+						margin-bottom: 5px
+						border-radius: 2px
+						label
+							display: block
+							width: 100%
+							height: 32px
+							line-height: 28px
+							text-align: center
+							background-color: #ffffff
+							border: solid 1px #969AAF
+							color: #969AAF
+							font-size: rem(14)
+							cursor: pointer
+							border-radius: 2px
+						input[type="radio"]
+							display: none
+						input[type="radio"]:checked ~ label
+							background-color: #1540BF
+							border: solid 1px #1540BF
+							color: #fff
+		.midSecBox
+			overflow-y: scroll
+			height: 120px
+			&::-webkit-scrollbar
+				width: 5px
+				height: 8px
+				background-color: #F3F3F3
+			&::-webkit-scrollbar-thumb
+				background: #1540BF
+			.midSectors
+				display: none
+				flex-wrap: wrap
+				&.on
+					+flex_type($justify:space-between)
+				li
+					width: calc(100%/2 - 4px)
+					margin-bottom: 10px
+					background-color: #ffffff
+					input[type="radio"]
+						display: none
+					input[type="radio"]:checked ~ label
+						border: solid 1px #1540BF
+						color: #1540BF
+						background-color: #E9F0FF
+					input[type="radio"]:checked ~ label:before
+						background: url(#{$assetPath}/new/area/checkOn.png) no-repeat 50%
+						background-size: contain
+					label
+						+flex_type($align:center)
+						padding-left: 10px
+						width: 100%
+						height: 40px
+						background: #fff
+						border: solid 1px #D9D9D9
+						text-align: center
+						line-height: 34px
+						color: #D9D9D9
+						font-size: rem(14)
+						cursor: pointer
+						&:before
+							content: ""
+							display: inline-block
+							background: url(#{$assetPath}/new/area/checkOff.png) no-repeat 50%
+							width: 24px
+							height: 24px
+							background-size: contain
+							margin-right: 5px
 
 //	.ip_check + label
 //		padding-left: 3rem
@@ -2920,8 +3214,57 @@
 					width: 100%
 					height: 40px
 					background-size: contain
-
-
+	.bottom_area_ctrl
+		flex-wrap: wrap
+		&>li:first-child
+			display: flex
+			justify-content: center
+			width: 100%
+		li
+			&:nth-child(2)
+				width: 50%
+			&:nth-child(3)
+				width: 50%
+			label
+				width: 100%
+				span
+					width: 100%
+					padding: 7px 18px
+					line-height: normal
+					text-align: center
+	.commerce_options
+		position: absolute
+		left: 10px
+		bottom: 5%
+		>li
+			position: relative
+			margin-bottom: 8px
+			label
+			span
+				text-align: center
+				width: 52px
+				height: 52px
+				cursor: pointer
+				display: flex
+				justify-content: center
+				align-items: center
+				background-color: white
+				border-radius: 4px
+				color: #606060
+				font-size: 11px
+			input
+				display: none
+			input:checked + span
+				color: #1540bf
+			&:first-child
+			label
+				input:checked + span
+					background-color: #1540bf
+					color: white
+			&:last-child
+				margin-bottom: 0
+			.density_options
+				overflow-x: auto
 @include maxMobile
 	.wrap
 		padding: rem(80) 20px

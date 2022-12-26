@@ -59,84 +59,553 @@
         </div>
 
 
-        <ul style="position: absolute; left: 10px; bottom: 0; background-color: white">
-            <div>사이드 메뉴</div>
+        <ul class="commerce_options">
             <li>
+                <label for="report">
                 <input type="checkbox" name="depth1" value="report" id="report">
-                <label for="report">보고서</label>
+                    <span>보고서</span>
+                </label>
             </li>
             <li>
+                <label for="density">
                 <input type="checkbox" name="depth1" value="density" id="density">
-                <label for="density">업종밀집도</label>
+                    <span>업종<br />밀집도</span>
+                </label>
+                <ul class="density_options" >
+                    <li>
+                        <input type="radio" name="area_maincate" value="all" id="all-sector2" onchange="" checked />
+                        <label for="all-sector2">전체</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="I" id="I-sector2" onchange="" />
+                        <label for="I-sector2">숙박·음식</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="S" id="S-sector2" onchange="" />
+                        <label for="S-sector2">수리·개인서비스</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="G" id="G-sector2" onchange="" />
+                        <label for="G-sector2">도·소매</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="R" id="R-sector2" onchange="" />
+                        <label for="R-sector2">예술·스포츠·여가</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="N" id="N-sector2" onchange="" />
+                        <label for="N-sector2">시설관리·임대</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="M" id="M-sector2" onchange="" />
+                        <label for="M-sector2">과학·기술</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="L" id="L-sector2" onchange="" />
+                        <label for="L-sector2">부동산</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="area_maincate" value="P" id="P-sector2" onchange="" />
+                        <label for="P-sector2">교육</label>
+                    </li>
+                </ul>
             </li>
             <li>
+                <label for="land">
                 <input type="checkbox" name="depth1" value="land" id="land">
-                <label for="land">토지특성</label>
+                    <span>토지<br />특성</span>
+                </label>
             </li>
             <li>
+                <label for="vs_facilities">
                 <input type="checkbox" name="depth1" value="vs_facilities" id="vs_facilities">
-                <label for="vs_facilities">집객시설</label>
+                    <span>집객<br />시설</span>
+                </label>
             </li>
             <li>
+                <label for="population">
                 <input type="checkbox" name="depth1" value="population" id="population">
-                <label for="population">인구특성</label>
+                    <span>인구<br />특성</span>
+                </label>
             </li>
             <li>
+                <label for="store">
                 <input type="checkbox" name="depth1" value="store" id="store">
-                <label for="store">상가공실</label>
+                    <span>상가<br />공실</span>
+                </label>
             </li>
         </ul>
 
-        <ul style="position: absolute; left: 10%;  bottom: 0; background-color: white">
-            <li>
-                <input type="checkbox" name="depth2_density" value="I" id="I">
-                <label for="I">숙박*음식</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="S" id="S">
-                <label for="S">수리*개인서비스</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="G" id="G">
-                <label for="G">도*소매</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="R" id="R">
-                <label for="R">예술*스포츠*여가</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="P" id="P">
-                <label for="P">교육</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="N" id="N">
-                <label for="N">시설관리*임대</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_density" value="M" id="M">
-                <label for="M">과학*기술</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_land" value="elevation" id="elevation">
-                <label for="elevation">표고</label>
-            </li>
-            <li>
-                <input type="checkbox" name="depth2_land" value="gradient" id="gradient">
-                <label for="gradient">경사</label>
-            </li>
-        </ul>
 
-        <ul style="position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); background-color: white">
-            <div>영역설정</div>
+        <ul class="bottom_area_ctrl">
+            <li><span class="area_icon"></span>영역설정</li>
             <li>
+                <label for="300m">
                 <input type="radio" name="meter" value="300" id="300m" checked>
-                <label for="300m">300m</label>
+                    <span>300m</span>
+                </label>
             </li>
             <li>
+                <label for="500m">
                 <input type="radio" name="meter" value="500" id="500m">
-                <label for="500m">500m</label>
+                    <span>500m</span>
+                </label>
             </li>
         </ul>
+    </div>
+    <div id="filter_wrap">
+        <div class="filterbox">
+            <div class="filterbox_title">
+                <h3>어떤 점포를 찾고 계신가요?</h3>
+                <span class="close_filter"></span>
+            </div>
+            <div class="Sectors_wrap">
+                <h4 class="fileter_main_title">업종선택</h4>
+                <h5 class="fileter_sub_title">대분류 선택</h5>
+                <div class="mainSectors_wrap">
+                    <ul class="mainSectors">
+                        <li>
+                            <input type="radio" name="area_maincate" value="all" id="all-sector" onchange="" checked />
+                            <label for="all-sector">전체</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="I" id="I-sector" onchange="" />
+                            <label for="I-sector">숙박·음식</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="S" id="S-sector" onchange="" />
+                            <label for="S-sector">수리·개인서비스</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="G" id="G-sector" onchange="" />
+                            <label for="G-sector">도·소매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="R" id="R-sector" onchange="" />
+                            <label for="R-sector">예술·스포츠·여가</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="N" id="N-sector" onchange="" />
+                            <label for="N-sector">시설관리·임대</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="M" id="M-sector" onchange="" />
+                            <label for="M-sector">과학·기술</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="L" id="L-sector" onchange="" />
+                            <label for="L-sector">부동산</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_maincate" value="P" id="P-sector" onchange="" />
+                            <label for="P-sector">교육</label>
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="fileter_sub_title mid_title">중분류 선택</h5>
+                <div class="midSecBox">
+                    <ul class="midSectors all-mid-sector">
+                        <li>
+                            <span class="checked_img"></span>
+                            <input type="radio" name="area_midcate" value="all-mid-sector" id="all-mid-sector" onchange="" checked />
+                            <label for="all-mid-sector">전체 업종</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-I-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-I-sector" id="all-I-sector"/>
+                            <label for="all-I-sector">전체 숙박·음식</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I9001" id="I9001"/>
+                            <label for="I9001">고시원</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1914" id="I1914"/>
+                            <label for="I1914">분식전문점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1223" id="I1223"/>
+                            <label for="I1223">양식전문점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1002" id="I1002"/>
+                            <label for="I1002">여관</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1204" id="I1204"/>
+                            <label for="I1204">일식전문점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1903" id="I1903"/>
+                            <label for="I1903">제과점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1201" id="I1201"/>
+                            <label for="I1201">중식음식점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1913" id="I1913"/>
+                            <label for="I1913">치킨전문점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I2201" id="I2201"/>
+                            <label for="I2201">커피-음료</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1102" id="I1102"/>
+                            <label for="I1102">한식음식점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I2109" id="I2109"/>
+                            <label for="I2109">호프-간이주점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1005" id="I1005"/>
+                            <label for="I1005">게스트하우스</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="I1908" id="I1908"/>
+                            <label for="I1908">패스트푸드점</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-S-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-S-sector" id="all-S-sector"/>
+                            <label for="all-S-sector">전체 수리·개인서비스</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S3102" id="S3102"/>
+                            <label for="S3102">가전제품수리</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S1103" id="S1103"/>
+                            <label for="S1103">네일숍</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S1101" id="S1101"/>
+                            <label for="S1101">미용실</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S9101" id="S9101"/>
+                            <label for="S9101">세탁소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S2102" id="S2102"/>
+                            <label for="S2102">자동차수리</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S6313" id="S6313"/>
+                            <label for="S6313">자전거 및 기타운송장비</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S1201" id="S1201"/>
+                            <label for="S1201">통신기기수리</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S1102" id="S1102"/>
+                            <label for="S1102">피부관리실</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S2103" id="S2103"/>
+                            <label for="S2103">자동차미용</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="S2201" id="S2201"/>
+                            <label for="S2201">모터사이클 및 부품</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-G-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-G-sector" id="all-G-sector"/>
+                            <label for="all-G-sector">전체 도·소매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G5201" id="G5201"/>
+                            <label for="G5201">가구</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4401" id="G4401"/>
+                            <label for="G4401">가방</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G3206" id="G3206"/>
+                            <label for="G3206">가전제품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G6102" id="G6102"/>
+                            <label for="G6102">문구</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G5919" id="G5919"/>
+                            <label for="G5919">복권방</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G6101" id="G6101"/>
+                            <label for="G6101">서적</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4208" id="G4208"/>
+                            <label for="G4208">섬유제품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G2110" id="G2110"/>
+                            <label for="G2110">수산물판매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G1902" id="G1902"/>
+                            <label for="G1902">슈퍼마켓</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8301" id="G8301"/>
+                            <label for="G8301">시계및귀금속</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4301" id="G4301"/>
+                            <label for="G4301">신발</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G5906" id="G5906"/>
+                            <label for="G5906">악기</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G9903" id="G9903"/>
+                            <label for="G9903">안경</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G6403" id="G6403"/>
+                            <label for="G6403">완구</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G6307" id="G6307"/>
+                            <label for="G6307">운동/경기용품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4104" id="G4104"/>
+                            <label for="G4104">유아의류</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G2104" id="G2104"/>
+                            <label for="G2104">육류판매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8107" id="G8107"/>
+                            <label for="G8107">의료기기</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G5910" id="G5910"/>
+                            <label for="G5910">인테리어</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4105" id="G4105"/>
+                            <label for="G4105">일반의류</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G2102" id="G2102"/>
+                            <label for="G2102">자동차부품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G9102" id="G9102"/>
+                            <label for="G9102">전자상거래업</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8601" id="G8601"/>
+                            <label for="G8601">중고가구</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G1201" id="G1201"/>
+                            <label for="G1201">중고차판매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G2111" id="G2111"/>
+                            <label for="G2111">청과상</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G3101" id="G3101"/>
+                            <label for="G3101">컴퓨터및주변장치판매</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G1903" id="G1903"/>
+                            <label for="G1903">편의점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G4102" id="G4102"/>
+                            <label for="G4102">한복점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G3105" id="G3105"/>
+                            <label for="G3105">핸드폰</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8108" id="G8108"/>
+                            <label for="G8108">화장품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8501" id="G8501"/>
+                            <label for="G8501">화초</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G2124" id="G2124"/>
+                            <label for="G2124">반찬가게</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8409" id="G8409"/>
+                            <label for="G8409">예술품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8102" id="G8102"/>
+                            <label for="G8102">의약품</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G8604" id="G8604"/>
+                            <label for="G8604">재생용품 판매점</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="G7103" id="G7103"/>
+                            <label for="G7103">주유소</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-R-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-R-sector" id="all-R-sector"/>
+                            <label for="all-R-sector">전체 예술·스포츠·여가</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R2202" id="R2202"/>
+                            <label for="R2202">PC방</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R2904" id="R2904"/>
+                            <label for="R2904">기타오락장</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R2203" id="R2203" />
+                            <label for="R2203">노래방</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1306" id="R1306"/>
+                            <label for="R1306">당구장</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R2105" id="R2105"/>
+                            <label for="R2105">독서실</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1305" id="R1305"/>
+                            <label for="R1305">볼링장</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R2201" id="R2201"/>
+                            <label for="R2201">전자게임장</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1104" id="R1104"/>
+                            <label for="R1104">녹음실</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1319" id="R1319" />
+                            <label for="R1319">스포츠클럽</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1341" id="R1341"/>
+                            <label for="R1341">스포츠 강습</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="R1309" id="R1309"/>
+                            <label for="R1309">골프연습장</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-N-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-N-sector" id="all-N-sector"/>
+                            <label for="all-N-sector">전체 시설관리·임대</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="N2904" id="N2904"/>
+                            <label for="N2904">가정용품임대</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="N2912" id="N2912"/>
+                            <label for="N2912">의류임대</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="N2101" id="N2101"/>
+                            <label for="N2101">건축물청소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="N2902" id="N2902"/>
+                            <label for="N2902">비디오/서적임대</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-M-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-M-sector" id="all-M-sector"/>
+                            <label for="all-M-sector">전체 과학·기술</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M1001" id="M1001"/>
+                            <label for="M1001">변호사사무소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M1002" id="M1002"/>
+                            <label for="M1002">변리사사무소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M3001" id="M3001"/>
+                            <label for="M3001">사진관</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M2003" id="M2003"/>
+                            <label for="M2003">세무사사무소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M9002" id="M9002"/>
+                            <label for="M9002">통번역서비스</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M2002" id="M2002"/>
+                            <label for="M2002">회계사사무소</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="M1003" id="M1003"/>
+                            <label for="M1003">기타법무서비스</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-L-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-L-sector" id="all-L-sector"/>
+                            <label for="all-L-sector">전체 부동산</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="L2201" id="L2201" />
+                            <label for="L2201">부동산중개업</label>
+                        </li>
+                    </ul>
+                    <ul class="midSectors all-P-sector">
+                        <li>
+                            <input type="radio" name="area_midcate" value="all-P-sector" id="all-P-sector"/>
+                            <label for="all-P-sector">전체 교육</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="P6211" id="P6211"/>
+                            <label for="P6211">외국어학원</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="P6901" id="P6901"/>
+                            <label for="P6901">컴퓨터학원</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="P6607" id="P6607"/>
+                            <label for="P6607">예술학원</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="area_midcate" value="P6304" id="P6304"/>
+                            <label for="P6304">일반교습학원</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </article>
 
@@ -151,6 +620,65 @@
 
     var shopList = /*[[${shopList}]]*/ [];
     console.log(shopList);
+    //필터 대분류 중분류 체크
+    $(document).ready(function (){
+
+    $('.midSecBox').css('display', 'none');
+    $('.fileter_sub_title.mid_title').css('display', 'none');
+    $('input[name="area_maincate"]').click(function () {
+        if ($('input[name="area_maincate"]:checked').val() == "all") {
+//대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘
+            $('.midSectors').removeClass("on")
+            $('.all-mid-sector').addClass("on")
+            $('.midSecBox').css('display', 'none');
+            $('.fileter_sub_title.mid_title').css('display', 'none');
+        } else {
+            $('.midSecBox').css('display', 'block');
+            $('.fileter_sub_title.mid_title').css('display', 'block');
+            if ($('input[name="area_maincate"]:checked').val() == "I") {
+//1숙박·음식
+                $('.midSectors').removeClass("on")
+                $('.all-I-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "S") {
+//2수리·개인서비스
+                $('.midSectors').removeClass("on")
+                $('.all-S-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "G") {
+//3도·소매
+                $('.midSectors').removeClass("on")
+                $('.all-G-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "R") {
+//4예술·스포츠·여가
+                $('.midSectors').removeClass("on")
+                $('.all-R-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "N") {
+//5시설관리·임대
+                $('.midSectors').removeClass("on")
+                $('.all-N-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "M") {
+//6과학·기술
+                $('.midSectors').removeClass("on")
+                $('.all-M-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "L") {
+//7부동산
+                $('.midSectors').removeClass("on")
+                $('.all-L-sector').addClass("on")
+            } else if ($('input[name="area_maincate"]:checked').val() == "P") {
+//8교육
+                $('.midSectors').removeClass("on")
+                $('.all-P-sector').addClass("on")
+            }
+        }
+    })
+    $('input[name="area_maincate"]').click(function () {
+        var temp = 'all-' + $(this).val() + '-sector';
+        $("input:radio[id=" + temp + "]").prop("checked", true);
+    })
+        $('.close_filter').click(function () {
+            $('#filter_wrap').hide()
+        })
+    })
+
 </script>
 <script th:src="@{/js/pages/commerce/commerce_area.js}"></script>
 
