@@ -242,9 +242,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .table_style.none_border tr td.arr_down .arrow-button {
-  cursor: pointer;
   width: 36px;
   height: 36px;
   background: url(../images/icon-arrow-down-big.png) no-repeat 0 50%;
@@ -297,6 +297,7 @@
   width: 55%;
   display: flex;
   flex-direction: column;
+  padding: 0 1rem;
 }
 .table_style.none_border tbody tr td:last-child > div:last-child {
   flex: 1;
@@ -3459,13 +3460,17 @@
   .table_style.none_border tr th {
     border: none;
   }
-  .table_style.none_border tr td.check_favorite > label input {
-    display: none;
+  .table_style.none_border tbody tr td:nth-child(3) {
+    width: 100%;
   }
-  .table_style.none_border tr td.check_favorite > label span.icon {
-    width: 36px;
-    height: 36px;
-    background: url(../images/icon-faborite.png) no-repeat 0 50%;
+  .table_style.none_border tbody tr td:nth-child(4) {
+    width: 30%;
+  }
+  .table_style.none_border tbody tr td:nth-child(5) {
+    width: 60%;
+  }
+  .table_style.none_border tbody tr td:nth-child(6) {
+    width: 10%;
   }
   .custom_consulting tbody {
     border-top: 4px solid #1540bf;

@@ -1,7 +1,6 @@
 (function() {
     'use strict'
     $(document).ready(function() {
-
         commonSearchPaging();
 
         // 즐겨찾기
