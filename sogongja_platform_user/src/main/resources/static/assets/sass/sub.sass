@@ -189,8 +189,8 @@
 			display: flex
 			justify-content: center
 			align-items: center
+			cursor: pointer
 			.arrow-button
-				cursor: pointer
 				width: 36px
 				height: 36px
 				background: url(#{$assetPath}/icon-arrow-down-big.png) no-repeat 0 50%
@@ -230,6 +230,7 @@
 						width: 55%
 						display: flex
 						flex-direction: column
+						padding: 0 1rem
 					&:last-child
 						flex: 1
 // .table_wrap
@@ -2710,14 +2711,16 @@
 		tr
 			th
 				border: none
-			td.check_favorite
-				>label
-					input
-						display: none
-					span.icon
-						width: 36px
-						height: 36px
-						background: url(#{$assetPath}/icon-faborite.png) no-repeat 0 50%
+		tbody
+			tr
+				td:nth-child(3)
+					width: 100%
+				td:nth-child(4)
+					width: 30%
+				td:nth-child(5)
+					width: 60%
+				td:nth-child(6)
+					width: 10%
 	.custom_consulting
 		tbody
 			border-top: 4px solid #1540bf

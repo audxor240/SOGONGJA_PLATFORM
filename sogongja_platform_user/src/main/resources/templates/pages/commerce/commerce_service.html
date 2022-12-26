@@ -163,50 +163,40 @@
                             <td>0000</td>
                             <td>00%</td>
                             <td class="arr_down"><div class="arrow-button"></div></td>
-                            <td style="width: 100%; background-color: #d9e5ff">
+                            <td class="toggle_info" style="width: 100%; background-color: #d9e5ff">
                                 <div></div>
                                 <div><b>경력</b><p>프리랜서 3년 0개월</p><p>나모웹비즈 2년 3개월</p></div>
                                 <div><b>보유기술</b><div class="detail_list"><span>검색최적화</span><span>나모웹비즈 2년 3개월</span><span>블로그마케팅</span></div></div>
                                 <div></div>
                             </td>
                         </tr>
-<!--                    <th:block th:unless="${#lists.isEmpty(list)}">-->
-<!--                        <tr th:each="item : ${list}">-->
-<!--                            <td th:text="${paging.total - item.rnum + 1}"></td>-->
-<!--                            <td>[[${item.support_org_name}]]</td>-->
-<!--                            &lt;!&ndash;/*<td class="cate2" th:text="${item.con_type_name}">창업컨설팅</td>*/&ndash;&gt;-->
-<!--                            <td class="color_606060">[[${item.support_by}]]</td>-->
-<!--                            <td class="txl"><a th:href="@{|/study/consulting/${item.con_seq}?num=${paging.total - item.rnum + 1}|}" th:text="${item.support_content}"></a></td>-->
-<!--                            <td>-->
-<!--                                <div class="management management_wrap">-->
-<!--                                    <button type="button" th:class="${item.con_mark_seq ne null ? 'favorite on':'favorite'}" th:data-con-seq="${item.con_seq}" th:onclick="favorite([[${item.con_seq}]])" >찜하기</button>-->
-<!--                                    <span th:classappend="${item.con_watching_seq ne null ? 'edu_done':'edu_none'}" name="watchingSucess" th:data-con-seq="${item.con_seq}" style="cursor: pointer"></span>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                    </th:block>-->
-<!--                    <th:block th:if="${#lists.isEmpty(list)}">-->
-<!--                        <tr>-->
-<!--                            <td colspan="5">-->
-<!--                                <div class="none_contents" >-->
-<!--                                    <span></span>-->
-<!--                                    <p>컨텐츠가 존재하지 않습니다.</p>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                    </th:block>-->
+                        <tr>
+                            <td class="check_favorite"><label><input type="checkbox" /> <span class="icon"></span></label></td>
+                            <td>블로그배포전문</td>
+                            <td class="detail_list">
+                                <span>종합광고대행사</span>
+                                <span>SNS디자인(유튜브 블로그 모두 등)</span>
+                                <span>포토샵 편집</span>
+                            </td>
+                            <td>0000</td>
+                            <td>00%</td>
+                            <td class="arr_down"><div class="arrow-button"></div></td>
+                            <td class="toggle_info" style="width: 100%; background-color: #d9e5ff">
+                                <div></div>
+                                <div><b>경력</b><p>프리랜서 3년 0개월</p><p>나모웹비즈 2년 3개월</p></div>
+                                <div><b>보유기술</b><div class="detail_list"><span>검색최적화</span><span>나모웹비즈 2년 3개월</span><span>블로그마케팅</span></div></div>
+                                <div></div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <th:block th:include="fragments/paging"></th:block>
             </div>
         </div>
     </section>
 </article>
-<script>
 
-</script>
 <th:block layout:fragment="custom_js">
-    <script th:src="@{/js/pages/study/consulting_list.js}"></script>
+    <script th:src="@{/js/pages/commerce/commerce_service.js}"></script>
 </th:block>
 </body>
 
