@@ -99,7 +99,10 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
         $("input:checkbox[name='depth1']:checked").each(function(){
 
-            if ($(this).val() === 'density') {
+            if($(this).val() === 'report') {
+                // 보고서 모달 창
+
+            } else if ($(this).val() === 'density') {
                 var density_scope = [];
 
                 // $("input:checkbox[name='depth2_density']:checked").each(function(){
@@ -120,7 +123,7 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                     var content = '<div><img src="data:image/png;base64,' + result.blob + '" alt="heatMap"></div>';
 
                     var customOverlay = new kakao.maps.CustomOverlay({
-                        position: new kakao.maps.LatLng(result.x2, result.y1),
+                        position: new kakao.maps.LatLng(result.x2 - 0.00023, result.y1),
                         content: content
                     });
                     customOverlays.push(customOverlay)
@@ -212,6 +215,7 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
     }
 });
+
 
 $("input:radio[name=meter]").click(function(){
     if($("input:radio[name=meter]:checked").val() ==='300'){
