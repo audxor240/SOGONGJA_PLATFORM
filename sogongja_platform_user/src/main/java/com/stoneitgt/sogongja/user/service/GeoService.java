@@ -118,7 +118,7 @@ public class GeoService {
                         bounds, // outputEnv
                         width, // outputWidth
                         height, // outputHeight
-                        monitor // monitor)
+                        monitor // monitor
                 );
 
 
