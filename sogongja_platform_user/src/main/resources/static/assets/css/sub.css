@@ -182,6 +182,127 @@
   width: 15%;
 }
 
+.table_style.none_border tr {
+  display: flex;
+  flex-wrap: wrap;
+}
+.table_style.none_border tr th {
+  border: none;
+}
+.table_style.none_border tr td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+}
+.table_style.none_border tr td.check_favorite > label {
+  display: inline-block;
+  cursor: pointer;
+}
+.table_style.none_border tr td.check_favorite > label input {
+  display: none;
+}
+.table_style.none_border tr td.check_favorite > label span.icon {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  background: url(../images/icon-faborite.png) no-repeat 0 50%;
+}
+.table_style.none_border tr td.check_favorite > label span.icon:hover {
+  background: url(../images/icon-faborite-fill.png) no-repeat 0 50%;
+}
+.table_style.none_border tr td.check_favorite > label > input:checked + span.icon {
+  background: url(../images/icon-faborite-fill.png) no-repeat 0 50%;
+}
+.table_style.none_border tr td.detail_list {
+  justify-content: left;
+  padding: 0 1rem;
+}
+.table_style.none_border tr td.detail_list span {
+  position: relative;
+  margin-right: 20px;
+}
+.table_style.none_border tr td.detail_list span::after {
+  content: "";
+  width: 1px;
+  height: 24px;
+  background: #e2e2e2;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+}
+.table_style.none_border tr td.detail_list span:last-child {
+  margin-right: 0;
+}
+.table_style.none_border tr td.detail_list span:last-child::after {
+  display: none;
+}
+.table_style.none_border tr td.arr_down {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.table_style.none_border tr td.arr_down .arrow-button {
+  width: 36px;
+  height: 36px;
+  background: url(../images/icon-arrow-down-big.png) no-repeat 0 50%;
+}
+.table_style.none_border tr td.arr_down .arrow-button.active {
+  background: url(../images/icon-arrow-down-big-active.png) no-repeat 0 50%;
+}
+.table_style.none_border tr td:nth-child(1) {
+  width: 8%;
+}
+.table_style.none_border tr td:nth-child(2) {
+  width: 12%;
+}
+.table_style.none_border tr td:nth-child(3) {
+  width: 55%;
+}
+.table_style.none_border tr td:nth-child(4) {
+  width: 10%;
+}
+.table_style.none_border tr td:nth-child(5) {
+  width: 10%;
+}
+.table_style.none_border tr td:nth-child(6) {
+  width: 5%;
+}
+.table_style.none_border tbody tr td:last-child {
+  width: 100%;
+  height: auto;
+  padding: 24px 0;
+}
+.table_style.none_border tbody tr td:last-child > div {
+  text-align: left;
+}
+.table_style.none_border tbody tr td:last-child > div b {
+  margin-bottom: 8px;
+}
+.table_style.none_border tbody tr td:last-child > div p {
+  margin-bottom: 4px;
+}
+.table_style.none_border tbody tr td:last-child > div span {
+  margin-right: 12px;
+}
+.table_style.none_border tbody tr td:last-child > div:nth-child(1) {
+  width: 8%;
+}
+.table_style.none_border tbody tr td:last-child > div:nth-child(2) {
+  width: 12%;
+}
+.table_style.none_border tbody tr td:last-child > div:nth-child(3) {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+.table_style.none_border tbody tr td:last-child > div:last-child {
+  flex: 1;
+}
+
 .table_more,
 .edu_more {
   width: 100%;
@@ -397,6 +518,56 @@
   color: #fff;
   text-align: center;
   width: 99px;
+}
+.sub_container .checkbox_wrap .check_keyword .search_with_tabs {
+  width: 60%;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs {
+  width: 31%;
+  max-width: 400px;
+  border: solid 1px #d5d5d5;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs > .tab {
+  width: 50%;
+  height: 50px;
+  marign-bottom: 0;
+  cursor: pointer;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs > .tab > input {
+  display: none;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs > .tab > span {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d5d5d5;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs > .tab > span:hover {
+  background: #e8efff;
+  color: #1540bf;
+}
+.sub_container .checkbox_wrap .check_keyword .tabs > .tab > input:checked + span {
+  background: #e8efff;
+  color: #1540bf;
+  border: 1px solid #1540bf;
+}
+.sub_container .checkbox_wrap.mb_24 {
+  margin-bottom: 24px;
+}
+.sub_container .select_right_con {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 28px;
+}
+.sub_container .select_right_con select {
+  width: 40%;
+  max-width: 120px;
+  border: 1px solid #e2e2e2;
 }
 .sub_container .total {
   color: #777;
@@ -2891,10 +3062,10 @@
     padding: 1.25rem 1.875rem;
   }
   .sub_container .edu_list > li .thumb_img .view_favorite .favorite,
-.sub_container .edu_list > li .thumb_img .view_favorite .edu_none,
-.sub_container .edu_list > li .thumb_img .view_favorite .edu_done, .sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite,
-.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none,
-.sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_done {
+  .sub_container .edu_list > li .thumb_img .view_favorite .edu_none,
+  .sub_container .edu_list > li .thumb_img .view_favorite .edu_done, .sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .favorite,
+  .sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_none,
+  .sub_container .solution_edu_recommend > ul > li .thumb_img .view_favorite .edu_done {
     width: 3rem;
     height: 3rem;
   }
@@ -2906,8 +3077,8 @@
     margin-bottom: 0;
   }
   .management_wrap .favorite,
-.management_wrap .edu_done,
-.management_wrap .edu_none {
+  .management_wrap .edu_done,
+  .management_wrap .edu_none {
     width: 3rem;
     height: 3rem;
   }
@@ -3019,8 +3190,8 @@
     padding: 20px 0 40px 20px;
   }
   input[type=text],
-input[type=password],
-select {
+  input[type=password],
+  select {
     line-height: 40px;
     height: 40px;
   }
@@ -3048,11 +3219,11 @@ select {
     display: block;
   }
   .mypage_info table tr td .radio_depth01 li,
-.mypage_info table tr td div > .radio_depth02 li {
+  .mypage_info table tr td div > .radio_depth02 li {
     width: 50%;
   }
   .mypage_info table tr td .radio_depth01 li label,
-.mypage_info table tr td div > .radio_depth02 li label {
+  .mypage_info table tr td div > .radio_depth02 li label {
     width: 100%;
     line-height: 40px;
     height: 40px;
@@ -3148,7 +3319,6 @@ select {
     display: block;
   }
   .sub_container .checkbox_wrap .check_list > li {
-    width: 100%;
     border-top: 4px solid #1540bf;
   }
   .sub_container .checkbox_wrap .check_list > li ul {
@@ -3175,19 +3345,41 @@ select {
   .sub_container .checkbox_wrap .check_list.select_choice > li > div {
     width: 100%;
   }
+  .sub_container .checkbox_wrap .check_list.nowrap > li ul li {
+    min-width: auto;
+  }
+  .sub_container .checkbox_wrap .check_list.nowrap > li ul li > label {
+    white-space: nowrap;
+  }
   .sub_container .checkbox_wrap .check_keyword {
     flex-wrap: wrap;
     border-top: 4px solid #1540bf;
     padding: 1.875rem 0;
     justify-content: center;
   }
-  .sub_container .checkbox_wrap .check_keyword label {
+  .sub_container .checkbox_wrap .check_keyword > label {
     width: 100%;
     padding: 0 2.5rem 1.875rem;
     border-bottom: solid 1px #d2d2d2;
     margin-bottom: 1.875rem;
   }
+  .sub_container .checkbox_wrap .check_keyword .search_with_tabs {
+    width: 88%;
+  }
+  .sub_container .checkbox_wrap .check_keyword .tabs {
+    width: 88%;
+    max-width: none;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .sub_container .checkbox_wrap .check_keyword .tabs > .tab {
+    padding: 0;
+    marign-bottom: 0;
+  }
   .sub_container .checkbox_wrap .check_list.check_list50 > li {
+    width: 100%;
+  }
+  .sub_container .checkbox_wrap .check_list.check_list30 > li {
     width: 100%;
   }
   .sub_container .edu_list > li, .sub_container .solution_edu_recommend > ul > li {
@@ -3264,6 +3456,21 @@ select {
   }
   .table_style.qna_list tbody tr td:nth-child(5) {
     width: 30%;
+  }
+  .table_style.none_border tr th {
+    border: none;
+  }
+  .table_style.none_border tbody tr td:nth-child(3) {
+    width: 100%;
+  }
+  .table_style.none_border tbody tr td:nth-child(4) {
+    width: 30%;
+  }
+  .table_style.none_border tbody tr td:nth-child(5) {
+    width: 60%;
+  }
+  .table_style.none_border tbody tr td:nth-child(6) {
+    width: 10%;
   }
   .custom_consulting tbody {
     border-top: 4px solid #1540bf;
