@@ -202,7 +202,13 @@ function detailEducation(seq){
                 window.open(res.edu_url, '_blank');
             }
              */
-            window.open(res.edu_url, '_blank');
+            //window.open(res.edu_url, '_blank');
+            if(res.edu_url_type == "youtube"){
+                window.location.href="/study/education/"+res.edu_seq;
+            }else{
+                window.open(res.edu_url, '_blank');
+            }
+
 
         },
         error: function (request,status,error) {

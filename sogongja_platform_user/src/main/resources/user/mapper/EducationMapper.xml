@@ -158,10 +158,20 @@
 
 	<select id="getEducation" parameterType="int" resultType="com.stoneitgt.common.LowerKeyMap">
 		/* file : EducationMapper.xml, id : getEducation */
-		  SELECT A.*
-		    FROM ST_EDUCATION A
-		   WHERE A.DEL_FLAG = 0
-		     AND A.EDU_SEQ  = #{eduSeq}
+
+		SELECT A.*
+			 , DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DT
+			 , SUPPORT.SUPPORT_NAME               AS SUPPORT_ORG_NAME
+			 , C1.NAME as C1_NAME
+			 , C2.NAME as C2_NAME
+			 , C3.NAME as C3_NAME
+		FROM ST_EDUCATION A
+				 LEFT JOIN ST_CATEGORY1 AS C1 ON C1.CATEGORY1_SEQ = A.CATEGORY_1
+				 LEFT JOIN ST_CATEGORY2 AS C2 ON C2.CATEGORY2_SEQ = A.CATEGORY_2
+				 LEFT JOIN ST_CATEGORY3 AS C3 ON C3.CATEGORY3_SEQ = A.CATEGORY_3
+				 left join ST_SUPPORT as SUPPORT ON SUPPORT.SUPPORT_SEQ = A.SUPPORT_ORG
+		WHERE A.DEL_FLAG = 0
+		  AND A.EDU_SEQ  = #{eduSeq}
 	</select>
 
 	<update id="updateEducationReadCnt" parameterType="map" >
