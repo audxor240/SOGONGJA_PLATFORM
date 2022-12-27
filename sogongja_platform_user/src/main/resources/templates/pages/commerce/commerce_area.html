@@ -12,6 +12,7 @@
     <meta name="description" content="소공자 플랫폼 커머스 도시공간분석">
     <!--/* Common css */-->
     <th:block th:include="fragments/common_css"></th:block>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body class="area">
@@ -584,6 +585,121 @@
             </div>
         </div>
     </div>
+    <div id="report_wrap">
+        <div class="report_modal_box">
+            <div class="close_report_modal_btn">
+            </div>
+            <div class="report_modal_top">
+                <div class="report_modal_title">
+                    한식/백반/한정식 분석
+                </div>
+                <div class="report_modal_button">
+                    지도와 함께 보기
+                </div>
+            </div>
+            <div class="report_modal_solution">
+                <div class="report_modal_sol_des">
+                    <span>맞춤형 빅데이터, 120% 활용하기!</span> 숙련된 전문가와 함께 경영전략을 세워보아요!
+                </div>
+                <div class="report_modal_button">
+                    솔루션 서비스(가칭) 바로가기
+                </div>
+            </div>
+            <div class="report_detail_area">
+                <div class="report_detail_top">
+                    <div class="report_detail_title">
+                        경쟁업체&집객시설 분석
+                    </div>
+                    <div class="report_detail_con">
+                        <div class="report_detail_box">
+                            <div class="report_detail_data">
+                                <div class="">
+                                    <div class="report_detail_sub_title">
+                                        점포수 및 구성비
+                                    </div>
+                                    <ul class="report_list_type1">
+                                        <li>
+                                            <div class="obj_key">
+                                            <span class="icon"></span>
+                                            전체 점포수
+                                            </div>
+                                            <div class="num">
+                                                10개
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="obj_key">
+                                            <span class="icon"></span>
+                                                한식/백반/한정식
+                                            </div>
+                                            <div class="num blue">
+                                                32개
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1">
+                                    <div class="report_detail_sub_title">
+                                        점포수 및 구성비 추이
+                                    </div>
+                                <div id="reportChart1"></div>
+                                </div>
+                            </div>
+                            <div class="report_detail_des">
+                                대통령은 헌법과 법률이 정하는 바에 의하여 국군을 통수한다. 모든 국민은 법률이 정하는 바에 의하여 선거권을 가진다. 국가는 노인과 청소년의 복지향상을 위한 정책을 실시할 의무를 진다.
+                            </div>
+                        </div>
+                        <div class="report_detail_box">
+                            <div class="report_detail_data">
+                                <div style="flex: 1">
+                                    <div class="report_detail_sub_title">
+                                        집객시설
+                                    </div>
+                                    <div id="reportChart2"></div>
+                                </div>
+                            </div>
+                            <div class="report_detail_des">
+                                대통령은 헌법과 법률이 정하는 바에 의하여 국군을 통수한다. 모든 국민은 법률이 정하는 바에 의하여 선거권을 가진다. 국가는 노인과 청소년의 복지향상을 위한 정책을 실시할 의무를 진다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="report_detail_bot">
+                    <div class="report_detail_title">
+                        매출정보
+                    </div>
+                    <div class="report_detail_con">
+                        <div class="report_detail_box">
+                            <div class="report_detail_data">
+                                <div style="flex: 1">
+                                    <div class="report_detail_sub_title">
+                                        요일별 매출비중
+                                    </div>
+                                    <div id="reportChart3"></div>
+                                </div>
+                            </div>
+                            <div class="report_detail_des">
+                                대통령은 헌법과 법률이 정하는 바에 의하여 국군을 통수한다. 모든 국민은 법률이 정하는 바에 의하여 선거권을 가진다. 국가는 노인과 청소년의 복지향상을 위한 정책을 실시할 의무를 진다.
+                            </div>
+                        </div>
+                        <div class="report_detail_box">
+                            <div class="report_detail_data">
+                                <div style="flex: 1">
+                                    <div class="report_detail_sub_title">
+                                        시간대별 매출비중
+                                    </div>
+                                    <div id="reportChart4"></div>
+                                </div>
+                            </div>
+                            <div class="report_detail_des">
+                                대통령은 헌법과 법률이 정하는 바에 의하여 국군을 통수한다. 모든 국민은 법률이 정하는 바에 의하여 선거권을 가진다. 국가는 노인과 청소년의 복지향상을 위한 정책을 실시할 의무를 진다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </article>
 
 <div class="wrap-loading display-none">
@@ -599,6 +715,7 @@
     //필터 대분류 중분류 체크
 </script>
 <script th:src="@{/js/pages/commerce/commerce_area.js}"></script>
-
+<script th:src="@{/js/pages/commerce/commerce_area_action.js}"></script>
+<script th:src="@{/js/pages/commerce/report_chart.js}"></script>
 </body>
 </html>
