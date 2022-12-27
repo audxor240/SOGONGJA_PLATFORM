@@ -1,8 +1,6 @@
 package com.stoneitgt.sogongja.user.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import com.stoneitgt.sogongja.domain.*;
 import com.stoneitgt.sogongja.user.service.*;
@@ -154,8 +152,15 @@ public class RESTController extends BaseController {
 			//return jsonObject;
 		}
 		Map<String, Object> education = educationService.getEducation((Integer) params.get("seq"),user.getUserSeq());
+		String edu_url = (String) education.get("edu_url");
 
-		jsonObject.put("edu_url", education.get("edu_url"));
+		if(edu_url.contains("youtube")){
+			jsonObject.put("edu_url_type", "youtube");
+			jsonObject.put("edu_seq", params.get("seq"));
+		}else {
+			jsonObject.put("edu_url_type", "");
+			jsonObject.put("edu_url", education.get("edu_url"));
+		}
 
 		return jsonObject;
 	}

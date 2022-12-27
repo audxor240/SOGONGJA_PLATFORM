@@ -185,7 +185,12 @@ function detailEducation(seq){
                 alert("로그인이 필요합니다.");
                 return;
             }else{
-                window.open(res.edu_url, '_blank');
+                //window.open(res.edu_url, '_blank');
+                if(res.edu_url_type == "youtube"){
+                    window.location.href="/study/education/"+res.edu_seq;
+                }else{
+                    window.open(res.edu_url, '_blank');
+                }
             }
 
         },
