@@ -11,10 +11,10 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-var mapWidth =  mapContainer.style.width;
-var mapHeight =  mapContainer.style.height;
-console.log("width : "  + mapWidth + ", height : " + mapHeight)
-console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
+var mapWidth = mapContainer.style.width;
+var mapHeight = mapContainer.style.height;
+
+console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng() + " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
 
 var shops = [];
 for (var i = 0; i < shopList.length; i++) {
@@ -36,14 +36,16 @@ var customOverlays = [];
 var meter = 300;
 var clicked = false;
 
-kakao.maps.event.addListener(map, 'mousemove', function(mouseEvent) {
-    if (!clicked) {
+kakao.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
+
+    if (!clicked && window.innerWidth > 767) {
+        console.log(window.innerWidth);
         for (var i = 0; i < circles.length; i++) {
             circles[i].setMap(null);
         }
 
         var circle = new kakao.maps.Circle({
-            center : mouseEvent.latLng,  // 원의 중심좌표 입니다
+            center: mouseEvent.latLng,  // 원의 중심좌표 입니다
             radius: meter, // 미터 단위의 원의 반지름입니다
             strokeWeight: 5, // 선의 두께입니다
             strokeColor: '#75B8FA', // 선의 색깔입니다
@@ -62,10 +64,44 @@ kakao.maps.event.addListener(map, 'mousemove', function(mouseEvent) {
 var ractangles = [];
 var grids = [];
 
-kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+// mapContainer.addEventListener('touchstart', function (e) {
+//     if (window.innerWidth < 767) {
+//
+//     }
+//     console.log('touchstart');
+//     console.log(e.touches[0].screenX + " , " + e.touches[0].screenY)
+//
+//     var mapProjection = map.getProjection(),
+//         point = new kakao.maps.Point(e.touches[0].screenX, e.touches[0].screenY);
+//     console.log(mapProjection.coordsFromContainerPoint(point));
+//     var point_temp = mapProjection.coordsFromContainerPoint(point);
+//
+//     var circle = new kakao.maps.Circle({
+//         center : new kakao.maps.LatLng(point_temp.Ma, point_temp.La),  // 원의 중심좌표 입니다
+//         radius: meter, // 미터 단위의 원의 반지름입니다
+//         strokeWeight: 5, // 선의 두께입니다
+//         strokeColor: '#75B8FA', // 선의 색깔입니다
+//         strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+//         strokeStyle: 'dashed', // 선의 스타일 입니다
+//         fillColor: '#CFE7FF', // 채우기 색깔입니다
+//         fillOpacity: 0.7  // 채우기 불투명도 입니다
+//     });
+//
+//     circles.push(circle);
+//     circle.setMap(map);
+// });
+
+
+kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
     if (clicked) {
         clicked = false;
         map.setZoomable(true);
+
+        for (var i = 0; i < circles.length; i++) {
+            circles[i].setMap(null);
+        }
 
         for (var i = 0; i < customOverlays.length; i++) {
             customOverlays[i].setMap(null);
@@ -82,147 +118,307 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         map.setCenter(mouseEvent.latLng);
         map.setLevel(zoom);
     } else {
+
         reportConfirmModal.style.display = "block"
 
-        map.setZoomable(false);
-        zoom = map.getLevel();
-        console.log("lat : " + map.getCenter().getLat() + " lng : " + map.getCenter().getLng()+ " x1 : " + map.getBounds().getSouthWest().getLat() + " x2 : " + map.getBounds().getNorthEast().getLat() + " y1 : " + map.getBounds().getSouthWest().getLng() + " y2 : " + map.getBounds().getNorthEast().getLng())
-        clicked = true;
 
-        map.setCenter(mouseEvent.latLng);
-        map.setLevel(4);
+        if (window.innerWidth > 767) {
+            map.setZoomable(false);
+            zoom = map.getLevel();
+            clicked = true;
 
-        // x1 = map.getBounds().getSouthWest().getLat();
-        // x2 = map.getBounds().getNorthEast().getLat();
-        // y1 = map.getBounds().getSouthWest().getLng();
-        // y2 = map.getBounds().getNorthEast().getLng();
-        var lat = map.getCenter().getLat();
-        var lng = map.getCenter().getLng();
 
-        $("input:checkbox[name='depth1']:checked").each(function(){
+            map.setCenter(mouseEvent.latLng);
+            map.setLevel(4);
 
-            if($(this).val() === 'report') {
-                // 보고서 모달 창
 
-            } else if ($(this).val() === 'density') {
-                var density_scope = [];
+            var lat = map.getCenter().getLat();
+            var lng = map.getCenter().getLng();
 
-                // $("input:checkbox[name='depth2_density']:checked").each(function(){
-                //     density_scope.push("'" + $(this).val() + "'")
-                // })
-                // var scope = density_scope.join();
 
-                var scope = "'F'";
+            $("input:checkbox[name='depth1']:checked").each(function () {
 
-                var data = {
-                    lat, lng, meter, scope
-                };
+                if ($(this).val() === 'report') {
+                    // 보고서 모달 창
 
-                ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
+                } else if ($(this).val() === 'density') {
+                    var density_scope = [];
 
-                    console.log(result)
+                    // $("input:checkbox[name='depth2_density']:checked").each(function(){
+                    //     density_scope.push("'" + $(this).val() + "'")
+                    // })
+                    // var scope = density_scope.join();
 
-                    var content = '<div><img src="data:image/png;base64,' + result.blob + '" alt="heatMap"></div>';
+                    var scope = "'F'";
 
-                    var customOverlay = new kakao.maps.CustomOverlay({
-                        position: new kakao.maps.LatLng(result.x2 - 0.00023, result.y1),
-                        content: content
+                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000909;
+                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000909;
+                    var y1 = map.getBounds().getSouthWest().getLng() + 0.003375;
+                    var y2 = map.getBounds().getNorthEast().getLng() - 0.003375;
+                    var mode = "web";
+
+                    var data = {
+                        lat, lng, meter, scope, x1, x2, y1, y2, mode
+                    };
+
+                    ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
+
+                        console.log(result)
+
+                        var content = '<div><img src="data:image/png;base64,' + result.blob + '" alt="heatMap"></div>';
+
+                        var customOverlay = new kakao.maps.CustomOverlay({
+                            position: new kakao.maps.LatLng(x2, y1),
+                            content: content
+                        });
+                        customOverlays.push(customOverlay)
+                        customOverlay.setMap(map);
+
+
+                        var sw = new kakao.maps.LatLng(result.x1, result.y2), // 사각형 영역의 남서쪽 좌표
+                            ne = new kakao.maps.LatLng(result.x2, result.y1); // 사각형 영역의 북동쪽 좌표
+                        var rectangleBounds = new kakao.maps.LatLngBounds(sw, ne);
+                        var rectangle = new kakao.maps.Rectangle({
+                            bounds: rectangleBounds, // 그려질 사각형의 영역정보입니다
+                            strokeWeight: 4, // 선의 두께입니다
+                            strokeColor: '#FF3DE5', // 선의 색깔입니다
+                            strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                            strokeStyle: 'shortdashdot', // 선의 스타일입니다
+                            fillColor: '#FF8AEF', // 채우기 색깔입니다
+                            fillOpacity: 0 // 채우기 불투명도 입니다
+                        });
+
+                        ractangles.push(rectangle)
+                        rectangle.setMap(map);
                     });
-                    customOverlays.push(customOverlay)
-                    customOverlay.setMap(map);
+                } else if ($(this).val() === 'land') {
 
+                    var latInterval = 0.000909 * (meter / 100);
+                    var lngInterval = 0.001125 * (meter / 100);
+                    var x1 = lat - latInterval;
+                    var x2 = lat + latInterval;
+                    var y1 = lng - lngInterval;
+                    var y2 = lng + lngInterval;
 
-                    var sw = new kakao.maps.LatLng(result.x1, result.y2), // 사각형 영역의 남서쪽 좌표
-                        ne = new kakao.maps.LatLng(result.x2, result.y1); // 사각형 영역의 북동쪽 좌표
-                    var rectangleBounds = new kakao.maps.LatLngBounds(sw, ne);
-                    var rectangle = new kakao.maps.Rectangle({
-                        bounds: rectangleBounds, // 그려질 사각형의 영역정보입니다
-                        strokeWeight: 4, // 선의 두께입니다
-                        strokeColor: '#FF3DE5', // 선의 색깔입니다
-                        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                        strokeStyle: 'shortdashdot', // 선의 스타일입니다
-                        fillColor: '#FF8AEF', // 채우기 색깔입니다
-                        fillOpacity: 0 // 채우기 불투명도 입니다
-                    });
-                    ractangles.push(rectangle)
-                    rectangle.setMap(map);
-                });
-            } else if ($(this).val() === 'land') {
+                    var data = {
+                        lat, lng, meter, x1, x2, y1, y2
+                    };
 
-                var latInterval = 0.000909 * (meter/100);
-                var lngInterval = 0.001125 * (meter/100);
-                var x1 = lat - latInterval;
-                var x2 = lat + latInterval;
-                var y1 = lng - lngInterval;
-                var y2 = lng + lngInterval;
+                    $("input:checkbox[name='depth2_land']:checked").each(function () {
+                        if ($(this).val() === 'gradient') {
 
-                var data = {
-                    lat, lng, meter, x1, x2, y1, y2
-                };
+                            ajaxPostSyn('/commerce/area-gradient', data, function (result) {
+                                for (var i = 0; i < result.grid.length; i++) {
+                                    var check = false;
 
-                $("input:checkbox[name='depth2_land']:checked").each(function(){
-                    if ($(this).val() === 'gradient') {
+                                    for (var j = 0; j < result.grid[i].path.length; j++) {
 
-                        ajaxPostSyn('/commerce/area-gradient', data, function (result) {
-                            for (var i = 0; i < result.grid.length; i++) {
-                                var check = false;
+                                        var line = new kakao.maps.Polyline();
 
-                                for (var j = 0; j < result.grid[i].path.length; j++) {
+                                        var path = [new kakao.maps.LatLng(result.grid[i].path[j].latitude, result.grid[i].path[j].longitude), new kakao.maps.LatLng(lat, lng)];
+                                        line.setPath(path);
 
-                                    var line = new kakao.maps.Polyline();
+                                        // 마커와 원의 중심 사이의 거리
+                                        var dist = line.getLength();
 
-                                    var path = [ new kakao.maps.LatLng(result.grid[i].path[j].latitude, result.grid[i].path[j].longitude), new kakao.maps.LatLng(lat, lng) ];
-                                    line.setPath(path);
-
-                                    // 마커와 원의 중심 사이의 거리
-                                    var dist = line.getLength();
-
-                                    // 이 거리가 원의 반지름보다 작거나 같다면
-                                    if (dist <= meter) {
-                                        check = true;
-                                        break;
+                                        // 이 거리가 원의 반지름보다 작거나 같다면
+                                        if (dist <= meter) {
+                                            check = true;
+                                            break;
+                                        }
                                     }
+
+                                    if (check) {
+                                        var points = [];
+                                        $.each(result.grid[i].path, function (index, item) {
+                                            points.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+                                        })
+
+                                        var grid = new kakao.maps.Polygon({
+                                            path: points, // 그려질 다각형의 좌표 배열입니다
+                                            strokeWeight: 3, // 선의 두께입니다
+                                            strokeColor: '#39DE2A', // 선의 색깔입니다
+                                            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                                            strokeStyle: 'longdash', // 선의 스타일입니다
+                                            fillColor: '#A2FF99', // 채우기 색깔입니다
+                                            fillOpacity: 0.7 // 채우기 불투명도 입니다
+                                        });
+
+                                        grid.setMap(map);
+                                        grids.push(grid)
+
+                                    }
+
                                 }
 
-                                if (check) {
-                                    var points = [];
-                                    $.each(result.grid[i].path, function (index, item) {
-                                        points.push(new kakao.maps.LatLng(item.latitude, item.longitude));
-                                    })
+                            })
+                        }
+                    })
 
-                                    var grid = new kakao.maps.Polygon({
-                                        path: points, // 그려질 다각형의 좌표 배열입니다
-                                        strokeWeight: 3, // 선의 두께입니다
-                                        strokeColor: '#39DE2A', // 선의 색깔입니다
-                                        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                                        strokeStyle: 'longdash', // 선의 스타일입니다
-                                        fillColor: '#A2FF99', // 채우기 색깔입니다
-                                        fillOpacity: 0.7 // 채우기 불투명도 입니다
-                                    });
+                }
 
-                                    grid.setMap(map);
-                                    grids.push(grid)
+            })
+        } else {
+            map.setZoomable(false);
+            zoom = map.getLevel();
+            clicked = true;
 
-                                }
-
-                            }
-
-                        })
-                    }
-                })
-
+            map.setCenter(mouseEvent.latLng);
+            if (meter == 500) {
+                map.setLevel(5);
+            } else {
+                map.setLevel(4);
             }
 
-        })
+            var lat = map.getCenter().getLat();
+            var lng = map.getCenter().getLng();
+
+            $("input:checkbox[name='depth1']:checked").each(function () {
+
+                if ($(this).val() === 'report') {
+                    // 보고서 모달 창
+                    var circle = new kakao.maps.Circle({
+                        center: new kakao.maps.LatLng(lat, lng),  // 원의 중심좌표 입니다
+                        radius: meter, // 미터 단위의 원의 반지름입니다
+                        strokeWeight: 5, // 선의 두께입니다
+                        strokeColor: '#75B8FA', // 선의 색깔입니다
+                        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                        strokeStyle: 'dashed', // 선의 스타일 입니다
+                        fillColor: '#CFE7FF', // 채우기 색깔입니다
+                        fillOpacity: 0.7  // 채우기 불투명도 입니다
+                    });
+
+                    circles.push(circle);
+                    circle.setMap(map);
+                } else if ($(this).val() === 'density') {
+                    var density_scope = [];
+
+                    // $("input:checkbox[name='depth2_density']:checked").each(function(){
+                    //     density_scope.push("'" + $(this).val() + "'")
+                    // })
+                    // var scope = density_scope.join();
+
+                    var scope = "'F'";
+
+                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000909;
+                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000909;
+                    var y1 = map.getBounds().getSouthWest().getLng() + 0.001125;
+                    var y2 = map.getBounds().getNorthEast().getLng() - 0.001125;
+                    var mode = "app";
+
+                    var data = {
+                        lat, lng, meter, scope, x1, x2, y1, y2, mode
+                    };
+
+                    ajaxPostSyn('/commerce/area-heatmap', data, function (result) {
+
+                        console.log(result)
+                        var content = '<div><img src="data:image/png;base64,' + result.blob + '" alt="heatMap"></div>';
+
+
+                        var customOverlay = new kakao.maps.CustomOverlay({
+                            position: new kakao.maps.LatLng(x2, y1),
+                            content: content
+                        });
+                        customOverlays.push(customOverlay)
+                        customOverlay.setMap(map);
+
+
+                        var sw = new kakao.maps.LatLng(result.x1, result.y2), // 사각형 영역의 남서쪽 좌표
+                            ne = new kakao.maps.LatLng(result.x2, result.y1); // 사각형 영역의 북동쪽 좌표
+                        var rectangleBounds = new kakao.maps.LatLngBounds(sw, ne);
+                        var rectangle = new kakao.maps.Rectangle({
+                            bounds: rectangleBounds, // 그려질 사각형의 영역정보입니다
+                            strokeWeight: 4, // 선의 두께입니다
+                            strokeColor: '#FF3DE5', // 선의 색깔입니다
+                            strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                            strokeStyle: 'shortdashdot', // 선의 스타일입니다
+                            fillColor: '#FF8AEF', // 채우기 색깔입니다
+                            fillOpacity: 0 // 채우기 불투명도 입니다
+                        });
+
+                        ractangles.push(rectangle)
+                        rectangle.setMap(map);
+                    });
+                } else if ($(this).val() === 'land') {
+
+                    var latInterval = 0.000909 * (meter / 100);
+                    var lngInterval = 0.001125 * (meter / 100);
+                    var x1 = lat - latInterval;
+                    var x2 = lat + latInterval;
+                    var y1 = lng - lngInterval;
+                    var y2 = lng + lngInterval;
+
+                    var data = {
+                        lat, lng, meter, x1, x2, y1, y2
+                    };
+
+                    $("input:checkbox[name='depth2_land']:checked").each(function () {
+                        if ($(this).val() === 'gradient') {
+
+                            ajaxPostSyn('/commerce/area-gradient', data, function (result) {
+                                for (var i = 0; i < result.grid.length; i++) {
+                                    var check = false;
+
+                                    for (var j = 0; j < result.grid[i].path.length; j++) {
+
+                                        var line = new kakao.maps.Polyline();
+
+                                        var path = [new kakao.maps.LatLng(result.grid[i].path[j].latitude, result.grid[i].path[j].longitude), new kakao.maps.LatLng(lat, lng)];
+                                        line.setPath(path);
+
+                                        // 마커와 원의 중심 사이의 거리
+                                        var dist = line.getLength();
+
+                                        // 이 거리가 원의 반지름보다 작거나 같다면
+                                        if (dist <= meter) {
+                                            check = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (check) {
+                                        var points = [];
+                                        $.each(result.grid[i].path, function (index, item) {
+                                            points.push(new kakao.maps.LatLng(item.latitude, item.longitude));
+                                        })
+
+                                        var grid = new kakao.maps.Polygon({
+                                            path: points, // 그려질 다각형의 좌표 배열입니다
+                                            strokeWeight: 3, // 선의 두께입니다
+                                            strokeColor: '#39DE2A', // 선의 색깔입니다
+                                            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                                            strokeStyle: 'longdash', // 선의 스타일입니다
+                                            fillColor: '#A2FF99', // 채우기 색깔입니다
+                                            fillOpacity: 0.7 // 채우기 불투명도 입니다
+                                        });
+
+                                        grid.setMap(map);
+                                        grids.push(grid)
+
+                                    }
+
+                                }
+
+                            })
+                        }
+                    })
+
+                }
+
+            })
+        }
 
     }
+
+
 });
 
 
-$("input:radio[name=meter]").click(function(){
-    if($("input:radio[name=meter]:checked").val() ==='300'){
+$("input:radio[name=meter]").click(function () {
+    if ($("input:radio[name=meter]:checked").val() === '300') {
         meter = 300;
-    }else{
+    } else {
         meter = 500;
     }
 });
@@ -250,7 +446,6 @@ function ajaxPostSyn(url, data, callback, showLoading) {
     $.ajax({
         //async:true,
         url: contextPath + url, data: JSON.stringify(data), method: "POST", success: function (result) {
-            console.log('result : ', result);
             if (callback) {
                 callback(result);
             }
@@ -284,6 +479,7 @@ function searchPlaces2() {
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     geocoder.addressSearch(keyword, placesSearchCB);
 }
+
 // 주소 검색을 요청하는 함수입니다
 function searchPlacesMobile() {
     var keyword = document.getElementById("keyword2").value;
@@ -294,10 +490,11 @@ function searchPlacesMobile() {
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     geocoder.addressSearch(keyword, placesSearchCB);
 }
-$('.dif').click(function (){
+
+$('.dif').click(function () {
     $('.msearch_pop').addClass('on')
 })
-$('.search_pop_del').click(function (){
+$('.search_pop_del').click(function () {
     $('.msearch_pop').removeClass('on')
 })
 
@@ -368,14 +565,12 @@ async function displayCenterInfo(result, status) {
         var gu = $("#centerAddr2").text().trim();
         var guArr = gu.split(" ");
 
-        if(guArr.length > 1){
+        if (guArr.length > 1) {
             gu = guArr[0];
         }
     }
 }
 
-/*시도,시군구,행정동*/
-/*시도,시군구,행정동*/
 /*시도,시군구,행정동*/
 //시도 시군구 클래스에 저장한 코드네임 조회
 function sidoCodeSet() {
@@ -390,6 +585,7 @@ function sigunguCodeSet() {
 //1.시도 리스트 조회
 var mainurl =
     `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=`
+
 async function fetchSido() {
     let response = await fetch(mainurl + `*00000000`);
     if (response.status === 200) {
@@ -408,6 +604,7 @@ async function fetchSigungu(code) {
         throw Error(data);
     }
 }
+
 //3행정동 리스트 조회
 async function fetchDong(code) {
     let response = await fetch(mainurl + `${code}` + `*&is_ignore_zero=true`);
@@ -418,6 +615,7 @@ async function fetchDong(code) {
         throw Error(data);
     }
 }
+
 //1-1시도 리스트 선택박스 렌더링
 async function renderSido() {
     let sidos = await fetchSido();
@@ -471,13 +669,13 @@ async function renderDong() {
     var name = [];
     let fiddong = sidoList.map((el, index, arr) => ({
         ...el,
-        dong: el.name.split(" ")[3] != undefined?el.name.split(" ")[2]+" "+el.name.split(" ")[3]:el.name.split(" ")[2]
+        dong: el.name.split(" ")[3] != undefined ? el.name.split(" ")[2] + " " + el.name.split(" ")[3] : el.name.split(" ")[2]
     }));
     name = [...fiddong]
     //문자열에서 시도,시군구를 제거하고 3번째 행정동만 담고/ 만약 4문단이면 3,4번째도 담음 innerhtml로 ul 리스트담음
     let html = '';
     name.forEach((sido) => {
-        if(sido.dong!=undefined){
+        if (sido.dong != undefined) {
             let htmlSegment = `<li title="${sido.name}" id="${sido.name}"
             value="${sido.code}" onclick="onClickSearch(this)">
                             ${sido.dong}
@@ -493,7 +691,7 @@ function searchSidoDongPlaces() {
     if (!currCategory) {
         return;
     }
-    geocoder.addressSearch(currCategory, placesSearchCB, { useMapBounds: true })
+    geocoder.addressSearch(currCategory, placesSearchCB, {useMapBounds: true})
     sidoBox.className = '';
     sigunguBox.className = '';
     dongBox.className = '';
@@ -518,6 +716,7 @@ function onClickSearch(el) {
         searchSidoDongPlaces();
     }
 }
+
 mapContainer.addEventListener("click", e => {
     sidoBox.className = '';
     sigunguBox.className = '';
@@ -531,11 +730,11 @@ var dongBox = document.getElementById('dongBox');
 
 function changeSelectBox(type) {
     // 시도 카테고리가 클릭됐을 때
-    if($('.addrlist>ul').hasClass("menu_selected") == true){
+    if ($('.addrlist>ul').hasClass("menu_selected") == true) {
         sidoBox.className = '';
         sigunguBox.className = '';
         dongBox.className = '';
-    }else {
+    } else {
         if (type === 'sido') {
             // 시도 카테고리를 선택된 스타일로 변경하고
             sidoBox.className = 'menu_selected';

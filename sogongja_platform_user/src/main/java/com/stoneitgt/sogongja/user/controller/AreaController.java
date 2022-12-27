@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.component.AuthenticationFacade;
@@ -89,16 +90,9 @@ public class AreaController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		String[] codeType1 = params.getCodeType1();
-		String scope = "";
-		for (int i = 0; i < codeType1.length; i++) {
-			scope += "'" + codeType1[i] + "',";
-		}
-		scope = StringUtils.removeEnd(scope, ",");
-		if (scope.length() == 0) {
-			paramsMap.put("scope", "''");
-		} else {
-			paramsMap.put("scope", scope);
-		}
+		String scope = Arrays.stream(codeType1).collect(Collectors.joining("', '", "'", "'"));
+		paramsMap.put("scope", scope);
+
 		List<Map<String, Object>> results = new ArrayList<>();
 		if (params.getZoom() > 0 && params.getZoom() < 4) {
 			// 리스트
@@ -189,16 +183,8 @@ public class AreaController extends BaseController {
 		Map<String, Object> paramsMap = StoneUtil.convertObjectToMap(params);
 
 		String[] codeType1 = params.getCodeType1();
-		String scope = "";
-		for (int i = 0; i < codeType1.length; i++) {
-			scope += "'" + codeType1[i] + "',";
-		}
-		scope = StringUtils.removeEnd(scope, ",");
-		if (scope.length() == 0) {
-			paramsMap.put("scope", "''");
-		} else {
-			paramsMap.put("scope", scope);
-		}
+		String scope = Arrays.stream(codeType1).collect(Collectors.joining("', '", "'", "'"));
+		paramsMap.put("scope", scope);
 
 		List<Map<String, Object>> results = new ArrayList<>();
 		System.out.println(paramsMap.toString());
