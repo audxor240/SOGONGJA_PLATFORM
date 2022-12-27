@@ -57,6 +57,8 @@ public interface AreaMapper {
 	List<Map<String, Object>> getTradingAreaMapSingle(Map<String, Object> params);
 
 	List<Map<String, Object>> getAllShop();
+	List<Map<String, Object>> getMainCategory();
+	List<Map<String, Object>> getSubCategory();
 
 
 
