@@ -106,6 +106,8 @@ public class GeoService {
         int width = (int) Math.round(getDistance(x1, y1, x2, y1) * 0.5);
         int height = (int) Math.round(getDistance(x1, y1, x1, y2) * 0.5);
         System.out.println(width + "," + height);
+        params.put("width", width);
+        params.put("height", height);
 //        int width = 320;
 //        int height = 320;
         HeatmapProcess process = new HeatmapProcess();
