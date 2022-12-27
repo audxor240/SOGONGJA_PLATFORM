@@ -60,9 +60,9 @@
 
 
         <ul class="commerce_options">
-            <li>
+            <li class="report">
                 <label for="report">
-                <input type="checkbox" name="depth1" value="report" id="report">
+                    <input type="checkbox" name="depth1" value="report" id="report">
                     <span>보고서</span>
                 </label>
             </li>
@@ -157,15 +157,12 @@
         <div class="filterbox">
             <div class="filterbox_title">
                 <h3>어떤 점포를 찾고 계신가요?</h3>
-                <span class="close_filter"></span>
             </div>
             <div class="Sectors_wrap">
-                <h4 class="fileter_main_title">업종선택</h4>
-                <h5 class="fileter_sub_title">대분류 선택</h5>
                 <div class="mainSectors_wrap">
                     <ul class="mainSectors">
                         <li>
-                            <input type="radio" name="area_maincate" value="all" id="all-sector" onchange="" checked />
+                            <input type="radio" name="area_maincate" value="all" id="all-sector" onchange="" />
                             <label for="all-sector">전체</label>
                         </li>
                         <li>
@@ -202,7 +199,6 @@
                         </li>
                     </ul>
                 </div>
-                <h5 class="fileter_sub_title mid_title">중분류 선택</h5>
                 <div class="midSecBox">
                     <ul class="midSectors all-mid-sector">
                         <li>
@@ -212,10 +208,6 @@
                         </li>
                     </ul>
                     <ul class="midSectors all-I-sector">
-                        <li>
-                            <input type="radio" name="area_midcate" value="all-I-sector" id="all-I-sector"/>
-                            <label for="all-I-sector">전체 숙박·음식</label>
-                        </li>
                         <li>
                             <input type="radio" name="area_midcate" value="I9001" id="I9001"/>
                             <label for="I9001">고시원</label>
@@ -271,10 +263,6 @@
                     </ul>
                     <ul class="midSectors all-S-sector">
                         <li>
-                            <input type="radio" name="area_midcate" value="all-S-sector" id="all-S-sector"/>
-                            <label for="all-S-sector">전체 수리·개인서비스</label>
-                        </li>
-                        <li>
                             <input type="radio" name="area_midcate" value="S3102" id="S3102"/>
                             <label for="S3102">가전제품수리</label>
                         </li>
@@ -316,10 +304,6 @@
                         </li>
                     </ul>
                     <ul class="midSectors all-G-sector">
-                        <li>
-                            <input type="radio" name="area_midcate" value="all-G-sector" id="all-G-sector"/>
-                            <label for="all-G-sector">전체 도·소매</label>
-                        </li>
                         <li>
                             <input type="radio" name="area_midcate" value="G5201" id="G5201"/>
                             <label for="G5201">가구</label>
@@ -467,10 +451,6 @@
                     </ul>
                     <ul class="midSectors all-R-sector">
                         <li>
-                            <input type="radio" name="area_midcate" value="all-R-sector" id="all-R-sector"/>
-                            <label for="all-R-sector">전체 예술·스포츠·여가</label>
-                        </li>
-                        <li>
                             <input type="radio" name="area_midcate" value="R2202" id="R2202"/>
                             <label for="R2202">PC방</label>
                         </li>
@@ -517,10 +497,6 @@
                     </ul>
                     <ul class="midSectors all-N-sector">
                         <li>
-                            <input type="radio" name="area_midcate" value="all-N-sector" id="all-N-sector"/>
-                            <label for="all-N-sector">전체 시설관리·임대</label>
-                        </li>
-                        <li>
                             <input type="radio" name="area_midcate" value="N2904" id="N2904"/>
                             <label for="N2904">가정용품임대</label>
                         </li>
@@ -538,10 +514,6 @@
                         </li>
                     </ul>
                     <ul class="midSectors all-M-sector">
-                        <li>
-                            <input type="radio" name="area_midcate" value="all-M-sector" id="all-M-sector"/>
-                            <label for="all-M-sector">전체 과학·기술</label>
-                        </li>
                         <li>
                             <input type="radio" name="area_midcate" value="M1001" id="M1001"/>
                             <label for="M1001">변호사사무소</label>
@@ -573,19 +545,11 @@
                     </ul>
                     <ul class="midSectors all-L-sector">
                         <li>
-                            <input type="radio" name="area_midcate" value="all-L-sector" id="all-L-sector"/>
-                            <label for="all-L-sector">전체 부동산</label>
-                        </li>
-                        <li>
                             <input type="radio" name="area_midcate" value="L2201" id="L2201" />
                             <label for="L2201">부동산중개업</label>
                         </li>
                     </ul>
                     <ul class="midSectors all-P-sector">
-                        <li>
-                            <input type="radio" name="area_midcate" value="all-P-sector" id="all-P-sector"/>
-                            <label for="all-P-sector">전체 교육</label>
-                        </li>
                         <li>
                             <input type="radio" name="area_midcate" value="P6211" id="P6211"/>
                             <label for="P6211">외국어학원</label>
@@ -607,6 +571,19 @@
             </div>
         </div>
     </div>
+    <div id="report_confirm_wrap">
+        <div class="report_confirm_box">
+            <div class="modal_title">분석보고서를 생성하시겠습니까?</div>
+            <div class="btns">
+                <div class="button confirmed">
+                    확인
+                </div>
+                <div class="button cancel">
+                    취소
+                </div>
+            </div>
+        </div>
+    </div>
 </article>
 
 <div class="wrap-loading display-none">
@@ -617,68 +594,9 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21e6944cf244415210a4c4474a6327ca&libraries=services"></script>
 <script th:inline="javascript">
-
     var shopList = /*[[${shopList}]]*/ [];
     console.log(shopList);
     //필터 대분류 중분류 체크
-    $(document).ready(function (){
-
-    $('.midSecBox').css('display', 'none');
-    $('.fileter_sub_title.mid_title').css('display', 'none');
-    $('input[name="area_maincate"]').click(function () {
-        if ($('input[name="area_maincate"]:checked').val() == "all") {
-//대분류가 all 전체업종 선택되있으면 중분류-전체 보여줘
-            $('.midSectors').removeClass("on")
-            $('.all-mid-sector').addClass("on")
-            $('.midSecBox').css('display', 'none');
-            $('.fileter_sub_title.mid_title').css('display', 'none');
-        } else {
-            $('.midSecBox').css('display', 'block');
-            $('.fileter_sub_title.mid_title').css('display', 'block');
-            if ($('input[name="area_maincate"]:checked').val() == "I") {
-//1숙박·음식
-                $('.midSectors').removeClass("on")
-                $('.all-I-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "S") {
-//2수리·개인서비스
-                $('.midSectors').removeClass("on")
-                $('.all-S-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "G") {
-//3도·소매
-                $('.midSectors').removeClass("on")
-                $('.all-G-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "R") {
-//4예술·스포츠·여가
-                $('.midSectors').removeClass("on")
-                $('.all-R-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "N") {
-//5시설관리·임대
-                $('.midSectors').removeClass("on")
-                $('.all-N-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "M") {
-//6과학·기술
-                $('.midSectors').removeClass("on")
-                $('.all-M-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "L") {
-//7부동산
-                $('.midSectors').removeClass("on")
-                $('.all-L-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "P") {
-//8교육
-                $('.midSectors').removeClass("on")
-                $('.all-P-sector').addClass("on")
-            }
-        }
-    })
-    $('input[name="area_maincate"]').click(function () {
-        var temp = 'all-' + $(this).val() + '-sector';
-        $("input:radio[id=" + temp + "]").prop("checked", true);
-    })
-        $('.close_filter').click(function () {
-            $('#filter_wrap').hide()
-        })
-    })
-
 </script>
 <script th:src="@{/js/pages/commerce/commerce_area.js}"></script>
 
