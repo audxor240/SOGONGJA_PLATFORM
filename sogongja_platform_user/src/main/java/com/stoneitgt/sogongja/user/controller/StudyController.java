@@ -1,6 +1,7 @@
 package com.stoneitgt.sogongja.user.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,6 +125,49 @@ public class StudyController extends BaseController {
 		return "pages/study/education";
 	}
 
+	@GetMapping("/education/{eduSeq}")
+	public String educationView(@PathVariable int eduSeq, @ModelAttribute BaseParameter params, Model model, Authentication authentication, HttpServletResponse response) throws IOException {
+
+		User user = new User();
+		try {
+			user = (User) authentication.getPrincipal();
+			params.setLoginUserSeq(user.getUserSeq());
+
+		} catch(NullPointerException e){
+			//ScriptUtils.alert(response, "로그인이 필요합니다");
+			//ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
+			//return "/";
+		}
+
+		Map<String,Object> education = educationService.getEducation(eduSeq, user.getUserSeq());
+
+		String edu_url = (String) education.get("edu_url");
+		List<String> edu_url_arr = Arrays.asList(edu_url.split("/"));
+
+		List<String> video_url_arr = Arrays.asList(edu_url_arr.get(3).split("="));
+		String video = video_url_arr.get(1);
+
+		String youtube_video = "https://www.youtube.com/embed/"+video;
+
+		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
+
+		String nlString = System.getProperty("line.separator");
+
+		//QNA게시판 시퀀스 정보
+		BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
+
+		model.addAttribute("qnaBoardSetting", qnaBoardSetting);
+		model.addAttribute("data", education);
+		model.addAttribute("youtube_video", youtube_video);
+		model.addAttribute("nlString", nlString);
+
+		model.addAttribute("pageParams", getBaseParameterString(params));
+		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.EDUCATION_IMAGE, eduSeq));
+
+		model.addAttribute("boardSettingList", boardSettingList);
+		return "pages/study/education_view";
+	}
+
 	@GetMapping("/consulting")
 	public String consulting(@ModelAttribute ConsultingParameter params, Model model, Authentication authentication) {
 
@@ -192,6 +236,8 @@ public class StudyController extends BaseController {
 			//ScriptUtils.alertAndMovePage(response, "로그인이 필요합니다","/login");
 			//return "/";
 		}
+		String nlString = System.getProperty("line.separator").toString();
+
 		List<Map<String, Object>> boardSettingList = boardService.getboardSettingList();
 
 		//QNA게시판 시퀀스 정보
@@ -201,6 +247,7 @@ public class StudyController extends BaseController {
 		model.addAttribute("data", consultingService.getConsulting(conSeq, user.getUserSeq()));
 		model.addAttribute("pageParams", getBaseParameterString(params));
 		model.addAttribute("num", num);
+		model.addAttribute("nlString", nlString);
 		model.addAttribute("fileList", getFileList(FILE_REF_TYPE.CONSULTING, conSeq));
 
 		model.addAttribute("boardSettingList", boardSettingList);
