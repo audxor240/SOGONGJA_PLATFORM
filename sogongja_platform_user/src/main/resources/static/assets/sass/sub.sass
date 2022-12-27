@@ -2620,8 +2620,6 @@
 							background-size: contain
 							margin-right: 5px
 
-
-
 #report_confirm_wrap
 	width: 100vw
 	height: 100vh
@@ -2642,6 +2640,7 @@
 			font-size: 1.125rem
 			margin-bottom: 32px
 			white-space: nowrap
+			text-align: center
 		.btns
 			width: 100%
 			display: flex
@@ -2653,9 +2652,144 @@
 				border: 1px solid #e2e2e2
 				color: #606060
 				text-align: center
+				transition: all .2s
+				&:hover
+					background-color: #e2e2e2
 				&:first-child
 					border: 1px solid #1540bf
 					color: #1540bf
+					&:hover
+						background-color: #1540bf
+						color: white
+
+#report_wrap
+	width: 100vw
+	height: 100vh
+	background-color: rgba(0, 0, 0, 0.3)
+	position: fixed
+	z-index: 999
+	top: 0
+	left: 0
+	display: none
+	.report_modal_box
+		width: calc(100% - 32px)
+		max-width: 1000px
+		background-color: white
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		padding: 20px
+		display: flex
+		flex-direction: column
+		max-height: 77vh
+		.report_modal_button
+			padding: 6px 24px
+			background-color: #1540bf
+			color: white
+			cursor: pointer
+			transition: all .2s
+			&:hover
+				opacity: .7
+		.close_report_modal_btn
+			width: 60px
+			height: 60px
+			background: url(#{$assetPath}/img-closeBtn.png) no-repeat 50%
+			position: absolute
+			top: 0
+			right: -72px
+			cursor: pointer
+		.report_modal_top
+			display: flex
+			align-items: center
+			margin-bottom: 20px
+			.report_modal_title
+				font-size: 1.125rem
+				font-weight: 600
+				color: #1540bf
+				margin-right: 12px
+		.report_modal_solution
+			display: flex
+			justify-content: space-between
+			align-items: center
+			padding: 12px 20px
+			background-color: #f5f5f5
+			margin-bottom: 20px
+			.report_modal_sol_des
+				display: flex
+				span
+					font-weight: 600
+		.report_detail_area
+			flex: 1
+			display: flex
+			flex-direction: column
+			overflow-y: auto
+			-ms-overflow-style: none
+			scrollbar-width: none
+			&::-webkit-scrollbar
+				display: none
+			&>div:first-child
+				margin-bottom: 20px
+				.report_detail_con
+					.report_detail_box
+						&:first-child
+							width: 200%
+							max-width: 571px
+			.report_detail_title
+				font-size: 1.125rem
+				font-weight: 600
+				margin-bottom: 20px
+			.report_detail_con
+				display: flex
+				justify-content: space-between
+				.report_detail_box
+					width: calc(100% - 8px)
+					display: flex
+					flex-direction: column
+					&:first-child
+						margin-right: 12px
+					.report_detail_data
+						border: solid 1px #e2e2e2
+						display: flex
+						&>div
+							padding: 20px
+							&:nth-child(2)
+								border-left: 1px solid #e2e2e2
+						.report_detail_sub_title
+							color: #1540bf
+							font-weight: 600
+							margin-bottom: 12px
+							white-space: nowrap
+						.report_list_type1
+							li
+								display: flex
+								white-space: nowrap
+								margin-bottom: 4px
+								.obj_key
+									margin-right: 8px
+									font-size: 14px
+									display: flex
+									span.icon
+										width: 20px
+										min-width: 20px
+										height: 20px
+										background: url(#{$assetPath}/icon-stroregray.png) no-repeat 50%
+										margin-right: 2px
+								.num
+									font-size: 14px
+									color: #969aaf
+									&.blue
+										color: #1540bf
+					.report_detail_des
+						padding: 12px 20px
+						background-color: #ededed
+						font-size: 12px
+						color: #a8a8a8
+						min-height: 70px
+
+
+
+
 
 //	.ip_check + label
 //		padding-left: 3rem
@@ -2734,6 +2868,15 @@
 		.edu_none
 			width: 3rem
 			height: 3rem
+	#report_wrap
+		.report_modal_box
+			.close_report_modal_btn
+				width: 24px
+				height: 24px
+				background: url(#{$assetPath}/icon-close2.png) no-repeat 50%
+				position: absolute
+				top: -30px
+				right: 0
 
 @include desktop
 	.wrap
@@ -3309,6 +3452,49 @@
 				margin-bottom: 0
 			.density_options
 				overflow-x: auto
+	#report_confirm_wrap
+		.report_confirm_box
+			padding: 20px
+			.modal_title
+			.btns
+				.button
+	#report_wrap
+		.report_modal_box
+			.close_report_modal_btn
+			.report_modal_top
+				justify-content: space-between
+			.report_modal_solution
+				flex-direction: column
+				word-break: keep-all
+				span
+					margin-right: 7px
+				.report_modal_button
+					margin-top: 20px
+			.report_detail_area
+				&>div:first-child
+					.report_detail_con
+						.report_detail_box
+							&:first-child
+								width: 100%
+								max-width: none
+				&>div:last-child
+					.report_detail_con
+						.report_detail_box
+							&:last-child
+								width: 100%
+				.report_detail_title
+				.report_detail_con
+					flex-direction: column
+					.report_detail_box
+						width: 100%
+						&:first-child
+							margin-right: 0
+							margin-bottom: 20px
+						.report_detail_data
+							flex-direction: column
+							&>div:nth-child(2)
+								border: none
+
 @include maxMobile
 	.wrap
 		padding: rem(80) 20px
