@@ -373,4 +373,17 @@
 		WHERE RS.CODE_TYPE1 IN ('F')
 	</select>
 
+	<select id="getMainCategory" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getMainCategory */
+		SELECT CODE_TYPE1, NM_TYPE1
+		FROM ST_RESEARCH_SHOP RS
+		GROUP BY RS.CODE_TYPE1
+	</select>
+	<select id="getSubCategory" resultType="com.stoneitgt.common.LowerKeyMap">
+		/* file : AreaMapper.xml, id : getSubCategory */
+		SELECT LEFT(CODE_TYPE3, 1) AS TYPE ,CODE_TYPE3, NM_TYPE3
+		FROM ST_RESEARCH_SHOP RS
+		GROUP BY RS.CODE_TYPE3
+	</select>
+
 </mapper>

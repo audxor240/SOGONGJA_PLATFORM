@@ -15,55 +15,77 @@ $(document).ready(function (){
     // 첫번째 모달 check box
     $('.fileter_sub_title.mid_title').css('display', 'none');
     $('input[name="area_maincate"]').click(function () {
+        console.log("ZZz")
         if ($('input[name="area_maincate"]:checked').val() == "all") {
             // ** 전체 클릭 시  이벤트 */
             $('.midSectors').removeClass("on")
-            $('.all-mid-sector').addClass("on")
             $('.midSecBox').css('display', 'none');
             $('.fileter_sub_title.mid_title').css('display', 'none');
             $('#filter_wrap').hide()
         } else {
             $('.midSecBox').css('display', 'block');
             $('.fileter_sub_title.mid_title').css('display', 'block');
-            if ($('input[name="area_maincate"]:checked').val() == "I") {
-                //1숙박·음식
-                $('.midSectors').removeClass("on")
-                $('.all-I-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "S") {
-                //2수리·개인서비스
-                $('.midSectors').removeClass("on")
-                $('.all-S-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "G") {
-                //3도·소매
-                $('.midSectors').removeClass("on")
-                $('.all-G-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "R") {
-                //4예술·스포츠·여가
-                $('.midSectors').removeClass("on")
-                $('.all-R-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "N") {
-                //5시설관리·임대
-                $('.midSectors').removeClass("on")
-                $('.all-N-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "M") {
-                //6과학·기술
-                $('.midSectors').removeClass("on")
-                $('.all-M-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "L") {
-                //7부동산
-                $('.midSectors').removeClass("on")
-                $('.all-L-sector').addClass("on")
-            } else if ($('input[name="area_maincate"]:checked').val() == "P") {
-                //8교육
-                $('.midSectors').removeClass("on")
-                $('.all-P-sector').addClass("on")
-            }
+            var val = $('input[name="area_maincate"]:checked').val();
+            $('.midSectors').removeClass("on")
+            $('.all-'+ val +'-sector').addClass("on")
+            // if ($('input[name="area_maincate"]:checked').val() == "I") {
+            //     //1숙박·음식
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-I-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "S") {
+            //     //2수리·개인서비스
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-S-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "G") {
+            //     //3도·소매
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-G-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "R") {
+            //     //4예술·스포츠·여가
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-R-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "N") {
+            //     //5시설관리·임대
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-N-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "M") {
+            //     //6과학·기술
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-M-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "L") {
+            //     //7부동산
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-L-sector').addClass("on")
+            // } else if ($('input[name="area_maincate"]:checked').val() == "P") {
+            //     //8교육
+            //     $('.midSectors').removeClass("on")
+            //     $('.all-P-sector').addClass("on")
+            // }
         }
     })
     $('input[name="area_maincate"]').click(function () {
         var temp = 'all-' + $(this).val() + '-sector';
         $("input:radio[id=" + temp + "]").prop("checked", true);
     })
+
+    $('input[name="depth2_density"]').click(function () {
+
+        $('ul.density_options').removeClass('on')
+        if ($(this).val() === 'all') {
+            console.log("열지")
+        } else {
+            console.log($(this).val())
+            $('#filter_wrap').show()
+
+            $('.midSecBox').css('display', 'block');
+            $('.midSectors').removeClass("on")
+
+            $("input:radio[name='area_maincate']:radio[value='"+$(this).val()+"']").prop('checked', true);
+            $('.all-'+ $(this).val() +'-sector').addClass("on")
+            $("checkbox[name='area_midcate']").prop('checked', false); // 전체해제하기
+        }
+    })
+
 
     //** 첫번째 모달 중분류 선택, checked가 true 이면 모달 close
     $('.midSectors>li>input').change(function (){

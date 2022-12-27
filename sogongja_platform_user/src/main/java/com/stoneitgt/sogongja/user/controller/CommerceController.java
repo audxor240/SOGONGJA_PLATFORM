@@ -3,26 +3,22 @@ package com.stoneitgt.sogongja.user.controller;
 import com.stoneitgt.sogongja.domain.BaseParameter;
 import com.stoneitgt.sogongja.domain.BoardSetting;
 import com.stoneitgt.sogongja.user.mapper.AreaMapper;
-import com.stoneitgt.sogongja.user.service.AreaService;
 import com.stoneitgt.sogongja.user.service.BoardService;
 import com.stoneitgt.sogongja.user.service.CommerceService;
 import com.stoneitgt.sogongja.user.service.GeoService;
 
-import com.stoneitgt.util.StoneUtil;
-import org.apache.commons.io.FileUtils;
+import com.stoneitgt.util.StringUtil;
 import org.opengis.referencing.FactoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -45,7 +41,18 @@ public class CommerceController extends BaseController {
     public String commerceArea(@ModelAttribute BaseParameter params, Model model) {
 
         model.addAttribute("shopList", areaMapper.getAllShop());
+        List<Map<String, Object>> mains = areaMapper.getMainCategory();
+        model.addAttribute("mainCategories", mains);
+        List<Map<String, Object>> subs = areaMapper.getSubCategory();
+        for (Map<String, Object> main : mains) {
 
+            String code_type1 = main.get("code_type1").toString();
+            List<Map<String, Object>> sub = subs.stream()
+                    .filter(m -> m.get("type").toString().equals(code_type1)).collect(Collectors.toList());
+            main.put("sub",sub );
+        }
+
+        model.addAttribute("subCategories", mains);
 
         BoardSetting qnaBoardSetting = boardService.getboardSettingQnaInfo();
         model.addAttribute("qnaBoardSetting", qnaBoardSetting);
