@@ -52,7 +52,7 @@ var options1 = {
 };
 
 var reportChart1 = new ApexCharts(document.querySelector("#reportChart1"), options1);
-reportChart1.render();
+var reportChart1_1 = new ApexCharts(document.querySelector("#reportChart1_1"), options1);
 
 var options2 = {
     series: [{
@@ -122,7 +122,7 @@ var options2 = {
 };
 
 var reportChart2 = new ApexCharts(document.querySelector("#reportChart2"), options2);
-reportChart2.render();
+var reportChart2_1 = new ApexCharts(document.querySelector("#reportChart2_1"), options2);
 
 var options3 = {
     series: [{
@@ -147,7 +147,7 @@ var options3 = {
         }
     },
     xaxis: {
-        categories: ["원요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
+        categories: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
         position: 'bottom',
         axisBorder: {
             show: false
@@ -192,17 +192,17 @@ var options3 = {
 };
 
 var reportChart3 = new ApexCharts(document.querySelector("#reportChart3"), options3);
-reportChart3.render();
+var reportChart3_1 = new ApexCharts(document.querySelector("#reportChart3_1"), options3);
 
 var options4 = {
     series: [
         {
-            name: "전체",
-            data: [2108, 2259, 2133, 2236,]
+            name: "금액비중",
+            data: [5, 10, 21, 8, 25, 28,31]
         },
         {
-            name: "한식/백반/한정식",
-            data: [2202, 2111, 2204, 2118, ]
+            name: "전체비중",
+            data: [25, 20, 15, 18, 10, 10,18]
         }
     ],
     chart: {
@@ -238,7 +238,7 @@ var options4 = {
         }]
     },
     xaxis: {
-        categories: ['2019', '2020', '2021', '2022'],
+        categories: ['06~09시', '09~12시', '12~15시', '15~18시', '18~21시', '21~24시', '24~06시'],
     },
     legend: {
         position: 'top',
@@ -248,4 +248,93 @@ var options4 = {
 };
 
 var reportChart4 = new ApexCharts(document.querySelector("#reportChart4"), options4);
-reportChart4.render();
+var reportChart4_1 = new ApexCharts(document.querySelector("#reportChart4_1"), options4);
+
+var reportChart5 = {
+    series: [{
+        name: '남성',
+        data: [  4.2, 4.5,
+            3.9, 3.5, 3
+        ]
+    },
+        {
+            name: '여성',
+            data: [
+                 -4, -4.1, -3.4, -3.1, -2.8
+            ]
+        }
+    ],
+    chart: {
+        type: 'bar',
+        height: 200,
+        stacked: true,
+        toolbar: {
+            show: false
+        }
+    },
+    colors: ['#1540bf', '#f63c3c'],
+    plotOptions: {
+        bar: {
+            horizontal: true,
+            barHeight: '80%',
+        },
+    },
+    dataLabels: {
+        enabled: false
+    },
+    // stroke: {
+    //     width: 1,
+    //     colors: ["#fff"]
+    // },
+
+    grid: {
+        xaxis: {
+            lines: {
+                show: false
+            }
+        }
+    },
+    yaxis: {
+        // min: -5,
+        // max: 5,
+        title: {
+            // text: 'Age',
+        },
+    },
+    tooltip: {
+        shared: false,
+        x: {
+            formatter: function (val) {
+                return val
+            }
+        },
+        y: {
+            formatter: function (val) {
+                return Math.abs(val) + "%"
+            }
+        }
+    },
+    xaxis: {
+        categories: ['20대','30대','40대','50대','60대 이상'
+        ],
+        labels: {
+            formatter: function (val) {
+                return Math.abs(Math.round(val)) + "%"
+            }
+        }
+    },
+};
+
+var reportChart5_1 = new ApexCharts(document.querySelector("#reportChart5_1"), reportChart5);
+
+// rendering
+    reportChart1.render();
+    reportChart1_1.render();
+    reportChart2.render();
+    reportChart2_1.render();
+    reportChart3.render();
+    reportChart3_1.render();
+    reportChart4.render();
+    reportChart4_1.render();
+    reportChart5_1.render();
+

@@ -2787,6 +2787,91 @@
 						color: #a8a8a8
 						min-height: 70px
 
+#report_with_map_wrap
+	height: calc(100vh - 105px)
+	position: fixed
+	right: 0
+	bottom: 0
+	transition: all .3s ease-in
+	transform: translateX(100%)
+	z-index: 888
+	padding: 12px
+	display: none
+	&.active
+		transform: translateX(0)
+		.toggle_btn
+			&::after
+				transform: rotate(45deg)
+				left: calc(50% - 11px)
+	.toggle_btn
+		top: calc(50% - 30px)
+		width: 30px
+		height: 60px
+		background: #fff
+		box-shadow: 14px 3px 24px rgb(0 0 0 / 6%)
+		cursor: pointer
+		transition: 0.3s
+		position: absolute
+		left: 0
+		transform: translateX(-100%)
+		&::after
+			content: ""
+			position: absolute
+			left: calc(50% - 4px)
+			top: calc(50% - 7px)
+			width: 14px
+			height: 14px
+			border-right: solid 2px #333
+			border-top: solid 2px #333
+			transform: rotate(225deg)
+	.report_list
+		max-height: 100%
+		-ms-overflow-style: none
+		overflow-y: auto
+		scrollbar-width: none
+		&::-webkit-scrollbar
+			display: none
+		.report_block
+			width: 400px
+			background-color: white
+			box-shadow: 0 0 10px rgba(0,0,0,0.2)
+			margin-bottom: 12px
+			&:last-child
+				margin-bottom: 0
+			.report_block_con
+				padding: 20px
+				border-bottom: 1px solid #e2e2e2
+				.report_block_title
+					font-weight: 600
+					color: #1540bf
+					margin-bottom: 12px
+				.report_block_title2
+					font-size: 1.125rem
+					font-weight: 600
+				.des
+					font-size: 14px
+					span.bold
+						font-weight: 600
+				.report_list_type1
+					li
+						display: flex
+						white-space: nowrap
+						margin-bottom: 4px
+						.obj_key
+							margin-right: 8px
+							font-size: 14px
+							display: flex
+							span.icon
+								width: 20px
+								min-width: 20px
+								height: 20px
+								background: url(#{$assetPath}/icon-stroregray.png) no-repeat 50%
+								margin-right: 2px
+						.num
+							font-size: 14px
+							color: #969aaf
+							&.blue
+								color: #1540bf
 
 
 
@@ -2877,7 +2962,8 @@
 				position: absolute
 				top: -30px
 				right: 0
-
+	#report_with_map_wrap
+		height: calc(100vh - 71px)
 @include desktop
 	.wrap
 		&.faq_search_pt20
@@ -3494,6 +3580,12 @@
 							flex-direction: column
 							&>div:nth-child(2)
 								border: none
+	#report_with_map_wrap
+		width: calc(100% - 30px)
+		max-width: 428px
+		.report_list
+			.report_block
+				width: 100%
 
 @include maxMobile
 	.wrap

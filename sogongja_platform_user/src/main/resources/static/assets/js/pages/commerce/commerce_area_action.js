@@ -119,4 +119,19 @@ $(document).ready(function (){
     $('.close_report_modal_btn').click(function(){
         $('#report_wrap').hide()
     })
+
+    //** 지도와 보기 클릭 시
+    $('#with_map_btn').click(function (){
+        $('#report_wrap').hide()
+        $('#report_with_map_wrap').show()
+        setTimeout(()=>
+        $('#report_with_map_wrap').addClass('active')
+        , 100)
+    })
+
+    //**toggle_btn
+    $('#report_with_map_wrap .toggle_btn').click(function (){
+        $('#report_with_map_wrap').toggleClass('active')
+    })
+
 })
