@@ -134,4 +134,15 @@ $(document).ready(function (){
         $('#report_with_map_wrap').toggleClass('active')
     })
 
+    //보고서 요약본(지도랑 보기) single close
+    $('.close_report_block_btn').click(function (){
+        $(this).parent().css('transform', 'translateX(100%)')
+        setTimeout(()=> {
+                $(this).parent().css('display', 'none');
+                $(this).parent().css('transform', 'translateX(0)');
+            }
+        ,400)
+
+    })
+
 })
