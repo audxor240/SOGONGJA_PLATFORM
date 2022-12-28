@@ -129,7 +129,7 @@ app:
   jwt-secret: soogoongjaa
   jwt-limit: 604800000
   ########### sld.xml
-  geotools-sld: sogongja_platform_user/src/main/resources/static/assets/xml/heatmap.sld.xml
+  geotools-sld: sogongja_platform_user/src/main/resources/static/assets/xml/
 
 ---
 
@@ -244,4 +244,4 @@ app:
   jwt-secret: soogoongjaa
   jwt-limit: 604800000
   ########### sld.xml
-  geotools-sld: xml/heatmap.sld.xml
+  geotools-sld: xml/
