@@ -208,7 +208,7 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
                     $("input:checkbox[name='depth2_land']:checked").each(function () {
                         if ($(this).val() === 'gradient') {
-
+                            console.log(":::");
                             ajaxPostSyn('/commerce/area-gradient', data, function (result) {
                                 for (var i = 0; i < result.grid.length; i++) {
                                     var check = false;
