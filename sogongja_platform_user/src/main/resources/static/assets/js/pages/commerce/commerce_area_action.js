@@ -19,29 +19,14 @@ $(document).ready(function (){
             $('ul.options').removeClass('on')
         }
     })
-    //
-    // // 업종 밀집도 옵션창 open, close
-    // $('input#density').change(function (){
-    //     if($(this).is(':checked')){
-    //         $('ul.density_options').addClass('on')
-    //     }else{
-    //         $('ul.density_options').removeClass('on')
-    //     }
-    // })
-    //
-    // // 토지 특성 옵션창 open, close
-    // $('input#land').change(function (){
-    //     if($(this).is(':checked')){
-    //         $('ul.land_options').addClass('on')
-    //     }else{
-    //         $('ul.land_options').removeClass('on')
-    //     }
-    // })
+
+    $('input[name=depth2_land]').click(function (){
+        $('ul.land_options').removeClass('on')
+    })
 
     // 첫번째 모달 check box
     $('.fileter_sub_title.mid_title').css('display', 'none');
     $('input[name="area_maincate"]').click(function () {
-        console.log("ZZz")
         if ($('input[name="area_maincate"]:checked').val() == "all") {
             // ** 전체 클릭 시  이벤트 */
             $('.midSectors').removeClass("on")
@@ -54,39 +39,6 @@ $(document).ready(function (){
             var val = $('input[name="area_maincate"]:checked').val();
             $('.midSectors').removeClass("on")
             $('.all-'+ val +'-sector').addClass("on")
-            // if ($('input[name="area_maincate"]:checked').val() == "I") {
-            //     //1숙박·음식
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-I-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "S") {
-            //     //2수리·개인서비스
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-S-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "G") {
-            //     //3도·소매
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-G-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "R") {
-            //     //4예술·스포츠·여가
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-R-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "N") {
-            //     //5시설관리·임대
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-N-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "M") {
-            //     //6과학·기술
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-M-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "L") {
-            //     //7부동산
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-L-sector').addClass("on")
-            // } else if ($('input[name="area_maincate"]:checked').val() == "P") {
-            //     //8교육
-            //     $('.midSectors').removeClass("on")
-            //     $('.all-P-sector').addClass("on")
-            // }
         }
     })
     $('input[name="area_maincate"]').click(function () {
