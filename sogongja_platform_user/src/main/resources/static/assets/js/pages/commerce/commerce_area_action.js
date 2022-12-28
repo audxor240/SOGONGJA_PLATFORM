@@ -4,7 +4,7 @@ $(document).ready(function (){
     $('.midSecBox').hide()
 
 
-    $('input[name=depth1]').change(function (){
+    $('input.sub_options').change(function (){
         if($(this).is(':checked')){
             $('ul.options').removeClass('on')
             // 업종 밀집도 옵션창 open
@@ -13,7 +13,7 @@ $(document).ready(function (){
             if($(this).val()==='land') $('ul.land_options').addClass('on')
 
             // 외 checkbox check false
-            $('input[name=depth1]').prop("checked",false)
+            $('input.sub_options').prop("checked",false)
             $(this).prop("checked",true)
         }else{
             $('ul.options').removeClass('on')
