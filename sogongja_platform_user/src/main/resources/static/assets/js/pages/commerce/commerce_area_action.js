@@ -12,6 +12,15 @@ $(document).ready(function (){
         }
     })
 
+    // 토지 특성 옵션창 open, close
+    $('input#land').change(function (){
+        if($(this).is(':checked')){
+            $('ul.land_options').addClass('on')
+        }else{
+            $('ul.land_options').removeClass('on')
+        }
+    })
+
     // 첫번째 모달 check box
     $('.fileter_sub_title.mid_title').css('display', 'none');
     $('input[name="area_maincate"]').click(function () {
