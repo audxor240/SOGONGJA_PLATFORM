@@ -3073,7 +3073,7 @@
 .commerce_options > li:last-child {
   margin-bottom: 0;
 }
-.commerce_options > li .density_options {
+.commerce_options > li .options {
   height: 52px;
   position: absolute;
   left: 107%;
@@ -3089,26 +3089,26 @@
   overflow: hidden;
   transition: all 0.2s;
 }
-.commerce_options > li .density_options.on {
+.commerce_options > li .options.on {
   width: auto;
   padding: 18px 12px;
 }
-.commerce_options > li .density_options li {
+.commerce_options > li .options li {
   position: relative;
   margin-right: 16px;
   font-size: 12px;
   color: #606060;
 }
-.commerce_options > li .density_options li label {
+.commerce_options > li .options li label {
   cursor: pointer;
 }
-.commerce_options > li .density_options li input {
+.commerce_options > li .options li input {
   display: none;
 }
-.commerce_options > li .density_options li input:checked ~ label {
+.commerce_options > li .options li input:checked ~ label {
   color: #1540BF;
 }
-.commerce_options > li .density_options li::after {
+.commerce_options > li .options li::after {
   content: "";
   width: 1px;
   height: 8px;
@@ -3118,10 +3118,10 @@
   transform: translateY(-50%);
   right: -8px;
 }
-.commerce_options > li .density_options li:last-child {
+.commerce_options > li .options li:last-child {
   margin-right: 0;
 }
-.commerce_options > li .density_options li:last-child::after {
+.commerce_options > li .options li:last-child::after {
   display: none;
 }
 
@@ -4487,7 +4487,7 @@
   .commerce_options > li:last-child {
     margin-bottom: 0;
   }
-  .commerce_options > li .density_options {
+  .commerce_options > li .options {
     overflow-x: auto;
   }
   #report_confirm_wrap .report_confirm_box {

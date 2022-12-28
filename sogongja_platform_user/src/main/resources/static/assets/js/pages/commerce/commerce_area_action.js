@@ -3,23 +3,40 @@
 $(document).ready(function (){
     $('.midSecBox').hide()
 
-    // 업종 밀집도 옵션창 open, close
-    $('input#density').change(function (){
-        if($(this).is(':checked')){
-            $('ul.density_options').addClass('on')
-        }else{
-            $('ul.density_options').removeClass('on')
-        }
-    })
 
-    // 토지 특성 옵션창 open, close
-    $('input#land').change(function (){
+    $('input[name=depth1]').change(function (){
         if($(this).is(':checked')){
-            $('ul.land_options').addClass('on')
+            $('ul.options').removeClass('on')
+            // 업종 밀집도 옵션창 open
+            if($(this).val()==='density') $('ul.density_options').addClass('on')
+            //토지 특성 옵션창 open
+            if($(this).val()==='land') $('ul.land_options').addClass('on')
+
+            // 외 checkbox check false
+            $('input[name=depth1]').prop("checked",false)
+            $(this).prop("checked",true)
         }else{
-            $('ul.land_options').removeClass('on')
+            $('ul.options').removeClass('on')
         }
     })
+    //
+    // // 업종 밀집도 옵션창 open, close
+    // $('input#density').change(function (){
+    //     if($(this).is(':checked')){
+    //         $('ul.density_options').addClass('on')
+    //     }else{
+    //         $('ul.density_options').removeClass('on')
+    //     }
+    // })
+    //
+    // // 토지 특성 옵션창 open, close
+    // $('input#land').change(function (){
+    //     if($(this).is(':checked')){
+    //         $('ul.land_options').addClass('on')
+    //     }else{
+    //         $('ul.land_options').removeClass('on')
+    //     }
+    // })
 
     // 첫번째 모달 check box
     $('.fileter_sub_title.mid_title').css('display', 'none');
