@@ -65,6 +65,9 @@ public class CommerceController extends BaseController {
         System.out.println(params);
         // api 에러시 throws 처리
         params.put("blob", geoService.makeHeatMap(params));
+        params.put("shops", "");
+
+
         return params;
     }
 
