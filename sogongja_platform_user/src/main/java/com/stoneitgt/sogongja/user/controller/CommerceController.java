@@ -71,13 +71,13 @@ public class CommerceController extends BaseController {
     @PostMapping( "/area-gradient")
     public @ResponseBody
     Map<String, Object> areaGetGradient(@RequestBody Map<String, Object> params) {
-        long beforeTime = System.currentTimeMillis();
 
         System.out.println(params);
-        params.put("grid", commerceService.getGrid(params));
-        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
-        long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
-        System.out.println("시간차이(m) : "+secDiffTime);
+        List<Map<String, Object>> grid = commerceService.getGrid(params);
+        params.put("grid", grid);
+
+
+
         return params;
     }
 
