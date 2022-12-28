@@ -68,7 +68,7 @@
                 <input type="checkbox" name="depth1" value="density" id="density">
                     <span>업종<br />밀집도</span>
                 </label>
-                <ul class="density_options" >
+                <ul class="options density_options" >
                     <li>
                         <input type="radio" name="depth2_density" value="all" id="all-sector2" />
                         <label for="all-sector2">전체</label>
@@ -84,7 +84,7 @@
                 <input type="checkbox" name="depth1" value="land" id="land">
                     <span>토지<br />특성</span>
                 </label>
-                <ul class="density_options land_options" >
+                <ul class="options land_options" >
                     <li>
                         <input type="radio" name="depth2_land" value="mean" id="mean" />
                         <label for="mean">표고</label>
@@ -135,43 +135,43 @@
             </div>
             <div class="report_list">
                 <div class="report_block">
-                <div class="close_report_block_btn"></div>
-                <div class="report_block_con">
+                    <div class="close_report_block_btn"></div>
+                    <div class="report_block_con">
                     <div class="report_block_title">경쟁업체 분석</div>
                     <div class="des">선택한 지역의 경쟁업종 <span class="bold">점포밀집도를 지도</span>에서 확인하세요.</div>
                 </div>
-                <div class="report_block_con">
-                    <div class="report_block_title">
-                        점포수 및 구성비
+                    <div class="report_block_con">
+                        <div class="report_block_title">
+                          점포수 및 구성비
+                        </div>
+                        <ul class="report_list_type1">
+                            <li>
+                                <div class="obj_key">
+                                 <span class="icon"></span>
+                                    전체 점포수
+                                </div>
+                                <div class="num">
+                                    10개
+                                </div>
+                            </li>
+                            <li>
+                                <div class="obj_key">
+                                    <span class="icon"></span>
+                                    한식/백반/한정식
+                                </div>
+                                <div class="num blue">
+                                    32개
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="report_list_type1">
-                        <li>
-                            <div class="obj_key">
-                                <span class="icon"></span>
-                                전체 점포수
-                            </div>
-                            <div class="num">
-                                10개
-                            </div>
-                        </li>
-                        <li>
-                            <div class="obj_key">
-                                <span class="icon"></span>
-                                한식/백반/한정식
-                            </div>
-                            <div class="num blue">
-                                32개
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="report_block_con">
+                    <div class="report_block_con">
                     <div class="report_block_title">
                         점포수 및 구성비 추이
                     </div>
                     <div id="reportChart1_1"></div>
                 </div>
-            </div>
+                </div>
                 <div class="report_block">
                     <div class="close_report_block_btn"></div>
                     <div class="report_block_con">

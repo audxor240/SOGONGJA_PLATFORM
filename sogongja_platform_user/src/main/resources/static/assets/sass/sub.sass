@@ -2351,7 +2351,7 @@
 					color: white
 		&:last-child
 			margin-bottom: 0
-		.density_options
+		.options
 			height: 52px
 			position: absolute
 			left: 107%
@@ -2825,6 +2825,10 @@
 			border-top: solid 2px #333
 			transform: rotate(225deg)
 	.report_list
+		width: 448px
+		display: flex
+		flex-direction: column
+		align-items: flex-end
 		max-height: 100%
 		-ms-overflow-style: none
 		overflow-y: auto
@@ -2836,6 +2840,27 @@
 			background-color: white
 			box-shadow: 0 0 10px rgba(0,0,0,0.2)
 			margin-bottom: 12px
+			transition: all .1s
+			position: relative
+			.close_report_block_btn
+				width: 48px
+				height: 48px
+				position: absolute
+				background-color: white
+				top: 0
+				left: 0
+				transform: translateX(-100%)
+				border-radius: 4px 0 0 4px
+				cursor: pointer
+				&::after
+					content: ''
+					width: 24px
+					height: 24px
+					position: absolute
+					top: 50%
+					left: 50%
+					transform: translate(-50%, -50%)
+					background: url(#{$assetPath}/img-closebtn_small.png) no-repeat 50%
 			&:last-child
 				margin-bottom: 0
 			.report_block_con
@@ -3536,7 +3561,7 @@
 					color: white
 			&:last-child
 				margin-bottom: 0
-			.density_options
+			.options
 				overflow-x: auto
 	#report_confirm_wrap
 		.report_confirm_box
@@ -3584,8 +3609,14 @@
 		width: calc(100% - 30px)
 		max-width: 428px
 		.report_list
+			width: auto
 			.report_block
 				width: 100%
+				.close_report_block_btn
+					top: 0
+					right: 0
+					left: auto
+					transform: translateX(0)
 
 @include maxMobile
 	.wrap
@@ -3628,4 +3659,35 @@
 		li
 			width: 11.1%
 			a
+				width: 100%
+	#report_with_map_wrap
+		width: 100%
+		bottom: auto
+		right: auto
+		left: 0
+		top: 100%
+		transform: translateX(0)
+		&.active
+			top: 71px
+			.toggle_btn
+				transform: translate(-50%, -0)
+				&::after
+					transform: rotate(135deg)
+					left: calc(50% - 8px)
+					top: 16%
+		.toggle_btn
+			top: 0
+			left: 50%
+			transform: translateX(-50%)
+			width: 60px
+			height: 30px
+			z-index: 9
+			transform: translate(-50%, -100%)
+			box-shadow: 0 0 10px rgb(0, 0, 0, 0.1)
+			&::after
+				left: calc(50% - 8px)
+				top: calc(50% - 2px)
+				transform: rotate(315deg)
+		.report_list
+			.report_block
 				width: 100%
