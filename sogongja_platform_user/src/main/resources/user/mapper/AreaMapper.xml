@@ -370,7 +370,7 @@
 		/* file : AreaMapper.xml, id : getAllShop */
 		SELECT *
 		FROM ST_RESEARCH_SHOP RS
-		WHERE RS.CODE_TYPE1 IN ('F')
+		WHERE RS.CODE_TYPE1 IN ('F', 'Q')
 	</select>
 
 	<select id="getMainCategory" resultType="com.stoneitgt.common.LowerKeyMap">
