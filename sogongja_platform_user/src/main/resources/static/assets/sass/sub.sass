@@ -3629,3 +3629,34 @@
 			width: 11.1%
 			a
 				width: 100%
+	#report_with_map_wrap
+		width: 100%
+		bottom: auto
+		right: auto
+		left: 0
+		top: 100%
+		transform: translateX(0)
+		&.active
+			top: 71px
+			.toggle_btn
+				transform: translate(-50%, -0)
+				&::after
+					transform: rotate(135deg)
+					left: calc(50% - 8px)
+					top: 16%
+		.toggle_btn
+			top: 0
+			left: 50%
+			transform: translateX(-50%)
+			width: 60px
+			height: 30px
+			z-index: 9
+			transform: translate(-50%, -100%)
+			box-shadow: 0 0 10px rgb(0, 0, 0, 0.1)
+			&::after
+				left: calc(50% - 8px)
+				top: calc(50% - 2px)
+				transform: rotate(315deg)
+		.report_list
+			.report_block
+				width: 100%

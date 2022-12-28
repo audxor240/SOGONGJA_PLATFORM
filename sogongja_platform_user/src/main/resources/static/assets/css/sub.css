@@ -4558,6 +4558,43 @@
   .pagination li a {
     width: 100%;
   }
+  #report_with_map_wrap {
+    width: 100%;
+    bottom: auto;
+    right: auto;
+    left: 0;
+    top: 100%;
+    transform: translateX(0);
+  }
+  #report_with_map_wrap.active {
+    top: 71px;
+  }
+  #report_with_map_wrap.active .toggle_btn {
+    transform: translate(-50%, 0);
+  }
+  #report_with_map_wrap.active .toggle_btn::after {
+    transform: rotate(135deg);
+    left: calc(50% - 8px);
+    top: 16%;
+  }
+  #report_with_map_wrap .toggle_btn {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 30px;
+    z-index: 9;
+    transform: translate(-50%, -100%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #report_with_map_wrap .toggle_btn::after {
+    left: calc(50% - 8px);
+    top: calc(50% - 2px);
+    transform: rotate(315deg);
+  }
+  #report_with_map_wrap .report_list .report_block {
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=sub.css.map */
