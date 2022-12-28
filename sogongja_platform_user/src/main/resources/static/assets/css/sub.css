@@ -4724,6 +4724,10 @@
     left: auto;
     transform: translateX(0);
   }
+  .map_ctrl_btns {
+    top: 68px;
+    right: 20px;
+  }
 }
 @media (max-width: 420px) {
   .wrap {
