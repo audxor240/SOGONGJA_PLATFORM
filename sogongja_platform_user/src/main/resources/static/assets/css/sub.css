@@ -3730,6 +3730,185 @@
   color: #1540bf;
 }
 
+.map_ctrl_btns {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  z-index: 9;
+}
+.map_ctrl_btns .custom_typecontrol {
+  width: 106px;
+  height: 32px;
+  box-sizing: content-box;
+  background-color: rgb(255, 255, 255);
+  padding: 2px;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+  margin-right: 0.5rem;
+}
+.map_ctrl_btns .custom_typecontrol #btnRoadmap {
+  float: left;
+  cursor: default;
+  width: 43px;
+  height: 32px;
+  user-select: none;
+  -webkit-user-drag: none;
+  border: none;
+  background: url(http://t1.daumcdn.net/mapjsapi/images/control.png) -5px -225px/116px 264px no-repeat;
+  color: rgb(0, 0, 0);
+  font-weight: normal;
+}
+.map_ctrl_btns .custom_typecontrol #btnRoadmap.selected_btn {
+  background: url(http://t1.daumcdn.net/mapjsapi/images/control.png) -5px -183px/116px 264px no-repeat;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+.map_ctrl_btns .custom_typecontrol #btnSkyview {
+  float: left;
+  cursor: pointer;
+  width: 63px;
+  height: 32px;
+  user-select: none;
+  -webkit-user-drag: none;
+  border: none;
+  background: url(http://t1.daumcdn.net/mapjsapi/images/control.png) -48px -183px/116px 264px no-repeat;
+  color: rgb(0, 0, 0);
+  font-weight: normal;
+}
+.map_ctrl_btns .custom_typecontrol #btnSkyview.selected_btn {
+  background: url(http://t1.daumcdn.net/mapjsapi/images/control.png) -48px -225px/116px 264px no-repeat;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+.map_ctrl_btns #roadviewControl {
+  width: 42px;
+  height: 42px;
+  z-index: 1;
+  cursor: pointer;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) 0 -450px no-repeat;
+  margin-right: 0.5rem;
+}
+.map_ctrl_btns #roadviewControl.active {
+  background-position: 0 -350px;
+}
+.map_ctrl_btns #overlayviewControls {
+  width: 42px;
+  height: 42px;
+  z-index: 1;
+  cursor: pointer;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) -50px -450px no-repeat;
+  position: relative;
+}
+.map_ctrl_btns #overlayviewControls.active {
+  background-position: -50px -350px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win {
+  position: absolute;
+  top: 45px;
+  right: 5px;
+  padding: 2px 30px 18px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win.active {
+  display: block;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win strong {
+  display: block;
+  height: 19px;
+  padding: 15px 0 11px;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 14px;
+  line-height: 17px;
+  color: #888;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul {
+  display: flex;
+  margin-top: 20px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li {
+  width: 60px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li input {
+  display: none;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+  line-height: 16px;
+  color: #666;
+  text-align: center;
+  white-space: nowrap;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label:hover {
+  text-decoration: underline;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label span.icon {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png) no-repeat;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label.traffic span.icon {
+  background-position: -300px -100px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label.terrain span.icon {
+  background-position: -300px -150px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label.usedistrict span.icon {
+  background-position: -350px -150px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li label.bike span.icon {
+  background-position: -450px -100px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li input:checked + label.traffic span.icon {
+  background-position: -300px -200px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li input:checked + label.terrain span.icon {
+  background-position: -300px -250px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li input:checked + label.usedistrict span.icon {
+  background-position: -350px -250px;
+}
+.map_ctrl_btns #overlayviewControls .overlayviewControls_win ul li input:checked + label.bike span.icon {
+  background-position: -450px -200px;
+}
+
+#rvWrapper {
+  width: 100vw;
+  height: 100vh;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: 0;
+  display: none;
+  z-index: 999;
+}
+
+#close {
+  position: absolute;
+  padding: 4px;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #c8c8c8;
+  box-shadow: 0px 1px #888;
+}
+#close .img {
+  display: block;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;
+  width: 14px;
+  height: 14px;
+}
+
 @media (max-width: 1400px) {
   .wrap {
     padding: 5rem 40px;
