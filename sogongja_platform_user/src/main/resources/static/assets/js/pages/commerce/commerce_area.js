@@ -98,6 +98,7 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
     if (clicked) {
         clicked = false;
         map.setZoomable(true);
+        map.setDraggable(true);
 
         for (var i = 0; i < circles.length; i++) {
             circles[i].setMap(null);
@@ -124,6 +125,7 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
         if (window.innerWidth > 767) {
             map.setZoomable(false);
+            map.setDraggable(false);
             zoom = map.getLevel();
             clicked = true;
 
@@ -151,10 +153,10 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
                     var scope = "'F'";
 
-                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000909;
-                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000909;
-                    var y1 = map.getBounds().getSouthWest().getLng() + 0.003375;
-                    var y2 = map.getBounds().getNorthEast().getLng() - 0.003375;
+                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000272;
+                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000272;
+                    var y1 = map.getBounds().getSouthWest().getLng() + 0.000281;
+                    var y2 = map.getBounds().getNorthEast().getLng() - 0.000281;
                     var mode = "web";
 
                     var data = {
@@ -260,6 +262,7 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
             })
         } else {
             map.setZoomable(false);
+            map.setDraggable(false);
             zoom = map.getLevel();
             clicked = true;
 
@@ -300,10 +303,10 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
                     var scope = "'F'";
 
-                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000909;
-                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000909;
-                    var y1 = map.getBounds().getSouthWest().getLng() + 0.001125;
-                    var y2 = map.getBounds().getNorthEast().getLng() - 0.001125;
+                    var x1 = map.getBounds().getSouthWest().getLat() + 0.000272;
+                    var x2 = map.getBounds().getNorthEast().getLat() - 0.000272;
+                    var y1 = map.getBounds().getSouthWest().getLng() + 0.000281;
+                    var y2 = map.getBounds().getNorthEast().getLng() - 0.000281;
                     var mode = "app";
 
                     var data = {
