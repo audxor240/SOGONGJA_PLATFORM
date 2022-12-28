@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,4 +50,27 @@ public class CommerceService {
         return list;
     }
 
+
+    public Map<String, Object> getStandard(List<Map<String, Object>> list) {
+
+        double max = 0;
+        double min = 999;
+        for (Map<String, Object> standard : list) {
+            double gradient = Double.parseDouble(standard.get("gradient").toString());
+            if (gradient > max) {
+                max = gradient;
+            }
+            if (gradient < min) {
+                min = gradient;
+            }
+        }
+        System.out.println(max + " max , min " + min);
+
+        double temp = Math.round((max - min) / 5);
+        Map<String, Object> map = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            map.put(Double.toString(i+1), min + (temp * i));
+        }
+        return map;
+    }
 }

@@ -75,8 +75,7 @@ public class CommerceController extends BaseController {
         System.out.println(params);
         List<Map<String, Object>> grid = commerceService.getGrid(params);
         params.put("grid", grid);
-
-
+        params.put("standard", commerceService.getStandard(grid));
 
         return params;
     }
