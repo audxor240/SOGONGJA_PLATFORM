@@ -71,15 +71,19 @@ $(document).ready(function (){
     })
 
     //** 보고서 버튼 클릭 시 확인 모달 handler
-    $('.report').click(function (){
-        if($(this).children('label input').is(':checked')){
-            $("input:checkbox[id='report']").prop("checked", false);
-        }else{
-            // 처음 보고서 버튼 클릭 시 모달 노출
-            $('#report_confirm_wrap').show()
-            $("input:checkbox[id='report']").prop("checked", false);
-        }
-    })
+    // $('.report').click(function (){
+    //     if($(this).children('label input').is(':checked')){
+    //         $("input:checkbox[id='report']").prop("checked", false);
+    //     }else{
+    //         // 처음 보고서 버튼 클릭 시 모달 노출
+    //         // $('#report_confirm_wrap').show()
+    //         $("input:checkbox[id='report']").prop("checked", false);
+    //     }
+    // })
+    console.log($("#report"))
+    console.log($("#report").is(':checked'))
+    $('input#report.depth1').change(function(){
+    });
 
     //** 보고서 확인 버튼 클릭
     $('#report_confirm_wrap .button.confirmed').click(function (){
@@ -91,6 +95,9 @@ $(document).ready(function (){
     $('#report_confirm_wrap .button.cancel').click(function (){
         $('#report_confirm_wrap').hide()
         $("input:checkbox[id='report']").prop("checked", false);
+        $('#report_with_map_wrap').hide()
+        $('.report_block').removeClass('active')
+        $('.report_block').show()
     })
 
     //** report 닫기
@@ -114,13 +121,22 @@ $(document).ready(function (){
 
     //보고서 요약본(지도랑 보기) single close
     $('.close_report_block_btn').click(function (){
-        $(this).parent().css('transform', 'translateX(100%)')
+        const limit = 2;
+
+        $(this).parent().addClass('active')
         setTimeout(()=> {
-                $(this).parent().css('display', 'none');
-                $(this).parent().css('transform', 'translateX(0)');
+                $(this).parent().hide()
             }
         ,400)
-
+        if($(".report_block.active").length === limit){
+            $('#report_with_map_wrap').removeClass('active')
+            setTimeout(()=> {
+                    $('#report_with_map_wrap').hide()
+                    $('.report_block').removeClass('active')
+                    $('.report_block').show()
+                }
+                ,400)
+        }
     })
 
 })

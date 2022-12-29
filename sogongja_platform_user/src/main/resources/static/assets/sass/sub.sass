@@ -2345,6 +2345,7 @@
 			input:checked + span
 				color: #1540bf
 		&:first-child
+			pointer-events: none
 			label
 				input:checked + span
 					background-color: #1540bf
@@ -2842,6 +2843,8 @@
 			margin-bottom: 12px
 			transition: all .1s
 			position: relative
+			&.active
+				transform: translateX(100%)
 			.close_report_block_btn
 				width: 48px
 				height: 48px
