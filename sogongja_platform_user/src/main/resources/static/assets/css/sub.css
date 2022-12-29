@@ -3066,6 +3066,9 @@
 .commerce_options > li label input:checked + span {
   color: #1540bf;
 }
+.commerce_options > li:first-child {
+  pointer-events: none;
+}
 .commerce_options > li:first-child label input:checked + span {
   background-color: #1540bf;
   color: white;
@@ -3661,6 +3664,9 @@
   margin-bottom: 12px;
   transition: all 0.1s;
   position: relative;
+}
+#report_with_map_wrap .report_list .report_block.active {
+  transform: translateX(100%);
 }
 #report_with_map_wrap .report_list .report_block .close_report_block_btn {
   width: 48px;

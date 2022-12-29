@@ -844,14 +844,37 @@ var marker2 = new kakao.maps.Marker({
     draggable: true
 });
 
-// 마커에 dragend 이벤트를 등록합니다
-kakao.maps.event.addListener(marker2, 'dragend', function(mouseEvent) {
+var iwContent = '<div onclick="openRoadView()" style="width: 148px;font-size: 13px; padding: 5px; text-align: center; cursor: pointer;font-weight: 500; color: #606060">로드뷰 보기</div>',
+    iwPosition = new kakao.maps.LatLng(33.45042 , 126.57091); //인포윈도우 표시 위치입니다
 
-    // 현재 마커가 놓인 자리의 좌표입니다
+// 인포윈도우를 생성합니다
+var infowindow = new kakao.maps.InfoWindow({
+    position : iwPosition,
+    content : iwContent
+});
+
+// 로드뷰 열기
+function openRoadView(){
     var position = marker2.getPosition();
 
     // 마커가 놓인 위치를 기준으로 로드뷰를 설정합니다
     toggleRoadview(position);
+}
+
+kakao.maps.event.addListener(marker2, 'dragstart', function(mouseEvent) {
+    infowindow.close()
+})
+// 마커에 dragend 이벤트를 등록합니다
+kakao.maps.event.addListener(marker2, 'dragend', function(mouseEvent) {
+    // 현재 마커가 놓인 자리의 좌표입니다
+    var position = marker2.getPosition();
+
+    //창 위치 변경
+    infowindow.open(map, marker2);
+    infowindow.setPosition(position)
+
+    // // 마커가 놓인 위치를 기준으로 로드뷰를 설정합니다
+    // toggleRoadview(position);
 });
 
 //지도에 클릭 이벤트를 등록합니다
@@ -867,9 +890,11 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent){
 
     // 마커를 클릭한 위치로 옮깁니다
     marker2.setPosition(position);
+    infowindow.setPosition(position)
 
-    // 클락한 위치를 기준으로 로드뷰를 설정합니다
-    toggleRoadview(position);
+
+    // // 클락한 위치를 기준으로 로드뷰를 설정합니다
+    // toggleRoadview(position);
 });
 
 // 전달받은 좌표(position)에 가까운 로드뷰의 파노라마 ID를 추출하여
@@ -931,11 +956,16 @@ function toggleOverlay(active) {
         // 지도 위에 마커를 표시합니다
         marker2.setMap(map);
 
+
         // 마커의 위치를 지도 중심으로 설정합니다
         marker2.setPosition(map.getCenter());
 
-        // 로드뷰의 위치를 지도 중심으로 설정합니다
-        toggleRoadview(map.getCenter());
+        // 창생성
+        infowindow.open(map, marker2);
+        infowindow.setPosition(map.getCenter())
+
+        // // 로드뷰의 위치를 지도 중심으로 설정합니다
+        // toggleRoadview(map.getCenter());
     } else {
         overlayOn = false;
 
@@ -944,6 +974,9 @@ function toggleOverlay(active) {
 
         // 지도 위의 마커를 제거합니다
         marker2.setMap(null);
+
+        //창 제거
+        infowindow.close()
     }
 }
 
@@ -969,6 +1002,7 @@ function setRoadviewRoad() {
 function closeRoadview() {
     var position = marker2.getPosition();
     toggleMapWrapper(true, position);
+    infowindow.setPosition(position)
 }
 
 // 지도 타입 정보를 가지고 있을 객체입니다
